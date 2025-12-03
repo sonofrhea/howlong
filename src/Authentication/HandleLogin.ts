@@ -1,10 +1,13 @@
-import apiClient from './BaseEngine';
+import apiClient from '../BaseEngine';
 
 
 
 const HandleLogin = async (email: string, password: any) => {
+    const isDevelopment = import.meta.env.MODE === "development";
+    const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : import.meta.env.VITE_API_BASE_URL_DEPLOY;
+
   try {
-    const response = await apiClient.post('http://127.0.0.1:8000/dj-rest-auth/login/', {
+    const response = await apiClient.post(`${baseEntry}/dj-rest-auth/login/`, {
       email,
       password
     });

@@ -5,7 +5,9 @@ import './App.css'
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-import LoginForm from './FullStack/Core/LoginForm';
+import LoginForm from './Authentication/LoginForm';
+import RegistrationPage from './Authentication/RegistrationForm';
+
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
 
@@ -187,6 +189,8 @@ function App() {
 
           {/* Login route */}
           <Route path='/login' element={<LoginForm />} />
+          {/* Registration route */}
+          <Route path='/register' element={<RegistrationPage />} />
           
           {/* Dashboard route - no layout  */}
           <Route path="/dashboard" element={<Dashboard />} />

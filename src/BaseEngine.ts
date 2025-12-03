@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ImportMeta } from './vite-env';
 
 //const baseEntry = 'http://127.0.0.1:8000/';
 
@@ -9,6 +10,7 @@ const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : impo
 const apiClient = axios.create({
   baseURL: baseEntry,
   timeout: 5000,
+  withCredentials: true,
 });
 
 export default apiClient;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import HandleLogin from "../../HandleLogin";
+import HandleLogin from "./HandleLogin";
 
 
 export default function LoginForm() {
@@ -45,6 +45,14 @@ export default function LoginForm() {
                     Login
                 </button>
                 {error && <div>{error}</div>}
+                <p className="mt-4">
+                    Don't have an account? 
+                    <button
+                        onClick={() => navigate('/register')}
+                    >
+                        Register
+                    </button>
+                </p>
         </form>
     );
 }
