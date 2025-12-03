@@ -7,7 +7,7 @@ import { RegistrationFormInputs } from "./Types";
 
 const HandleRegistration = async (data: RegistrationFormInputs) => {
     try {
-        const response = await apiClient.post('dj-rest-auth/registration/', data);
+        const response = await apiClient.post('dj-rest-auth/registration/', data, { withCredentials: true });
         return response.data;
     } catch (err: any) {
         console.error('Registration failed:', err.response?.data || err.message);
