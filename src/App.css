@@ -1,0 +1,139 @@
+
+@font-face {
+  font-family: 'AurulentSans-Bold';
+  src: url(/src/Customers/fonts/AurulentSans-Bold.otf);
+}
+@font-face {
+  font-family: 'Aeonik-Regular';
+  src: url(/src/Customers/fonts/fonnts.com-Aeonik-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'GoogleSansCode-Light';
+  src: url(../fonts/GoogleSansCode-Light.ttf);
+}
+
+@font-face {
+  font-family: 'GoogleSansCode-LightItalic';
+  src: url(../fonts/GoogleSansCode-LightItalic.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-Regular';
+  src: url(../fonts/GoogleSansCode-Regular.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-Italic-VariableFont';
+  src: url(../fonts/GoogleSansCode-Italic-VariableFont_wght.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-VariableFont_wght';
+  src: url(../fonts/GoogleSansCode-VariableFont_wght.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-Medium';
+  src: url(../fonts/GoogleSansCode-Medium.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-Bold';
+  src: url(../fonts/GoogleSansCode-Bold.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-SemiBold';
+  src: url(../fonts/GoogleSansCode-SemiBold.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-ExtraBold';
+  src: url(../fonts/GoogleSansCode-ExtraBold.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-BoldItalic';
+  src: url(../fonts/GoogleSansCode-BoldItalic.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-SemiBoldItalic';
+  src: url(../fonts/GoogleSansCode-SemiBoldItalic.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-ExtraBoldItalic';
+  src: url(../fonts/GoogleSansCode-ExtraBoldItalic.ttf);
+}
+
+
+
+
+
+
+
+
+
+.App {
+  text-align: center;
+}
+
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #066aff;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+h1 {
+  font-family: GoogleSansCode-Medium;
+  letter-spacing: 0.5px;
+}
+
+h2 {
+  font-family: GoogleSansCode-Regular;
+  font-weight: bolder;
+  font-size: 18px;
+}
+
+h3 {
+  font-family: GoogleSansCode-Regular;
+  font-weight: bolder;
+  font-size: 12px;
+}
+
+div {
+  font-family: GoogleSansCode-Regular;
+  font-weight: bolder;
+  font-size: 12px;
+}
+
+
+table {
+  font-size: 0.8rem; 
+  letter-spacing: -0.01em; 
+}
+
+th, td {
+  padding: 0.25rem 0.5rem; 
+}

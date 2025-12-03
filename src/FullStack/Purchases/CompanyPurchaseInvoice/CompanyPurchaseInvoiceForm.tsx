@@ -1,0 +1,339 @@
+import React, { useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+
+
+import { PURCHASE_INVOICE_STATUS } from "../constants/options";
+import { forms, buttons, layout, tables, text, utils } from "../constants/styles";
+
+import { CompanyPurchaseInvoiceInputs, SupplierProfileInterface,
+    ProductItemInterface, AgentInterface
+ } from "@/types";
+
+import { Trash2 } from "lucide-react";
+
+
+
+
+const formatSupplierNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `SUP-${currentYear}-`;
+};
+
+
+const decimalPlaces = (amount: number) => {
+    return `${amount.toFixed(2)};`
+};
+
+
+
+
+const CompanyPurchaseInvoiceForm = ({ onSubmit, isSubmitting, onCancel, 
+    agents, products, suppliers }) => {
+
+
+        const { register, handleSubmit, watch, setValue, 
+            control, formState: { errors } } = useForm<CompanyPurchaseInvoiceInputs>({
+                defaultValues: {
+                    related_invoice: [
+                        {
+                            quantity: 1,
+                            price: 0.00,
+                            tax: 0.00
+                        }
+                    ],
+                }
+            });
+
+
+            const { fields, append, remove } = useFieldArray({
+                name: "related_invoice",
+                control
+            });
+
+
+
+
+
+
+
+
+
+
+            return(
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className={forms.body}>
+                        <div className={layout.header}>
+                            <div className={layout.tag}>
+
+                                <div className="text-right">
+                                    <div className={layout.badge}>
+                                        <div className={text.badgeSmall}>NEW</div>
+                                        <div className={text.badgeLarge}>
+                                            COMPANY PURCHASE INVOICE
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr className="my-6 border-gray-200" />
+
+                        <div className={layout.formSectionCol2}>
+                            <div>
+                                <p className={forms.label}>Date</p>
+                                <input 
+                                    type="date"
+                                    {...register("date")}
+                                    className={forms.input.date}
+                                />
+                            </div>
+
+                            <div>
+                                <p className={forms.label}>Related Supplier</p>
+                                <select
+                                    {...register("supplier")}
+                                    className={forms.select.partial}
+                                >
+                                    <option value=""></option>
+                                    {suppliers.map((supplier: SupplierProfileInterface) => (
+                                        <option key={supplier.supplier_code} value={supplier.supplier_code}>
+                                            {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div>
+                                <p className={forms.label}>Agent</p>
+                                <select className={forms.select.partial}
+                                    {...register("agent")}>
+                                        <option value=""></option>
+                                        {agents.map((agent: AgentInterface) => (
+                                            <option key={agent.username} value={agent.username}>
+                                                {agent.username}
+                                            </option>
+                                        ))}
+                                </select>
+                            </div>
+
+                            <div>
+                                <p className={forms.label}>Status</p>
+                                <select
+                                    {...register("status")}
+                                    className={forms.select.partial}
+                                >
+                                    <option value=""></option>
+                                    {PURCHASE_INVOICE_STATUS.map(option => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr className="my-6 border-gray-200" />
+
+                        <div>
+                            <p className={forms.label}>Description</p>
+                            <textarea 
+                                {...register("description")}
+                                className={forms.description}
+                                rows={2}
+                            />
+                        </div>
+
+                        <hr className="my-6 border-gray-200" />
+
+                        <div>
+                            <p className={forms.label}>Address</p>
+                            <textarea 
+                                {...register("address")}
+                                className={forms.description}
+                                rows={2}
+                            />
+                        </div>
+
+                        <hr className="my-6 border-gray-200" />
+
+                        <div className="p-6">
+                            <div className="w-full">
+                                <table className={tables.base}>
+                                    <colgroup>
+                                        {[
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-[9%] text-center',
+                                        ].map((line, index) => (
+                                            <col key={index} className={line} />
+                                        ))}
+                                    </colgroup>
+                                    <thead className={tables.header}>
+                                        <tr>
+                                            <th className={tables.headerCell}>Item</th>
+                                            <th className={tables.headerCell}>Description</th>
+                                            <th className={tables.headerCell}>Quantity</th>
+                                            <th className={tables.headerCell}>Base UOM</th>
+                                            <th className={tables.headerCell}>Price</th>
+                                            <th className={tables.headerCell}>Gross Total</th>
+                                            <th className={tables.headerCell}>Tax Inclusive</th>
+                                            <th className={tables.headerCell}>Tax</th>
+                                            <th className={tables.headerCell}>SubTotal</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody className={tables.body}>
+                                        {fields.map((field, index) => (
+                                            <tr key={field.id} className={tables.row}>
+                                                <td>
+                                                    <select
+                                                        {...register(`related_invoice.${index}.product_item`)}
+                                                        className={forms.select.full}
+                                                    >
+                                                        <option value=""></option>
+                                                        {products.map((product: ProductItemInterface) => (
+                                                            <option key={product.item_code} value={product.item_code}>
+                                                                SKU-{product.item_code} - {product.item_description}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.description`)}
+                                                        className={tables.text}
+                                                    />
+                                                </td>
+
+                                                <td className={text.numbers}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.quantity`)}
+                                                        type="number"
+                                                        className={forms.input.number}
+                                                    />
+                                                </td>
+
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.base_unit_of_measure`)}
+                                                        className={tables.text}
+                                                    />
+                                                </td>
+
+                                                <td className={text.numbers}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.price`)}
+                                                        type="number"
+                                                        className={forms.input.number}
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            }
+                                                        }}
+                                                    />
+                                                </td>
+
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(
+                                                        Number(watch(`related_invoice.${index}.quantity`) || 1) *
+                                                        Number(watch(`related_invoice.${index}.price`) || 0.00)
+                                                    )}
+                                                </td>
+
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        type="checkbox"
+                                                        {...register(`related_invoice.${index}.tax_inclusive`)}
+                                                    />
+                                                </td>
+
+                                                <td className={text.numbers}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.tax`)}
+                                                        type="number"
+                                                        className={forms.input.number}
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            }
+                                                        }}
+                                                    />
+                                                </td>
+
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(
+                                                        (Number(watch(`related_invoice.${index}.quantity`) || 1) *
+                                                        Number(watch(`related_invoice.${index}.price`) || 0.00)) +
+                                                        Number(watch(`related_invoice.${index}.tax`) || 0.00)
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        title="remove"
+                                                        onClick={() => remove(index)}
+                                                    >
+                                                        <Trash2 size={16} strokeWidth={1.5} />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        <tr>
+                                            <td>
+                                                <button
+                                                     type="button"
+                                                     onClick={() => append({
+                                                        product_item: "",
+                                                        description: "",
+                                                        quantity: 1,
+                                                        base_unit_of_measure: "",
+                                                        price: 0.00,
+                                                        tax_inclusive: true,
+                                                        tax: 0.00
+                                                     })}
+                                                     className={buttons.addLine}
+                                                >
+                                                    + Add New Line
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            {/* SUBMIT BUTTON */}
+                            <div className={layout.submitSection}>
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className={buttons.primary}
+                                >
+                                    {isSubmitting ? (
+                                        <span className="flex items-center gap-2">
+                                            <div className={utils.spinner}></div>
+                                            Creating Purchase Invoice...
+                                        </span>
+                                    ) : (
+                                        'Create Purchase Invoice'
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            );
+    };
+    export default CompanyPurchaseInvoiceForm;

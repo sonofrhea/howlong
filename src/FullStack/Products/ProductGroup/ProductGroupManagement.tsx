@@ -1,0 +1,497 @@
+import React, { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from 'react-router-dom';
+
+
+import { 
+  fetchProductGroups, createProductGroup, 
+  fetchProductGroupById, patchUpdateProductGroup, 
+  deleteProductGroup
+ } from "../Engines.js";
+
+import { 
+  fetchCurrencies, fetchAgents
+ } from "../../Core/Engines.js"
+import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines.js"
+
+import ProductGroupTable from "./ProductGroupTable";
+import ProductGroupForm from "./ProductGroupForm";
+import ProductGroupDetails from "./ProductGroupDetails";
+//import ProductGroupEdit from "./ProductGroupEdit";
+
+
+import { ProductGroupInputs, ProductGroupCreateResponse,
+  EditProductGroupInputs
+ } from "../Interfaces.js";
+
+
+interface SortConfig {
+  key: string | null;
+  direction: 'asc' | 'desc';
+}
+
+
+
+
+
+
+function ProductGroupManagement() {
+  const queryClient = useQueryClient();
+  const [view, setView] = useState('list');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedProductGroupId, setSelectedProductGroupId] = useState<number | null>(null);
+// ------------------------------------------------------------------------------------
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+
+// --------------------------------------------------------------------------------
+              // DEPENDENCIES
+
+  const { data: currencies = [] } = useQuery({
+    queryKey: ['currencies'],
+    queryFn: fetchCurrencies
+  });
+
+  const { data: accounts = [] } = useQuery({
+    queryKey: ['accounts'],
+    queryFn: fetchChartOfAccounts
+  });
+
+  const { data: agents = [] } = useQuery({
+    queryKey: ['agents'],
+    queryFn: fetchAgents
+  });
+
+
+// ------------------------------------------------------------------------------------
+                    // QUERIES
+
+// LIST QUERIES 
+
+  const { data: productGroups = [], isLoading: isLoadingProductGroups, error: productGroupsError } = useQuery({
+    queryKey: ['productGroups'],
+    queryFn: fetchProductGroups
+  });
+
+
+
+
+
+// DETAIL QUERIES
+
+  const { data: selectedProductGroup, isLoading: isLoadingProductGroup } = useQuery({
+    queryKey: ['productGroup', selectedProductGroupId],
+    queryFn: () => fetchProductGroupById(selectedProductGroupId!),
+    enabled: !!selectedProductGroupId,
+  });
+
+// ------------------------------------------------------------------------------------
+                  // MANIPULATIONS
+
+
+      // CREATIONS - POST
+  const createProductGroupsMutation = useMutation({
+    mutationFn: createProductGroup,
+    onSuccess: (data: ProductGroupCreateResponse) => {
+      const newProductGroupId = data.group_code;
+      queryClient.invalidateQueries({ queryKey: ['productGroups'] });
+      setSelectedProductGroupId(newProductGroupId);
+      setView('details');
+    },
+    onError: (error: any) => {
+      console.error('Error updating product group.', error.response?.data || error.message);
+    }
+  });
+
+
+
+
+
+    // UPDATES - PUT
+
+  const updateProductGroupsMutation = useMutation({
+    mutationFn: patchUpdateProductGroup,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['productGroups'] });
+      queryClient.invalidateQueries({ queryKey: ['productGroup', selectedProductGroupId] });
+      setView('details');
+    },
+    onError: (error: any) => {
+      console.error('Error updating product group.', error.response?.data || error.message);
+    }
+  });
+
+// ------------------------------------------------------------------------------------
+              // DELETE
+
+  const deleteProductGroupsMutation = useMutation({
+    mutationFn: deleteProductGroup,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['productGroups'] });
+    }
+  });
+
+// ------------------------------------------------------------------------------------
+                // MUTATION USE
+
+  const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    Object.keys(obj).forEach(key => {
+      const value = obj[key];
+      const field = parentKey ? `${parentKey}.${key}` : key;
+      if (value === null || value === undefined) return;
+      if (Array.isArray(value)) {
+        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+      } else if (value instanceof File) {
+        form.append(field, value);
+      } else if (typeof value === 'object') {
+        toFormData(value, form, field);
+      } else {
+        form.append(field, value);
+      }
+    });
+    return form;
+  };
+
+
+
+
+  const handleAddProductGroup = async (productGroupData: ProductGroupInputs) => {
+    console.log("🎯 RAW FORM DATA:", productGroupData);
+    
+    createProductGroupsMutation.mutate(productGroupData);
+  };
+
+
+
+
+
+
+
+
+  const handleUpdateProductGroup = (productGroupData: ProductGroupInputs) => {
+    updateProductGroupsMutation.mutate({
+      group_code: selectedProductGroupId!,
+      productGroupData: productGroupData
+    });
+  };
+
+
+
+
+
+
+
+
+  const handleDeleteProductGroup = async (productGroupId: number) => {
+    if (window.confirm('Are you sure you want to delete this product group?')) {
+      deleteProductGroupsMutation.mutate(productGroupId);
+    }
+  };
+
+// ------------------------------------------------------------------------------------
+  const handleProductGroupClick = (productGroupId: number) => {
+    setSelectedProductGroupId(productGroupId);
+    setView('details');
+  };
+
+// ------------------------------------------------------------------------------------
+  const handleEditProductGroup = ({productGroupId, productGroupData}: EditProductGroupInputs) => {
+    setSelectedProductGroupId(productGroupId);
+    setView('edit');
+  };
+
+// ------------------------------------------------------------------------------------
+  const handleBackToProductGroupsList = () => {
+    setView('list');
+    setSelectedProductGroupId(null);
+  };
+
+// ------------------------------------------------------------------------------------
+  const handleEditProductGroupButton = () => {
+    setView('edit');
+  };
+
+// ------------------------------------------------------------------------------------
+
+  const filteredProductGroups = productGroups.filter((productGroup: any) => {
+    const groupName = productGroup.group_name?.toLowerCase() || '';
+    const search = searchTerm.toLowerCase();
+
+    return groupName.includes(search);
+  });
+    
+  // ------------------------------------------------------------------------------------
+                              // SORTING
+
+  // ----- CUSTOMER PROFILE
+  const sortedProductGroups = React.useMemo(() => {
+  if (!sortConfig.key) return filteredProductGroups;
+  
+  return [...filteredProductGroups].sort((a, b) => {
+    const aValue = a[sortConfig.key as keyof typeof a];
+    const bValue = b[sortConfig.key as keyof typeof b];
+    
+    if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+}, [filteredProductGroups, sortConfig]);
+
+
+// Sort handler
+const handleSort = (key: any) => {
+  setSortConfig(current => ({
+    key,
+    direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'
+  }));
+};
+
+// ------------------------------------------------------------------------------------
+
+// Pagination calculations for ProductGroupTable
+const totalProductgroupPages = Math.ceil(sortedProductGroups.length / itemsPerPage);
+const startIndex = (currentPage - 1) * itemsPerPage;
+const paginatedProductGroups = sortedProductGroups.slice(startIndex, startIndex + itemsPerPage);
+
+// Page change handler
+const handlePageChange = (page: any) => {
+  setCurrentPage(page);
+};
+
+// Items per page handler
+const handleItemsPerPageChange = (value: any) => {
+  setItemsPerPage(Number(value));
+  setCurrentPage(1); // Reset to first page
+};
+
+
+
+// ------------------------------------------------------------------------------------
+
+
+// ERROR DISPLAYS
+
+  if (isLoadingProductGroups) return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+        <p className="mt-4 text-gray-600">Loading product groups...</p>
+      </div>
+    </div>
+  );
+
+  if (productGroupsError) return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
+        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
+        </svg>
+        <h2 className="text-xl font-bold text-gray-800 mb-2">Error Loading Data</h2>
+        <p className="text-gray-600">Failed to load product groups. Please try again.</p>
+      </div>
+    </div>
+  );
+
+
+
+// ------------------------------------------------------------------------------------
+
+
+
+
+
+
+return (
+    <div className="min-h-screen bg-white">
+      {/* Minimal Header */}
+      <div className="border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 py-4">
+              <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                      <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                      <div>
+                          <h1 className="text-lg font-semibold text-gray-900">Products Suite</h1>
+                          <p className="text-sm text-gray-500">Product Group Management</p>
+                      </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                      <Link 
+                      to="/products"
+                      className="text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200 flex items-center gap-2"
+                      >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                      </svg>
+                      Back to Products Dashboard
+                      </Link>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Elegant Header */}
+          <div className="mb-12">
+            <div className="flex items-start justify-between mb-8">
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-purple-100">
+                    <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h1 className="text-4xl font-light text-gray-900 tracking-tight">Product Groups</h1>
+                    <p className="text-gray-500 mt-2">Manage and track your product group relationships</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                {(view === 'form' || view === 'details' || view === 'edit') && (
+                  <button
+                    onClick={handleBackToProductGroupsList}
+                    className="bg-white border border-gray-200 hover:border-gray-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {view === 'list' && (
+              <div className="flex items-center gap-6 justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-light text-gray-900">{productGroups.length}</div>
+                    <div className="text-sm text-gray-500">Total Product Groups</div>
+                  </div>
+                  <div className="w-px h-8 bg-gray-200"></div>
+                  <div className="text-center">
+                    <div className="text-2xl font-light text-gray-900">
+                      {productGroups.filter(c => c.status === 'Active').length}
+                    </div>
+                    <div className="text-sm text-gray-500">Active</div>
+                  </div>
+                  <div className="w-px h-8 bg-gray-200"></div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
+                    />
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setView('form')}
+                    className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    New Product Group
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Content Area */}
+          {view === 'list' && (
+            <div className="bg-white border border-gray-300 rounded-3xl shadow-[0_0_10px_rgba(0,0,0,0.15)_inset] overflow-hidden">
+              <ProductGroupTable 
+                productGroups={paginatedProductGroups}
+                onProductGroupClick={handleProductGroupClick}
+                onEditProductGroup={handleEditProductGroup}
+                onDeleteProductGroup={handleDeleteProductGroup}
+                sortConfig={sortConfig}
+                onSort={handleSort}
+                currentPage={currentPage}
+                totalPages={totalProductgroupPages}
+                totalItems={sortedProductGroups.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={handlePageChange}
+                onItemsPerPageChange={handleItemsPerPageChange}
+              />
+            </div>
+          )}
+
+          {view === 'form' && (
+            <div className="w-[100%] bg-green-50 rounded-lg shadow-sm border border-gray-200">
+              <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
+                <div className="flex items-center gap-4 mb-8 justify-between">
+                  <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center border border-purple-100">
+                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-light text-gray-900">Create Product Group</h2>
+                    <p className="text-gray-500">Add a new product group to your records</p>
+                  </div>
+                    <button 
+                        onClick={() => setView('list')}
+                        className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1"
+                    >
+                        <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}  />
+                        </svg>
+                        x Cancel
+                    </button>
+                </div>
+                <ProductGroupForm 
+                  onSubmit={handleAddProductGroup} 
+                  isSubmitting={createProductGroupsMutation.isPending} 
+                  onBack={handleBackToProductGroupsList}
+                  onCancel={() => setView('list')}
+                  accounts={accounts}
+                  agents={agents}
+                />
+                {createProductGroupsMutation.isError && (
+                  <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">
+                    Error creating product group. Please try again.
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {view === 'details' && (
+            <ProductGroupDetails 
+              productGroup={selectedProductGroup}
+              isLoading={isLoadingProductGroup}
+              onBack={handleBackToProductGroupsList}
+              onEdit={handleEditProductGroupButton}
+            />
+          )}
+
+          {view === 'edit' && selectedProductGroup && (
+            <ProductGroupEdit 
+              productGroup={selectedProductGroup}
+              onSubmit={handleUpdateProductGroup}
+              isSubmitting={updateProductGroupsMutation.isPending}
+              onBack={() => setView('details')}
+              onCancel={() => setView('list')}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ProductGroupManagement;
