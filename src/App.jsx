@@ -5,6 +5,7 @@ import './App.css'
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
+import LoginForm from './FullStack/Core/LoginForm';
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
 
@@ -181,10 +182,13 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          {/* Default route - goes to dashboard */}
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          {/* Default route */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
+          {/* Login route */}
+          <Route path='/login' element={<LoginForm />} />
           
-          {/* Dashboard route - WITHOUT layout */}
+          {/* Dashboard route - no layout  */}
           <Route path="/dashboard" element={<Dashboard />} />
           
           
