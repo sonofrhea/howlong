@@ -1,5 +1,5 @@
 import apiClient from '../BaseEngine';
-
+import { ImportMeta } from '../vite-env';
 
 
 const HandleLogin = async (email: string, password: any) => {
@@ -7,7 +7,7 @@ const HandleLogin = async (email: string, password: any) => {
     const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : import.meta.env.VITE_API_BASE_URL_DEPLOY;
 
   try {
-    const response = await apiClient.post(`${baseEntry}/dj-rest-auth/login/`, {
+    const response = await apiClient.post(`${baseEntry}dj-rest-auth/login/`, {
       email,
       password
     });

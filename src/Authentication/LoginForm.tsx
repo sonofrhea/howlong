@@ -13,20 +13,23 @@ export default function LoginForm() {
     const navigate = useNavigate();
 
 
-    const onSubmit = async (e: React.FormEvent) => {
+    const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            await HandleLogin(email, password);
+            const res = await HandleLogin(email, password);
+            console.log('Login response:', res);
             alert('API connection Login successful!');
             navigate('/dashboard');
-        } catch (err) {
-            setError('Invalid credentials');
+        } catch (err: any) {
+            console.error('Login error:', err);
+            setError(err.message || 'Invalid credentials');
         }
     };
 
     return (
         <form onSubmit={onSubmit}>
             <input
+                type="email"
                 placeholder="Email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
