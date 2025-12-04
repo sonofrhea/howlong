@@ -1,49 +1,76 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import '../App.css';
 import { Box } from '@mui/material';
 import MyTextField from "../components/constants/forms/MyTextField";
 import MyPassField from "../components/constants/forms/MyPassField";
 import MyButton from "../components/constants/forms/MyButton";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import HandleLogin from "./HandleLogin";
-
+import apiClient from "../BaseEngine";
 
 
 const Login = () => {
+    const navigate = useNavigate()
+    const {handleSubmit, control} = useForm()
+
+    const submission = (data: any) => {
+        apiClient.post(`core/login/`,{
+            email: data.email,
+            password: data.password,
+        })
+
+        .then((response) => {
+            localStorage.setItem('Token', response.data.token)
+            navigate(`/dashboard`)
+        })
+        .catch((error) => {
+            console.error("Error during login", error)
+        })
+    }
 
     return(
         <div className={"myLoginBackground"}>
-            <Box className={"whiteBox"}>
-                <Box className={"itemBox"}>
-                    <Box className={'title'}>Login for Auth App</Box>
-                </Box>
+            <form onSubmit={handleSubmit(submission)}>
 
-                <Box className={"itemBox"}>
-                    <MyTextField 
-                        label={"Email"}
-                    />
-                </Box>
+                <Box className={"whiteBox"}>
+                    <Box className={"itemBox"}>
+                        <Box className={'title'}>Login for Auth App</Box>
+                    </Box>
 
-                <Box className={"itemBox"}>
-                    <MyPassField 
-                        label={"Password"}
-                    />
-                </Box>
+                    <Box className={"itemBox"}>
+                        <MyTextField 
+                            label={"Email"}
+                            name={"email"}
+                            control={control}
+                        />
+                    </Box>
 
-                <Box className={"itemBox"}>
-                    <MyButton 
-                        label={"Login"}
-                    />
-                </Box>
+                    <Box className={"itemBox"}>
+                        <MyPassField 
+                            label={"Password"}
+                            name={"password"}
+                            control={control}
+                        />
+                    </Box>
 
-                <Box className={"itemBox"}>
-                    <Link to="/register">
-                        No Account yet? Click to Register
-                    </Link>
+                    <Box className={"itemBox"}>
+                        <MyButton 
+                            type={"submit"}
+                            label={"Login"}
+                        />
+                    </Box>
+
+                    <Box className={"itemBox"}>
+                        <Link to="/register">
+                            No Account yet? Click to Register
+                        </Link>
+                    </Box>
                 </Box>
-            </Box>
+            </form>
         </div>
     )
 }

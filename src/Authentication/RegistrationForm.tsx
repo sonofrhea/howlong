@@ -23,7 +23,7 @@ const Register = () => {
     const {handleSubmit, control} = useForm()
 
     const submission = (data: any) => {
-        apiClient.post(`dj-rest-auth/registration/`,{
+        apiClient.post(`core/register/`,{
             email: data.email,
             password1: data.password1,
             password2: data.password2
