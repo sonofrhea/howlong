@@ -23,46 +23,46 @@ import { ID_TYPE_CHOICES,
 // -------- BEGIN ----------- CUSTOMER INPUT ----------------
 
 export type CustomerInputs = {
-  customer_name: string;
-  company_name: string;
+  customer_name: string | null;
+  company_name: string | null;
   control_account: {
     account_code: number;
-    account_name: string;
-    account_type: string;
+    account_name: string | null;
+    account_type: string | null;
   };
-  address: string;
-  country: string;
-  post_code: string;
-  city: string;
-  state: string;
-  mobile_number: string;
-  home_number: string;
+  address: string | null;
+  country: string | null;
+  post_code: string | null;
+  city: string | null;
+  state: string | null;
+  mobile_number: string | null;
+  home_number: string | null;
   fax: string;
   email: string;
   id_type: typeof ID_TYPE_CHOICES[number]['value'] | null;
   id_file: File | null;
   preferred_currency: {
-    currency_code: string;
-    currency_name: string;
-    currency_symbol: string;
-    country: string;
-    buy: number;
-    sell: number;
+    currency_code: string | null;
+    currency_name: string | null;
+    currency_symbol: string | null;
+    country: string | null;
+    buy: number | null;
+    sell: number | null;
   };
-  gst_number: string;
+  gst_number: string | null;
   tax_id_type: typeof TAX_ID_CHOICES[number]['value'] | null;
-  tax_number: string;
-  tourism_number: string;
-  expiration_date: string;
-  service_tax_number: string;
+  tax_number: string | null;
+  tourism_number: string | null;
+  expiration_date: string | null;
+  service_tax_number: string | null;
   taxpayers_qr_code: File | null;
-  customer_bank_name: string;
-  customer_bank_account_number: number;
+  customer_bank_name: string | null;
+  customer_bank_account_number: number | null;
   bank_account_type: typeof BANK_TYPE_CHOICES[number]['value'] | null;
-  swift_code: string;
+  swift_code: string | null;
   is_active: boolean;
   status: typeof STATUS_CHOICES[number]['value'] | null;
-  remark: string;
+  remark: string | null;
   date_created: string;
 };
 
@@ -81,3 +81,11 @@ export type EditCustomerInputs = {
 };
 
 // -------- END ----------- CUSTOMER INPUT ----------------
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+// --------BEGIN-----------CUSTOMER DEBIT NOTE----------------

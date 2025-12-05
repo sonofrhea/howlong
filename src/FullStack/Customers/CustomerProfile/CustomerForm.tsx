@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
 import "../CustomerProfile/CustomerCss.css";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { CustomerInputs, ControlAccountInterface,
-    CurrencyInterface, BankInterface
- } from "@/types";
+
+import { CustomerInputs } from "../Interfaces";
+
+import { CurrencyInterface } from "../../Core/Interfaces";
+import { BankInterface } from "../../Core/Interfaces";
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 
 import { ID_TYPE_CHOICES,
   TAX_ID_CHOICES,
   BANK_TYPE_CHOICES,
   STATUS_CHOICES,
+  COUNTRY_OPTIONS,
   //BOOLEAN_OPTIONS,
  } from "../constants/options"; 
 
@@ -20,10 +24,11 @@ import { ID_TYPE_CHOICES,
 
 
 
-const CustomerForm = ({ onSubmit, isSubmitting, onBack, 
+const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, 
     onCancel, currencies, accounts, agents, banks }) => {
 
-        const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<CustomerInputs>({
+        const { register, handleSubmit, watch, setValue, 
+            formState: { errors } } = useForm<CustomerInputs>({
             defaultValues: {
                 is_active: true,
                 status: 'Active'
@@ -102,16 +107,17 @@ const CustomerForm = ({ onSubmit, isSubmitting, onBack,
                             </div>
                         </div>
                         <div className="flex gap-3">
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ">Status:      
+                            <span className="inline-flex text-black items-center rounded-full text-s ">Status:      
                                 <select 
                                     {...register("status")}
-                                    className="ml-2 bg-transparent rounded-lg focus:outline-none bg-gray border border-gray-300"
+                                    className="ml-4 w-25 h-6 text-center bg-transparent text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
                                 >
                                     {STATUS_CHOICES.map(option => (
                                         <option key={option.value} value={option.value}>
                                             {option.label}
                                         </option>
                                     ))}
+                                    
                                 </select>
                             </span>
                         </div>
@@ -169,7 +175,10 @@ const CustomerForm = ({ onSubmit, isSubmitting, onBack,
                                     <input 
                                         className="w-full text-black rounded-lg border border-gray-300 px-3 py-2"
                                         type="file" 
-                                        {...register("id_file")} 
+                                        onChange={e => {
+                                            const file = e.target.files?.[0] || null;
+                                            setValue('id_file', file);
+                                        }} 
                                     />
                                 </div>
 
@@ -258,10 +267,17 @@ const CustomerForm = ({ onSubmit, isSubmitting, onBack,
                                 <div className="md:col-span-2">
                                     
                                     <div className="text-sm text-black mb-1">Country</div>
-                                    <input 
-                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2" 
-                                        {...register("country")} 
-                                    />
+                                    <select
+                                    {...register("country")}
+                                    className="w-full text-black rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                                    >
+                                        <option value=""></option>
+                                        {COUNTRY_OPTIONS.map(country => (
+                                            <option key={country.value} value={country.value}>
+                                                {country.label}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className="md:col-span-2">
                                     
@@ -353,10 +369,10 @@ const CustomerForm = ({ onSubmit, isSubmitting, onBack,
                                 </div>
 
                                 <div>
-                                    <div className="text-sm text-black mb-1">Active</div>
+                                    <div className=" text-black mb-1">Active?</div>
                                     <input 
                                         type="checkbox" 
-                                        className="w-5 h-5 rounded border-gray-300"
+                                        className="w-5 h-5 cursor-pointer rounded border-gray-300"
                                         {...register("is_active")} 
                                     />
                                 </div>
@@ -407,6 +423,18 @@ const CustomerForm = ({ onSubmit, isSubmitting, onBack,
                                 </div>
 
                                 <div>
+                                    <div className="text-sm text-black mb-1">Taxpayer's QR Code</div>
+                                    <input 
+                                        type="file"
+                                        onChange={e => {
+                                            const file = e.target.files?.[0] || null;
+                                            setValue('taxpayers_qr_code', file);
+                                        }}
+                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2"
+                                    />
+                                </div>
+
+                                <div>
                                     <div className="text-sm text-black mb-1">Tourism number</div>
                                     <input 
                                         className="w-full text-black rounded-lg border border-gray-300 px-3 py-2"
@@ -437,7 +465,7 @@ const CustomerForm = ({ onSubmit, isSubmitting, onBack,
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-blue-700 font-medium disabled:opacity-50">
+                                className="px-6 py-3 bg-green-600 cursor-pointer text-white rounded-lg hover:bg-blue-700 font-medium disabled:opacity-50">
                                 {isSubmitting ? (
                                     <span className="flex items-center gap-2">
                                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

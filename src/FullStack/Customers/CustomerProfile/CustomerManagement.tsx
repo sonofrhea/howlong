@@ -30,7 +30,7 @@ import CustomerDetails from "./CustomerDetails";
 
 
 
-import { CustomerInputs, CustomerCreateResponse, EditCustomerInputs } from "../Interfaces";
+import { CustomerInputs, CustomerCreateResponse, EditCustomerInputs, AllCustomerInputs } from "../Interfaces";
 
 
 
@@ -96,7 +96,7 @@ function CustomerManagement() {
 
   const { data: selectedCustomer, isLoading: isLoadingCustomer } = useQuery({
     queryKey: ['customer', selectedCustomerId],
-    queryFn: () => fetchCustomerById(selectedCustomerId),
+    queryFn: () => fetchCustomerById(selectedCustomerId!),
     enabled: !!selectedCustomerId,
   });
 
@@ -149,32 +149,44 @@ function CustomerManagement() {
 // ------------------------------------------------------------------------------------
                 // MUTATION USE
 
-  const toFormData = (obj, form = new FormData(), parentKey = '') => {
-    Object.keys(obj).forEach(key => {
-      const value = obj[key];
-      const field = parentKey ? `${parentKey}.${key}` : key;
-      if (value === null || value === undefined) return;
-      if (Array.isArray(value)) {
-        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-      } else if (value instanceof File) {
-        form.append(field, value);
-      } else if (typeof value === 'object') {
-        toFormData(value, form, field);
-      } else {
-        form.append(field, value);
-      }
-    });
-    return form;
-  };
+  //const toFormData = (obj: any, form = new FormData(), parentKey = '') => {
+  //  Object.keys(obj).forEach(key => {
+  //    const value = obj[key];
+  //    const field = parentKey ? `${parentKey}.${key}` : key;
+  //    if (value === null || value === undefined) return;
+  //    if (Array.isArray(value)) {
+  //      value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+  //    } else if (value instanceof File) {
+  //      form.append(field, value);
+  //    } else if (typeof value === 'object') {
+  //      toFormData(value, form, field);
+  //    } else {
+  //      form.append(field, value);
+  //    }
+  //  });
+  //  return form;
+  //};
 
 
 
 
   const handleAddCustomer = async (customerData: CustomerInputs) => {
-    console.log("🎯 RAW FORM DATA:", customerData);
+    const newCustomerData = new FormData();
 
-    const fd = toFormData(customerData);
-    createCustomersMutation.mutate(fd);
+    Object.entries(customerData).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        if (value instanceof File) {
+          console.log(File.name);
+          newCustomerData.append(key, value);
+        } else {
+          newCustomerData.append(key, String(value));
+        }
+      }
+    });
+
+    console.log("🎯 RAW FORM DATA:", newCustomerData);
+
+    createCustomersMutation.mutate(newCustomerData);
   };
 
 
@@ -187,13 +199,13 @@ function CustomerManagement() {
   const handleUpdateCustomer = (customerData: CustomerInputs) => {
     updateCustomersMutation.mutate({
       customer_number: selectedCustomerId!,
-      customerData: FormData
+      customerData: customerData
     });
   };
 
 
 
-
+  
 
 
 
@@ -280,7 +292,7 @@ const handleSort = (key: any) => {
     setCurrentPage(1); // Reset to first page
   };
 
-  console.log('First customer object:', paginatedCustomers[0]);
+  // console.log('First customer object:', paginatedCustomers[0]);
 
 // ------------------------------------------------------------------------------------
 
@@ -288,16 +300,19 @@ const handleSort = (key: any) => {
 // ERROR DISPLAYS
 
   if (isLoadingCustomers) return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Loading customers...</p>
+    <div className="min-h-screen bg-white flex items-center justify-center">
+    <div className="w-64">
+      <div className="text-green-400 font-mono mb-2">Fetching customers...</div>
+
+      <div className="w-full h-3 bg-gray-800 rounded overflow-hidden">
+        <div className="h-full bg-green-500 animate-terminal-bar"></div>
       </div>
     </div>
+  </div>
   );
 
   if (customersError) return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
       <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
         <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
@@ -324,7 +339,7 @@ return (
           <div className="max-w-7xl mx-auto px-4 py-4">
               <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                      <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                      <div className="w-2 h-8 bg-linear-to-b from-blue-500 to-purple-600 rounded-full"></div>
                       <div>
                           <h1 className="text-lg font-semibold text-gray-900">Customers Suite</h1>
                           <p className="text-sm text-gray-500">Customer Management</p>
@@ -353,7 +368,7 @@ return (
             <div className="flex items-start justify-between mb-8">
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-purple-100">
+                  <div className="w-12 h-12 bg-linear-to-br from-purple-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-purple-100">
                     <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
@@ -398,7 +413,7 @@ return (
                   <div className="w-px h-8 bg-gray-200"></div>
                   <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">
-                      {new Set(customers.map(c => c.currency?.currency_code)).size}
+                      {new Set(customers.map((c: any) => c.currency?.currency_code)).size}
                     </div>
                     <div className="text-sm text-gray-500">Currencies</div>
                   </div>
@@ -453,7 +468,7 @@ return (
           )}
 
           {view === 'form' && (
-            <div className="w-[100%] bg-green-50 rounded-lg shadow-sm border border-gray-200">
+            <div className="w-[100%] bg-green-50 rounded-2xl shadow-sm border border-gray-200">
               <div className="bg-gray-50 border border-green-100 rounded-2xl shadow-sm p-8">
                 <div className="flex items-center gap-4 mb-8 justify-between">
                   <div className="w-6 h-6 bg-green-50 rounded-xl flex items-center justify-center border border-green-100">
@@ -467,7 +482,7 @@ return (
                   </div>
                     <button 
                         onClick={() => setView('list')}
-                        className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1"
+                        className="bg-white text-black px-2 py-1 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}  />

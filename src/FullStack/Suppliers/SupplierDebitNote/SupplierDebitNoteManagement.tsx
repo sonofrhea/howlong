@@ -206,7 +206,7 @@ function SupplierDebitNoteManagement() {
 
 
 
-
+    
 
     const handleDeleteSupplierDebitNote = async (supplierDebitNoteId: number) => {
         if (window.confirm('Are you sure you want to delete this debit note?')) {

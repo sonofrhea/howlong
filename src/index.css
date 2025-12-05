@@ -92,3 +92,7 @@ button:focus-visible {
 .animate-shimmer {
     animation: shimmer 1.5s infinite;
 }
+
+select {
+  cursor: pointer !important;
+}

@@ -14,3 +14,69 @@
 }
 
 
+@font-face {
+  font-family: 'Aeonik-Regular';
+  src: url(/src/Customers/fonts/fonnts.com-Aeonik-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'GoogleSansCode-Light';
+  src: url(../fonts/GoogleSansCode-Light.ttf);
+}
+
+@font-face {
+  font-family: 'GoogleSansCode-LightItalic';
+  src: url(../fonts/GoogleSansCode-LightItalic.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-Regular';
+  src: url(../fonts/GoogleSansCode-Regular.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-Italic-VariableFont';
+  src: url(../fonts/GoogleSansCode-Italic-VariableFont_wght.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-VariableFont_wght';
+  src: url(../fonts/GoogleSansCode-VariableFont_wght.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-Medium';
+  src: url(../fonts/GoogleSansCode-Medium.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-Bold';
+  src: url(../fonts/GoogleSansCode-Bold.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-SemiBold';
+  src: url(../fonts/GoogleSansCode-SemiBold.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-ExtraBold';
+  src: url(../fonts/GoogleSansCode-ExtraBold.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-BoldItalic';
+  src: url(../fonts/GoogleSansCode-BoldItalic.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-SemiBoldItalic';
+  src: url(../fonts/GoogleSansCode-SemiBoldItalic.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-ExtraBoldItalic';
+  src: url(../fonts/GoogleSansCode-ExtraBoldItalic.ttf);
+}
+
+
+
+
+
+h3 {
+  font-size: 14px;
+}
+
+.contact-mobile .text-black {
+  font-weight: bolder;
+}

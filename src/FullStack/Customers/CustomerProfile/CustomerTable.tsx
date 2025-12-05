@@ -1,6 +1,6 @@
 import React from "react";
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
 };
 
@@ -9,12 +9,12 @@ const formatNumber = () => {
         return `${currentYear}-`;
     };
 
-const CustomerTable = ({ customers, onCustomerClick, onEditCustomer, onDeleteCustomer, 
+const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustomer, onDeleteCustomer, 
     sortConfig, onSort, currentPage, totalPages, 
     totalItems, itemsPerPage, onPageChange, onItemsPerPageChange  }) => {
     
     // Sortable header component
-        const SortableHeader = ({ label, sortKey }) => {
+        const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
     
@@ -41,7 +41,7 @@ const CustomerTable = ({ customers, onCustomerClick, onEditCustomer, onDeleteCus
             <div className="text-center py-12">
                 <div className="flex items-center justify-between p-4 bg-gray-50 border-b">
                     <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">Show</span>
+                    <span className="text-sm text-black">Show</span>
                     <select 
                         value={itemsPerPage}
                         onChange={(e) => onItemsPerPageChange(e.target.value)}
@@ -52,7 +52,7 @@ const CustomerTable = ({ customers, onCustomerClick, onEditCustomer, onDeleteCus
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <span className="text-sm text-gray-600">entries</span>
+                    <span className="text-sm text-black">entries</span>
                     </div>
                 </div>
                 <div className="text-gray-400 text-6xl mb-4">
@@ -73,7 +73,7 @@ const CustomerTable = ({ customers, onCustomerClick, onEditCustomer, onDeleteCus
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Customer List</h3>
                     <div className="flex items-center gap-4">
@@ -82,7 +82,7 @@ const CustomerTable = ({ customers, onCustomerClick, onEditCustomer, onDeleteCus
                             <select 
                                 value={itemsPerPage}
                                 onChange={(e) => onItemsPerPageChange(e.target.value)}
-                                className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
+                                className="border text-black border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
                             >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
@@ -97,7 +97,7 @@ const CustomerTable = ({ customers, onCustomerClick, onEditCustomer, onDeleteCus
 
             {/* Table */}
             <div className="w-full">
-                <table className="w-full table-fixed divide-y divide-gray-400 divide-dotted">
+                <table className="w-full rounded-lg shadow-sm border border-gray-200 table-fixed divide-y divide-gray-400 divide-dotted">
                     <colgroup>
                         <col className="w-1/5 text-center" />{/* Customer Number - Fixed */}
                         <col className="w-1/5 text-center" />{/* Customer Name - 16.6% */}
@@ -123,7 +123,7 @@ const CustomerTable = ({ customers, onCustomerClick, onEditCustomer, onDeleteCus
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {customers.map((customer) => {
+                        {customers.map((customer: any) => {
                             const customerId = customer.customer_number;
                             
                             return (
@@ -141,14 +141,14 @@ const CustomerTable = ({ customers, onCustomerClick, onEditCustomer, onDeleteCus
                                     
                                     {/* Customer Name */}
                                     <td className="px-2 py-2 text-center truncate" title={customer.customer_name}>
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {customer.customer_name}
                                         </div>
                                     </td>
                                     
                                     {/* City */}
                                     <td className="px-2 py-2 text-center truncate" title={customer.city}>
-                                        <div className="text-sm text-gray-900 truncate">{customer.city}</div>
+                                        <div className="text-sm text-black truncate">{customer.city}</div>
                                     </td>
                                     
                                     {/* Status */}
@@ -167,17 +167,17 @@ const CustomerTable = ({ customers, onCustomerClick, onEditCustomer, onDeleteCus
 
                                     {/* Created By */}
                                     <td className="px-2 py-2 text-center truncate" title={customer.created_by}>
-                                        <div className="text-sm text-gray-900 truncate">{customer.created_by}</div>
+                                        <div className="text-sm text-black truncate">{customer.created_by}</div>
                                     </td>
 
                                     {/* Date Created */}
                                     <td className="px-2 py-2 text-center truncate" title={formatDate(customer.date_created)}>
-                                        <div className="text-sm text-gray-900 truncate">{formatDate(customer.date_created)}</div>
+                                        <div className="text-sm text-black truncate">{formatDate(customer.date_created)}</div>
                                     </td>
                                     
                                     {/* Remark */}
                                     <td className="px-2 py-2 text-center truncate" title={customer.remark}>
-                                        <div className="text-sm text-gray-900 truncate">{customer.remark}</div>
+                                        <div className="text-sm text-black truncate">{customer.remark}</div>
                                     </td>
                                     
                                     {/* Actions */}

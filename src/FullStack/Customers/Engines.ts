@@ -1,5 +1,7 @@
 import apiClient from '../../BaseEngine';
-import { AllCustomerInputs, EditCustomerInputs } from './Interfaces';
+import { AllCustomerInputs, CustomerInputs, 
+  EditCustomerInputs
+ } from './Interfaces';
 
 
 
@@ -30,8 +32,12 @@ export const fetchCustomerById = async (customer_number: number) => {
   return response.data;
 };
 
-export const createCustomer = async (customerData: AllCustomerInputs) => {
-  const response = await apiClient.post('/customers/customerprofile/', customerData);
+export const createCustomer = async (customerData: CustomerInputs | FormData) => {
+  const response = await apiClient.post('/customers/customerprofile/', customerData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };
 
@@ -55,7 +61,7 @@ export const fetchDebitNotes = async () => {
   return response.data;
 };
 
-export const fetchDebitNoteById = async (debit_note_number) => {
+export const fetchDebitNoteById = async (debit_note_number: number) => {
   const response = await apiClient.get(`/customers/customerdebitnote/${debit_note_number}/`);
   return response.data;
 };
@@ -70,7 +76,7 @@ export const updateDebitNote = async ({ debit_note_number, debitNoteData }) => {
   return response.data;
 };
 
-export const deleteDebitNote = async (debit_note_number) => {
+export const deleteDebitNote = async (debit_note_number: number) => {
   await apiClient.delete(`/customers/customerdebitnote/${debit_note_number}/`);
   return true;
 };
