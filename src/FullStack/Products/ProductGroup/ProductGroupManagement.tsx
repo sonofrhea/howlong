@@ -22,7 +22,7 @@ import ProductGroupDetails from "./ProductGroupDetails";
 
 import { ProductGroupInputs, ProductGroupCreateResponse,
   EditProductGroupInputs
- } from "../Interfaces.js";
+ } from "../constants/Types.js";
 
 
 interface SortConfig {

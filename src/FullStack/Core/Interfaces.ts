@@ -23,5 +23,6 @@ export interface BankInterface {
 
 
 export interface AgentInterface {
-  username: string;
+  name: string;
+  email: string;
 };

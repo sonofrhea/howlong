@@ -24,7 +24,7 @@ function Dashboard() {
                         Business Management
                     </h1>
                     <p className="text-gray-600">
-                        Choose a module to get started
+                        Choose a module to get started...
                     </p>
                 </div>
 
@@ -40,21 +40,21 @@ function Dashboard() {
                                 <div 
                                 className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${
                                     app.available ? 
-                                    'bg-green-100 text-blue-300 hover:text-blue-600' :
+                                    'bg-black text-white hover:text-blue-400' :
                                     'bg-gray-100 text-gray-400'}`}>
                                         <AppIcon appId={app.id} />
                                 </div>
 
-                                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                                <h3 className="app-Name mb-2">
                                     {app.name}
                                 </h3>
-                                <p className="text-gray-600 text-sm mb-4">
+                                <p className="text-gray-600 text-s mb-4">
                                     {app.description}
                                 </p>
 
                                 <div className={`text-sm font-medium ${
                                     app.available ? 
-                                    'text-blue-600' : 
+                                    'text-blue-200 hover:text-blue-700' : 
                                     'text-gray-500'}`}>
                                         {app.available ? 
                                         'Open App →' :

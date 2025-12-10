@@ -9,7 +9,7 @@ const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : impo
 // my base configuration
 const apiClient = axios.create({
   baseURL: baseEntry,
-  timeout: 5000,
+  //timeout: 5000,
 });
 
 apiClient.interceptors.request.use(config => {

@@ -117,6 +117,7 @@ export type CustomerPaymentInputs = {
 
 export type CustomerPaymentResponse = {
   payment_number: number;
+  paid_amount: number;
 };
 
 export type AllCustomerPaymentInputs = {

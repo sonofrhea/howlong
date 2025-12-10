@@ -15,18 +15,23 @@ import apiClient from '../../BaseEngine';
 
 
 export const fetchAgents = async () => {
-  const response = await apiClient.get('/core/customuser/');
+  const response = await apiClient.get('/core/users/');
   return response.data;
 };
 
 export const fetchAgentById = async (id: number) => {
-  const response = await apiClient.get(`/core/customuser/${id}/`);
+  const response = await apiClient.get(`/core/users/${id}/`);
   return response.data;
 };
 
 
-export const fetchAgentByUsername = async (username: string) => {
-  const response = await apiClient.get(`/core/customuser/${username}/`);
+export const fetchAgentByName = async (name: string) => {
+  const response = await apiClient.get(`/core/users/${name}/`);
+  return response.data;
+};
+
+export const fetchAgentByEmail = async (email: string) => {
+  const response = await apiClient.get(`/core/users/${email}/`);
   return response.data;
 };
 

@@ -7,11 +7,11 @@ const HandleLogin = async (email: string, password: any) => {
     const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : import.meta.env.VITE_API_BASE_URL_DEPLOY;
 
   try {
-    const response = await apiClient.post(`${baseEntry}dj-rest-auth/login/`, {
+    const response = await apiClient.post(`${baseEntry}core/login/`, {
       email,
       password
     });
-    localStorage.setItem('token', response.data.key);
+    localStorage.setItem('Token', response.data.key);
     return response.data; // Return user data if needed
   } catch (error: any) {
     console.error('Login failed:', error.response?.data || error.message);

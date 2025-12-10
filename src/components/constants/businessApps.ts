@@ -77,7 +77,7 @@ export const DASHBOARD_APPS: DashboardInterface[] = [
     { 
       id: 'core', 
       name: 'HR & Workforce', 
-      description: '⚙️ Men at work', 
+      description: 'Men at work', 
       path: '/core',
       available: false
     },

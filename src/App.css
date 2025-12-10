@@ -54,6 +54,47 @@
   src: url(../fonts/GoogleSansCode-ExtraBoldItalic.ttf);
 }
 
+@font-face {
+  font-family: 'CascadiaCodeNF-Regular';
+  src: url(../fonts/CascadiaCodeNF-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'CascadiaCodeNF-SemiBold';
+  src: url(../fonts/CascadiaCodeNF-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: 'CascadiaMonoPL-Bold';
+  src: url(../fonts/CascadiaMonoPL-Bold.ttf);
+}
+
+@font-face {
+  font-family: 'GoogleSansCode-ExtraBoldItalic';
+  src: url(../fonts/FiraCode-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'FiraCode-Medium';
+  src: url(../fonts/FiraCode-Medium.ttf);
+}
+
+@font-face {
+  font-family: 'FiraCode-Regular';
+  src: url(../fonts/FiraCode-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'FiraCode-Light';
+  src: url(../fonts/FiraCode-Light.ttf);
+}
+@font-face {
+  font-family: 'FiraCode-SemiBold';
+  src: url(../fonts/FiraCode-SemiBold.ttf);
+}
+
+
+
 
 
 
@@ -75,7 +116,6 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {
@@ -85,31 +125,48 @@
 
 
 h1 {
-  font-family: GoogleSansCode-Medium;
+  font-family: CascadiaCodeNF-SemiBold;
   letter-spacing: 0.5px;
 }
 
 h2 {
-  font-family: GoogleSansCode-Regular;
+  font-family: CascadiaCodeNF-Regular;
   font-weight: bolder;
   font-size: 18px;
+  letter-spacing: 0.5px;
+  color: black;
 }
 
 h3 {
-  font-family: GoogleSansCode-Regular;
+  font-family: FiraCode-Medium;
   font-weight: bolder;
-  font-size: 12px;
+  font-size: 16px !important;
+  color: #575555;
+  letter-spacing: 0.5px;
 }
+
+h4 {
+  font-family: FiraCode-Medium;
+  font-size: 15px !important;
+  letter-spacing: 0.5px;
+}
+
+thead th > div, th {
+    font-family: FiraCode-Medium !important;
+    font-size: 12px !important;
+    align-items: center;
+}
+
 
 div {
   font-family: GoogleSansCode-Regular;
-  font-weight: bolder;
-  font-size: 12px;
+  font-size: 13.5px;
+  letter-spacing: 0.2px;
+  word-spacing: 0.1px;
 }
 
 
 table {
-  font-size: 0.8rem; 
   letter-spacing: -0.01em; 
 }
 
@@ -118,6 +175,21 @@ th, td {
 }
 
 
+.app-Name {
+  font-family: GoogleSansCode-SemiBold;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  word-spacing: 1.5px;
+}
+
+.app-Name:hover {
+  font-family: GoogleSansCode-SemiBold;
+  color: #000000;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  word-spacing: 1.5px;
+}
 
 
 

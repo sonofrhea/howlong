@@ -69,35 +69,35 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
 
                 <div className="grid grid-cols-3 gap-6">
                     <div>
-                        <p className="px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase">Invoice No</p>
+                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase">Invoice No</p>
                         <p className="text-sm font-medium text-gray-700">{formatNumber()}{supplierInvoice.invoice_number}</p>
 
-                        <p className="px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Date Issued</p>
+                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Date Issued</p>
                         <p className="text-sm font-medium text-gray-700">{formatDate(supplierInvoice.invoice_date)}</p>
 
-                        <p className="px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Payment Account</p>
+                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Payment Account</p>
                         <p className="text-sm font-medium text-gray-700">{supplierInvoice.purchase_account.account_code} - {supplierInvoice.purchase_account.account_name}</p>
                     </div>
 
                     <div>
-                        <p className="px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase">Supplier</p>
+                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase">Supplier</p>
                         <p className="text-sm font-medium text-gray-700">{supplierInvoice.supplier_name}</p>
                         
-                        <p className="px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Supplier Extra Details</p>
+                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Supplier Extra Details</p>
                         <p className="text-sm font-medium text-gray-700">{supplierInvoice.supplier_details}</p>
 
-                        <p className="px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Product</p>
+                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Product</p>
                         <p className="text-sm font-medium text-gray-700">{supplierInvoice.product}</p>
                     </div>
 
                     <div>
-                        <p className="px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase">Currency</p>
+                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase">Currency</p>
                         <p className="text-sm font-medium text-gray-700">{supplierInvoice.currency}</p>
 
-                        <p className="px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Payment Due</p>
+                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Payment Due</p>
                         <p className="text-sm font-medium text-gray-700">{supplierInvoice.invoice_due_date}</p>
 
-                        <p className="px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Agent</p>
+                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Agent</p>
                         <p className="text-sm font-medium text-gray-700">{supplierInvoice.agent}</p>
                     </div>
                 </div>
@@ -111,12 +111,12 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
                             <table className="min-w-full text-left text-sm border border-gray-200 rounded-lg overflow-hidden">
                                 <thead className="bg-blue-100 drop-shadow-md shadow-lg">
                                     <tr>
-                                        <th className="px-4 py-3 text-center tracking-[0.1em] text-xs font-semibold uppercase">Item</th>
-                                        <th className="px-4 py-3 text-center tracking-[0.1em] text-xs font-semibold uppercase">Description</th>
-                                        <th className="px-4 py-3 text-center tracking-[0.1em] text-xs font-semibold uppercase">Quantity</th>
-                                        <th className="px-4 py-3 text-center tracking-[0.1em] text-xs font-semibold uppercase">UOM</th>
-                                        <th className="px-4 py-3 text-center tracking-[0.1em] text-xs font-semibold uppercase">Unit Per Price</th>
-                                        <th className="px-4 py-3 text-center tracking-[0.1em] text-xs font-semibold uppercase">Amount</th>
+                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Item</th>
+                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Description</th>
+                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Quantity</th>
+                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">UOM</th>
+                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Unit Per Price</th>
+                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Amount</th>
                                     </tr>
                                 </thead>
 

@@ -1,7 +1,8 @@
 import apiClient from '../../BaseEngine';
 import { AllCustomerInputs, CustomerInputs, 
-  EditCustomerInputs
- } from './Interfaces';
+  EditCustomerInputs, DebitNoteInputs,
+  AllDebitNoteInputs
+ } from './constants/Types';
 
 
 
@@ -66,12 +67,12 @@ export const fetchDebitNoteById = async (debit_note_number: number) => {
   return response.data;
 };
 
-export const createDebitNote = async (debitNoteData) => {
+export const createDebitNote = async (debitNoteData: DebitNoteInputs) => {
   const response = await apiClient.post('/customers/customerdebitnote/', debitNoteData);
   return response.data;
 };
 
-export const updateDebitNote = async ({ debit_note_number, debitNoteData }) => {
+export const updateDebitNote = async ({ debit_note_number, debitNoteData }: AllDebitNoteInputs) => {
   const response = await apiClient.put(`/customers/customerdebitnote/${debit_note_number}/`, debitNoteData);
   return response.data;
 };

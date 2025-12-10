@@ -6,7 +6,12 @@ const formatDate = (dateString) => {
 }; 
 
 
-const ProductGroupTable = ({ productGroups, onProductGroupClick, onEditProductGroup, onDeleteProductGroup,
+
+
+
+
+
+const ProductGroupTable: React.FC<any> = ({ productGroups, onProductGroupClick, onEditProductGroup, onDeleteProductGroup,
     sortConfig, onSort, currentPage, totalPages, totalItems, itemsPerPage, onPageChange, onItemsPerPageChange
  }) => {
 

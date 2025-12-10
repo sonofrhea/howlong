@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import LogoutButton from "../Authentication/HandleLogout";
+
 import { BusinessAppInterface, LayoutPropsInterface } from "./constants/LayoutTypes";
 
 import { BUSINESS_APPS } from "./constants/businessApps";

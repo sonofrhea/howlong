@@ -30,7 +30,7 @@ import CustomerDetails from "./CustomerDetails";
 
 
 
-import { CustomerInputs, CustomerCreateResponse, EditCustomerInputs, AllCustomerInputs } from "../Interfaces";
+import { CustomerInputs, CustomerCreateResponse, EditCustomerInputs, AllCustomerInputs } from "../constants/Types";
 
 
 

@@ -9,7 +9,7 @@ export default function LogoutButton() {
 
     const handleLogout = async () => {
         try {
-            await apiClient.post('/dj-rest-auth/logout/');
+            await apiClient.post('/core/logout/');
         } catch (err) {
             console.error('Logout failed', err);
         } finally {

@@ -1,14 +1,28 @@
 import React from "react";
 import "../CustomerProfile/CustomerCss.css";
 
+
+
+
+
+
 const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
 };
 
 const formatNumber = () => {
         const currentYear = new Date().getFullYear();
-        return `${currentYear}-`;
+        return `CV-${currentYear}-`;
     };
+
+
+
+
+
+
+
+
+
 
 const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit }) => {
 
@@ -16,7 +30,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-3 text-gray-600">Loading customer details...</p>
+                <p className="mt-3 text-gray-600">fetching customer details...</p>
             </div>
         );
     }
@@ -54,8 +68,8 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                         </svg>
                     </button>
                     <div>
-                        <h2 className="text-xl font-semibold text-gray-800">{customer?.customer_name || "Name Not provided"}</h2>
-                        <p className="text-gray-600">{customer?.company_name || "Not provided"}</p>
+                        <h2 className="text-xl font-semibold text-gray-800">{customer?.customer_name || "Name N/A"}</h2>
+                        <p className="text-gray-600">{customer?.company_name || "N/A"}</p>
                     </div>
 
                     <div className="absolute left-1/2 transform -translate-x-1/2">
@@ -83,36 +97,44 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
             {/* Content */}
             <div className="p-6 space-y-6">
                 {/* Key Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="bg-orange-50 rounded-lg p-6 border hover:border-orange-500">
-                        <div className="text-sm text-blue-600 font-medium">Customer Number</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <div className="bg-orange-50 text-center rounded-lg p-6 border hover:border-orange-500">
+                        <h4 className="text-sm text-blue-600 font-medium">Customer Number</h4>
 
                         <div className="text-lg font-semibold text-gray-800">
-                            CV-{formatNumber()}{customer.customer_number}
+                            {formatNumber()}{customer.customer_number}
                         </div>
                     </div>
 
-                    <div className="bg-green-50 border hover:border-green-500 rounded-lg p-4">
-                        <div className="text-sm text-green-600 font-medium">Control Account</div>
+                    <div className="bg-green-50 text-center border hover:border-green-500 rounded-lg p-6">
+                        <h4 className="text-sm text-green-600 font-medium">Control Account</h4>
 
                         <div className="text-lg font-semibold text-gray-800">
                             {customer.control_account?.account_code || "N/A"} - {customer.control_account?.account_name || "N/A"} - {customer.control_account?.account_type || "N/A"}
                         </div>
                     </div>
 
-                    <div className="bg-orange-50 border hover:border-orange-500 rounded-lg p-4">
-                        <div className="text-sm text-orange-600 font-medium">ID Type</div>
+                    <div className="bg-orange-50 text-center border hover:border-orange-500 rounded-lg p-6">
+                        <h4 className="text-sm text-orange-900 font-medium">ID Type</h4>
 
                         <div className="text-lg font-bold text-gray-800">
-                            {customer?.id_type || 'ID not provided'}
+                            {customer?.id_type || 'N/A'}
                         </div>
                     </div>
 
-                    <div className="bg-purple-50 border hover:border-purple-500 rounded-lg p-4">
-                        <div className="text-sm text-purple-600 font-medium">Date created</div>
+                    <div className="bg-purple-50 text-center border hover:border-purple-500 rounded-lg p-6">
+                        <h4 className="text-sm text-purple-800 font-medium">Date created</h4>
                         
                         <div className="text-lg font-semibold text-gray-800">
                             {formatDate(customer?.date_created) || "N/A"}
+                        </div>
+                    </div>
+
+                    <div className="bg-blue-50 text-center border hover:border-blue-500 rounded-lg p-6">
+                        <h4 className="text-sm text-blue-600 font-medium">Created By</h4>
+                        
+                        <div className="text-lg font-semibold text-gray-800">
+                            {customer?.created_by || "N/A"}
                         </div>
                     </div>
                 </div>
@@ -122,27 +144,27 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <h3 className="text-lg font-semibold text-black mb-4">Contact Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <div className="text-sm text-gray-500">Email</div>
+                            <h4 className="text-sm text-gray-500">Email</h4>
                             <div className="text-gray-800">
-                                {customer?.email || 'Not provided'}
+                                {customer?.email || 'N/A'}
                             </div>
                         </div>
                         <div >
-                            <div className="text-sm text-gray-500">Mobile</div>
+                            <h4 className="text-sm text-gray-500">Mobile</h4>
                             <div className="text-black">
-                                {customer?.mobile_number || 'Not provided'}
+                                {customer?.mobile_number || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <div className="text-sm text-gray-500">Home Phone</div>
+                            <h4 className="text-sm text-gray-500">Home Phone</h4>
                             <div className="text-gray-800">
-                                {customer?.home_number || 'Not provided'}
+                                {customer?.home_number || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <div className="text-sm text-gray-500">Fax</div>
+                            <h4 className="text-sm text-gray-500">Fax</h4>
                             <div className="text-gray-800">
-                                {customer?.fax || 'Not provided'}
+                                {customer?.fax || 'N/A'}
                             </div>
                         </div>
                     </div>
@@ -151,37 +173,37 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                 {/* Address Information */}
                 <div className="bg-blue-50 rounded-lg p-6 border hover:border-blue-300">
 
-                    <h3 className="text-lg font-semibold text-black mb-4">Address</h3>
+                    <h3 className="text-lg font-semibold text-black mb-4">Address Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="md:col-span-2">
                             
-                            <div className="text-sm text-gray-500">Address</div>
+                            <h4 className="text-sm text-gray-500">Address</h4>
                             <div className="text-gray-800">
-                                {customer?.address || 'Not provided'}
+                                {customer?.address || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <div className="text-sm text-gray-500">City</div>
+                            <h4 className="text-sm text-gray-500">City</h4>
                             <div className="text-gray-800">
-                                {customer?.city || 'Not provided'}
+                                {customer?.city || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <div className="text-sm text-gray-500">State</div>
+                            <h4 className="text-sm text-gray-500">State</h4>
                             <div className="text-gray-800">
-                                {customer?.state || 'Not provided'}
+                                {customer?.state || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <div className="text-sm text-gray-500">Country</div>
+                            <h4 className="text-sm text-gray-500">Country</h4>
                             <div className="text-gray-800">
-                                {customer?.country || 'Not provided'}
+                                {customer?.country || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <div className="text-sm text-gray-500">Post Code</div>
+                            <h4 className="text-sm text-gray-500">Post Code</h4>
                             <div className="text-gray-800">
-                                {customer?.post_code || 'Not provided'}
+                                {customer?.post_code || 'N/A'}
                             </div>
                         </div>
                     </div>
@@ -194,25 +216,25 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <div>
-                            <div className="text-sm text-gray-500">Currency code</div>
+                            <h4 className="text-sm text-gray-500">Currency code</h4>
                             <div className="text-gray-800">
-                                {customer.preferred_currency?.currency_code || 'Not provided'} 
+                                {customer.preferred_currency?.currency_code || 'N/A'} 
                             </div>
                         </div>
                         <div>
-                            <div className="text-sm text-gray-500">Currency name</div>
+                            <h4 className="text-sm text-gray-500">Currency name</h4>
                             <div className="text-gray-800">
-                                {customer.preferred_currency?.currency_name || 'Not provided'}
+                                {customer.preferred_currency?.currency_name || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <div className="text-sm text-gray-500">Currency symbol</div>
+                            <h4 className="text-sm text-gray-500">Currency symbol</h4>
                             <div className="text-gray-800">
                                 {customer.preferred_currency?.currency_symbol || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <div className="text-sm text-gray-500">Exchange rate</div>
+                            <h4 className="text-sm text-gray-500">Exchange rate</h4>
                             <div>
                                 buying: {customer.preferred_currency?.buy || 'N/A'} | selling: {customer.preferred_currency?.sell || 'N/A'}
                             </div>
@@ -225,44 +247,44 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <h3 className="text-lg font-semibold text-black mb-4">Bank Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <div className="text-sm text-gray-500">Bank Name</div>
+                            <h4 className="text-sm text-gray-500">Bank Name</h4>
                             <div className="text-gray-800">
-                                {customer?.customer_bank_name || 'Not provided'}
+                                {customer?.customer_bank_name || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <div className="text-sm text-gray-500">Bank account number</div>
+                            <h4 className="text-sm text-gray-500">Bank account number</h4>
                             <div className="text-gray-800">
-                                {customer?.customer_bank_account_number || 'Not provided'}
+                                {customer?.customer_bank_account_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <div className="text-sm text-gray-500">Account type</div>
+                            <h4 className="text-sm text-gray-500">Account type</h4>
                             <div className="text-gray-800">
-                                {customer?.bank_account_type || 'Not provided'}
+                                {customer?.bank_account_type || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <div className="text-sm text-gray-500">Swift code</div>
+                            <h4 className="text-sm text-gray-500">Swift code</h4>
                             <div className="text-gray-800">
-                                {customer?.swift_code || 'Not provided'}
+                                {customer?.swift_code || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <div className="text-sm text-gray-500">Status</div>
+                            <h4 className="text-sm text-gray-500">Status</h4>
                             <div className="text-gray-800">
-                                {customer?.status || 'Not provided'}
+                                {customer?.status || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <div className="text-sm text-gray-500">Remark</div>
+                            <h4 className="text-sm text-gray-500">Remark</h4>
                             <div className="text-gray-800">
-                                {customer?.remark || 'Not provided'}
+                                {customer?.remark || 'N/A'}
                             </div>
                         </div>
                     </div>
@@ -273,44 +295,44 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <h3 className="text-lg font-semibold text-black mb-4">Tax Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <div className="text-sm text-gray-500">GST Number</div>
+                            <h4 className="text-sm text-gray-500">GST Number</h4>
                             <div className="text-gray-800">
-                                {customer?.gst_number || 'Not provided'}
+                                {customer?.gst_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <div className="text-sm text-gray-500">Tax ID Type</div>
+                            <h4 className="text-sm text-gray-500">Tax ID Type</h4>
                             <div className="text-gray-800">
-                                {customer?.tax_id_type || 'Not provided'}
+                                {customer?.tax_id_type || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <div className="text-sm text-gray-500">Tax Number</div>
+                            <h4 className="text-sm text-gray-500">Tax Number</h4>
                             <div className="text-gray-800">
-                                {customer?.tax_number || 'Not provided'}
+                                {customer?.tax_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <div className="text-sm text-gray-500">Tourism number</div>
+                            <h4 className="text-sm text-gray-500">Tourism number</h4>
                             <div className="text-gray-800">
-                                {customer?.tourism_number || 'Not provided'}
+                                {customer?.tourism_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <div className="text-sm text-gray-500">Expiration date</div>
+                            <h4 className="text-sm text-gray-500">Expiration date</h4>
                             <div className="text-gray-800">
-                                {formatDate(customer?.expiration_date) || 'Not provided'}
+                                {formatDate(customer?.expiration_date) || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <div className="text-sm text-gray-500">Service tax number</div>
+                            <h4 className="text-sm text-gray-500">Service tax number</h4>
                             <div className="text-gray-800">
-                                {customer?.service_tax_number || 'Not provided'}
+                                {customer?.service_tax_number || 'N/A'}
                             </div>
                         </div>
                     </div>

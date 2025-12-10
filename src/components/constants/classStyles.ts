@@ -29,7 +29,7 @@ export const sideBarStyles = {
     },
     availability: {
         duration: "flex items-center px-6 py-3 transition-colors duration-200",
-        yes: "text-gray-600 hover:text-blue-600 hover:bg-blue-50 cursor-pointer",
+        yes: "text-black hover:text-blue-600 hover:bg-blue-50 cursor-pointer",
         no: "text-gray-400 cursor-not-allowed",
         fullDuration: "w-full flex items-center py-2 text-gray-600 hover:text-blue-600 transition-colors duration-200",
     },
@@ -39,21 +39,21 @@ export const sideBarStyles = {
 
 
 export const textStyles = {
-    semiBoldGray: "text-sm font-semibold text-gray-900",
-    smallGrayMb2: "text-xs text-gray-400 mb-2",
-    lightFont: "text-xl font-light text-gray-900",
+    semiBoldGray: "text-sm font-semibold text-black",
+    smallGrayMb2: "text-xs text-black mb-2",
+    lightFont: "text-xl font-light text-black",
 };
 
 
 export const dashboardStyles = {
-    main: "min-h-screen bg-gray-50 p-4",
+    main: "min-h-screen bg-white p-4",
     gridStyle3: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
     gridStyle4: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6",
     gridStyle5: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6",
     gridStyle6: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6",
     gridStyle7: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-6",
     availability: "bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200",
-    yes: "cursor-pointer",
+    yes: "cursor-pointer border hover:shadow-md hover:shadow-gray-500",
     no: "cursor-not-allowed opacity-50",
 };
 

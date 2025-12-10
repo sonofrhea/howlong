@@ -1,20 +1,5 @@
 
 @font-face {
-  font-family: 'AurulentSans-Bold';
-  src: url(../fonts/AurulentSans-Bold.otf);
-}
-@font-face {
-  font-family: 'Aeonik-Regular';
-  src: url(../fonts/fonnts.com-Aeonik-Regular.ttf);
-}
-
-@font-face {
-  font-family: Karst-Light;
-  src: url(../fonts/karst-light-webfont.woff) format('woff');
-}
-
-
-@font-face {
   font-family: 'Aeonik-Regular';
   src: url(/src/Customers/fonts/fonnts.com-Aeonik-Regular.ttf);
 }
@@ -69,6 +54,31 @@
   src: url(../fonts/GoogleSansCode-ExtraBoldItalic.ttf);
 }
 
+@font-face {
+  font-family: 'CascadiaCodeNF-Regular';
+  src: url(../fonts/CascadiaCodeNF-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'CascadiaCodeNF-SemiBold';
+  src: url(../fonts/CascadiaCodeNF-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: 'CascadiaMonoPL-Bold';
+  src: url(../fonts/CascadiaMonoPL-Bold.ttf);
+}
+
+@font-face {
+  font-family: 'GoogleSansCode-ExtraBoldItalic';
+  src: url(../fonts/FiraCode-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'FiraCode-Medium';
+  src: url(../fonts/FiraCode-Medium.ttf);
+}
+
 
 
 
@@ -79,4 +89,9 @@ h3 {
 
 .contact-mobile .text-black {
   font-weight: bolder;
+}
+
+
+.customer-table {
+  font-family: FiraCode-Medium;
 }

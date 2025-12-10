@@ -1,25 +1,46 @@
 import React from "react";
 
 
-const formatDate = (dateString) => {
+import { DebitNoteTableInput } from "../constants/Types";
+
+
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
-const DebitNoteTable = ({ debitNotes, onDebitNoteClick, onEditDebitNote, onDeleteDebitNote, 
+
+
+const formatDebitNoteNumber = () => {
+        const currentYear = new Date().getFullYear();
+        return `DN-${currentYear}-`;
+    };
+
+
+
+
+
+
+
+
+
+const DebitNoteTable: React.FC<any> = ({ debitNotes, onDebitNoteClick, onEditDebitNote, onDeleteDebitNote, 
     sortConfig, onSort, currentPage, totalPages, totalItems, itemsPerPage, onPageChange, onItemsPerPageChange
  }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
         return (
-            <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"  title={label} onClick={() => onSort(sortKey)}>
+            <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-200 transition-colors"  
+            title={label} 
+            onClick={() => onSort(sortKey)}
+            >
                 <div className="flex items-center justify-center gap-1">
                     {label}
                     {isSorted && (
-                        <span className="text-gray-400">
+                        <span className="text-black">
                             {isAsc ? '↑' : '↓'}
                         </span>
                     )}
@@ -59,7 +80,7 @@ const DebitNoteTable = ({ debitNotes, onDebitNoteClick, onEditDebitNote, onDelet
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Debit note List</h3>
                     <div className="flex items-center gap-4">
@@ -81,27 +102,33 @@ const DebitNoteTable = ({ debitNotes, onDebitNoteClick, onEditDebitNote, onDelet
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-16" />  {/* Debit Note Number - Fixed */}
-                        <col className="w-1/5" /> {/* Date - 20% */}
-                        <col className="w-1/5" /> {/* Related Customer - 20% */}
-                        <col className="w-24" />  {/* Agent - Fixed */}
-                        <col className="w-1/6" /> {/* Created By - 16.6% */}
-                        <col className="w-20" />  {/* Actions - Fixed */}
+                        {[
+                            "w-1/6 text-center",
+                            "w-1/6 text-center",
+                            "w-1/6 text-center",
+                            "w-1/6 text-center",
+                            "w-1/6 text-center",
+                            "w-1/6 text-center",
+                            'w-[9%] text-center',
+                        ].map((line, index) => (
+                            <col key={index} className={line} />
+                        ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="DBN #" sortKey="debit_note_number" />
                             <SortableHeader label="Date" sortKey="date" />
                             <SortableHeader label="Related Customer" sortKey="customer" />
+                            <SortableHeader label="Totals" sortKey="aggregate_total" />
+                            <SortableHeader label="Outstanding" sortKey="debit_note_outstanding" />
                             <SortableHeader label="Agent" sortKey="agent" />
-                            <SortableHeader label="Created By" sortKey="created_by" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {debitNotes.map((debitNote) => {
+                        {debitNotes.map((debitNote: DebitNoteTableInput) => {
                             const debitNoteId = debitNote.debit_note_number;
 
                             return (
@@ -109,33 +136,44 @@ const DebitNoteTable = ({ debitNotes, onDebitNoteClick, onEditDebitNote, onDelet
                                 onClick={() => onDebitNoteClick(debitNoteId)}>
                                     {/* Debit Note Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={debitNote.debit_note_number}>
-                                            {debitNote.debit_note_number}
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
+                                            {formatDebitNoteNumber()}{debitNote.debit_note_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(debitNote.date)}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-gray-900 truncate">
                                             {formatDate(debitNote.date)}
                                         </div>
                                     </td>
 
                                     {/* Related Customer */}
-                                    <td className="px-2 py-2 truncate" title={debitNote.customer}>
-                                        <div className="text-sm text-gray-900 truncate">{debitNote.customer}</div>
-                                    </td>
-
-                                    {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={debitNote.agent}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
-                                            {debitNote.agent}
+                                            {debitNote.customer || '--'}
                                         </div>
                                     </td>
 
-                                    {/* Created By */}
-                                    <td className="px-2 py-2 truncate" title={debitNote.created_by}>
-                                        <div className="text-sm text-gray-900 truncate">{debitNote.created_by}</div>
+                                    {/* Totals */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            RM{debitNote.aggregate_total || '--'}
+                                        </div>
+                                    </td>
+
+                                    {/* Outstanding */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            RM{debitNote?.debit_note_outstanding || '--'}
+                                        </div>
+                                    </td>
+
+                                    {/* Agent */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {debitNote.agent || '--'}
+                                        </div>
                                     </td>
 
                                     {/* Actions */}

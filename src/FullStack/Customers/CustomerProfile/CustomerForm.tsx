@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "../CustomerProfile/CustomerCss.css";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { CustomerInputs } from "../Interfaces";
+import { CustomerInputs } from "../constants/Types";
 
 import { CurrencyInterface } from "../../Core/Interfaces";
 import { BankInterface } from "../../Core/Interfaces";
@@ -14,7 +14,7 @@ import { ID_TYPE_CHOICES,
   STATUS_CHOICES,
   COUNTRY_OPTIONS,
   //BOOLEAN_OPTIONS,
- } from "../constants/options"; 
+ } from "../constants/Options"; 
 
 
 

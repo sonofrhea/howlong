@@ -51,7 +51,7 @@ const CreditNoteTable = ({ creditNotes, onCreditNoteClick, onEditCreditNote,
                         <span className="text-sm text-gray-600">entries</span>
                         </div>
                     </div>
-                    <div className="text-gray-400 text-6xl mb-4">👥</div>
+                    <div className="text-gray-400 text-6xl mb-4"></div>
                     <h3 className="text-lg font-semibold text-gray-600 mb-2">No customers found</h3>
                     <p className="text-gray-500">Get started by creating your first customer.</p>
                 </div>

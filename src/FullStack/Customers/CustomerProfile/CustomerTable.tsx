@@ -1,4 +1,11 @@
 import React from "react";
+import { CustomersList } from "../constants/Types";
+
+
+
+
+
+
 
 const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
@@ -9,6 +16,25 @@ const formatNumber = () => {
         return `${currentYear}-`;
     };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustomer, onDeleteCustomer, 
     sortConfig, onSort, currentPage, totalPages, 
     totalItems, itemsPerPage, onPageChange, onItemsPerPageChange  }) => {
@@ -18,16 +44,25 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
     
+
+
+
+
+
+
+
+
+        
         return (
             <th 
-                className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"
+                className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-200 transition-colors"
                 title={label}
                 onClick={() => onSort(sortKey)}
             >
                 <div className="flex items-center justify-center gap-1">
                     {label}
                     {isSorted && (
-                        <span className="text-gray-400">
+                        <span className="text-black">
                             {isAsc ? '↑' : '↓'}
                         </span>
                     )}
@@ -99,22 +134,30 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
             <div className="w-full">
                 <table className="w-full rounded-lg shadow-sm border border-gray-200 table-fixed divide-y divide-gray-400 divide-dotted">
                     <colgroup>
-                        <col className="w-1/5 text-center" />{/* Customer Number - Fixed */}
-                        <col className="w-1/5 text-center" />{/* Customer Name - 16.6% */}
-                        <col className="w-1/5 text-center" />  {/* City - Fixed */}
-                        <col className="w-1/5 text-center" />  {/* Status - Fixed */}
-                        <col className="w-1/5 text-center" />  {/* Created By - Fixed */}
-                        <col className="w-1/5 text-center" />  {/* Date Created - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Remark - 16.6% */}
-                        <col className="w-1/5 text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        'w-[9%] text-center',
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Cust #" sortKey="customer_number" />
                             <SortableHeader label="Customer Name" sortKey="customer_name" />
+                            <SortableHeader label="Mobile Number" sortKey="mobile_number" />
                             <SortableHeader label="City" sortKey="city" />
+                            <SortableHeader label="State" sortKey="state" />
+                            <SortableHeader label="currency" sortKey="preferred_currency" />
                             <SortableHeader label="Status" sortKey="status" />
-                            <SortableHeader label="Created By" sortKey="created_by" />
                             <SortableHeader label="Date" sortKey="date_created" />
                             <SortableHeader label="Remark" sortKey="remark" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
@@ -123,7 +166,7 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {customers.map((customer: any) => {
+                        {customers.map((customer: CustomersList) => {
                             const customerId = customer.customer_number;
                             
                             return (
@@ -134,26 +177,45 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
                                 >
                                     {/* Customer Number */}
                                     <td className="px-2 py-2 text-center">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={customer.customer_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
                                             CV-{formatNumber()}{customer.customer_number}
                                         </span>
                                     </td>
                                     
                                     {/* Customer Name */}
-                                    <td className="px-2 py-2 text-center truncate" title={customer.customer_name}>
+                                    <td className="px-2 py-2 text-center truncate">
                                         <div className="text-sm font-medium text-black truncate">
-                                            {customer.customer_name}
+                                            {customer?.customer_name || '--'}
+                                        </div>
+                                    </td>
+                                    
+                                    {/* Mobile Number */}
+                                    <td className="px-2 py-2 text-center truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
+                                            {customer?.mobile_number || '--'}
                                         </div>
                                     </td>
                                     
                                     {/* City */}
-                                    <td className="px-2 py-2 text-center truncate" title={customer.city}>
-                                        <div className="text-sm text-black truncate">{customer.city}</div>
+                                    <td className="px-2 py-2 text-center truncate" >
+                                        <div className="text-sm text-black truncate">{customer?.city || '--'}</div>
+                                    </td>
+                                    
+                                    {/* State */}
+                                    <td className="px-2 py-2 text-center truncate" >
+                                        <div className="text-sm text-black truncate">{customer?.state || '--'}</div>
+                                    </td>
+
+                                    {/* Currency */}
+                                    <td className="px-2 py-2 text-center truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {customer?.preferred_currency || '--'}
+                                        </div>
                                     </td>
                                     
                                     {/* Status */}
-                                    <td className="px-2 py-2 text-center">
-                                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                    <td className="px-1 py-1 text-center">
+                                        <span className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
                                             customer.status === 'Active' ? 'bg-green-50 text-green-700 border border-green-200' : 
                                             customer.status === 'Inactive' ? 'bg-slate-100 text-slate-600 border border-slate-200' :
                                             customer.status === 'Suspended' ? 'bg-orange-50 text-orange-700 border border-orange-200' :
@@ -165,26 +227,21 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
                                         </span>
                                     </td>
 
-                                    {/* Created By */}
-                                    <td className="px-2 py-2 text-center truncate" title={customer.created_by}>
-                                        <div className="text-sm text-black truncate">{customer.created_by}</div>
-                                    </td>
-
                                     {/* Date Created */}
-                                    <td className="px-2 py-2 text-center truncate" title={formatDate(customer.date_created)}>
+                                    <td className="px-2 py-2 text-center truncate">
                                         <div className="text-sm text-black truncate">{formatDate(customer.date_created)}</div>
                                     </td>
                                     
                                     {/* Remark */}
-                                    <td className="px-2 py-2 text-center truncate" title={customer.remark}>
-                                        <div className="text-sm text-black truncate">{customer.remark}</div>
+                                    <td className="px-2 py-2 text-center truncate" >
+                                        <div className="text-sm text-black truncate">{customer?.remark || '--'}</div>
                                     </td>
                                     
                                     {/* Actions */}
                                     <td className="px-2 py-2 text-center">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
-                                                className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
+                                                className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-150"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     onEditCustomer(customerId, customer);
@@ -196,7 +253,7 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
                                                 </svg>
                                             </button>
                                             <button 
-                                                className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
+                                                className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-150"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (window.confirm(`Are you sure you want to delete ${customer.customer_name}?`)) {

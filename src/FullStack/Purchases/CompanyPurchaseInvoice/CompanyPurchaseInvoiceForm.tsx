@@ -3,6 +3,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 
 
 import { PURCHASE_INVOICE_STATUS } from "../constants/options";
+
 import { forms, buttons, layout, tables, text, utils } from "../constants/styles";
 
 import { CompanyPurchaseInvoiceInputs, SupplierProfileInterface,
@@ -27,7 +28,7 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const CompanyPurchaseInvoiceForm = ({ onSubmit, isSubmitting, onCancel, 
+const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
     agents, products, suppliers }) => {
 
 
