@@ -1,18 +1,31 @@
 import React from "react";
+import { CustomerRefundList } from "../constants/Types";
 
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
-const RefundTable = ({ refunds, onRefundClick, onEditRefund, 
+
+const formatRefundNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `REF-${currentYear}-`;
+};
+
+
+
+
+
+
+
+const RefundTable: React.FC<any> = ({ refunds, onRefundClick, onEditRefund, 
     onDeleteRefund, sortConfig, onSort, currentPage, totalPages, 
     totalItems, itemsPerPage, onPageChange, onItemsPerPageChange
  }) => {
 
 
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label:string, sortKey:string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -61,13 +74,14 @@ const RefundTable = ({ refunds, onRefundClick, onEditRefund,
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-gray-800">Refund List</h3>
+                    <h3 className="text-lg font-semibold text-gray-800">Refunds List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} 
+                            className="border text-black border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -83,31 +97,37 @@ const RefundTable = ({ refunds, onRefundClick, onEditRefund,
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-16" />  {/* Refund Number - Fixed */}
-                        <col className="w-1/5" /> {/* Date - 20% */}
-                        <col className="w-1/5" /> {/* Related Customer - 20% */}
-                        <col className="w-1/5" /> {/* Payment Voucher - 20% */}
-                        <col className="w-24" />  {/* Agent - Fixed */}
-                        <col className="w-24" />  {/* Currency - Fixed */}
-                        <col className="w-1/6" /> {/* Created By - 16.6% */}
-                        <col className="w-20" />  {/* Actions - Fixed */}
+                    {[
+                        'w-1/8 text-center',
+                        'w-1/8 text-center',
+                        'w-1/8 text-center',
+                        'w-1/8 text-center',
+                        'w-1/8 text-center',
+                        'w-1/8 text-center',
+                        'w-1/8 text-center',
+                        'w-1/8 text-center',
+                        'w-[9%] text-center',
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
-                            <SortableHeader label="DBN #" sortKey="refund_number" />
+                            <SortableHeader label="REFUND #" sortKey="refund_number" />
                             <SortableHeader label="Date" sortKey="date" />
-                            <SortableHeader label="Related Customer" sortKey="related_customer" />
-                            <SortableHeader label="Payment Voucher" sortKey="payment_voucher" />
-                            <SortableHeader label="Agent" sortKey="agent" />
+                            <SortableHeader label="Pay To" sortKey="pay_to" />
+                            <SortableHeader label="Expected Refund" sortKey="expected_refund" />
+                            <SortableHeader label="Net Refunded" sortKey="net_refunded" />
+                            <SortableHeader label="Outstanding" sortKey="outstanding" />
                             <SortableHeader label="Currency" sortKey="currency" />
-                            <SortableHeader label="Created By" sortKey="created_by" />
+                            <SortableHeader label="Agent" sortKey="agent" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {refunds.map((refund) => {
+                        {refunds.map((refund: CustomerRefundList) => {
                             const refundId = refund.refund_number;
 
                             return (
@@ -115,45 +135,58 @@ const RefundTable = ({ refunds, onRefundClick, onEditRefund,
                                 onClick={() => onRefundClick(refundId)}>
                                     {/* Debit Note Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={refund.refund_number}>
-                                            {refund.refund_number}
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
+                                            {formatRefundNumber()}{refund.refund_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(refund.date)}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-gray-900 truncate">
                                             {formatDate(refund.date)}
                                         </div>
                                     </td>
 
-                                    {/* Related Customer */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(refund.related_customer)}>
+                                    {/* Pay To */}
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-gray-900 truncate">
-                                            {formatDate(refund.related_customer)}
+                                            {refund.pay_to}
                                         </div>
                                     </td>
 
-                                    {/* Payment Voucher */}
-                                    <td className="px-2 py-2 truncate" title={refund.payment_voucher}>
-                                        <div className="text-sm text-gray-900 truncate">{refund.payment_voucher}</div>
+                                    {/* Expected Refund */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {refund.expected_refund}
+                                        </div>
                                     </td>
 
-                                    {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={refund.agent}>
+                                    {/* Net Refunded */}
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {refund.agent}
+                                            {refund.net_refunded}
+                                        </div>
+                                    </td>
+
+                                    {/* Outstanding */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {refund.outstanding}
                                         </div>
                                     </td>
 
                                     {/* Currency */}
-                                    <td className="px-2 py-2 truncate" title={refund.currency}>
-                                        <div className="text-sm text-gray-900 truncate">{refund.currency}</div>
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {refund.currency}
+                                        </div>
                                     </td>
 
-                                    {/* Created By */}
-                                    <td className="px-2 py-2 truncate" title={refund.created_by}>
-                                        <div className="text-sm text-gray-900 truncate">{refund.created_by}</div>
+                                    {/* Agent */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {refund.agent}
+                                        </div>
                                     </td>
 
                                     {/* Actions */}

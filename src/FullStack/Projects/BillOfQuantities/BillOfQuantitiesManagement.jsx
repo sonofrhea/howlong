@@ -12,7 +12,7 @@ import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 
 
-import { fetchCustomers, fetchInvoices } from "../../Customers/Engines";
+import { fetchCustomers } from "../../Customers/Engines";
 
 
 

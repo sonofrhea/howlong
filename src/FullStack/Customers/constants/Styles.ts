@@ -63,7 +63,7 @@ export const buttons = {
 export const layout = {
   tag: "flex items-center gap-4",
   page: "w-[100%] mx-auto bg-white shadow-lg rounded-2xl overflow-hidden",
-  header: "flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6",
+  header: "flex flex-col sm:flex-row items-center justify-between p-8 gap-6",
   badge: "inline-block bg-amber-50 border border-amber-100 px-4 py-2 rounded drop-shadow-md shadow-xl",
   redBadge: "inline-block bg-rose-50 border border-rose-100 px-4 py-2 rounded drop-shadow-md shadow-xl",
   formSectionCol2: "border-t border-b border-gray-100 p-6 grid grid-cols-2 gap-6",

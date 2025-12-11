@@ -12,7 +12,7 @@ import { ProjectProfileInputs, AllProjectProfileInputs,
     ProjectProfileResponse
  } from "../Interfaces"
 
-import { fetchCustomers, fetchInvoices } from "../../Customers/Engines"
+import { fetchCustomers } from "../../Customers/Engines"
 import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 

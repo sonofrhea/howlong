@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import './debitnote.css';
 
-import { DebitNoteInputs, CustomersModuleInterface, CustomerCreateResponse } from "../constants/Types";
+import { DebitNoteInputs, CustomersModuleInterface, 
+    CustomerCreateResponse } from "../constants/Types";
 
 import { CurrencyInterface, AgentInterface } from "../../Core/Interfaces";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
@@ -37,8 +38,10 @@ const formatCustomerNumber = () => {
 
 
 
+
+
 const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCancel,
-     customers, customerPayments, currencies, accounts, agents, invoices }) => {
+     customers, customerPayments, currencies, accounts, agents }) => {
 
 
         const { register, handleSubmit, watch, setValue, control, 
@@ -186,7 +189,7 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                             <option value=""></option>
                             {customerPayments.map((payment: CustomerPaymentResponse) => (
                                 <option key={payment.payment_number} value={payment.payment_number}>
-                                    {formatCustomerNumber()}{payment.payment_number} | Paid Amount: {payment.paid_amount}
+                                    POST-{payment.payment_number} | Paid Amount: {payment.paid_amount}
                                 </option>
                             ))}
                         </select>

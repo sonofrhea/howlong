@@ -141,7 +141,7 @@ const CompanyPurchaseInvoiceDetails = ({ companyPurchaseInvoice, isLoading, onBa
                                             <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.base_unit_of_measure}</td>
                                             <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.price}</td>
                                             <td className="px-4 border p-3 py-4 text-sm text-gray-600">RM {line.gross_total}</td>
-                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.tax_inclusive}</td>
+                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.tax_inclusive ? 'Yes' : 'No'}</td>
                                             <td className="px-4 border p-3 py-4 text-sm text-gray-600">RM {line.tax}</td>
                                             <td className="px-4 border p-3 py-4 text-sm text-gray-600">RM {line.sub_total}</td>
                                         </tr>

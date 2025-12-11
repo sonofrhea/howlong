@@ -7,7 +7,8 @@ import { CUSTOMERS_ICONS } from "./ModuleIcons";
 import { ID_TYPE_CHOICES,
   TAX_ID_CHOICES,
   BANK_TYPE_CHOICES,
-  STATUS_CHOICES
+  STATUS_CHOICES,
+  REFUND_TYPE_OPTIONS
  } from "./Options";
 
 
@@ -22,6 +23,10 @@ export interface CustomersModuleInterface {
 };
 
 
+export interface creditNoteInterface {
+  credit_note_number: number;
+  credit_note_outstanding: number | null;
+}
 
 
 
@@ -170,7 +175,7 @@ export type DebitNoteInputs = {
     tax_amount: number;
   }>
   agent: string;
-  currency: string;
+  currency: string | null;
 }
 
 export type DebitNoteCreateResponse = {
@@ -218,3 +223,123 @@ export type DebitNoteDetails = {
 };
 
 
+// -------- END ----------- CUSTOMER DEBIT NOTE INPUT ----------------
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+// --------BEGIN-----------CUSTOMER CREDIT NOTE INPUTS----------------
+
+export type CreditNoteList = {
+  credit_note_number: number;
+  date: string;
+  customer: string;
+  aggregate_total: number;
+  currency: string;
+  agent: string;
+};
+
+export type CreditNoteInputs = {
+  date: string;
+  customer: string;
+  customer_name: string;
+  credit_note_lines: Array<{
+    date: string;
+    description: string;
+    amount: number;
+    tax_inclusive: boolean;
+    tax_amount: number;
+  }>;
+  related_payment: string;
+  related_payment_amount: number;
+  account: {
+    account_code: number | null;
+    account_name: string | null;
+    account_type: string | null;
+  };
+  paid_amount: number;
+  agent: string;
+  currency: string | null;
+};
+
+
+export type CreditNoteCreateResponse = {
+  credit_note_number: number;
+  credit_note_outstanding: number;
+  aggregate_total: number;
+}
+
+export type AllCreditNoteInputs = {
+    credit_note_number: number;
+    creditNoteData: CreditNoteInputs;
+};
+
+export type EditCreditNoteInputs = {
+    creditNoteId: number;
+    creditNoteData: CreditNoteInputs;
+};
+
+
+// -------- END ----------- CUSTOMER CREDIT NOTE INPUT ----------------
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+// --------BEGIN-----------CUSTOMER REFUND INPUTS----------------
+
+
+export type CustomerRefundList = {
+  refund_number: number;
+  date: string;
+  pay_to: string;
+  expected_refund: number;
+  net_refunded: number;
+  outstanding: number;
+  currency: string;
+  agent: string;
+};
+
+
+export type CustomerRefundInputs = {
+  date: string;
+  pay_to: string | null;
+  pay_to_name: string | null;
+  related_credit_note: string;
+  related_credit_note_outstanding: number | null;
+  payment_account: {
+    account_code: number | null;
+    account_name: string | null;
+    account_type: string | null;
+  };
+  expected_refund: number | null;
+  related_customer_refund: Array<{
+    date: string;
+    refund_amount: number;
+    additional_charges: number;
+    payment_type: keyof typeof REFUND_TYPE_OPTIONS;
+  }>;
+  agent: string;
+  currency: string | null;
+};
+
+export type CustomerRefundResponse = {
+  refund_number: number;
+}
+
+export type AllCustomerRefundInputs = {
+    refund_number: number;
+    refundData: CustomerRefundInputs;
+};
+
+export type EditCustomerRefundInputs = {
+    refundId: number;
+    refundData: CustomerRefundInputs;
+};
+
+// -------- END ----------- CUSTOMER REFUND INPUT ----------------

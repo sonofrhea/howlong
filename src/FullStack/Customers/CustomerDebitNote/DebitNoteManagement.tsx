@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from 'react-router-dom';
 
 
-import { fetchDebitNotes, createDebitNote, fetchDebitNoteById, fetchInvoices,
+import { fetchDebitNotes, createDebitNote, fetchDebitNoteById,
   updateDebitNote, deleteDebitNote, fetchCustomers
 } from "../Engines";
 
@@ -501,6 +501,7 @@ const handleItemsPerPageChange = (value: number) => {
               isLoading={isLoadingDebitNote}
               onBack={handleBackToDebitNotesList}
               onEdit={handleEditDebitNoteButton}
+              onCancel={handleBackToDebitNotesList}
             />
           )}
 

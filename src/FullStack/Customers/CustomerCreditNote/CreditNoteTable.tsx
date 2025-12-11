@@ -1,20 +1,35 @@
 import React from "react";
+import { CreditNoteList } from "../constants/Types";
 
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
+const formatCreditNoteNumber = () => {
+        const currentYear = new Date().getFullYear();
+        return `CN-${currentYear}-`;
+};
 
-const CreditNoteTable = ({ creditNotes, onCreditNoteClick, onEditCreditNote, 
+
+
+
+const CreditNoteTable: React.FC<any> = ({ creditNotes, onCreditNoteClick, onEditCreditNote, 
     onDeleteCreditNote, sortConfig, onSort, currentPage, totalPages, 
     totalItems, itemsPerPage, onPageChange, onItemsPerPageChange }) => {
 
 
-        const SortableHeader = ({ label, sortKey }) => {
+        const SortableHeader = ({ label, sortKey }: {label:string, sortKey:string}) => {
             const isSorted = sortConfig.key === sortKey;
             const isAsc = sortConfig.direction === 'asc';
+
+
+
+
+
+
+
 
             return (
                 <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"
@@ -41,7 +56,7 @@ const CreditNoteTable = ({ creditNotes, onCreditNoteClick, onEditCreditNote,
                         <select 
                             value={itemsPerPage}
                             onChange={(e) => onItemsPerPageChange(e.target.value)}
-                            className="border border-gray-300 rounded px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                            className="border text-black border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
                         >
                             <option value="10">10</option>
                             <option value="25">25</option>
@@ -61,16 +76,16 @@ const CreditNoteTable = ({ creditNotes, onCreditNoteClick, onEditCreditNote,
         return (
             <div>
                 {/* Table Header with Items Per Page */}
-                <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+                <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-gray-800">Customer List</h3>
+                        <h3 className="text-lg font-semibold text-gray-800">Credit Notes List</h3>
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
                                 <span className="text-sm text-gray-600">Show</span>
                                 <select 
                                     value={itemsPerPage}
                                     onChange={(e) => onItemsPerPageChange(e.target.value)}
-                                    className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
+                                    className="border text-black border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
                                 >
                                     <option value="10">10</option>
                                     <option value="25">25</option>
@@ -85,29 +100,35 @@ const CreditNoteTable = ({ creditNotes, onCreditNoteClick, onEditCreditNote,
 
                 {/* Table */}
                 <div className="w-full">
-                    <table className="w-full table-fixed divide-y divide-gray-400 divide-dotted">
+                    <table className="w-full rounded-lg shadow-sm border border-gray-200 table-fixed divide-y divide-gray-400 divide-dotted">
                         <colgroup>
-                            <col className="w-16" />  {/* Credit Note Number - Fixed */}
-                            <col className="w-1/5" /> {/* Date - 20% */}
-                            <col className="w-1/5" /> {/* Related Customer - 20% */}
-                            <col className="w-24" />  {/* Agent - Fixed */}
-                            <col className="w-1/6" /> {/* Created By - 16.6% */}
-                            <col className="w-20" />  {/* Actions - Fixed */}
+                            {[
+                                "w-1/5 text-center",
+                                "w-1/5 text-center",
+                                "w-1/5 text-center",
+                                "w-1/5 text-center",
+                                "w-1/5 text-center",
+                                "w-1/5 text-center",
+                                "w-[9%] text-center",
+                            ].map((line, index) => (
+                                <col key={index} className={line} />
+                            ))}
                         </colgroup>
                         <thead className="bg-gray-50">
                             <tr>
                                 <SortableHeader label="DBN #" sortKey="credit_note_number" />
                                 <SortableHeader label="Date" sortKey="date" />
                                 <SortableHeader label="Related Customer" sortKey="customer" />
+                                <SortableHeader label="Totals" sortKey="aggregate_total" />
+                                <SortableHeader label="Currency" sortKey="currency" />
                                 <SortableHeader label="Agent" sortKey="agent" />
-                                <SortableHeader label="Created By" sortKey="created_by" />
                                 <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                     Actions
                                 </th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200 text-center">
-                            {creditNotes.map((creditNote) => {
+                            {creditNotes.map((creditNote: CreditNoteList) => {
                                 const creditNoteId = creditNote.credit_note_number;
 
                                     return (
@@ -115,33 +136,44 @@ const CreditNoteTable = ({ creditNotes, onCreditNoteClick, onEditCreditNote,
                                     onClick={() => onCreditNoteClick(creditNoteId)}>
                                         {/* Credit Note Number */}
                                         <td className="px-2 py-2">
-                                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={creditNote.credit_note_number}>
-                                                {creditNote.credit_note_number}
+                                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
+                                                {formatCreditNoteNumber()}{creditNote.credit_note_number}
                                             </span>
                                         </td>
 
                                         {/* Date */}
-                                        <td className="px-2 py-2 truncate" title={formatDate(creditNote.date)}>
+                                        <td className="px-2 py-2 truncate">
                                             <div className="text-sm font-medium text-gray-900 truncate">
                                                 {formatDate(creditNote.date)}
                                             </div>
                                         </td>
 
                                         {/* Related Customer */}
-                                        <td className="px-2 py-2 truncate" title={creditNote.customer}>
-                                            <div className="text-sm text-gray-900 truncate">{creditNote.customer}</div>
-                                        </td>
-
-                                        {/* Agent */}
-                                        <td className="px-2 py-2 truncate" title={creditNote.agent}>
+                                        <td className="px-2 py-2 truncate" >
                                             <div className="text-sm text-gray-900 truncate">
-                                                {creditNote.agent}
+                                                {creditNote.customer}
                                             </div>
                                         </td>
 
-                                        {/* Created By */}
-                                        <td className="px-2 py-2 truncate" title={creditNote.created_by}>
-                                            <div className="text-sm text-gray-900 truncate">{creditNote.created_by}</div>
+                                        {/* Totals */}
+                                        <td className="px-2 py-2 truncate" >
+                                            <div className="text-sm text-gray-900 truncate">
+                                                RM{creditNote.aggregate_total}
+                                            </div>
+                                        </td>
+
+                                        {/* Currency */}
+                                        <td className="px-2 py-2 truncate" >
+                                            <div className="text-sm text-gray-900 truncate">
+                                                {creditNote.currency}
+                                            </div>
+                                        </td>
+
+                                        {/* Agent */}
+                                        <td className="px-2 py-2 truncate" >
+                                            <div className="text-sm text-gray-900 truncate">
+                                                {creditNote.agent}
+                                            </div>
                                         </td>
 
                                         {/* Actions */}

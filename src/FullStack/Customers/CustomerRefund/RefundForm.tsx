@@ -1,0 +1,367 @@
+import React, { useEffect } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+
+
+import { CustomerRefundInputs,
+    AllCustomerRefundInputs, DebitNoteCreateResponse,
+    CustomerCreateResponse,
+    CreditNoteCreateResponse,
+    creditNoteInterface
+ } from "../constants/Types";
+
+import { REFUND_TYPE_OPTIONS } from "../constants/Options";
+
+import { CurrencyInterface, AgentInterface } from "../../Core/Interfaces";
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+
+import { forms, buttons, layout, tables, text, utils } from "../constants/Styles";
+
+import { Trash2 } from "lucide-react";
+
+
+
+const formatCreditNoteNumber = () => {
+        const currentYear = new Date().getFullYear();
+        return `CN-${currentYear}-`;
+};
+
+
+const decimalPlaces = (amount: number) => {
+    return `${amount.toFixed(2)};`
+};
+
+const formatCustomerNumber = () => {
+        const currentYear = new Date().getFullYear();
+        return `CV-${currentYear}-`;
+};
+
+
+
+
+
+
+
+
+const RefundForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers, 
+    currencies, accounts, agents, creditNotes }) => {
+
+        const { register, handleSubmit, watch, setValue, control, 
+            formState: { errors } } = useForm<CustomerRefundInputs>({
+                defaultValues: {
+                    expected_refund: 0.00,
+                    related_customer_refund: [
+                        {
+                            refund_amount: 0.00,
+                            additional_charges: 0.00
+                        }
+                    ]
+                }
+            });
+        
+        const { fields, append, remove } = useFieldArray({
+            name: "related_customer_refund",
+            control
+        });
+
+
+
+
+
+
+        const selectedControlAccount = watch("payment_account.account_code");
+            useEffect(() => {
+                if (selectedControlAccount) {
+        
+                    const selectedCodeNumber = Number(selectedControlAccount);
+                    console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
+        
+        
+                    const selectedAccount = accounts.find((a: ControlAccountInterface) => 
+                        
+                        a.account_code === selectedCodeNumber
+                    );
+                    console.log("✅ Found account:", selectedAccount);
+        
+                    if (selectedAccount) {
+                        setValue("payment_account.account_name", selectedAccount.account_name);
+                        setValue("payment_account.account_type", selectedAccount.account_type);
+                    }
+                }
+            }, [selectedControlAccount, accounts, setValue]);
+        
+
+        
+
+
+
+
+
+
+
+
+        return(
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className={forms.body}>
+                    <div className={layout.header}>
+                        <div className={layout.tag}>
+    
+                            <div className="text-right">
+                                <div className={layout.redBadge}>
+                                    <div className={text.badgeSmall}>NEW</div>
+                                    <div className={text.badgeLarge}>
+                                        CUSTOMER REFUND
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr className="my-6 border-gray-200" />
+
+                    <div className={layout.formSectionCol3}>
+                        <div>
+                            <p className={forms.label}>Date</p>
+                            <input 
+                                type="date"
+                                {...register("date")}
+                                className={forms.input.date}
+                            />
+                        </div>
+                        
+                        <div>
+                            <p className={forms.label}>Pay To...</p>
+                            <select
+                                {...register("pay_to")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {customers.map((customer: CustomerCreateResponse) => (
+                                    <option key={customer.customer_number} value={customer.customer_number}>
+                                        {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <p className={forms.label}>Account</p>
+                            <select
+                                {...register("payment_account.account_code")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {accounts.map((account: ControlAccountInterface) => (
+                                    <option key={account.account_code} value={account.account_code}>
+                                        {account.account_code} ({account.account_name})
+                                    </option>
+                                ))}
+                            </select>
+    
+                            <input type="hidden" {...register("payment_account.account_name")} />
+                            <input type="hidden" {...register("payment_account.account_type")} />
+                        </div>
+
+                        <div>
+                            <p className={forms.label}>Related Credit Note</p>
+                            <select
+                                {...register("related_credit_note")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {creditNotes.map((creditNotes: CreditNoteCreateResponse) => (
+                                    <option key={creditNotes.credit_note_number} value={creditNotes.credit_note_number}>
+                                        {formatCreditNoteNumber()}{creditNotes.credit_note_number} | Outstanding: {creditNotes.credit_note_outstanding || '--'}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <p className={forms.label}>Expected Refund Amount</p>
+                            <input 
+                                {...register("expected_refund")}
+                                type="number"
+                                title="enter expected amount..."
+                                className={forms.select.partial}
+                                placeholder="0.00"
+                                step="0.01" min="0.00" onBlur={(e) => {
+                                    if (e.target.value) {
+                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    }
+                                }}
+                            />
+                        </div>
+                        
+                        <div>
+                            <p className={forms.label}>Currency</p>
+                            <select 
+                                {...register("currency")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {currencies.map((currency: CurrencyInterface) => (
+                                    <option key={currency.currency_code} value={currency.currency_code}>
+                                        {currency.currency_code}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <p className={forms.label}>Agent</p>
+                            <select className={forms.select.partial}
+                                {...register("agent")}>
+                                    <option value=""></option>
+                                    {agents.map((agent: AgentInterface) => (
+                                        <option key={agent.name} value={agent.name}>
+                                            {agent.name}
+                                        </option>
+                                    ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr className="my-6 border-gray-200" />
+
+                    <div className="p-6">
+                        <div className="w-full">
+                            <table className={tables.base}>
+                                <colgroup>
+                                    {[
+                                        'w-1/5 text-center',
+                                        'w-1/5 text-center',
+                                        'w-1/5 text-center',
+                                        'w-1/5 text-center',
+                                        'w-1/5 text-center',
+                                        'w-[9%] text-center',
+                                    ].map((line, index) => (
+                                        <col key={index} className={line} />
+                                    ))}
+                                </colgroup>
+                                <thead className={tables.header}>
+                                    <tr>
+                                        <th className={tables.headerCell}>Date</th>
+                                        <th className={tables.headerCell}>Amount</th>
+                                        <th className={tables.headerCell}>Additional Charges</th>
+                                        <th className={tables.headerCell}>Payment Type</th>
+                                        <th className={tables.headerCell}>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody className={tables.body}>
+                                    {fields.map((field, index) => (
+                                        <tr key={field.id} className={tables.row}>
+                                            <td>
+                                                <input 
+                                                    type="date"
+                                                    {...register(`related_customer_refund.${index}.date`)}
+                                                    className={forms.input.date}
+                                                />
+                                            </td>
+
+                                            <td className={text.numbers}>
+                                                <input 
+                                                    type="number"
+                                                    {...register(`related_customer_refund.${index}.refund_amount`)}
+                                                    className={forms.input.number}
+                                                    placeholder="0.00"
+                                                    step="0.01" min="0.00" onBlur={(e) => {
+                                                        if (e.target.value) {
+                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        }
+                                                    }} 
+                                                />
+                                            </td>
+
+                                            <td className={text.numbers}>
+                                                <input 
+                                                    type="number"
+                                                    {...register(`related_customer_refund.${index}.additional_charges`)}
+                                                    className={forms.input.number}
+                                                    placeholder="0.00"
+                                                    defaultValue="0.00"
+                                                    step="0.01" min="0.00" onBlur={(e) => {
+                                                        if (e.target.value) {
+                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        }
+                                                    }} 
+                                                />
+                                            </td>
+
+                                            <td className={forms.label}>
+                                                <select
+                                                    {...register(`related_customer_refund.${index}.payment_type`)}
+                                                    className={forms.select.partial}
+                                                >
+                                                    <option value=""></option>
+                                                    {REFUND_TYPE_OPTIONS.map(option => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </td>
+                                            
+                                            <td className={tables.autoCalculate}>
+                                                {decimalPlaces(
+                                                    (Number(watch(`related_customer_refund.${index}.refund_amount`) || 0.00) +
+                                                    Number(watch(`related_customer_refund.${index}.additional_charges`) || 0.00))
+                                                )}
+                                            </td>
+                                            
+                                            <td>
+                                                <button
+                                                    type="button"
+                                                    title="remove"
+                                                    onClick={() => remove(index)}
+                                                >
+                                                    <Trash2 size={16} strokeWidth={1.5}
+                                                    className="text-black cursor-pointer" />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    <tr>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                onClick={() => append({
+                                                    date: "",
+                                                    refund_amount: 0.00,
+                                                    additional_charges: 0.00,
+                                                    payment_type: "" as any
+                                                })}
+                                                className={buttons.addLine}
+                                            >
+                                                + Add New Line
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className={layout.submitSection}>
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className={buttons.primary}
+                            >
+                                {isSubmitting ? (
+                                    <span className="flex  items-center gap-2">
+                                        <div className={utils.spinner}></div>
+                                        Creating Refund...
+                                    </span>
+                                ) : (
+                                    'Create Refund'
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        );
+        
+    };
+    export default RefundForm;

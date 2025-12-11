@@ -128,7 +128,7 @@ const CompanyPurchaseOrderDetails = ({ companyPurchaseOrder, isLoading, onBack, 
                                         <tr key={index}>
                                             <td className="px-4 py-3 text-sm text-gray-600">{line.payment_date}</td>
                                             <td className="px-4 py-3 text-sm text-gray-600">{line.total_paid}</td>
-                                            <td className="px-4 py-3 text-sm text-gray-600">{line.tax_inclusive}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-600">{line.tax_inclusive ? 'Yes' : 'No'}</td>
                                             <td className="px-4 py-3 text-sm text-gray-600">{line.tax}</td>
                                             <td className="px-4 py-3 text-sm text-gray-600">{line.sub_total}</td>
                                         </tr>

@@ -1,7 +1,8 @@
 import apiClient from '../../BaseEngine';
 import { AllCustomerInputs, CustomerInputs, 
   EditCustomerInputs, DebitNoteInputs,
-  AllDebitNoteInputs
+  AllDebitNoteInputs, AllCreditNoteInputs,
+  CreditNoteInputs
  } from './constants/Types';
 
 
@@ -92,22 +93,22 @@ export const fetchCreditNotes = async () => {
   return response.data;
 };
 
-export const fetchCreditNoteById = async (credit_note_number) => {
+export const fetchCreditNoteById = async (credit_note_number: number) => {
   const response = await apiClient.get(`/customers/customercreditnote/${credit_note_number}/`);
   return response.data;
 };
 
-export const createCreditNote = async (creditNoteData) => {
+export const createCreditNote = async (creditNoteData: CreditNoteInputs) => {
   const response = await apiClient.post('/customers/customercreditnote/', creditNoteData);
   return response.data;
 };
 
-export const updateCreditNote = async ({ credit_note_number, creditNoteData }) => {
+export const updateCreditNote = async ({ credit_note_number, creditNoteData }: AllCreditNoteInputs) => {
   const response = await apiClient.put(`/customers/customercreditnote/${credit_note_number}/`, creditNoteData);
   return response.data;
 };
 
-export const deleteCreditNote = async (credit_note_number) => {
+export const deleteCreditNote = async (credit_note_number: number) => {
   await apiClient.delete(`/customers/customercreditnote/${credit_note_number}/`);
   return true;
 };
@@ -151,35 +152,3 @@ export const deleteRefund = async (refund_number) => {
 
 
 // ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-
-// INVOICES
-
-export const fetchInvoices = async () => {
-  const response = await apiClient.get(`/sales/invoice/`);
-  return response.data;
-};
-
-export const fetchInvoiceById = async (invoice_number) => {
-  const response = await apiClient.get(`/sales/invoice/${invoice_number}`);
-  return response.data;
-};
-
-
-
-
-
-// ---------------------------------------------------------------------------
-
-// PRODUCTS
-
-export const fetchProducts = async () => {
-  const response = await apiClient.get(`/products/productitem/`);
-  return response.data;
-};
-
-export const fetchProductById = async (item_code) => {
-  const response = await apiClient.get(`/products/productitem/${item_code}`);
-  return response.data;
-};

@@ -36,6 +36,12 @@ export const PAYMENT_TYPE_OPTIONS = [
     {value: 'Online', label: 'Online'}
 ];
 
+export const REFUND_TYPE_OPTIONS = [
+    {value: 'Cash', label: 'Cash'},
+    {value: 'Cheque', label: 'Cheque'},
+    {value: 'Bank Transfer', label: 'Bank Transfer'}
+];
+
 
 
 export const COUNTRY_OPTIONS = [
