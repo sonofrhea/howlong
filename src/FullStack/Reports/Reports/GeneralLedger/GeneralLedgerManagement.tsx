@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import html2canvas from 'html2canvas';
 import { Link } from 'react-router-dom';
 
 
@@ -103,14 +102,14 @@ function GeneralLedgerManagement() {
     };
 
     
-    const exportPDF = () => {
-        const element = document.querySelector('.overflow-hidden');
-
-        html2canvas(document.body).then(canvas => {
-            document.body?.appendChild(canvas);
-            const imgData = canvas.toDataURL('image/png');
-        });
-    };
+   // const exportPDF = () => {
+   //     const element = document.querySelector('.overflow-hidden');
+//
+   //     html2canvas(document.body).then(canvas => {
+   //         document.body?.appendChild(canvas);
+   //         const imgData = canvas.toDataURL('image/png');
+   //     });
+   // };
 
 
        // ------------------------------------------------------------------------------------

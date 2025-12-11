@@ -56,17 +56,17 @@
 
 @font-face {
   font-family: 'CascadiaCodeNF-Regular';
-  src: url(../fonts/CascadiaCodeNF-Regular.ttf);
+  src: url(../fonts/CascadiaCode-Regular.woff2);
 }
 
 @font-face {
   font-family: 'CascadiaCodeNF-SemiBold';
-  src: url(../fonts/CascadiaCodeNF-SemiBold.ttf);
+  src: url(../fonts/CascadiaMono-SemiBold.woff2);
 }
 
 @font-face {
   font-family: 'CascadiaMonoPL-Bold';
-  src: url(../fonts/CascadiaMonoPL-Bold.ttf);
+  src: url(../fonts/CascadiaMonoPL-Bold.woff2);
 }
 
 @font-face {
@@ -90,7 +90,7 @@
 }
 @font-face {
   font-family: 'FiraCode-SemiBold';
-  src: url(../fonts/FiraCode-SemiBold.ttf);
+  src: url(../fonts/FiraCode-SemiBold.woff2);
 }
 
 
