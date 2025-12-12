@@ -126,12 +126,13 @@ const RefundDetails: React.FC<any> = ({ refund, isLoading, onBack, onEdit }) => 
 
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Related Credit Note</p>
-                            {formatCreditNoteNumber()}{refund.related_credit_note || 'N/A'} | Outstanding: RM{refund.related_credit_note_outstanding || 'N/A'}
+                            {formatCreditNoteNumber()}{refund.related_credit_note || 'N/A'} | Outstanding: 
+                            {refund.related_credit_note_outstanding || 'N/A'}
                         </p>
 
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Refund Issued</p>
-                            RM{refund.expected_refund}
+                            {refund.expected_refund}
                         </p>
 
                         <p className={labelStyles}>
@@ -166,10 +167,10 @@ const RefundDetails: React.FC<any> = ({ refund, isLoading, onBack, onEdit }) => 
                                         {refund.related_customer_refund.map((line: any, index: any) => (
                                             <tr key={index} className={tables.row}>
                                                 <td className={tables.cell}>{formatDate(line.date)}</td>
-                                                <td className={tables.cell}>RM {line.refund_amount}</td>
-                                                <td className={tables.cell}>RM {line.additional_charges}</td>
+                                                <td className={tables.cell}>{line.refund_amount}</td>
+                                                <td className={tables.cell}>{line.additional_charges}</td>
                                                 <td className={tables.cell}>{line.payment_type}</td>
-                                                <td className={tables.cell}>RM {line.total_amount}</td>
+                                                <td className={tables.cell}>{line.total_amount}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -183,14 +184,14 @@ const RefundDetails: React.FC<any> = ({ refund, isLoading, onBack, onEdit }) => 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total Refunded:</div>
                                             <div className="font-medium text-black">
-                                                RM{refund.net_refunded}
+                                                {refund.net_refunded}
                                             </div>
                                         </div>
                                         
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Outstanding:</div>
                                             <div className="font-medium text-black">
-                                                RM{refund.outstanding}
+                                                {refund.outstanding}
                                             </div>
                                         </div>
                                         

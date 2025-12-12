@@ -158,7 +158,7 @@ const CreditNoteTable: React.FC<any> = ({ creditNotes, onCreditNoteClick, onEdit
                                         {/* Totals */}
                                         <td className="px-2 py-2 truncate" >
                                             <div className="text-sm text-gray-900 truncate">
-                                                RM{creditNote.aggregate_total}
+                                                {creditNote.aggregate_total}
                                             </div>
                                         </td>
 

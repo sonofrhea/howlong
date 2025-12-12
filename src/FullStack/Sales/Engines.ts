@@ -1,12 +1,12 @@
 import apiClient from '../../BaseEngine';
 
-import { AllQuotationInputs, QuotationCreateResponse, 
+import { AllQuotationInputs, AllInvoicePaymentInputs, 
     QuotationInputs, AllInvoiceInputs, 
-    InvoiceCreateResponse,
+    InvoicePaymentInputs,
     InvoiceInputs,
     CustomerPaymentResponse,
     CustomerPaymentInputs,
-    AllCustomerPaymentInputs} from './Interfaces';
+    AllCustomerPaymentInputs} from './Constants/Types';
 
 
 
@@ -103,27 +103,29 @@ export const fetchInvoicePayments = async () => {
     return response.data;
 };
 
-export const fetchInvoicePaymentById = async (invoice_payment_code) => {
+export const fetchInvoicePaymentById = async (invoice_payment_code: number) => {
     const response = await apiClient.get(`/sales/invoicepayment/${invoice_payment_code}/`);
     return response.data;
 };
 
-export const createInvoicePayment = async (invoicePaymentData) => {
+export const createInvoicePayment = async (invoicePaymentData: InvoicePaymentInputs) => {
     const response = await apiClient.post('/sales/invoicepayment/', invoicePaymentData);
     return response.data;
 };
 
-export const editInvoicePayment = async ({ invoice_payment_code, invoicePaymentData }) => {
+export const editInvoicePayment = async (
+    { invoice_payment_code, invoicePaymentData }: AllInvoicePaymentInputs) => {
     const response = await apiClient.patch(`/sales/invoicepayment/${invoice_payment_code}/`, invoicePaymentData);
     return response.data;
 };
 
-export const updateInvoicePayment = async ({ invoice_payment_code, invoicePaymentData }) => {
+export const updateInvoicePayment = async (
+    { invoice_payment_code, invoicePaymentData }: AllInvoicePaymentInputs) => {
     const response = await apiClient.put(`/sales/invoicepayment/${invoice_payment_code}/`, invoicePaymentData);
     return response.data;
 }
 
-export const deleteInvoicePayment = async (invoice_payment_code) => {
+export const deleteInvoicePayment = async (invoice_payment_code: number) => {
     apiClient.delete(`/sales/invoicepayment/${invoice_payment_code}/`);
     return true;
 }

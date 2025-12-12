@@ -1,7 +1,8 @@
 import React from "react";
+import { QuotationList } from "../Constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
@@ -10,13 +11,30 @@ const formatNumber = () => {
     return `QT-${currentYear}-`;
 };
 
-const QuotationTable = ({ quotations, onQuotationClick, onEditQuotation,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const QuotationTable: React.FC<any> = ({ quotations, onQuotationClick, onEditQuotation,
     onDeleteQuotation, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
  }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label:string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -56,7 +74,7 @@ const QuotationTable = ({ quotations, onQuotationClick, onEditQuotation,
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
                     </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-600 mb-2">No quotations found</h3>
+                <h3 className="text-lg font-semibold text-gray-600 mb-2">No quotation found</h3>
                 <p className="text-gray-500">Get started by creating your first quotation.</p>
             </div>
         );
@@ -65,7 +83,7 @@ const QuotationTable = ({ quotations, onQuotationClick, onEditQuotation,
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Quotations List</h3>
                     <div className="flex items-center gap-4">
@@ -87,31 +105,37 @@ const QuotationTable = ({ quotations, onQuotationClick, onEditQuotation,
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/9 text-center" />{/* Quotation Number - Fixed */}
-                        <col className="w-1/9 text-center" />{/* Additional Customer Details */}
-                        <col className="w-1/9 text-center" />{/* Agent - 16.6% */}
-                         <col className="w-1/9 text-center" />{/* Project Description - 20% */}
-                        <col className="w-1/9 text-center" />{/* Net Total - Fixed */}
-                        <col className="w-1/9 text-center" />{/* Created By - Fixed */}
-                        <col className="w-1/9 text-center" />{/* Actions - Fixed */}
+                        {[
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-[9%] text-center",
+                        ].map((line, index) => (
+                            <col key={index} className={line} />
+                        ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Quotation #" sortKey="quotation_number" />
                             <SortableHeader label="Date" sortKey="quotation_date" />
+                            <SortableHeader label="Valid Until" sortKey="valid_until" />
                             <SortableHeader label="Customer" sortKey="customer" />
-                            <SortableHeader label="Additional Customer Details" sortKey="customer_details" />
-                            <SortableHeader label="Agent" sortKey="agent" />
-                            <SortableHeader label="Project Description" sortKey="project_description" />
+                            <SortableHeader label="Description" sortKey="project_description" />
+                            <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Net Total" sortKey="net_total" />
-                            <SortableHeader label="Created By" sortKey="created_by" />
+                            <SortableHeader label="Agent" sortKey="agent" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {quotations.map((quotation) => {
+                        {quotations.map((quotation: QuotationList) => {
                             const quotationId = quotation.quotation_number;
 
                             return (
@@ -119,51 +143,51 @@ const QuotationTable = ({ quotations, onQuotationClick, onEditQuotation,
                                 onClick={() => onQuotationClick(quotationId)}>
                                     {/* Quotation Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={quotation.quotation_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
                                             {formatNumber()}{quotation.quotation_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(quotation.quotation_date)}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-gray-900 truncate">
                                             {formatDate(quotation.quotation_date)}
                                         </div>
                                     </td>
 
-                                    {/* Related Customer */}
-                                    <td className="px-2 py-2 truncate" title={quotation.customer}>
+                                    {/* Valid Until */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">{quotation.valid_until}</div>
+                                    </td>
+
+                                    {/* Customer */}
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">{quotation.customer}</div>
                                     </td>
 
-                                    {/* Additional Customer Details */}
-                                    <td className="px-2 py-2 truncate" title={quotation.customer_details}>
-                                        <div className="text-sm text-gray-900 truncate">{quotation.customer_details}</div>
+                                    {/* Project Description */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {quotation.project_description}
+                                        </div>
+                                    </td>
+
+                                    {/* Cancelled */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">{quotation.cancelled ? 'Yes' : 'No'}</div>
+                                    </td>
+                                    
+                                    {/* Net Total */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {quotation.net_total}
+                                        </div>
                                     </td>
 
                                     {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={quotation.agent}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
                                             {quotation.agent}
-                                        </div>
-                                    </td>
-
-                                    {/* Project Description */}
-                                    <td className="px-2 py-2 truncate" title={quotation.project_description}>
-                                        <div className="text-sm text-gray-900 truncate">{quotation.project_description}</div>
-                                    </td>
-                                    
-                                    {/* Aggregate Total */}
-                                    <td className="px-2 py-2 truncate" title={quotation.net_total}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            RM {quotation.net_total}
-                                        </div>
-                                    </td>
-
-                                    {/* Created By */}
-                                    <td className="px-2 py-2 truncate" title={quotation.created_by}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {quotation.created_by}
                                         </div>
                                     </td>
 

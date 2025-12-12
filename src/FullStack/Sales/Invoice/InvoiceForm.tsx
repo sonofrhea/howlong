@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 
-import { InvoiceInputs, ProjectInterface, CurrencyInterface,
-    ProductItemInterface, CustomerInterface, AgentInterface
- } from "@/types";
+import { ProjectProfileResponse } from "../../Projects/constants/Types";
+import { CustomerCreateResponse } from "../../Customers/constants/Types"
+import { InvoiceInputs } from "../Constants/Types";
+import { CurrencyInterface, AgentInterface } from "../../Core/Interfaces"
+import { ProductItemCreateResponse } from "../../Products/constants/Types"
+
+
 import { Trash2 } from "lucide-react";
+import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
 
 
 const formatCustomerNumber = () => {
@@ -27,20 +32,24 @@ const formatProjectNumber = () => {
 
 
 
-const InvoiceForm = ({ onSubmit, isSubmitting, onCancel, customers, 
+const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers, 
     currencies, accounts, agents, invoices, projects, productItems }) => {
 
         const { register, handleSubmit, watch, setValue, 
             control, formState: { errors } } = useForm<InvoiceInputs>({
                 defaultValues: {
-                    tax_inclusive: true,
+                    tax_inclusive: false,
                     tax_amount: 0.00,
                     related_invoice: [
                        {
-                        unit_per_price: 0.00,
-                        discount: 0.00
+                        price_per_unit: 0.00,
+                        quantity: 0.00,
+                        cancelled: false
                        } 
                     ],
+                    discount: false,
+                    discount_amount: 0.00,
+                    cancelled: false
                 }
         });
 
@@ -54,106 +63,118 @@ const InvoiceForm = ({ onSubmit, isSubmitting, onCancel, customers,
 
         return(
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="w-[100%] mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
-                        <div className="flex items-center gap-4">
+                <div className={forms.body}>
+                    <div className={layout.header}>
+                        <div className={layout.tag}>
 
                             <div className="text-right">
-                                <div className="inline-block bg-amber-50 border border-amber-100 px-4 py-2 rounded drop-shadow-md shadow-xl">
-                                    <div className="text-xs text-amber-700 uppercase tracking-wide">NEW</div>
-                                    <div className="text-lg font-bold text-amber-800">
+                                <div className={layout.badge}>
+                                    <div className={text.badgeSmall}>NEW</div>
+                                    <div className={text.badgeLarge}>
                                         CUSTOMER INVOICE
-                                    </div>
-                                </div>
-                                <div className="mt-10 text-sm">
-                                    <div>
-                                        <strong >Due Date:  </strong>
-                                        <span>
-                                            <input 
-                                                type="date"
-                                                {...register("invoice_due_date")}
-                                                className="px-3 py-2 border hover:cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors"
-                                            />
-                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div className="border-t border-b border-gray-100 p-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
+
+                    <hr className="my-6 border-gray-200" />
+                                                        
+                    <div className={layout.formSectionCol3}>
                         <div>
-                        <h3 className="text-m uppercase">Customer</h3>
-                        <p className="mt-2 text-gray-800 font-medium">
+                            <p className={forms.label}>Due Date</p>
+                            <input 
+                                type="date"
+                                {...register("invoice_due_date")}
+                                className={forms.input.date}
+                            />
+                        </div>
+                    
+                        <div>
+                            <p className={forms.label}>Customer</p>
                             <select
                                 {...register("customer")}
-                                className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
+                                className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {customers.map((customer: CustomerInterface) => (
+                                {customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
                                         {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
                                     </option>
                                 ))}
                             </select>
-                        </p>
                         </div>
 
                         <div>
-                            <h3 className="text-m uppercase">Description</h3>
-                            <p className="mt-2 text-gray-800 font-medium">
+                            <p className={forms.label}>Customer Details</p>
+                                <input 
+                                    type="text"
+                                    {...register("customer_details")}
+                                    className={forms.description}
+                                />
+                        </div>
+
+                        <div>
+                            <p className={forms.label}>Description</p>
                                 <input 
                                     type="text"
                                     {...register("description")}
-                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className={forms.description}
                                 />
-                            </p>
                         </div>
 
                         <div>
-                            <h3 className="text-m uppercase">Prepared By</h3>
-                            <p className="mt-2 text-gray-800 font-medium">
-                                <select
-                                    {...register("agent")}
-                                    className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
-                                >
-                                    <option value=""></option>
-                                    {agents.map((agent: AgentInterface) => (
-                                        <option key={agent.username} value={agent.username}>
-                                            {agent.username}
-                                        </option>
-                                    ))}
-                                </select>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="mt-3">
-                        <h3 className="text-m uppercase">Project</h3>
-                        <p className="mt-2 text-gray-800 font-medium">
+                            <p className={forms.label}>Prepared By</p>
                             <select
-                                {...register("project")}
-                                className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
+                                {...register("agent")}
+                                className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {projects.map((project: ProjectInterface) => (
-                                    <option key={project.project_code} value={project.project_code}>
-                                        {project.project_name} - {formatProjectNumber()}{project.project_code}
+                                {agents.map((agent: AgentInterface) => (
+                                    <option key={agent.name} value={agent.name}>
+                                        {agent.name}
                                     </option>
                                 ))}
                             </select>
-                        </p>
+                        </div>
+                    </div>
+
+                    <div >
+                        <p className={forms.label}>Project</p>
+                        <select
+                            {...register("project")}
+                            className={forms.select.partial}
+                        >
+                            <option value=""></option>
+                            {projects.map((project: ProjectProfileResponse) => (
+                                <option key={project.project_code} value={project.project_code}>
+                                    {project.project_name} - {formatProjectNumber()}{project.project_code}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     
-                    <div className="mt-6">
-                        <h4 className="uppercase">Customer Extra Details...</h4>
-                        <p className="mt-2 text-gray-800 font-medium">
-                            <textarea 
-                                rows={2}
-                                {...register("customer_details")}
-                                className="w-[50%] border border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-1 focus:ring-green-500"
-                            />
-                        </p>
+                    <div>
+                        <p className={forms.label}>Currency...</p>
+                        <select
+                            {...register("currency")}
+                            className={forms.select.partial}
+                        >
+                            <option value=""></option>
+                            {currencies.map((currency: CurrencyInterface) => (
+                                <option key={currency.currency_code} value={currency.currency_code}>
+                                    {currency.currency_code}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
+                        <p className={forms.label}>Cancelled</p>
+                        <input 
+                            type="checkbox"
+                            {...register("cancelled")}
+                        />
                     </div>
                     
                     {/* LINES */}
@@ -162,72 +183,79 @@ const InvoiceForm = ({ onSubmit, isSubmitting, onCancel, customers,
                             <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                                 <colgroup>
                                     {[
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
+                                        'w-1/7 text-center',
+                                        'w-1/7 text-center',
+                                        'w-1/7 text-center',
+                                        'w-1/7 text-center',
+                                        'w-1/7 text-center',
+                                        'w-1/7 text-center',
+                                        'w-1/7 text-center',
                                         'w-[9%] text-center',
                                     ].map((line, index) => (
                                         <col key={index} className={line} />
                                     ))}
                                 </colgroup>
-                                <thead className="bg-blue-100 drop-shadow-md shadow-lg">
+                                <thead className={tables.header}>
                                 <tr>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Item</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Description</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Qty</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">UOM</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Price Per Unit</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Currency</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Discount</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Sub Total</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase"></th>
+                                    <th className={tables.headerCell}>Item</th>
+                                    <th className={tables.headerCell}>Description</th>
+                                    <th className={tables.headerCell}>Quantity</th>
+                                    <th className={tables.headerCell}>Unit of Measure</th>
+                                    <th className={tables.headerCell}>Price/Per Unit</th>
+                                    <th className={tables.headerCell}>Cancelled</th>
+                                    <th className={tables.headerCell}>Sub-Total</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
-                                <tbody className="bg-white divide-y divide-gray-100">
+                                <tbody className={tables.body}>
                                     {fields.map((field, index) => (
-                                        <tr key={field.id} className="bg-white divide-y divide-x divide-gray-100">
+                                        <tr key={field.id} className={tables.row}>
                                             <td>
                                                 <select
                                                     {...register(`related_invoice.${index}.item`)}
                                                     className="w-full drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
                                                 >
                                                     <option value=""></option>
-                                                    {productItems.map((product: ProductItemInterface) => (
+                                                    {productItems.map((product: ProductItemCreateResponse) => (
                                                         <option key={product.item_code} value={product.item_code}>
                                                             SKU-{product.item_code} | {product.item_description}
                                                         </option>
                                                     ))}
                                                 </select>
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 items-center">
+
+                                            <td className={tables.cell}>
                                                 <input 
                                                     {...register(`related_invoice.${index}.description`)}
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    className={tables.text}
                                                 />
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 items-center">
+
+                                            <td className={text.numbers}>
                                                 <input 
                                                     {...register(`related_invoice.${index}.quantity`)}
                                                     type="number"
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    className={forms.input.number}
+                                                    placeholder="0.00"
+                                                    step="0.01" min="0.00" onBlur={(e) => {
+                                                        if (e.target.value) {
+                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        }
+                                                    }}  
                                                 />
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 items-center">
+
+                                            <td className={tables.cell}>
                                                 <input 
                                                     {...register(`related_invoice.${index}.unit_of_measure`)}
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    className={tables.details.cell}
                                                 />
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 flex items-center">
-                                                <span className="text-gray-500 mr-1"></span>
+
+                                            <td className={text.numbers}>
                                                 <input 
-                                                    {...register(`related_invoice.${index}.unit_per_price`)}
+                                                    {...register(`related_invoice.${index}.price_per_unit`)}
                                                     type="number"
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
@@ -235,32 +263,22 @@ const InvoiceForm = ({ onSubmit, isSubmitting, onCancel, customers,
                                                             e.target.value = parseFloat(e.target.value).toFixed(2);
                                                         }
                                                     }}
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    className={forms.input.number}
                                                 />
                                             </td>
-                                            <td className="">
-                                                <select
-                                                    {...register(`related_invoice.${index}.currency`)}
-                                                    className="w-[80%] cursor-pointer border drop-shadow-md shadow-inner rounded border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
-                                                >
-                                                    <option value=""></option>
-                                                    {currencies.map((currency: CurrencyInterface) => (
-                                                        <option key={currency.currency_code} value={currency.currency_code}>
-                                                            {currency.currency_code}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 ">
+
+                                            <td className={tables.cell}>
                                                 <input 
-                                                    {...register(`related_invoice.${index}.discount`)}
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    {...register(`related_invoice.${index}.cancelled`)}
+                                                    type="checkbox"
+                                                    className={forms.input.base}
                                                 />
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 whitespace-nowrap">
+
+                                            <td className={tables.autoCalculate}>
                                                 {decimalPlaces(
                                                     (watch(`related_invoice.${index}.quantity`) || 0.00) *
-                                                    (watch(`related_invoice.${index}.unit_per_price`) || 0.00)
+                                                    (watch(`related_invoice.${index}.price_per_unit`) || 0.00)
                                                 )}
                                                 
                                             </td>
@@ -282,11 +300,10 @@ const InvoiceForm = ({ onSubmit, isSubmitting, onCancel, customers,
                                             description: "",
                                             quantity: 0, 
                                             unit_of_measure: "", 
-                                            unit_per_price: 0.00, 
-                                            currency: "",
-                                            discount: 0.00 
+                                            price_per_unit: 0.00,
+                                            cancelled: false 
                                             })}
-                                        className="min-w-full divide-y divide-gray-100"
+                                        className={buttons.addLine}
                                     >
                                         + Add New Line
                                     </button>
@@ -294,60 +311,72 @@ const InvoiceForm = ({ onSubmit, isSubmitting, onCancel, customers,
                             </table>
                         </div>
 
-                        <div className="mt-6 sm:flex sm:items-center sm:justify-end drop-shadow-md shadow-inner">
+                        <div className="mt-6 sm:flex sm:items-center sm:justify-end">
                         <div className="w-full sm:w-1/2 lg:w-1/3">
                             <div className="bg-gray-50 p-4 rounded-lg">
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Inclusive?</div>
-                                    <input 
-                                    {...register("tax_inclusive")}
-                                    type="checkbox"
-                                    className="ml-2 forced-colors:bg-green-300"
-                                    />
-                                </div>
+                                <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Amount</div>
-                                    <input 
-                                        type="number"
-                                        {...register("tax_amount")}
-                                        placeholder="0.00"
-                                        step="0.01" min="0.00" onBlur={(e) => {
-                                            if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                            }
-                                        }}
-                                        
-                                    />
-                                </div>
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Discount?</div>
+                                        <input 
+                                        {...register("discount")}
+                                        type="checkbox"
+                                        className="ml-2 forced-colors:bg-green-300"
+                                        />
+                                    </div>
 
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Discount</div>
-                                    <input 
-                                        type="number"
-                                        {...register("tax_amount")}
-                                        placeholder="0.00"
-                                        step="0.01" min="0.00" onBlur={(e) => {
-                                            if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                            }
-                                        }}
-                                    />
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Discount Amount</div>
+                                        <input 
+                                            type="number"
+                                            {...register("discount_amount")}
+                                            placeholder="0.00"
+                                            step="0.01" min="0.00" onBlur={(e) => {
+                                                if (e.target.value) {
+                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                }
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Tax Inclusive?</div>
+                                        <input 
+                                        {...register("tax_inclusive")}
+                                        type="checkbox"
+                                        className="ml-2 forced-colors:bg-green-300"
+                                        />
+                                    </div>
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Tax Amount</div>
+                                        <input 
+                                            type="number"
+                                            {...register("tax_amount")}
+                                            placeholder="0.00"
+                                            step="0.01" min="0.00" onBlur={(e) => {
+                                                if (e.target.value) {
+                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                }
+                                            }}
+                                            
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         </div>
 
                         {/* SUBMIT BUTTON */}
-                        <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
+                        <div className={layout.submitSection}>
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="px-6 py-3 bg-amber-900 text-white rounded drop-shadow-md shadow-xl hover:bg-green-700 font-medium disabled:opacity-50"
+                                className={buttons.primary}
                             >
                                 {isSubmitting ? (
                                     <span className="flex items-center gap-2">
-                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        <div className={utils.spinner}></div>
                                         Creating Quotation...
                                     </span>
                                 ) : (

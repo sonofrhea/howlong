@@ -158,14 +158,14 @@ const DebitNoteTable: React.FC<any> = ({ debitNotes, onDebitNoteClick, onEditDeb
                                     {/* Totals */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
-                                            RM{debitNote.aggregate_total || '--'}
+                                            {debitNote.aggregate_total || '--'}
                                         </div>
                                     </td>
 
                                     {/* Outstanding */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
-                                            RM{debitNote?.debit_note_outstanding || '--'}
+                                            {debitNote?.debit_note_outstanding || '--'}
                                         </div>
                                     </td>
 

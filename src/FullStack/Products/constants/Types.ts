@@ -91,6 +91,7 @@ export type ProductItemInputs = {
 
 export type ProductItemCreateResponse = {
   item_code: number;
+  item_description: string;
 }
 
 export type AllProductItemInputs = {

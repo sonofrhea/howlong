@@ -24,7 +24,7 @@ import InvoiceTable from "./InvoiceTable";
 
 
 import { InvoiceInputs, InvoiceCreateResponse, 
-    EditInvoiceInputs } from "../Interfaces";
+    EditInvoiceInputs } from "../Constants/Types";
 
 
 interface SortConfig {
@@ -170,23 +170,23 @@ function InvoiceManagement() {
     // ------------------------------------------------------------------------------------
                     // MUTATION USE
     
-    const toFormData = (obj, form = new FormData(), parentKey = '') => {
-        Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        const field = parentKey ? `${parentKey}.${key}` : key;
-        if (value === null || value === undefined) return;
-        if (Array.isArray(value)) {
-            value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-        } else if (value instanceof File) {
-            form.append(field, value);
-        } else if (typeof value === 'object') {
-            toFormData(value, form, field);
-        } else {
-            form.append(field, value);
-        }
-        });
-        return form;
-    };
+    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    //    Object.keys(obj).forEach(key => {
+    //    const value = obj[key];
+    //    const field = parentKey ? `${parentKey}.${key}` : key;
+    //    if (value === null || value === undefined) return;
+    //    if (Array.isArray(value)) {
+    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+    //    } else if (value instanceof File) {
+    //        form.append(field, value);
+    //    } else if (typeof value === 'object') {
+    //        toFormData(value, form, field);
+    //    } else {
+    //        form.append(field, value);
+    //    }
+    //    });
+    //    return form;
+    //};
 
 
 
@@ -466,7 +466,7 @@ function InvoiceManagement() {
             )}
 
             {view === 'form' && (
-                <div className="w-[100%] bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
+                <div className="w-full bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
                 <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
                     <div className="flex items-center gap-4 mb-8 justify-between">
                     <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100">

@@ -1,7 +1,8 @@
 import React from "react";
+import { InvoiceList } from "../Constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
@@ -10,13 +11,29 @@ const formatNumber = () => {
     return `INV-${currentYear}-`;
 };
 
-const InvoiceTable = ({ invoices, onInvoiceClick, onEditInvoice, onDeleteInvoice,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const InvoiceTable: React.FC<any> = ({ invoices, onInvoiceClick, onEditInvoice, onDeleteInvoice,
     onSort, currentPage, totalPages, totalItems, itemsPerPage, onPageChange, 
     onItemsPerPageChange, sortConfig
  }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -64,7 +81,7 @@ const InvoiceTable = ({ invoices, onInvoiceClick, onEditInvoice, onDeleteInvoice
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Invoices List</h3>
                     <div className="flex items-center gap-4">
@@ -84,31 +101,41 @@ const InvoiceTable = ({ invoices, onInvoiceClick, onEditInvoice, onDeleteInvoice
 
             {/* Table */}
             <div className="w-full">
-                <table className="w-full table-fix divide-y divide-gray-200">
+                <table className="w-full rounded-lg shadow-sm border border-gray-200 table-fixed divide-y divide-gray-400 divide-dotted">
                     <colgroup>
-                        <col className="w-1/7 text-center" />  {/* Invoice Number - Fixed */}
-                        <col className="w-1/7 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/7 text-center" /> {/* Customer - 20% */}
-                        <col className="w-1/7 text-center" />  {/* Additional Customer Details */}
-                        <col className="w-1/7 text-center" /> {/* Agent - 16.6% */}
-                        <col className="w-1/7 text-center" />  {/* Created By - Fixed */}
-                        <col className="w-1/7 text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-[9%] text-center",
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Invoice #" sortKey="invoice_number" />
                             <SortableHeader label="Date" sortKey="invoice_date" />
+                            <SortableHeader label="Due Date" sortKey="invoice_due_date" />
                             <SortableHeader label="Customer" sortKey="customer" />
-                            <SortableHeader label="Additional Customer Details" sortKey="customer_details" />
+                            <SortableHeader label="Description" sortKey="description" />
+                            <SortableHeader label="Net Total" sortKey="net_total" />
+                            <SortableHeader label="Currency" sortKey="currency" />
+                            <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Agent" sortKey="agent" />
-                            <SortableHeader label="Created By" sortKey="created_by" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {invoices.map((invoice) => {
+                        {invoices.map((invoice: InvoiceList) => {
                             const invoiceId = invoice.invoice_number;
                             console.log(invoices);
 
@@ -117,39 +144,64 @@ const InvoiceTable = ({ invoices, onInvoiceClick, onEditInvoice, onDeleteInvoice
                                 onClick={() => onInvoiceClick(invoiceId)}>
                                     {/* Invoice Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={invoice.invoice_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
                                             {formatNumber()}{invoice.invoice_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(invoice.invoice_date)}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-gray-900 truncate">
                                             {formatDate(invoice.invoice_date)}
                                         </div>
                                     </td>
 
-                                    {/* Related Customer */}
-                                    <td className="px-2 py-2 truncate" title={invoice.customer}>
-                                        <div className="text-sm text-gray-900 truncate">{invoice.customer}</div>
-                                    </td>
-
-                                    {/* Additional Customer Details */}
-                                    <td className="px-2 py-2 truncate" title={invoice.customer_details}>
-                                        <div className="text-sm text-gray-900 truncate">{invoice.customer_details}</div>
-                                    </td>
-
-                                    {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={invoice.agent}>
+                                    {/* Due Date */}
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
-                                            {invoice.agent}
+                                            {invoice.invoice_due_date}
                                         </div>
                                     </td>
 
-                                    {/* Created By */}
-                                    <td className="px-2 py-2 truncate" title={invoice.created_by}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {invoice.created_by}
+                                    {/* Customer */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {invoice.customer}
+                                        </div>
+                                    </td>
+
+                                    {/* Description */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {invoice.description}
+                                        </div>
+                                    </td>
+
+                                    {/* Net Total */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {invoice.net_total}
+                                        </div>
+                                    </td>
+
+                                    {/* Currency */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {invoice.currency}
+                                        </div>
+                                    </td>
+
+                                    {/* Cancelled */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {invoice.cancelled ? 'Yes' : 'No'}
+                                        </div>
+                                    </td>
+
+                                    {/* Agent */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {invoice.agent}
                                         </div>
                                     </td>
 

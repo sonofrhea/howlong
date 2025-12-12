@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 
-import { QuotationInputs, CurrencyInterface,
-    ProductItemInterface, CustomerInterface,
-    AgentInterface
- } from "@/types";
+import { QuotationInputs } from "../Constants/Types";
+
+import { AgentInterface,CurrencyInterface } from "../../Core/Interfaces"
+import { CustomerCreateResponse } from "../../Customers/constants/Types";
+import { ProductItemCreateResponse } from "../../Products/constants/Types"
+import { forms, layout, tables, text } from "../Constants/Styles";
 
 
 
@@ -22,20 +24,26 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const QuotationForm = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
+
+
+
+const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
     currencies, accounts, agents, invoices, productItems }) => {
         
         const { register, handleSubmit, watch, setValue,
              control, formState: { errors } } = useForm<QuotationInputs>({
             defaultValues: {
-                tax_inclusive: true,
+                cancelled: false,
                 related_quotation: [
                     {
-                       unit_per_price: 0.00 
+                       price_per_unit: 0.00,
+                       cancelled: false, 
                     }
                 ],
+                tax_inclusive: false,
                 tax_amount: 0.00,
-                discount: 0.00
+                discount: 0.00,
+                
             }
         });
 
@@ -49,88 +57,97 @@ const QuotationForm = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
 
         return(
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="w-[100%] mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
-                        <div className="flex items-center gap-4">
+                <div className={forms.body}>
+                    <div className={layout.header}>
+                        <div className={layout.tag}>
 
                             <div className="text-right">
-                                <div className="inline-block bg-amber-50 border border-amber-100 px-4 py-2 rounded drop-shadow-md shadow-xl">
-                                    <div className="text-xs text-amber-700 uppercase tracking-wide">NEW</div>
-                                    <div className="text-lg font-bold text-amber-800">
+                                <div className={layout.badge}>
+                                    <div className={text.badgeExtraLarge}>NEW</div>
+                                    <div className={text.badgeLarge}>
                                         CUSTOMER QUOTATION
                                     </div>
                                 </div>
-                                <div className="mt-10 text-sm">
-                                    <div>
-                                        <strong >Valid until:  </strong>
-                                        <span>
-                                            <input 
-                                                type="date"
-                                                {...register("valid_until")}
-                                                className="px-3 py-2 border hover:cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors"
-                                            />
-                                        </span>
+                                <div className="mt-10 border-t border-b border-gray-100 grid-cols-2 gap-6">
+                                    <div className={forms.label}>
+                                        <div>
+                                            <strong >Valid until:  </strong>
+                                            <span>
+                                                <input 
+                                                    type="date"
+                                                    {...register("valid_until")}
+                                                    className={forms.input.date}
+                                                />
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className={forms.label}>
+                                        <div>
+                                            <strong >Cancelled:  </strong>
+                                            <span>
+                                                <input 
+                                                    type="checkbox"
+                                                    {...register("cancelled")}
+                                                    className="text-black cursor-pointer"
+                                                />
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="border-t border-b border-gray-100 p-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <hr className="my-6 border-gray-200" />
+
+                    <div className={layout.formSectionCol3}>
                         <div>
-                        <h3 className="text-m uppercase">Bill To</h3>
-                        <p className="mt-2 text-gray-800 font-medium">
+                        <p className={forms.label}>Bill To</p>
+                        <select
+                            {...register("customer")}
+                            className={forms.select.partial}
+                        >
+                            <option value=""></option>
+                            {customers.map((customer: CustomerCreateResponse) => (
+                                <option key={customer.customer_number} value={customer.customer_number}>
+                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
+                                </option>
+                            ))}
+                        </select>
+                        </div>
+
+                        <div>
+                            <p className={forms.label}>Project Description</p>
+                            <input 
+                                type="text"
+                                {...register("project_description")}
+                                className={forms.description}
+                            />
+                        </div>
+
+                        <div>
+                            <p className={forms.label}>Prepared By</p>
                             <select
-                                {...register("customer")}
-                                className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
+                                {...register("agent")}
+                                className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {customers.map((customer: CustomerInterface) => (
-                                    <option key={customer.customer_number} value={customer.customer_number}>
-                                        {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
+                                {agents.map((agent: AgentInterface) => (
+                                    <option key={agent.name} value={agent.name}>
+                                        {agent.name}
                                     </option>
                                 ))}
                             </select>
-                        </p>
-                        </div>
-
-                        <div>
-                            <h3 className="text-m uppercase">Project Description</h3>
-                            <p className="mt-2 text-gray-800 font-medium">
-                                <input 
-                                    type="text"
-                                    {...register("project_description")}
-                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </p>
-                        </div>
-
-                        <div>
-                            <h3 className="text-m uppercase">Prepared By</h3>
-                            <p className="mt-2 text-gray-800 font-medium">
-                                <select
-                                    {...register("agent")}
-                                    className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
-                                >
-                                    <option value=""></option>
-                                    {agents.map((agent: AgentInterface) => (
-                                        <option key={agent.username} value={agent.username}>
-                                            {agent.username}
-                                        </option>
-                                    ))}
-                                </select>
-                            </p>
                         </div>
                     </div>
-                        <div className="mt-3">
-                            <h4 className="uppercase">Customer Extra Details...</h4>
-                            <p className="mt-2 text-gray-800 font-medium">
-                                <textarea 
-                                    rows={4}
-                                    {...register("customer_details")}
-                                    className="w-[50%] border border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-1 focus:ring-green-500"
-                                />
-                            </p>
+                        <div>
+                            <p className={forms.label}>Additional Details...</p>
+                            <textarea 
+                                rows={4}
+                                {...register("customer_details")}
+                                className={forms.description}
+                            />
                         </div>
 
                     {/* LINES */}
@@ -151,72 +168,77 @@ const QuotationForm = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
                                         <col key={index} className={line} />
                                     ))}
                                 </colgroup>
-                                <thead className="bg-blue-100 drop-shadow-md shadow-lg">
+                                <thead className={tables.header}>
                                 <tr>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Item</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Description</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Qty</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">UOM</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Price Per Unit</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Currency</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase">Amount</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium uppercase"></th>
+                                    <th className={tables.headerCell}>Item</th>
+                                    <th className={tables.headerCell}>Description</th>
+                                    <th className={tables.headerCell}>Qty</th>
+                                    <th className={tables.headerCell}>UOM</th>
+                                    <th className={tables.headerCell}>Price Per Unit</th>
+                                    <th className={tables.headerCell}>Currency</th>
+                                    <th className={tables.headerCell}>Amount</th>
+                                    <th className={tables.headerCell}></th>
                                 </tr>
                                 </thead>
 
-                                <tbody className="bg-white divide-y divide-gray-100">
+                                <tbody className={tables.body}>
                                     {fields.map((field, index) => (
-                                        <tr key={field.id} className="bg-white divide-y divide-gray-100">
+                                        <tr key={field.id} className={tables.row}>
                                             <td>
                                                 <select
                                                     {...register(`related_quotation.${index}.item`)}
-                                                    className="w-full drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
+                                                    className={forms.select.partial}
                                                 >
                                                     <option value=""></option>
-                                                    {productItems.map((product: ProductItemInterface) => (
+                                                    {productItems.map((product: ProductItemCreateResponse) => (
                                                         <option key={product.item_code} value={product.item_code}>
                                                             SKU-{product.item_code} | {product.item_description}
                                                         </option>
                                                     ))}
                                                 </select>
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 ">
+                                            <td className={tables.cell}>
                                                 <input 
                                                     {...register(`related_quotation.${index}.description`)}
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    className={tables.text}
                                                 />
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 ">
+                                            <td className={text.numbers}>
                                                 <input 
                                                     {...register(`related_quotation.${index}.quantity`)}
                                                     type="number"
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    className={forms.input.number}
+                                                    placeholder="0.00"
+                                                    step="0.01" min="0.00" onBlur={(e) => {
+                                                        if (e.target.value) {
+                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        }
+                                                    }} 
                                                 />
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 ">
+                                            <td className={tables.cell}>
                                                 <input 
                                                     {...register(`related_quotation.${index}.unit_of_measure`)}
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    className={tables.text}
                                                 />
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 flex items-center">
-                                                <span className="text-gray-500 mr-1"></span>
+                                            <td className={tables.cell}>
                                                 <input 
-                                                    {...register(`related_quotation.${index}.unit_per_price`)}
+                                                    {...register(`related_quotation.${index}.price_per_unit`)}
                                                     type="number"
+                                                    className={forms.input.number}
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
                                                             e.target.value = parseFloat(e.target.value).toFixed(2);
                                                         }
                                                     }}
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                                 />
                                             </td>
-                                            <td className="">
+                                            <td className={tables.cell}>
                                                 <select
                                                     {...register(`related_quotation.${index}.currency`)}
-                                                    className="w-[80%] cursor-pointer border drop-shadow-md shadow-inner rounded border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
+                                                    className={forms.select.partial}
                                                 >
                                                     <option value=""></option>
                                                     {currencies.map((currency: CurrencyInterface) => (
@@ -226,19 +248,20 @@ const QuotationForm = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
                                                     ))}
                                                 </select>
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600 whitespace-nowrap">
+                                            <td className={tables.autoCalculate}>
                                                 {decimalPlaces(
                                                     (watch(`related_quotation.${index}.quantity`) || 0.00) *
-                                                    (watch(`related_quotation.${index}.unit_per_price`) || 0.00)
+                                                    (watch(`related_quotation.${index}.price_per_unit`) || 0.00)
                                                 )}
                                                 
                                             </td>
                                             <td>
                                                 <button
                                                     type="button"
+                                                    title="remove"
                                                     onClick={() => remove(index)}
                                                 >
-                                                    x Remove
+                                                    <Trash2 size={20} color="#000000" strokeWidth={1} />
                                                 </button>
                                             </td>
                                         </tr>
@@ -250,8 +273,9 @@ const QuotationForm = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
                                             description: "",
                                             quantity: 0, 
                                             unit_of_measure: "", 
-                                            unit_per_price: 0.00, 
-                                            currency: "" 
+                                            price_per_unit: 0.00, 
+                                            currency: "",
+                                            cancelled: false 
                                             })}
                                         className="min-w-full divide-y divide-gray-100"
                                     >
@@ -261,60 +285,65 @@ const QuotationForm = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
                             </table>
                         </div>
 
-                        <div className="mt-6 sm:flex sm:items-center sm:justify-end drop-shadow-md shadow-inner">
-                        <div className="w-full sm:w-1/2 lg:w-1/3">
-                            <div className="bg-gray-50 p-4 rounded-lg">
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Inclusive?</div>
-                                    <input 
-                                    {...register("tax_inclusive")}
-                                    type="checkbox"
-                                    className="ml-2 forced-colors:bg-green-300"
-                                    />
-                                </div>
+                        <div className="mt-6 sm:flex sm:items-center sm:justify-end">
+                            <div className="w-full sm:w-1/2 lg:w-1/3">
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Amount</div>
-                                    <input 
-                                        type="number"
-                                        {...register("tax_amount")}
-                                        placeholder="0.00"
-                                        step="0.01" min="0.00" onBlur={(e) => {
-                                            if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                            }
-                                        }}
-                                        
-                                    />
-                                </div>
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Tax Inclusive?</div>
+                                            <input 
+                                            {...register("tax_inclusive")}
+                                            type="checkbox"
+                                            className="ml-2 forced-colors:bg-green-300"
+                                            />
+                                        </div>
 
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Discount</div>
-                                    <input 
-                                        type="number"
-                                        {...register("tax_amount")}
-                                        placeholder="0.00"
-                                        step="0.01" min="0.00" onBlur={(e) => {
-                                            if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                            }
-                                        }}
-                                    />
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Tax %</div>
+                                            <input 
+                                                type="number"
+                                                {...register("tax_amount")}
+                                                className={forms.input.number}
+                                                placeholder="0.00"
+                                                step="0.01" min="0.00" onBlur={(e) => {
+                                                    if (e.target.value) {
+                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    }
+                                                }}
+                                                
+                                            />
+                                        </div>
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Discount %</div>
+                                            <input 
+                                                type="number"
+                                                {...register("discount")}
+                                                className={forms.input.number}
+                                                placeholder="0.00"
+                                                step="0.01" min="0.00" onBlur={(e) => {
+                                                    if (e.target.value) {
+                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        </div>
 
                         {/* SUBMIT BUTTON */}
-                        <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
+                        <div className={layout.submitSection}>
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="px-6 py-3 bg-amber-900 text-white rounded drop-shadow-md shadow-xl hover:bg-green-700 font-medium disabled:opacity-50"
+                                className={buttons.primary}
                             >
                                 {isSubmitting ? (
                                     <span className="flex items-center gap-2">
-                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        <div className={utils.spinner}></div>
                                         Creating Quotation...
                                     </span>
                                 ) : (

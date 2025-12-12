@@ -151,6 +151,7 @@ export type DebitNoteTableInput = {
   customer: string;
   aggregate_total: number;
   debit_note_outstanding: number;
+  cancelled: boolean;
   agent: string;
 }
 
@@ -173,6 +174,7 @@ export type DebitNoteInputs = {
     amount: number;
     tax_inclusive: boolean;
     tax_amount: number;
+    cancelled: boolean;
   }>
   agent: string;
   currency: string | null;
@@ -210,6 +212,7 @@ export type DebitNoteDetails = {
     tax_inclusive: boolean;
     tax_amount: string;
     current_total: string;
+    cancelled: boolean;
   }>;
   aggregate_total: string;
   debit_note_outstanding: string;
@@ -239,6 +242,7 @@ export type CreditNoteList = {
   customer: string;
   aggregate_total: number;
   currency: string;
+  cancelled: boolean;
   agent: string;
 };
 
@@ -252,6 +256,7 @@ export type CreditNoteInputs = {
     amount: number;
     tax_inclusive: boolean;
     tax_amount: number;
+    cancelled: boolean;
   }>;
   related_payment: string;
   related_payment_amount: number;
@@ -301,6 +306,7 @@ export type CustomerRefundList = {
   expected_refund: number;
   net_refunded: number;
   outstanding: number;
+  cancelled: boolean;
   currency: string;
   agent: string;
 };
@@ -323,6 +329,7 @@ export type CustomerRefundInputs = {
     refund_amount: number;
     additional_charges: number;
     payment_type: keyof typeof REFUND_TYPE_OPTIONS;
+    cancelled: boolean;
   }>;
   agent: string;
   currency: string | null;

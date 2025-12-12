@@ -127,12 +127,12 @@ const CreditNoteDetails: React.FC<any> = ({ creditNote, isLoading, onBack, onEdi
 
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Related Payment</p>
-                            POST-{creditNote.related_payment} | Paid Amount: RM{creditNote.related_payment_amount}
+                            POST-{creditNote.related_payment} | Paid Amount: {creditNote.related_payment_amount}
                         </p>
 
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Paid Amount</p>
-                            RM{creditNote.paid_amount}
+                            {creditNote.paid_amount}
                         </p>
 
                         <p className={labelStyles}>
@@ -159,7 +159,7 @@ const CreditNoteDetails: React.FC<any> = ({ creditNote, isLoading, onBack, onEdi
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>Amount</th>
                                             <th className={tables.headerCell}>Tax Inclusive?</th>
-                                            <th className={tables.headerCell}>Tax Amount</th>
+                                            <th className={tables.headerCell}>Tax %</th>
                                             <th className={tables.headerCell}>Current Total</th>
                                         </tr>
                                     </thead>
@@ -169,10 +169,10 @@ const CreditNoteDetails: React.FC<any> = ({ creditNote, isLoading, onBack, onEdi
                                             <tr key={index} className={tables.row}>
                                                 <td className={tables.cell}>{line.date}</td>
                                                 <td className={tables.cell}>{line.description}</td>
-                                                <td className={tables.cell}>RM{line.amount}</td>
+                                                <td className={tables.cell}>{line.amount}</td>
                                                 <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>RM{line.tax_amount}</td>
-                                                <td className={tables.cell}>RM{line.current_total}</td>
+                                                <td className={tables.cell}>{line.tax_amount}%</td>
+                                                <td className={tables.cell}>{line.current_total}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -186,14 +186,14 @@ const CreditNoteDetails: React.FC<any> = ({ creditNote, isLoading, onBack, onEdi
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total:</div>
                                             <div className="font-medium text-black">
-                                                RM{creditNote.aggregate_total}
+                                                {creditNote.aggregate_total}
                                             </div>
                                         </div>
                                         
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Outstanding:</div>
                                             <div className="font-medium text-black">
-                                                RM{creditNote.credit_note_outstanding}
+                                                {creditNote.credit_note_outstanding}
                                             </div>
                                         </div>
                                         

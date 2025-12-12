@@ -162,7 +162,7 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>Amount</th>
                                             <th className={tables.headerCell}>Tax Inclusive?</th>
-                                            <th className={tables.headerCell}>Tax Amount</th>
+                                            <th className={tables.headerCell}>Tax %</th>
                                             <th className={tables.headerCell}>Current Total</th>
                                         </tr>
                                     </thead>
@@ -172,10 +172,10 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                                             <tr key={index} className={tables.row}>
                                                 <td className={tables.cell}>{line.date}</td>
                                                 <td className={tables.cell}>{line.description}</td>
-                                                <td className={tables.cell}>RM {line.amount}</td>
+                                                <td className={tables.cell}>{line.amount}</td>
                                                 <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>RM {line.tax_amount}</td>
-                                                <td className={tables.cell}>RM {line.current_total}</td>
+                                                <td className={tables.cell}>{line.tax_amount}%</td>
+                                                <td className={tables.cell}>{line.current_total}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -189,14 +189,14 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total:</div>
                                             <div className="font-medium text-black">
-                                                RM{debitNote.aggregate_total}
+                                                {debitNote.aggregate_total}
                                             </div>
                                         </div>
                                         
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Outstanding:</div>
                                             <div className="font-medium text-black">
-                                                RM{debitNote.debit_note_outstanding}
+                                                {debitNote.debit_note_outstanding}
                                             </div>
                                         </div>
                                         

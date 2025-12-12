@@ -1,18 +1,31 @@
 import React from "react";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
 
-const InvoicePaymentTable = ({ invoicePayments, onInvoicePaymentClick, onEditInvoicePayment,
+
+
+
+
+
+
+
+
+
+
+
+
+
+const InvoicePaymentTable: React.FC<any> = ({ invoicePayments, onInvoicePaymentClick, onEditInvoicePayment,
     onDeleteInvoicePayment, onSort, currentPage, totalPages, totalItems, itemsPerPage, onPageChange,
     onItemsPerPageChange, sortConfig
  }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label:string, sortKey:string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -60,7 +73,7 @@ const InvoicePaymentTable = ({ invoicePayments, onInvoicePaymentClick, onEditInv
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Invoice Payments List</h3>
                     <div className="flex items-center gap-4">

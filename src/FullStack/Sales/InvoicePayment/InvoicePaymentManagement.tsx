@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from 'react-router-dom';
 
+
+
 import { fetchInvoicePayments, fetchInvoicePaymentById, createInvoicePayment,
     fetchInvoices, updateInvoicePayment, deleteInvoicePayment
  } from "../Engines";
@@ -12,10 +14,46 @@ import { fetchCustomers } from "../../Customers/Engines";
 
 
 
+import { InvoicePaymentInputs, AllInvoicePaymentInputs,
+  EditInvoicePaymentInputs
+ } from "../Constants/Types";
+
+
+
+
+
 import InvoicePaymentDetails from "./InvoicePaymentDetails";
-//import InvoicePaymentForm from "./InvoicePaymentForm";
+import InvoicePaymentForm from "./InvoicePaymentForm";
 import InvoicePaymentTable from "./InvoicePaymentTable";
 //import InvoicePaymentEdit from "./InvoicePaymentEdit";
+
+
+
+
+interface SortConfig {
+  key: string | null;
+  direction: 'asc' | 'desc';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -23,9 +61,9 @@ function InvoicePaymentManagement() {
   const queryClient = useQueryClient();
   const [view, setView] = useState('list');
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedInvoicePaymentId, setSelectedInvoicePaymentId] = useState(null);
+  const [selectedInvoicePaymentId, setSelectedInvoicePaymentId] = useState<number | null>(null);
 // ------------------------------------------------------------------------------------
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 // ------------------------------------------------------------------------------------
@@ -78,7 +116,7 @@ function InvoicePaymentManagement() {
 
   const { data: selectedInvoicePayment, isLoading: isLoadingInvoicePayment } = useQuery({
     queryKey: ['invoicePayment', selectedInvoicePaymentId],
-    queryFn: () => fetchInvoicePaymentById(selectedInvoicePaymentId),
+    queryFn: () => fetchInvoicePaymentById(selectedInvoicePaymentId!),
     enabled: !!selectedInvoicePaymentId,
   });
 // ------------------------------------------------------------------------------------
@@ -94,7 +132,7 @@ function InvoicePaymentManagement() {
       setSelectedInvoicePaymentId(data.item_code);
       setView('details');
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error('Error creating invoice payment:', error.response?.data || error.message || error);
     }
   });
@@ -112,7 +150,7 @@ function InvoicePaymentManagement() {
       queryClient.invalidateQueries({ queryKey: ['invoicePayment', selectedInvoicePaymentId]});
       setView('details');
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error('Error updating invoice payment:', error.response?.data || error.message);
     }
   });
@@ -129,116 +167,41 @@ function InvoicePaymentManagement() {
 // ------------------------------------------------------------------------------------
                 // MUTATION USE
   
-  const toFormData = (obj, form = new FormData(), parentKey = '') => {
-    Object.keys(obj).forEach(key => {
-      const value = obj[key];
-      const field = parentKey ? `${parentKey}.${key}` : key;
-      if (value === null || value === undefined) return;
-      if (Array.isArray(value)) {
-        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-      } else if (value instanceof File) {
-        form.append(field, value);
-      } else if (typeof value === 'object') {
-        toFormData(value, form, field);
-      } else {
-        form.append(field, value);
-      }
-    });
-    return form;
+  //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+  //  Object.keys(obj).forEach(key => {
+  //    const value = obj[key];
+  //    const field = parentKey ? `${parentKey}.${key}` : key;
+  //    if (value === null || value === undefined) return;
+  //    if (Array.isArray(value)) {
+  //      value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+  //    } else if (value instanceof File) {
+  //      form.append(field, value);
+  //    } else if (typeof value === 'object') {
+  //      toFormData(value, form, field);
+  //    } else {
+  //      form.append(field, value);
+  //    }
+  //  });
+  //  return form;
+  //};
+
+
+
+
+
+  const handleAddInvoicePayment = async (invoicePaymentData: InvoicePaymentInputs) => {
+    console.log("RAW FORM DATA:", invoicePaymentData);
+
+    createInvoicePaymentMutation.mutate(invoicePaymentData);
   };
 
 
 
 
 
-  const handleAddInvoicePayment = async (invoicePaymentData) => {
-
-    const customer = customers.find(c => String(c.customer_number) === String(invoicePaymentData.customer));
-    const currency = currencies.find(c => String(c.currency_symbol) === String(invoicePaymentData.currency));
-    const agent = agents.find(a => String(a.username) === String(invoicePaymentData.agent));
-
-    if (!customer || !currency || !agent) {
-      console.log("customer or currency or agent data missing, Please select before submitting");
-      return;
-    }
-
-    const apiData = {
-      date: invoicePaymentData.date,
-      customer: {
-        formatted_customer_number: customer.formatted_customer_number,
-        customer_name: customer.customer_name
-      },
-      agent: {
-        username: agent.username
-      },
-      currency: {
-        currency: currency.currency_symbol
-      },
-      debit_note_header: (invoicePaymentData.debit_note_header || []).map(item => {
-        const account = accounts.find(a => String(a.account_code) === String(item.account));
-
-        const rawInvoiceValue = String(item.related_invoice_payments || '');
-        const invoiceKey = rawInvoiceValue.split(' - ')[0];
-        const related_invoice_payments = invoices.find(i =>
-          String(i.formatted_invoice_number) === invoiceKey ||
-          String(i.invoice_number) === invoiceKey ||
-          String(i.invoice_number) === rawInvoiceValue
-        );
-
-        if (!related_invoice_payments || !account) {
-          console.log("Invoice or account data unavailable.", { account, related_invoice_payments, item });
-          return null;
-        }
-        return {
-          account: {
-            account_code: account.account_code,
-            account_name: account.account_name
-          },
-          related_invoice_payments: [
-            {
-              related_invoice: {
-                formatted_invoice_number: related_invoice_payments.formatted_invoice_number,
-                customer_details: related_invoice_payments.customer_details,
-                date_created: related_invoice_payments.date_created,
-              }
-            }
-          ],
-          description: item.description || invoicePaymentData.description,
-          amount: String(Number(item.amount) || 0),
-          tax_inclusive: !!item.tax_inclusive,
-          tax_amount: String(Number(item.tax_amount) || 0),
-        }
-      }).filter(item => item !== null)
-    };
-
-    console.log("Data being sent (apiData):", apiData);
-
-    
-
-    const hasFile = (obj) => {
-      if (!obj || typeof obj !== 'object') return false;
-      if (obj instanceof File) return true;
-      return Object.values(obj).some(v => hasFile(v));
-    };
-
-    if (hasFile(apiData)) {
-      const fd = toFormData(apiData);
-      for (const pair of fd.entries()) {
-        console.log('FormData entry:', pair[0], pair[1]);
-      }
-      createInvoicePaymentMutation.mutate(fd);
-    } else {
-      createInvoicePaymentMutation.mutate(apiData);
-    }
-  };
-
-
-
-
-
-  const handleUpdateInvoicePayment = (invoicePaymentData) => {
+  const handleUpdateInvoicePayment = (invoicePaymentData: InvoicePaymentInputs) => {
     updateInvoicePaymentMutation.mutate({
-      item_code: selectedInvoicePaymentId,
+      invoice_payment_code: selectedInvoicePaymentId!,
       invoicePaymentData: invoicePaymentData
     });
   };
@@ -247,7 +210,7 @@ function InvoicePaymentManagement() {
 
 
 
-  const handleDeleteInvoicePayment = async (invoicePaymentId) => {
+  const handleDeleteInvoicePayment = async (invoicePaymentId: number) => {
     if (window.confirm('Are you sure you want to delete this invoice payment?')) {
       deleteInvoicePaymentMutation.mutate(invoicePaymentId);
     }
@@ -255,14 +218,14 @@ function InvoicePaymentManagement() {
 // ------------------------------------------------------------------------------------
 
 
-  const handleInvoicePaymentClick = (invoicePaymentId) => {
+  const handleInvoicePaymentClick = (invoicePaymentId: number) => {
     setSelectedInvoicePaymentId(invoicePaymentId);
     setView('details')
   };
 // ------------------------------------------------------------------------------------
 
 
-  const handleEditInvoicePayment = (invoicePaymentId, invoicePaymentData) => {
+  const handleEditInvoicePayment = ({invoicePaymentId, invoicePaymentData}: EditInvoicePaymentInputs) => {
     setSelectedInvoicePaymentId(invoicePaymentId);
     setView('edit');
   };
@@ -279,11 +242,11 @@ function InvoicePaymentManagement() {
   };
 // ------------------------------------------------------------------------------------
 
-  const filteredInvoicePayments = invoicePayment.filter(invoicePayment => {
-    const invoiceNumber = invoicePayment.invoice_number?.toLowerCase() || '';
+  const filteredInvoicePayments = invoicePayment.filter((invoicePayment: any) => {
+    const invoicePaymentNumber = String(invoicePayment.invoice_number)?.toLowerCase() || '';
     const search = searchTerm.toLowerCase();
     
-    return invoiceNumber.includes(search);
+    return invoicePaymentNumber.includes(search);
 });
 
   // ------------------------------------------------------------------------------------
@@ -294,8 +257,8 @@ function InvoicePaymentManagement() {
     if (!sortConfig.key) return filteredInvoicePayments;
 
     return [...filteredInvoicePayments].sort((a, b) => {
-      const aValue = a[sortConfig.key];
-      const bValue = b[sortConfig.key];
+      const aValue = a[sortConfig.key as keyof typeof a];
+      const bValue = b[sortConfig.key as keyof typeof b];
 
       if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
       if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
@@ -305,7 +268,7 @@ function InvoicePaymentManagement() {
 
 
 // Sort handler
-const handleSort = (key) => {
+const handleSort = (key: any) => {
   setSortConfig(current => ({
     key,
     direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'
@@ -320,12 +283,12 @@ const startIndex = (currentPage - 1) * itemsPerPage;
 const paginatedInvoicePayments = sortedInvoicePayments.slice(startIndex, startIndex + itemsPerPage);
 
 // Page change handler
-const handlePageChange = (page) => {
+const handlePageChange = (page: any) => {
   setCurrentPage(page);
 };
 
 // Items per page handler
-const handleItemsPerPageChange = (value) => {
+const handleItemsPerPageChange = (value: any) => {
   setItemsPerPage(Number(value));
   setCurrentPage(1); // Reset to first page
 };
@@ -338,7 +301,7 @@ const handleItemsPerPageChange = (value) => {
 // ERROR DISPLAYS
 
   if (isLoadingInvoicePayments) return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
         <p className="mt-4 text-gray-600">Loading Invoice Payments...</p>
@@ -347,7 +310,7 @@ const handleItemsPerPageChange = (value) => {
   );
 
   if (invoicePaymentsError) return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
       <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
         <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
@@ -375,7 +338,7 @@ const handleItemsPerPageChange = (value) => {
               <div className="max-w-7xl mx-auto px-4 py-4">
                   <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                          <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                          <div className="w-2 h-8 bg-linear-to-b from-blue-500 to-purple-600 rounded-full"></div>
                           <div>
                               <h1 className="text-lg font-semibold text-gray-900">Sales Suite</h1>
                               <p className="text-sm text-gray-500">Invoice Payments Management</p>
@@ -404,7 +367,7 @@ const handleItemsPerPageChange = (value) => {
             <div className="flex items-start justify-between mb-8">
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
+                  <div className="w-12 h-12 bg-linear-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
                     <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
@@ -417,34 +380,6 @@ const handleItemsPerPageChange = (value) => {
               </div>
               
               <div className="flex items-center gap-3">
-                {view === 'list' && (
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Search..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
-                    />
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                    </div>
-                  </div>
-                )}
-
-                {view === 'list' && (
-                  <button
-                    onClick={() => setView('form')}
-                    className="bg-white border border-gray-200 hover:border-blue-500 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-blue-50"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
-                    New Invoice Payment
-                  </button>
-                )}
 
                 {(view === 'form' || view === 'details' || view === 'edit') && (
                   <button
@@ -461,7 +396,7 @@ const handleItemsPerPageChange = (value) => {
             </div>
 
             {view === 'list' && (
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 justify-between">
                 <div className="flex items-center gap-4">
                   <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">{invoicePayment.length}</div>
@@ -470,10 +405,35 @@ const handleItemsPerPageChange = (value) => {
                   <div className="w-px h-8 bg-gray-200"></div>
                   <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">
-                      {new Set(invoicePayment.map(c => c.currency?.currency_code)).size}
+                      {new Set(invoicePayment.map((c: any) => c.currency?.currency_code)).size}
                     </div>
                     <div className="text-sm text-gray-500">Currencies</div>
                   </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
+                    />
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setView('form')}
+                    className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    New Invoice Payment
+                  </button>
                 </div>
               </div>
             )}
@@ -500,7 +460,7 @@ const handleItemsPerPageChange = (value) => {
           )}
 
           {view === 'form' && (
-            <div className="max-w-4xl mx-auto">
+            <div className="w-full bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
               <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100">
@@ -512,14 +472,25 @@ const handleItemsPerPageChange = (value) => {
                     <h2 className="text-2xl font-light text-gray-900">Create Invoice Payment</h2>
                     <p className="text-gray-500">Add a new invoice payment to your records</p>
                   </div>
+                    <button 
+                        onClick={() => setView('list')}
+                        className="bg-white text-black cursor-pointer px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
+                    >
+                        <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}  />
+                        </svg>
+                        x Cancel
+                    </button>
                 </div>
                 <InvoicePaymentForm 
                   onSubmit={handleAddInvoicePayment} 
-                  isSubmitting={createInvoicePaymentMutation.isLoading} 
+                  isSubmitting={createInvoicePaymentMutation.isPending} 
                   onCancel={handleBackToInvoicePaymentList}
                   currencies={currencies}
                   accounts={accounts}
                   agents={agents}
+                  invoices={invoices}
+                  customers={customers}
                 />
                 {createInvoicePaymentMutation.isError && (
                   <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">
@@ -543,7 +514,7 @@ const handleItemsPerPageChange = (value) => {
             <InvoicePaymentEdit 
               invoicePayment={selectedInvoicePayment}
               onSubmit={handleUpdateInvoicePayment}
-              isSubmitting={updateInvoicePaymentMutation.isLoading}
+              isSubmitting={updateInvoicePaymentMutation.isPending}
               onBack={handleBackToInvoicePaymentList}
               onCancel={handleBackToInvoicePaymentList}
             />

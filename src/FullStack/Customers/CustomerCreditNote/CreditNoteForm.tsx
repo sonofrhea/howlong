@@ -43,7 +43,8 @@ const CreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, custo
                             description: "",
                             amount: 0.00,
                             tax_inclusive: false,
-                            tax_amount: 0.00
+                            tax_amount: 0.00,
+                            cancelled: false
                         }
                     ]
                 }
@@ -235,7 +236,7 @@ const CreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, custo
                                     <th className={tables.headerCell}>Description</th>
                                     <th className={tables.headerCell}>Amount</th>
                                     <th className={tables.headerCell}>Tax Inclusive?</th>
-                                    <th className={tables.headerCell}>Tax Amount</th>
+                                    <th className={tables.headerCell}>Tax %</th>
                                     <th className={tables.headerCell}>Current Total</th>
                                     <th></th>
                                 </tr>
@@ -296,9 +297,9 @@ const CreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, custo
 
                                             <td className={tables.autoCalculate}>
                                                 {decimalPlaces(
-                                                    (Number(watch(`credit_note_lines.${index}.amount`) || 0.00) +
-                                                    Number(watch(`credit_note_lines.${index}.tax_amount`) || 0.00))
-                                                )}
+                                                    (Number(watch(`credit_note_lines.${index}.amount`) || 0.00) *
+                                                    (1 + (Number(watch(`credit_note_lines.${index}.tax_amount`) / 100 ))|| 0.00))
+                                                )}%
                                             </td>
 
                                             <td>
@@ -322,7 +323,8 @@ const CreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, custo
                                                     description: "",
                                                     amount: 0.00,
                                                     tax_inclusive: false,
-                                                    tax_amount: 0.00
+                                                    tax_amount: 0.00,
+                                                    cancelled: false
                                                 })}
                                                 className={buttons.addLine}
                                             >
@@ -342,7 +344,7 @@ const CreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, custo
                                 className={buttons.primary}
                             >
                                 {isSubmitting ? (
-                                    <span className="flex  items-center gap-2">
+                                    <span className="flex items-center gap-2">
                                         <div className={utils.spinner}></div>
                                         Creating Credit Note...
                                     </span>

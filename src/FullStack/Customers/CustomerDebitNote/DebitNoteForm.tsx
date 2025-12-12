@@ -53,7 +53,8 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
             debit_note_details: [
                 {
                     amount: 0.00,
-                    tax_amount: 0.00
+                    tax_amount: 0.00,
+                    cancelled: false
                 }
             ]
         }
@@ -251,7 +252,7 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                                     <th className={tables.headerCell}>Description</th>
                                     <th className={tables.headerCell}>Amount</th>
                                     <th className={tables.headerCell}>Tax Inclusive?</th>
-                                    <th className={tables.headerCell}>Tax Amount</th>
+                                    <th className={tables.headerCell}>Tax %</th>
                                     <th className={tables.headerCell}>Current Total</th>
                                     <th></th>
                                 </tr>
@@ -313,9 +314,9 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
 
                                         <td className={tables.autoCalculate}>
                                             {decimalPlaces(
-                                                (Number(watch(`debit_note_details.${index}.amount`) || 0.00) +
-                                                Number(watch(`debit_note_details.${index}.tax_amount`) || 0.00))
-                                            )}
+                                                (Number(watch(`debit_note_details.${index}.amount`) || 0.00) *
+                                                (1 + (Number(watch(`debit_note_details.${index}.tax_amount`) / 100))|| 0.00))
+                                            )}%
                                         </td>
 
                                         <td>
@@ -339,7 +340,8 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                                                 description: "",
                                                 amount: 0.00,
                                                 tax_inclusive: false,
-                                                tax_amount: 0.00
+                                                tax_amount: 0.00,
+                                                cancelled: false
                                             })}
                                             className={buttons.addLine}
                                         >

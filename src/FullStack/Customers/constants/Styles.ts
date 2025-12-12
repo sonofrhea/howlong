@@ -79,7 +79,7 @@ export const tables = {
   headerCell: "px-4 py-3 text-black text-center tracking-[0.1em] text-xs font-semibold uppercase",
   body: "bg-white divide-y divide-gray-100",
   row: "bg-white divide-y divide-x divide-gray-100",
-  cell: "px-4 py-4 text-sm text-gray-600",
+  cell: "px-4 py-4 text-sm text-gray-600 drop-shadow shadow-inner",
   autoCalculate: "px-4 py-4 text-sm text-gray-600 whitespace-nowrap",
   text: "w-[100%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500",
   details: {
@@ -125,3 +125,4 @@ export const iconStyles = {
 export const details = {
   extraSmallUppercase: "px-2 py-1 text-center tracking-widest text-gray-700 text-xs font-semibold uppercase"
 };
+
