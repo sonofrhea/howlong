@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 
 import { CurrencyInterface, AgentInterface} from "../../Core/Interfaces";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { CustomerPaymentInputs, InvoicePaymentInterface } from "../Constants/Types";
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
-import { CustomerCreateResponse } from "../../Customers/constants/Types";
 import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
 
 
@@ -387,4 +386,3 @@ const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
         );
     };
     export default CustomerPaymentForm;
-    

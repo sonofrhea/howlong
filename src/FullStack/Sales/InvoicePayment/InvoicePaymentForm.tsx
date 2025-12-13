@@ -413,7 +413,7 @@ const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
                                                 type="number"
                                                 {...register("tax_amount")}
                                                 placeholder="0.00"
-                                                className={forms.input.number}
+                                                className={forms.input.smallNumber}
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
                                                         e.target.value = parseFloat(e.target.value).toFixed(2);
