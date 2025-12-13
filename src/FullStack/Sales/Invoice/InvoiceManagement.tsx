@@ -249,10 +249,12 @@ function InvoiceManagement() {
     const filteredInvoices = invoices.filter((invoice: any) => {
         const invoiceNumber = String(invoice.invoice_number)?.toLowerCase() || '';
         const customerName = invoice.customer?.customer_name?.toLowerCase() || '';
+        const invoiceDate = invoice.invoice_date?.toLowerCase() || '';
+        const invoiceDueDate = invoice.invoice_due_date?.toLowerCase() || '';
         const agentName = invoice.agent?.username?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
         
-        return customerName.includes(search) || agentName.includes(search) || invoiceNumber.includes(search);
+        return invoiceDate.includes(search) || customerName.includes(search) || invoiceDueDate.includes(search) || agentName.includes(search) || invoiceNumber.includes(search);
     });
 
     // ------------------------------------------------------------------------------------
@@ -420,10 +422,10 @@ function InvoiceManagement() {
                         <div className="relative">
                             <input
                             type="text"
-                            placeholder="Search..."
+                            placeholder="Search Invoice..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
+                            className="pl-10 pr-2 py-1 text-gray-600 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
                             />
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

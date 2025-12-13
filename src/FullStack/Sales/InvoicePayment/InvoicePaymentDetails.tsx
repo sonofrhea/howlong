@@ -6,19 +6,48 @@ const formatNumber = () => {
     return `QT-${currentYear}-`;
 };
 
-const formatDate = (dateString) => {
+const formatPaymentNumber = () => {
+    return "PAY-";
+};
+
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
+function formatInvoiceNumber(): React.ReactNode {
+    const currentYear = new Date().getFullYear();
+    return `INV-${currentYear}-`
+};
 
-const InvoicePaymentDetails = ({ invoicePayment, isLoading, onBack, onEdit }) => {
+function formatCustomerNumber(): React.ReactNode {
+        const currentYear = new Date().getFullYear();
+        return `CV-${currentYear}-`;
+    };
+
+import { buttons,  
+    layout, tables, text } from "../Constants/Styles";
+import { details, forms, 
+    labelStyles } from "../Constants/Styles"
+import { SquarePen } from "lucide-react";
+
+
+
+
+
+
+
+
+
+
+
+const InvoicePaymentDetails: React.FC<any> = ({ invoicePayment, isLoading, onBack, onEdit }) => {
 
 
     if (isLoading) {
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-3 text-gray-600">Loading invoice payment...</p>
+                <p className="mt-3 text-gray-600">Fetching invoice payment...</p>
             </div>
         );
     }
@@ -40,5 +69,175 @@ const InvoicePaymentDetails = ({ invoicePayment, isLoading, onBack, onEdit }) =>
             </div>
         );
     }
+
+
+
+
+
+
+
+
+
+
+
+    return (
+        <div className="w-full mx-auto page bg-white shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden">
+            <div className={forms.body}>
+                <div className={layout.header}>
+                    <div className={layout.tag}>
+
+                        <div className="text-center space-y-6 px-6 py-3 gap-4">
+                            <div className={layout.badge}>
+                                <p className={text.badgeLarge}>
+                                    INVOICE PAYMENT DETAILS
+                                </p>
+                                <p className={labelStyles}>
+                                    {formatPaymentNumber()}{invoicePayment.invoice_payment_code}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p className="text-xs text-gray-500 mt-1">Details</p>
+                    </div>
+                    
+                    <div className="flex gap-3">
+                        <button 
+                            onClick={onEdit}
+                            
+                            className={buttons.editButtonGreen}
+                        >
+                            <SquarePen size={20} strokeWidth={1.5} />
+                            Edit
+                        </button>
+                    </div>
+                </div>
+
+                <hr className="my-6 border-gray-200" />
+
+                <div>
+                    <div className="grid grid-cols-3 gap-6">
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Invoice Payment No.</p>
+                            {formatPaymentNumber()}{invoicePayment.invoice_payment_code}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Date</p>
+                            {formatDate(invoicePayment.date_created)}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Paid By</p>
+                            {formatCustomerNumber()}{invoicePayment.paid_by || 'N/A'} | {invoicePayment.paid_by_name || 'N/A'}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Related Invoice</p>
+                            {formatInvoiceNumber()}{invoicePayment.related_invoice || 'N/A'} | Total: {invoicePayment.related_invoice_details}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Related Invoice Total</p>
+                            {invoicePayment.related_invoice_total || 'N/A'}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Currency</p>
+                            {invoicePayment?.currency || 'N/A'}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Account received in</p>
+                            {invoicePayment.account_received_in?.account_code || 'N/A'} ({invoicePayment.account_received_in?.account_name || 'N/A'})
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Cancelled</p>
+                            {invoicePayment.cancelled ? 'Yes' : 'No'}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Agent</p>
+                            {invoicePayment?.agent || 'N/A'}
+                        </p>
+                    </div>
+
+                    <hr className="my-6 border-gray-200" />
+
+                    {invoicePayment.related_invoice_payment && invoicePayment.related_invoice_payment.length > 0 && (
+
+                        <div className="p-6">
+                            <div className="overflow-x-auto">
+                                <table className={forms.body}>
+                                    <thead className={tables.header}>
+                                        <tr>
+                                            <th className={tables.headerCell}>Payment Date</th>
+                                            <th className={tables.headerCell}>Payment Type</th>
+                                            <th className={tables.headerCell}>Amount</th>
+                                            <th className={tables.headerCell}>Tax Inclusive?</th>
+                                            <th className={tables.headerCell}>SST %</th>
+                                            <th className={tables.headerCell}>Current Total</th>
+                                            <th className={tables.headerCell}>Cancelled</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody className={tables.body}>
+                                        {invoicePayment.related_invoice_payment.map((line: any, index: any) => (
+                                            <tr key={line} className={tables.row}>
+                                                <td className={tables.cell}>{formatDate(line.payment_date)}</td>
+                                                <td className={tables.cell}>{line.payment_type}</td>
+                                                <td className={tables.cell}>{line.total}</td>
+                                                <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
+                                                <td className={tables.cell}>{line.tax_amount}%</td>
+                                                <td className={tables.cell}>{line.payment_amount}</td>
+                                                <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div className="mt-6 sm:flex sm:items-center sm:justify-end">
+                                <div className="w-full sm:w-1/2 lg:w-1/3">
+                                    <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Gross Total:</div>
+                                            <div className="font-medium text-black">
+                                                {invoicePayment.gross_paid}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Extra Tax %:</div>
+                                            <div className="font-medium text-black">
+                                                {invoicePayment.tax_amount}%
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Net Total:</div>
+                                            <div className="font-medium text-black">
+                                                {invoicePayment.net_aggregate_paid}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Outstanding:</div>
+                                            <div className="font-medium text-black">
+                                                {invoicePayment.outstanding_amount}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 };
 export default InvoicePaymentDetails;

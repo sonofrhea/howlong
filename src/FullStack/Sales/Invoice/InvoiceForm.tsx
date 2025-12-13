@@ -139,42 +139,47 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                         </div>
                     </div>
 
-                    <div >
-                        <p className={forms.label}>Project</p>
-                        <select
-                            {...register("project")}
-                            className={forms.select.partial}
-                        >
-                            <option value=""></option>
-                            {projects.map((project: ProjectProfileResponse) => (
-                                <option key={project.project_code} value={project.project_code}>
-                                    {project.project_name} - {formatProjectNumber()}{project.project_code}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <p className={forms.label}>Currency...</p>
-                        <select
-                            {...register("currency")}
-                            className={forms.select.partial}
-                        >
-                            <option value=""></option>
-                            {currencies.map((currency: CurrencyInterface) => (
-                                <option key={currency.currency_code} value={currency.currency_code}>
-                                    {currency.currency_code}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    <hr className="my-6 border-gray-200" />
 
-                    <div>
-                        <p className={forms.label}>Cancelled</p>
-                        <input 
-                            type="checkbox"
-                            {...register("cancelled")}
-                        />
+                    <div className={layout.formSectionCol3}>
+                        <div >
+                            <p className={forms.label}>Project</p>
+                            <select
+                                {...register("project")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {projects.map((project: ProjectProfileResponse) => (
+                                    <option key={project.project_code} value={project.project_code}>
+                                        {project.project_name} - {formatProjectNumber()}{project.project_code}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        
+                        
+                        <div>
+                            <p className={forms.label}>Currency...</p>
+                            <select
+                                {...register("currency")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {currencies.map((currency: CurrencyInterface) => (
+                                    <option key={currency.currency_code} value={currency.currency_code}>
+                                        {currency.currency_code}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <p className={forms.label}>Cancelled</p>
+                            <input 
+                                type="checkbox"
+                                {...register("cancelled")}
+                            />
+                        </div>
                     </div>
                     
                     {/* LINES */}
@@ -214,7 +219,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                             <td>
                                                 <select
                                                     {...register(`related_invoice.${index}.item`)}
-                                                    className="w-full drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
+                                                    className={forms.select.small}
                                                 >
                                                     <option value=""></option>
                                                     {productItems.map((product: ProductItemCreateResponse) => (
@@ -249,7 +254,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                             <td className={tables.cell}>
                                                 <input 
                                                     {...register(`related_invoice.${index}.unit_of_measure`)}
-                                                    className={tables.details.cell}
+                                                    className={tables.text}
                                                 />
                                             </td>
 
@@ -288,7 +293,9 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                                     title="remove"
                                                     onClick={() => remove(index)}
                                                 >
-                                                    <Trash2 size={16}/>
+                                                    <Trash2 size={16}
+                                                    className="text-black cursor-pointer" />
+                                                    
                                                 </button>
                                             </td>
                                         </tr>
@@ -326,10 +333,11 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Discount Amount</div>
+                                        <div>Discount %</div>
                                         <input 
                                             type="number"
                                             {...register("discount_amount")}
+                                            className={forms.input.smallNumber}
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
@@ -353,6 +361,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                         <input 
                                             type="number"
                                             {...register("tax_amount")}
+                                            className={forms.input.smallNumber}
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {

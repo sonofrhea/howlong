@@ -330,7 +330,8 @@ const RefundForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers
                                                     date: "",
                                                     refund_amount: 0.00,
                                                     additional_charges: 0.00,
-                                                    payment_type: "" as any
+                                                    payment_type: "" as any,
+                                                    cancelled: false
                                                 })}
                                                 className={buttons.addLine}
                                             >

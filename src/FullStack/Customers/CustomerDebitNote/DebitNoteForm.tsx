@@ -2,24 +2,23 @@ import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import './debitnote.css';
 
-import { DebitNoteInputs, CustomersModuleInterface, 
+import { DebitNoteInputs, 
     CustomerCreateResponse } from "../constants/Types";
 
 import { CurrencyInterface, AgentInterface } from "../../Core/Interfaces";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
-import { CustomerPaymentResponse } from "../../Sales/Interfaces";
+import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
 
 import { forms, buttons, layout, tables, text, utils } from "../constants/Styles";
 
 import { Trash2 } from "lucide-react";
-import { deleteDebitNote } from "../Engines";
 
 
 
-const formatDebitNoteNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `DN-${currentYear}-`;
-};
+//const formatDebitNoteNumber = () => {
+//    const currentYear = new Date().getFullYear();
+//    return `DN-${currentYear}-`;
+//};
 
 
 const decimalPlaces = (amount: number) => {

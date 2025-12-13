@@ -90,12 +90,13 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                     </div>
 
                     <div>
-                        <p className="text-xs text-gray-500 mt-1">Official Documentation</p>
+                        <p className="text-xs text-gray-500 mt-1">Details</p>
                     </div>
 
                     <div className="flex gap-3">
                         <button 
                             onClick={onEdit}
+                            
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />

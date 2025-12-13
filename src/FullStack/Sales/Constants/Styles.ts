@@ -25,17 +25,19 @@ export const forms = {
   input: {
     date: "px-3 py-2 border text-black cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors",
     number: "w-full text-gray-700 border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
+    midNumber: "w-[70%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
+    smallNumber: "w-[30%] text-black border-gray-300 drop-shadow-md shadow-inner rounded focus:outline-none focus:ring-2 focus:ring-blue-500",
     base: "px-3 py-2 border text-black rounded focus:ring-2 focus:border-transparent transition-colors"
   },
   select: {
     full: "w-full drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
     partial: "w-[60%] text-black drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
-    small: "w-[80%] cursor-pointer border drop-shadow-md shadow-inner rounded border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
+    small: "w-[80%] text-black cursor-pointer border drop-shadow-md shadow-inner rounded border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
   },
   label: "px-2 py-1 text-black text-center tracking-[0.1em] text-xs font-semibold uppercase",
   nextLevelLabel: "px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4",
   secondLevelLabel: "px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-5",
-  description: "w-[50%] border border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-1 focus:ring-green-500"
+  description: "w-[60%] text-black drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
 };
 
 
@@ -74,6 +76,7 @@ export const layout = {
 };
 
 export const tables = {
+  numberLabel: "inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate",
   base: "w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner",
   header: "bg-blue-100 drop-shadow-md shadow-lg",
   headerCell: "px-4 py-3 text-black text-center tracking-[0.1em] text-xs font-semibold uppercase",
@@ -92,6 +95,7 @@ export const text = {
   redBadgeSmall: "text-xs text-rose-700 uppercase tracking-wide",
   badgeLarge: "text-l tracking-[0.0.5em] font-bold text-amber-800",
   badgeExtraLarge: "text-2xl tracking-[0.0.5em] font-bold text-amber-800",
+  badgeExtraLargeBlack: "text-2xl tracking-[0.0.5em] font-bold text-black",
   redBadgeLarge: "text-lg tracking-[0.0.5em] font-bold text-rose-800",
   loading: "flex items-center gap-2",
   numbers: "text-gray-500 text-black mr-1"

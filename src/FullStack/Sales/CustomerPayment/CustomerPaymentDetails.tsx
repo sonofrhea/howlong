@@ -6,12 +6,12 @@ const formatNumber = () => {
     return `QT-${currentYear}-`;
 };
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
 
-const customerPayment = ({ customerPayment, isLoading, onBack, onEdit }) => {
+const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, onEdit }) => {
 
     if (isLoading) {
         return (
@@ -42,7 +42,7 @@ const customerPayment = ({ customerPayment, isLoading, onBack, onEdit }) => {
 
     return (
         <div className="bg-gray-100">
-            <div className="w-[100%] mx-auto page bg-white shadow-xl rounded-xl p-8 border border-gray-200">
+            <div className="w-full mx-auto page bg-white shadow-xl rounded-xl p-8 border border-gray-200">
                 <div className="flex justify-between items-start">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-800 tracking-wide">CUSTOMER PAYMENT</h1>

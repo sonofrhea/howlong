@@ -14,6 +14,20 @@ const formatDate = (dateString: string) => {
 
 
 
+const formatCustomerNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `CV-${currentYear}-`;
+};
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -104,11 +118,11 @@ const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) =
                         
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Customer</p>
-                            {invoice.customer} | {invoice.customer_name}
+                            {formatCustomerNumber()}{invoice.customer} | {invoice.customer_name}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Customer Details</p>
+                            <p className={details.extraSmallUppercase}>Customer Extra Details</p>
                             {invoice.customer_details}
                         </p>
                         
@@ -160,7 +174,7 @@ const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) =
                                                 <td className={tables.cell}>{line.unit_of_measure}</td>
                                                 <td className={tables.cell}>{line.price_per_unit}</td>
                                                 <td className={tables.cell}>{line.sub_total}</td>
-                                                <td className={tables.cell}>{line.cancelled}</td>
+                                                <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -177,13 +191,13 @@ const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) =
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Discount</div>
-                                        <div className="font-medium text-gray-800">{invoice.discount_amount}</div>
+                                        <div>Discount %</div>
+                                        <div className="font-medium text-gray-800">{invoice.discount_amount}%</div>
                                     </div>
 
                                     <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
-                                        <div>Tax</div>
-                                        <div className="font-medium text-gray-800">{invoice.tax_amount}</div>
+                                        <div>Tax %</div>
+                                        <div className="font-medium text-gray-800">{invoice.tax_amount}%</div>
                                     </div>
 
                                     <div className="border-t border-dashed border-blue-500 mt-3 pt-3 flex justify-between items-center"></div>

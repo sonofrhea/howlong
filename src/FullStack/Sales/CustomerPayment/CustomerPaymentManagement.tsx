@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 
 import { fetchCustomerPayments, fetchCustomerPaymentById,
-     createCustomerPayment, editCustomerPayment,
+     createCustomerPayment, fetchInvoicePayments,
     updateCustomerPayment, deleteCustomerPayment, fetchInvoices
  } from "../Engines";
 
@@ -18,7 +18,7 @@ import { fetchCustomers } from "../../Customers/Engines"
 
 import { CustomerPaymentInputs, CustomerPaymentResponse,
     EditCustomerPaymentInputs
- } from "../Interfaces";
+ } from "../Constants/Types";
 
 import { fetchProjects } from "../../Projects/Engines";
 
@@ -93,9 +93,9 @@ function CustomerPaymentManagement() {
         queryFn: fetchAgents
     });
 
-    const { data: invoices = [] } = useQuery({
-        queryKey: ['invoices'],
-        queryFn: fetchInvoices
+    const { data: invoicePayments = [] } = useQuery({
+        queryKey: ['invoicePayments'],
+        queryFn: fetchInvoicePayments
     });
 
     const { data: projects = [] } = useQuery({
@@ -176,23 +176,23 @@ function CustomerPaymentManagement() {
     // ------------------------------------------------------------------------------------
                 // MUTATION USE
 
-    const toFormData = (obj, form = new FormData(), parentKey = '') => {
-    Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        const field = parentKey ? `${parentKey}.${key}` : key;
-        if (value === null || value === undefined) return;
-        if (Array.isArray(value)) {
-        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-        } else if (value instanceof File) {
-        form.append(field, value);
-        } else if (typeof value === 'object') {
-        toFormData(value, form, field);
-        } else {
-        form.append(field, value);
-        }
-    });
-    return form;
-    };
+    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    //Object.keys(obj).forEach(key => {
+    //    const value = obj[key];
+    //    const field = parentKey ? `${parentKey}.${key}` : key;
+    //    if (value === null || value === undefined) return;
+    //    if (Array.isArray(value)) {
+    //    value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+    //    } else if (value instanceof File) {
+    //    form.append(field, value);
+    //    } else if (typeof value === 'object') {
+    //    toFormData(value, form, field);
+    //    } else {
+    //    form.append(field, value);
+    //    }
+    //});
+    //return form;
+    //};
 
 
 
@@ -428,7 +428,7 @@ function CustomerPaymentManagement() {
                             placeholder="Search..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
+                            className="pl-10 pr-2 text-gray-600 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
                         />
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -471,7 +471,7 @@ function CustomerPaymentManagement() {
             )}
 
             {view === 'form' && (
-            <div className="w-[100%] bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
+            <div className="w-full bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
                 <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
                 <div className="flex items-center gap-4 mb-8 justify-between">
                     <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100">
@@ -501,7 +501,7 @@ function CustomerPaymentManagement() {
                     accounts={accounts}
                     agents={agents}
                     customers={customers}
-                    invoices={invoices}
+                    invoicePayments={invoicePayments}
                     projects={projects}
                 />
                 {createCustomerPaymentMutation.isError && (

@@ -137,6 +137,11 @@ export type EditInvoiceInputs = {
   invoiceData: InvoiceInputs;
 };
 
+export type InvoiceInterface = {
+  invoice_number: number;
+  net_total: number;
+};
+
 // -------- END ----------- INVOICE INPUT ----------------
 
 
@@ -153,10 +158,18 @@ export type EditInvoiceInputs = {
 export type CustomerPaymentInputs = {
   date: number;
   customer: string;
+  customer_name: string;
   project: string;
   project_name: string;
+  related_payment: string;
+  related_payment_paid_amount: string;
+  related_payment_outstanding: string;
+  account_received_in: {
+    account_code: number;
+    account_name: string;
+    account_type: string;
+  };
   currency: string;
-  account_received_in: number;
   description: string;
   paid_amount: number;
   additional_bank_charges: number;
@@ -188,8 +201,21 @@ export type EditCustomerPaymentInputs = {
 
 
 
-
 //----------------BEGIN-----INVOICE PAYMENT INPUT-------------------
+
+export type InvoicePaymentList = {
+  date_created: string;
+  invoice_payment_code: number;
+  related_invoice: string;
+  related_invoice_total: number;
+  gross_paid: number;
+  tax_amount: number;
+  net_aggregate_paid: number;
+  outstanding_amount: number;
+  paid_by: string;
+  cancelled: boolean;
+  agent: string;
+};
 
 export type InvoicePaymentInputs = {
   date_created: string;
@@ -207,15 +233,20 @@ export type InvoicePaymentInputs = {
   cancelled: boolean;
   related_invoice_payment: Array<{
     payment_date: string;
-    payment_amount: number;
-    cancelled: boolean;
     payment_type: keyof typeof PAYMENT_TYPE_OPTIONS;
-    date_created: string;
+    //payment_amount: number;
+    tax_inclusive: boolean;
+    tax_amount: number;
+    total: number;
+    cancelled: boolean;
   }>;
+  gross_paid: number;
+  net_aggregate_paid: number;
+  outstanding_amount: number;
   paid_by: string;
+  paid_by_name: string;
   agent: string;
 };
-
 
 
 export type InvoicePaymentResponse = {
@@ -230,4 +261,10 @@ export type AllInvoicePaymentInputs = {
 export type EditInvoicePaymentInputs = {
   invoicePaymentId: number;
   invoicePaymentData: InvoicePaymentInputs;
+};
+
+export type InvoicePaymentInterface = {
+  invoice_payment_code: number;
+  net_aggregate_paid: number;
+  outstanding_amount: number;
 };

@@ -58,7 +58,7 @@ const InvoiceTable: React.FC<any> = ({ invoices, onInvoiceClick, onEditInvoice, 
                     <div className="flex items-center gap-2">
                     <span className="text-sm text-gray-600">Show</span>
                     <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)}
-                        className="border border-gray-300 rounded px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500">
+                        className="border border-gray-300 text-black rounded px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500">
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -87,7 +87,7 @@ const InvoiceTable: React.FC<any> = ({ invoices, onInvoiceClick, onEditInvoice, 
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-black text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>

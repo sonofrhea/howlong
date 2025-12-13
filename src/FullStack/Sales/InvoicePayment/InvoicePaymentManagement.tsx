@@ -14,8 +14,9 @@ import { fetchCustomers } from "../../Customers/Engines";
 
 
 
-import { InvoicePaymentInputs, AllInvoicePaymentInputs,
-  EditInvoicePaymentInputs
+import { InvoicePaymentInputs,
+  EditInvoicePaymentInputs,
+  InvoicePaymentResponse
  } from "../Constants/Types";
 
 
@@ -127,9 +128,9 @@ function InvoicePaymentManagement() {
 
   const createInvoicePaymentMutation = useMutation({
     mutationFn: createInvoicePayment,
-    onSuccess: (data) => {
+    onSuccess: (data: InvoicePaymentResponse) => {
       queryClient.invalidateQueries({ queryKey: ['invoicePayment']});
-      setSelectedInvoicePaymentId(data.item_code);
+      setSelectedInvoicePaymentId(data.invoice_payment_code);
       setView('details');
     },
     onError: (error: any) => {
@@ -243,10 +244,11 @@ function InvoicePaymentManagement() {
 // ------------------------------------------------------------------------------------
 
   const filteredInvoicePayments = invoicePayment.filter((invoicePayment: any) => {
-    const invoicePaymentNumber = String(invoicePayment.invoice_number)?.toLowerCase() || '';
+    const invoicePaymentNumber = String(invoicePayment.invoice_payment_code)?.toLowerCase() || '';
+    const invoicePaymentDate = invoicePayment.date_created?.toLowerCase() || '';
     const search = searchTerm.toLowerCase();
     
-    return invoicePaymentNumber.includes(search);
+    return invoicePaymentNumber.includes(search) || invoicePaymentDate.includes(search);
 });
 
   // ------------------------------------------------------------------------------------
@@ -417,7 +419,7 @@ const handleItemsPerPageChange = (value: any) => {
                       placeholder="Search..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
+                      className="pl-10 pr-2 text-gray-600 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
                     />
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -444,7 +446,7 @@ const handleItemsPerPageChange = (value: any) => {
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
               <InvoicePaymentTable 
                 invoicePayments={paginatedInvoicePayments}
-                onInvoicePaymentCLick={handleInvoicePaymentClick}
+                onInvoicePaymentClick={handleInvoicePaymentClick}
                 onEditInvoicePayment={handleEditInvoicePayment}
                 ondeleteInvoicePayment={handleDeleteInvoicePayment}
                 sortConfig={sortConfig}

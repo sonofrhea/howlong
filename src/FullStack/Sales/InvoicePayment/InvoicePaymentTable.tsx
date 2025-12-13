@@ -1,4 +1,6 @@
 import React from "react";
+import { InvoicePaymentList } from "../Constants/Types";
+import { tables } from "../Constants/Styles";
 
 
 const formatDate = (dateString: string) => {
@@ -6,6 +8,20 @@ const formatDate = (dateString: string) => {
 };
 
 
+const formatPaymentNumber = () => {
+    return "PAY-";
+};
+
+
+function formatCustomerNumber(): React.ReactNode {
+        const currentYear = new Date().getFullYear();
+        return `CV-${currentYear}-`;
+    };
+
+function formatInvoiceNumber(): React.ReactNode {
+    const currentYear = new Date().getFullYear();
+    return `INV-${currentYear}-`
+};
 
 
 
@@ -50,7 +66,7 @@ const InvoicePaymentTable: React.FC<any> = ({ invoicePayments, onInvoicePaymentC
                     <div className="flex items-center gap-2">
                     <span className="text-sm text-gray-600">Show</span>
                     <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)}
-                        className="border border-gray-300 rounded px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500">
+                        className="border border-gray-300 text-black rounded px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500">
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -70,6 +86,11 @@ const InvoicePaymentTable: React.FC<any> = ({ invoicePayments, onInvoicePaymentC
         );
     }
 
+
+
+
+
+
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
@@ -79,7 +100,7 @@ const InvoicePaymentTable: React.FC<any> = ({ invoicePayments, onInvoicePaymentC
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 text-black py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -95,20 +116,31 @@ const InvoicePaymentTable: React.FC<any> = ({ invoicePayments, onInvoicePaymentC
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-16 text-center" />  {/* Payment Number - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/6 text-center" />  {/* Account Received in */}
-                        <col className="w-1/6 text-center" /> {/* Currency - 16.6% */}
-                         <col className="w-1/5 text-center" /> {/* Paid By - 20% */}
-                        <col className="w-20 text-center" />  {/* Agent - Fixed */}
+                    {[
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-[9%] text-center',
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
-                            <SortableHeader label="Payment #" sortKey="invoice_payment_code" />
                             <SortableHeader label="Date" sortKey="date_created" />
-                            <SortableHeader label="Account Received in" sortKey="account_code" />
-                            <SortableHeader label="Currency" sortKey="currency" />
+                            <SortableHeader label="Payment #" sortKey="invoice_payment_code" />
+                            <SortableHeader label="Related Invoice" sortKey="related_invoice" />
+                            <SortableHeader label="Invoice Total" sortKey="related_invoice_total" />
+                            <SortableHeader label="Net Amount" sortKey="net_aggregate_paid" />
+                            <SortableHeader label="Outstanding" sortKey="outstanding_amount" />
                             <SortableHeader label="Paid By" sortKey="paid_by" />
+                            <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Agent" sortKey="agent" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
@@ -116,47 +148,71 @@ const InvoicePaymentTable: React.FC<any> = ({ invoicePayments, onInvoicePaymentC
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {invoicePayments.map((invoicePayment) => {
+                        {invoicePayments.map((invoicePayment: InvoicePaymentList) => {
                             const invoicePaymentId = invoicePayment.invoice_payment_code;
 
                             return (
                                 <tr key={invoicePayment.invoice_payment_code} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onInvoicePaymentClick(invoicePaymentId)}>
-                                    {/* Payment Number */}
-                                    <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={invoicePayment.invoice_payment_code}>
-                                            {invoicePayment.invoice_payment_code}
-                                        </span>
-                                    </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(invoicePayment.date_created)}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-gray-900 truncate">
                                             {formatDate(invoicePayment.date_created)}
                                         </div>
                                     </td>
-
-                                    {/* Account Received in */}
-                                    <td className="px-2 py-2 truncate" title={invoicePayment.account_code}>
-                                        <div className="text-sm text-gray-900 truncate">{invoicePayment.account_code}</div>
+                                    
+                                    {/* Payment Number */}
+                                    <td className="px-2 py-2">
+                                        <span className={tables.numberLabel}>
+                                            {formatPaymentNumber()}{invoicePayment.invoice_payment_code}
+                                        </span>
                                     </td>
 
-                                    {/* Currency */}
-                                    <td className="px-2 py-2 truncate" title={invoicePayment.currency}>
+                                    {/* Related Invoice */}
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
-                                            {invoicePayment.currency}
+                                            {formatInvoiceNumber()}{invoicePayment.related_invoice}
+                                        </div>
+                                    </td>
+
+                                    {/* Related Invoice Total */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {invoicePayment.related_invoice_total}
+                                        </div>
+                                    </td>
+
+                                    {/* Net Amount */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {invoicePayment.net_aggregate_paid}
+                                        </div>
+                                    </td>
+
+                                    {/* Outstanding */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {invoicePayment.outstanding_amount}
                                         </div>
                                     </td>
 
                                     {/* Paid By */}
-                                    <td className="px-2 py-2 truncate" title={invoicePayment.paid_by}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
                                             {invoicePayment.paid_by}
                                         </div>
                                     </td>
 
+                                    {/* Cancelled */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {invoicePayment.cancelled ? 'Yes' : 'No'}
+                                        </div>
+                                    </td>
+
                                     {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={invoicePayment.agent}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
                                             {invoicePayment.agent}
                                         </div>

@@ -6,7 +6,8 @@ import { QuotationInputs } from "../Constants/Types";
 import { AgentInterface,CurrencyInterface } from "../../Core/Interfaces"
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types"
-import { forms, layout, tables, text } from "../Constants/Styles";
+import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
+import { Trash2 } from "lucide-react";
 
 
 

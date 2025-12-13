@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 
 
-import { CustomerPaymentInputs, CurrencyInterface,
-    ProjectInterface, AgentInterface, 
-    CustomerInterface, ControlAccountInterface
- } from "@/types";
+import { CurrencyInterface, AgentInterface} from "../../Core/Interfaces";
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import { CustomerPaymentInputs, InvoicePaymentInterface } from "../Constants/Types";
+import { ProjectProfileResponse } from "../../Projects/constants/Types";
+import { CustomerCreateResponse } from "../../Customers/constants/Types";
+import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
 
 
 
@@ -15,7 +17,7 @@ const decimalPlaces = (amount: number) => {
 
 
 const formatPaymentNumber = () => {
-    return `POST-`;
+    return `PAY-`;
 };
 
 const formatCustomerNumber = () => {
@@ -32,8 +34,19 @@ const formatProjectNumber = () => {
 
 
 
-const CustomerPaymentForm = ({ onSubmit, isSubmitting, onCancel, currencies, 
-    accounts, agents, customers, invoices, projects }) => {
+
+
+
+
+
+
+
+
+
+
+
+const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, currencies, 
+    accounts, agents, customers, invoicePayments, projects }) => {
 
         const { register, handleSubmit, watch, setValue, control, 
             formState: { errors } } = useForm<CustomerPaymentInputs>({
@@ -46,240 +59,332 @@ const CustomerPaymentForm = ({ onSubmit, isSubmitting, onCancel, currencies,
                 }
             });
 
+        
+
+        
+        
+        
+        const selectedControlAccount = watch("account_received_in.account_code");
+        useEffect(() => {
+            if (selectedControlAccount) {
+    
+                const selectedCodeNumber = Number(selectedControlAccount);
+                console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
+    
+    
+                const selectedAccount = accounts.find((a: ControlAccountInterface) => 
+                    
+                    a.account_code === selectedCodeNumber
+                );
+                console.log("✅ Found account:", selectedAccount);
+    
+                if (selectedAccount) {
+                    setValue("account_received_in.account_name", selectedAccount.account_name);
+                    setValue("account_received_in.account_type", selectedAccount.account_type);
+                }
+            }
+        }, [selectedControlAccount, accounts, setValue]);
 
 
 
-            return(
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="w-[100%] mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
-                            <div className="flex justify-between items-start">
+
+
+        const selectedPaymentInvoice = watch("related_payment");
+        useEffect(() => {
+            if (selectedPaymentInvoice) {
+
+                const selectedPaymentNumber = Number(selectedPaymentInvoice);
+                console.log("🔍 Converting:", selectedPaymentInvoice, "→", selectedPaymentNumber);
+
+                const selectedPayment = invoicePayments.find((a: InvoicePaymentInterface) =>
+
+                    a.invoice_payment_code === selectedPaymentNumber
+                );
+                console.log("✅ Found Invoice Payment:", selectedPayment);
+
+                if (selectedPayment) {
+                    setValue("related_payment_paid_amount", selectedPayment.net_aggregate_paid);
+                    setValue("related_payment_paid_amount", selectedPayment.outstanding_amount);
+                }
+            }
+        }, [selectedPaymentInvoice, invoicePayments, setValue]);
+
+
+
+
+
+
+
+
+
+
+
+        
+
+        
+
+
+
+
+        return(
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className={forms.body}>
+                    <div className={layout.header}>
+                        <div className={layout.tag}>
+
+                            <div className="text-right">
                                 <div>
-                                    <h1 className="text-2xl font-bold text-gray-800 tracking-wide">CUSTOMER PAYMENT</h1>
+                                    <h1 className={text.badgeExtraLargeBlack}>CUSTOMER PAYMENT</h1>
                                     <p className="text-sm text-gray-500 mt-1">Official Record of Payment Already Posted</p>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <hr className="my-6 border-gray-200" />
+                    <hr className="my-6 border-gray-200" />
 
-                        <div className="border-t border-b border-gray-100 p-6 grid grid-cols-3 gap-6">
-                            <div>
-                                <p className="text-xs uppercase">Posted Date</p>
-                                <input 
-                                    type="date"
-                                    {...register("date")}
-                                    className="px-3 py-2 border hover:cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors"
-                                />
-
-                                <p className="text-xs uppercase mt-4">Account Received in</p>
-                                <select
-                                    {...register("account_received_in")}
-                                    className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
-                                >
-                                    <option value=""></option>
-                                    {accounts.map((account: ControlAccountInterface) => (
-                                        <option key={account.account_code} value={account.account_code}>
-                                            {account.account_code} ({account.account_name})
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div>
-                                <p className="text-xs uppercase">Customer</p>
-                                <select
-                                    {...register("customer")}
-                                    className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
-                                >
-                                    <option value=""></option>
-                                    {customers.map((customer: CustomerInterface) => (
-                                        <option key={customer.customer_number} value={customer.customer_number}>
-                                            {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
-                                        </option>
-                                    ))}
-                                </select>
-
-                                <p className="text-xs uppercase mt-4">Project</p>
-                                <select
-                                    {...register("project")}
-                                    className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
-                                >
-                                    <option value=""></option>
-                                    {projects.map((project: ProjectInterface) => (
-                                        <option key={project.project_code} value={project.project_code}>
-                                            {formatProjectNumber()}{project.project_code} | {project.project_name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div>
-                                <p className="text-xs uppercase">Agent</p>
-                                <select
-                                    {...register("agent")}
-                                    className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
-                                >
-                                    <option value=""></option>
-                                    {agents.map((agent: AgentInterface) => (
-                                        <option key={agent.username} value={agent.username}>
-                                            {agent.username}
-                                        </option>
-                                    ))}
-                                </select>
-
-
-                                <p className="text-xs uppercase mt-4">Currency</p>
-                                <select
-                                    {...register("currency")}
-                                    className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
-                                >
-                                    <option value=""></option>
-                                    {currencies.map((currency: CurrencyInterface) => (
-                                        <option key={currency.currency_code} value={currency.currency_code}>
-                                            {currency.currency_code}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                        <hr className="my-6 border-gray-200" />
+                    <div className={layout.formSectionCol3}>
                         <div>
-                            <p>completed ?</p>
+                            <p className={forms.label}>Date</p>
                             <input 
-                                type="checkbox"
-                                {...register("completed")}
+                                type="date"
+                                {...register("date")}
+                                className={forms.input.date}
                             />
                         </div>
-                        <hr className="my-6 border-gray-200" />
+                    
 
-                        <div className="p-6">
-                            <div className="w-full">
-                                <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
-                                    <colgroup>
-                                        {[
-                                            'w-1/8 text-center',
-                                            'w-1/8 text-center',
-                                            'w-1/8 text-center',
-                                        ].map((line, index) => (
-                                            <col key={index} className={line} />
-                                        ))}
-                                    </colgroup>
-                                    <thead className="bg-blue-100 drop-shadow-md shadow-lg">
-                                        <tr>
-                                            <th className="px-4 py-3 text-center text-xs font-medium uppercase">Description</th>
-                                            <th className="px-4 py-3 text-center text-xs font-medium uppercase">Cancelled</th>
-                                            <th className="px-4 py-3 text-center text-xs font-medium uppercase">Paid Amount</th>
-                                        </tr>
-                                    </thead>
+                        <div>
+                            <p className={forms.label}>Related Project</p>
+                            <select
+                                {...register("project")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {projects.map((project: ProjectProfileResponse) => (
+                                    <option key={project.project_code} value={project.project_code}>
+                                        {formatProjectNumber()}{project.project_code} | {project.project_name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                                                
+                        <div>
+                            <p className={forms.label}>Account Received In</p>
+                            <select
+                                {...register("account_received_in.account_code")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {accounts.map((account: ControlAccountInterface) => (
+                                    <option key={account.account_code} value={account.account_code}>
+                                        {account.account_code} ({account.account_name})
+                                    </option>
+                                ))}
+                            </select>
 
-                                    <tbody className="bg-white divide-y divide-gray-100">
-                                        <tr className="bg-white divide-y divide-gray-100">
-                                            <td>
-                                                <input 
-                                                    {...register("description")}
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                />
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="checkbox"
-                                                    {...register("cancelled")}
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                />
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="number"
-                                                    {...register("paid_amount")}
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}
-                                                    className="w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <input type="hidden" {...register("account_received_in.account_name")} />
+                            <input type="hidden" {...register("account_received_in.account_type")} />
+                        </div>
 
-                            <div className="mt-6 sm:flex sm:items-center sm:justify-end drop-shadow-md shadow-inner">
-                                <div className="w-full sm:w-1/2 lg:w-1/3">
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <span>Amount Posted</span>
-                                            <span>
-                                                <input 
-                                                    type="number"
-                                                    {...register("paid_amount")}
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}
-                                                />
-                                            </span>
-                                        </div>
+                        <div>
+                            <p className={forms.label}>Related Payment</p>
+                            <select
+                                {...register("related_payment")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {invoicePayments.map((invoicePayment: InvoicePaymentInterface) => (
+                                    <option key={invoicePayment.invoice_payment_code} value={invoicePayment.invoice_payment_code}>
+                                        {formatPaymentNumber()}{invoicePayment.invoice_payment_code} | Total: {invoicePayment.net_aggregate_paid}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <span>Additional bank charges</span>
-                                            <span>
-                                                <input 
-                                                    type="number"
-                                                    {...register("additional_bank_charges")}
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}
-                                                />
-                                            </span>
-                                        </div>
+                        <div>
+                            <p className={forms.label}>Related Payment Total</p>
+                            <input 
+                                {...register("related_payment_paid_amount")}
+                                type="number"
+                                readOnly
+                                className={forms.input.midNumber}
+                                placeholder="0.00"
+                                step="0.01" min="0.00" onBlur={(e) => {
+                                    if (e.target.value) {
+                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    }
+                                }}
+                            />
+                        </div>
 
-                                        <div className="border-t border-dashed border-blue-300 mt-3 pt-3 flex justify-between items-center">
-                                            <span>Outstanding</span>
-                                            <span>
-                                                <input 
-                                                    type="number"
-                                                    {...register("outstanding")}
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* SUBMIT BUTTON */}
-                            <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
-                                <button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className="px-6 py-3 bg-amber-900 text-white rounded drop-shadow-md shadow-xl hover:bg-green-700 font-medium disabled:opacity-50"
-                                >
-                                    {isSubmitting ? (
-                                        <span className="flex items-center gap-2">
-                                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                            Creating Payment...
-                                        </span>
-                                    ) : (
-                                        'Create Payment'
-                                    )}
-                                </button>
-                            </div>
+                        <div>
+                            <p className={forms.label}>Related Payment Outstanding</p>
+                            <input 
+                                {...register("related_payment_outstanding")}
+                                type="number"
+                                readOnly
+                                className={forms.input.midNumber}
+                                placeholder="0.00"
+                                step="0.01" min="0.00" onBlur={(e) => {
+                                    if (e.target.value) {
+                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    }
+                                }}
+                            />
+                        </div>
+                        
+                        <div>
+                            <p className={forms.label}>Cancelled</p>
+                            <input 
+                                {...register("cancelled")}
+                                type="checkbox"
+                            />
+                        </div>
+                        
+                        <div>
+                            <p className={forms.label}>Completed</p>
+                            <input 
+                                {...register("completed")}
+                                type="checkbox"
+                            />
+                        </div>
+                                                
+                        <div>
+                            <p className={forms.label}>Currency</p>
+                            <select 
+                                {...register("currency")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {currencies.map((currency: CurrencyInterface) => (
+                                    <option key={currency.currency_code} value={currency.currency_code}>
+                                        {currency.currency_code}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                                                
+                        <div>
+                            <p className={forms.label}>Agent</p>
+                            <select className={forms.select.partial}
+                                {...register("agent")}>
+                                    <option value=""></option>
+                                    {agents.map((agent: AgentInterface) => (
+                                        <option key={agent.name} value={agent.name}>
+                                            {agent.name}
+                                        </option>
+                                    ))}
+                            </select>
                         </div>
                     </div>
-                </form>
-            );
+
+                    <hr className="my-6 border-gray-200" />
+
+                    <div className="p-6">
+                        <div className="w-full">
+                            <table className={tables.base}>
+                                <colgroup>
+                                    {[
+                                        'w-1/4 text-center',
+                                        'w-1/4 text-center',
+                                        'w-1/4 text-center',
+                                        'w-1/4 text-center',
+                                        'w-[9%] text-center',
+                                    ].map((line, index) => (
+                                        <col key={index} className={line} />
+                                    ))}
+                                </colgroup>
+                                <thead className={tables.header}>
+                                    <tr>
+                                        <th className={tables.headerCell}>Paid Amount</th>
+                                        <th className={tables.headerCell}>Description</th>
+                                        <th className={tables.headerCell}>Additional Charges</th>
+                                        <th className={tables.headerCell}>Outstanding</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody className={tables.body}>
+
+                                    <tr>
+                                        <td className={text.numbers}>
+                                            <input 
+                                                {...register("paid_amount")}
+                                                type="number"
+                                                className={forms.input.number}
+                                                placeholder="0.00"
+                                                step="0.01" min="0.00" onBlur={(e) => {
+                                                    if (e.target.value) {
+                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    }
+                                                }} 
+                                            />
+                                            
+                                        </td>
+
+                                        <td className={tables.cell}>
+                                            <input 
+                                                {...register("description")}
+                                                className={tables.text}
+                                            />
+                                        </td>
+
+                                        <td className={text.numbers}>
+                                            <input 
+                                                {...register("additional_bank_charges")}
+                                                type="number"
+                                                className={forms.input.number}
+                                                placeholder="0.00"
+                                                step="0.01" min="0.00" onBlur={(e) => {
+                                                    if (e.target.value) {
+                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    }
+                                                }} 
+                                            />
+                                            
+                                        </td>
+
+                                        <td className={text.numbers}>
+                                            <input 
+                                                {...register("outstanding")}
+                                                type="number"
+                                                className={forms.input.number}
+                                                placeholder="0.00"
+                                                step="0.01" min="0.00" onBlur={(e) => {
+                                                    if (e.target.value) {
+                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    }
+                                                }} 
+                                            />
+                                            
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        {/* SUBMIT BUTTON */}
+                        <div className={layout.submitSection}>
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className={buttons.primary}
+                            >
+                                {isSubmitting ? (
+                                    <span className="flex items-center gap-2">
+                                        <div className={utils.spinner}></div>
+                                        Creating Payment Record...
+                                    </span>
+                                ) : (
+                                    'Create Payment Record'
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        );
     };
     export default CustomerPaymentForm;
+    
