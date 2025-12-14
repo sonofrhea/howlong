@@ -99,7 +99,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
 
         return(
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="w-full bg-yellow rounded-xl shadow-md border border-black-200">
+                <div className="w-full bg-yellow rounded-xl border shadow-2xl border-gray-200">
                     {/* Header */}
                     <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gray-50 rounded-t-xl">
                         <div className="flex items-center gap-4 flex-1">
@@ -110,7 +110,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                             <span className="inline-flex text-black items-center rounded-full text-s ">Status:      
                                 <select 
                                     {...register("status")}
-                                    className="ml-4 w-25 h-6 text-center bg-transparent text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
+                                    className="ml-4 w-25 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
                                 >
                                     {STATUS_CHOICES.map(option => (
                                         <option key={option.value} value={option.value}>
@@ -132,7 +132,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     <div className="text-sm text-black font-medium mb-1">Control Account</div>
                                     <select 
                                         {...register("control_account.account_code")}
-                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
+                                        className="w-full text-black rounded-lg border border-gray-300 cursor-pointer px-3 py-2 focus:ring-2 focus:ring-green-300"
                                     >
                                         <option value=""></option>
                                         {accounts.map((account: ControlAccountInterface) => (
@@ -147,11 +147,11 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                 </div>
 
                                 <div>
-                                    <div className="text-sm text-black font-medium mb-1">Date created</div>
+                                    <div className="text-sm text-black  font-medium mb-1">Date created</div>
                                     <input 
                                         type="date" 
                                         {...register("date_created", {required: "Date is required"})}
-                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                                        className="w-full text-black rounded-lg  cursor-pointer border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     />
                                     {errors.date_created && <p className="text-amber-600 text-sm">{errors.date_created?.message}</p>}
                                 </div>
@@ -160,7 +160,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     <div className="text-sm text-black font-medium mb-1">ID Type</div>
                                     <select 
                                         {...register("id_type")} 
-                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                                        className="w-full text-black cursor-pointer rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     >
                                         <option value=""></option>
                                         {ID_TYPE_CHOICES.map(id_type => (
@@ -174,7 +174,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                 <div>
                                     <div className="text-sm text-black mb-1">ID File</div>
                                     <input 
-                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2"
+                                        className="w-full text-black cursor-pointer rounded-lg border border-gray-300 px-3 py-2"
                                         type="file" 
                                         onChange={e => {
                                             const file = e.target.files?.[0] || null;
@@ -270,7 +270,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     <div className="text-sm text-black mb-1">Country</div>
                                     <select
                                     {...register("country")}
-                                    className="w-full text-black rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                                    className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     >
                                         <option value=""></option>
                                         {COUNTRY_OPTIONS.map(country => (
@@ -302,7 +302,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
 
                                     <select 
                                         {...register("preferred_currency.currency_code")}
-                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2" 
+                                        className="w-full text-black rounded-lg border cursor-pointer border-gray-300 px-3 py-2" 
                                     >
                                         {currencies.map((currency: CurrencyInterface) => (
                                             <option key={currency.currency_code} value={currency.currency_code} >
@@ -327,7 +327,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     <div className="text-sm text-black mb-1">Bank Name</div>
                                     <select 
                                         {...register("customer_bank_name")}
-                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2"
+                                        className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                     >
                                         <option value=""></option>
                                         {banks.map((bank: BankInterface) => (
@@ -350,7 +350,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     <div className="text-sm text-black mb-1">Account type</div>
                                     <select 
                                         {...register("bank_account_type")} 
-                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2"
+                                        className="w-full text-black rounded-lg border cursor-pointer border-gray-300 px-3 py-2"
                                         >
                                         <option value=""></option>
                                         {BANK_TYPE_CHOICES.map(option => (
@@ -404,7 +404,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     <div className="text-sm text-black mb-1">Tax ID Type</div>
                                     <select 
                                         {...register("tax_id_type")}
-                                        className="w-full rounded-lg border text-black border-gray-300 px-3 py-2" 
+                                        className="w-full rounded-lg border cursor-pointer text-black border-gray-300 px-3 py-2" 
                                     >
                                         <option value=""></option>
                                         {TAX_ID_CHOICES.map(tax => (
@@ -431,7 +431,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                             const file = e.target.files?.[0] || null;
                                             setValue('taxpayers_qr_code', file);
                                         }}
-                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2"
+                                        className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                     />
                                 </div>
 
@@ -447,7 +447,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     <div className="text-sm text-black mb-1">Expiration date</div>
                                     <input 
                                         type="date" 
-                                        className="w-full text-black rounded-lg border border-gray-300 px-3 py-2"
+                                        className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                         {...register("expiration_date")} 
                                     />
                                 </div>

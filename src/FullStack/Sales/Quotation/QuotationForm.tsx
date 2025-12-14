@@ -19,7 +19,7 @@ import { Trash2 } from "lucide-react";
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`;
 };
 
 
@@ -157,14 +157,18 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                             <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                                 <colgroup>
                                     {[
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-1/8 text-center',
-                                        'w-[9%] text-center',
+                                        'w-1/11 text-center',
+                                        'w-1/11 text-center',
+                                        'w-1/11 text-center',
+                                        'w-1/11 text-center',
+                                        'w-1/11 text-center',
+                                        'w-1/11 text-center',
+                                        'w-1/11 text-center',
+                                        'w-1/11 text-center',
+                                        'w-1/11 text-center',
+                                        'w-1/11 text-center',
+                                        'w-1/11 text-center',
+                                        'w-[5%] text-center',
                                     ].map((line, index) => (
                                         <col key={index} className={line} />
                                     ))}
@@ -180,8 +184,9 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                     <th className={tables.headerCell}>Sub-Total</th>
                                     <th className={tables.headerCell}>SST Inclusive?</th>
                                     <th className={tables.headerCell}>SST %</th>
-                                    <th className={tables.headerCell}>Total(After SST)</th>
-                                    <th className={tables.headerCell}></th>
+                                    <th className={tables.headerCell}>Total</th>
+                                    <th className={tables.headerCell}>Cancelled</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
@@ -191,7 +196,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                             <td>
                                                 <select
                                                     {...register(`related_quotation.${index}.item`)}
-                                                    className={forms.select.partial}
+                                                    className={forms.select.full}
                                                 >
                                                     <option value=""></option>
                                                     {productItems.map((product: ProductItemCreateResponse) => (
@@ -242,7 +247,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                             <td className={tables.cell}>
                                                 <select
                                                     {...register(`related_quotation.${index}.currency`)}
-                                                    className={forms.select.partial}
+                                                    className={forms.select.full}
                                                 >
                                                     <option value=""></option>
                                                     {currencies.map((currency: CurrencyInterface) => (
@@ -359,7 +364,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                             <input 
                                                 type="number"
                                                 {...register("tax_amount")}
-                                                className={forms.input.number}
+                                                className={forms.input.smallNumber}
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
@@ -375,7 +380,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                             <input 
                                                 type="number"
                                                 {...register("discount")}
-                                                className={forms.input.number}
+                                                className={forms.input.smallNumber}
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {

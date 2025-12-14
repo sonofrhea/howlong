@@ -410,7 +410,7 @@ const handleItemsPerPageChange = (value: any) => {
                     <div className="relative">
                     <input
                         type="text"
-                        placeholder="Search..."
+                        placeholder="Search credit notes..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"

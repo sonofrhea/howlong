@@ -12,7 +12,7 @@ import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`;
 };
 
 
@@ -301,7 +301,7 @@ const CreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, custo
                                                 {decimalPlaces(
                                                     (Number(watch(`credit_note_lines.${index}.amount`) || 0.00) *
                                                     (1 + (Number(watch(`credit_note_lines.${index}.tax_amount`) / 100 ))|| 0.00))
-                                                )}%
+                                                )}
                                             </td>
 
                                             <td>
@@ -316,8 +316,8 @@ const CreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, custo
                                             </td>
                                         </tr>
                                     ))}
-                                    <tr>
-                                        <td>
+                                    <tr >
+                                        <td className={tables.headerCell}>
                                             <button
                                                 type="button"
                                                 onClick={() => append({
@@ -330,7 +330,7 @@ const CreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, custo
                                                 })}
                                                 className={buttons.addLine}
                                             >
-                                                + Add New Line
+                                                ++ New Line
                                             </button>
                                         </td>
                                     </tr>

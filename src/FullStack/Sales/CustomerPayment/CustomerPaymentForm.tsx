@@ -7,6 +7,7 @@ import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { CustomerPaymentInputs, InvoicePaymentInterface } from "../Constants/Types";
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
+import { CustomerCreateResponse } from "../../Customers/constants/Types";
 
 
 
@@ -185,6 +186,21 @@ const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                             <input type="hidden" {...register("account_received_in.account_name")} />
                             <input type="hidden" {...register("account_received_in.account_type")} />
                         </div>
+                                            
+                        <div>
+                            <p className={forms.label}>Customer</p>
+                            <select
+                                {...register("customer")}
+                                className={forms.select.partial}
+                            >
+                                <option value=""></option>
+                                {customers.map((customer: CustomerCreateResponse) => (
+                                    <option key={customer.customer_number} value={customer.customer_number}>
+                                        {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
                         <div>
                             <p className={forms.label}>Related Payment</p>
@@ -300,7 +316,7 @@ const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                         <th className={tables.headerCell}>Description</th>
                                         <th className={tables.headerCell}>Additional Charges</th>
                                         <th className={tables.headerCell}>Outstanding</th>
-                                        <th></th>
+                                        <th className={tables.headerCell}></th>
                                     </tr>
                                 </thead>
 

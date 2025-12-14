@@ -18,7 +18,7 @@ const formatCustomerNumber = () => {
 };
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`;
 };
 
 
@@ -200,7 +200,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                         'w-1/10 text-center',
                                         'w-1/10 text-center',
                                         'w-1/10 text-center',
-                                        'w-[9%] text-center',
+                                        'w-[5%] text-center',
                                     ].map((line, index) => (
                                         <col key={index} className={line} />
                                     ))}
@@ -213,11 +213,11 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                     <th className={tables.headerCell}>Unit of Measure</th>
                                     <th className={tables.headerCell}>Price/Per Unit</th>
                                     <th className={tables.headerCell}>Sub-Total</th>
-                                    <th className={tables.headerCell}>Tax Inclusive</th>
+                                    <th className={tables.headerCell}>SST Inclusive?</th>
                                     <th className={tables.headerCell}>SST %</th>
-                                    <th className={tables.headerCell}>Total(After SST)</th>
+                                    <th className={tables.headerCell}>Total</th>
                                     <th className={tables.headerCell}>Cancelled</th>
-                                    <th></th>
+                                    <th className={tables.headerCell}></th>
                                 </tr>
                                 </thead>
 
@@ -349,22 +349,26 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                             </td>
                                         </tr>
                                     ))}
-                                    <button
-                                        type="button"
-                                        onClick={() => append({ 
-                                            item: "", 
-                                            description: "",
-                                            quantity: 0, 
-                                            unit_of_measure: "", 
-                                            price_per_unit: 0.00,
-                                            cancelled: false,
-                                            tax_inclusive: false, 
-                                            tax_amount: 0.00
-                                            })}
-                                        className={buttons.addLine}
-                                    >
-                                        + Add New Line
-                                    </button>
+                                    <tr>
+                                        <td className={tables.headerCell}>
+                                            <button
+                                                type="button"
+                                                onClick={() => append({ 
+                                                    item: "", 
+                                                    description: "",
+                                                    quantity: 0, 
+                                                    unit_of_measure: "", 
+                                                    price_per_unit: 0.00,
+                                                    cancelled: false,
+                                                    tax_inclusive: false, 
+                                                    tax_amount: 0.00
+                                                    })}
+                                                className={buttons.addLine}
+                                            >
+                                                ++ New Line
+                                            </button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

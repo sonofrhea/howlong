@@ -160,8 +160,8 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                                             <th className={tables.headerCell}>Date</th>
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>Amount</th>
-                                            <th className={tables.headerCell}>Tax Inclusive?</th>
-                                            <th className={tables.headerCell}>Tax %</th>
+                                            <th className={tables.headerCell}>SST Inclusive?</th>
+                                            <th className={tables.headerCell}>SST %</th>
                                             <th className={tables.headerCell}>Current Total</th>
                                         </tr>
                                     </thead>

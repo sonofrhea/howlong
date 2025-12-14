@@ -13,7 +13,7 @@ import { forms, buttons, layout, tables, text, utils } from "../Constants/Styles
 import { Trash2 } from "lucide-react";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
-import { AgentInterface, CurrencyInterface } from "../../Core/Interfaces";
+import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`
@@ -276,11 +276,11 @@ const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
                                         <th className={tables.headerCell}>Date</th>
                                         <th className={tables.headerCell}>Payment Type</th>
                                         <th className={tables.headerCell}>Amount</th>
-                                        <th className={tables.headerCell}>Tax Inclusive?</th>
+                                        <th className={tables.headerCell}>SST Inclusive?</th>
                                         <th className={tables.headerCell}>SST %</th>
                                         <th className={tables.headerCell}>Current Total</th>
                                         <th className={tables.headerCell}>Cancelled</th>
-                                        <th></th>
+                                        <th className={tables.headerCell}></th>
                                     </tr>
                                 </thead>
 
@@ -372,7 +372,7 @@ const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
                                         </tr>
                                     ))}
                                     <tr>
-                                        <td>
+                                        <td className={tables.headerCell}>
                                             <button
                                                 type="button"
                                                 onClick={() => append({
@@ -385,7 +385,7 @@ const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
                                                 })}
                                                 className={buttons.addLine}
                                             >
-                                                + Add New Line
+                                                ++ New Line
                                             </button>
                                         </td>
                                     </tr>

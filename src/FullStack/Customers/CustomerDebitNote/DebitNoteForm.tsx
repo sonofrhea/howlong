@@ -22,7 +22,7 @@ import { Trash2 } from "lucide-react";
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`;
 };
 
 const formatCustomerNumber = () => {
@@ -253,10 +253,10 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                                     <th className={tables.headerCell}>Date</th>
                                     <th className={tables.headerCell}>Description</th>
                                     <th className={tables.headerCell}>Amount</th>
-                                    <th className={tables.headerCell}>Tax Inclusive?</th>
-                                    <th className={tables.headerCell}>Tax %</th>
+                                    <th className={tables.headerCell}>SST Inclusive?</th>
+                                    <th className={tables.headerCell}>SST %</th>
                                     <th className={tables.headerCell}>Current Total</th>
-                                    <th></th>
+                                    <th className={tables.headerCell}></th>
                                 </tr>
                             </thead>
 
@@ -333,8 +333,8 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                                         </td>
                                     </tr>
                                 ))}
-                                <tr>
-                                    <td>
+                                <tr className={tables.headerCell}>
+                                    <td >
                                         <button
                                             type="button"
                                             onClick={() => append({
@@ -347,7 +347,7 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                                             })}
                                             className={buttons.addLine}
                                         >
-                                            + Add New Line
+                                            ++ New Line
                                         </button>
                                     </td>
                                 </tr>

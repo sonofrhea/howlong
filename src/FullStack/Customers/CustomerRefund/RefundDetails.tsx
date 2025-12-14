@@ -131,7 +131,7 @@ const RefundDetails: React.FC<any> = ({ refund, isLoading, onBack, onEdit }) => 
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Refund Issued</p>
+                            <p className={details.extraSmallUppercase}>Expected Refund</p>
                             {refund.expected_refund}
                         </p>
 

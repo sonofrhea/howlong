@@ -58,7 +58,6 @@ export type QuotationInputs = {
   tax_inclusive: boolean;
   tax_amount: number;
   discount: number;
-  cancelled: boolean;
 };
 
 export type QuotationCreateResponse = {

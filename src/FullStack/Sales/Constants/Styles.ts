@@ -25,7 +25,7 @@ export const forms = {
   input: {
     date: "px-3 py-2 border text-black cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors",
     number: "w-full text-gray-700 border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
-    midNumber: "w-[70%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
+    midNumber: "w-[50%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
     smallNumber: "w-[30%] text-black border-gray-300 drop-shadow-md shadow-inner rounded focus:outline-none focus:ring-2 focus:ring-blue-500",
     base: "px-3 py-2 border text-black rounded focus:ring-2 focus:border-transparent transition-colors"
   },
@@ -50,7 +50,7 @@ export const buttons = {
   primary: "px-6 py-3 bg-amber-900 cursor-pointer text-white rounded drop-shadow-md shadow-xl hover:bg-green-700 font-medium disabled:opacity-50",
   remove: "text-red-600 hover:text-red-800 font-medium text-sm",
   add: "text-blue-600 hover:text-blue-800 font-medium text-sm w-full",
-  addLine: "min-w-full text-black cursor-pointer divide-y divide-gray-100",
+  addLine: "min-w-full text-black cursor-pointer divide-y divide-gray-100 border-x-gray-100 border-y-gray-100",
   editButtonGreen: "bg-white border border-gray-200 cursor-pointer hover:border-gray-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
 };
 
@@ -79,9 +79,9 @@ export const tables = {
   numberLabel: "inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate",
   base: "w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner",
   header: "bg-blue-100 drop-shadow-md shadow-lg",
-  headerCell: "px-4 py-3 text-black text-center tracking-[0.1em] text-xs font-semibold uppercase",
+  headerCell: "text-black text-center text-xs font-semibold uppercase border border-y-gray-100 border-x-gray-100",
   body: "bg-white divide-y divide-gray-100",
-  row: "bg-white divide-y divide-x divide-gray-100",
+  row: "bg-white divide-y divide-x divide-gray-200 border-x-gray-100 border-y-gray-100 border-l border-l-gray-100",
   cell: "px-4 py-4 text-sm text-gray-600 shadow-inner",
   autoCalculate: "px-4 py-4 text-sm text-gray-600 whitespace-nowrap",
   text: "w-[100%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500",

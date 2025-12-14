@@ -158,8 +158,8 @@ const CreditNoteDetails: React.FC<any> = ({ creditNote, isLoading, onBack, onEdi
                                             <th className={tables.headerCell}>Date</th>
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>Amount</th>
-                                            <th className={tables.headerCell}>Tax Inclusive?</th>
-                                            <th className={tables.headerCell}>Tax %</th>
+                                            <th className={tables.headerCell}>SST Inclusive?</th>
+                                            <th className={tables.headerCell}>SST %</th>
                                             <th className={tables.headerCell}>Current Total</th>
                                         </tr>
                                     </thead>

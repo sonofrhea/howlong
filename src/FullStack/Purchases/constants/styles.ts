@@ -66,7 +66,7 @@ export const layout = {
 export const tables = {
   base: "w-full  table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner",
   header: "bg-blue-100 text-black drop-shadow-md shadow-lg",
-  headerCell: "px-4 py-3 text-center  tracking-[0.1em] text-xs font-semibold uppercase",
+  headerCell: "text-center text-xs font-semibold uppercase",
   body: "bg-white text-black divide-y divide-gray-100",
   row: "bg-white text-black divide-y divide-x divide-gray-100",
   cell: "px-4 py-4 text-sm text-black",

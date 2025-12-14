@@ -131,39 +131,39 @@
 
 
 h1 {
-  font-family: CascadiaCodeNF-SemiBold;
+  font-family: CascadiaCodeNF-Regular;
   letter-spacing: 0.5px;
 }
 
 h2 {
-  font-family: CascadiaCodeNF-Regular;
+  font-family: GoogleSansCode-Light;
   font-size: 18px;
   letter-spacing: 0.5px;
   color: black;
 }
 
 h3 {
-  font-family: FiraCode-Medium;
+  font-family: FiraCode-Regular;
   font-size: 16px !important;
   color: #575555;
   letter-spacing: 0.5px;
 }
 
 h4 {
-  font-family: FiraCode-Medium;
+  font-family: FiraCode-Regular;
   font-size: 15px !important;
   letter-spacing: 0.5px;
 }
 
 thead th > div, th {
-    font-family: FiraCode-Medium !important;
+    font-family: FiraCode-Regular !important;
     font-size: 12px !important;
     align-items: center;
 }
 
 
 div {
-  font-family: CascadiaCodeNF-Regular;
+  font-family: GoogleSansCode-Light;
   font-size: 13.5px;
   letter-spacing: 0.2px;
   word-spacing: 0.1px;
