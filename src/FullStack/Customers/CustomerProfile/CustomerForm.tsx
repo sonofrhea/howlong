@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "../CustomerProfile/CustomerCss.css";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { CustomerInputs } from "../constants/Types";
 
