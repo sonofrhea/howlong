@@ -30,7 +30,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
         const { register, handleSubmit, watch, setValue, 
             formState: { errors } } = useForm<CustomerInputs>({
             defaultValues: {
-                is_active: true,
+                is_active: false,
                 status: 'Active'
             }
         });
@@ -150,9 +150,10 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     <div className="text-sm text-black font-medium mb-1">Date created</div>
                                     <input 
                                         type="date" 
-                                        {...register("date_created")}
+                                        {...register("date_created", {required: "Date is required"})}
                                         className="w-full text-black rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     />
+                                    {errors.date_created && <p className="text-amber-600 text-sm">{errors.date_created?.message}</p>}
                                 </div>
 
                                 <div >

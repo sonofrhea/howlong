@@ -76,9 +76,10 @@ const Register = () => {
                         />
                     </Box>
 
-                    <Box className={"itemBox"}>
+                    <Box >
+                        <p className="text-blue-900">Already have an account?</p>
                         <Link to="/">
-                            Already Registered? Click to Login.
+                            <button className="text-blue-900 underline">Login</button>
                         </Link>
                     </Box>
                 </Box>

@@ -64,9 +64,10 @@ const Login = () => {
                         />
                     </Box>
 
-                    <Box className={"itemBox"}>
+                    <Box>
+                        <p className="text-blue-800">No Account yet?</p>
                         <Link to="/register">
-                            No Account yet? Click to Register
+                            <p className="text-blue-800 underline">Register</p>
                         </Link>
                     </Box>
                 </Box>
