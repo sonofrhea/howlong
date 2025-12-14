@@ -11,13 +11,13 @@ import { Users, PackageOpen,
 
 
 export const APP_ICONS = {
-    customers: <Users className={iconStyles.small} />,
-    products: <PackageOpen className={iconStyles.small}/>,
-    sales: <ChartColumnIncreasing className={iconStyles.small}/>,
-    suppliers: <Hotel className={iconStyles.small}/>,
-    accounting: <Landmark className={iconStyles.small}/>,
-    projects: <Pickaxe className={iconStyles.small}/>,
-    purchases: <ShoppingCart className={iconStyles.small}/>,
-    reports: <SquarePen className={iconStyles.small}/>,
-    core: <Cpu className={iconStyles.small}/>,
+    customers: <Users strokeWidth={1.75} className={iconStyles.small} />,
+    products: <PackageOpen strokeWidth={1.75} className={iconStyles.small}/>,
+    sales: <ChartColumnIncreasing strokeWidth={1.75} className={iconStyles.small}/>,
+    suppliers: <Hotel strokeWidth={1.75} className={iconStyles.small}/>,
+    accounting: <Landmark strokeWidth={1.75} className={iconStyles.small}/>,
+    projects: <Pickaxe strokeWidth={1.75} className={iconStyles.small}/>,
+    purchases: <ShoppingCart strokeWidth={1.75} className={iconStyles.small}/>,
+    reports: <SquarePen strokeWidth={1.75} className={iconStyles.small}/>,
+    core: <Cpu strokeWidth={1.75} className={iconStyles.small}/>,
 };

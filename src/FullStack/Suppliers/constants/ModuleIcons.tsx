@@ -13,10 +13,10 @@ import { UserRoundPen, ListPlus,
 
 
 export const SUPPLIERS_ICONS = {
-    suppliersCategory: <Users size={40} strokeWidth={0.75} className={iconStyles.small} />,
-    suppliersProfile: <UserRoundPen size={40} strokeWidth={0.75} className={iconStyles.small} />,
-    suppliersInvoice: <TicketCheck size={40} strokeWidth={0.75} className={iconStyles.small} />,
-    suppliersPayment: <HandCoins size={40} strokeWidth={0.75} className={iconStyles.small} />,
-    suppliersDebitNote: <BanknoteArrowDown size={40} strokeWidth={0.75} className={iconStyles.small} />,
-    suppliersCreditNote: <BanknoteArrowUp size={40} strokeWidth={0.75} className={iconStyles.small} />,
+    suppliersCategory: <Users size={40} strokeWidth={1.75} className={iconStyles.small} />,
+    suppliersProfile: <UserRoundPen size={40} strokeWidth={1.75} className={iconStyles.small} />,
+    suppliersInvoice: <TicketCheck size={40} strokeWidth={1.75} className={iconStyles.small} />,
+    suppliersPayment: <HandCoins size={40} strokeWidth={1.75} className={iconStyles.small} />,
+    suppliersDebitNote: <BanknoteArrowDown size={40} strokeWidth={1.75} className={iconStyles.small} />,
+    suppliersCreditNote: <BanknoteArrowUp size={40} strokeWidth={1.75} className={iconStyles.small} />,
 };

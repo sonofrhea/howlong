@@ -11,7 +11,7 @@ import RegistrationPage from './Authentication/RegistrationForm';
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
 
-
+import ProtectedRoute from './components/ProtectedRoutes';
 
 
 
@@ -99,6 +99,8 @@ import BillOfQuantitiesManagement from './FullStack/Projects/BillOfQuantities/Bi
 ///////////////////////////////////////////////////////////////////////////////////
 // -------------------begin---------CORE--------------------------------------------
 
+import CoreDashboard from './FullStack/Core/CoreDashboard';
+import UsersManagement from './FullStack/Core/Users/UsersManagement';
 
 // -------------------end---------CORE--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -194,124 +196,95 @@ function App() {
             {/* Registration route */}
             <Route path='/register' element={<RegistrationPage />} />
             
+
             {/* Dashboard route - no layout  */}
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<ProtectedRoute/>}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+            
+            
             
             
             {/* ALL OTHER ROUTES - WITH layout */}
-
-
-
-
-            {/* CUSTOMERS */}
-
-            <Route path="/customers" element={
-              <Layout>
-                <CustomerDashboard />
-              </Layout>
-            } />
-
-            <Route path="/customers/customers-profile" element={
-              <Layout>
-                <CustomerManagement />
-              </Layout>
-            } />
-
-            <Route path="/customers/debit-note" element={
-              <Layout>
-                <DebitNoteManagement />
-              </Layout>
-            } />
-
-            <Route path='/customers/credit-note' element={
-              <Layout>
-                <CreditNoteManagement />
-              </Layout>
-            } />
-
-            <Route path="/customers/refund" element={
-              <Layout>
-                <RefundManagement />
-              </Layout>
-            } />
-
-
-
-
-
-
-
-
-
-
-                {/* PRODUCTS */}
-
             
-            <Route path="/products" element={
-              <Layout>
-                <ProductsDashboard title="Product Management" />
-              </Layout>
-            } />
 
-            <Route path="/products/product-group" element={
-              <Layout>
-                <ProductGroupManagement />
-              </Layout>
-            } />
+              {/* CORE */}
+            <Route element={<ProtectedRoute/>}>
+              <Route path='/core' element={
+                <Layout>
+                  <CoreDashboard />
+                </Layout>
+              } />
 
-            <Route path="/products/product-item" element={
-              <Layout>
-                <ProductItemManagement />
-              </Layout>
-            } />
+              <Route path="/core/users" element={
+                <Layout>
+                  <UsersManagement />
+                </Layout>
+              }/>
 
 
 
 
+              {/* CUSTOMERS */}
+              <Route path="/customers" element={
+                <Layout>
+                  <CustomerDashboard />
+                </Layout>
+              } />
 
+              <Route path="/customers/customers-profile" element={
+                <Layout>
+                  <CustomerManagement />
+                </Layout>
+              } />
 
+              <Route path="/customers/debit-note" element={
+                <Layout>
+                  <DebitNoteManagement />
+                </Layout>
+              } />
 
+              <Route path='/customers/credit-note' element={
+                <Layout>
+                  <CreditNoteManagement />
+                </Layout>
+              } />
 
+              <Route path="/customers/refund" element={
+                <Layout>
+                  <RefundManagement />
+                </Layout>
+              } />
 
-                          {/* SALES */}
 
-            
-            <Route path="/sales" element={
-              <Layout>
-                <SalesDashboard title="Sales Management" />
-              </Layout>
-            } />
 
-            <Route path="/sales/quotations" element={
-              <Layout>
-                <QuotationManagement />
-              </Layout>
-            } />
 
-            <Route path="/sales/invoices" element={
-              <Layout>
-                <InvoiceManagement />
-              </Layout>
-            } />
 
-            <Route path="/sales/invoice-payments" element={
-              <Layout>
-                <InvoicePaymentManagement />
-              </Layout>
-            } />
 
-            <Route path="/sales/customer-payments" element={
-              <Layout>
-                <CustomerPaymentManagement />
-              </Layout>
-            } />
 
 
 
 
+                  {/* PRODUCTS */}
 
+              
+              <Route path="/products" element={
+                <Layout>
+                  <ProductsDashboard title="Product Management" />
+                </Layout>
+              } />
 
+              <Route path="/products/product-group" element={
+                <Layout>
+                  <ProductGroupManagement />
+                </Layout>
+              } />
 
+              <Route path="/products/product-item" element={
+                <Layout>
+                  <ProductItemManagement />
+                </Layout>
+              } />
 
 
 
@@ -319,29 +292,40 @@ function App() {
 
 
 
-            {/* PURCHASES */}
 
-            <Route path="/purchases" element={
-              <Layout>
-                <PurchasesDashboard title="Company Purchases Management" />
-              </Layout>
-            } />
 
-            <Route path="/purchases/company-purchase-invoice" element={
-              <Layout>
-                <CompanyPurchaseInvoiceManagement />
-              </Layout>
-            } />
+                            {/* SALES */}
 
-            <Route path="/purchases/company-purchase-order" element={
-              <Layout>
-                <CompanyPurchaseOrderManagement />
-              </Layout>
-            } />
+              
+              <Route path="/sales" element={
+                <Layout>
+                  <SalesDashboard title="Sales Management" />
+                </Layout>
+              } />
 
+              <Route path="/sales/quotations" element={
+                <Layout>
+                  <QuotationManagement />
+                </Layout>
+              } />
 
+              <Route path="/sales/invoices" element={
+                <Layout>
+                  <InvoiceManagement />
+                </Layout>
+              } />
 
+              <Route path="/sales/invoice-payments" element={
+                <Layout>
+                  <InvoicePaymentManagement />
+                </Layout>
+              } />
 
+              <Route path="/sales/customer-payments" element={
+                <Layout>
+                  <CustomerPaymentManagement />
+                </Layout>
+              } />
 
 
 
@@ -352,40 +336,29 @@ function App() {
 
 
 
-              {/* PROJECTS */}
-            
-            <Route path="/projects" element={
-              <Layout>
-                <ProjectsDashboard title="Project Management" />
-              </Layout>
-            } />
 
-            <Route path="/projects/project" element={
-              <Layout>
-                <ProjectsProfileManagement />
-              </Layout>
-            } />
 
-            <Route path="/projects/project-documents" element={
-              <Layout>
-                <ProjectDocumentsManagement />
-              </Layout>
-            } />
 
-            <Route path="/projects/job-cost-ledger" element={
-              <Layout>
-                <JobCostLedgerManagement />
-              </Layout>
-            } />
 
-            <Route path="/projects/bill-of-quantities" element={
-              <Layout>
-                <BillOfQuantitiesManagement />
-              </Layout>
-            } />
+              {/* PURCHASES */}
 
+              <Route path="/purchases" element={
+                <Layout>
+                  <PurchasesDashboard title="Company Purchases Management" />
+                </Layout>
+              } />
 
+              <Route path="/purchases/company-purchase-invoice" element={
+                <Layout>
+                  <CompanyPurchaseInvoiceManagement />
+                </Layout>
+              } />
 
+              <Route path="/purchases/company-purchase-order" element={
+                <Layout>
+                  <CompanyPurchaseOrderManagement />
+                </Layout>
+              } />
 
 
 
@@ -397,49 +370,40 @@ function App() {
 
 
 
-              {/* SUPPLIERS */}
 
-            <Route path="/suppliers" element={
-              <Layout>
-                <SuppliersDashboard title="Suppliers Management" />
-              </Layout>
-            } />
 
-            <Route path="/suppliers/suppliers-categories" element={
-              <Layout>
-                <SupplierCategoryManagement />
-              </Layout>
-            } />
 
-            <Route path="/suppliers/supplier-profiles" element={
-              <Layout>
-                <SupplierProfileManagement />
-              </Layout>
-            } />
+                {/* PROJECTS */}
+              
+              <Route path="/projects" element={
+                <Layout>
+                  <ProjectsDashboard title="Project Management" />
+                </Layout>
+              } />
 
-            <Route path="/suppliers/supplier-invoices" element={
-              <Layout>
-                <SupplierInvoiceManagement />
-              </Layout>
-            } />
+              <Route path="/projects/project" element={
+                <Layout>
+                  <ProjectsProfileManagement />
+                </Layout>
+              } />
 
-            <Route path="/suppliers/supplier-payments" element={
-              <Layout>
-                <SupplierPaymentManagement />
-              </Layout>
-            } />
+              <Route path="/projects/project-documents" element={
+                <Layout>
+                  <ProjectDocumentsManagement />
+                </Layout>
+              } />
 
-            <Route path="/suppliers/supplier-debit-notes" element={
-              <Layout>
-                <SupplierDebitNoteManagement />
-              </Layout>
-            } />
+              <Route path="/projects/job-cost-ledger" element={
+                <Layout>
+                  <JobCostLedgerManagement />
+                </Layout>
+              } />
 
-            <Route path="/suppliers/supplier-credit-notes" element={
-              <Layout>
-                <SupplierCreditNoteManagement />
-              </Layout>
-            } />
+              <Route path="/projects/bill-of-quantities" element={
+                <Layout>
+                  <BillOfQuantitiesManagement />
+                </Layout>
+              } />
 
 
 
@@ -454,44 +418,49 @@ function App() {
 
 
 
-              {/* ACCOUNTING */}
+                {/* SUPPLIERS */}
 
-            <Route path="/accounting" element={
-              <Layout>
-                <AccountingDashboard title="Accounting & Finance Management" />
-              </Layout>
-            } />
+              <Route path="/suppliers" element={
+                <Layout>
+                  <SuppliersDashboard title="Suppliers Management" />
+                </Layout>
+              } />
 
+              <Route path="/suppliers/suppliers-categories" element={
+                <Layout>
+                  <SupplierCategoryManagement />
+                </Layout>
+              } />
 
-            <Route path="/accounting/income-and-expenses" element={
-              <Layout>
-                <IncomeAndExpensesManagement />
-              </Layout>
-            } />
+              <Route path="/suppliers/supplier-profiles" element={
+                <Layout>
+                  <SupplierProfileManagement />
+                </Layout>
+              } />
 
-            <Route path="/accounting/cashbook" element={
-              <Layout>
-                <CashBookManagement />
-              </Layout>
-            } />
+              <Route path="/suppliers/supplier-invoices" element={
+                <Layout>
+                  <SupplierInvoiceManagement />
+                </Layout>
+              } />
 
-            <Route path="/accounting/payment-vouchers" element={
-              <Layout>
-                <PaymentVoucherManagement />
-              </Layout>
-            } />
+              <Route path="/suppliers/supplier-payments" element={
+                <Layout>
+                  <SupplierPaymentManagement />
+                </Layout>
+              } />
 
-            <Route path="/accounting/receipt-vouchers" element={
-              <Layout>
-                <ReceiptVoucherManagement />
-              </Layout>
-            } />
+              <Route path="/suppliers/supplier-debit-notes" element={
+                <Layout>
+                  <SupplierDebitNoteManagement />
+                </Layout>
+              } />
 
-            <Route path="/accounting/bank-statements" element={
-              <Layout>
-                <BankStatementManagement />
-              </Layout>
-            } />
+              <Route path="/suppliers/supplier-credit-notes" element={
+                <Layout>
+                  <SupplierCreditNoteManagement />
+                </Layout>
+              } />
 
 
 
@@ -506,54 +475,106 @@ function App() {
 
 
 
-              {/* REPORTS AND RECEIPTS */}
+                {/* ACCOUNTING */}
 
-            <Route path="/reports" element={
-              <Layout>
-                <ReportsAndReceiptsDashboard title="Reports & Receipts" />
-              </Layout>
-            } />
+              <Route path="/accounting" element={
+                <Layout>
+                  <AccountingDashboard title="Accounting & Finance Management" />
+                </Layout>
+              } />
 
-            <Route path="/reports/general-ledger" element={
-              <Layout>
-                <GeneralLedgerManagement />
-              </Layout>
-            } />
 
-            <Route path="/reports/trial-balance" element={
-              <Layout>
-                <ComingSoon />
-              </Layout>
-            } />
+              <Route path="/accounting/income-and-expenses" element={
+                <Layout>
+                  <IncomeAndExpensesManagement />
+                </Layout>
+              } />
 
-            <Route path="/reports/income-statement" element={
-              <Layout>
-                <ComingSoon />
-              </Layout>
-            } />
+              <Route path="/accounting/cashbook" element={
+                <Layout>
+                  <CashBookManagement />
+                </Layout>
+              } />
 
-            <Route path="/reports/balance-sheet" element={
-              <Layout>
-                <ComingSoon />
-              </Layout>
-            } />
+              <Route path="/accounting/payment-vouchers" element={
+                <Layout>
+                  <PaymentVoucherManagement />
+                </Layout>
+              } />
 
-            <Route path="/reports/cashflow" element={
-              <Layout>
-                <ComingSoon />
-              </Layout>
-            } />
+              <Route path="/accounting/receipt-vouchers" element={
+                <Layout>
+                  <ReceiptVoucherManagement />
+                </Layout>
+              } />
 
-            <Route path="/reports/receipt-records" element={
-              <Layout>
-                <ComingSoon />
-              </Layout>
-            } />
+              <Route path="/accounting/bank-statements" element={
+                <Layout>
+                  <BankStatementManagement />
+                </Layout>
+              } />
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+                {/* REPORTS AND RECEIPTS */}
+
+              <Route path="/reports" element={
+                <Layout>
+                  <ReportsAndReceiptsDashboard title="Reports & Receipts" />
+                </Layout>
+              } />
+
+              <Route path="/reports/general-ledger" element={
+                <Layout>
+                  <GeneralLedgerManagement />
+                </Layout>
+              } />
+
+              <Route path="/reports/trial-balance" element={
+                <Layout>
+                  <ComingSoon />
+                </Layout>
+              } />
+
+              <Route path="/reports/income-statement" element={
+                <Layout>
+                  <ComingSoon />
+                </Layout>
+              } />
+
+              <Route path="/reports/balance-sheet" element={
+                <Layout>
+                  <ComingSoon />
+                </Layout>
+              } />
+
+              <Route path="/reports/cashflow" element={
+                <Layout>
+                  <ComingSoon />
+                </Layout>
+              } />
+
+              <Route path="/reports/receipt-records" element={
+                <Layout>
+                  <ComingSoon />
+                </Layout>
+              } />
+
+
+
+
+            </Route>
 
 
 

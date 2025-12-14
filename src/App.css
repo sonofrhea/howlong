@@ -1,82 +1,81 @@
 
-/*@font-face {
-/*  font-family: 'Aeonik-Regular';
-/*  src: url(/src/Customers/fonts/fonnts.com-Aeonik-Regular.ttf);
-/*}
-/*
-/*@font-face {
-/*  font-family: 'GoogleSansCode-Light';
-/*  src: url(../fonts/GoogleSansCode-Light.ttf);
-/*}
-/*
-/*@font-face {
-/*  font-family: 'GoogleSansCode-LightItalic';
-/*  src: url(../fonts/GoogleSansCode-LightItalic.ttf);
-/*}
-/*
-/*}
-/*@font-face {
-/*  font-family: 'GoogleSansCode-Italic-VariableFont';
-/*  src: url(../fonts/GoogleSansCode-Italic-VariableFont_wght.ttf);
-/*}
-/*@font-face {
-/*  font-family: 'GoogleSansCode-VariableFont_wght';
-/*  src: url(../fonts/GoogleSansCode-VariableFont_wght.ttf);
-/*}
-/*@font-face {
-/*  font-family: 'GoogleSansCode-Medium';
-/*  src: url(../fonts/GoogleSansCode-Medium.ttf);
-/*}
-/*@font-face {
-/*  font-family: 'GoogleSansCode-Bold';
-/*  src: url(../fonts/GoogleSansCode-Bold.ttf);
-/*}
+@font-face {
+  font-family: 'Aeonik-Regular';
+  src: url(/src/Customers/fonts/fonnts.com-Aeonik-Regular.ttf);
+}
 
-/*@font-face {
-/*  font-family: 'GoogleSansCode-ExtraBold';
-/*  src: url(../fonts/GoogleSansCode-ExtraBold.ttf);
-/*}
-/*@font-face {
-/*  font-family: 'GoogleSansCode-BoldItalic';
-/*  src: url(../fonts/GoogleSansCode-BoldItalic.ttf);
-/*}
-/*@font-face {
-/*  font-family: 'GoogleSansCode-SemiBoldItalic';
-/*  src: url(../fonts/GoogleSansCode-SemiBoldItalic.ttf);
-/*}
-/*@font-face {
-/*  font-family: 'GoogleSansCode-ExtraBoldItalic';
-/*  src: url(../fonts/GoogleSansCode-ExtraBoldItalic.ttf);
-/*}*/
+@font-face {
+  font-family: 'GoogleSansCode-Light';
+  src: url(../fonts/GoogleSansCode-Light.ttf);
+}
 
+@font-face {
+  font-family: 'GoogleSansCode-LightItalic';
+  src: url(../fonts/GoogleSansCode-LightItalic.ttf);
+}
+
+
+@font-face {
+  font-family: 'GoogleSansCode-Italic-VariableFont';
+  src: url(../fonts/GoogleSansCode-Italic-VariableFont_wght.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-VariableFont_wght';
+  src: url(../fonts/GoogleSansCode-VariableFont_wght.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-Medium';
+  src: url(../fonts/GoogleSansCode-Medium.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-Bold';
+  src: url(../fonts/GoogleSansCode-Bold.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-ExtraBold';
+  src: url(../fonts/GoogleSansCode-ExtraBold.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-BoldItalic';
+  src: url(../fonts/GoogleSansCode-BoldItalic.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-SemiBoldItalic';
+  src: url(../fonts/GoogleSansCode-SemiBoldItalic.ttf);
+}
+@font-face {
+  font-family: 'GoogleSansCode-ExtraBoldItalic';
+  src: url(../fonts/GoogleSansCode-ExtraBoldItalic.ttf);
+}
 
 
 
-/*@font-face {
-/*  font-family: 'CascadiaMonoPL-Bold';
-/*  src: url(../fonts/CascadiaMonoPL-Bold.woff2);
-/*}
-/*
-/*@font-face {
-/*  font-family: 'GoogleSansCode-ExtraBoldItalic';
-/*  src: url(../fonts/FiraCode-Regular.ttf);
-/*}*/
+
+@font-face {
+  font-family: 'CascadiaMonoPL-Bold';
+  src: url(../fonts/CascadiaMonoPL-Bold.woff2);
+}
+
+@font-face {
+  font-family: 'GoogleSansCode-ExtraBoldItalic';
+  src: url(../fonts/FiraCode-Regular.ttf);
+}
 
 
 
-/*@font-face {
-/*  font-family: 'FiraCode-Regular';
-/*  src: url(../fonts/FiraCode-Regular.ttf);
-/*}
-/*
-/*@font-face {
-/*  font-family: 'FiraCode-Light';
-/*  src: url(../fonts/FiraCode-Light.ttf);
-/*}
-/*@font-face {
-/*  font-family: 'FiraCode-SemiBold';
-/*  src: url(../fonts/FiraCode-SemiBold.woff2);
-/*} */
+@font-face {
+  font-family: 'FiraCode-Regular';
+  src: url(../fonts/FiraCode-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'FiraCode-Light';
+  src: url(../fonts/FiraCode-Light.ttf);
+}
+@font-face {
+  font-family: 'FiraCode-SemiBold';
+  src: url(../fonts/FiraCode-SemiBold.woff2);
+}
 
 
 
@@ -165,7 +164,7 @@ thead th > div, th {
 
 
 div {
-  font-family: GoogleSansCode-Regular;
+  font-family: CascadiaCodeNF-Regular;
   font-size: 13.5px;
   letter-spacing: 0.2px;
   word-spacing: 0.1px;
@@ -238,4 +237,13 @@ th, td {
 
 .myButton {
   background-color: brown !important; 
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+}
+
+.button {
+  cursor: pointer;
 }

@@ -61,10 +61,11 @@ export const dashboardStyles = {
 
 export const appMenuStyle = {
     inset: "fixed inset-0 bg-black/20 z-50 flex items-center justify-center p-8",
-    whiteBackground: "bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden",
+    whiteBackground: "bg-white rounded-3xl shadow-3xl max-w-3xl w-full max-h-[0vh] overflow-hidden",
     header2 : "text-xl font-light text-gray-900",
     hover: "p-2 hover:bg-gray-100 rounded-lg transition-colors",
 };
+
 
 
 

@@ -9,7 +9,7 @@ import { forms, buttons, layout, tables, text, utils } from "../constants/styles
 import { CompanyPurchaseOrderInputs, ControlAccountInterface,
     AgentInterface, CompanyPurchaseInvoiceInterface,
     SupplierProfileInterface
- } from "@/types";
+ } from "../constants/Types";
 
 import { Trash2 } from "lucide-react";
 
@@ -33,7 +33,7 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const CompanyPurchaseOrderForm = ({ onSubmit, isSubmitting, onCancel, 
+const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
     accounts, agents, supplierProfiles, purchaseInvoices }) => {
 
 
@@ -244,12 +244,13 @@ const CompanyPurchaseOrderForm = ({ onSubmit, isSubmitting, onCancel,
                                 <table className={tables.base}>
                                     <colgroup>
                                         {[
-                                            'w-1/5 text-center',
-                                            'w-1/5 text-center',
-                                            'w-1/5 text-center',
-                                            'w-1/5 text-center',
-                                            'w-1/5 text-center',
-                                            'w-1/5 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
+                                            'w-1/6 text-center',
                                             'w-[9%] text-center',
                                         ].map((line, index) => (
                                             <col key={index} className={line} />
@@ -261,7 +262,8 @@ const CompanyPurchaseOrderForm = ({ onSubmit, isSubmitting, onCancel,
                                             <th className={tables.headerCell}>Payment Date</th>
                                             <th className={tables.headerCell}>Total Paid</th>
                                             <th className={tables.headerCell}>Tax Inclusive</th>
-                                            <th className={tables.headerCell}>Tax</th>
+                                            <th className={tables.headerCell}>Tax %</th>
+                                            <th className={tables.headerCell}>Cancelled</th>
                                             <th className={tables.headerCell}>SubTotal<br></br>(After Tax)</th>
                                             <th></th>
                                         </tr>
@@ -327,6 +329,13 @@ const CompanyPurchaseOrderForm = ({ onSubmit, isSubmitting, onCancel,
                                                     )}
                                                 </td>
 
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_purchase.${index}.cancelled`)}
+                                                        type="checkbox"
+                                                    />
+                                                </td>
+
                                                 <td>
                                                     <button
                                                         type="button"
@@ -346,7 +355,8 @@ const CompanyPurchaseOrderForm = ({ onSubmit, isSubmitting, onCancel,
                                                         payment_date: "",
                                                         total_paid: 0.00,
                                                         tax_inclusive: true,
-                                                        tax: 0.00
+                                                        tax: 0.00,
+                                                        cancelled: false
                                                     })}
                                                     className={buttons.addLine}
                                                 >
@@ -356,6 +366,49 @@ const CompanyPurchaseOrderForm = ({ onSubmit, isSubmitting, onCancel,
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                                                
+                            <div className="mt-6 sm:flex sm:items-center sm:justify-end">
+                            <div className="w-full sm:w-1/2 lg:w-1/3">
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+        
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Tax Inclusive?</div>
+                                            <input 
+                                            {...register("tax_inclusive")}
+                                            type="checkbox"
+                                            className="ml-2 forced-colors:bg-green-300"
+                                            />
+                                        </div>
+        
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Tax Amount</div>
+                                            <input 
+                                                type="number"
+                                                {...register("tax")}
+                                                className={forms.input.smallNumber}
+                                                placeholder="0.00"
+                                                step="0.01" min="0.00" onBlur={(e) => {
+                                                    if (e.target.value) {
+                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    }
+                                                }}
+                                                
+                                            />
+                                        </div>
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Cancelled?</div>
+                                            <input 
+                                            {...register("cancelled")}
+                                            type="checkbox"
+                                            className="ml-2 forced-colors:bg-green-300"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             </div>
 
                             {/* SUBMIT BUTTON */}

@@ -16,8 +16,8 @@ import { Banknote, Coins, PrinterCheck,
 
 
 export const SALES_ICONS = {
-    quotations: <ScrollText className={iconStyles.small} />,
-    invoice: <PrinterCheck className={iconStyles.small} />,
-    invoicePayments: <Banknote className={iconStyles.small} />,
-    customerPayment: <Coins className={iconStyles.small} />,
+    quotations: <ScrollText strokeWidth={1.75} className={iconStyles.small} />,
+    invoice: <PrinterCheck strokeWidth={1.75} className={iconStyles.small} />,
+    invoicePayments: <Banknote strokeWidth={1.75} className={iconStyles.small} />,
+    customerPayment: <Coins strokeWidth={1.75} className={iconStyles.small} />,
 };

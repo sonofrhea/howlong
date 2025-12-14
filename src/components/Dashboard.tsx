@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { DASHBOARD_APPS } from './constants/businessApps';
@@ -8,6 +7,10 @@ import { dashboardStyles } from './constants/classStyles';
 import { BusinessAppInterface } from './constants/LayoutTypes';
 
 import { APP_ICONS } from "./constants/appIcons";
+
+
+import { LogoutAllbutton } from '../Authentication/HandleLogout';
+
 
 
 
@@ -26,6 +29,9 @@ function Dashboard() {
                     <p className="text-gray-600">
                         Choose a module to get started...
                     </p>
+                </div>
+                <div className="fixed top-4 left-4 z-50">
+                    <LogoutAllbutton />
                 </div>
 
                 <div className={dashboardStyles.gridStyle3}>
@@ -57,7 +63,7 @@ function Dashboard() {
                                     'text-blue-200 hover:text-blue-700' : 
                                     'text-gray-500'}`}>
                                         {app.available ? 
-                                        'Open App →' :
+                                        'Open App ⟶' :
                                         'Coming soon'}
                                 </div>
                         </Link>

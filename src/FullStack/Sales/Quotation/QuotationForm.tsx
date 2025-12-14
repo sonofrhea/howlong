@@ -177,7 +177,10 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                     <th className={tables.headerCell}>UOM</th>
                                     <th className={tables.headerCell}>Price Per Unit</th>
                                     <th className={tables.headerCell}>Currency</th>
-                                    <th className={tables.headerCell}>Amount</th>
+                                    <th className={tables.headerCell}>Sub-Total</th>
+                                    <th className={tables.headerCell}>SST Inclusive?</th>
+                                    <th className={tables.headerCell}>SST %</th>
+                                    <th className={tables.headerCell}>Total(After SST)</th>
                                     <th className={tables.headerCell}></th>
                                 </tr>
                                 </thead>
@@ -256,6 +259,55 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                 )}
                                                 
                                             </td>
+                                            
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    type="checkbox"
+                                                    {...register(`related_quotation.${index}.tax_inclusive`)}
+                                                    className="text-black cursor-pointer"
+                                                />
+                                            </td>
+
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    {...register(`related_quotation.${index}.tax_amount`)}
+                                                    type="number"
+                                                    className={forms.input.number}
+                                                    placeholder="0.00"
+                                                    step="0.01" min="0.00" onBlur={(e) => {
+                                                        if (e.target.value) {
+                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        }
+                                                    }}
+                                                />
+                                            </td>
+
+                                            <td className={tables.autoCalculate}>
+                                                {(() => {
+                                                    const quantity = watch(`related_quotation.${index}.quantity`) || 0.00;
+                                                    const price_per_unit = watch(`related_quotation.${index}.price_per_unit`) || 0.00;
+                                                    let tax_amount = watch(`related_quotation.${index}.tax_amount`) || 0.00;
+                                                    const tax_inclusive = watch(`related_quotation.${index}.tax_inclusive`) || false;
+
+                                                    let total = quantity * price_per_unit;
+
+                                                    if (!tax_inclusive) {
+                                                        tax_amount = 0.00;
+                                                    }
+
+                                                    total *= 1 + (tax_amount / 100);
+
+                                                    return decimalPlaces(total);
+                                                })()}
+                                            </td>
+                                            
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    type="checkbox"
+                                                    {...register(`related_quotation.${index}.cancelled`)}
+                                                    className="text-black cursor-pointer"
+                                                />
+                                            </td>
                                             <td>
                                                 <button
                                                     type="button"
@@ -276,6 +328,8 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                             unit_of_measure: "", 
                                             price_per_unit: 0.00, 
                                             currency: "",
+                                            tax_inclusive: false,
+                                            tax_amount: 0.00,
                                             cancelled: false 
                                             })}
                                         className="min-w-full divide-y divide-gray-100"
@@ -330,6 +384,14 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                 }}
                                             />
                                         </div>
+                                            
+                                        <td className={tables.cell}>
+                                            <input 
+                                                type="checkbox"
+                                                {...register(`cancelled`)}
+                                                className="text-black cursor-pointer"
+                                            />
+                                        </td>
                                     </div>
                                 </div>
                             </div>

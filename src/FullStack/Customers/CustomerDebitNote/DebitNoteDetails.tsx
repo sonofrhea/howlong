@@ -9,8 +9,6 @@ import { SquarePen } from "lucide-react";
 
 
 
-
-
 const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
@@ -186,6 +184,17 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                             <div className="mt-6 sm:flex sm:items-center sm:justify-end">
                                 <div className="w-full sm:w-1/2 lg:w-1/3">
                                     <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Gross Total</div>
+                                            <div className="font-medium text-gray-800">{debitNote.gross_total}</div>
+                                        </div>
+
+                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                            <div>Tax %</div>
+                                            <div className="font-medium text-gray-800">{debitNote.tax_amount}%</div>
+                                        </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total:</div>

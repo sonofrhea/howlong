@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import LogoutButton from "../Authentication/HandleLogout";
-
 import { BusinessAppInterface, LayoutPropsInterface } from "./constants/LayoutTypes";
 
 import { BUSINESS_APPS } from "./constants/businessApps";
@@ -28,7 +26,7 @@ import { appMenuStyle, dashboardStyles, iconStyles, menuClick, sideBarStyles,
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' 
 
-
+import { LogoutButton, LogoutAllbutton } from "../Authentication/HandleLogout";
 
 
 
@@ -146,9 +144,9 @@ function Layout({ children }: LayoutPropsInterface) {
 
                         {/* hide the ugly little grid shit */}
                     {sidebarOpen ? (
-                        <>
+                        <>  
                             <div className={textStyles.smallGrayMb2}>
-                                Quick Access
+                                <LogoutButton />
                             </div>
                             <button
                                 onClick={() => setShowAppsMenu(!showAppsMenu)}
@@ -195,62 +193,84 @@ function Layout({ children }: LayoutPropsInterface) {
             </div>
 
             {showAppsMenu && (
-                <div className={appMenuStyle.inset}>
-                    <div className={appMenuStyle.whiteBackground}>
-                        <div className="p-6 border-b border-gray-100">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h2 className="text-xl font-light text-gray-900">
-                                        All Applications
-                                    </h2>
-                                    <p className="text-gray-500 text-sm mt-1">
-                                        Navigate between business tools
-                                    </p>
-                                </div>
-                                <button
-                                    onClick={() => setShowAppsMenu(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                                >
-                                    <X />
-                                </button>
-                            </div>
+                <div className="fixed inset-0 z-50 bg-black/30 flex items-start justify-center pt-20">
+                    <div className="w-full max-w-2xl bg-white rounded-xl shadow-xl overflow-hidden">
+
+                    {/* HEADER */}
+                    <div className="px-6 py-4 border-b border-gray-200">
+                        <div className="flex items-center justify-between">
+                        <div>
+                            <h2 className="text-base font-semibold text-gray-900">
+                            All Applications
+                            </h2>
+                            <p className="text-sm text-gray-500">
+                            Navigate between business tools
+                            </p>
                         </div>
 
-                        <div className={dashboardStyles.gridStyle3}>
-                            {BUSINESS_APPS.map(app => (
-                                <Link
-                                    key={app.id}
-                                    to={app.available ? app.path : '#'}
-                                    onClick={() => setShowAppsMenu(false)}
-                                    className={`${menuClick.onClick} ${
-                                        app.available ?
-                                        menuClick.onClick.yes :
-                                        menuClick.onClick.no
-                                    } ${app.path === location.pathname ?
-                                        menuClick.onClick.pathname :
-                                        ''
-                                    }`}
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div className={`${menuClick.unavailable.justify}
-                                        ${app.available ? 'bg-blue-100' : 'bg-gray-200'}`}>
-                                            <AppIcon appId={app.id} />
-                                        </div>
-                                        <div>
-                                            <div className="font-medium text-gray-900">
-                                                {app.name}
-                                            </div>
-                                            <div className="text-sm text-gray-500">
-                                                {app.available ? 'Available' : 'Coming soon'}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))}
+                        <button
+                            onClick={() => setShowAppsMenu(false)}
+                            aria-label="Close"
+                            className="p-1.5 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+                        >
+                            <X className="w-5 h-5 cursor-pointer" />
+                        </button>
                         </div>
                     </div>
+
+                    {/* GRID */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4">
+                        {BUSINESS_APPS.map(app => (
+                        <Link
+                            key={app.id}
+                            to={app.available ? app.path : "#"}
+                            onClick={() => setShowAppsMenu(false)}
+                            className={`
+                            flex items-center
+                            px-4 py-3
+                            rounded-lg
+                            border
+                            transition
+                            ${
+                                app.available
+                                ? "bg-white border-gray-200 hover:bg-gray-50 hover:border-green-300"
+                                : "bg-white border-gray-200 opacity-50 cursor-not-allowed"
+                            }
+                            ${
+                                app.path === location.pathname
+                                ? "border-gray-400"
+                                : ""
+                            }
+                            `}
+                        >
+                            {/* ICON */}
+                            <div
+                            className={`
+                                flex items-center justify-center
+                                w-10 h-10
+                                rounded-md
+                                ${app.available ? "bg-gray-100" : "bg-gray-200"}
+                            `}
+                            >
+                            <AppIcon appId={app.id} />
+                            </div>
+
+                            {/* TEXT */}
+                            <div className="ml-3">
+                            <div className="text-sm font-medium text-gray-900 leading-tight">
+                                {app.name}
+                            </div>
+                            <div className="text-xs text-gray-400 hover:text-green-500">
+                                {app.available ? "Available" : "Coming soon"}
+                            </div>
+                            </div>
+                        </Link>
+                        ))}
+                    </div>
+
+                    </div>
                 </div>
-            )}
+                )}
         </div>
     );
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { CustomersModuleInterface } from './constants/Types';
@@ -88,7 +87,7 @@ function CustomerDashboard() {
                             <div className={`text-sm font-medium ${
                                 module.available ? 'text-blue-600' : 'text-gray-500'
                             }`}>
-                                {module.available ? 'Open Module →' : 'Coming Soon'}
+                                {module.available ? 'Open Module ⟶' : 'Coming Soon'}
                             </div>
                         </Link>
                     ))}

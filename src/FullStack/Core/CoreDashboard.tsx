@@ -1,58 +1,63 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { SALES_ICONS } from './Constants/ModuleIcons';
-
-import { SalesModulesInterface } from './Constants/Types';
 
 
-function SalesDashboard() {
-    const SalesModules: SalesModulesInterface[] = [
+
+import { coreModuleInterface } from './constants/Types';
+
+
+import { CORE_ICONS } from './constants/ModuleIcons';
+
+
+
+
+
+
+
+function CoreDashboard() {
+
+
+    const coreModules: coreModuleInterface[] = [
         {
-            id: 'quotations',
-            name: 'Quotations',
-            description: 'Manage Quotations',
-            path: '/sales/quotations',
+            id: 'usersList',
+            name: 'Users',
+            description: 'Manage company workers and employees',
+            path: '/core/users',
             available: true
         },
         {
-            id: 'invoice',
-            name: 'Invoices',
-            description: 'Manage Invoices',
-            path: '/sales/invoices',
+            id: 'banks',
+            name: 'Banks',
+            description: 'View List of Banks',
+            path: '/core/banks',
             available: true
         },
         {
-            id: 'invoicePayments',
-            name: 'Invoice Payments',
-            description: 'Manage Invoice Payments',
-            path: '/sales/invoice-payments',
-            available: true
-        },
-        {
-            id: 'customerPayment',
-            name: 'Customer Payments',
-            description: 'Manage Customer Posted Payments',
-            path: '/sales/customer-payments',
+            id: 'currencies',
+            name: 'Currencies',
+            description: 'View available currencies',
+            path: '/core/currencies',
             available: true
         },
     ];
 
-    return (
+
+
+    return(
         <div className="min-h-screen bg-gray-50 p-4">
             <div className="max-w-6xl mx-auto">
-                {/* Header */}
+                {/* HEADER */}
                 <div className="text-center mb-12">
                     <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                        Sales Management
+                        User Management
                     </h1>
                     <p className="text-gray-600">
                         Choose a module to get started
                     </p>
                 </div>
 
-                {/* Modules Grid */}
+                {/* GRIDS */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-                    {SalesModules.map(module => (
+                    {coreModules.map(module => (
                         <Link
                             key={module.id}
                             to={module.available ? module.path : '#'}
@@ -60,7 +65,7 @@ function SalesDashboard() {
                                 module.available ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
                             }`}
                         >
-                            {/* Icon */}
+                            {/* IconS */}
                             <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${
                                 module.available ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-400'
                             }`}>
@@ -77,10 +82,10 @@ function SalesDashboard() {
 
                             {/* Status */}
                             <div className={`text-sm font-medium ${
-                                module.available ? 'text-blue-600' : 'text-gray-500'
+                                module.available ? 'text-green-700' : 'text-gray-500'
                             }`}>
                                 {module.available ? 'Open Module ⟶' : 'Coming Soon'}
-                            </div>
+                            </div>                            
                         </Link>
                     ))}
                 </div>
@@ -88,10 +93,9 @@ function SalesDashboard() {
         </div>
     );
 }
-    
-    const ModuleIcon = ({ moduleId }: {moduleId: keyof typeof SALES_ICONS}) => {
 
-        return SALES_ICONS[moduleId] || null;
-    };
-        
-export default SalesDashboard;
+const ModuleIcon = ({ moduleId }: {moduleId: keyof typeof CORE_ICONS}) => {
+
+    return CORE_ICONS[moduleId] || null;
+};
+export default CoreDashboard;

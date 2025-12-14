@@ -1,3 +1,25 @@
+import { CORE_ICONS } from "./ModuleIcons";
+
+
+
+
+
+
+
+
+
+export interface coreModuleInterface {
+    id: keyof typeof CORE_ICONS;
+    name: string;
+    description: string;
+    path: string;
+    available: boolean;
+};
+
+
+
+
+
 
 
 
@@ -23,6 +45,7 @@ export interface BankInterface {
 
 
 export interface AgentInterface {
+  id: number;
   name: string;
   email: string;
 };

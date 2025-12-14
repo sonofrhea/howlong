@@ -12,7 +12,7 @@ export const BUSINESS_APPS: BusinessAppInterface[] = [
     { id: 'projects', name: 'Projects', path: '/projects', available: true },
     { id: 'purchases', name: 'Purchases', path: '/purchases', available: true },
     { id: 'reports', name: 'Reports', path: '/reports', available: true },
-    { id: 'core', name: 'HR & Workers', path: '/core', available: false },
+    { id: 'core', name: 'HR & Workers', path: '/core', available: true },
 ];
 
 
@@ -77,8 +77,8 @@ export const DASHBOARD_APPS: DashboardInterface[] = [
     { 
       id: 'core', 
       name: 'HR & Workforce', 
-      description: 'Men at work', 
+      description: 'Access company workforce', 
       path: '/core',
-      available: false
+      available: true
     },
   ]

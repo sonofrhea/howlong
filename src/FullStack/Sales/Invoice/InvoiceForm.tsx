@@ -4,7 +4,7 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { CustomerCreateResponse } from "../../Customers/constants/Types"
 import { InvoiceInputs } from "../Constants/Types";
-import { CurrencyInterface, AgentInterface } from "../../Core/Interfaces"
+import { CurrencyInterface, AgentInterface } from "../../Core/constants/Types"
 import { ProductItemCreateResponse } from "../../Products/constants/Types"
 
 
@@ -44,7 +44,9 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                        {
                         price_per_unit: 0.00,
                         quantity: 0.00,
-                        cancelled: false
+                        cancelled: false,
+                        tax_inclusive: false,
+                        tax_amount: 0.00,
                        } 
                     ],
                     discount: false,
@@ -188,13 +190,16 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                             <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                                 <colgroup>
                                     {[
-                                        'w-1/7 text-center',
-                                        'w-1/7 text-center',
-                                        'w-1/7 text-center',
-                                        'w-1/7 text-center',
-                                        'w-1/7 text-center',
-                                        'w-1/7 text-center',
-                                        'w-1/7 text-center',
+                                        'w-1/10 text-center',
+                                        'w-1/10 text-center',
+                                        'w-1/10 text-center',
+                                        'w-1/10 text-center',
+                                        'w-1/10 text-center',
+                                        'w-1/10 text-center',
+                                        'w-1/10 text-center',
+                                        'w-1/10 text-center',
+                                        'w-1/10 text-center',
+                                        'w-1/10 text-center',
                                         'w-[9%] text-center',
                                     ].map((line, index) => (
                                         <col key={index} className={line} />
@@ -207,8 +212,11 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                     <th className={tables.headerCell}>Quantity</th>
                                     <th className={tables.headerCell}>Unit of Measure</th>
                                     <th className={tables.headerCell}>Price/Per Unit</th>
-                                    <th className={tables.headerCell}>Cancelled</th>
                                     <th className={tables.headerCell}>Sub-Total</th>
+                                    <th className={tables.headerCell}>Tax Inclusive</th>
+                                    <th className={tables.headerCell}>SST %</th>
+                                    <th className={tables.headerCell}>Total(After SST)</th>
+                                    <th className={tables.headerCell}>Cancelled</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -272,20 +280,61 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                                 />
                                             </td>
 
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_invoice.${index}.cancelled`)}
-                                                    type="checkbox"
-                                                    className={forms.input.base}
-                                                />
-                                            </td>
-
                                             <td className={tables.autoCalculate}>
                                                 {decimalPlaces(
                                                     (watch(`related_invoice.${index}.quantity`) || 0.00) *
                                                     (watch(`related_invoice.${index}.price_per_unit`) || 0.00)
                                                 )}
                                                 
+                                            </td>
+
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    {...register(`related_invoice.${index}.tax_inclusive`)}
+                                                    type="checkbox"
+                                                    className={forms.input.base}
+                                                />
+                                            </td>
+
+                                            <td className={text.numbers}>
+                                                <input 
+                                                    {...register(`related_invoice.${index}.tax_amount`)}
+                                                    type="number"
+                                                    placeholder="0.00"
+                                                    step="0.01" min="0.00" onBlur={(e) => {
+                                                        if (e.target.value) {
+                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        }
+                                                    }}
+                                                    className={forms.input.number}
+                                                />
+                                            </td>
+
+                                            <td className={tables.autoCalculate}>
+                                                {(() => {
+                                                    const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;
+                                                    const price_per_unit = watch(`related_invoice.${index}.price_per_unit`) || 0.00;
+                                                    let tax_amount = watch(`related_invoice.${index}.tax_amount`) || 0.00;
+                                                    const tax_inclusive = watch(`related_invoice.${index}.tax_inclusive`) || false;
+
+                                                    let total = quantity * price_per_unit;
+
+                                                    if (!tax_inclusive) {
+                                                        tax_amount = 0.00;
+                                                    }
+
+                                                    total *= 1 + (tax_amount / 100);
+
+                                                    return decimalPlaces(total);
+                                                })()}
+                                            </td>
+
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    {...register(`related_invoice.${index}.cancelled`)}
+                                                    type="checkbox"
+                                                    className={forms.input.base}
+                                                />
                                             </td>
                                             <td>
                                                 <button
@@ -308,7 +357,9 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                             quantity: 0, 
                                             unit_of_measure: "", 
                                             price_per_unit: 0.00,
-                                            cancelled: false 
+                                            cancelled: false,
+                                            tax_inclusive: false, 
+                                            tax_amount: 0.00
                                             })}
                                         className={buttons.addLine}
                                     >
@@ -357,7 +408,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Tax Amount</div>
+                                        <div>Tax %</div>
                                         <input 
                                             type="number"
                                             {...register("tax_amount")}
@@ -368,7 +419,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                                     e.target.value = parseFloat(e.target.value).toFixed(2);
                                                 }
                                             }}
-                                            
+                                        
                                         />
                                     </div>
                                 </div>

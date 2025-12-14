@@ -5,7 +5,7 @@ import './debitnote.css';
 import { DebitNoteInputs, 
     CustomerCreateResponse } from "../constants/Types";
 
-import { CurrencyInterface, AgentInterface } from "../../Core/Interfaces";
+import { CurrencyInterface, AgentInterface } from "../../Core/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
 
@@ -129,9 +129,12 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                         <p className={forms.label}>Date</p>
                         <input 
                             type="date"
-                            {...register("date")}
+                            {...register("date", {required: "Date is required"})}
                             className={forms.input.date}
                         />
+                        {errors.date && <p className="text-red-800 text-xs mt-1">
+                            {errors.date.message}
+                        </p>}
                     </div>
 
                     <div>
@@ -315,7 +318,7 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                                             {decimalPlaces(
                                                 (Number(watch(`debit_note_details.${index}.amount`) || 0.00) *
                                                 (1 + (Number(watch(`debit_note_details.${index}.tax_amount`) / 100))|| 0.00))
-                                            )}%
+                                            )}
                                         </td>
 
                                         <td>
@@ -350,6 +353,40 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    
+                    <div className="mt-6 sm:flex sm:items-center sm:justify-end">
+                    <div className="w-full sm:w-1/2 lg:w-1/3">
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                            <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+
+                                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                    <div>Tax Inclusive?</div>
+                                    <input 
+                                    {...register("tax_inclusive")}
+                                    type="checkbox"
+                                    className="ml-2 forced-colors:bg-green-300"
+                                    />
+                                </div>
+
+                                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                    <div>Tax Amount</div>
+                                    <input 
+                                        type="number"
+                                        {...register("tax_amount")}
+                                        className={forms.input.smallNumber}
+                                        placeholder="0.00"
+                                        step="0.01" min="0.00" onBlur={(e) => {
+                                            if (e.target.value) {
+                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                            }
+                                        }}
+                                        
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
 
 

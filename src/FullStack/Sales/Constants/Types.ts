@@ -52,10 +52,13 @@ export type QuotationInputs = {
     price_per_unit: number;
     currency: string;
     cancelled: boolean;
+    tax_inclusive: boolean;
+    tax_amount: number;
   }>
   tax_inclusive: boolean;
   tax_amount: number;
   discount: number;
+  cancelled: boolean;
 };
 
 export type QuotationCreateResponse = {
@@ -117,6 +120,8 @@ export type InvoiceInputs = {
     quantity: number;
     unit_of_measure: string;
     price_per_unit: number;
+    tax_inclusive: boolean;
+    tax_amount: number;
     cancelled: boolean;
   }>
   cancelled: boolean;

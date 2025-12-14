@@ -4,8 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 import { CustomerInputs } from "../constants/Types";
 
-import { CurrencyInterface } from "../../Core/Interfaces";
-import { BankInterface } from "../../Core/Interfaces";
+import { CurrencyInterface } from "../../Core/constants/Types";
+import { BankInterface } from "../../Core/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 
 import { ID_TYPE_CHOICES,

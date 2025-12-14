@@ -183,6 +183,17 @@ const CreditNoteDetails: React.FC<any> = ({ creditNote, isLoading, onBack, onEdi
                                 <div className="w-full sm:w-1/2 lg:w-1/3">
                                     <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Gross Total</div>
+                                            <div className="font-medium text-gray-800">{creditNote.gross_total}</div>
+                                        </div>
+
+                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                            <div>Tax %</div>
+                                            <div className="font-medium text-gray-800">{creditNote.tax_amount}%</div>
+                                        </div>
+
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total:</div>
                                             <div className="font-medium text-black">

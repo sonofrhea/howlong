@@ -15,10 +15,10 @@ import { Bitcoin, ClipboardPlus, Landmark,
 
 
 export const REPORTS_ICONS = {
-    generalLedger: <ClipboardPlus className={iconStyles.small} />,
-    trialBalance: <Shapes className={iconStyles.small} />,
-    incomeStatement: <NotepadText className={iconStyles.small} />,
-    balanceSheet: <Landmark className={iconStyles.small} />,
-    cashFlow: <Bitcoin className={iconStyles.small} />,
-    receiptRecords: <Printer className={iconStyles.small} />,
+    generalLedger: <ClipboardPlus strokeWidth={1.75} className={iconStyles.small} />,
+    trialBalance: <Shapes strokeWidth={1.75} className={iconStyles.small} />,
+    incomeStatement: <NotepadText strokeWidth={1.75} className={iconStyles.small} />,
+    balanceSheet: <Landmark strokeWidth={1.75} className={iconStyles.small} />,
+    cashFlow: <Bitcoin strokeWidth={1.75} className={iconStyles.small} />,
+    receiptRecords: <Printer strokeWidth={1.75} className={iconStyles.small} />,
 };

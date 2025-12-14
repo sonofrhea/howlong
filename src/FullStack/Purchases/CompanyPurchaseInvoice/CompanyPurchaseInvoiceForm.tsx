@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 
@@ -6,9 +6,11 @@ import { PURCHASE_INVOICE_STATUS } from "../constants/options";
 
 import { forms, buttons, layout, tables, text, utils } from "../constants/styles";
 
-import { CompanyPurchaseInvoiceInputs, SupplierProfileInterface,
-    ProductItemInterface, AgentInterface
- } from "@/types";
+import { CompanyPurchaseInvoiceInputs } from "../constants/Types";
+
+import { AgentInterface } from "../../Core/constants/Types";
+import { SupplierProfileInterface } from "../../Suppliers/constants/Types";
+import { ProductItemInterface } from "../../Products/constants/Types";
 
 import { Trash2 } from "lucide-react";
 
@@ -110,8 +112,8 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                     {...register("agent")}>
                                         <option value=""></option>
                                         {agents.map((agent: AgentInterface) => (
-                                            <option key={agent.username} value={agent.username}>
-                                                {agent.username}
+                                            <option key={agent.name} value={agent.name}>
+                                                {agent.name}
                                             </option>
                                         ))}
                                 </select>
@@ -162,15 +164,16 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                 <table className={tables.base}>
                                     <colgroup>
                                         {[
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
+                                            'w-1/11 text-center',
+                                            'w-1/11 text-center',
+                                            'w-1/11 text-center',
+                                            'w-1/11 text-center',
+                                            'w-1/11 text-center',
+                                            'w-1/11 text-center',
+                                            'w-1/11 text-center',
+                                            'w-1/11 text-center',
+                                            'w-1/11 text-center',
+                                            'w-1/11 text-center',
                                             'w-[9%] text-center',
                                         ].map((line, index) => (
                                             <col key={index} className={line} />
@@ -186,6 +189,7 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                             <th className={tables.headerCell}>Gross Total</th>
                                             <th className={tables.headerCell}>Tax Inclusive</th>
                                             <th className={tables.headerCell}>Tax</th>
+                                             <th className={tables.headerCell}>Cancelled</th>
                                             <th className={tables.headerCell}>SubTotal</th>
                                             <th></th>
                                         </tr>
@@ -273,11 +277,29 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                                 </td>
 
                                                 <td className={tables.autoCalculate}>
-                                                    {decimalPlaces(
-                                                        (Number(watch(`related_invoice.${index}.quantity`) || 1) *
-                                                        Number(watch(`related_invoice.${index}.price`) || 0.00)) +
-                                                        Number(watch(`related_invoice.${index}.tax`) || 0.00)
-                                                    )}
+                                                    {(() => {
+                                                        const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;
+                                                        const price_per_unit = watch(`related_invoice.${index}.price`) || 0.00;
+                                                        let tax_amount = watch(`related_invoice.${index}.tax`) || 0.00;
+                                                        const tax_inclusive = watch(`related_invoice.${index}.tax_inclusive`) || false;
+
+                                                        let total = quantity * price_per_unit;
+
+                                                        if (!tax_inclusive) {
+                                                            tax_amount = 0.00;
+                                                        }
+
+                                                        total *= 1 + (tax_amount / 100);
+
+                                                        return decimalPlaces(total);
+                                                    })()}
+                                                </td>
+
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        type="checkbox"
+                                                        {...register(`related_invoice.${index}.cancelled`)}
+                                                    />
                                                 </td>
 
                                                 <td>
@@ -301,6 +323,7 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                                         quantity: 1,
                                                         base_unit_of_measure: "",
                                                         price: 0.00,
+                                                        cancelled: false,
                                                         tax_inclusive: true,
                                                         tax: 0.00
                                                      })}
@@ -312,6 +335,40 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                                                
+                            <div className="mt-6 sm:flex sm:items-center sm:justify-end">
+                            <div className="w-full sm:w-1/2 lg:w-1/3">
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+        
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Tax Inclusive?</div>
+                                            <input 
+                                            {...register("tax_inclusive")}
+                                            type="checkbox"
+                                            className="ml-2 forced-colors:bg-green-300"
+                                            />
+                                        </div>
+        
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Tax Amount</div>
+                                            <input 
+                                                type="number"
+                                                {...register("tax")}
+                                                className={forms.input.smallNumber}
+                                                placeholder="0.00"
+                                                step="0.01" min="0.00" onBlur={(e) => {
+                                                    if (e.target.value) {
+                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    }
+                                                }}
+                                                
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             </div>
 
 
