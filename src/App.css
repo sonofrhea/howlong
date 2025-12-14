@@ -137,7 +137,6 @@ h1 {
 
 h2 {
   font-family: CascadiaCodeNF-Regular;
-  font-weight: bolder;
   font-size: 18px;
   letter-spacing: 0.5px;
   color: black;
@@ -145,7 +144,6 @@ h2 {
 
 h3 {
   font-family: FiraCode-Medium;
-  font-weight: bolder;
   font-size: 16px !important;
   color: #575555;
   letter-spacing: 0.5px;
