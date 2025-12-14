@@ -31,16 +31,16 @@ h1 {
   line-height: 1.1;
 }
 
-/*button {
-/*  border: 1px solid transparent; */
- /* font-size: inherit;
- /* font-family: inherit;
- /* background-color: #ffffff;
- /* cursor: pointer;
- /* color: gray; */
- /* border: gray; */
-/*  transition: border-color 0.25s; */
-/*}*/
+button {
+  background-color: yellow;
+  color: green;
+  border:blue;
+ font-size: inherit;
+ font-family: inherit;
+ cursor: pointer;
+ border: inherit;
+ transition: inherit;
+}
 
 
 button:focus,
