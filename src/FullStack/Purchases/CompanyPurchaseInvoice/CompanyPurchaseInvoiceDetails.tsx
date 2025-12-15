@@ -1,9 +1,8 @@
 import React from "react";
 
 
-import { statusStyles } from "../constants/styles";
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
@@ -14,7 +13,7 @@ const formatNumber = () => {
 
 
 
-const CompanyPurchaseInvoiceDetails = ({ companyPurchaseInvoice, isLoading, onBack, onEdit }) => {
+const CompanyPurchaseInvoiceDetails: React.FC<any> = ({ companyPurchaseInvoice, isLoading, onBack, onEdit }) => {
 
 
 
@@ -48,7 +47,7 @@ const CompanyPurchaseInvoiceDetails = ({ companyPurchaseInvoice, isLoading, onBa
 
     return(
         <div className="bg-gray-100">
-            <div className="w-[100%] mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden">
+            <div className="w-full mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
                     <div>
                         <p className="text-sm text-gray-500 mt-1">Official Payment Documentation</p>
@@ -67,7 +66,7 @@ const CompanyPurchaseInvoiceDetails = ({ companyPurchaseInvoice, isLoading, onBa
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white font-bold">PO</div>
+                        <div className="w-16 h-16 rounded-lg bg-linear-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white font-bold">PO</div>
                         <div>
                             <h1 className="text-2xl font-semibold text-gray-800">COMPANY PURCHASE INVOICE</h1>
                             <p className="text-sm text-gray-500">Purchase Invoice</p>
@@ -85,8 +84,7 @@ const CompanyPurchaseInvoiceDetails = ({ companyPurchaseInvoice, isLoading, onBa
                         </div>
                         <div className="mt-3 text-sm text-gray-500">
                             <div><strong>Status: </strong> 
-                            <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
-                            statusStyles[companyPurchaseInvoice.status] }`}>
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium">
                             {companyPurchaseInvoice.status}
                             </span>
                         </div>
@@ -132,7 +130,7 @@ const CompanyPurchaseInvoiceDetails = ({ companyPurchaseInvoice, isLoading, onBa
                                 </thead>
 
                                 <tbody className="bg-white divide-y divide-gray-100">
-                                    {companyPurchaseInvoice.related_invoice.map((line, index) => (
+                                    {companyPurchaseInvoice.related_invoice.map((line: any, index: any) => (
 
                                         <tr key={index}>
                                             <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.product_item}</td>
