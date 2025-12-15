@@ -10,8 +10,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import apiClient from "../BaseEngine";
-import { ImportMeta } from '../vite-env';
-
+import HandleLogin from "./HandleLogin";
 
 
 
@@ -19,23 +18,34 @@ import { ImportMeta } from '../vite-env';
 const Login = () => {
     const navigate = useNavigate()
     const {handleSubmit, control} = useForm()
+    const [error, setError] = useState("")
 
-    const submission = (data: any) => {
-        const isDevelopment = import.meta.env.MODE === "development";
-        const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : import.meta.env.VITE_API_BASE_URL_DEPLOY;
-        apiClient.post(`${baseEntry}core/login/`,{
-            email: data.email,
-            password: data.password,
-        })
-
-        .then((response) => {
-            localStorage.setItem('Token', response.data.token)
+    const submission = async (data: any) => {
+        setError("")
+        try {
+            await HandleLogin(data.email, data.password)
             navigate(`/dashboard`)
-        })
-        .catch((error) => {
-            console.error("Login failed", error, error.response?.data || error.message)
-        })
-    }
+        } catch (error: any) {
+            const message = error.response?.data?.message || error.response?.data?.detail ||
+            "Invalid email or password"
+
+            setError(message)
+        }
+        }
+        
+   //     apiClient.post(`core/login/`,{
+   //         email: data.email,
+   //         password: data.password,
+   //     })
+//
+   //     .then((response) => {
+   //         localStorage.setItem('Token', response.data.token)
+   //         navigate(`/dashboard`)
+   //     })
+   //     .catch((error) => {
+   //         console.error("Login failed", error, error.response?.data || error.message)
+   //     })
+   // }
 
     return(
         <div className={"myLoginBackground"}>
@@ -80,6 +90,7 @@ const Login = () => {
         </div>
     )
 }
+
 export default Login;
 
 
@@ -162,4 +173,4 @@ export default Login;
 //}
 //
 //
-//    //
+//    

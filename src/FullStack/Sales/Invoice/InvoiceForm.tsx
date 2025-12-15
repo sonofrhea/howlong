@@ -35,6 +35,13 @@ const formatProjectNumber = () => {
 const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers, 
     currencies, accounts, agents, invoices, projects, productItems }) => {
 
+        const productOptions = useMemo(() => 
+            productItems.map((product: ProductItemCreateResponse) => (
+            <option key={product.item_code} value={product.item_code}>
+                SKU-{product.item_code} | {product.item_description}
+            </option>
+        )), [productItems])
+
         const { register, handleSubmit, watch, setValue, 
             control, formState: { errors } } = useForm<InvoiceInputs>({
                 defaultValues: {
@@ -230,11 +237,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                                     className={forms.select.small}
                                                 >
                                                     <option value=""></option>
-                                                    {useMemo(() => productItems.map((product: ProductItemCreateResponse) => (
-                                                        <option key={product.item_code} value={product.item_code}>
-                                                            SKU-{product.item_code} | {product.item_description}
-                                                        </option>
-                                                    )), [productItems])}
+                                                    {productOptions}
                                                 </select>
                                             </td>
 

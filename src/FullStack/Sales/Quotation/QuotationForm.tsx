@@ -30,6 +30,13 @@ const decimalPlaces = (amount: number) => {
 
 const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
     currencies, accounts, agents, invoices, productItems }) => {
+
+        const productOptions = useMemo(() => 
+            productItems.map((product: ProductItemCreateResponse) => (
+            <option key={product.item_code} value={product.item_code}>
+                SKU-{product.item_code} | {product.item_description}
+            </option>
+        )), [productItems])
         
         const { register, handleSubmit, watch, setValue,
              control, formState: { errors } } = useForm<QuotationInputs>({
@@ -210,11 +217,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                     className={forms.select.full}
                                                 >
                                                     <option value=""></option>
-                                                    {useMemo(() => productItems.map((product: ProductItemCreateResponse) => (
-                                                        <option key={product.item_code} value={product.item_code}>
-                                                            SKU-{product.item_code} | {product.item_description}
-                                                        </option>
-                                                    )), [productItems])}
+                                                    {productOptions}
                                                 </select>
                                             </td>
                                             <td className={tables.cell}>
@@ -261,11 +264,11 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                     className={forms.select.full}
                                                 >
                                                     <option value=""></option>
-                                                    {useMemo(() => currencies.map((currency: CurrencyInterface) => (
+                                                    {currencies.map((currency: CurrencyInterface) => (
                                                         <option key={currency.currency_code} value={currency.currency_code}>
                                                             {currency.currency_code}
                                                         </option>
-                                                    )), [currencies])}
+                                                    ))}
                                                 </select>
                                             </td>
                                             <td className={tables.autoCalculate}>
