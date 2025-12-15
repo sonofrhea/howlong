@@ -9,7 +9,7 @@ import { BusinessAppInterface } from './constants/LayoutTypes';
 import { APP_ICONS } from "./constants/appIcons";
 
 
-import { LogoutAllbutton } from '../Authentication/HandleLogout';
+import { LogoutButton } from '../Authentication/HandleLogout';
 
 
 
@@ -31,7 +31,7 @@ function Dashboard() {
                     </p>
                 </div>
                 <div className="fixed top-4 left-4 z-50">
-                    <LogoutAllbutton />
+                    <LogoutButton />
                 </div>
 
                 <div className={dashboardStyles.gridStyle3}>

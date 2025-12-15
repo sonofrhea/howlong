@@ -161,7 +161,7 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
 
                         <div className="p-6">
                             <div className="w-full">
-                                <table className={tables.base}>
+                                <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                                     <colgroup>
                                         {[
                                             'w-1/11 text-center',
@@ -314,7 +314,7 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                             </tr>
                                         ))}
                                         <tr>
-                                            <td>
+                                            <td className={tables.headerCell}>
                                                 <button
                                                      type="button"
                                                      onClick={() => append({
@@ -329,7 +329,7 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                                      })}
                                                      className={buttons.addLine}
                                                 >
-                                                    + Add New Line
+                                                    ++ New Line
                                                 </button>
                                             </td>
                                         </tr>

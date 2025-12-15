@@ -1,7 +1,8 @@
 import React from "react";
+import { ProductItemList } from "../constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
 }; 
 
@@ -11,12 +12,12 @@ const formatCurrency = () => {
 
 
 
-const ProductItemTable = ({ productItems, onProductItemClick, onEditProductItem, onDeleteProductItem,
+const ProductItemTable: React.FC<any> = ({ productItems, onProductItemClick, onEditProductItem, onDeleteProductItem,
     sortConfig, onSort, currentPage, totalPages, totalItems, itemsPerPage, onPageChange, onItemsPerPageChange
  }) => {
 
 
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -66,13 +67,13 @@ const ProductItemTable = ({ productItems, onProductItemClick, onEditProductItem,
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Product List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-black text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -89,15 +90,16 @@ const ProductItemTable = ({ productItems, onProductItemClick, onEditProductItem,
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
                         {[
-                            'w-1/9 text-center',        // Item Code - Fixed
-                            'w-1/9 text-center',       // Item Description - 20%
-                            'w-1/9 text-center',        // Base Unit of measure - 20%
-                            'w-1/9 text-center',        // Reference Cost - Fixed
-                            'w-1/9 text-center',        // Reference Price - 16.6%
-                            'w-1/9 text-center',        // Qty Available - 16.6%
-                            'w-1/9 text-center',        // Status - Fixed
-                            'w-1/9 text-center',        // Date Created - Fixed
-                            'w-1/9 text-center',        // Actions - Fixed
+                            'w-1/9 text-center',  
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',      
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-[7%] text-center',
                         ].map((className, index) => (
                             <col key={index} className={className} />
                         ))}
@@ -106,19 +108,20 @@ const ProductItemTable = ({ productItems, onProductItemClick, onEditProductItem,
                         <tr>
                             <SortableHeader label="Item Code #" sortKey="item_code" />
                             <SortableHeader label="Item Description" sortKey="item_description" />
-                            <SortableHeader label="Base UOM" sortKey="base_unit_of_measure" />
-                            <SortableHeader label="Reference Cost" sortKey="reference_cost" />
+                            <SortableHeader label="Product Group" sortKey="product_group" />
+                            <SortableHeader label="Serial Number" sortKey="product_serial_number" />
                             <SortableHeader label="Reference Price" sortKey="reference_price" />
                             <SortableHeader label="Qty Available" sortKey="quantity_available" />
-                            <SortableHeader label="Active" sortKey="active" />
-                            <SortableHeader label="Date Created" sortKey="date_created" />
+                            <SortableHeader label="Currency" sortKey="currency" />
+                            <SortableHeader label="Supplier" sortKey="supplier_name" />
+                            <SortableHeader label="Status" sortKey="active" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {productItems.map((productItem) => {
+                        {productItems.map((productItem: ProductItemList) => {
                             const productItemId = productItem.item_code;
 
                             return (
@@ -126,60 +129,69 @@ const ProductItemTable = ({ productItems, onProductItemClick, onEditProductItem,
                                 onClick={() => onProductItemClick(productItemId)}>
                                     {/* Item Code */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={productItem.item_code}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
                                             SKU-{productItem.item_code}
                                         </span>
                                     </td>
 
                                     {/* Item Description */}
-                                    <td className="px-2 py-2 truncate" title={productItem.item_description}>
-                                        <div className="text-sm text-gray-900 truncate">{productItem.item_description}</div>
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {productItem.item_description}
+                                        </div>
                                     </td>
 
                                     {/* Base Unit of measure */}
-                                    <td className="px-2 py-2 truncate" title={productItem.base_unit_of_measure}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {productItem.base_unit_of_measure}
+                                            {productItem.product_group}
                                         </div>
                                     </td>
 
                                     {/* Reference Cost */}
-                                    <td className="px-2 py-2 truncate" title={productItem.reference_cost}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {formatCurrency()}{productItem.reference_cost}
+                                            {productItem.product_serial_number}
                                         </div>
                                     </td>
 
                                     {/* Reference price */}
-                                    <td className="px-2 py-2 truncate" title={productItem.reference_price}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {formatCurrency()}{productItem.reference_price}
+                                            {productItem.reference_price}
                                         </div>
                                     </td>
 
                                     {/* Quantity available */}
-                                    <td className="px-2 py-2 truncate" title={productItem.quantity_available}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
                                             {productItem.quantity_available}
+                                        </div>
+                                    </td>
+
+                                    {/* Currency */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {productItem.currency}
+                                        </div>
+                                    </td>
+
+                                    {/* Supplier */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {productItem.supplier_name}
                                         </div>
                                     </td>
 
                                     {/* Status */}
                                     <td className="px-2 py-2">
                                         <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
-                                            productItem.active === 'Active' 
+                                            productItem.active
                                                 ? 'bg-green-100 text-green-800'
                                                 : 'bg-red-100 text-red-800'
                                         }`}>
-                                            {productItem.active}
+                                            {productItem.active ? 'No' : 'Yes'}
                                         </span>
-                                    </td>
-
-                                    {/* Date Created */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(productItem.date_created)}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {formatDate(productItem.date_created)}
-                                        </div>
                                     </td>
 
                                     {/* Actions */}
@@ -201,7 +213,7 @@ const ProductItemTable = ({ productItems, onProductItemClick, onEditProductItem,
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${productItem.group_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${productItem.item_code}?`)) {
                                                         onDeleteProductItem(productItemId);
                                                     }
                                                 }}

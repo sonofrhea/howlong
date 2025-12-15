@@ -1,13 +1,11 @@
-import React from "react";
 
 
-
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
 
-const ProductItemDetails = ({ productItem, isLoading, onBack, onEdit }) => {
+const ProductItemDetails: React.FC<any> = ({ productItem, isLoading, onBack, onEdit }) => {
 
 
     if (isLoading) {
@@ -37,10 +35,10 @@ const ProductItemDetails = ({ productItem, isLoading, onBack, onEdit }) => {
         );
     }
 
-    console.log(productItem);
+
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="w-full bg-white shadow-gray-400 rounded-xl shadow-2xl border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-4 flex-1">
                     <button 
@@ -61,9 +59,9 @@ const ProductItemDetails = ({ productItem, isLoading, onBack, onEdit }) => {
                 </div>
                 <div className="flex gap-3">
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                        productItem.active === 'True' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        productItem.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                     }`}>
-                        {productItem.active}
+                        {productItem.active ? 'Active' : 'Inactive'}
                     </span>
                     <button 
                         onClick={onEdit}
@@ -81,32 +79,32 @@ const ProductItemDetails = ({ productItem, isLoading, onBack, onEdit }) => {
             <div className="p-6 space-y-6">
                 {/* Key Information */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="bg-blue-50 rounded-lg p-4">
-                        <div className="text-sm text-blue-600 font-medium">Group code</div>
+                    <div className="bg-blue-50 text-center border border-blue-300 hover:border-blue-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <div className="text-sm text-blue-900 font-medium">Group code</div>
 
                         <div className="text-lg font-semibold text-gray-800">
                             SKU-{productItem.item_code}
                         </div>
                     </div>
 
-                    <div className="bg-green-50 rounded-lg p-4">
-                        <div className="text-sm text-green-600 font-medium">Group</div>
+                    <div className="bg-green-50 text-center border border-green-300 hover:border-green-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <div className="text-sm text-green-900 font-medium">Group</div>
 
                         <div className="text-lg font-semibold text-gray-800">
-                            {productItem.product_group}
+                            SKG-{productItem.product_group}
                         </div>
                     </div>
 
-                    <div className="bg-orange-50 rounded-lg p-4">
-                        <div className="text-sm text-orange-600 font-medium">Description</div>
+                    <div className="bg-orange-50 text-center border border-orange-300 hover:border-orange-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <div className="text-sm text-orange-900 font-medium">Supplier</div>
 
                         <div className="text-lg font-semibold text-gray-800">
-                            {productItem.item_description}
+                            {productItem.supplier_name}
                         </div>
                     </div>
 
-                    <div className="bg-purple-50 rounded-lg p-4">
-                        <div className="text-sm text-purple-600 font-medium">Date created</div>
+                    <div className="bg-purple-50 text-center border border-purple-300 hover:border-purple-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <div className="text-sm text-purple-900 font-medium">Date created</div>
 
                         <div className="text-lg font-semibold text-gray-800">
                             {formatDate(productItem.date_created)}
@@ -116,41 +114,41 @@ const ProductItemDetails = ({ productItem, isLoading, onBack, onEdit }) => {
             </div>
 
             {/* Full Info */}
-            <div className="bg-amber-50 rounded-lg p-6">
+            <div className="bg-slate-50 rounded-lg p-6 hover:cursor-pointer hover:shadow-2xl">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">Item Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <div className="text-sm text-gray-500">Product serial number</div>
+                        <div className="text-sm text-gray-600">Product serial number</div>
                         <div className="text-gray-800">
                             {productItem.product_serial_number || 'Not provided'}
                         </div>
                     </div>
                     <div>
-                        <div className="text-sm text-gray-500">Base Unit Of Measure</div>
+                        <div className="text-sm text-gray-600">Base Unit Of Measure</div>
                         <div className="text-gray-800">
                             {productItem.base_unit_of_measure || 'Not provided'}
                         </div>
                     </div>
                     <div>
-                        <div className="text-sm text-gray-500">Reference cost</div>
+                        <div className="text-sm text-gray-600">Reference cost</div>
                         <div className="text-gray-800">
-                            RM {productItem.reference_cost || 'Not provided'}
+                            {productItem.reference_cost || 'Not provided'}
                         </div>
                     </div>
                     <div>
-                        <div className="text-sm text-gray-500">Reference price</div>
+                        <div className="text-sm text-gray-600">Reference price</div>
                         <div className="text-gray-800">
-                            RM {productItem.reference_price || 'Not provided'}
+                            {productItem.reference_price || 'Not provided'}
                         </div>
                     </div>
                     <div>
-                        <div className="text-sm text-gray-500">Quantity available</div>
+                        <div className="text-sm text-gray-600">Quantity available</div>
                         <div className="text-gray-800">
                             {productItem.quantity_available || 'Not provided'}
                         </div>
                     </div>
                     <div>
-                        <div className="text-sm text-gray-500">Supplier name</div>
+                        <div className="text-sm text-gray-600">Supplier name</div>
                         <div className="text-gray-800">
                             {productItem.supplier_name || 'Not provided'}
                         </div>
@@ -158,16 +156,28 @@ const ProductItemDetails = ({ productItem, isLoading, onBack, onEdit }) => {
                 </div>
             </div>
 
+            <div className="bg-slate-50 rounded-lg p-6 hover:cursor-pointer">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Item Description</h3>
+                <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+                    <div>
+                        <div className="text-gray-800">
+                            {productItem.description || 'N/A'}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             {/* Images */}
             <div className="bg-slate-50 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">Product Photo(s)</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                     <div>
                         <div className="text-sm text-gray-500">Product Photo</div>
                         <img 
                             src={productItem.product_photo}
                             alt="product_photo" 
-                            className="w-[200px] h-[200px] rounded-lg object-contain mx-auto"
+                            className="w-[400px] h-[400px] rounded-lg object-contain mx-auto"
                         />
                     </div>
                 </div>
@@ -185,13 +195,13 @@ const ProductItemDetails = ({ productItem, isLoading, onBack, onEdit }) => {
                     </div>
 
                     <div className="space-y-4 divide-x divide-y">
-                        {productItem.additional_photos.map((line, index) => (
+                        {productItem.additional_photos.map((line: any, index: any) => (
                             <>
                                 <div key={`photo-${index}`} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <img 
                                         src={line.additional_photo}
                                         alt="additional_photo"
-                                        className="w-[200px] h-[200px] rounded-2xl object-contain mx-auto"
+                                        className="w-[400px] h-[400px] rounded-2xl object-contain mx-auto"
                                     />
                                     <div key={`description-${index}`} className="text-gray-800 content-center text-center">
                                         {line.description}

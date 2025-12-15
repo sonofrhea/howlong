@@ -30,6 +30,20 @@ export interface ProductsModuleInterface {
 
 // -------- BEGIN ----------- PRODUCT GROUP INPUT ----------------
 
+export type ProductGroupList = {
+  group_code: number;
+  group_name: string;
+  description: string;
+  costing_method: string;
+  sales_code: number;
+  purchase_code: number;
+  cash_sales_code: number;
+  cash_purchase_code: number;
+  sales_return_code: number;
+  purchase_return_code: number;
+  balance_sheet_stock: number;
+}
+
 export type ProductGroupInputs = {
   group_name: string;
   description: string;
@@ -47,6 +61,8 @@ export type ProductGroupInputs = {
 
 export type ProductGroupCreateResponse = {
   group_code: number;
+  group_name: string;
+  description: string;
 };
 
 export type AllProductGroupInputs = {
@@ -72,6 +88,18 @@ export type EditProductGroupInputs = {
 
 // -------- BEGIN ----------- PRODUCT ITEM INPUT ----------------
 
+export type ProductItemList = {
+  item_code: number;
+  item_description: string;
+  product_group: string;
+  product_serial_number: number;
+  reference_price: number;
+  quantity_available: number;
+  currency: string;
+  supplier_name: number;
+  active: boolean;
+}
+
 export type ProductItemInputs = {
   item_description: string;
   product_group: string;
@@ -81,12 +109,14 @@ export type ProductItemInputs = {
   reference_cost: number;
   reference_price: number;
   quantity_available: number;
+  currency: string;
   supplier_name: number;
   active: boolean;
   additional_photos: Array<{
     additional_photo: File | null;
     description: string;
-  }>
+  }>;
+  date_created: string;
 };
 
 export type ProductItemCreateResponse = {

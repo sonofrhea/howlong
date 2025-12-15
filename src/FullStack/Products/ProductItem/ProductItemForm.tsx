@@ -1,12 +1,25 @@
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 
-import { ProductItemInputs, ProductGroupInterface } from "@/types";
+import { ProductItemInputs, ProductGroupCreateResponse } from "../constants/Types";
 
 import { BOOLEAN_OPTIONS } from "../constants/options";
 
+import {CurrencyInterface} from "../../Core/constants/Types"
 
-const ProductItemForm = ({ onSubmit, onCancel, isSubmitting,
+
+
+
+
+
+
+
+
+
+
+
+
+const ProductItemForm: React.FC<any> = ({ onSubmit, onCancel, isSubmitting,
     currencies, accounts, agents, productGroups }) => {
 
         const { register, handleSubmit, watch, setValue, control, formState: { errors } } = useForm<ProductItemInputs>({
@@ -24,18 +37,30 @@ const ProductItemForm = ({ onSubmit, onCancel, isSubmitting,
 
         return(
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="w-full bg-yellow rounded-xl shadow-md border border-black-200">
+                <div className="bg-white rounded-xl shadow-2xl border border-gray-200">
                     {/* Header */}
                     <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                         <div className="flex items-center gap-4 flex-1">
+
+                            <div className="flex gap-3">
+                                <span className="inline-flex text-black items-center rounded-full text-s ">Date created: 
+                                <input 
+                                    type="date"
+                                    {...register("date_created")}
+                                    className="ml-4 w-34 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
+                                    />
+                                </span>
+                                {errors.date_created && <p className="text-amber-600 text-sm">{errors.date_created?.message}</p>}
+                            </div>
+
                             <div className="absolute left-1/2 transform -translate-x-1/2">
                             </div>
                         </div>
                         <div className="flex gap-3">
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ">Status:      
+                            <span className="inline-flex text-black items-center rounded-full text-s  ">Status:      
                                 <select 
                                     {...register("active")}
-                                    className="ml-2 bg-transparent rounded-lg focus:outline-none bg-gray border border-gray-300"
+                                    className="ml-4 w-25 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
                                 >
                                     {BOOLEAN_OPTIONS.map(option => (
                                         <option key={String(option.value)} value={String(option.value)}>
@@ -72,9 +97,9 @@ const ProductItemForm = ({ onSubmit, onCancel, isSubmitting,
                                     className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                 >
                                     <option value=""></option>
-                                    {productGroups.map((productGroup: ProductGroupInterface) => (
-                                        <option key={productGroup.group_name} value={productGroup.group_name}>
-                                            {productGroup.group_name} - {productGroup.group_code}
+                                    {productGroups.map((productGroup: ProductGroupCreateResponse) => (
+                                        <option key={productGroup.group_code} value={productGroup.group_code}>
+                                            SKG-{productGroup.group_code} | Group name: {productGroup.group_name}
                                         </option>
                                     ))}
                                 </select>
@@ -84,11 +109,11 @@ const ProductItemForm = ({ onSubmit, onCancel, isSubmitting,
 
                         {/* PRODUCT DETAILS */}
                         <fieldset>
-                            <legend>Item Information</legend>
+                            
                             <div className="bg-green-50 rounded-lg p-6 border border-green-200 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
-
+                                <legend>Item Information</legend>
                                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-gray-600 font-medium mb-1">Base Unit of Measure:</div>
+                                    <div className="text-sm text-black mb-1">Base Unit of Measure:</div>
                                     <input 
                                         {...register("base_unit_of_measure")}
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
@@ -96,7 +121,7 @@ const ProductItemForm = ({ onSubmit, onCancel, isSubmitting,
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-gray-600 font-medium mb-1">Reference Cost:</div>
+                                    <div className="text-sm text-black mb-1">Reference Cost:</div>
                                     <input 
                                         {...register("reference_cost")}
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
@@ -111,7 +136,7 @@ const ProductItemForm = ({ onSubmit, onCancel, isSubmitting,
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-gray-600 font-medium mb-1">Reference Price:</div>
+                                    <div className="text-sm text-black mb-1">Reference Price:</div>
                                     <input
                                         {...register("reference_price")}
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
@@ -126,15 +151,7 @@ const ProductItemForm = ({ onSubmit, onCancel, isSubmitting,
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-gray-600 font-medium mb-1">Supplier Details:</div>
-                                    <textarea 
-                                        {...register("supplier_name")}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-gray-600 font-medium mb-1">Quantity Available:</div>
+                                    <div className="text-sm text-black mb-1">Quantity Available:</div>
                                     <input 
                                         {...register("quantity_available")}
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
@@ -143,12 +160,37 @@ const ProductItemForm = ({ onSubmit, onCancel, isSubmitting,
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-gray-600 font-medium mb-1">Item Photo:</div>
-                                    <input
+                                    <div className="text-sm text-black mb-1">Supplier Details:</div>
+                                    <textarea 
+                                        {...register("supplier_name")}
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
+                                    <div className="text-sm text-black mb-1">Currency:</div>
+                                    <select
+                                        {...register("currency")}
+                                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                                    >
+                                        <option value=""></option>
+                                        {currencies.map((currency: CurrencyInterface) => (
+                                            <option key={currency.currency_code} value={currency.currency_code}>
+                                                {currency.currency_code} - {currency.country}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
+                                    <div className="text-sm text-black mb-1">Item Photo:</div>
+                                    <input
+                                        className="w-full text-black cursor-pointer rounded-lg border border-gray-300 px-3 py-2"
                                         type="file"
-                                        accept="image/*"
-                                        {...register("product_photo")}
+                                        onChange={e => {
+                                            const file = e.target.files?.[0] || null;
+                                            setValue('product_photo', file);
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -162,7 +204,10 @@ const ProductItemForm = ({ onSubmit, onCancel, isSubmitting,
                                     <div className="text-sm text-gray-600 font-medium mb-1">Photo:</div>
                                     <input 
                                         type="file"
-                                        {...register(`additional_photos.${index}.additional_photo`)}
+                                        onChange={e => {
+                                            const file = e.target.files?.[0] || null;
+                                            setValue(`additional_photos.${index}.additional_photo`, file);
+                                        }}
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
                                     />
 
@@ -181,7 +226,10 @@ const ProductItemForm = ({ onSubmit, onCancel, isSubmitting,
                             ))}
                             <button
                                 type="button"
-                                onClick={() => append({ additional_photo: null, description: "" })}
+                                onClick={() => append({ 
+                                    additional_photo: null, 
+                                    description: "" 
+                                })}
                             >
                                 + Add More
                             </button>

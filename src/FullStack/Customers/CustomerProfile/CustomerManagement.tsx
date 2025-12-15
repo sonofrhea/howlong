@@ -178,7 +178,7 @@ function CustomerManagement() {
     Object.entries(customerData).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
         if (value instanceof File) {
-          console.log(File.name);
+          //console.log(File.name);
           newCustomerData.append(key, value);
         } else {
           newCustomerData.append(key, String(value));
@@ -470,7 +470,7 @@ return (
           )}
 
           {view === 'form' && (
-            <div className="w-[100%] bg-green-50 rounded-2xl shadow-sm border border-gray-200">
+            <div className="w-full bg-green-50 rounded-2xl shadow-sm border border-gray-200">
               <div className="bg-gray-50 border border-green-100 rounded-2xl shadow-sm p-8">
                 <div className="flex items-center gap-4 mb-8 justify-between">
                   <div className="w-6 h-6 bg-green-50 rounded-xl flex items-center justify-center border border-green-100">

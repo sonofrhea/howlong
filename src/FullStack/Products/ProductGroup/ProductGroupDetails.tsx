@@ -1,13 +1,21 @@
-import React from "react";
 
 
-
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
 
-const ProductGroupDetails = ({ productGroup, isLoading, onBack, onEdit }) => {
+
+
+
+
+
+
+
+
+
+
+const ProductGroupDetails: React.FC<any> = ({ productGroup, isLoading, onBack, onEdit }) => {
 
 
     if (isLoading) {
@@ -39,7 +47,7 @@ const ProductGroupDetails = ({ productGroup, isLoading, onBack, onEdit }) => {
     }
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="w-full bg-white shadow-gray-400 rounded-xl shadow-2xl border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-4 flex-1">
                     <button 
@@ -59,10 +67,8 @@ const ProductGroupDetails = ({ productGroup, isLoading, onBack, onEdit }) => {
                     </div>
                 </div>
                 <div className="flex gap-3">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                        productGroup.active === true ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                    }`}>
-                        Active : Inactive
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium">
+                        Active: {productGroup.active ? 'Yes' : 'No'}
                     </span>
                     <button 
                         onClick={onEdit}
@@ -80,96 +86,95 @@ const ProductGroupDetails = ({ productGroup, isLoading, onBack, onEdit }) => {
             <div className="p-6 space-y-6">
                 {/* Key Information */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="bg-blue-50 rounded-lg p-4">
-                        <div className="text-sm text-blue-600 font-medium">Group code</div>
+                    <div className="bg-blue-50 text-center border border-blue-300 hover:border-blue-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <div className="text-sm text-blue-900 font-medium">Group code</div>
 
-                        <div className="text-lg font-semibold text-gray-800">
+                        <div className="text-lg font-semibold text-black">
                             SKG-{productGroup.group_code}
                         </div>
                     </div>
 
-                    <div className="bg-green-50 rounded-lg p-4">
-                        <div className="text-sm text-green-600 font-medium">Group name</div>
+                    <div className="bg-green-50 text-center border border-green-300 hover:border-green-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <div className="text-sm text-green-900 font-medium">Group name</div>
 
-                        <div className="text-lg font-semibold text-gray-800">
+                        <div className="text-lg font-semibold text-black">
                             {productGroup.group_name}
                         </div>
                     </div>
 
-                    <div className="bg-orange-50 rounded-lg p-4">
-                        <div className="text-sm text-orange-600 font-medium">Costing method</div>
+                    <div className="bg-orange-50 text-center border border-orange-300 hover:border-orange-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <div className="text-sm text-orange-900 font-medium">Costing method</div>
 
-                        <div className="text-lg font-semibold text-gray-800">
+                        <div className="text-lg font-semibold text-black">
                             {productGroup.costing_method}
                         </div>
                     </div>
 
-                    <div className="bg-purple-50 rounded-lg p-4">
-                        <div className="text-sm text-purple-600 font-medium">Date created</div>
+                    <div className="bg-purple-50 text-center border border-purple-300 hover:border-purple-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <div className="text-sm text-purple-900 font-medium">Date created</div>
 
-                        <div className="text-lg font-semibold text-gray-800">
+                        <div className="text-lg font-semibold text-black">
                             {formatDate(productGroup.date_created)}
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="bg-slate-50 rounded-lg p-6">
+            <div className="bg-slate-50 rounded-lg p-6 hover:cursor-pointer hover:shadow-2xl">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">Group Description</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                     <div>
-                        <div className="text-sm text-gray-500">Description</div>
                         <div className="text-gray-800">
-                            {productGroup.description || 'Not provided'}
+                            {productGroup.description || 'N/A'}
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Full Info */}
-            <div className="bg-slate-50 rounded-lg p-6">
+            <div className="bg-slate-50 rounded-lg p-6 hover:cursor-pointer hover:shadow-2xl">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">Group Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <div className="text-sm text-gray-500">Sales code</div>
-                        <div className="text-gray-800">
-                            {productGroup.sales_code || 'Not provided'}
+                        <div className="text-black">
+                            {productGroup.sales_code || 'N/A'}
                         </div>
                     </div>
                     <div>
                         <div className="text-sm text-gray-500">Purchase code</div>
-                        <div className="text-gray-800">
-                            {productGroup.purchase_code || 'Not provided'}
+                        <div className="text-black">
+                            {productGroup.purchase_code || 'N/A'}
                         </div>
                     </div>
                     <div>
                         <div className="text-sm text-gray-500">Cash sales code</div>
-                        <div className="text-gray-800">
-                            {productGroup.cash_sales_code || 'Not provided'}
+                        <div className="text-black">
+                            {productGroup.cash_sales_code || 'N/A'}
                         </div>
                     </div>
                     <div>
                         <div className="text-sm text-gray-500">Cash purchase code</div>
-                        <div className="text-gray-800">
-                            {productGroup.cash_purchase_code || 'Not provided'}
+                        <div className="text-black">
+                            {productGroup.cash_purchase_code || 'N/A'}
                         </div>
                     </div>
                     <div>
                         <div className="text-sm text-gray-500">Sales return code</div>
-                        <div className="text-gray-800">
-                            {productGroup.sales_return_code || 'Not provided'}
+                        <div className="text-black">
+                            {productGroup.sales_return_code || 'N/A'}
                         </div>
                     </div>
                     <div>
                         <div className="text-sm text-gray-500">Purchase return code</div>
-                        <div className="text-gray-800">
-                            {productGroup.purchase_return_code || 'Not provided'}
+                        <div className="text-black">
+                            {productGroup.purchase_return_code || 'N/A'}
                         </div>
                     </div>
                     <div>
                         <div className="text-sm text-gray-500">Balance sheet stock</div>
-                        <div className="text-gray-800">
-                            {productGroup.balance_sheet_stock || 'Not provided'}
+                        <div className="text-black">
+                            {productGroup.balance_sheet_stock || 'N/A'}
                         </div>
                     </div>
                 </div>

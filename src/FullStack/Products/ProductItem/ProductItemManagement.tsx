@@ -3,12 +3,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from 'react-router-dom';
 
 
-import { fetchCurrencies, fetchAgents,
-} from "../../Core/Engines";
+import { fetchCurrencies, fetchAgents } from "../../Core/Engines";
 
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 import { fetchProductItems, fetchProductItemById, createProductItem,
-    putUpdateProductItem, patchUpdateProductItem, deleteProductItem,
+    putUpdateProductItem, deleteProductItem,
     fetchProductGroups
  } from "../Engines";
 
@@ -19,7 +18,7 @@ import ProductItemTable from "./ProductItemTable";
 
 import { ProductItemInputs, ProductItemCreateResponse,
   EditProductItemInputs
- } from "../Interfaces";
+ } from "../constants/Types";
 
 
 
@@ -140,33 +139,45 @@ function ProductItemManagement() {
 // ------------------------------------------------------------------------------------
                 // MUTATION USE
   
-  const toFormData = (obj, form = new FormData(), parentKey = '') => {
-    Object.keys(obj).forEach(key => {
-      const value = obj[key];
-      const field = parentKey ? `${parentKey}.${key}` : key;
-      if (value === null || value === undefined) return;
-      if (Array.isArray(value)) {
-        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-      } else if (value instanceof File) {
-        form.append(field, value);
-      } else if (typeof value === 'object') {
-        toFormData(value, form, field);
-      } else {
-        form.append(field, value);
-      }
-    });
-    return form;
-  };
+  //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+  //  Object.keys(obj).forEach(key => {
+  //    const value = obj[key];
+  //    const field = parentKey ? `${parentKey}.${key}` : key;
+  //    if (value === null || value === undefined) return;
+  //    if (Array.isArray(value)) {
+  //      value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+  //    } else if (value instanceof File) {
+  //      form.append(field, value);
+  //    } else if (typeof value === 'object') {
+  //      toFormData(value, form, field);
+  //    } else {
+  //      form.append(field, value);
+  //    }
+  //  });
+  //  return form;
+  //};
 
 
 
 
 
   const handleAddProductItem = async (productItemData: ProductItemInputs) => {
-    console.log("🎯 RAW FORM DATA:", productItemData);
+    const newProductItemData = new FormData();
 
+    Object.entries(productItemData).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        if (value instanceof File) {
+          //console.log(File.name);
+          newProductItemData.append(key, value);
+        } else {
+          newProductItemData.append(key, String(value));
+        }
+      }
+    });
 
-    createProductItemMutation.mutate(productItemData);
+    console.log("🎯 RAW FORM DATA:", newProductItemData);
+
+    createProductItemMutation.mutate(newProductItemData);
   };
 
     
@@ -274,7 +285,7 @@ const handleSort = (key: any) => {
 // ERROR DISPLAYS
 
   if (isLoadingProductItems) return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
         <p className="mt-4 text-gray-600">Loading product items...</p>
@@ -283,7 +294,7 @@ const handleSort = (key: any) => {
   );
 
   if (productItemsError) return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
       <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
         <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
@@ -311,7 +322,7 @@ const handleSort = (key: any) => {
           <div className="max-w-7xl mx-auto px-4 py-4">
               <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                      <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                      <div className="w-2 h-8 bg-linear-to-b from-blue-500 to-purple-600 rounded-full"></div>
                       <div>
                           <h1 className="text-lg font-semibold text-gray-900">Products Suite</h1>
                           <p className="text-sm text-gray-500">Product Item Management</p>
@@ -340,14 +351,14 @@ const handleSort = (key: any) => {
             <div className="flex items-start justify-between mb-8">
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
+                  <div className="w-12 h-12 bg-linear-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
                     <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                   </div>
                   <div>
                     <h1 className="text-4xl font-light text-gray-900 tracking-tight">Product Items</h1>
-                    <p className="text-gray-500 mt-2">Manage and track your product item transactions</p>
+                    <p className="text-gray-500 mt-2">Manage and track your products</p>
                   </div>
                 </div>
               </div>
@@ -357,7 +368,7 @@ const handleSort = (key: any) => {
                 {(view === 'form' || view === 'details' || view === 'edit') && (
                   <button
                     onClick={handleBackToProductItemsList}
-                    className="bg-white border border-gray-200 hover:border-gray-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
+                    className="bg-white border cursor-pointer border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -381,7 +392,7 @@ const handleSort = (key: any) => {
                   <div className="relative">
                     <input
                       type="text"
-                      placeholder="Search..."
+                      placeholder="Search products..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
@@ -427,7 +438,7 @@ const handleSort = (key: any) => {
           )}
 
           {view === 'form' && (
-            <div className="w-[100%] bg-green-50 rounded-lg shadow-sm border border-gray-200">
+            <div className="max-w-full bg-green-50 rounded-2xl shadow-sm border border-gray-200">
               <div className="bg-gray-50 border border-green-100 rounded-2xl shadow-sm p-8">
                 <div className="flex items-center gap-4 mb-8 justify-between">
                   <div className="w-6 h-6 bg-green-50 rounded-xl flex items-center justify-center border border-green-100">

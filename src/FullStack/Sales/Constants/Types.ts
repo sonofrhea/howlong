@@ -159,6 +159,21 @@ export type InvoiceInterface = {
 
 // -------- BEGIN ----------- CUSTOMER PAYMENT INPUT ----------------
 
+export type CustomerPaymentList = {
+  payment_number: number;
+  date: number;
+  customer: string;
+  currency: string;
+  description: string;
+  project: string;
+  paid_amount: number;
+  outstanding: number;
+  completed: boolean;
+  agent: string;
+  cancelled: boolean;
+};
+
+
 export type CustomerPaymentInputs = {
   date: number;
   customer: string;

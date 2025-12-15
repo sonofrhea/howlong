@@ -1,4 +1,5 @@
 import React from "react";
+import { CustomerPaymentList } from "../Constants/Types";
 
 
 const formatDate = (dateString) => {
@@ -60,7 +61,7 @@ const CustomerPaymentTable = ({ customerPayments, onCustomerPaymentClick, onEdit
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Customer Payments List</h3>
                     <div className="flex items-center gap-4">
@@ -82,21 +83,25 @@ const CustomerPaymentTable = ({ customerPayments, onCustomerPaymentClick, onEdit
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/11 text-center" />  {/* Payment Number - Fixed */}
-                        <col className="w-1/11 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/11 text-center" /> {/* Customer - 20% */}
-                        <col className="w-1/11 text-center" /> {/* Currency - 16.6% */}
-                         <col className="w-1/11 text-center" /> {/* Paid Amount - 20% */}
-                        <col className="w-1/11 text-center" />  {/* Outstanding - Fixed */}
-                        <col className="w-1/11 text-center" />  {/* Completed - Fixed */}
-                        <col className="w-1/11 text-center" />  {/* Agent - Fixed */}
-                        <col className="w-[9%] text-center" />  {/* Cancelled - Fixed */}
+                    {[
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-[7%] text-center",
+                    ]}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Payment #" sortKey="payment_number" />
                             <SortableHeader label="Date" sortKey="date" />
                             <SortableHeader label="Customer" sortKey="customer" />
+                            <SortableHeader label="Project" sortKey="project" />
                             <SortableHeader label="Paid Amount" sortKey="paid_amount" />
                             <SortableHeader label="Outstanding" sortKey="outstanding" />
                             <SortableHeader label="Completed" sortKey="completed" />
@@ -108,61 +113,76 @@ const CustomerPaymentTable = ({ customerPayments, onCustomerPaymentClick, onEdit
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {customerPayments.map((customerPayment) => {
-                            const customerPaymentId = customerPayment.payment_number;
+                        {customerPayments.map((customerPayment: CustomerPaymentList) => {
+                            const customerPaymentId = customerPayment.payment_number
 
                             return (
                                 <tr key={customerPayment.payment_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onCustomerPaymentClick(customerPaymentId)}>
                                     {/* Payment Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={customerPayment.payment_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
                                             POST-{customerPayment.payment_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(customerPayment.date)}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-gray-900 truncate">
                                             {formatDate(customerPayment.date)}
                                         </div>
                                     </td>
 
                                     {/* Customer */}
-                                    <td className="px-2 py-2 truncate" title={customerPayment.customer}>
-                                        <div className="text-sm text-gray-900 truncate">{customerPayment.customer}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {customerPayment.customer}
+                                        </div>
+                                    </td>
+
+                                    {/* Project */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {customerPayment.project}
+                                        </div>
                                     </td>
 
                                     {/* Paid Amount */}
-                                    <td className="px-2 py-2 truncate" title={customerPayment.paid_amount}>
-                                        <div className="text-sm text-gray-900 truncate">RM {customerPayment.paid_amount}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {customerPayment.paid_amount}
+                                        </div>
                                     </td>
 
                                     {/* Outstanding */}
-                                    <td className="px-2 py-2 truncate" title={customerPayment.outstanding}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
                                             RM {customerPayment.outstanding}
                                         </div>
                                     </td>
 
                                     {/* Completed */}
-                                    <td className="px-2 py-2 truncate" title={customerPayment.completed}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
                                             {customerPayment.completed ? 'Yes' : 'No'}
                                         </div>
                                     </td>
 
                                     {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={customerPayment.agent}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
                                             {customerPayment.agent}
                                         </div>
                                     </td>
 
                                     {/* Cancelled */}
-                                    <td className="px-2 py-2 truncate" title={customerPayment.cancelled}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {customerPayment.cancelled ? 'Yes' : 'No'}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                            customerPayment.cancelled
+                                                ? 'bg-green-100 text-green-800'
+                                                : 'bg-red-100 text-red-800'
+                                        }`}>
+                                            {customerPayment.cancelled ? 'No' : 'Yes'}
                                         </div>
                                     </td>
 

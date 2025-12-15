@@ -1,27 +1,43 @@
+
+
+export const spinningStyles = {
+    terminalBar: {
+        container: "font-mono p-8",
+        row: "flex items-center",
+        spinner: "text-green-500 mr-2 animate-spin",
+        barContainer: "w-64 h-4 bg-gray-800 border border-gray-700 overflow-hidden",
+        barFill: "h-full bg-black animate-progress",
+        text: "text-gray-600 text-sm mt-2 ml-8"
+    }
+};
+
+
+const inputStyles = "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white";
+const selectStyles = "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white cursor-pointer";
+const errorStyles = "border-red-500 focus:ring-red-500";
+export const labelStyles = "block text-sm font-medium text-black mb-2";
+
+const smallSelectStyles ="w-[10vw] px-2 py-1 text-sm border rounded-md focus:ring-2 focus:ring-blue-500"
+    
+
 export const forms = {
-  body: "w-[100%] mx-auto page bg-white  shadow-lg rounded-2xl overflow-hidden",
+  body: "w-[100%] mx-auto page bg-white shadow-lg backdrop-grayscale-50 rounded-2xl overflow-hidden",
   input: {
-    date: "px-3 py-2 text-black border hover:cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors",
-    number: "w-full border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
-    smallNumber: "w-[50%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
-    midNumber: "w-[70%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
-    base: "px-3 py-2 text-black border rounded focus:ring-2 focus:border-transparent transition-colors"
+    date: "px-3 py-2 border text-black cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors",
+    number: "w-full text-gray-700 border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
+    midNumber: "w-[50%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
+    smallNumber: "w-[30%] text-black border-gray-300 drop-shadow-md shadow-inner rounded focus:outline-none focus:ring-2 focus:ring-blue-500",
+    base: "px-3 py-2 border text-black rounded focus:ring-2 focus:border-transparent transition-colors"
   },
   select: {
-    full: "w-full drop-shadow-md text-black shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
-    partial: "w-[60%] drop-shadow-md text-black shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
-    small: "w-[80%] cursor-pointer text-black border drop-shadow-md shadow-inner rounded border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
+    full: "w-full drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
+    partial: "w-[60%] text-black drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
+    small: "w-[80%] text-black cursor-pointer border drop-shadow-md shadow-inner rounded border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
   },
-  outstanding_layers: {
-    tagLayer1: "mt-6 sm:flex sm:items-center sm:justify-end drop-shadow-md shadow-inner",
-    tagLayer2: "w-full sm:w-1/2 lg:w-1/3",
-    tagLayer3: "bg-gray-50 p-4 rounded-lg",
-    entries: "flex justify-between text-sm"
-  },
-  label: "px-2 py-1 text-center text-black tracking-[0.1em] text-xs font-semibold uppercase",
+  label: "px-2 py-1 text-black text-center tracking-[0.1em] text-xs font-semibold uppercase",
   nextLevelLabel: "px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4",
   secondLevelLabel: "px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-5",
-  description: "w-[50%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-1 focus:ring-green-500"
+  description: "w-[60%] text-black drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
 };
 
 
@@ -31,21 +47,17 @@ export const forms = {
 
 
 export const buttons = {
-  primary: "px-6 py-3 bg-amber-900 text-white rounded drop-shadow-md shadow-xl hover:bg-green-700 font-medium disabled:opacity-50",
+  primary: "px-6 py-3 bg-amber-900 cursor-pointer text-white rounded drop-shadow-md shadow-xl hover:bg-green-700 font-medium disabled:opacity-50",
   remove: "text-red-600 hover:text-red-800 font-medium text-sm",
   add: "text-blue-600 hover:text-blue-800 font-medium text-sm w-full",
-  addLine: "min-w-full divide-y divide-gray-100"
+  addLine: "min-w-full text-black cursor-pointer divide-y divide-gray-100 border-x-gray-100 border-y-gray-100",
+  editButtonGreen: "bg-white border border-gray-200 cursor-pointer hover:border-gray-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
 };
 
 
 
 
-export const statusStyles = {
-  Active: 'bg-green-100 text-green-900 shadow-inner border-collapse border-green-200',
-  Inactive: 'bg-red-100 text-red-900 shadow-inner border-collapse border-red-200',
-  Suspended: 'bg-yellow-100 text-yellow-900 shadow-inner border-collapse border-yellow-200',
-  Pending: 'bg-blue-100 text-blue-900 shadow-inner border-collapse border-blue-200'
-};
+
 
 
 
@@ -53,9 +65,9 @@ export const statusStyles = {
 export const layout = {
   tag: "flex items-center gap-4",
   page: "w-[100%] mx-auto bg-white shadow-lg rounded-2xl overflow-hidden",
-  header: "flex flex-col text-black sm:flex-row sm:items-center justify-between p-8 gap-6",
+  header: "flex flex-col sm:flex-row items-center justify-between p-8 gap-6",
   badge: "inline-block bg-amber-50 border border-amber-100 px-4 py-2 rounded drop-shadow-md shadow-xl",
-  redBadge: "inline-block bg-red-100 border border-rose-200 px-4 py-2 rounded drop-shadow-md shadow-xl",
+  redBadge: "inline-block bg-rose-50 border border-rose-100 px-4 py-2 rounded drop-shadow-md shadow-xl",
   formSectionCol2: "border-t border-b border-gray-100 p-6 grid grid-cols-2 gap-6",
   formSectionCol3: "border-t border-b border-gray-100 p-6 grid grid-cols-3 gap-6",
   formSectionCol4: "border-t border-b border-gray-100 p-6 grid grid-cols-4 gap-6",
@@ -64,23 +76,29 @@ export const layout = {
 };
 
 export const tables = {
-  base: "w-full  table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner",
-  header: "bg-blue-100 text-black drop-shadow-md shadow-lg",
-  headerCell: "text-center text-xs font-semibold uppercase",
-  body: "bg-white text-black divide-y divide-gray-100",
-  row: "bg-white text-black divide-y divide-x divide-gray-100",
-  cell: "px-4 py-4 text-sm text-black",
+  numberLabel: "inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate",
+  base: "w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner",
+  header: "bg-blue-100 drop-shadow-md shadow-lg",
+  headerCell: "text-black text-center text-xs font-semibold uppercase border border-y-gray-100 border-x-gray-100",
+  body: "bg-white divide-y divide-gray-100",
+  row: "bg-white divide-y divide-x divide-gray-200 border-x-gray-100 border-y-gray-100 border-l border-l-gray-100",
+  cell: "px-4 py-4 text-sm text-gray-600 shadow-inner",
   autoCalculate: "px-4 py-4 text-sm text-gray-600 whitespace-nowrap",
-  text: "w-[100%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  text: "w-[100%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500",
+  details: {
+    cell: "px-4 py-4 text-center text-sm text-gray-800"
+  }
 };
 
 export const text = {
   badgeSmall: "text-xs text-amber-700 uppercase tracking-wide",
   redBadgeSmall: "text-xs text-rose-700 uppercase tracking-wide",
-  badgeLarge: "text-lg tracking-[0.0.5em] font-bold text-amber-800",
+  badgeLarge: "text-l tracking-[0.0.5em] font-bold text-amber-800",
+  badgeExtraLarge: "text-2xl tracking-[0.0.5em] font-bold text-amber-800",
+  badgeExtraLargeBlack: "text-2xl tracking-[0.0.5em] font-bold text-black",
   redBadgeLarge: "text-lg tracking-[0.0.5em] font-bold text-rose-800",
-  loading: "flex items-center gap-2 text-black",
-  numbers: "text-gray-500 mr-1 text-black"
+  loading: "flex items-center gap-2",
+  numbers: "text-gray-500 text-black mr-1"
 };
 
 export const utils = {
@@ -95,10 +113,8 @@ export const listTable = {
 
 
 export const management = {
-  searchSize: "pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm",
-  newButton: "bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
+  searchSize: "pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
 };
-
 
 
 
@@ -109,3 +125,14 @@ export const iconStyles = {
 };
 
 
+
+export const details = {
+  extraSmallUppercase: "px-2 py-1 text-center tracking-widest text-gray-700 text-xs font-semibold uppercase"
+};
+
+
+
+
+export const totalCard = {
+  entryStyles: "flex justify-between text-sm text-gray-600 mt-2"
+}

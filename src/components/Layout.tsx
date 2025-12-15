@@ -178,7 +178,7 @@ function Layout({ children }: LayoutPropsInterface) {
                         <div className="flex items-center gap-3">
                             <Link 
                                 to="/dashboard"
-                                className={sideBarStyles.dashboard}
+                                className="text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200 flex items-center gap-2"
                             >
                                 <MoveLeft />
                                 Back to Main Dashboard

@@ -241,7 +241,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
 
                         <div className="p-6">
                             <div className="w-full">
-                                <table className={tables.base}>
+                                <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                                     <colgroup>
                                         {[
                                             'w-1/6 text-center',
@@ -258,7 +258,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                     </colgroup>
                                     <thead className={tables.header}>
                                         <tr>
-                                            <th>Related Invoice Total</th>
+                                            <th className={tables.headerCell}>Related Invoice Total</th>
                                             <th className={tables.headerCell}>Payment Date</th>
                                             <th className={tables.headerCell}>Total Paid</th>
                                             <th className={tables.headerCell}>Tax Inclusive</th>
@@ -272,10 +272,10 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                     <tbody className={tables.body}>
                                         {fields.map((field, index) => (
                                             <tr key={field.id} className={tables.row}>
-                                                <td className={tables.cell}>RM 
+                                                <td className={tables.cell}> 
                                                     <input 
                                                         {...register("related_invoice_total")}
-                                                        className={forms.input.midNumber}
+                                                        className={forms.input.number}
                                                         readOnly
                                                     />
                                                 </td>
@@ -348,7 +348,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                             </tr>
                                         ))}
                                         <tr>
-                                            <td>
+                                            <td className={tables.headerCell}>
                                                 <button
                                                     type="button"
                                                     onClick={() => append({
@@ -360,7 +360,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                                     })}
                                                     className={buttons.addLine}
                                                 >
-                                                    + Add New Line
+                                                    ++ New Line
                                                 </button>
                                             </td>
                                         </tr>

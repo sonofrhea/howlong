@@ -1,19 +1,22 @@
-import React, { useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { ProductGroupInputs, ControlAccountInterface } from "@/types";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import { ProductGroupInputs } from "../constants/Types";
 
 import { BOOLEAN_OPTIONS,
     COSTING_METHOD_OPTIONS
  } from "../constants/options";
+ 
+import { forms } from "../constants/Styles";
 
 
 
 
 
-const ProductGroupForm = ({ onSubmit, isSubmitting, 
+const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting, 
     onBack, onCancel, accounts, agents }) => {
 
-        const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ProductGroupInputs>({
+        const { register, handleSubmit, formState: { errors } } = useForm<ProductGroupInputs>({
             defaultValues: {
                 active: true
             }
@@ -21,20 +24,67 @@ const ProductGroupForm = ({ onSubmit, isSubmitting,
 
 
 
+
+
+
+        //const selectedControlAccount = watch("control_account.account_code");
+        //useEffect(() => {
+        //    if (selectedControlAccount) {
+//
+        //        const selectedCodeNumber = Number(selectedControlAccount);
+        //        console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
+//
+//
+        //        const selectedAccount = accounts.find((a: ControlAccountInterface) => 
+        //            
+        //            a.account_code === selectedCodeNumber
+        //        );
+        //        console.log("✅ Found account:", selectedAccount);
+//
+        //        if (selectedAccount) {
+        //            setValue("control_account.account_name", selectedAccount.account_name);
+        //            setValue("control_account.account_type", selectedAccount.account_type);
+        //        }
+        //    }
+        //}, [selectedControlAccount, accounts, setValue]);
+        
+
+
+
+
+
+
+
+
+
+        
+
+
+
         return(
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div className="bg-white rounded-xl shadow-2xl border border-gray-200">
                     {/* Header */}
                     <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                         <div className="flex items-center gap-4 flex-1">
-                            <div className="absolute left-1/2 transform -translate-x-1/2">
+
+                            <div className="flex gap-3">
+                                <span className="inline-flex text-black items-center rounded-full text-s ">Date created: 
+                                <input 
+                                    type="date"
+                                    {...register("date_created")}
+                                    className="ml-4 w-34 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
+                                    />
+                                </span>
+                                {errors.date_created && <p className="text-amber-600 text-sm">{errors.date_created?.message}</p>}
                             </div>
+
                         </div>
                         <div className="flex gap-3">
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ">Status:      
+                            <span className="inline-flex text-black items-center rounded-full text-s ">Status:      
                                 <select 
                                     {...register("active")}
-                                    className="ml-2 bg-transparent rounded-lg focus:outline-none bg-gray border border-gray-300"
+                                    className="ml-4 w-25 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
                                 >
                                     {BOOLEAN_OPTIONS.map(option => (
                                         <option key={String(option.value)} value={String(option.value)}>
@@ -87,18 +137,23 @@ const ProductGroupForm = ({ onSubmit, isSubmitting,
                             <div className="bg-green-50 rounded-lg p-6 border border-green-200">
                                 
                                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
+
+                                    
                                     <div className="text-sm text-gray-600 font-medium mb-1">Sales Code:</div>
-                                    <select
-                                        {...register("sales_code")}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                    >
-                                        <option value=""></option>
-                                        {accounts.map((account: ControlAccountInterface) => (
-                                            <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name})
-                                            </option>
-                                        ))}
-                                    </select>
+                                        
+                                        <select
+                                            {...register("sales_code")}
+                                            className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                                        >
+                                            <option value=""></option>
+                                            {accounts.map((account: ControlAccountInterface) => (
+                                                <option key={account.account_code} value={account.account_code}>
+                                                    {account.account_code} ({account.account_name} - {account.account_type})
+                                                </option>
+                                            ))}
+                                        </select>
+
+
                                     <div className="text-sm text-gray-600 font-medium mb-1">Purchase Code:</div>
                                     <select
                                         {...register("purchase_code")}
@@ -107,7 +162,7 @@ const ProductGroupForm = ({ onSubmit, isSubmitting,
                                         <option value=""></option>
                                         {accounts.map((account: ControlAccountInterface) => (
                                             <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name})
+                                                {account.account_code}
                                             </option>
                                         ))}
                                     </select>
@@ -119,7 +174,7 @@ const ProductGroupForm = ({ onSubmit, isSubmitting,
                                         <option value=""></option>
                                         {accounts.map((account: ControlAccountInterface) => (
                                             <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name})
+                                                {account.account_code} ({account.account_name} - {account.account_type})
                                             </option>
                                         ))}
                                     </select>
@@ -131,7 +186,7 @@ const ProductGroupForm = ({ onSubmit, isSubmitting,
                                         <option value=""></option>
                                         {accounts.map((account: ControlAccountInterface) => (
                                             <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name})
+                                                {account.account_code} ({account.account_name} - {account.account_type})
                                             </option>
                                         ))}
                                     </select>
@@ -143,7 +198,7 @@ const ProductGroupForm = ({ onSubmit, isSubmitting,
                                         <option value=""></option>
                                         {accounts.map((account: ControlAccountInterface) => (
                                             <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name})
+                                                {account.account_code} ({account.account_name} - {account.account_type})
                                             </option>
                                         ))}
                                     </select>
@@ -155,7 +210,7 @@ const ProductGroupForm = ({ onSubmit, isSubmitting,
                                         <option value=""></option>
                                         {accounts.map((account: ControlAccountInterface) => (
                                             <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name})
+                                                {account.account_code} ({account.account_name} - {account.account_type})
                                             </option>
                                         ))}
                                     </select>
@@ -167,7 +222,7 @@ const ProductGroupForm = ({ onSubmit, isSubmitting,
                                         <option value=""></option>
                                         {accounts.map((account: ControlAccountInterface) => (
                                             <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name})
+                                                {account.account_code} ({account.account_name} - {account.account_type})
                                             </option>
                                         ))}
                                     </select>

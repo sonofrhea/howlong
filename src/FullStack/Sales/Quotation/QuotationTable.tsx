@@ -174,7 +174,13 @@ const QuotationTable: React.FC<any> = ({ quotations, onQuotationClick, onEditQuo
 
                                     {/* Cancelled */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm text-gray-900 truncate">{quotation.cancelled ? 'Yes' : 'No'}</div>
+                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                            quotation.cancelled
+                                                ? 'bg-green-100 text-green-800'
+                                                : 'bg-red-100 text-red-800'
+                                        }`}>
+                                            {quotation.cancelled ? 'No' : 'Yes'}
+                                            </div>
                                     </td>
                                     
                                     {/* Net Total */}

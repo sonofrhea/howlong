@@ -1,7 +1,8 @@
 import React from "react";
+import { ProductGroupList } from "../constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
 }; 
 
@@ -16,7 +17,7 @@ const ProductGroupTable: React.FC<any> = ({ productGroups, onProductGroupClick, 
  }) => {
 
 
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -65,13 +66,15 @@ const ProductGroupTable: React.FC<any> = ({ productGroups, onProductGroupClick, 
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Product Group List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} 
+                            className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" 
+                            >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -84,20 +87,24 @@ const ProductGroupTable: React.FC<any> = ({ productGroups, onProductGroupClick, 
             </div>
 
             {/* Table */}
-            <div className="flex justify-center">
-                <table className="w-full table-fixed divide-y divide-gray-200">
+            <div className="w-full">
+                <table className="w-full rounded-lg shadow-sm border border-gray-200 table-fixed divide-y divide-gray-400 divide-dotted">
                     <colgroup>
-                        <col className="w-1/11 text-center" />  {/* Group Code  */}
-                        <col className="w-1/11 text-center" /> {/* Group Name  */}
-                        <col className="w-1/11 text-center" /> {/* Description*/}
-                        <col className="w-1/11 text-center" /> {/* Sales Code */}
-                        <col className="w-1/11 text-center" /> {/* Purchase Code */}
-                        <col className="w-1/11 text-center" />  {/* Cash Sales Code*/}
-                        <col className="w-1/11 text-center" /> {/* Cash Purchase Code */}
-                        <col className="w-1/11 text-center" />  {/* Sales Return Code */}
-                        <col className="w-1/11 text-center" />  {/* Purchase Return Code */}
-                        <col className="w-1/11 text-center" />  {/* Balance Sheet Stock */}
-                        <col className="w-1/11 text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-[7%] text-center",
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
@@ -117,7 +124,7 @@ const ProductGroupTable: React.FC<any> = ({ productGroups, onProductGroupClick, 
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {productGroups.map((productGroup) => {
+                        {productGroups.map((productGroup: ProductGroupList) => {
                             const productGroupId = productGroup.group_code;
 
                             return (
@@ -125,67 +132,71 @@ const ProductGroupTable: React.FC<any> = ({ productGroups, onProductGroupClick, 
                                 onClick={() => onProductGroupClick(productGroupId)}>
                                     {/* Group Code */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={productGroup.group_code}>
-                                            SKG-{productGroup.group_code}
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
+                                            SKG-{productGroup.group_code || 'N/A'}
                                         </span>
                                     </td>
 
                                     {/* Group Name */}
-                                    <td className="px-2 py-2 truncate" title={productGroup.group_name}>
-                                        <div className="text-sm text-gray-900 truncate">{productGroup.group_name}</div>
+                                    <td className="px-2 py-2 text-center truncate">
+                                        <div className="text-sm font-medium text-black truncate">
+                                            {productGroup.group_name || 'N/A'}
+                                        </div>
                                     </td>
 
                                     {/* Description */}
-                                    <td className="px-2 py-2 truncate" title={productGroup.description}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {productGroup.description}
+                                            {productGroup.description || 'N/A'}
                                         </div>
                                     </td>
 
                                     {/* Sales Code */}
-                                    <td className="px-2 py-2 truncate" title={productGroup.sales_code}>
-                                        <div className="text-sm text-gray-900 truncate">{productGroup.sales_code}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {productGroup.sales_code || 'N/A'}
+                                        </div>
                                     </td>
 
                                     {/* Purchase Code */}
-                                    <td className="px-2 py-2 truncate" title={productGroup.purchase_code}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {productGroup.purchase_code}
+                                            {productGroup.purchase_code || 'N/A'}
                                         </div>
                                     </td>
 
                                     {/* Cash Sales Code */}
-                                    <td className="px-2 py-2 truncate" title={productGroup.cash_sales_code}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {productGroup.cash_sales_code}
+                                            {productGroup.cash_sales_code || 'N/A'}
                                         </div>
                                     </td>
 
                                     {/* Cash Purchase Code */}
-                                    <td className="px-2 py-2 truncate" title={productGroup.cash_purchase_code}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {productGroup.cash_purchase_code}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {productGroup.cash_purchase_code || 'N/A'}
                                         </div>
                                     </td>
 
                                     {/* Sales Return Code */}
-                                    <td className="px-2 py-2 truncate" title={productGroup.sales_return_code}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {productGroup.sales_return_code}
+                                            {productGroup.sales_return_code || 'N/A'}
                                         </div>
                                     </td>
 
                                     {/* Purchase Return Code */}
-                                    <td className="px-2 py-2 truncate" title={productGroup.purchase_return_code}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {productGroup.purchase_return_code}
+                                            {productGroup.purchase_return_code || 'N/A'}
                                         </div>
                                     </td>
 
                                     {/* Balance Sheet Stock */}
-                                    <td className="px-2 py-2 truncate" title={productGroup.balance_sheet_stock}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {productGroup.balance_sheet_stock}
+                                            {productGroup.balance_sheet_stock || 'N/A'}
                                         </div>
                                     </td>
 
@@ -193,7 +204,7 @@ const ProductGroupTable: React.FC<any> = ({ productGroups, onProductGroupClick, 
                                     <td className="px-2 py-2">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
-                                                className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
+                                                className="text-indigo-700 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-150"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     onEditProductGroup(productGroupId, productGroup);
@@ -205,10 +216,10 @@ const ProductGroupTable: React.FC<any> = ({ productGroups, onProductGroupClick, 
                                                 </svg>
                                             </button>
                                             <button 
-                                                className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
+                                                className="text-red-700 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-150"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${productGroup.group_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${productGroup.group_code}?`)) {
                                                         onDeleteProductGroup(productGroupId);
                                                     }
                                                 }}
