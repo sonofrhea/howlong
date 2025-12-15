@@ -9,10 +9,10 @@ import LoginForm from './Authentication/LoginForm';
 import RegistrationPage from './Authentication/RegistrationForm';
 
 import Layout from './components/Layout';
-import Dashboard from './components/Dashboard';
 
-import ProtectedRoute from './components/ProtectedRoutes';
+const Dashboard = lazy(() => import('./components/Dashboard'));
 
+const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 
 
 
@@ -197,7 +197,11 @@ function App() {
             
 
             {/* Dashboard route - no layout  */}
-            <Route element={<ProtectedRoute/>}>
+            <Route element={
+              <Suspense fallback={<div>Checking authorization...</div>}>
+                <ProtectedRoute />
+              </Suspense>
+              }>
               <Route path="/dashboard" element={
                 <Suspense fallback={<div>Loading dashboard...</div>}>
                   <Dashboard />
@@ -212,7 +216,13 @@ function App() {
             
 
               {/* CORE */}
-            <Route element={<ProtectedRoute/>}>
+            <Route element={
+              <Suspense fallback={<div>Checking authorization...</div>}>
+                <ProtectedRoute />
+              </Suspense>
+              } >
+
+
               <Route path='/core' element={
                 <Suspense fallback={<div>fetching...</div>}>
                   <Layout>
@@ -451,7 +461,7 @@ function App() {
               } />
 
               <Route path="/projects/bill-of-quantities" element={
-                <Suspense>
+                <Suspense fallback={<div>fetching...</div>}>
                   <Layout>
                     <BillOfQuantitiesManagement />
                   </Layout>
