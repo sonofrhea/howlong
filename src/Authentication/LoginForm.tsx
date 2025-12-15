@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import apiClient from "../BaseEngine";
+import { ImportMeta } from '../vite-env';
 
 
 const Login = () => {
@@ -17,7 +18,9 @@ const Login = () => {
     const {handleSubmit, control} = useForm()
 
     const submission = (data: any) => {
-        apiClient.post(`core/login/`,{
+        const isDevelopment = import.meta.env.MODE === "development";
+        const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : import.meta.env.VITE_API_BASE_URL_DEPLOY;
+        apiClient.post(`${baseEntry}core/login/`,{
             email: data.email,
             password: data.password,
         })
@@ -27,7 +30,7 @@ const Login = () => {
             navigate(`/dashboard`)
         })
         .catch((error) => {
-            console.error("Error during login", error)
+            console.error("Login failed", error, error.response?.data || error.message)
         })
     }
 
