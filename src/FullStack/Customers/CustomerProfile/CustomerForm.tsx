@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import "../CustomerProfile/CustomerCss.css";
 import { useForm } from "react-hook-form";
 
@@ -15,6 +15,7 @@ import { ID_TYPE_CHOICES,
   COUNTRY_OPTIONS,
   //BOOLEAN_OPTIONS,
  } from "../constants/Options"; 
+import { controlAccountHandler, currencyHandler } from "../../handlers";
 
 
 
@@ -37,46 +38,8 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
 
 
 
-
-        const selectedControlAccount = watch("control_account.account_code");
-        useEffect(() => {
-            if (selectedControlAccount) {
-
-                const selectedCodeNumber = Number(selectedControlAccount);
-                console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
-
-
-                const selectedAccount = accounts.find((a: ControlAccountInterface) => 
-                    
-                    a.account_code === selectedCodeNumber
-                );
-                console.log("✅ Found account:", selectedAccount);
-
-                if (selectedAccount) {
-                    setValue("control_account.account_name", selectedAccount.account_name);
-                    setValue("control_account.account_type", selectedAccount.account_type);
-                }
-            }
-        }, [selectedControlAccount, accounts, setValue]);
-
-
-
-
-        const selectedCurrencyCode = watch("preferred_currency.currency_code");
-        useEffect(() => {
-            if (selectedCurrencyCode) {
-                const selectedCurrency = currencies.find((c: CurrencyInterface) =>
-                    c.currency_code === selectedCurrencyCode
-                );
-                if (selectedCurrency) {
-                    setValue("preferred_currency.currency_name", selectedCurrency.currency_name);
-                    setValue("preferred_currency.currency_symbol", selectedCurrency.currency_symbol);
-                    setValue("preferred_currency.country", selectedCurrency.country);
-                    setValue("preferred_currency.buy", selectedCurrency.buy);
-                    setValue("preferred_currency.sell", selectedCurrency.sell);
-                }
-            }
-        }, [selectedCurrencyCode, currencies, setValue]);
+const controlAccountChange = controlAccountHandler(accounts, setValue);
+const currencyChange = currencyHandler(currencies, setValue);
 
 
 
@@ -112,11 +75,11 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     {...register("status")}
                                     className="ml-4 w-25 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
                                 >
-                                    {STATUS_CHOICES.map(option => (
+                                    {useMemo(() => STATUS_CHOICES.map(option => (
                                         <option key={option.value} value={option.value}>
                                             {option.label}
                                         </option>
-                                    ))}
+                                    )), [STATUS_CHOICES])}
                                     
                                 </select>
                             </span>
@@ -132,14 +95,15 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     <div className="text-sm text-black font-medium mb-1">Control Account</div>
                                     <select 
                                         {...register("control_account.account_code")}
+                                        onChange={controlAccountChange}
                                         className="w-full text-black rounded-lg border border-gray-300 cursor-pointer px-3 py-2 focus:ring-2 focus:ring-green-300"
                                     >
                                         <option value=""></option>
-                                        {accounts.map((account: ControlAccountInterface) => (
+                                        {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                             <option key={account.account_code} value={account.account_code}>
                                                 {account.account_code} ({account.account_name})
                                             </option>
-                                        ))}
+                                        )), [accounts])}
                                     </select>
 
                                     <input type="hidden" {...register("control_account.account_name")} />
@@ -163,11 +127,11 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                         className="w-full text-black cursor-pointer rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     >
                                         <option value=""></option>
-                                        {ID_TYPE_CHOICES.map(id_type => (
+                                        {useMemo(() => ID_TYPE_CHOICES.map(id_type => (
                                             <option key={id_type.value} value={id_type.value}>
                                                 {id_type.label}
                                             </option>
-                                        ))}
+                                        )), [ID_TYPE_CHOICES])}
                                     </select>
                                 </div>
 
@@ -273,11 +237,11 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                     className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     >
                                         <option value=""></option>
-                                        {COUNTRY_OPTIONS.map(country => (
+                                        {useMemo(() => COUNTRY_OPTIONS.map(country => (
                                             <option key={country.value} value={country.value}>
                                                 {country.label}
                                             </option>
-                                        ))}
+                                        )), [COUNTRY_OPTIONS])}
                                     </select>
                                 </div>
                                 <div className="md:col-span-2">
@@ -304,11 +268,11 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                         {...register("preferred_currency.currency_code")}
                                         className="w-full text-black rounded-lg border cursor-pointer border-gray-300 px-3 py-2" 
                                     >
-                                        {currencies.map((currency: CurrencyInterface) => (
+                                        {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                             <option key={currency.currency_code} value={currency.currency_code} >
                                                 {currency.currency_code} - {currency.country}
                                             </option>
-                                        ))}
+                                        )), [currencies])}
                                     </select>
                                     <input type="hidden" {...register("preferred_currency.currency_name")} />
                                     <input type="hidden" {...register("preferred_currency.currency_symbol")} />
@@ -330,11 +294,11 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                         className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                     >
                                         <option value=""></option>
-                                        {banks.map((bank: BankInterface) => (
+                                        {useMemo(() => banks.map((bank: BankInterface) => (
                                             <option key={bank.bank_alias} value={bank.bank_alias}>
                                                 {bank.bank_alias} - {bank.swift_code}
                                             </option>
-                                        ))}
+                                        )), [banks])}
                                     </select>
                                 </div>
 
@@ -353,11 +317,11 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                         className="w-full text-black rounded-lg border cursor-pointer border-gray-300 px-3 py-2"
                                         >
                                         <option value=""></option>
-                                        {BANK_TYPE_CHOICES.map(option => (
+                                        {useMemo(() => BANK_TYPE_CHOICES.map(option => (
                                             <option key={option.value} value={option.value} >
                                                 {option.label}
                                             </option>
-                                        ))}
+                                        )), [BANK_TYPE_CHOICES])}
                                     </select>
                                 </div>
 
@@ -407,11 +371,11 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
                                         className="w-full rounded-lg border cursor-pointer text-black border-gray-300 px-3 py-2" 
                                     >
                                         <option value=""></option>
-                                        {TAX_ID_CHOICES.map(tax => (
+                                        {useMemo(() => TAX_ID_CHOICES.map(tax => (
                                             <option key={tax.value} value={tax.value} >
                                                 {tax.label}
                                             </option>
-                                        ))}
+                                        )), [TAX_ID_CHOICES])}
                                     </select>
                                 </div>
 

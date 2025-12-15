@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 
-import { CurrencyInterface, AgentInterface} from "../../Core/Interfaces";
+import { CurrencyInterface, AgentInterface} from "../../Core/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { CustomerPaymentInputs, InvoicePaymentInterface } from "../Constants/Types";
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
 
+
+import { controlAccountHandler, invoicePaymentHandler } from "../../handlers";
 
 
 const decimalPlaces = (amount: number) => {
@@ -61,53 +63,10 @@ const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
 
         
 
+const controlAccountChange = controlAccountHandler(accounts, setValue);
+const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
+
         
-        
-        
-        const selectedControlAccount = watch("account_received_in.account_code");
-        useEffect(() => {
-            if (selectedControlAccount) {
-    
-                const selectedCodeNumber = Number(selectedControlAccount);
-                console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
-    
-    
-                const selectedAccount = accounts.find((a: ControlAccountInterface) => 
-                    
-                    a.account_code === selectedCodeNumber
-                );
-                console.log("✅ Found account:", selectedAccount);
-    
-                if (selectedAccount) {
-                    setValue("account_received_in.account_name", selectedAccount.account_name);
-                    setValue("account_received_in.account_type", selectedAccount.account_type);
-                }
-            }
-        }, [selectedControlAccount, accounts, setValue]);
-
-
-
-
-
-        const selectedPaymentInvoice = watch("related_payment");
-        useEffect(() => {
-            if (selectedPaymentInvoice) {
-
-                const selectedPaymentNumber = Number(selectedPaymentInvoice);
-                console.log("🔍 Converting:", selectedPaymentInvoice, "→", selectedPaymentNumber);
-
-                const selectedPayment = invoicePayments.find((a: InvoicePaymentInterface) =>
-
-                    a.invoice_payment_code === selectedPaymentNumber
-                );
-                console.log("✅ Found Invoice Payment:", selectedPayment);
-
-                if (selectedPayment) {
-                    setValue("related_payment_paid_amount", selectedPayment.net_aggregate_paid);
-                    setValue("related_payment_paid_amount", selectedPayment.outstanding_amount);
-                }
-            }
-        }, [selectedPaymentInvoice, invoicePayments, setValue]);
 
 
 
@@ -161,11 +120,11 @@ const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {projects.map((project: ProjectProfileResponse) => (
+                                {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                     <option key={project.project_code} value={project.project_code}>
                                         {formatProjectNumber()}{project.project_code} | {project.project_name}
                                     </option>
-                                ))}
+                                )), [projects])}
                             </select>
                         </div>
                                                 
@@ -173,14 +132,15 @@ const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                             <p className={forms.label}>Account Received In</p>
                             <select
                                 {...register("account_received_in.account_code")}
+                                onChange={controlAccountChange}
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {accounts.map((account: ControlAccountInterface) => (
+                                {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                     <option key={account.account_code} value={account.account_code}>
-                                        {account.account_code} ({account.account_name})
+                                    {account.account_code} ({account.account_name})
                                     </option>
-                                ))}
+                                )), [accounts])}
                             </select>
 
                             <input type="hidden" {...register("account_received_in.account_name")} />
@@ -194,11 +154,11 @@ const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {customers.map((customer: CustomerCreateResponse) => (
+                                {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
                                         {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
                                     </option>
-                                ))}
+                                )), [customers])}
                             </select>
                         </div>
 
@@ -206,14 +166,15 @@ const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                             <p className={forms.label}>Related Payment</p>
                             <select
                                 {...register("related_payment")}
+                                onChange={invoicePaymentChange}
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {invoicePayments.map((invoicePayment: InvoicePaymentInterface) => (
+                                {useMemo(() => invoicePayments.map((invoicePayment: InvoicePaymentInterface) => (
                                     <option key={invoicePayment.invoice_payment_code} value={invoicePayment.invoice_payment_code}>
                                         {formatPaymentNumber()}{invoicePayment.invoice_payment_code} | Total: {invoicePayment.net_aggregate_paid}
                                     </option>
-                                ))}
+                                )), [invoicePayments])}
                             </select>
                         </div>
 
@@ -272,11 +233,11 @@ const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {currencies.map((currency: CurrencyInterface) => (
+                                {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                     <option key={currency.currency_code} value={currency.currency_code}>
                                         {currency.currency_code}
                                     </option>
-                                ))}
+                                )), [currencies])}
                             </select>
                         </div>
                                                 
@@ -285,11 +246,11 @@ const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                             <select className={forms.select.partial}
                                 {...register("agent")}>
                                     <option value=""></option>
-                                    {agents.map((agent: AgentInterface) => (
+                                    {useMemo(() => agents.map((agent: AgentInterface) => (
                                         <option key={agent.name} value={agent.name}>
                                             {agent.name}
                                         </option>
-                                    ))}
+                                    )), [agents])}
                             </select>
                         </div>
                     </div>

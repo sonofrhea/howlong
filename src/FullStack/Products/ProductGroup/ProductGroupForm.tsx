@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { ProductGroupInputs } from "../constants/Types";
@@ -86,11 +86,11 @@ const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting,
                                     {...register("active")}
                                     className="ml-4 w-25 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
                                 >
-                                    {BOOLEAN_OPTIONS.map(option => (
+                                    {useMemo(() => BOOLEAN_OPTIONS.map(option => (
                                         <option key={String(option.value)} value={String(option.value)}>
                                             {option.label}
                                         </option>
-                                    ))}
+                                    )), [BOOLEAN_OPTIONS])}
                                 </select>
                             </span>
                         </div>
@@ -120,11 +120,11 @@ const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting,
                                     {...register("costing_method")}
                                     className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                 >
-                                    {COSTING_METHOD_OPTIONS.map(option => (
+                                    {useMemo(() => COSTING_METHOD_OPTIONS.map(option => (
                                         <option key={option.value} value={option.value}>
                                             {option.label}
                                         </option>
-                                    ))}
+                                    )), [COSTING_METHOD_OPTIONS])}
                                 </select>
                             </label>
 
@@ -146,11 +146,11 @@ const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting,
                                             className="w-full rounded-lg border border-gray-300 px-3 py-2"
                                         >
                                             <option value=""></option>
-                                            {accounts.map((account: ControlAccountInterface) => (
+                                            {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                                 <option key={account.account_code} value={account.account_code}>
                                                     {account.account_code} ({account.account_name} - {account.account_type})
                                                 </option>
-                                            ))}
+                                            )), [accounts])}
                                         </select>
 
 
@@ -160,11 +160,11 @@ const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting,
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
                                     >
                                         <option value=""></option>
-                                        {accounts.map((account: ControlAccountInterface) => (
-                                            <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code}
-                                            </option>
-                                        ))}
+                                            {useMemo(() => accounts.map((account: ControlAccountInterface) => (
+                                                <option key={account.account_code} value={account.account_code}>
+                                                    {account.account_code} ({account.account_name} - {account.account_type})
+                                                </option>
+                                            )), [accounts])}
                                     </select>
                                     <div className="text-sm text-gray-600 font-medium mb-1">Cash Sales Code:</div>
                                     <select
@@ -172,11 +172,11 @@ const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting,
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
                                     >
                                         <option value=""></option>
-                                        {accounts.map((account: ControlAccountInterface) => (
-                                            <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name} - {account.account_type})
-                                            </option>
-                                        ))}
+                                            {useMemo(() => accounts.map((account: ControlAccountInterface) => (
+                                                <option key={account.account_code} value={account.account_code}>
+                                                    {account.account_code} ({account.account_name} - {account.account_type})
+                                                </option>
+                                            )), [accounts])}
                                     </select>
                                     <div className="text-sm text-gray-600 font-medium mb-1">Cash Purchase Code:</div>
                                     <select
@@ -184,11 +184,11 @@ const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting,
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
                                     >
                                         <option value=""></option>
-                                        {accounts.map((account: ControlAccountInterface) => (
-                                            <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name} - {account.account_type})
-                                            </option>
-                                        ))}
+                                            {useMemo(() => accounts.map((account: ControlAccountInterface) => (
+                                                <option key={account.account_code} value={account.account_code}>
+                                                    {account.account_code} ({account.account_name} - {account.account_type})
+                                                </option>
+                                            )), [accounts])}
                                     </select>
                                     <div className="text-sm text-gray-600 font-medium mb-1">Sales Return Code:</div>
                                     <select
@@ -196,11 +196,11 @@ const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting,
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
                                     >
                                         <option value=""></option>
-                                        {accounts.map((account: ControlAccountInterface) => (
-                                            <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name} - {account.account_type})
-                                            </option>
-                                        ))}
+                                            {useMemo(() => accounts.map((account: ControlAccountInterface) => (
+                                                <option key={account.account_code} value={account.account_code}>
+                                                    {account.account_code} ({account.account_name} - {account.account_type})
+                                                </option>
+                                            )), [accounts])}
                                     </select>
                                     <div className="text-sm text-gray-600 font-medium mb-1">Purchase Return Code:</div>
                                     <select
@@ -208,11 +208,11 @@ const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting,
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
                                     >
                                         <option value=""></option>
-                                        {accounts.map((account: ControlAccountInterface) => (
-                                            <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name} - {account.account_type})
-                                            </option>
-                                        ))}
+                                            {useMemo(() => accounts.map((account: ControlAccountInterface) => (
+                                                <option key={account.account_code} value={account.account_code}>
+                                                    {account.account_code} ({account.account_name} - {account.account_type})
+                                                </option>
+                                            )), [accounts])}
                                     </select>
                                     <div className="text-sm text-gray-600 font-medium mb-1">Balance Sheet Stock Code:</div>
                                     <select
@@ -220,11 +220,11 @@ const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting,
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
                                     >
                                         <option value=""></option>
-                                        {accounts.map((account: ControlAccountInterface) => (
-                                            <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} ({account.account_name} - {account.account_type})
-                                            </option>
-                                        ))}
+                                            {useMemo(() => accounts.map((account: ControlAccountInterface) => (
+                                                <option key={account.account_code} value={account.account_code}>
+                                                    {account.account_code} ({account.account_name} - {account.account_type})
+                                                </option>
+                                            )), [accounts])}
                                     </select>
                                 </div>
                             </div>

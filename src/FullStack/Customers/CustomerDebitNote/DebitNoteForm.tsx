@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import './debitnote.css';
 
@@ -13,6 +13,7 @@ import { forms, buttons, layout, tables, text, utils } from "../constants/Styles
 
 import { Trash2 } from "lucide-react";
 
+import { controlAccountHandler } from "../../handlers";
 
 
 //const formatDebitNoteNumber = () => {
@@ -67,34 +68,13 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
 
 
 
+const controlAccountChange = controlAccountHandler(accounts, setValue);
 
 
 
 
 
 
-
-
-    const selectedControlAccount = watch("account.account_code");
-    useEffect(() => {
-        if (selectedControlAccount) {
-
-            const selectedCodeNumber = Number(selectedControlAccount);
-            console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
-
-
-            const selectedAccount = accounts.find((a: ControlAccountInterface) => 
-                
-                a.account_code === selectedCodeNumber
-            );
-            console.log("✅ Found account:", selectedAccount);
-
-            if (selectedAccount) {
-                setValue("account.account_name", selectedAccount.account_name);
-                setValue("account.account_type", selectedAccount.account_type);
-            }
-        }
-    }, [selectedControlAccount, accounts, setValue]);
 
 
 
@@ -144,11 +124,11 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                             className={forms.select.partial}
                         >
                             <option value=""></option>
-                            {customers.map((customer: CustomerCreateResponse) => (
+                            {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
                                     {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
                                 </option>
-                            ))}
+                            )), [customers])}
                         </select>
                     </div>
 
@@ -157,13 +137,14 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                         <select
                             {...register("account.account_code")}
                             className={forms.select.partial}
+                            onChange={controlAccountChange}
                         >
                             <option value=""></option>
-                            {accounts.map((account: ControlAccountInterface) => (
+                            {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                 <option key={account.account_code} value={account.account_code}>
                                     {account.account_code} ({account.account_name})
                                 </option>
-                            ))}
+                            )), [accounts])}
                         </select>
 
                         <input type="hidden" {...register("account.account_name")} />
@@ -175,11 +156,11 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                         <select className={forms.select.partial}
                             {...register("agent")}>
                                 <option value=""></option>
-                                {agents.map((agent: AgentInterface) => (
+                                {useMemo(() => agents.map((agent: AgentInterface) => (
                                     <option key={agent.name} value={agent.name}>
                                         {agent.name}
                                     </option>
-                                ))}
+                                )), [agents])}
                         </select>
                     </div>
 
@@ -190,11 +171,11 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                             className={forms.select.partial}
                         >
                             <option value=""></option>
-                            {customerPayments.map((payment: CustomerPaymentResponse) => (
+                            {useMemo(() => customerPayments.map((payment: CustomerPaymentResponse) => (
                                 <option key={payment.payment_number} value={payment.payment_number}>
                                     POST-{payment.payment_number} | Paid Amount: {payment.paid_amount}
                                 </option>
-                            ))}
+                            )), [customerPayments])}
                         </select>
                     </div>
 
@@ -221,11 +202,11 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
                             className={forms.select.partial}
                         >
                             <option value=""></option>
-                            {currencies.map((currency: CurrencyInterface) => (
+                            {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                 <option key={currency.currency_code} value={currency.currency_code}>
                                     {currency.currency_code}
                                 </option>
-                            ))}
+                            )), [currencies])}
                         </select>
                     </div>
                 </div>

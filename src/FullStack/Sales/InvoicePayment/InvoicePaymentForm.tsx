@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
 import { useFieldArray } from "react-hook-form";
 
 import { InvoiceInterface, InvoicePaymentInputs } from "../Constants/Types";
@@ -14,6 +13,7 @@ import { Trash2 } from "lucide-react";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
+import { controlAccountHandler, invoiceHandler } from "../../handlers";
 
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`
@@ -68,47 +68,11 @@ const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
 
         
 
-        const selectedControlAccount = watch("account_received_in.account_code");
-            useEffect(() => {
-                if (selectedControlAccount) {
-        
-                    const selectedCodeNumber = Number(selectedControlAccount);
-                    console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
-        
-        
-                    const selectedAccount = accounts.find((a: ControlAccountInterface) => 
-                        
-                        a.account_code === selectedCodeNumber
-                    );
-                    console.log("✅ Found account:", selectedAccount);
-        
-                    if (selectedAccount) {
-                        setValue("account_received_in.account_name", selectedAccount.account_name);
-                        setValue("account_received_in.account_type", selectedAccount.account_type);
-                    }
-                }
-            }, [selectedControlAccount, accounts, setValue]);
+const controlAccountChange = controlAccountHandler(accounts, setValue);
+const invoiceChange = invoiceHandler(invoices, setValue);
         
 
-        
-
-        const selectedRelatedInvoice = watch("related_invoice");
-            useEffect(() => {
-                if (selectedRelatedInvoice) {
-
-                    const selectedInvoiceNumber = Number(selectedRelatedInvoice);
-                    console.log("🔍 Converting:", selectedRelatedInvoice, "→", selectedInvoiceNumber);
-
-                    const selectedInvoice = invoices.find((a: InvoiceInterface) =>
-                        a.invoice_number === selectedInvoiceNumber
-                    );
-                    console.log("✅ Found Invoice:", selectedInvoice);
-
-                    if (selectedInvoice) {
-                        setValue("related_invoice_total", selectedInvoice.net_total);
-                    }
-                }
-            }, [selectedRelatedInvoice, invoices, setValue]);
+    
 
 
 
@@ -158,11 +122,11 @@ const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {customers.map((customer: CustomerCreateResponse) => (
+                                {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
                                         {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
                                     </option>
-                                ))}
+                                )), [customers])}
                             </select>
                         </div>
                         
@@ -173,11 +137,11 @@ const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {accounts.map((account: ControlAccountInterface) => (
+                                {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                     <option key={account.account_code} value={account.account_code}>
                                         {account.account_code} ({account.account_name})
                                     </option>
-                                ))}
+                                )), [accounts])}
                             </select>
     
                             <input type="hidden" {...register("account_received_in.account_name")} />
@@ -189,13 +153,14 @@ const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
                             <select
                                 {...register("related_invoice")}
                                 className={forms.select.partial}
+                                onChange={invoiceChange}
                             >
                                 <option value=""></option>
-                                {invoices.map((invoice: InvoiceInterface) => (
+                                {useMemo(() => invoices.map((invoice: InvoiceInterface) => (
                                     <option key={invoice.invoice_number} value={invoice.invoice_number}>
                                         {formatInvoiceNumber()}{invoice.invoice_number} | Total: {invoice.net_total}
                                     </option>
-                                ))}
+                                )), [invoices])}
                             </select>
                         </div>
 
@@ -222,11 +187,11 @@ const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {currencies.map((currency: CurrencyInterface) => (
+                                {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                     <option key={currency.currency_code} value={currency.currency_code}>
                                         {currency.currency_code}
                                     </option>
-                                ))}
+                                )), [currencies])}
                             </select>
                         </div>
 
@@ -243,11 +208,11 @@ const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
                             <select className={forms.select.partial}
                                 {...register("agent")}>
                                     <option value=""></option>
-                                    {agents.map((agent: AgentInterface) => (
+                                    {useMemo(() => agents.map((agent: AgentInterface) => (
                                         <option key={agent.name} value={agent.name}>
                                             {agent.name}
                                         </option>
-                                    ))}
+                                    )), [agents])}
                             </select>
                         </div>
                     </div>

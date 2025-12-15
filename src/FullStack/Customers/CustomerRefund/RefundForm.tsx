@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
 
@@ -17,6 +17,7 @@ import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { forms, buttons, layout, tables, text, utils } from "../constants/Styles";
 
 import { Trash2 } from "lucide-react";
+import { controlAccountHandler } from "../../handlers";
 
 
 
@@ -67,32 +68,14 @@ const RefundForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers
 
 
 
+const controlAccountChange = controlAccountHandler(accounts, setValue);
 
 
 
-        const selectedControlAccount = watch("payment_account.account_code");
-            useEffect(() => {
-                if (selectedControlAccount) {
-        
-                    const selectedCodeNumber = Number(selectedControlAccount);
-                    console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
-        
-        
-                    const selectedAccount = accounts.find((a: ControlAccountInterface) => 
-                        
-                        a.account_code === selectedCodeNumber
-                    );
-                    console.log("✅ Found account:", selectedAccount);
-        
-                    if (selectedAccount) {
-                        setValue("payment_account.account_name", selectedAccount.account_name);
-                        setValue("payment_account.account_type", selectedAccount.account_type);
-                    }
-                }
-            }, [selectedControlAccount, accounts, setValue]);
-        
 
-        
+
+
+
 
 
 
@@ -150,13 +133,14 @@ const RefundForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers
                             <select
                                 {...register("payment_account.account_code")}
                                 className={forms.select.partial}
+                                onChange={controlAccountChange}
                             >
                                 <option value=""></option>
-                                {accounts.map((account: ControlAccountInterface) => (
+                                {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                     <option key={account.account_code} value={account.account_code}>
                                         {account.account_code} ({account.account_name})
                                     </option>
-                                ))}
+                                )), [accounts])}
                             </select>
     
                             <input type="hidden" {...register("payment_account.account_name")} />
@@ -170,11 +154,11 @@ const RefundForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {creditNotes.map((creditNotes: CreditNoteCreateResponse) => (
+                                {useMemo(() => creditNotes.map((creditNotes: CreditNoteCreateResponse) => (
                                     <option key={creditNotes.credit_note_number} value={creditNotes.credit_note_number}>
                                         {formatCreditNoteNumber()}{creditNotes.credit_note_number} | Outstanding: {creditNotes.credit_note_outstanding || '--'}
                                     </option>
-                                ))}
+                                )), [creditNotes])}
                             </select>
                         </div>
 
@@ -201,11 +185,11 @@ const RefundForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {currencies.map((currency: CurrencyInterface) => (
+                                {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                     <option key={currency.currency_code} value={currency.currency_code}>
                                         {currency.currency_code}
                                     </option>
-                                ))}
+                                )), [currencies])}
                             </select>
                         </div>
                         
@@ -214,11 +198,11 @@ const RefundForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers
                             <select className={forms.select.partial}
                                 {...register("agent")}>
                                     <option value=""></option>
-                                    {agents.map((agent: AgentInterface) => (
+                                    {useMemo(() => agents.map((agent: AgentInterface) => (
                                         <option key={agent.name} value={agent.name}>
                                             {agent.name}
                                         </option>
-                                    ))}
+                                    )), [agents])}
                             </select>
                         </div>
                     </div>

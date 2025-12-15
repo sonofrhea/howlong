@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, Suspense, lazy } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -23,11 +23,11 @@ import ProtectedRoute from './components/ProtectedRoutes';
 
 // -------------------begin---------CUSTOMERS--------------------------------------------
 
-import CustomerDashboard from './FullStack/Customers/CustomerDashboard';
-import CustomerManagement from "./FullStack/Customers/CustomerProfile/CustomerManagement";
-import RefundManagement from './FullStack/Customers/CustomerRefund/RefundManagement';
-import DebitNoteManagement from './FullStack/Customers/CustomerDebitNote/DebitNoteManagement';
-import CreditNoteManagement from './FullStack/Customers/CustomerCreditNote/CreditNoteManagement';
+const CustomerDashboard = lazy(() => import('./FullStack/Customers/CustomerDashboard'))
+const CustomerManagement = lazy(() => import('./FullStack/Customers/CustomerProfile/CustomerManagement'))
+const RefundManagement = lazy(() => import('./FullStack/Customers/CustomerRefund/RefundManagement'))
+const DebitNoteManagement = lazy(() => import('./FullStack/Customers/CustomerDebitNote/DebitNoteManagement'))
+const CreditNoteManagement = lazy(() => import('./FullStack/Customers/CustomerCreditNote/CreditNoteManagement'))
 
 // -------------------end---------CUSTOMERS--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -38,10 +38,9 @@ import CreditNoteManagement from './FullStack/Customers/CustomerCreditNote/Credi
 ///////////////////////////////////////////////////////////////////////////////////
 // -------------------begin---------PURCHASES--------------------------------------------
 
-import PurchasesDashboard from './FullStack/Purchases/PurchasesDashboard';
-import CompanyPurchaseOrderManagement from './FullStack/Purchases/CompanyPurchaseOrder/CompanyPurchaseOrderManagement';
-import CompanyPurchaseInvoiceManagement from './FullStack/Purchases/CompanyPurchaseInvoice/CompanyPurchaseInvoiceManagement';
-
+const PurchasesDashboard = lazy(() => import('./FullStack/Purchases/PurchasesDashboard'))
+const CompanyPurchaseOrderManagement = lazy(() => import('./FullStack/Purchases/CompanyPurchaseOrder/CompanyPurchaseOrderManagement'))
+const CompanyPurchaseInvoiceManagement = lazy(() => import('./FullStack/Purchases/CompanyPurchaseInvoice/CompanyPurchaseInvoiceManagement'))
 
 // -------------------end---------PURCHASES--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -52,11 +51,11 @@ import CompanyPurchaseInvoiceManagement from './FullStack/Purchases/CompanyPurch
 ///////////////////////////////////////////////////////////////////////////////////
 // -------------------begin---------SALES--------------------------------------------
 
-import SalesDashboard from './FullStack/Sales/SalesDashboard';
-import QuotationManagement from './FullStack/Sales/Quotation/QuotationManagement';
-import InvoiceManagement from './FullStack/Sales/Invoice/InvoiceManagement';
-import InvoicePaymentManagement from './FullStack/Sales/InvoicePayment/InvoicePaymentManagement';
-import CustomerPaymentManagement from './FullStack/Sales/CustomerPayment/CustomerPaymentManagement';
+const SalesDashboard = lazy(() => import('./FullStack/Sales/SalesDashboard'))
+const QuotationManagement = lazy(() => import('./FullStack/Sales/Quotation/QuotationManagement'))
+const InvoiceManagement = lazy(() => import('./FullStack/Sales/Invoice/InvoiceManagement'))
+const InvoicePaymentManagement = lazy(() => import('./FullStack/Sales/InvoicePayment/InvoicePaymentManagement'))
+const CustomerPaymentManagement = lazy(() => import('./FullStack/Sales/CustomerPayment/CustomerPaymentManagement'))
 
 // -------------------end---------SALES--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -67,13 +66,13 @@ import CustomerPaymentManagement from './FullStack/Sales/CustomerPayment/Custome
 ///////////////////////////////////////////////////////////////////////////////////
 // -------------------begin---------ACCOUNTING--------------------------------------------
 
-import AccountingDashboard from './FullStack/Accounting/AccountingDashboard';
-import ReceiptVoucherManagement from './FullStack/Accounting/ReceiptVoucher/ReceiptVoucherManagement';
+const AccountingDashboard = lazy(() => import('./FullStack/Accounting/AccountingDashboard'))
+const ReceiptVoucherManagement = lazy(() => import('./FullStack/Accounting/ReceiptVoucher/ReceiptVoucherManagement'))
 //import JournalManagement from './FullStack/Accounting/Journal/JournalManagement';
-import BankStatementManagement from './FullStack/Accounting/BankStatement/BankStatementManagement';
-import PaymentVoucherManagement from './FullStack/Accounting/PaymentVoucher/PaymentVoucherManagement';
-import IncomeAndExpensesManagement from './FullStack/Accounting/IncomeAndExpenses/IncomeAndExpensesManagement';
-import CashBookManagement from './FullStack/Accounting/CashBook/CashBookManagement';
+const BankStatementManagement = lazy(() => import('./FullStack/Accounting/BankStatement/BankStatementManagement'))
+const PaymentVoucherManagement = lazy(() => import('./FullStack/Accounting/PaymentVoucher/PaymentVoucherManagement'))
+const IncomeAndExpensesManagement = lazy(() => import('./FullStack/Accounting/IncomeAndExpenses/IncomeAndExpensesManagement'))
+const CashBookManagement = lazy(() => import('./FullStack/Accounting/CashBook/CashBookManagement'))
 
 // -------------------end---------ACCOUNTING--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -84,11 +83,11 @@ import CashBookManagement from './FullStack/Accounting/CashBook/CashBookManageme
 ///////////////////////////////////////////////////////////////////////////////////
 // -------------------begin---------PROJECTS--------------------------------------------
 
-import ProjectsDashboard from './FullStack/Projects/ProjectsDashboard';
-import ProjectsProfileManagement from './FullStack/Projects/ProjectsProfile/ProjectsProfileManagement';
-import ProjectDocumentsManagement from './FullStack/Projects/ProjectDocuments/ProjectDocumentsManagement';
-import JobCostLedgerManagement from './FullStack/Projects/JobCostLedger/JobCostLedgerManagement';
-import BillOfQuantitiesManagement from './FullStack/Projects/BillOfQuantities/BillOfQuantitiesManagement';
+const ProjectsDashboard = lazy(() => import('./FullStack/Projects/ProjectsDashboard'))
+const ProjectsProfileManagement = lazy(() => import('./FullStack/Projects/ProjectsProfile/ProjectsProfileManagement'))
+const ProjectDocumentsManagement = lazy(() => import('./FullStack/Projects/ProjectDocuments/ProjectDocumentsManagement'))
+const JobCostLedgerManagement = lazy(() => import('./FullStack/Projects/JobCostLedger/JobCostLedgerManagement'))
+const BillOfQuantitiesManagement = lazy(() => import('./FullStack/Projects/BillOfQuantities/BillOfQuantitiesManagement'))
 
 // -------------------end---------PROJECTS--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -99,8 +98,8 @@ import BillOfQuantitiesManagement from './FullStack/Projects/BillOfQuantities/Bi
 ///////////////////////////////////////////////////////////////////////////////////
 // -------------------begin---------CORE--------------------------------------------
 
-import CoreDashboard from './FullStack/Core/CoreDashboard';
-import UsersManagement from './FullStack/Core/Users/UsersManagement';
+const CoreDashboard = lazy(() => import('./FullStack/Core/CoreDashboard'))
+const UsersManagement = lazy(() => import('./FullStack/Core/Users/UsersManagement'))
 
 // -------------------end---------CORE--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -111,9 +110,9 @@ import UsersManagement from './FullStack/Core/Users/UsersManagement';
 ///////////////////////////////////////////////////////////////////////////////////
 // -------------------begin---------PRODUCTS--------------------------------------------
 
-import ProductsDashboard from './FullStack/Products/ProductsDashboard';
-import ProductGroupManagement from './FullStack/Products/ProductGroup/ProductGroupManagement';
-import ProductItemManagement from './FullStack/Products/ProductItem/ProductItemManagement';
+const ProductsDashboard = lazy(() => import('./FullStack/Products/ProductsDashboard'))
+const ProductGroupManagement = lazy(() => import('./FullStack/Products/ProductGroup/ProductGroupManagement'))
+const ProductItemManagement = lazy(() => import('./FullStack/Products/ProductItem/ProductItemManagement'))
 
 // -------------------end---------PRODUCTS--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -124,13 +123,13 @@ import ProductItemManagement from './FullStack/Products/ProductItem/ProductItemM
 ///////////////////////////////////////////////////////////////////////////////////
 // -------------------begin---------SUPPLIERS--------------------------------------------
 
-import SuppliersDashboard from './FullStack/Suppliers/SuppliersDashboard';
-import SupplierPaymentManagement from './FullStack/Suppliers/SupplierPayment/SupplierPaymentManagement';
-import SupplierInvoiceManagement from './FullStack/Suppliers/SupplierInvoice/SupplierInvoiceManagement';
-import SupplierProfileManagement from './FullStack/Suppliers/SupplierProfile/SupplierProfileManagement';
-import SupplierDebitNoteManagement from './FullStack/Suppliers/SupplierDebitNote/SupplierDebitNoteManagement';
-import SupplierCreditNoteManagement from './FullStack/Suppliers/SupplierCreditNote/SupplierCreditNoteManagement';
-import SupplierCategoryManagement from './FullStack/Suppliers/SupplierCategory/SupplierCategoryManagement';
+const SuppliersDashboard = lazy(() => import('./FullStack/Suppliers/SuppliersDashboard'))
+const SupplierPaymentManagement = lazy(() => import('./FullStack/Suppliers/SupplierPayment/SupplierPaymentManagement'))
+const SupplierInvoiceManagement = lazy(() => import('./FullStack/Suppliers/SupplierInvoice/SupplierInvoiceManagement'))
+const SupplierProfileManagement = lazy(() => import('./FullStack/Suppliers/SupplierProfile/SupplierProfileManagement'))
+const SupplierDebitNoteManagement = lazy(() => import('./FullStack/Suppliers/SupplierDebitNote/SupplierDebitNoteManagement'))
+const SupplierCreditNoteManagement = lazy(() => import('./FullStack/Suppliers/SupplierCreditNote/SupplierCreditNoteManagement'))
+const SupplierCategoryManagement = lazy(() => import('./FullStack/Suppliers/SupplierCategory/SupplierCategoryManagement'))
 
 // -------------------end---------SUPPLIERS--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -141,8 +140,8 @@ import SupplierCategoryManagement from './FullStack/Suppliers/SupplierCategory/S
 ///////////////////////////////////////////////////////////////////////////////////
 // -------------------begin---------REPORTS--------------------------------------------
 
-import ReportsAndReceiptsDashboard from './FullStack/Reports/ReportsAndRecordsDashboard';
-import GeneralLedgerManagement from './FullStack/Reports/Reports/GeneralLedger/GeneralLedgerManagement';
+const ReportsAndReceiptsDashboard = lazy(() => import('./FullStack/Reports/ReportsAndRecordsDashboard'))
+const GeneralLedgerManagement = lazy(() => import('./FullStack/Reports/Reports/GeneralLedger/GeneralLedgerManagement'))
 
 // -------------------end---------REPORTS--------------------------------------------
 
@@ -199,7 +198,11 @@ function App() {
 
             {/* Dashboard route - no layout  */}
             <Route element={<ProtectedRoute/>}>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={
+                <Suspense fallback={<div>Loading dashboard...</div>}>
+                  <Dashboard />
+                </Suspense>
+                } />
             </Route>
             
             
@@ -211,15 +214,20 @@ function App() {
               {/* CORE */}
             <Route element={<ProtectedRoute/>}>
               <Route path='/core' element={
-                <Layout>
-                  <CoreDashboard />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <CoreDashboard />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/core/users" element={
-                <Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
                   <UsersManagement />
                 </Layout>
+                </Suspense>
+                
               }/>
 
 
@@ -227,36 +235,48 @@ function App() {
 
               {/* CUSTOMERS */}
               <Route path="/customers" element={
-                <Layout>
-                  <CustomerDashboard />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <CustomerDashboard />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/customers/customers-profile" element={
-                <Layout>
-                  <CustomerManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <CustomerManagement />
+                  </Layout>
+                </Suspense>
+                
               } />
 
               <Route path="/customers/debit-note" element={
-                <Layout>
-                  <DebitNoteManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <DebitNoteManagement />
+                  </Layout>
+                </Suspense>
+                
               } />
 
               <Route path='/customers/credit-note' element={
-                <Layout>
-                  <CreditNoteManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <CreditNoteManagement />
+                  </Layout>
+                </Suspense>
+                
               } />
 
               <Route path="/customers/refund" element={
-                <Layout>
-                  <RefundManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <RefundManagement />
+                  </Layout>
+                </Suspense>
+                
               } />
-
-
 
 
 
@@ -269,21 +289,27 @@ function App() {
 
               
               <Route path="/products" element={
-                <Layout>
-                  <ProductsDashboard title="Product Management" />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <ProductsDashboard title="Product Management" />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/products/product-group" element={
-                <Layout>
-                  <ProductGroupManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <ProductGroupManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/products/product-item" element={
-                <Layout>
-                  <ProductItemManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <ProductItemManagement />
+                  </Layout>
+                </Suspense>
               } />
 
 
@@ -298,33 +324,43 @@ function App() {
 
               
               <Route path="/sales" element={
-                <Layout>
-                  <SalesDashboard title="Sales Management" />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <SalesDashboard title="Sales Management" />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/sales/quotations" element={
-                <Layout>
-                  <QuotationManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <QuotationManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/sales/invoices" element={
-                <Layout>
-                  <InvoiceManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <InvoiceManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/sales/invoice-payments" element={
-                <Layout>
-                  <InvoicePaymentManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <InvoicePaymentManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/sales/customer-payments" element={
-                <Layout>
-                  <CustomerPaymentManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <CustomerPaymentManagement />
+                  </Layout>
+                </Suspense>
               } />
 
 
@@ -343,21 +379,27 @@ function App() {
               {/* PURCHASES */}
 
               <Route path="/purchases" element={
-                <Layout>
-                  <PurchasesDashboard title="Company Purchases Management" />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <PurchasesDashboard title="Company Purchases Management" />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/purchases/company-purchase-invoice" element={
-                <Layout>
-                  <CompanyPurchaseInvoiceManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <CompanyPurchaseInvoiceManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/purchases/company-purchase-order" element={
-                <Layout>
-                  <CompanyPurchaseOrderManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <CompanyPurchaseOrderManagement />
+                  </Layout>
+                </Suspense>
               } />
 
 
@@ -376,33 +418,44 @@ function App() {
                 {/* PROJECTS */}
               
               <Route path="/projects" element={
-                <Layout>
-                  <ProjectsDashboard title="Project Management" />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <ProjectsDashboard title="Project Management" />
+                  </Layout>
+                </Suspense>
+                
               } />
 
               <Route path="/projects/project" element={
-                <Layout>
-                  <ProjectsProfileManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <ProjectsProfileManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/projects/project-documents" element={
-                <Layout>
-                  <ProjectDocumentsManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <ProjectDocumentsManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/projects/job-cost-ledger" element={
-                <Layout>
-                  <JobCostLedgerManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <JobCostLedgerManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/projects/bill-of-quantities" element={
-                <Layout>
-                  <BillOfQuantitiesManagement />
-                </Layout>
+                <Suspense>
+                  <Layout>
+                    <BillOfQuantitiesManagement />
+                  </Layout>
+                </Suspense>
               } />
 
 
@@ -421,45 +474,60 @@ function App() {
                 {/* SUPPLIERS */}
 
               <Route path="/suppliers" element={
-                <Layout>
-                  <SuppliersDashboard title="Suppliers Management" />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <SuppliersDashboard title="Suppliers Management" />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/suppliers/suppliers-categories" element={
-                <Layout>
-                  <SupplierCategoryManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <SupplierCategoryManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/suppliers/supplier-profiles" element={
-                <Layout>
-                  <SupplierProfileManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <SupplierProfileManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/suppliers/supplier-invoices" element={
-                <Layout>
-                  <SupplierInvoiceManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>} >
+                  <Layout>
+                    <SupplierInvoiceManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/suppliers/supplier-payments" element={
-                <Layout>
-                  <SupplierPaymentManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <SupplierPaymentManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/suppliers/supplier-debit-notes" element={
-                <Layout>
-                  <SupplierDebitNoteManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <SupplierDebitNoteManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/suppliers/supplier-credit-notes" element={
-                <Layout>
-                  <SupplierCreditNoteManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <SupplierCreditNoteManagement />
+                  </Layout>
+                </Suspense>
+                
               } />
 
 
@@ -478,40 +546,56 @@ function App() {
                 {/* ACCOUNTING */}
 
               <Route path="/accounting" element={
-                <Layout>
-                  <AccountingDashboard title="Accounting & Finance Management" />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <AccountingDashboard title="Accounting & Finance Management" />
+                  </Layout>
+                </Suspense>
               } />
 
 
               <Route path="/accounting/income-and-expenses" element={
-                <Layout>
-                  <IncomeAndExpensesManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <IncomeAndExpensesManagement />
+                  </Layout>
+                </Suspense>
+                
               } />
 
               <Route path="/accounting/cashbook" element={
-                <Layout>
-                  <CashBookManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <CashBookManagement />
+                  </Layout>
+                </Suspense>
+                
               } />
 
               <Route path="/accounting/payment-vouchers" element={
-                <Layout>
-                  <PaymentVoucherManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <PaymentVoucherManagement />
+                  </Layout>
+                </Suspense>
+                
               } />
 
               <Route path="/accounting/receipt-vouchers" element={
-                <Layout>
-                  <ReceiptVoucherManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <ReceiptVoucherManagement />
+                  </Layout>
+                </Suspense>
+                
               } />
 
               <Route path="/accounting/bank-statements" element={
-                <Layout>
-                  <BankStatementManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <BankStatementManagement />
+                  </Layout>
+                </Suspense>
               } />
 
 
@@ -530,45 +614,61 @@ function App() {
                 {/* REPORTS AND RECEIPTS */}
 
               <Route path="/reports" element={
-                <Layout>
-                  <ReportsAndReceiptsDashboard title="Reports & Receipts" />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <ReportsAndReceiptsDashboard title="Reports & Receipts" />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/reports/general-ledger" element={
-                <Layout>
-                  <GeneralLedgerManagement />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <GeneralLedgerManagement />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/reports/trial-balance" element={
-                <Layout>
-                  <ComingSoon />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                   <Layout>
+                    <ComingSoon />
+                  </Layout>
+                </Suspense>
+               
               } />
 
               <Route path="/reports/income-statement" element={
-                <Layout>
-                  <ComingSoon />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <ComingSoon />
+                  </Layout>
+                </Suspense>
               } />
 
               <Route path="/reports/balance-sheet" element={
-                <Layout>
-                  <ComingSoon />
-                </Layout>
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <ComingSoon />
+                  </Layout>
+                </Suspense>
+                
               } />
 
               <Route path="/reports/cashflow" element={
+                <Suspense fallback={<div>fetching...</div>}>
                 <Layout>
                   <ComingSoon />
                 </Layout>
+                </Suspense>
               } />
 
               <Route path="/reports/receipt-records" element={
+                <Suspense fallback={<div>fetching...</div>}>
                 <Layout>
                   <ComingSoon />
                 </Layout>
+                </Suspense>
               } />
 
 

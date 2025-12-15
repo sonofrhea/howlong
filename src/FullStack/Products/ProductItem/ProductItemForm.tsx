@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import React, { useMemo } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 
 import { ProductItemInputs, ProductGroupCreateResponse } from "../constants/Types";
 
@@ -97,11 +97,11 @@ const ProductItemForm: React.FC<any> = ({ onSubmit, onCancel, isSubmitting,
                                     className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                 >
                                     <option value=""></option>
-                                    {productGroups.map((productGroup: ProductGroupCreateResponse) => (
+                                    {useMemo(() => productGroups.map((productGroup: ProductGroupCreateResponse) => (
                                         <option key={productGroup.group_code} value={productGroup.group_code}>
                                             SKG-{productGroup.group_code} | Group name: {productGroup.group_name}
                                         </option>
-                                    ))}
+                                    )), [productGroups])}
                                 </select>
                             </label>
 
@@ -174,11 +174,11 @@ const ProductItemForm: React.FC<any> = ({ onSubmit, onCancel, isSubmitting,
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     >
                                         <option value=""></option>
-                                        {currencies.map((currency: CurrencyInterface) => (
+                                        {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                             <option key={currency.currency_code} value={currency.currency_code}>
                                                 {currency.currency_code} - {currency.country}
                                             </option>
-                                        ))}
+                                        )), [currencies])}
                                     </select>
                                 </div>
 

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import React, { useMemo } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { CustomerCreateResponse } from "../../Customers/constants/Types"
@@ -99,11 +99,11 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {customers.map((customer: CustomerCreateResponse) => (
+                                {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
-                                        {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
+                                        {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
                                     </option>
-                                ))}
+                                )), [customers])}
                             </select>
                         </div>
 
@@ -132,11 +132,11 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {agents.map((agent: AgentInterface) => (
+                                {useMemo(() => agents.map((agent: AgentInterface) => (
                                     <option key={agent.name} value={agent.name}>
                                         {agent.name}
                                     </option>
-                                ))}
+                                )), [agents])}
                             </select>
                         </div>
                     </div>
@@ -151,11 +151,11 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {projects.map((project: ProjectProfileResponse) => (
+                                {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                     <option key={project.project_code} value={project.project_code}>
                                         {project.project_name} - {formatProjectNumber()}{project.project_code}
                                     </option>
-                                ))}
+                                )), [projects])}
                             </select>
                         </div>
                         
@@ -167,11 +167,11 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {currencies.map((currency: CurrencyInterface) => (
+                                {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                     <option key={currency.currency_code} value={currency.currency_code}>
                                         {currency.currency_code}
                                     </option>
-                                ))}
+                                )), [currencies])}
                             </select>
                         </div>
 
@@ -230,11 +230,11 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                                     className={forms.select.small}
                                                 >
                                                     <option value=""></option>
-                                                    {productItems.map((product: ProductItemCreateResponse) => (
+                                                    {useMemo(() => productItems.map((product: ProductItemCreateResponse) => (
                                                         <option key={product.item_code} value={product.item_code}>
                                                             SKU-{product.item_code} | {product.item_description}
                                                         </option>
-                                                    ))}
+                                                    )), [productItems])}
                                                 </select>
                                             </td>
 

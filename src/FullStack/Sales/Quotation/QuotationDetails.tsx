@@ -1,5 +1,5 @@
 import React from "react";
-import { forms, tables, text, totalCard } from "../Constants/Styles";
+import { forms, tables, text } from "../Constants/Styles";
 import {layout, details} from "../Constants/Styles";
 import { labelStyles, buttons } from "../../Customers/constants/Styles";
 import { SquarePen } from "lucide-react";
@@ -17,6 +17,16 @@ const formatDate = (dateString: string) => {
 const productItem = () => {
     return `SKU-`;
 };
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -160,13 +170,13 @@ const QuotationDetails: React.FC<any> = ({ quotation, isLoading, onBack, onEdit 
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Tax %</div>
-                                        <div className={labelStyles}>{quotation.tax_amount} %</div>
+                                        <div>Discount %</div>
+                                        <div className={labelStyles}>({quotation.discount_amount})%</div>
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Discount %</div>
-                                        <div className={labelStyles}>{quotation.discount_amount} %</div>
+                                        <div>Tax %</div>
+                                        <div className={labelStyles}>{quotation.tax_amount} %</div>
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">

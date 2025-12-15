@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 import { QuotationInputs } from "../Constants/Types";
 
-import { AgentInterface,CurrencyInterface } from "../../Core/Interfaces"
+import { AgentInterface,CurrencyInterface } from "../../Core/constants/Types"
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types"
 import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
@@ -53,6 +53,17 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
             name: "related_quotation",
             control
         });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -110,11 +121,11 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                             className={forms.select.partial}
                         >
                             <option value=""></option>
-                            {customers.map((customer: CustomerCreateResponse) => (
+                            {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
-                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
+                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
                                 </option>
-                            ))}
+                            )), [customers])}
                         </select>
                         </div>
 
@@ -134,11 +145,11 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                 className={forms.select.partial}
                             >
                                 <option value=""></option>
-                                {agents.map((agent: AgentInterface) => (
+                                {useMemo(() => agents.map((agent: AgentInterface) => (
                                     <option key={agent.name} value={agent.name}>
                                         {agent.name}
                                     </option>
-                                ))}
+                                )), [agents])}
                             </select>
                         </div>
                     </div>
@@ -199,11 +210,11 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                     className={forms.select.full}
                                                 >
                                                     <option value=""></option>
-                                                    {productItems.map((product: ProductItemCreateResponse) => (
+                                                    {useMemo(() => productItems.map((product: ProductItemCreateResponse) => (
                                                         <option key={product.item_code} value={product.item_code}>
                                                             SKU-{product.item_code} | {product.item_description}
                                                         </option>
-                                                    ))}
+                                                    )), [productItems])}
                                                 </select>
                                             </td>
                                             <td className={tables.cell}>
@@ -250,11 +261,11 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                     className={forms.select.full}
                                                 >
                                                     <option value=""></option>
-                                                    {currencies.map((currency: CurrencyInterface) => (
+                                                    {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                                         <option key={currency.currency_code} value={currency.currency_code}>
                                                             {currency.currency_code}
                                                         </option>
-                                                    ))}
+                                                    )), [currencies])}
                                                 </select>
                                             </td>
                                             <td className={tables.autoCalculate}>
