@@ -10,7 +10,7 @@ const HandleRegistration = async (data: RegistrationFormInputs) => {
     const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : import.meta.env.VITE_API_BASE_URL_DEPLOY;
 
     try {
-        const response = await apiClient.post(`${baseEntry}core/registration/`, data);
+        const response = await apiClient.post(`${baseEntry}core/register/`, data);
         return response.data;
     } catch (err: any) {
         console.error('Registration failed:', err.response?.data || err.message);
