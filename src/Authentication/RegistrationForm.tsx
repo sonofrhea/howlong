@@ -19,9 +19,15 @@ import apiClient from "../BaseEngine";
 
 const Register = () => {
     const navigate = useNavigate()
-    const {handleSubmit, control} = useForm()
+    const {handleSubmit, control} = useForm();
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
 
     const submission = (data: any) => {
+        if (loading) return
+        setLoading(true);
+        
         apiClient.post(`core/register/`,{
             email: data.email,
             password1: data.password1,
@@ -71,7 +77,8 @@ const Register = () => {
                     <Box className={"itemBox"}>
                         <MyButton 
                             type={"submit"}
-                            label={"Register"}
+                            label={loading ? "Registering..." : "Register"}
+                            disabled={loading}
                         />
                     </Box>
 
