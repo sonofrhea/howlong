@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import HandleRegistration from "./HandleRegistration";
 import { RegistrationFormInputs } from "./Types";
 import '../App.css';
 
@@ -14,6 +13,7 @@ import { useForm } from "react-hook-form";
 import AxiosInstance from "../components/AxiosInstance"; 
 import apiClient from "../BaseEngine";
 
+import HandleRegistration from "./HandleRegistration";
 
 
 
@@ -24,19 +24,38 @@ const Register = () => {
     const [loading, setLoading] = useState(false);
 
 
-    const submission = (data: any) => {
+    const submission = async (data: any) => {
         if (loading) return
         setLoading(true);
-        
-        apiClient.post(`core/register/`,{
+        setError("")
+
+        try {
+            await HandleRegistration({
             email: data.email,
             password1: data.password1,
             password2: data.password2
-        })
+        });
+            navigate(`/`);
+        } catch (error: any) {
+            const message =
+                error?.response?.data?.message ||
+                error?.response?.data?.detail ||
+                "Invalid email or password";
 
-        .then(() => {
-            navigate(`/`)
-        })
+            setError(message);
+        } finally {
+            setLoading(false);
+        }
+        
+        //apiClient.post(`core/register/`,{
+        //    email: data.email,
+        //    password1: data.password1,
+        //    password2: data.password2
+        //})
+//
+        //.then(() => {
+        //    navigate(`/`)
+        //})
     }
 
     return(
@@ -73,6 +92,12 @@ const Register = () => {
                             control={control}
                         />
                     </Box>
+
+                    {error && (
+                    <Box sx={{ color: "red", mb: 2, fontSize: "0.9rem" }}>
+                        {error}
+                    </Box>
+                    )}
 
                     <Box className={"itemBox"}>
                         <MyButton 

@@ -6,8 +6,11 @@ import { RegistrationFormInputs } from "./Types";
 
 
 const HandleRegistration = async (data: RegistrationFormInputs) => {
+    const isDevelopment = import.meta.env.MODE === "development";
+    const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : import.meta.env.VITE_API_BASE_URL_DEPLOY;
+
     try {
-        const response = await apiClient.post('core/registration/', data);
+        const response = await apiClient.post(`${baseEntry}core/registration/`, data);
         return response.data;
     } catch (err: any) {
         console.error('Registration failed:', err.response?.data || err.message);
