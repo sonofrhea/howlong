@@ -19,19 +19,21 @@ const Login = () => {
     const navigate = useNavigate()
     const {handleSubmit, control} = useForm()
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false);
 
     const submission = async (data: any) => {
+        if (loading) return
+        setLoading(true);
         setError("")
         try {
             await HandleLogin(data.email, data.password)
             navigate(`/dashboard`)
         } catch (error: any) {
-            const message = error.response?.data?.message || error.response?.data?.detail ||
-            "Invalid email or password"
-
-            setError(message)
+            setError(error.message || "Invalid email or password")
+        } finally {
+            setLoading(false);
         }
-        }
+    }
         
    //     apiClient.post(`core/login/`,{
    //         email: data.email,
@@ -75,7 +77,8 @@ const Login = () => {
                     <Box className={"itemBox"}>
                         <MyButton 
                             type={"submit"}
-                            label={"Login"}
+                            label={loading ? "Logging in..." : "Login"}
+                            disabled={loading}
                         />
                     </Box>
 

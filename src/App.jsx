@@ -10,7 +10,7 @@ import RegistrationPage from './Authentication/RegistrationForm';
 
 import Layout from './components/Layout';
 
-const Dashboard = lazy(() => import('./components/Dashboard'));
+import Dashboard from "./components/Dashboard";
 
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 
@@ -197,16 +197,8 @@ function App() {
             
 
             {/* Dashboard route - no layout  */}
-            <Route element={
-              <Suspense fallback={<div>Checking authorization...</div>}>
-                <ProtectedRoute />
-              </Suspense>
-              }>
-              <Route path="/dashboard" element={
-                <Suspense fallback={<div>Loading dashboard...</div>}>
-                  <Dashboard />
-                </Suspense>
-                } />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
             </Route>
             
             

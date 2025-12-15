@@ -11,9 +11,14 @@ const HandleLogin = async (email: string, password: any) => {
      email,
      password
    });
+   if (!response?.data?.token) {
+    throw new Error('No token returned from server');
+   }
    localStorage.setItem('Token', response.data.token);
    return response.data; 
  } catch (error: any) {
+        const message = error.response?.data?.message || error.response?.data?.detail ||
+        "Invalid email or password"
    console.error('Login failed:', error.response?.data || error.message);
    throw error; 
  }
