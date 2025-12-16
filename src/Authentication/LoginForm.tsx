@@ -29,13 +29,22 @@ const Login = () => {
             await HandleLogin(data.email, data.password)
             navigate(`/dashboard`);
         } catch (error: any) {
-            const message =
+            const backendMessage =
                 error.response.data.detail[0] ||
-                error.response.data.detail[1]
-                "Invalid email or password";
+                error.response.data.detail[1] ||
+                error.response.data.detail;
+                if (backendMessage) {
+                    setError(backendMessage);
+                    return;
+                }
+                
+                if (error.code === "ECONNABORTED") {
+                    setError("Request timed out. Please try again.");
+                    return;
+                }
 
-            console.log(message);
-            setError(message);
+            setError("Invalid email or password");
+            console.log(backendMessage);
         } finally {
             setLoading(false);
         }
