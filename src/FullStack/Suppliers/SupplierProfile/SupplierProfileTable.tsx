@@ -1,23 +1,29 @@
 import React from "react";
+import { SupplierProfileList } from "../constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
+const formatSupplierNumber = () => {
+        const currentYear = new Date().getFullYear();
+        return `SUP-${currentYear}-`;
 };
 
 
-const SupplierProfileTable = ({ supplierProfiles, onSupplierProfileClick, onEditSupplierProfile,
+
+
+
+
+
+const SupplierProfileTable: React.FC<any> = ({ supplierProfiles, onSupplierProfileClick, onEditSupplierProfile,
     onDeleteSupplierProfile, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
  }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -66,13 +72,13 @@ const SupplierProfileTable = ({ supplierProfiles, onSupplierProfileClick, onEdit
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Supplier Profile List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 text-black py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -88,17 +94,20 @@ const SupplierProfileTable = ({ supplierProfiles, onSupplierProfileClick, onEdit
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-16 text-center" />  {/* Supplier Number - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Supplier Name - 20% */}
-                        <col className="w-1/5 text-center" /> {/* Company Name - 20% */}
-                        <col className="w-1/6 text-center" />  {/* Category */}
-                        <col className="w-1/6 text-center" /> {/* Industry Code - 16.6% */}
-                         <col className="w-1/5 text-center" /> {/* Address - 20% */}
-                        <col className="w-20 text-center" />  {/* Registration Number - Fixed */}
-                        <col className="w-20 text-center" />  {/* Status - Fixed */}
-                        <col className="w-20 text-center" />  {/* Remark - Fixed */}
-                        <col className="w-20 text-center" />  {/* Created By - Fixed */}
-                        <col className="w-20 text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/9 text-centre",
+                        "w-1/9 text-centre",
+                        "w-1/9 text-centre",
+                        "w-1/9 text-centre",
+                        "w-1/9 text-centre",
+                        "w-1/9 text-centre",
+                        "w-1/9 text-centre",
+                        "w-1/9 text-centre",
+                        "w-1/9 text-centre",
+                        "w-[7%] text-centre",
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
@@ -106,19 +115,18 @@ const SupplierProfileTable = ({ supplierProfiles, onSupplierProfileClick, onEdit
                             <SortableHeader label="Supplier Name" sortKey="supplier_name" />
                             <SortableHeader label="Company Name" sortKey="company_name" />
                             <SortableHeader label="Category" sortKey="category" />
-                            <SortableHeader label="Industry Code" sortKey="industry_code" />
-                            <SortableHeader label="Address" sortKey="address" />
-                            <SortableHeader label="Registration Number" sortKey="registration_number" />
+                            <SortableHeader label="City" sortKey="city" />
+                            <SortableHeader label="Registration #" sortKey="registration_number" />
                             <SortableHeader label="Status" sortKey="status" />
                             <SortableHeader label="Remark" sortKey="remark" />
-                            <SortableHeader label="Created By" sortKey="created_by" />
+                            <SortableHeader label="Status" sortKey="is_active" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {supplierProfiles.map((supplierProfile) => {
+                        {supplierProfiles.map((supplierProfile: SupplierProfileList) => {
                             const supplierProfileId = supplierProfile.supplier_code;
 
                             return (
@@ -126,65 +134,64 @@ const SupplierProfileTable = ({ supplierProfiles, onSupplierProfileClick, onEdit
                                 onClick={() => onSupplierProfileClick(supplierProfileId)}>
                                     {/* Supplier # */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={supplierProfile.supplier_code}>
-                                            {formatNumber()}{supplierProfile.supplier_code}
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
+                                            {formatSupplierNumber()}{supplierProfile.supplier_code}
                                         </span>
                                     </td>
 
                                     {/* Supplier Name */}
-                                    <td className="px-2 py-2 truncate" title={supplierProfile.supplier_name}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierProfile.supplier_name}</div>
-                                    </td>
-
-                                    {/* Company Name */}
-                                    <td className="px-2 py-2 truncate" title={supplierProfile.company_name}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierProfile.company_name}</div>
-                                    </td>
-
-                                    {/* Category */}
-                                    <td className="px-2 py-2 truncate" title={supplierProfile.category}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {supplierProfile.category}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {supplierProfile?.supplier_name || 'N/A'}
                                         </div>
                                     </td>
 
-                                    {/* Industry Code */}
-                                    <td className="px-2 py-2 truncate" title={supplierProfile.industry_code}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierProfile.industry_code}</div>
+                                    {/* Company Name */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {supplierProfile.company_name || 'N/A'}
+                                        </div>
+                                    </td>
+
+                                    {/* Category */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {supplierProfile.category || 'N/A'}
+                                        </div>
                                     </td>
                                     
-                                    {/* Address */}
-                                    <td className="px-2 py-2 truncate" title={supplierProfile.address}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {supplierProfile.address}
+                                    {/* City */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {supplierProfile.city || 'N/A'}
                                         </div>
                                     </td>
 
                                     {/* Registration Number */}
-                                    <td className="px-2 py-2 truncate" title={supplierProfile.registration_number}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {supplierProfile.registration_number}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {supplierProfile.registration_number || 'N/A'}
                                         </div>
                                     </td>
 
                                     {/* Status */}
-                                    <td className="px-2 py-2 truncate" title={supplierProfile.status}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {supplierProfile.status}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {supplierProfile.status || 'N/A'}
                                         </div>
                                     </td>
 
                                     {/* Remark */}
-                                    <td className="px-2 py-2 truncate" title={supplierProfile.remark}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {supplierProfile.remark}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {supplierProfile.remark || 'N/A'}
                                         </div>
                                     </td>
 
-                                    {/* Created By */}
-                                    <td className="px-2 py-2 truncate" title={supplierProfile.created_by}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {supplierProfile.created_by}
+                                    {/* Active */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {supplierProfile.status || 'N/A'}
                                         </div>
                                     </td>
 

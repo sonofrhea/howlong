@@ -28,7 +28,7 @@ import { controlAccountHandler, currencyHandler } from "../../handlers";
 const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, 
     onCancel, currencies, accounts, agents, banks }) => {
 
-        const { register, handleSubmit, watch, setValue, 
+        const { register, handleSubmit, setValue, 
             formState: { errors } } = useForm<CustomerInputs>({
             defaultValues: {
                 is_active: false,
@@ -266,6 +266,7 @@ const currencyChange = currencyHandler(currencies, setValue);
 
                                     <select 
                                         {...register("preferred_currency.currency_code")}
+                                        onChange={currencyChange}
                                         className="w-full text-black rounded-lg border cursor-pointer border-gray-300 px-3 py-2" 
                                     >
                                         {useMemo(() => currencies.map((currency: CurrencyInterface) => (

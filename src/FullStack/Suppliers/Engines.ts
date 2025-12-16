@@ -60,7 +60,7 @@ export const fetchSupplierProfiles = async () => {
     return response.data;
 };
 
-export const fetchSupplierProfileById = async (supplier_code) => {
+export const fetchSupplierProfileById = async (supplier_code: number) => {
     const response = await apiClient.get(`/suppliers/supplierprofiles/${supplier_code}/`);
     return response.data;
 };

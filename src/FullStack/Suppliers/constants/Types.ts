@@ -1,5 +1,9 @@
 import { SUPPLIERS_ICONS } from "./ModuleIcons";
 
+import { BANK_TYPE_CHOICES, COUNTRY_OPTIONS, 
+  STATUS_CHOICES, 
+  TAX_ID_CHOICES } from "./options"
+
 
 
 export interface SuppliersModulesInterface {
@@ -36,6 +40,7 @@ export type SupplierCategoryInputs = {
 
 export type SupplierCategoryResponse = {
   category_id: number;
+  category: string;
 }
 
 export type allSupplierCategoryInputs = {
@@ -50,6 +55,120 @@ export type editSupplierCategory = {
 
 
 // -------- END ----------- SUPPLIER CATEGORY INPUT ----------------
+
+
+
+
+
+
+
+
+
+
+// -------- BEGIN ----------- SUPPLIER PROFILE INPUT ----------------
+
+export type SupplierProfileList = {
+  supplier_code: number;
+  supplier_name: string;
+  company_name: string;
+  category: string;
+  city: string;
+  registration_number: number;
+  status: string;
+  remark: string;
+  is_active: boolean;
+}
+
+export type SupplierProfileInputs = {
+  supplier_name: string;
+  company_name: string;
+  category: string;
+  preferred_currency: {
+    currency_code: string | null;
+    currency_name: string | null;
+    currency_symbol: string | null;
+    country: string | null;
+    buy: number | null;
+    sell: number | null;
+  };
+  control_account: {
+    account_code: number;
+    account_name: string;
+    account_type: string;
+  };
+  address: string;
+  country: keyof typeof COUNTRY_OPTIONS;
+  post_code: string;
+  city: string;
+  state: string;
+  mobile_number: number;
+  home_number: number;
+  fax: string
+  email: string;
+  account_open_date: string;
+  registration_number: number;
+  status: keyof typeof STATUS_CHOICES;
+  gst_number: number;
+  tax_id_type: keyof typeof TAX_ID_CHOICES;
+  brn_number: number;
+  tax_number: number;
+  taxpayers_qr_code: File | null;
+  tourism_number: number;
+  expiration_date: string;
+  service_tax_number: number;
+  supplier_bank_name: string;
+  remark: string;
+  supplier_bank_account_number: number;
+  bank_account_type: keyof typeof BANK_TYPE_CHOICES;
+  is_active: boolean;
+  created_by: string;
+  date_created: string;
+};
+
+export type SupplierProfileResponse = {
+  supplier_code: number;
+};
+
+export type allSupplierProfileInputs = {
+  supplier_code: number;
+  supplierProfileData: SupplierProfileInputs;
+};
+
+export type EditSupplierProfile = {
+  supplierProfileId: number;
+  supplierProfileData: SupplierProfileInputs;
+};
+
+
+// -------- END ----------- SUPPLIER PROFILE INPUT ----------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

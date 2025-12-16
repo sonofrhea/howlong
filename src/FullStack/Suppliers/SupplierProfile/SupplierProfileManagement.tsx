@@ -9,15 +9,29 @@ import { fetchSupplierProfiles, fetchSupplierProfileById, createSupplierProfile,
 
 
  import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
-import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
+import { fetchCurrencies, fetchAgents, fetchBanks } from "../../Core/Engines"
 
- import { fetchCustomers } from "../../Customers/Engines";
+ import { fetchSupplierCategories } from "../Engines";
 
 
-//import SupplierProfileDetails from "./SupplierProfileDetails";
-//import SupplierProfileForm from "./SupplierProfileForm";
+import SupplierProfileDetails from "./SupplierProfileDetails";
+import SupplierProfileForm from "./SupplierProfileForm";
 import SupplierProfileTable from "./SupplierProfileTable";
 //import SupplierProfileEdit from "./SupplierProfileEdit";
+
+
+
+import { EditSupplierProfile, SupplierProfileInputs } from "../constants/Types";
+
+
+interface SortConfig {
+  key: string | null;
+  direction: 'asc' | 'desc';
+}
+
+
+
+
 
 
 
@@ -27,17 +41,14 @@ function SupplierProfileManagement() {
     const queryClient = useQueryClient();
     const [view, setView] = useState('list');
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedSupplierProfileId, setSelectedSupplierProfileId] = useState(null);
+    const [selectedSupplierProfileId, setSelectedSupplierProfileId] = useState<number | null>(null);
     // ------------------------------------------------------------------------------------
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+    const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
                 // DEPENDENCIES
-    const { data: customers = [] } = useQuery({
-        queryKey: ['customers'],
-        queryFn: fetchCustomers
-    });
+
 
     const { data: currencies = [] } = useQuery({
         queryKey: ['currencies'],
@@ -52,6 +63,16 @@ function SupplierProfileManagement() {
     const { data: agents = [] } = useQuery({
         queryKey: ['agents'],
         queryFn: fetchAgents
+    });
+
+    const { data: supplierCategories = [] } = useQuery({
+        queryKey: ['supplierCategories'],
+        queryFn: fetchSupplierCategories
+    });
+
+    const { data: banks = [] } = useQuery({
+        queryKey: ['banks'],
+        queryFn: fetchBanks
     });
 
 
@@ -75,7 +96,7 @@ function SupplierProfileManagement() {
 
     const { data: selectedSupplierProfile, isLoading: isLoadingSupplierProfile } = useQuery({
         queryKey: ['supplierProfile', selectedSupplierProfileId],
-        queryFn: () => fetchSupplierProfileById(selectedSupplierProfileId),
+        queryFn: () => fetchSupplierProfileById(selectedSupplierProfileId!),
         enabled: !!selectedSupplierProfileId,
     });
     // ------------------------------------------------------------------------------------
@@ -91,7 +112,7 @@ function SupplierProfileManagement() {
         setSelectedSupplierProfileId(data.supplier_code);
         setView('details');
         },
-        onError: (error) => {
+        onError: (error: any) => {
         console.error('Error creating supplier profile:', error.response?.data || error.message || error);
         }
     });
@@ -109,7 +130,7 @@ function SupplierProfileManagement() {
         queryClient.invalidateQueries({ queryKey: ['supplierProfile', selectedSupplierProfileId]});
         setView('details');
         },
-        onError: (error) => {
+        onError: (error: any) => {
         console.error('Error updating supplier profile:', error.response?.data || error.message);
         }
     });
@@ -126,38 +147,50 @@ function SupplierProfileManagement() {
     // ------------------------------------------------------------------------------------
                     // MUTATION USE
 
-    const toFormData = (obj, form = new FormData(), parentKey = '') => {
-        Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        const field = parentKey ? `${parentKey}.${key}` : key;
-        if (value === null || value === undefined) return;
-        if (Array.isArray(value)) {
-            value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-        } else if (value instanceof File) {
-            form.append(field, value);
-        } else if (typeof value === 'object') {
-            toFormData(value, form, field);
-        } else {
-            form.append(field, value);
-        }
+    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    //    Object.keys(obj).forEach(key => {
+    //    const value = obj[key];
+    //    const field = parentKey ? `${parentKey}.${key}` : key;
+    //    if (value === null || value === undefined) return;
+    //    if (Array.isArray(value)) {
+    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+    //    } else if (value instanceof File) {
+    //        form.append(field, value);
+    //    } else if (typeof value === 'object') {
+    //        toFormData(value, form, field);
+    //    } else {
+    //        form.append(field, value);
+    //    }
+    //    });
+    //    return form;
+    //};
+
+
+
+
+
+    const handleAddSupplierProfile = async (supplierProfileData: SupplierProfileInputs) => {
+        const newSupplierProfileData = new FormData();
+
+        Object.entries(supplierProfileData).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+                if (value instanceof File) {
+                    newSupplierProfileData.append(key, value);
+                } else {
+                    newSupplierProfileData.append(key, String(value));
+                }
+            }
         });
-        return form;
+        console.log("🎯 RAW FORM DATA:", newSupplierProfileData);
+
+        createSupplierProfileMutation.mutate(newSupplierProfileData);
     };
 
 
 
 
 
-    const handleAddSupplierProfile = async (supplierProfileData) => {
-
-      
-    };
-
-
-
-
-
-    const handleUpdateSupplierProfile = (supplierProfileData) => {
+    const handleUpdateSupplierProfile = (supplierProfileData: SupplierProfileInputs) => {
         updateSupplierProfileMutation.mutate({
         supplier_code: selectedSupplierProfileId,
         supplierProfileData: supplierProfileData
@@ -168,7 +201,7 @@ function SupplierProfileManagement() {
 
 
 
-    const handleDeleteSupplierProfile = async (supplierProfileId) => {
+    const handleDeleteSupplierProfile = async (supplierProfileId: number) => {
         if (window.confirm('Are you sure you want to delete this supplier profile?')) {
         deleteSupplierProfileMutation.mutate(supplierProfileId);
         }
@@ -176,14 +209,14 @@ function SupplierProfileManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleSupplierProfileClick = (supplierProfileId) => {
+    const handleSupplierProfileClick = (supplierProfileId: number) => {
         setSelectedSupplierProfileId(supplierProfileId);
         setView('details')
     };
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditSupplierProfile = (supplierProfileId, supplierProfileData) => {
+    const handleEditSupplierProfile = ({supplierProfileId, supplierProfileData}: EditSupplierProfile) => {
         setSelectedSupplierProfileId(supplierProfileId);
         setView('edit');
     };
@@ -200,7 +233,7 @@ function SupplierProfileManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredSupplierProfiles = supplierProfiles.filter(supplierProfile => {
+    const filteredSupplierProfiles = supplierProfiles.filter((supplierProfile: any) => {
         const supplierCode = String(supplierProfile.supplier_code)?.toLowerCase() || '';
         const supplierName = supplierProfile.supplier_name?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
@@ -216,8 +249,8 @@ function SupplierProfileManagement() {
         if (!sortConfig.key) return filteredSupplierProfiles;
 
         return [...filteredSupplierProfiles].sort((a, b) => {
-        const aValue = a[sortConfig.key];
-        const bValue = b[sortConfig.key];
+        const aValue = a[sortConfig.key as keyof typeof a];
+        const bValue = b[sortConfig.key as keyof typeof b];
 
         if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
         if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
@@ -227,7 +260,7 @@ function SupplierProfileManagement() {
 
 
     // Sort handler
-    const handleSort = (key) => {
+    const handleSort = (key: any) => {
     setSortConfig(current => ({
         key,
         direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'
@@ -242,12 +275,12 @@ function SupplierProfileManagement() {
     const paginatedSupplierProfiles = sortedSupplierProfiles.slice(startIndex, startIndex + itemsPerPage);
 
     // Page change handler
-    const handlePageChange = (page) => {
+    const handlePageChange = (page: any) => {
     setCurrentPage(page);
     };
 
     // Items per page handler
-    const handleItemsPerPageChange = (value) => {
+    const handleItemsPerPageChange = (value: any) => {
     setItemsPerPage(Number(value));
     setCurrentPage(1); // Reset to first page
     };
@@ -260,7 +293,7 @@ function SupplierProfileManagement() {
     // ERROR DISPLAYS
 
     if (isLoadingSupplierProfiles) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading supplier profiles...</p>
@@ -269,7 +302,7 @@ function SupplierProfileManagement() {
     );
 
     if (supplierProfilesError) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
             <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-red-500 mb-4">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
@@ -297,7 +330,7 @@ function SupplierProfileManagement() {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                        <div className="w-2 h-8 bg-linear-to-b from-blue-500 to-purple-600 rounded-full"></div>
                         <div>
                             <h1 className="text-lg font-semibold text-gray-900">Suppliers Suite</h1>
                             <p className="text-sm text-gray-500">Supplier Profile Management</p>
@@ -326,47 +359,19 @@ function SupplierProfileManagement() {
                 <div className="flex items-start justify-between mb-8">
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
+                    <div className="w-12 h-12 bg-linear-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
                         <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
                     <div>
-                        <h1 className="text-4xl font-light text-gray-900 tracking-tight">Supplier Profiles</h1>
-                        <p className="text-gray-500 mt-2">Manage and track your supplier profiles</p>
+                        <h1 className="text-4xl font-light text-gray-900 tracking-tight">Supplier Profile</h1>
+                        <p className="text-gray-500 mt-2">Manage and track supplier profiles</p>
                     </div>
                     </div>
                 </div>
                 
                 <div className="flex items-center gap-3">
-                    {view === 'list' && (
-                    <div className="relative">
-                        <input
-                        type="text"
-                        placeholder="Search..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
-                        />
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        </div>
-                    </div>
-                    )}
-
-                    {view === 'list' && (
-                    <button
-                        onClick={() => setView('form')}
-                        className="bg-white border border-gray-200 hover:border-blue-500 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-blue-50"
-                    >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                        New Supplier Profile
-                    </button>
-                    )}
 
                     {(view === 'form' || view === 'details' || view === 'edit') && (
                     <button
@@ -383,7 +388,7 @@ function SupplierProfileManagement() {
                 </div>
 
                 {view === 'list' && (
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-6 justify-between">
                     <div className="flex items-center gap-4">
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">{supplierProfiles.length}</div>
@@ -392,10 +397,35 @@ function SupplierProfileManagement() {
                     <div className="w-px h-8 bg-gray-200"></div>
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                        {new Set(supplierProfiles.map(c => c.currency?.currency_code)).size}
+                        {new Set(supplierProfiles.map((c: any) => c.currency?.currency_code)).size}
                         </div>
                         <div className="text-sm text-gray-500">Currencies</div>
                     </div>
+                    </div>
+                    <div className="flex gap-4">
+                        <div className="relative">
+                            <input
+                            type="text"
+                            placeholder="Search suppliers..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-10 text-gray-600 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 cursor-pointer bg-white transition-all duration-200 w-64 focus:shadow-sm"
+                            />
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => setView('form')}
+                            className="bg-white cursor-pointer border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            </svg>
+                            New Supplier Profile
+                        </button>
                     </div>
                 </div>
                 )}
@@ -412,7 +442,7 @@ function SupplierProfileManagement() {
                     sortConfig={sortConfig}
                     onSort={handleSort}
                     currentPage={currentPage}
-                    totalSupplierProfilePages={totalSupplierProfilePages}
+                    totalPages={totalSupplierProfilePages}
                     totalItems={sortedSupplierProfiles.length}
                     itemsPerPage={itemsPerPage}
                     onPageChange={handlePageChange}
@@ -422,9 +452,9 @@ function SupplierProfileManagement() {
             )}
 
             {view === 'form' && (
-                <div className="max-w-4xl mx-auto">
+                <div className="w-full bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
                 <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
-                    <div className="flex items-center gap-4 mb-8">
+                    <div className="flex items-center gap-4 mb-8 justify-between">
                     <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100">
                         <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
@@ -434,15 +464,25 @@ function SupplierProfileManagement() {
                         <h2 className="text-2xl font-light text-gray-900">Create Supplier Profile</h2>
                         <p className="text-gray-500">Add a new supplier profile to your records</p>
                     </div>
+                        <button 
+                            onClick={() => setView('list')}
+                            className="bg-white text-black cursor-pointer px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
+                        >
+                            <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}  />
+                            </svg>
+                            x Cancel
+                        </button>
                     </div>
                     <SupplierProfileForm 
                     onSubmit={handleAddSupplierProfile} 
-                    isSubmitting={createSupplierProfileMutation.isLoading} 
+                    isSubmitting={createSupplierProfileMutation.isPending} 
                     onCancel={handleBackToSupplierProfilesList}
-                    customers={customers}
+                    supplierCategories={supplierCategories}
                     currencies={currencies}
                     accounts={accounts}
                     agents={agents}
+                    banks={banks}
                     />
                     {createSupplierProfileMutation.isError && (
                     <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">
@@ -466,7 +506,7 @@ function SupplierProfileManagement() {
                 <SupplierProfileEdit 
                 supplierProfile={selectedSupplierProfile}
                 onSubmit={handleUpdateSupplierProfile}
-                isSubmitting={updateSupplierProfileMutation.isLoading}
+                isSubmitting={updateSupplierProfileMutation.isPending}
                 onBack={handleBackToSupplierProfilesList}
                 onCancel={handleBackToSupplierProfilesList}
                 />

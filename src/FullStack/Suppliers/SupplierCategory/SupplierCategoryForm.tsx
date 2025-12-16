@@ -49,9 +49,10 @@ const SuppliersCategoryForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
 
                                     <div className="text-sm text-gray-600 font-medium mb-1">Category Name:</div>
                                     <input 
-                                        {...register("category")} 
+                                        {...register("category", {required: "category must be unique"})} 
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
                                     />
+                                    {errors.category && <p className="text-amber-600 text-sm">{errors.category?.message}</p>}
 
                                     <div className="text-sm text-gray-600 font-medium mb-1">Description:</div>
                                     <textarea 
@@ -66,7 +67,7 @@ const SuppliersCategoryForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                     >
                                         <option value=""></option>
                                         {useMemo(() => agents.map((agent: AgentInterface) => (
-                                            <option key={agent.id} value={agent.id}>
+                                            <option key={agent.name} value={agent.name}>
                                                 {agent.name}
                                             </option>
                                         )), [agents])}

@@ -115,6 +115,7 @@ function SupplierCategoryManagement() {
         mutationFn: deleteSupplierCategory,
         onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['supplierCategories'] });
+        setView('list');
         }
     });
 
@@ -167,6 +168,7 @@ function SupplierCategoryManagement() {
     const handleDeleteSupplierCategory = async (supplierCategoryId: number) => {
         if (window.confirm('Are you sure you want to delete this category?')) {
         deleteSupplierCategoryMutation.mutate(supplierCategoryId);
+        setView('list');
         }
     };
     // ------------------------------------------------------------------------------------
