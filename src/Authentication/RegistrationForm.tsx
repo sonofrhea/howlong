@@ -39,6 +39,7 @@ const Register = () => {
         } catch (error: any) {
             const message =
                 error?.response?.data?.detail ||
+                error?.message ||
                 "Invalid email or password";
 
             console.log(message);
@@ -78,7 +79,6 @@ const Register = () => {
                             
                         />
                     </Box>
-                    {error && <p className="text-amber-800 text-sm">{error}</p>}
                     </div>
 
                     <Box className={"itemBox"}>
@@ -96,6 +96,7 @@ const Register = () => {
                             control={control}
                         />
                     </Box>
+                    {error && <p className="text-amber-800 text-sm">{error}</p>}
 
                     <Box className={"itemBox"}>
                         <MyButton 
