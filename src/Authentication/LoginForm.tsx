@@ -27,13 +27,14 @@ const Login = () => {
         setError("")
         try {
             await HandleLogin(data.email, data.password)
-            navigate(`/dashboard`)
+            navigate(`/dashboard`);
         } catch (error: any) {
             const message =
-                error?.response?.data?.message ||
-                error?.response?.data?.detail ||
+                error.response.data.detail[0] ||
+                error.response.data.detail[1]
                 "Invalid email or password";
 
+            console.log(message);
             setError(message);
         } finally {
             setLoading(false);
@@ -79,7 +80,7 @@ const Login = () => {
                         />
                     </Box>
                     {error && (
-                    <Box sx={{ color: "red", mb: 2, fontSize: "0.9rem" }}>
+                    <Box className="text-red-900 text-sm">
                         {error}
                     </Box>
                     )}

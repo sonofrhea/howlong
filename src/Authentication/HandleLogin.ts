@@ -11,16 +11,13 @@ const HandleLogin = async (email: string, password: any) => {
      email,
      password
    });
-   if (!response?.data?.token) {
-    throw new Error('No token returned from server');
-   }
    localStorage.setItem('Token', response.data.token);
-   return response.data; 
+   return response?.data; 
  } catch (error: any) {
-        const message = error.response?.data?.message || error.response?.data?.detail ||
-        "Invalid email or password"
-   console.error('Login failed:', error.response?.data || error.message);
-   throw error; 
+      console.log("ERROR TYPE:", error.constructor.name);
+      console.log("ERROR KEYS:", Object.keys(error));
+      console.log("FULL ERROR OBJECT:", error);
+      throw error; 
  }
 };
 export default HandleLogin;

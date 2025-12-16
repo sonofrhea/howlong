@@ -11,13 +11,14 @@ const HandleRegistration = async (data: RegistrationFormInputs) => {
 
     try {
         const response = await apiClient.post(`${baseEntry}core/register/`, data);
-        return response.data;
+        return response?.data;
     } catch (err: any) {
-        console.error('Registration failed:', err.response?.data || err.message);
+        console.log("ERROR TYPE:", err.constructor.name);
+        console.log("ERROR KEYS:", Object.keys(err));
+        console.log("FULL ERROR OBJECT:", err);
         throw err;
     }
 };
 export default HandleRegistration;
 
 
-// { withCredentials: true }

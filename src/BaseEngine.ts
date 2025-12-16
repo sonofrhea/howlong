@@ -10,6 +10,7 @@ const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : impo
 const apiClient = axios.create({
   baseURL: baseEntry,
   timeout: 5000,
+  withCredentials: false
 });
 
 apiClient.interceptors.request.use(config => {
@@ -21,7 +22,7 @@ apiClient.interceptors.request.use(config => {
       config.headers.Authorization = ``
     }
     return config;
-},//(error) => Promise.reject(error)
+},(error) => Promise.reject(error)
 );
 
 apiClient.interceptors.response.use(response => {
@@ -31,6 +32,7 @@ apiClient.interceptors.response.use(response => {
     localStorage.removeItem('Token')
     window.location.href = "/"
   }
+  return Promise.reject(error);
 })
 
 

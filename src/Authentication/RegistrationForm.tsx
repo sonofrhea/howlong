@@ -38,10 +38,10 @@ const Register = () => {
             navigate(`/`);
         } catch (error: any) {
             const message =
-                error?.response?.data?.message ||
                 error?.response?.data?.detail ||
                 "Invalid email or password";
 
+            console.log(message);
             setError(message);
         } finally {
             setLoading(false);
@@ -69,13 +69,17 @@ const Register = () => {
                         <Box className={'title'}>User Registration</Box>
                     </Box>
 
+                    <div>
                     <Box className={"itemBox"}>
                         <MyTextField 
                             label={"Email"}
                             name={"email"}
                             control={control}
+                            
                         />
                     </Box>
+                    {error && <p className="text-amber-800 text-sm">{error}</p>}
+                    </div>
 
                     <Box className={"itemBox"}>
                         <MyPassField 
@@ -92,12 +96,6 @@ const Register = () => {
                             control={control}
                         />
                     </Box>
-
-                    {error && (
-                    <Box sx={{ color: "red", mb: 2, fontSize: "0.9rem" }}>
-                        {error}
-                    </Box>
-                    )}
 
                     <Box className={"itemBox"}>
                         <MyButton 
@@ -234,3 +232,10 @@ export default Register;
 //};
 //export default RegistrationPage;
 //
+
+
+{/*   {error && (
+                    <Box className="text-amber-800">
+                        {error}
+                    </Box>
+                    )} */}
