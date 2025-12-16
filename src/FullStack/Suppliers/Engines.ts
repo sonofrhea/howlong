@@ -6,11 +6,11 @@ import apiClient from '../../BaseEngine';
 
 import { allSupplierCreditNoteInputs, allSupplierDebitNoteInputs,
      allSupplierInvoiceInputs, allSupplierPaymentInputs,
-      SupplierCreditNoteInputs, 
+      SupplierCreditNoteInputs, allSupplierCategoryInputs,
        SupplierDebitNoteInputs,
-        SupplierInvoiceInputs, SupplierInvoiceResponse,
+        SupplierInvoiceInputs, SupplierCategoryInputs,
     SupplierPaymentInputs, SupplierPaymentResponse,
- } from './Interfaces';
+ } from './constants/Types';
 
 
 
@@ -24,27 +24,27 @@ import { allSupplierCreditNoteInputs, allSupplierDebitNoteInputs,
 
 
 export const fetchSupplierCategories = async () => {
-    const response = await apiClient.get('/suppliers/suppliercategories/');
+    const response = await apiClient.get('suppliers/suppliercategories/');
     return response.data;
 };
 
-export const fetchSupplierCategoryById = async (category_id) => {
-    const response = await apiClient.get(`/products/productitem/${category_id}/`);
+export const fetchSupplierCategoryById = async (category_id: number) => {
+    const response = await apiClient.get(`suppliers/suppliercategories/${category_id}/`);
     return response.data;
 };
 
-export const createSupplierCategory = async (supplierCategoryData) => {
-    const response = await apiClient.post('/products/productitem/', supplierCategoryData);
+export const createSupplierCategory = async (supplierCategoryData: SupplierCategoryInputs) => {
+    const response = await apiClient.post('suppliers/suppliercategories/', supplierCategoryData);
     return response.data;
 };
 
-export const updateSupplierCategory = async ({category_id, supplierCategoryData}) => {
-    const response = await apiClient.patch(`/products/productitem/${category_id}`, supplierCategoryData);
+export const updateSupplierCategory = async ({category_id, supplierCategoryData}: allSupplierCategoryInputs) => {
+    const response = await apiClient.patch(`suppliers/suppliercategories/${category_id}`, supplierCategoryData);
     return response.data;
 };
 
-export const deleteSupplierCategory = async (category_id) => {
-    apiClient.delete(`/suppliers/suppliercategories/${category_id}/`);
+export const deleteSupplierCategory = async (category_id: number) => {
+    apiClient.delete(`suppliers/suppliercategories/${category_id}/`);
     return true;
 };
 

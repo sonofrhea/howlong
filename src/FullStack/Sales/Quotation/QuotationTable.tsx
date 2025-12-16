@@ -150,24 +150,24 @@ const QuotationTable: React.FC<any> = ({ quotations, onQuotationClick, onEditQuo
 
                                     {/* Date */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(quotation.quotation_date)}
                                         </div>
                                     </td>
 
                                     {/* Valid Until */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm text-gray-900 truncate">{quotation.valid_until}</div>
+                                        <div className="text-sm text-black truncate">{quotation.valid_until}</div>
                                     </td>
 
                                     {/* Customer */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm text-gray-900 truncate">{quotation.customer}</div>
+                                        <div className="text-sm text-black truncate">{quotation.customer}</div>
                                     </td>
 
                                     {/* Project Description */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {quotation.project_description}
                                         </div>
                                     </td>
@@ -185,14 +185,14 @@ const QuotationTable: React.FC<any> = ({ quotations, onQuotationClick, onEditQuo
                                     
                                     {/* Net Total */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {quotation.net_total}
                                         </div>
                                     </td>
 
                                     {/* Agent */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {quotation.agent}
                                         </div>
                                     </td>

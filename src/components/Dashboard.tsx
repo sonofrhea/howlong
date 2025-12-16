@@ -46,7 +46,7 @@ function Dashboard() {
                                 <div 
                                 className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${
                                     app.available ? 
-                                    'bg-black text-white hover:text-blue-400' :
+                                    'bg-white text-black border border-black hover:bg-blue-100 hover:border-blue-300 hover:text-blue-600' :
                                     'bg-gray-100 text-gray-400'}`}>
                                         <AppIcon appId={app.id} />
                                 </div>
@@ -58,13 +58,13 @@ function Dashboard() {
                                     {app.description}
                                 </p>
 
-                                <div className={`text-sm font-medium ${
+                                <div className={`text-xs ${
                                     app.available ? 
-                                    'text-blue-200 hover:text-blue-700' : 
+                                    'text-black hover:text-blue-700' : 
                                     'text-gray-500'}`}>
                                         {app.available ? 
-                                        'Open App ⟶' :
-                                        'Coming soon'}
+                                        '➤' :
+                                        '↺'}
                                 </div>
                         </Link>
                     ))}

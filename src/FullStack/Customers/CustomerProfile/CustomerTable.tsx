@@ -110,7 +110,7 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
             {/* Table Header with Items Per Page */}
             <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-gray-800">Customer List</h3>
+                    <h3 className="text-lg font-semibold text-black">Customer List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>

@@ -1,14 +1,21 @@
 import React from "react";
+import { SupplierCategoryList } from "../constants/Types";
 
 
 
-const SupplierCategoryTable = ({ supplierCategories, onSupplierCategoryClick, onEditSupplierCategory,
+
+
+
+
+
+
+const SupplierCategoryTable: React.FC<any> = ({ supplierCategories, onSupplierCategoryClick, onEditSupplierCategory,
     onDeleteSupplierCategory, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
 }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -57,13 +64,13 @@ const SupplierCategoryTable = ({ supplierCategories, onSupplierCategoryClick, on
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Supplier Category List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-black text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -79,21 +86,29 @@ const SupplierCategoryTable = ({ supplierCategories, onSupplierCategoryClick, on
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-16 text-center" />  {/* Category ID - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Category - 20% */}
-                        <col className="w-20 text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/4 text-center",
+                        "w-1/4 text-center",
+                        "w-1/4 text-center",
+                        "w-1/4 text-center",
+                        "w-[7%] text-center",
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Category #" sortKey="category_id" />
-                            <SortableHeader label="Category" sortKey="category" />
+                            <SortableHeader label="Category Name" sortKey="category" />
+                            <SortableHeader label="Description" sortKey="category" />
+                            <SortableHeader label="Created By" sortKey="category" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {supplierCategories.map((supplierCategory) => {
+                        {supplierCategories.map((supplierCategory: SupplierCategoryList) => {
                             const supplierCategoryId = supplierCategory.category_id;
 
                             return (
@@ -101,14 +116,24 @@ const SupplierCategoryTable = ({ supplierCategories, onSupplierCategoryClick, on
                                 onClick={() => onSupplierCategoryClick(supplierCategoryId)}>
                                     {/* Category ID */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={supplierCategory.category_id}>
-                                            {supplierCategory.category_id}
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
+                                            CAT-00{supplierCategory.category_id}
                                         </span>
                                     </td>
 
                                     {/* Category */}
-                                    <td className="px-2 py-2 truncate" title={supplierCategory.Category}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierCategory.Category}</div>
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">{supplierCategory.category}</div>
+                                    </td>
+
+                                    {/* Created by */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">{supplierCategory.description}</div>
+                                    </td>
+
+                                    {/* Created by */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">{supplierCategory.created_by}</div>
                                     </td>
 
                                     {/* Actions */}

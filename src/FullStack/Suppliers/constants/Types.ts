@@ -17,7 +17,39 @@ export interface SuppliersModulesInterface {
 
 
 
+// -------- BEGIN ----------- SUPPLIER CATEGORY INPUT ----------------
 
+export type SupplierCategoryList = {
+  date_created: string;
+  category_id: number;
+  category: string;
+  description: string;
+  created_by: string;
+}
+
+export type SupplierCategoryInputs = {
+  date_created: string;
+  category: string;
+  description: string;
+  created_by: string;
+};
+
+export type SupplierCategoryResponse = {
+  category_id: number;
+}
+
+export type allSupplierCategoryInputs = {
+  category_id: number;
+  supplierCategoryData: SupplierCategoryInputs;
+}
+
+export type editSupplierCategory = {
+  supplierCategoryId: number;
+  supplierCategoryData: SupplierCategoryInputs;
+}
+
+
+// -------- END ----------- SUPPLIER CATEGORY INPUT ----------------
 
 
 

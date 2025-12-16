@@ -51,34 +51,34 @@ export const DASHBOARD_APPS: DashboardInterface[] = [
       name: 'Accounting & Finance', 
       description: 'Manage company accounting & finance', 
       path: '/accounting',
-      available: true
+      available: false
     },
     { 
       id: 'projects', 
       name: 'Project Management', 
       description: 'Manage company projects database', 
       path: '/projects',
-      available: true
+      available: false
     },
     { 
       id: 'purchases', 
       name: 'Purchases Management', 
       description: 'Manage company purchases database', 
       path: '/purchases',
-      available: true
+      available: false
     },
     { 
       id: 'reports', 
       name: 'Reports & Analytics', 
       description: 'Access all company reports', 
       path: '/reports',
-      available: true
+      available: false
     },
     { 
       id: 'core', 
       name: 'HR & Workforce', 
       description: 'Access company workforce', 
       path: '/core',
-      available: true
+      available: false
     },
   ]

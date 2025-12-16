@@ -42,7 +42,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                 <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">Customer Not Found</h2>
+                <h2 className="text-xl font-semibold text-black mb-2">Customer Not Found</h2>
                 <p className="text-gray-600 mb-4">Unable to load customer details.</p>
                 <button 
                     onClick={onBack}
@@ -68,7 +68,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                         </svg>
                     </button>
                     <div>
-                        <h2 className="text-xl font-semibold text-gray-800">{customer?.customer_name || "Name N/A"}</h2>
+                        <h2 className="text-xl font-semibold text-black">{customer?.customer_name || "Name N/A"}</h2>
                         <p className="text-gray-600">{customer?.company_name || "N/A"}</p>
                     </div>
 
@@ -101,7 +101,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <div className="bg-orange-50 text-center rounded-lg p-6 border border-orange-300 hover:shadow-2xl hover:cursor-pointer hover:border-orange-600">
                         <h4 className="text-sm text-blue-600 font-medium">Customer Number</h4>
 
-                        <div className="text-lg font-semibold text-gray-800">
+                        <div className="text-lg font-semibold text-black">
                             {formatNumber()}{customer.customer_number}
                         </div>
                     </div>
@@ -109,7 +109,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <div className="bg-green-50 text-center border border-green-300 hover:border-green-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
                         <h4 className="text-sm text-green-600 font-medium">Control Account</h4>
 
-                        <div className="text-lg font-semibold text-gray-800">
+                        <div className="text-lg font-semibold text-black">
                             {customer.control_account?.account_code || "N/A"} - {customer.control_account?.account_name || "N/A"} - {customer.control_account?.account_type || "N/A"}
                         </div>
                     </div>
@@ -117,7 +117,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <div className="bg-orange-50 text-center border border-orange-300 hover:border-orange-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
                         <h4 className="text-sm text-orange-900 font-medium">ID Type</h4>
 
-                        <div className="text-lg font-bold text-gray-800">
+                        <div className="text-lg font-bold text-black">
                             {customer?.id_type || 'N/A'}
                         </div>
                     </div>
@@ -125,7 +125,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <div className="bg-purple-50 text-center border border-purple-300 hover:border-purple-600 rounded-lg hover:cursor-pointer hover:shadow-2xl p-6">
                         <h4 className="text-sm text-purple-800 font-medium">Date created</h4>
                         
-                        <div className="text-lg font-semibold text-gray-800">
+                        <div className="text-lg font-semibold text-black">
                             {formatDate(customer?.date_created) || "N/A"}
                         </div>
                     </div>
@@ -133,7 +133,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <div className="bg-blue-50 text-center border border-blue-300 hover:border-blue-600 hover:cursor-pointer hover:shadow-2xl rounded-lg p-6">
                         <h4 className="text-sm text-blue-600 font-medium">Created By</h4>
                         
-                        <div className="text-lg font-semibold text-gray-800">
+                        <div className="text-lg font-semibold text-black">
                             {customer?.created_by || "N/A"}
                         </div>
                     </div>
@@ -145,7 +145,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <h4 className="text-sm text-gray-500">Email</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.email || 'N/A'}
                             </div>
                         </div>
@@ -157,13 +157,13 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                         </div>
                         <div>
                             <h4 className="text-sm text-gray-500">Home Phone</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.home_number || 'N/A'}
                             </div>
                         </div>
                         <div>
                             <h4 className="text-sm text-gray-500">Fax</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.fax || 'N/A'}
                             </div>
                         </div>
@@ -178,31 +178,31 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                         <div className="md:col-span-2">
                             
                             <h4 className="text-sm text-gray-500">Address</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.address || 'N/A'}
                             </div>
                         </div>
                         <div>
                             <h4 className="text-sm text-gray-500">City</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.city || 'N/A'}
                             </div>
                         </div>
                         <div>
                             <h4 className="text-sm text-gray-500">State</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.state || 'N/A'}
                             </div>
                         </div>
                         <div>
                             <h4 className="text-sm text-gray-500">Country</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.country || 'N/A'}
                             </div>
                         </div>
                         <div>
                             <h4 className="text-sm text-gray-500">Post Code</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.post_code || 'N/A'}
                             </div>
                         </div>
@@ -212,24 +212,24 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     {/* CURRENCY INFO */}
                 <div className="bg-red-50 rounded-lg p-6 border border-red-300 hover:border-red-600 hover:cursor-pointer hover:shadow-2xl">
 
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Preferred Currency</h3>
+                    <h3 className="text-lg font-semibold text-black mb-4">Preferred Currency</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <div>
                             <h4 className="text-sm text-gray-500">Currency code</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer.preferred_currency?.currency_code || 'N/A'} 
                             </div>
                         </div>
                         <div>
                             <h4 className="text-sm text-gray-500">Currency name</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer.preferred_currency?.currency_name || 'N/A'}
                             </div>
                         </div>
                         <div>
                             <h4 className="text-sm text-gray-500">Currency symbol</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer.preferred_currency?.currency_symbol || 'N/A'}
                             </div>
                         </div>
@@ -248,42 +248,42 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <h4 className="text-sm text-gray-500">Bank Name</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.customer_bank_name || 'N/A'}
                             </div>
                         </div>
 
                         <div>
                             <h4 className="text-sm text-gray-500">Bank account number</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.customer_bank_account_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
                             <h4 className="text-sm text-gray-500">Account type</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.bank_account_type || 'N/A'}
                             </div>
                         </div>
 
                         <div>
                             <h4 className="text-sm text-gray-500">Swift code</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.swift_code || 'N/A'}
                             </div>
                         </div>
 
                         <div>
                             <h4 className="text-sm text-gray-500">Status</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.status || 'N/A'}
                             </div>
                         </div>
 
                         <div>
                             <h4 className="text-sm text-gray-500">Remark</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.remark || 'N/A'}
                             </div>
                         </div>
@@ -296,42 +296,42 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <h4 className="text-sm text-gray-500">GST Number</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.gst_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
                             <h4 className="text-sm text-gray-500">Tax ID Type</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.tax_id_type || 'N/A'}
                             </div>
                         </div>
 
                         <div>
                             <h4 className="text-sm text-gray-500">Tax Number</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.tax_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
                             <h4 className="text-sm text-gray-500">Tourism number</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.tourism_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
                             <h4 className="text-sm text-gray-500">Expiration date</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {formatDate(customer?.expiration_date) || 'N/A'}
                             </div>
                         </div>
 
                         <div>
                             <h4 className="text-sm text-gray-500">Service tax number</h4>
-                            <div className="text-gray-800">
+                            <div className="text-black">
                                 {customer?.service_tax_number || 'N/A'}
                             </div>
                         </div>

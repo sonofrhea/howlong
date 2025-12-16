@@ -21,35 +21,35 @@ function SuppliersDashboard() {
             name: 'Supplier Profile',
             description: 'Manage Supplier Profile',
             path: '/suppliers/supplier-profiles',
-            available: true
+            available: false
         },
         {
             id: 'suppliersInvoice',
             name: 'Supplier Invoice',
             description: 'Manage Supplier Invoices',
             path: '/suppliers/supplier-invoices',
-            available: true
+            available: false
         },
         {
             id: 'suppliersPayment',
             name: 'Supplier Payments',
             description: 'Manage Supplier Payments',
             path: '/suppliers/supplier-payments',
-            available: true
+            available: false
         },
         {
             id: 'suppliersDebitNote',
             name: 'Supplier Debit Note',
             description: 'Manage Supplier Debit Notes',
             path: '/suppliers/supplier-debit-notes',
-            available: true
+            available: false
         },
         {
             id: 'suppliersCreditNote',
             name: 'Supplier Credit Note',
             description: 'Manage Supplier Credit Notes',
             path: '/suppliers/supplier-credit-notes',
-            available: true
+            available: false
         },
     ];
 

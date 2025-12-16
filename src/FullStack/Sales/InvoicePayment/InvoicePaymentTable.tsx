@@ -157,7 +157,7 @@ const InvoicePaymentTable: React.FC<any> = ({ invoicePayments, onInvoicePaymentC
 
                                     {/* Date */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(invoicePayment.date_created)}
                                         </div>
                                     </td>
@@ -171,35 +171,35 @@ const InvoicePaymentTable: React.FC<any> = ({ invoicePayments, onInvoicePaymentC
 
                                     {/* Related Invoice */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {formatInvoiceNumber()}{invoicePayment.related_invoice}
                                         </div>
                                     </td>
 
                                     {/* Related Invoice Total */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {invoicePayment.related_invoice_total}
                                         </div>
                                     </td>
 
                                     {/* Net Amount */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {invoicePayment.net_aggregate_paid}
                                         </div>
                                     </td>
 
                                     {/* Outstanding */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {invoicePayment.outstanding_amount}
                                         </div>
                                     </td>
 
                                     {/* Paid By */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {invoicePayment.paid_by}
                                         </div>
                                     </td>
@@ -210,14 +210,14 @@ const InvoicePaymentTable: React.FC<any> = ({ invoicePayments, onInvoicePaymentC
                                                 ? 'bg-green-100 text-green-800'
                                                 : 'bg-red-100 text-red-800'
                                         }`} >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {invoicePayment.cancelled ? 'No' : 'Yes'}
                                         </div>
                                     </td>
 
                                     {/* Agent */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {invoicePayment.agent}
                                         </div>
                                     </td>

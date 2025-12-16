@@ -9,15 +9,10 @@ import { APP_ICONS } from "./constants/appIcons";
 
 import { BeakerIcon, HomeIcon } from "@heroicons/react/16/solid";
 
-import { Users, PackageOpen,
-    ChartColumnIncreasing, Hotel,
-    Landmark, Pickaxe,
-    ShoppingCart, SquarePen, Cpu,
-    SidebarClose, SquareArrowLeft,
-    Menu, LayoutGrid,
-    LeafyGreen,
+import {  LayoutGrid,
     X,
-    MoveLeft
+    MoveLeft,
+    CornerDownLeft
  } from "lucide-react";
 
 import { appMenuStyle, dashboardStyles, iconStyles, menuClick, sideBarStyles,
@@ -180,7 +175,7 @@ function Layout({ children }: LayoutPropsInterface) {
                                 to="/dashboard"
                                 className="text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200 flex items-center gap-2"
                             >
-                                <MoveLeft />
+                                <CornerDownLeft />
                                 Back to Main Dashboard
                             </Link>
                         </div>

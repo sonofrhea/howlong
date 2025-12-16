@@ -1,35 +1,53 @@
 
 
 @font-face {
-  font-family: 'FiraCode-Light';
-  src: url(../fonts/FiraCode-Light.woff2);
+  font-family: 'karst-light';
+  src: url(../fonts/karst-light-webfont.woff2);
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'CascadiaMonoPL-Bold';
-  src: url(../fonts/CascadiaMonoPL-Bold.woff2);
+  font-family: 'Novecentosanswide-Normal';
+  src: url(../fonts/Novecentosanswide-Normal-webfont.woff2);
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'FiraCode-SemiBold';
-  src: url(../fonts/FiraCode-SemiBold.woff2);
+  font-family: 'sofiapro-light';
+  src: url(../fonts/sofiapro-light-webfont.woff);
   font-display: swap;
 }
 
 
 @font-face {
-  font-family: 'CascadiaCodeNF-Regular';
-  src: url(../fonts/CascadiaCode-Regular.woff2);
+  font-family: 'Questa_Sans_Regular';
+  src: url(../fonts/2-Questa_Sans_Regular-webfont.woff);
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'CascadiaCodeNF-SemiBold';
-  src: url(../fonts/CascadiaMono-SemiBold.woff2);
+  font-family: 'Novecentosanswide-Medium';
+  src: url(../fonts/Novecentosanswide-Medium-webfont.woff);
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'cynthonext-light';
+  src: url(../fonts/cynthonext-light-webfont.woff2);
+  font-display: swap;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -57,39 +75,39 @@
 
 
 h1 {
-  font-family: CascadiaCodeNF-Regular;
+  font-family: Questa_Sans_Regular;
   letter-spacing: 0.5px;
 }
 
 h2 {
-  font-family: FiraCode-Light;
+  font-family: sofiapro-light;
   font-size: 18px;
   letter-spacing: 0.5px;
-  color: black;
 }
 
 h3 {
-  font-family: CascadiaCodeNF-Regular;
+  font-family: Questa_Sans_Regular;
   font-size: 16px !important;
   color: #575555;
   letter-spacing: 0.5px;
 }
 
 h4 {
-  font-family: CascadiaCodeNF-Regular;
+  font-family: Questa_Sans_Regular;
   font-size: 15px !important;
   letter-spacing: 0.5px;
 }
 
 thead th > div, th {
-    font-family: CascadiaCodeNF-Regular !important;
+    font-family: Questa_Sans_Regular !important;
     font-size: 12px !important;
     align-items: center;
 }
 
 
 div {
-  font-family: FiraCode-Light;
+  font-family: cynthonext-light;
+  font-weight: bold;
   font-size: 13.5px;
   letter-spacing: 0.2px;
   word-spacing: 0.1px;
@@ -106,7 +124,7 @@ th, td {
 
 
 .app-Name {
-  font-family: FiraCode-SemiBold;
+  font-family: Novecentosanswide-Medium;
   color: #000000;
   font-size: 16px;
   letter-spacing: 0.5px;

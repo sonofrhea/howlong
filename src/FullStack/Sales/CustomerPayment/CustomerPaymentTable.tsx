@@ -128,49 +128,49 @@ const CustomerPaymentTable = ({ customerPayments, onCustomerPaymentClick, onEdit
 
                                     {/* Date */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(customerPayment.date)}
                                         </div>
                                     </td>
 
                                     {/* Customer */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {customerPayment.customer}
                                         </div>
                                     </td>
 
                                     {/* Project */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {customerPayment.project}
                                         </div>
                                     </td>
 
                                     {/* Paid Amount */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {customerPayment.paid_amount}
                                         </div>
                                     </td>
 
                                     {/* Outstanding */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             RM {customerPayment.outstanding}
                                         </div>
                                     </td>
 
                                     {/* Completed */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {customerPayment.completed ? 'Yes' : 'No'}
                                         </div>
                                     </td>
 
                                     {/* Agent */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {customerPayment.agent}
                                         </div>
                                     </td>

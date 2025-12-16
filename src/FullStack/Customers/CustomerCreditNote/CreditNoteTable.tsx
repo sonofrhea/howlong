@@ -78,7 +78,7 @@ const CreditNoteTable: React.FC<any> = ({ creditNotes, onCreditNoteClick, onEdit
                 {/* Table Header with Items Per Page */}
                 <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-gray-800">Credit Notes List</h3>
+                        <h3 className="text-lg font-semibold text-black">Credit Notes List</h3>
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
                                 <span className="text-sm text-gray-600">Show</span>
@@ -143,35 +143,35 @@ const CreditNoteTable: React.FC<any> = ({ creditNotes, onCreditNoteClick, onEdit
 
                                         {/* Date */}
                                         <td className="px-2 py-2 truncate">
-                                            <div className="text-sm font-medium text-gray-900 truncate">
+                                            <div className="text-sm font-medium text-black truncate">
                                                 {formatDate(creditNote.date)}
                                             </div>
                                         </td>
 
                                         {/* Related Customer */}
                                         <td className="px-2 py-2 truncate" >
-                                            <div className="text-sm text-gray-900 truncate">
+                                            <div className="text-sm text-black truncate">
                                                 {creditNote.customer}
                                             </div>
                                         </td>
 
                                         {/* Totals */}
                                         <td className="px-2 py-2 truncate" >
-                                            <div className="text-sm text-gray-900 truncate">
+                                            <div className="text-sm text-black truncate">
                                                 {creditNote.aggregate_total}
                                             </div>
                                         </td>
 
                                         {/* Currency */}
                                         <td className="px-2 py-2 truncate" >
-                                            <div className="text-sm text-gray-900 truncate">
+                                            <div className="text-sm text-black truncate">
                                                 {creditNote.currency}
                                             </div>
                                         </td>
 
                                         {/* Agent */}
                                         <td className="px-2 py-2 truncate" >
-                                            <div className="text-sm text-gray-900 truncate">
+                                            <div className="text-sm text-black truncate">
                                                 {creditNote.agent}
                                             </div>
                                         </td>
