@@ -7,21 +7,21 @@ import { BUSINESS_APPS } from "./constants/businessApps";
 
 import { APP_ICONS } from "./constants/appIcons";
 
-import { BeakerIcon, HomeIcon } from "@heroicons/react/16/solid";
+import { HomeIcon } from "@heroicons/react/16/solid";
 
 import {  LayoutGrid,
     X,
-    MoveLeft,
     CornerDownLeft
  } from "lucide-react";
 
-import { appMenuStyle, dashboardStyles, iconStyles, menuClick, sideBarStyles,
-    textStyles
- } from "./constants/classStyles";
+import { sideBarStyles, textStyles } from "./constants/classStyles";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' 
 
-import { LogoutButton, LogoutAllbutton } from "../Authentication/HandleLogout";
+import { LogoutButton } from "../Authentication/HandleLogout";
+
+
+
+
 
 
 
@@ -110,7 +110,7 @@ function Layout({ children }: LayoutPropsInterface) {
                                 sideBarStyles.availability.no
                              }`}
                             title={!sidebarOpen ? (app.available ?
-                                 `Go to ${app.name}` : 'Coming Soon') : ''}
+                                 `Go to ${app.name}` : 'Update...') : ''}
                             onClick={(e) => {
                                 if (!sidebarOpen) {
                                     e.preventDefault();
@@ -126,7 +126,7 @@ function Layout({ children }: LayoutPropsInterface) {
                                     {app.name}
                                     {!app.available && (
                                         <span className="ml-2 text-xs text-gray-400">
-                                            (Soon)
+                                            (Update...)
                                         </span>
                                     )}
                                 </span>
@@ -256,7 +256,7 @@ function Layout({ children }: LayoutPropsInterface) {
                                 {app.name}
                             </div>
                             <div className="text-xs text-gray-400 hover:text-green-500">
-                                {app.available ? "Available" : "Coming soon"}
+                                {app.available ? "Available" : "Update..."}
                             </div>
                             </div>
                         </Link>

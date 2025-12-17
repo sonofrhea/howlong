@@ -8,11 +8,11 @@ export const BUSINESS_APPS: BusinessAppInterface[] = [
     { id: 'products', name: 'Products', path: '/products', available: true },
     { id: 'sales', name: 'Sales', path: '/sales', available: true },
     { id: 'suppliers', name: 'Suppliers', path: '/suppliers', available: true },
-    { id: 'accounting', name: 'Accounting', path: '/accounting', available: true },
-    { id: 'projects', name: 'Projects', path: '/projects', available: true },
-    { id: 'purchases', name: 'Purchases', path: '/purchases', available: true },
-    { id: 'reports', name: 'Reports', path: '/reports', available: true },
-    { id: 'core', name: 'HR & Workers', path: '/core', available: true },
+    { id: 'accounting', name: 'Accounting', path: '/accounting', available: false },
+    { id: 'projects', name: 'Projects', path: '/projects', available: false },
+    { id: 'purchases', name: 'Purchases', path: '/purchases', available: false },
+    { id: 'reports', name: 'Reports', path: '/reports', available: false },
+    { id: 'core', name: 'HR & Workers', path: '/core', available: false },
 ];
 
 
