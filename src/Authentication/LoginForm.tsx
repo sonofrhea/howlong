@@ -39,7 +39,7 @@ const Login = () => {
             let errorMessage = "";
 
             if (error.code === "ECONNABORTED") {
-                errorMessage = "Request timed out. Please try again.";
+                errorMessage = "Network timed out. Please try again.";
             }
 
             else if (error.response.data?.detail?.[0]) {
