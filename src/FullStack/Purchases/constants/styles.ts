@@ -4,7 +4,7 @@ export const spinningStyles = {
     terminalBar: {
         container: "font-mono p-8",
         row: "flex items-center",
-        spinner: "text-green-500 mr-2 animate-spin",
+        spinner: "text-yellow-700 mr-2 animate-spin text-4xl",
         barContainer: "w-64 h-4 bg-gray-800 border border-gray-700 overflow-hidden",
         barFill: "h-full bg-black animate-progress",
         text: "text-gray-600 text-sm mt-2 ml-8"

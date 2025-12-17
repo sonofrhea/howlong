@@ -7,9 +7,10 @@ import apiClient from '../../BaseEngine';
 import { allSupplierCreditNoteInputs, allSupplierDebitNoteInputs,
      allSupplierInvoiceInputs, allSupplierPaymentInputs,
       SupplierCreditNoteInputs, allSupplierCategoryInputs,
-       SupplierDebitNoteInputs,
+       SupplierDebitNoteInputs, SupplierProfileInputs,
         SupplierInvoiceInputs, SupplierCategoryInputs,
     SupplierPaymentInputs, SupplierPaymentResponse,
+    allSupplierProfileInputs
  } from './constants/Types';
 
 
@@ -65,17 +66,17 @@ export const fetchSupplierProfileById = async (supplier_code: number) => {
     return response.data;
 };
 
-export const createSupplierProfile = async (supplierProfileData) => {
+export const createSupplierProfile = async (supplierProfileData: SupplierProfileInputs) => {
     const response = await apiClient.post('/suppliers/supplierprofiles/', supplierProfileData);
     return response.data;
 };
 
-export const updateSupplierProfile = async ({supplier_code, supplierProfileData}) => {
+export const updateSupplierProfile = async ({supplier_code, supplierProfileData}: allSupplierProfileInputs) => {
     const response = await apiClient.put(`/suppliers/supplierprofiles/${supplier_code}`, supplierProfileData);
     return response.data;
 };
 
-export const deleteSupplierProfile = async (supplier_code) => {
+export const deleteSupplierProfile = async (supplier_code: number) => {
     apiClient.delete(`/suppliers/supplierprofiles/${supplier_code}/`);
     return true;
 };

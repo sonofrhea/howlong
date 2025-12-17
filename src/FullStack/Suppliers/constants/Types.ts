@@ -127,6 +127,7 @@ export type SupplierProfileInputs = {
 
 export type SupplierProfileResponse = {
   supplier_code: number;
+  supplier_name: string;
 };
 
 export type allSupplierProfileInputs = {
@@ -194,7 +195,7 @@ export type SupplierPaymentInputs = {
     additional_payment: number;
     payment_date: string;
     payment_type: string;
-  }>
+  }>;
 };
 
 export type SupplierPaymentResponse = {
@@ -228,6 +229,17 @@ export type EditSupplierPayment = {
 
 // -------- BEGIN ----------- SUPPLIER INVOICE INPUT ----------------
 
+export type SupplierInvoiceList = {
+  invoice_number: number;
+  invoice_date: string;
+  invoice_due_date: string;
+  product: string;
+  supplier: string;
+  aggregate_total: number;
+  cancelled: boolean;
+  agent: string;
+}
+
 export type SupplierInvoiceInputs = {
   invoice_date: string;
   invoice_due_date: string;
@@ -243,14 +255,19 @@ export type SupplierInvoiceInputs = {
   agent: string;
   product: string;
   related_invoice: Array <{
+    item: string;
     item_name: string;
     description: string;
     quantity: number;
     unit_of_measure: string;
-    unit_per_price: number;
+    price_per_unit: number;
     tax_inclusive: boolean;
     tax_amount: number;
+    cancelled: boolean;
   }>
+  tax_inclusive: boolean;
+  tax_amount: number;
+  cancelled: boolean;
   date_created: string;
 };
 

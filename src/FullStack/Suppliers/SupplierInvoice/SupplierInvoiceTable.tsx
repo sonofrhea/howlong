@@ -1,5 +1,5 @@
 import React from "react";
-
+import { SupplierInvoiceList } from "../constants/Types";
 
 const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
@@ -10,6 +10,9 @@ const formatNumber = () => {
     const currentYear = new Date().getFullYear();
     return `SI-${currentYear}-`;
 };
+
+
+
 
 
 const SupplierInvoiceTable: React.FC<any> = ({ supplierInvoices, onSupplierInvoiceClick, onEditSupplierInvoice,
@@ -67,7 +70,7 @@ const SupplierInvoiceTable: React.FC<any> = ({ supplierInvoices, onSupplierInvoi
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Supplier Invoice List</h3>
                     <div className="flex items-center gap-4">
@@ -89,21 +92,27 @@ const SupplierInvoiceTable: React.FC<any> = ({ supplierInvoices, onSupplierInvoi
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-16 text-center" />  {/* Invoice Number - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Invoice Date - 20% */}
-                        <col className="w-1/5 text-center" /> {/* Supplier - 20% */}
-                        <col className="w-1/6 text-center" />  {/* Product */}
-                        <col className="w-1/5 text-center" /> {/* Supplier Details - 20% */}
-                        <col className="w-1/6 text-center" /> {/* Agent - 16.6% */}
-                        <col className="w-20 text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/8 text center",
+                        "w-1/8 text center",
+                        "w-1/8 text center",
+                        "w-1/8 text center",
+                        "w-1/8 text center",
+                        "w-1/8 text center",
+                        "w-1/8 text center",
+                        "w-1/8 text center",
+                        "w-[7%] text center",
+                    ]}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Invoice #" sortKey="invoice_number" />
                             <SortableHeader label="Invoice Date" sortKey="invoice_date" />
-                            <SortableHeader label="Supplier" sortKey="supplier" />
+                            <SortableHeader label="Invoice Due Date" sortKey="invoice_due_date" />
                             <SortableHeader label="Product" sortKey="product" />
-                            <SortableHeader label="Supplier Details" sortKey="supplier_details" />
+                            <SortableHeader label="Supplier" sortKey="supplier" />
+                            <SortableHeader label="Net total" sortKey="aggregate_total" />
+                            <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Agent" sortKey="agent" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
@@ -111,7 +120,7 @@ const SupplierInvoiceTable: React.FC<any> = ({ supplierInvoices, onSupplierInvoi
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {supplierInvoices.map((supplierInvoice: any) => {
+                        {supplierInvoices.map((supplierInvoice: SupplierInvoiceList) => {
                             const supplierInvoiceId = supplierInvoice.invoice_number;
 
                             return (
@@ -119,31 +128,60 @@ const SupplierInvoiceTable: React.FC<any> = ({ supplierInvoices, onSupplierInvoi
                                 onClick={() => onSupplierInvoiceClick(supplierInvoiceId)}>
                                     {/* Invoice Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={supplierInvoice.invoice_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
                                             {formatNumber()}{supplierInvoice.invoice_number}
                                         </span>
                                     </td>
 
-                                    {/* Supplier */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(supplierInvoice.invoice_date)}>
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                    {/* Date */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(supplierInvoice.invoice_date)}
                                         </div>
                                     </td>
 
-                                    {/* Product */}
-                                    <td className="px-2 py-2 truncate" title={supplierInvoice.product}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierInvoice.product}</div>
+                                    {/* Due date */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
+                                            {formatDate(supplierInvoice.invoice_due_date)}
+                                        </div>
                                     </td>
 
-                                    {/* Additional Customer Details */}
-                                    <td className="px-2 py-2 truncate" title={supplierInvoice.supplier_details}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierInvoice.supplier_details}</div>
+                                    {/* Product */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {supplierInvoice.product}
+                                        </div>
+                                    </td>
+
+                                    {/* Supplier */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {supplierInvoice.supplier}
+                                        </div>
+                                    </td>
+
+                                    {/* Aggregate Total */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {supplierInvoice.aggregate_total}
+                                        </div>
+                                    </td>
+
+                                    {/* Cancelled */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                            supplierInvoice.cancelled
+                                                ? 'bg-red-100 text-red-800'
+                                                : 'bg-green-100 text-green-800'
+                                        }`}>
+                                            {supplierInvoice.cancelled ? 'Yes' : 'No'}
+                                        </div>
                                     </td>
 
                                     {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={supplierInvoice.agent}>
-                                        <div className="text-sm text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
                                             {supplierInvoice.agent}
                                         </div>
                                     </td>

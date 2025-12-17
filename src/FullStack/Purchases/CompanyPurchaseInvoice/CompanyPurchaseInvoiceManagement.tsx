@@ -15,7 +15,7 @@ import { fetchProductItems } from "../../Products/Engines";
 import { fetchSupplierProfiles } from "../../Suppliers/Engines";
 
 
-import { management } from "../constants/styles";
+import { management, spinningStyles } from "../constants/styles";
 
 import { CompanyPurchaseInvoiceInputs, CompanyPurchaseInvoiceResponse, EditCompanyPurchaseInvoiceInputs } from "../Interfaces";
 
@@ -282,16 +282,16 @@ function CompanyPurchaseInvoiceManagement() {
     // ERROR DISPLAYS
 
     if (isLoadingCompanyPurchaseInvoices) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <span className={spinningStyles.terminalBar.spinner}>𐬽</span>
             <p className="mt-4 text-gray-600">Loading Company Purchase Invoices...</p>
         </div>
         </div>
     );
 
     if (companyPurchaseInvoiceError) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
             <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
@@ -319,7 +319,7 @@ function CompanyPurchaseInvoiceManagement() {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                        <span className={spinningStyles.terminalBar.spinner}>𐬽</span>
                         <div>
                             <h1 className="text-lg font-semibold text-gray-900">Purchases Suite</h1>
                             <p className="text-sm text-gray-500">Company Purchase Invoice Management</p>

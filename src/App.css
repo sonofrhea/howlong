@@ -55,6 +55,8 @@
 
 .App {
   text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -66,10 +68,14 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .App-link {
   color: #066aff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -77,12 +83,16 @@
 h1 {
   font-family: Questa_Sans_Regular;
   letter-spacing: 0.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h2 {
   font-family: sofiapro-light;
   font-size: 18px;
   letter-spacing: 0.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h3 {
@@ -90,36 +100,48 @@ h3 {
   font-size: 16px !important;
   color: #575555;
   letter-spacing: 0.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h4 {
   font-family: Questa_Sans_Regular;
   font-size: 15px !important;
   letter-spacing: 0.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 thead th > div, th {
-    font-family: Questa_Sans_Regular !important;
-    font-size: 12px !important;
-    align-items: center;
+  font-family: Questa_Sans_Regular !important;
+  font-size: 12px !important;
+  align-items: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
 div {
   font-family: cynthonext-light;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 13.5px;
   letter-spacing: 0.2px;
   word-spacing: 0.1px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
 table {
-  letter-spacing: -0.01em; 
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
 }
 
 th, td {
   padding: 0.25rem 0.5rem; 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -131,11 +153,15 @@ th, td {
   word-spacing: 1.5px;
   display: inline-block;
   transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .app-Name:hover {
   color: #066aff; 
   transform: scale(1.05); 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -171,6 +197,8 @@ th, td {
 .title {
   font-size: 20px;
   color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .myForm, myButton {

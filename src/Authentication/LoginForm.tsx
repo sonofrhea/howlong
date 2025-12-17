@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 
 import apiClient from "../BaseEngine";
 import HandleLogin from "./HandleLogin";
+import { spinningStyles } from "./Styles";
 
 
 
@@ -97,7 +98,7 @@ const Login = () => {
                     <Box className={"itemBox"}>
                         <MyButton 
                             type={"submit"}
-                            label={loading ? "Logging in..." : "Login"}
+                            label={loading ? <span className={spinningStyles.terminalBar.spinner}>𐮛</span> : "Login"}
                             disabled={loading}
                         />
                     </Box>

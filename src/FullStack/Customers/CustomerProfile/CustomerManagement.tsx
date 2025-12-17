@@ -33,6 +33,7 @@ import CustomerDetails from "./CustomerDetails";
 
 import { CustomerInputs, CustomerCreateResponse,
    EditCustomerInputs, AllCustomerInputs } from "../constants/Types";
+import { spinningStyles } from "../constants/Styles";
 
 
 
@@ -304,13 +305,10 @@ const handleSort = (key: any) => {
   if (isLoadingCustomers) return (
     <div className="min-h-screen bg-white flex items-center justify-center">
     <div className="w-64">
-      <div className="text-green-400 font-mono mb-2">Fetching customers...</div>
-
-      <div className="w-full h-3 bg-gray-800 rounded overflow-hidden">
-        <div className="h-full bg-green-500 animate-terminal-bar"></div>
+      <div>fetching customers...</div>
+      <span className={spinningStyles.terminalBar.spinner}>𐬽</span>
       </div>
     </div>
-  </div>
   );
 
   if (customersError) return (
@@ -341,7 +339,7 @@ return (
           <div className="max-w-7xl mx-auto px-4 py-4">
               <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                      <div className="w-2 h-8 bg-linear-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                      <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                       <div>
                           <h1 className="text-lg font-semibold text-gray-900">Customers Suite</h1>
                           <p className="text-sm text-gray-500">Customer Management</p>

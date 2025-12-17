@@ -23,6 +23,7 @@ import { CreditNoteInputs, AllCreditNoteInputs,
 import CreditNoteDetails from "./CreditNoteDetails";
 import CreditNoteForm from "./CreditNoteForm";
 import CreditNoteTable from "./CreditNoteTable";
+import { spinningStyles } from "../constants/Styles";
 //import CreditNoteEdit from "./CreditNoteEdit";
 
 
@@ -299,8 +300,8 @@ const handleItemsPerPageChange = (value: any) => {
   if (isLoadingCreditNotes) return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Loading credit notes...</p>
+        <p className="mt-4 text-gray-600">fetching credit notes...</p>
+        <span className={spinningStyles.terminalBar.spinner}>𐬽</span>
       </div>
     </div>
   );
@@ -334,7 +335,7 @@ const handleItemsPerPageChange = (value: any) => {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-2 h-8 bg-linear-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                        <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                         <div>
                             <h1 className="text-lg font-semibold text-gray-900">Customers Suite</h1>
                             <p className="text-sm text-gray-500">Credit Note Management</p>

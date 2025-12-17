@@ -28,7 +28,7 @@ function SuppliersDashboard() {
             name: 'Supplier Invoice',
             description: 'Manage Supplier Invoices',
             path: '/suppliers/supplier-invoices',
-            available: false
+            available: true
         },
         {
             id: 'suppliersPayment',

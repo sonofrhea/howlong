@@ -27,6 +27,7 @@ import { fetchProjects } from "../../Projects/Engines";
 import CustomerPaymentDetails from "./CustomerPaymentDetails";
 import CustomerPaymentForm from "./CustomerPaymentForm";
 import CustomerPaymentTable from "./CustomerPaymentTable";
+import { spinningStyles } from "../Constants/Styles";
 //import CustomerPaymentEdit from "./CustomerPaymentEdit";
 
 
@@ -314,8 +315,8 @@ function CustomerPaymentManagement() {
     if (isLoadingCustomerPayments) return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Loading customer payments...</p>
+            <span className={spinningStyles.terminalBar.spinner}>𐬽</span>
+            <p className="mt-4 text-gray-600">fetching customer payments...</p>
         </div>
     </div>
     );
@@ -349,7 +350,7 @@ function CustomerPaymentManagement() {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-2 h-8 bg-linear-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                        <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                         <div>
                             <h1 className="text-lg font-semibold text-gray-900">Sales Suite</h1>
                             <p className="text-sm text-gray-500">Customer Payment Management</p>

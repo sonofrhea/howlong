@@ -114,7 +114,7 @@ const ProductItemTable: React.FC<any> = ({ productItems, onProductItemClick, onE
                             <SortableHeader label="Qty Available" sortKey="quantity_available" />
                             <SortableHeader label="Currency" sortKey="currency" />
                             <SortableHeader label="Supplier" sortKey="supplier_name" />
-                            <SortableHeader label="Status" sortKey="active" />
+                            <SortableHeader label="Active" sortKey="active" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
@@ -190,7 +190,7 @@ const ProductItemTable: React.FC<any> = ({ productItems, onProductItemClick, onE
                                                 ? 'bg-green-100 text-green-800'
                                                 : 'bg-red-100 text-red-800'
                                         }`}>
-                                            {productItem.active ? 'No' : 'Yes'}
+                                            {productItem.active ? 'Yes' : 'No'}
                                         </span>
                                     </td>
 

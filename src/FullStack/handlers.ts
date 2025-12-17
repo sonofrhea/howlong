@@ -57,3 +57,16 @@ export const currencyHandler = (currencies: CurrencyInterface[], setValue: any) 
         }
     }
 }
+
+
+export const purchaseAccountHandler = (accounts: ControlAccountInterface[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const accountCode = Number(e.target.value)
+    const selectedAccount = accounts.find(a => a.account_code === accountCode)
+    
+    if (selectedAccount) {
+      setValue("purchase_account.account_name", selectedAccount.account_name)
+      setValue("purchase_account.account_type", selectedAccount.account_type)
+    }
+  }
+}

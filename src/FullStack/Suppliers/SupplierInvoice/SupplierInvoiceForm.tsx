@@ -1,18 +1,19 @@
-import React, { useEffect } from "react";
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import React, { useMemo } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import { forms, buttons, layout, tables, text, utils } from "../constants/Styles"
 
 
 import { Trash2 } from 'lucide-react';
 
-import {SupplierProfileInterface, SupplierInvoiceInputs } from "../Interfaces";
+import {SupplierProfileResponse, SupplierInvoiceInputs } from "../constants/Types";
 
 
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
-import { SupplierInvoiceInterface } from "";
+import { SupplierInvoiceResponse } from "../constants/Types";
 
-import { AgentInterface, CurrencyInterface } from "../../Core/Interfaces"
-import { ProductItemInterface } from "../../Products/Interfaces"
+import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types"
+import { ProductItemCreateResponse } from "../../Products/constants/Types"
+import { purchaseAccountHandler } from "../../handlers";
 
 
 
@@ -23,7 +24,7 @@ const formatSupplierNumber = () => {
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`
 };
 
 
@@ -51,11 +52,16 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
         const { register, handleSubmit, watch, setValue, control, 
             formState: { errors } } = useForm<SupplierInvoiceInputs>({
                 defaultValues: {
+                    tax_inclusive: false,
+                    tax_amount: 0.00,
+                    cancelled: false,
                     related_invoice: [
                         {
                             quantity: 0,
-                            unit_per_price: 0.00,
-                            tax_amount: 0.00
+                            price_per_unit: 0.00,
+                            tax_inclusive: false,
+                            tax_amount: 0.00,
+                            cancelled: false
                         }
                     ]
                 }
@@ -68,24 +74,14 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
 
 
 
-            const selectedControlAccount = watch("purchase_account.account_code");
-            useEffect(() => {
-                if (selectedControlAccount) {
+const controlAccountChange = purchaseAccountHandler(accounts, setValue);
 
-                    const selectedCodeNumber = Number(selectedControlAccount);
-                    console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
 
-                    const selectedAccount = accounts.find((a: ControlAccountInterface) => 
-                        a.account_code === selectedCodeNumber
-                    );
-                    console.log(" ✅ Found account:", selectedAccount);
 
-                    if (selectedAccount) {
-                        setValue("purchase_account.account_name", selectedAccount.account_name);
-                        setValue("purchase_account.account_type", selectedAccount.account_type);
-                    } 
-                }
-            }, [selectedControlAccount, accounts, setValue])
+
+
+
+
 
 
             return(
@@ -107,9 +103,9 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
 
                         <hr className="my-6 border-gray-200" />
 
-                        <div className={layout.formSectionCol2}>
+                        <div className={layout.formSectionCol3}>
                             <div>
-                                <p className={forms.label}>Invoice Due Date</p>
+                                <p className={forms.secondLevelLabel}>Invoice Due Date</p>
                                 <input 
                                     type="date"
                                     {...register("invoice_due_date")}
@@ -118,36 +114,22 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                             </div>
 
                             <div>
-                                <p className={forms.nextLevelLabel}>Purchase Account</p>
+                                <p className={forms.secondLevelLabel}>Purchase Account</p>
                                 <select
                                     {...register("purchase_account.account_code")}
+                                    onChange={controlAccountChange}
                                     className={forms.select.partial}
                                 >
                                     <option value=""></option>
-                                    {accounts.map((account: ControlAccountInterface) => (
+                                    {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                         <option key={account.account_code} value={account.account_code}>
                                             {account.account_code} ({account.account_name})
                                         </option>
-                                    ))}
+                                    )), [accounts])}
                                 </select>
 
                                 <input type="hidden" {...register("purchase_account.account_name")} />
                                 <input type="hidden" {...register("purchase_account.account_type")} />
-                            </div>
-
-                            <div>
-                                <p className={forms.label}>Related Supplier</p>
-                                <select
-                                    {...register("supplier")}
-                                    className={forms.select.partial}
-                                >
-                                    <option value=""></option>
-                                    {supplierProfiles.map((supplier: SupplierProfileInterface) => (
-                                        <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                            {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
-                                        </option>
-                                    ))}
-                                </select>
                             </div>
 
                             <div>
@@ -157,12 +139,36 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                     className={forms.select.partial}
                                 >
                                     <option value=""></option>
-                                    {currencies.map((currency: CurrencyInterface) => (
+                                    {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                         <option key={currency.currency_code} value={currency.currency_code}>
                                             {currency.currency_code}
                                         </option>
-                                    ))}
+                                    )), [currencies])}
                                 </select>
+                            </div>
+
+                            <div>
+                                <p className={forms.secondLevelLabel}>Related Supplier</p>
+                                <select
+                                    {...register("supplier")}
+                                    className={forms.select.partial}
+                                >
+                                    <option value=""></option>
+                                    {useMemo(() => supplierProfiles.map((supplier: SupplierProfileResponse) => (
+                                        <option key={supplier.supplier_code} value={supplier.supplier_code}>
+                                            {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                        </option>
+                                    )), [supplierProfiles])}
+                                </select>
+                            </div>
+
+                            <div>
+                                <p className={forms.secondLevelLabel}>Supplier Extra Details</p>
+                                <textarea 
+                                    rows={3}
+                                    {...register("supplier_details")}
+                                    className="w-full border border-gray-300"
+                                />
                             </div>
                             
                             <div>
@@ -172,27 +178,21 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                     className={forms.select.partial}
                                 >
                                     <option value=""></option>
-                                    {agents.map((agent: AgentInterface) => (
-                                        <option key={agent.username} value={agent.username}>
-                                            {agent.username}
+                                    {useMemo(() => agents.map((agent: AgentInterface) => (
+                                        <option key={agent.name} value={agent.name}>
+                                            {agent.name}
                                         </option>
-                                    ))}
+                                    )), [agents])}
                                 </select>
                             </div>
                             
                             <div>
                                 <p className={forms.secondLevelLabel}>Product</p>
-                                <select
+                                <textarea 
                                     {...register("product")}
-                                    className={forms.select.partial}
-                                >
-                                    <option value=""></option>
-                                    {productItems.map((product: ProductItemInterface) => (
-                                        <option key={product.item_code} value={product.item_code}>
-                                            {product.item_code} {product.item_description}
-                                        </option>
-                                    ))}
-                                </select>
+                                    className="w-[70%] border border-gray-300"
+                                    
+                                />
                             </div>
                         </div>
 
@@ -200,18 +200,20 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
 
                         <div className="p-6">
                             <div className="w-full">
-                                <table className={tables.base}>
+                                <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                                     <colgroup>
                                         {[
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-[9%] text-center',
+                                            'w-1/10 text-center',
+                                            'w-1/10 text-center',
+                                            'w-1/10 text-center',
+                                            'w-1/10 text-center',
+                                            'w-1/10 text-center',
+                                            'w-1/10 text-center',
+                                            'w-1/10 text-center',
+                                            'w-1/10 text-center',
+                                            'w-1/10 text-center',
+                                            'w-1/10 text-center',
+                                            'w-[7%] text-center',
                                         ].map((line, index) => (
                                             <col key={index} className={line} />
                                         ))}
@@ -223,10 +225,12 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                             <th className={tables.headerCell}>Quantity</th>
                                             <th className={tables.headerCell}>Unit of measure</th>
                                             <th className={tables.headerCell}>price per unit</th>
-                                            <th className={tables.headerCell}>tax inclusive</th>
-                                            <th className={tables.headerCell}>tax amount</th>
-                                            <th className={tables.headerCell}>sub-total</th>
-                                            <th></th>
+                                            <th className={tables.headerCell}>Sub-Total</th>
+                                            <th className={tables.headerCell}>SST inclusive</th>
+                                            <th className={tables.headerCell}>SST %</th>
+                                            <th className={tables.headerCell}>cancelled</th>
+                                            <th className={tables.headerCell}>Total</th>
+                                            <th className={tables.headerCell}></th>
                                         </tr>
                                     </thead>
 
@@ -239,9 +243,9 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                                         className={forms.select.full}
                                                     >
                                                         <option value=""></option>
-                                                        {productItems.map((product: ProductItemInterface) => (
+                                                        {productItems.map((product: ProductItemCreateResponse) => (
                                                             <option key={product.item_code} value={product.item_code}>
-                                                                {product.item_code} | {product.item_description}
+                                                                SKU-{product.item_code} | {product.item_description}
                                                             </option>
                                                         ))}
                                                     </select>
@@ -271,7 +275,7 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
 
                                                 <td className={text.numbers}>
                                                     <input 
-                                                        {...register(`related_invoice.${index}.unit_per_price`)}
+                                                        {...register(`related_invoice.${index}.price_per_unit`)}
                                                         className={forms.input.number}
                                                         type="number"
                                                         placeholder="0.00"
@@ -281,6 +285,13 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                                             }
                                                         }}
                                                     />
+                                                </td>
+
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(
+                                                        Number(watch(`related_invoice.${index}.quantity`) || 0.00) *
+                                                        Number(watch(`related_invoice.${index}.price_per_unit`) || 0.00)
+                                                    )}
                                                 </td>
 
                                                 <td className={tables.cell}>
@@ -304,11 +315,30 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                                     />
                                                 </td>
 
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        type="checkbox"
+                                                        {...register(`related_invoice.${index}.cancelled`)}
+                                                    />
+                                                </td>
+                                                
                                                 <td className={tables.autoCalculate}>
-                                                    {decimalPlaces(
-                                                        Number(watch(`related_invoice.${index}.quantity`) || 0.00) *
-                                                        Number(watch(`related_invoice.${index}.unit_per_price`) || 0.00)
-                                                    )}
+                                                    {(() => {
+                                                        const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;
+                                                        const price_per_unit = watch(`related_invoice.${index}.price_per_unit`) || 0.00;
+                                                        let tax_amount = watch(`related_invoice.${index}.tax_amount`) || 0.00;
+                                                        const tax_inclusive = watch(`related_invoice.${index}.tax_inclusive`) || false;
+    
+                                                        let total = quantity * price_per_unit;
+    
+                                                        if (!tax_inclusive) {
+                                                            tax_amount = 0.00;
+                                                        }
+    
+                                                        total *= 1 + (tax_amount / 100);
+    
+                                                        return decimalPlaces(total);
+                                                    })()}
                                                 </td>
                                                 <td>
                                                     <button
@@ -322,7 +352,7 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                             </tr>
                                         ))}
                                         <tr>
-                                            <td>
+                                            <td className={tables.headerCell}>
                                                 <button
                                                     type="button"
                                                     onClick={() => append({ 
@@ -330,9 +360,10 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                                         description: "",
                                                         quantity: 0,
                                                         unit_of_measure: "",
-                                                        unit_per_price: 0.00,
+                                                        price_per_unit: 0.00,
                                                         tax_inclusive: false,
-                                                        tax_amount: 0.00 
+                                                        tax_amount: 0.00,
+                                                        cancelled: false 
                                                         })}
                                                     className={buttons.addLine}
                                                 >
@@ -343,6 +374,48 @@ const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                     </tbody>
                                 </table>
                             </div>
+                            
+                                                    <div className="mt-6 sm:flex sm:items-center sm:justify-end">
+                                                    <div className="w-full sm:w-1/2 lg:w-1/3">
+                                                        <div className="bg-gray-50 p-4 rounded-lg">
+                                                            <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+                            
+                                                                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                                                    <div>Tax Inclusive?</div>
+                                                                    <input 
+                                                                    {...register("tax_inclusive")}
+                                                                    type="checkbox"
+                                                                    className="ml-2 forced-colors:bg-green-300"
+                                                                    />
+                                                                </div>
+                            
+                                                                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                                                    <div>Tax %</div>
+                                                                    <input 
+                                                                        type="number"
+                                                                        {...register("tax_amount")}
+                                                                        className={forms.input.smallNumber}
+                                                                        placeholder="0.00"
+                                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                                            if (e.target.value) {
+                                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                            }
+                                                                        }}
+                                                                    
+                                                                    />
+                                                                </div>
+                                                                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                                                    <div>Cancelled?</div>
+                                                                    <input 
+                                                                    {...register("cancelled")}
+                                                                    type="checkbox"
+                                                                    className="ml-2 forced-colors:bg-green-300"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
 
 
 

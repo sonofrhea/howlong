@@ -82,10 +82,6 @@ const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) =
                         </div>
                     </div>
 
-                    <div>
-                        <p className="text-xs text-gray-500 mt-1">Official Documentation</p>
-                    </div>
-
                     <div className="flex gap-3">
                         <button 
                             onClick={onEdit}

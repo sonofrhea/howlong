@@ -1,4 +1,6 @@
 import React from "react";
+import { buttons, labelStyles, layout, tables, text } from "../constants/Styles";
+import { SquarePen } from "lucide-react";
 
 
 const formatNumber = () => {
@@ -9,6 +11,10 @@ const formatNumber = () => {
 const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
 };
+
+
+
+
 
 
 
@@ -45,21 +51,28 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
 
 
     return(
-        <div className="bg-gray-100">
-            <div className="w-[100%] mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden">
+        <div className="w-full mx-auto page bg-white shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden">
+            <div className="w-full mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-800 tracking-wide">SUPPLIER INVOICE</h1>
-                        <p className="text-sm text-gray-500 mt-1">Official Payment Documentation</p>
+                    <div className={layout.tag}>
+
+                        <div className="text-center space-y-6 px-6 py-3 gap-4">
+                            <div className={layout.badge}>
+                                <p className={text.badgeLarge}>
+                                    INVOICE DETAILS
+                                </p>
+                                <p className={labelStyles}>
+                                    {formatNumber()}{supplierInvoice.invoice_number}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     <div className="flex gap-3">
                         <button 
                             onClick={onEdit}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                            className={buttons.editButtonGreen}
                         >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
+                            <SquarePen size={20} strokeWidth={1.5} />
                             Edit
                         </button>
                     </div>
@@ -69,36 +82,36 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
 
                 <div className="grid grid-cols-3 gap-6">
                     <div>
-                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase">Invoice No</p>
-                        <p className="text-sm font-medium text-gray-700">{formatNumber()}{supplierInvoice.invoice_number}</p>
+                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Invoice No</p>
+                        <p className="text-sm font-medium text-black">{formatNumber()}{supplierInvoice.invoice_number}</p>
 
-                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Date Issued</p>
-                        <p className="text-sm font-medium text-gray-700">{formatDate(supplierInvoice.invoice_date)}</p>
+                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Date Issued</p>
+                        <p className="text-sm font-medium text-black">{formatDate(supplierInvoice.invoice_date)}</p>
 
-                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Payment Account</p>
-                        <p className="text-sm font-medium text-gray-700">{supplierInvoice.purchase_account.account_code} - {supplierInvoice.purchase_account.account_name}</p>
+                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Payment Account</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.purchase_account.account_code} - {supplierInvoice.purchase_account.account_name}</p>
                     </div>
 
                     <div>
-                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase">Supplier</p>
-                        <p className="text-sm font-medium text-gray-700">{supplierInvoice.supplier_name}</p>
+                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Supplier</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.supplier_name}</p>
                         
-                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Supplier Extra Details</p>
-                        <p className="text-sm font-medium text-gray-700">{supplierInvoice.supplier_details}</p>
+                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Supplier Extra Details</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.supplier_details}</p>
 
-                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Product</p>
-                        <p className="text-sm font-medium text-gray-700">{supplierInvoice.product}</p>
+                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Product</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.product}</p>
                     </div>
 
                     <div>
-                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase">Currency</p>
-                        <p className="text-sm font-medium text-gray-700">{supplierInvoice.currency}</p>
+                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Currency</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.currency}</p>
 
-                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Payment Due</p>
-                        <p className="text-sm font-medium text-gray-700">{supplierInvoice.invoice_due_date}</p>
+                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Invoice Due Date</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.invoice_due_date}</p>
 
-                        <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase mt-4">Agent</p>
-                        <p className="text-sm font-medium text-gray-700">{supplierInvoice.agent}</p>
+                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Agent</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.agent}</p>
                     </div>
                 </div>
 
@@ -111,24 +124,30 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
                             <table className="min-w-full text-left text-sm border border-gray-200 rounded-lg overflow-hidden">
                                 <thead className="bg-blue-100 drop-shadow-md shadow-lg">
                                     <tr>
-                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Item</th>
-                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Description</th>
-                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Quantity</th>
-                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">UOM</th>
-                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Unit Per Price</th>
-                                        <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Amount</th>
+                                        <th className={tables.headerCell}>Item</th>
+                                        <th className={tables.headerCell}>Description</th>
+                                        <th className={tables.headerCell}>Quantity</th>
+                                        <th className={tables.headerCell}>UOM</th>
+                                        <th className={tables.headerCell}>Price per unit</th>
+                                        <th className={tables.headerCell}>Amount</th>
+                                        <th className={tables.headerCell}>SST %</th>
+                                        <th className={tables.headerCell}>Sub-Total</th>
+                                        <th className={tables.headerCell}>Cancelled</th>
                                     </tr>
                                 </thead>
 
                                 <tbody className="bg-white divide-y divide-gray-100">
                                     {supplierInvoice.related_invoice.map((line: any, index: any) => (
                                         <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
-                                            <td className="px-4 py-4 text-center text-sm text-gray-600">{line.item_name}</td>
-                                            <td className="px-4 py-4 text-center text-sm text-gray-800">{line.description}</td>
-                                            <td className="px-4 py-4 text-center text-sm text-gray-800">{line.quantity}</td>
-                                            <td className="px-4 py-4 text-center text-sm text-gray-800">{line.unit_of_measure}</td>
-                                            <td className="px-4 py-4 text-center text-sm text-gray-800">{line.unit_per_price}</td>
-                                            <td className="px-4 py-4 text-center text-sm text-gray-800">{line.gross_total}</td>
+                                            <td className={tables.cell}>SKU-{line.item} | {line.item_name}</td>
+                                            <td className={tables.cell}>{line.description}</td>
+                                            <td className={tables.cell}>{line.quantity}</td>
+                                            <td className={tables.cell}>{line.unit_of_measure}</td>
+                                            <td className={tables.cell}>{line.price_per_unit}</td>
+                                            <td className={tables.cell}>{line.total}</td>
+                                            <td className={tables.cell}>{line.tax_amount}</td>
+                                            <td className={tables.cell}>{line.sub_total}</td>
+                                            <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -137,30 +156,26 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
 
                         <div className="mt-6 sm:flex sm:items-center sm:justify-end">
                             <div className="w-full sm:w-1/2 lg:w-1/3">
-                                <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-lg">
+                                <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
                                     <div>Gross Total</div>
-                                    <div className="font-medium text-gray-800">RM {supplierInvoice.related_invoice[0].gross_total}</div>
+                                    <div className="font-medium text-gray-800">{supplierInvoice.gross_total}</div>
                                 </div>
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
                                     <div>Tax inclusive</div>
-                                    <div className="font-medium text-green-400">{supplierInvoice.related_invoice[0].tax_inclusive ? 'yes' : 'no'}</div>
+                                    <div className="font-medium text-green-400">{supplierInvoice.tax_inclusive ? 'Yes' : 'No'}</div>
                                 </div>
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax</div>
-                                    <div className="font-medium text-gray-800">RM {supplierInvoice.related_invoice[0].tax_amount}</div>
-                                </div>
-
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Total</div>
-                                    <div className="font-medium text-gray-800">RM {supplierInvoice.related_invoice[0].net_total}</div>
+                                    <div>Tax %</div>
+                                    <div className="font-medium text-gray-800">{supplierInvoice.tax_amount}%</div>
                                 </div>
 
                                 <div className="border-t border-dashed border-blue-500 mt-3 pt-3 flex justify-between items-center">
                                     <div className="text-sm text-gray-500">Net Total</div>
-                                    <div className="text-xl font-bold text-gray-900">RM {supplierInvoice.related_invoice[0].aggregate_total}</div>
+                                    <div className="text-xl font-bold text-gray-900">{supplierInvoice.aggregate_total}</div>
                                 </div>
 
                                 </div>

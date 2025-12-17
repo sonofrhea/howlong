@@ -14,6 +14,7 @@ import AxiosInstance from "../components/AxiosInstance";
 import apiClient from "../BaseEngine";
 
 import HandleRegistration from "./HandleRegistration";
+import { spinningStyles } from "./Styles";
 
 
 
@@ -101,7 +102,7 @@ const Register = () => {
                     <Box className={"itemBox"}>
                         <MyButton 
                             type={"submit"}
-                            label={loading ? "Registering..." : "Register"}
+                            label={loading ? <span className={spinningStyles.terminalBar.spinner}>⌘</span> : "Register"}
                             disabled={loading}
                         />
                     </Box>
