@@ -4,7 +4,7 @@ export const spinningStyles = {
     terminalBar: {
         container: "font-mono p-8",
         row: "flex items-center",
-        spinner: "text-green-500 mr-2 animate-spin",
+        spinner: "text-green-500 mr-2 animate-spin text-4xl",
         barContainer: "w-64 h-4 bg-gray-800 border border-gray-700 overflow-hidden",
         barFill: "h-full bg-black animate-progress",
         text: "text-gray-600 text-sm mt-2 ml-8"
@@ -30,6 +30,7 @@ export const forms = {
     number: "w-full border border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
     base: "px-3 py-2 border rounded focus:ring-2 focus:border-transparent transition-colors",
     smallNumber: "w-[30%] text-black border-gray-300 drop-shadow-md shadow-inner rounded focus:outline-none focus:ring-2 focus:ring-blue-500",
+    midNumber: "w-[50%] text-black border-gray-300 drop-shadow-md shadow-inner rounded focus:outline-none focus:ring-2 focus:ring-blue-500",
   },
   select: {
     full: "w-full drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",

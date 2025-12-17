@@ -1,4 +1,5 @@
 import React from "react";
+import { SupplierPaymentList } from "../constants/Types";
 
 
 const formatDate = (dateString: any) => {
@@ -9,6 +10,16 @@ const formatNumber = () => {
     const currentYear = new Date().getFullYear();
     return `SPI-${currentYear}-`;
 };
+
+
+
+
+
+
+
+
+
+
 
 
 const SupplierPaymentTable: React.FC<any> = ({ supplierPayments, onSupplierPaymentClick, onEditSupplierPayment,
@@ -73,7 +84,7 @@ const SupplierPaymentTable: React.FC<any> = ({ supplierPayments, onSupplierPayme
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded text-black px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -89,21 +100,27 @@ const SupplierPaymentTable: React.FC<any> = ({ supplierPayments, onSupplierPayme
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/5 text-center" />{/* Payment Number - Fixed */}
-                        <col className="w-1/5 text-center" />{/* Date - 20% */}
-                        <col className="w-1/5 text-center" />{/* Supplier - 20% */}
-                        <col className="w-1/5 text-center" />{/* Account Code */}
-                        <col className="w-1/5 text-center" />{/* Currency - 20% */}
-                        <col className="w-1/5 text-center" />{/* Created By - Fixed */}
-                        <col className="w-1/5 text-center" />{/* Actions - Fixed */}
+                    {[
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-[7%] text-center",
+                    ]}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Payment #" sortKey="payment_code" />
                             <SortableHeader label="Date" sortKey="date_created" />
                             <SortableHeader label="Supplier" sortKey="supplier" />
-                            <SortableHeader label="Account Code" sortKey="account_code" />
+                            <SortableHeader label="Net Total" sortKey="aggregate_total" />
+                            <SortableHeader label="Outstanding Amount" sortKey="outstanding_amount" />
                             <SortableHeader label="Currency" sortKey="currency" />
+                            <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Created By" sortKey="created_by" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
@@ -111,7 +128,7 @@ const SupplierPaymentTable: React.FC<any> = ({ supplierPayments, onSupplierPayme
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {supplierPayments.map((supplierPayment: any) => {
+                        {supplierPayments.map((supplierPayment: SupplierPaymentList) => {
                             const supplierPaymentId = supplierPayment.payment_code;
 
                             return (
@@ -119,37 +136,62 @@ const SupplierPaymentTable: React.FC<any> = ({ supplierPayments, onSupplierPayme
                                 onClick={() => onSupplierPaymentClick(supplierPaymentId)}>
                                     {/* Payment Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={supplierPayment.payment_code}>
-                                            {formatNumber()}{supplierPayment.payment_code}
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
+                                            {formatNumber()}{supplierPayment.payment_code || '--'}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={supplierPayment.date_created}>
-                                        <div className="text-sm text-gray-900 truncate">{formatDate(supplierPayment.date_created)}</div>
-                                    </td>
-
-                                    {/* Supplier */}
-                                    <td className="px-2 py-2 truncate" title={supplierPayment.supplier}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierPayment.supplier}</div>
-                                    </td>
-
-                                    {/* Account Code */}
-                                    <td className="px-2 py-2 truncate" title={supplierPayment.account_code}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {supplierPayment.account_code}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {formatDate(supplierPayment.date_created) || '--'}
                                         </div>
                                     </td>
 
+                                    {/* Supplier */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {supplierPayment.supplier || '--'}
+                                        </div>
+                                    </td>
+
+                                    {/* Aggregate Total */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {supplierPayment.aggregate_total || '--'}
+                                        </div>
+                                    </td>
+
+                                    {/* Outstanding */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {supplierPayment.outstanding_amount || '--'}
+                                        </div>
+                                    </td>
+                                    
                                     {/* Currency */}
-                                    <td className="px-2 py-2 truncate" title={supplierPayment.currency}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierPayment.currency}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {supplierPayment.currency || '--'}
+                                        </div>
+                                    </td>
+                                    
+                                    {/* Cancelled */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                            supplierPayment.cancelled
+                                                ? 'bg-red-100 text-red-800'
+                                                : 'bg-green-100 text-green-800'
+                                                 
+                                        }`}>
+                                            {supplierPayment.cancelled ? 'Yes' : 'No'}
+                                        </div>
                                     </td>
                                     
                                     {/* Created By */}
-                                    <td className="px-2 py-2 truncate" title={supplierPayment.created_by}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {supplierPayment.created_by}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {supplierPayment.created_by || '--'}
                                         </div>
                                     </td>
 

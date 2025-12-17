@@ -102,7 +102,7 @@ const Register = () => {
                     <Box className={"itemBox"}>
                         <MyButton 
                             type={"submit"}
-                            label={loading ? <span className={spinningStyles.terminalBar.spinner}>⌘</span> : "Register"}
+                            label={loading ? <span className={spinningStyles.terminalBar.spinner}>↻</span> : "Register"}
                             disabled={loading}
                         />
                     </Box>

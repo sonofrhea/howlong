@@ -21,4 +21,3 @@ const HandleRegistration = async (data: RegistrationFormInputs) => {
 };
 export default HandleRegistration;
 
-

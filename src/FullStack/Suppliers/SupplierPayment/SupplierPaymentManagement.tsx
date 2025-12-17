@@ -15,8 +15,8 @@ import { fetchCurrencies, fetchAgents } from "../../Core/Engines";
 
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines";
 
-import { allSupplierPaymentInputs, EditSupplierPayment
-    , SupplierPaymentInputs, SupplierPaymentResponse } from "../Interfaces";
+import { EditSupplierPayment
+    , SupplierPaymentInputs, SupplierPaymentResponse } from "../constants/Types";
  
 import { fetchSupplierInvoices, fetchSupplierProfiles } from "../Engines";
 
@@ -159,23 +159,23 @@ function SupplierPaymentManagement() {
     // ------------------------------------------------------------------------------------
                     // MUTATION USE
 
-    const toFormData = (obj, form = new FormData(), parentKey = '') => {
-        Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        const field = parentKey ? `${parentKey}.${key}` : key;
-        if (value === null || value === undefined) return;
-        if (Array.isArray(value)) {
-            value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-        } else if (value instanceof File) {
-            form.append(field, value);
-        } else if (typeof value === 'object') {
-            toFormData(value, form, field);
-        } else {
-            form.append(field, value);
-        }
-        });
-        return form;
-    };
+    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    //    Object.keys(obj).forEach(key => {
+    //    const value = obj[key];
+    //    const field = parentKey ? `${parentKey}.${key}` : key;
+    //    if (value === null || value === undefined) return;
+    //    if (Array.isArray(value)) {
+    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+    //    } else if (value instanceof File) {
+    //        form.append(field, value);
+    //    } else if (typeof value === 'object') {
+    //        toFormData(value, form, field);
+    //    } else {
+    //        form.append(field, value);
+    //    }
+    //    });
+    //    return form;
+    //};
 
 
 
@@ -298,17 +298,12 @@ function SupplierPaymentManagement() {
     // ERROR DISPLAYS
 
     if (isLoadingSupplierPayments) return (
-        <div className={spinningStyles.terminalBar.container}>
-            <div className={spinningStyles.terminalBar.row}>
-                <span className={spinningStyles.terminalBar.spinner}>⠋</span>
-                <div className={spinningStyles.terminalBar.barContainer}>
-                    <div className={spinningStyles.terminalBar.barFill}></div>
-                </div>
+            <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+            <div className="text-center">
+               <span className={spinningStyles.terminalBar.spinner}>𐮜</span> 
+                <p className="mt-4 text-gray-600">fetching payments...</p>
             </div>
-            <div className={spinningStyles.terminalBar.text}>
-                fetching...
             </div>
-        </div>
     );
 
     if (supplierPaymentsError) return (
@@ -338,7 +333,7 @@ function SupplierPaymentManagement() {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-2 h-8 bg-linear-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                        <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                         <div>
                             <h2 className="text-m font-semibold text-gray-900">Suppliers Suite</h2>
                             <p className="text-xs text-gray-500">Supplier Payment Management</p>
@@ -367,8 +362,8 @@ function SupplierPaymentManagement() {
                 <div className="flex items-start justify-between mb-8">
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-linear-to-br from-blue-300 to-green-200 rounded-2xl flex items-center justify-center border border-b-white">
-                        <HandCoins />
+                    <div className="w-12 h-12 bg-linear-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
+                        𑿠
                     </div>
                     <div>
                         <h2 className="text-3xl font-light text-gray-900 tracking-tight">Supplier Payments</h2>
@@ -411,10 +406,10 @@ function SupplierPaymentManagement() {
                         <div className="relative">
                             <input
                             type="text"
-                            placeholder="Search..."
+                            placeholder="Search payments..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className={management.searchSize}
+                            className="pl-10 pr-2 py-1 text-gray-600 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
                             />
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -424,10 +419,9 @@ function SupplierPaymentManagement() {
                         </div>
                         <button
                             onClick={() => setView('form')}
-                            className="bg-white border border-gray-200 hover:border-purple-500 text-gray-50 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
+                            className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
-                            <Plus />
-                            New Supplier Payment
+                           ++ New Supplier Payment
                         </button>
                     </div>
                 </div>
@@ -455,7 +449,7 @@ function SupplierPaymentManagement() {
             )}
 
             {view === 'form' && (
-                <div className="w-[100%] bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
+                <div className="min-w-full bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
                 <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
                     <div className="flex items-center gap-4 mb-8 justify-between">
                     <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100">

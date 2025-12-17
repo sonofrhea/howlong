@@ -35,7 +35,7 @@ function SuppliersDashboard() {
             name: 'Supplier Payments',
             description: 'Manage Supplier Payments',
             path: '/suppliers/supplier-payments',
-            available: false
+            available: true
         },
         {
             id: 'suppliersDebitNote',

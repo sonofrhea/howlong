@@ -179,10 +179,21 @@ export type EditSupplierProfile = {
 
 // -------- BEGIN ----------- SUPPLIER PAYMENT INPUT ----------------
 
+export type SupplierPaymentList = {
+  payment_code: number;
+  date_created: string;
+  supplier: string;
+  aggregate_total: number;
+  cancelled: boolean;
+  outstanding_amount: number;
+  currency: string;
+  created_by: string;
+}
+
 export type SupplierPaymentInputs = {
+  date_created: string;
   supplier: string;
   supplier_name: string;
-  date_created: string;
   account_code: {
     account_code: number;
     account_name: string;
@@ -190,12 +201,18 @@ export type SupplierPaymentInputs = {
   };
   currency: string;
   related_payment: Array <{
-    related_invoice: string;
-    payment_amount: number;
-    additional_payment: number;
     payment_date: string;
     payment_type: string;
+    payment_amount: number;
+    additional_payment: number;
+    cancelled: boolean;
   }>;
+  related_invoice: string;
+  invoice_amount: number;
+  tax_inclusive: boolean;
+  tax_amount: number;
+  cancelled: boolean;
+  created_by: string;
 };
 
 export type SupplierPaymentResponse = {
@@ -255,7 +272,6 @@ export type SupplierInvoiceInputs = {
   agent: string;
   product: string;
   related_invoice: Array <{
-    item: string;
     item_name: string;
     description: string;
     quantity: number;
@@ -273,6 +289,8 @@ export type SupplierInvoiceInputs = {
 
 export type SupplierInvoiceResponse = {
   invoice_number: number;
+  supplier_name: string;
+  aggregate_total: number;
 };
 
 export type allSupplierInvoiceInputs = {

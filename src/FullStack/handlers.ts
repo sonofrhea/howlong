@@ -1,6 +1,8 @@
+import React from "react"
 import { ControlAccountInterface } from "./ChartOfAccounts/Interfaces"
 import { CurrencyInterface } from "./Core/constants/Types"
 import { InvoiceInterface, InvoicePaymentInterface } from "./Sales/Constants/Types"
+import { SupplierInvoiceResponse } from "./Suppliers/constants/Types"
 
 
 
@@ -67,6 +69,31 @@ export const purchaseAccountHandler = (accounts: ControlAccountInterface[], setV
     if (selectedAccount) {
       setValue("purchase_account.account_name", selectedAccount.account_name)
       setValue("purchase_account.account_type", selectedAccount.account_type)
+    }
+  }
+}
+
+
+export const SupplierAccountHandler = (accounts: ControlAccountInterface[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const accountCode = Number(e.target.value)
+    const selectedAccount = accounts.find(a => a.account_code === accountCode)
+    
+    if (selectedAccount) {
+      setValue("account_code.account_name", selectedAccount.account_name)
+      setValue("account_code.account_type", selectedAccount.account_type)
+    }
+  }
+}
+
+
+export const supplierRelatedInvoice = (supplierInvoices: SupplierInvoiceResponse[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const invoiceNumber = Number(e.target.value)
+    const selectedInvoice = supplierInvoices.find(a => a.invoice_number === invoiceNumber)
+
+    if (selectedInvoice) {
+      setValue("invoice_amount", selectedInvoice.aggregate_total)
     }
   }
 }
