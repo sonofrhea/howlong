@@ -38,13 +38,22 @@ const Register = () => {
         });
             navigate(`/`);
         } catch (error: any) {
-            const message =
-                error?.response?.data?.detail ||
-                error?.message ||
-                "Invalid email or password";
+            let errorMessage = "";
 
-            console.log(message);
-            setError(message);
+            if (error.code === "ECONNABORTED") {
+                errorMessage = "Request timed out. Please try again.";
+            }
+
+            else if (error.response.data?.detail) {
+                errorMessage = error.response.data.detail;
+            }
+
+            else if (error.message) {
+                console.log(error.message);
+            }
+
+            setError(errorMessage);
+            console.log(errorMessage);
         } finally {
             setLoading(false);
         }

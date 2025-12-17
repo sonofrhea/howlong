@@ -23,6 +23,12 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
 
     const submission = async (data: any) => {
+        console.log("SUBMISSION FUNCTION CALLED!", data);
+        if (loading) {
+            console.log("YES, LOADING!")
+        } else {
+            console.log("NOT LOADING, PROCEEDING...");
+        }
         if (loading) return
         setLoading(true);
         setError("")
@@ -30,23 +36,26 @@ const Login = () => {
             await HandleLogin(data.email, data.password)
             navigate(`/dashboard`);
         } catch (error: any) {
+            let errorMessage = "";
+
             if (error.code === "ECONNABORTED") {
-                setError("Request timed out. Please try again.");
-                return;
+                errorMessage = "Request timed out. Please try again.";
             }
 
-            const backendMessage =
-                error.response.data?.detail?.[0] ||
-                error.message;
-
-
-            if (backendMessage) {
-                setError(backendMessage);
-                return;
+            else if (error.response.data?.detail?.[0]) {
+                errorMessage = error.response.data.detail[0];
             }
 
-            setError("Invalid email or password");
-            console.log(backendMessage);
+            else if (error.message) {
+                console.log(error.message);
+            }
+
+            else {
+                errorMessage = "Invalid email or password";
+            }
+
+            setError(errorMessage);
+            console.log(errorMessage);
         } finally {
             setLoading(false);
         }
