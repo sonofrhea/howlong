@@ -26,7 +26,7 @@ import { controlAccountHandler, currencyHandler } from "../../handlers";
 
 
 const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, 
-    onCancel, currencies, accounts, agents, banks }) => {
+    onCancel, currencies, accounts, banks }) => {
 
         const { register, handleSubmit, setValue, 
             formState: { errors } } = useForm<CustomerInputs>({
@@ -75,6 +75,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                     {...register("status")}
                                     className="ml-4 w-25 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
                                 >
+                                    <option value="">select...</option>
                                     {useMemo(() => STATUS_CHOICES.map(option => (
                                         <option key={option.value} value={option.value}>
                                             {option.label}
@@ -126,7 +127,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                         {...register("id_type")} 
                                         className="w-full text-black cursor-pointer rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     >
-                                        <option value=""></option>
+                                        <option value="">select...</option>
                                         {useMemo(() => ID_TYPE_CHOICES.map(id_type => (
                                             <option key={id_type.value} value={id_type.value}>
                                                 {id_type.label}
@@ -236,7 +237,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                     {...register("country")}
                                     className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     >
-                                        <option value=""></option>
+                                        <option value="">select...</option>
                                         {useMemo(() => COUNTRY_OPTIONS.map(country => (
                                             <option key={country.value} value={country.value}>
                                                 {country.label}
@@ -294,7 +295,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                         {...register("customer_bank_name")}
                                         className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                     >
-                                        <option value=""></option>
+                                        <option value="">select...</option>
                                         {useMemo(() => banks.map((bank: BankInterface) => (
                                             <option key={bank.bank_alias} value={bank.bank_alias}>
                                                 {bank.bank_alias} - {bank.swift_code}
@@ -317,7 +318,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                         {...register("bank_account_type")} 
                                         className="w-full text-black rounded-lg border cursor-pointer border-gray-300 px-3 py-2"
                                         >
-                                        <option value=""></option>
+                                        <option value="">select...</option>
                                         {useMemo(() => BANK_TYPE_CHOICES.map(option => (
                                             <option key={option.value} value={option.value} >
                                                 {option.label}
@@ -371,7 +372,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                         {...register("tax_id_type")}
                                         className="w-full rounded-lg border cursor-pointer text-black border-gray-300 px-3 py-2" 
                                     >
-                                        <option value=""></option>
+                                        <option value="">select...</option>
                                         {useMemo(() => TAX_ID_CHOICES.map(tax => (
                                             <option key={tax.value} value={tax.value} >
                                                 {tax.label}

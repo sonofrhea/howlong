@@ -100,48 +100,48 @@ const SupplierPaymentDetails: React.FC<any> = ({ supplierPayment, isLoading, onB
                     <div className="grid grid-cols-3 gap-6">
                         <p>
                             <p className={details.extraSmallUppercase}>Payment No</p>
-                            {formatNumber()}{supplierPayment.payment_code || '--'}
+                            {formatNumber()}{supplierPayment.payment_code || 'N/A'}
                         </p>
 
                         <p>
                             <p className={details.extraSmallUppercase}>Posted Date</p>
-                            {formatDate(supplierPayment.date_created) || '--'}
+                            {formatDate(supplierPayment.date_created) || 'N/A'}
                         </p>
 
                         <p>
                             <p className={details.extraSmallUppercase}>Account paid by</p>
-                            {supplierPayment.account_code.account_code || '--'} - ({supplierPayment.account_code.account_name || '--'})
+                            {supplierPayment.account_code?.account_code || 'N/A'} - ({supplierPayment.account_code?.account_name || 'N/A'})
                         </p>
 
                         <p>
                             <p className={details.extraSmallUppercase}>Payment To</p>
-                            {formatSupplierNumber()}{supplierPayment.supplier} | {supplierPayment.supplier_name || '--'}
+                            {formatSupplierNumber()}{supplierPayment.supplier} | {supplierPayment.supplier_name || 'N/A'}
                         </p>
 
                         <p>
                             <p className={details.extraSmallUppercase}>Related Invoice</p>
-                            {formatInvoiceNumber()}{supplierPayment.related_invoice || '--'} | Total: {supplierPayment.invoice_amount || '--'}
+                            {formatInvoiceNumber()}{supplierPayment.related_invoice || 'N/A'} | Total: {supplierPayment.invoice_amount || 'N/A'}
                         </p>
 
                         <p>
                             <p className={details.extraSmallUppercase}>Related Invoice Amount</p>
-                            {supplierPayment.invoice_amount || '--'}
+                            {supplierPayment.invoice_amount || 'N/A'}
                         </p>
 
                         <p>
                             <p className={details.extraSmallUppercase}>Currency</p>
-                            {supplierPayment.currency || '--'}
+                            {supplierPayment.currency || 'N/A'}
                         </p>
 
                         <p>
                             <p className={details.extraSmallUppercase}>Created By</p>
-                            {supplierPayment.created_by || '--'}
+                            {supplierPayment.created_by || 'N/A'}
                         </p>
                     </div>
 
                     <hr className="my-6 border-gray-200" />
 
-                    {supplierPayment.related_payment && supplierPayment.related_payment.length > 0 && (
+                    {supplierPayment.related_payment && supplierPayment.related_payment?.length > 0 && (
 
                     <div className="p-6">
                         <div className="overflow-x-auto">
@@ -161,10 +161,10 @@ const SupplierPaymentDetails: React.FC<any> = ({ supplierPayment, isLoading, onB
                                     {supplierPayment.related_payment.map((line: any, index: any) => (
                                         <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
                                             <td className={tables.cell}>{formatDate(line.payment_date)}</td>
-                                            <td className={tables.cell}>{line.payment_type || '--'}</td>
-                                            <td className={tables.cell}>{line.payment_amount || '--'}</td>
-                                            <td className={tables.cell}>{line.additional_payment || '--'}</td>
-                                            <td className={tables.cell}>{line.current_total || '--'}</td>
+                                            <td className={tables.cell}>{line.payment_type || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.payment_amount || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.additional_payment || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.current_total || 'N/A'}</td>
                                             <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                         </tr>
                                     ))}
@@ -178,17 +178,17 @@ const SupplierPaymentDetails: React.FC<any> = ({ supplierPayment, isLoading, onB
                                 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
                                     <div>Gross Paid</div>
-                                    <div className="font-medium text-gray-800">{supplierPayment.gross_paid || '--'}</div>
+                                    <div className="font-medium text-gray-800">{supplierPayment.gross_paid || 'N/A'}</div>
                                 </div>
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                     <div>Tax %</div>
-                                    <div className="font-medium text-gray-800">{supplierPayment.tax_amount || '--'}%</div>
+                                    <div className="font-medium text-gray-800">{supplierPayment.tax_amount || 'N/A'}%</div>
                                 </div>
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                     <div>Net Total</div>
-                                    <div className="font-medium text-gray-800">{supplierPayment.aggregate_total || '--'}</div>
+                                    <div className="font-medium text-gray-800">{supplierPayment.aggregate_total || 'N/A'}</div>
                                 </div>
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
@@ -203,7 +203,7 @@ const SupplierPaymentDetails: React.FC<any> = ({ supplierPayment, isLoading, onB
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                     <div>Outstanding</div>
-                                    <div className="font-medium text-gray-800">{supplierPayment.outstanding_amount || '--'}</div>
+                                    <div className="font-medium text-gray-800">{supplierPayment.outstanding_amount || 'N/A'}</div>
                                 </div>
 
                                 </div>

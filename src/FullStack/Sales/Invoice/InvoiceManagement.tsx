@@ -194,6 +194,9 @@ function InvoiceManagement() {
 
 
     const handleAddInvoice = async (invoiceData: InvoiceInputs) => {
+        if (invoiceData.related_invoice?.length === 0) {
+            delete invoiceData.related_invoice;
+        } 
         console.log("🎯 RAW FORM DATA:", invoiceData);
 
 

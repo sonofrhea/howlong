@@ -85,11 +85,11 @@ export type EditCompanyPurchaseInvoiceInputs = {
 export type CompanyPurchaseOrderInputs = {
   date: string;
   supplier: string;
-  account : {
-    account_code: number;
-    account_name: string;
-    account_type: string;
-  };
+  account? : {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   address: string;
   related_invoice: string;
   related_invoice_total: number;

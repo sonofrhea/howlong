@@ -190,6 +190,17 @@ const deleteDebitNoteMutation = useMutation({
 
 
   const handleAddDebitNote = async (debitNoteData: DebitNoteInputs) => {
+    if (!debitNoteData.account?.account_code) {
+      delete debitNoteData.account;
+    }
+    if (debitNoteData.debit_note_details) {
+      debitNoteData.debit_note_details = debitNoteData.debit_note_details?.filter(item => 
+        item.date
+      );
+      if (debitNoteData.debit_note_details?.length === 0) {
+        delete debitNoteData.debit_note_details;
+      }
+    }
     console.log("🎯 RAW FORM DATA:", debitNoteData);
     
     createDebitNoteMutation.mutate(debitNoteData);

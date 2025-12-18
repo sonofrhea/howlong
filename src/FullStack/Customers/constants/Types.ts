@@ -162,20 +162,20 @@ export type DebitNoteInputs = {
   customer_name: string;
   related_payment: string;
   related_payment_amount: string;
-  account: {
-    account_code: number | null;
-    account_name: string | null;
-    account_type: string | null;
-  };
+  account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   paid_amount: number;
-  debit_note_details: Array <{
-    date: string;
-    description: string;
-    amount: number;
-    tax_inclusive: boolean;
-    tax_amount: number | 0.00;
-    cancelled: boolean;
-  }>
+  debit_note_details?: Array<{
+    date?: string | null;
+    description?: string | null;
+    amount?: number | null;
+    tax_inclusive?: boolean | null;
+    tax_amount?: number | null;
+    cancelled?: boolean | null;
+  }> | null;
   tax_inclusive: boolean;
   tax_amount: number | 0.00;
   agent: string;
@@ -202,21 +202,21 @@ export type DebitNoteDetails = {
   debit_note_number: number;
   date: string;
   customer_name: string;
-  account: {
-    account_code: number;
-    account_name: string;
-    account_type: string;
-  };
+  account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   paid_amount: string;
-  debit_note_details: Array<{
-    date: string;
-    description: string;
-    amount: string;
-    tax_inclusive: boolean;
-    tax_amount: string;
-    current_total: string;
-    cancelled: boolean;
-  }>;
+  debit_note_details?: Array<{
+    date?: string | null;
+    description?: string | null;
+    amount?: number | null;
+    tax_inclusive?: boolean | null;
+    tax_amount?: number | null;
+    current_total?: number | null;
+    cancelled?: boolean | null;
+  }> | null;
   tax_amount: number;
   aggregate_total: string;
   debit_note_outstanding: string;
@@ -254,23 +254,23 @@ export type CreditNoteInputs = {
   date: string;
   customer: string;
   customer_name: string;
-  credit_note_lines: Array<{
-    date: string;
-    description: string;
-    amount: number;
-    tax_inclusive: boolean;
-    tax_amount: number;
-    cancelled: boolean;
-  }>;
+  credit_note_lines?: Array<{
+    date?: string | null;
+    description?: string | null;
+    amount?: number | null;
+    tax_inclusive?: boolean | null;
+    tax_amount?: number | null;
+    cancelled?: boolean | null;
+  }> | null;
   tax_inclusive: boolean;
   tax_amount: number;
   related_payment: string;
   related_payment_amount: number;
-  account: {
-    account_code: number | null;
-    account_name: string | null;
-    account_type: string | null;
-  };
+  account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   paid_amount: number;
   agent: string;
   currency: string | null;
@@ -324,19 +324,19 @@ export type CustomerRefundInputs = {
   pay_to_name: string | null;
   related_credit_note: string;
   related_credit_note_outstanding: number | null;
-  payment_account: {
-    account_code: number | null;
-    account_name: string | null;
-    account_type: string | null;
-  };
+  payment_account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   expected_refund: number | null;
-  related_customer_refund: Array<{
-    date: string;
-    refund_amount: number;
-    additional_charges: number;
-    payment_type: keyof typeof REFUND_TYPE_OPTIONS;
-    cancelled: boolean;
-  }>;
+  related_customer_refund?: Array<{
+    date?: string | null;
+    refund_amount?: number | null;
+    additional_charges?: number | null;
+    payment_type?: keyof typeof REFUND_TYPE_OPTIONS | null;
+    cancelled?: boolean | null;
+  }> | null;
   tax_inclusive: boolean;
   tax_amount: number;
   agent: string;

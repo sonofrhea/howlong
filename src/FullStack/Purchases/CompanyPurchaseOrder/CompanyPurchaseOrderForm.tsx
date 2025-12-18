@@ -142,7 +142,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                     {...register("supplier")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {supplierProfiles.map((supplier: SupplierProfileInterface) => (
                                         <option key={supplier.supplier_code} value={supplier.supplier_code}>
                                             {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
@@ -157,7 +157,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                     {...register("account.account_code")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {accounts.map((account: ControlAccountInterface) => (
                                         <option key={account.account_code} value={account.account_code}>
                                             {account.account_code} ({account.account_name})
@@ -175,7 +175,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                     {...register("related_invoice")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {purchaseInvoices.map((invoice: CompanyPurchaseInvoiceInterface) => (
                                         <option key={invoice.purchase_invoice_number} value={invoice.purchase_invoice_number}>
                                             {formatPurchaseInvoiceNumber()}{invoice.purchase_invoice_number} - {invoice.net_total}
@@ -190,7 +190,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                     {...register("agent")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {agents.map((agent: AgentInterface) => (
                                         <option key={agent.username} value={agent.username}>
                                             {agent.username}
@@ -205,7 +205,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                     {...register("status")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {PURCHASE_ORDER_STATUS.map(option => (
                                         <option key={option.value} value={option.value} >
                                             {option.label}

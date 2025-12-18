@@ -112,9 +112,10 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                 <p className={forms.label}>Date</p>
                                 <input 
                                     type="date"
-                                    {...register("date")}
+                                    {...register("date", {required: "Date is required"})}
                                     className={forms.input.date}
                                 />
+                                {errors.date && <p className="text-amber-600 text-sm">{errors.date?.message}</p>}
                             </div>
                                                         
                             <div>

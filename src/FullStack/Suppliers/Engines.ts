@@ -66,8 +66,12 @@ export const fetchSupplierProfileById = async (supplier_code: number) => {
     return response.data;
 };
 
-export const createSupplierProfile = async (supplierProfileData: SupplierProfileInputs) => {
-    const response = await apiClient.post('/suppliers/supplierprofiles/', supplierProfileData);
+export const createSupplierProfile = async (supplierProfileData: SupplierProfileInputs | FormData) => {
+    const response = await apiClient.post('/suppliers/supplierprofiles/', supplierProfileData, {
+        headers: {
+            "Content-Type": 'multipart/form-data',
+        },
+    });
     return response.data;
 };
 

@@ -107,9 +107,10 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                             <p className={forms.label}>Date</p>
                             <input 
                                 type="date"
-                                {...register("date")}
+                                {...register("date", {required: "Date is required"})}
                                 className={forms.input.date}
                             />
+                            {errors.date && <p className="text-amber-600 text-sm">{errors.date?.message}</p>}
                         </div>
                     
 
@@ -119,7 +120,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                 {...register("project")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                     <option key={project.project_code} value={project.project_code}>
                                         {formatProjectNumber()}{project.project_code} | {project.project_name}
@@ -135,7 +136,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                 onChange={controlAccountChange}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                     <option key={account.account_code} value={account.account_code}>
                                     {account.account_code} ({account.account_name})
@@ -153,7 +154,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                 {...register("customer")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
                                         {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
@@ -169,7 +170,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                 onChange={invoicePaymentChange}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => invoicePayments.map((invoicePayment: InvoicePaymentInterface) => (
                                     <option key={invoicePayment.invoice_payment_code} value={invoicePayment.invoice_payment_code}>
                                         {formatPaymentNumber()}{invoicePayment.invoice_payment_code} | Total: {invoicePayment.net_aggregate_paid}
@@ -232,7 +233,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                 {...register("currency")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                     <option key={currency.currency_code} value={currency.currency_code}>
                                         {currency.currency_code}
@@ -245,13 +246,14 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                             <p className={forms.label}>Agent</p>
                             <select className={forms.select.partial}
                                 {...register("agent")}>
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => agents.map((agent: AgentInterface) => (
                                         <option key={agent.name} value={agent.name}>
-                                            {agent.name}
+                                            {agent.name} | {agent.email}
                                         </option>
                                     )), [agents])}
                             </select>
+                            {errors.agent && <p className="text-amber-600 text-sm">{errors.agent?.message}</p>}
                         </div>
                     </div>
 

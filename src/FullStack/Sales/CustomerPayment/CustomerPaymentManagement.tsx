@@ -200,6 +200,10 @@ function CustomerPaymentManagement() {
 
 
     const handleAddCustomerPayment = async (customerPaymentData: CustomerPaymentInputs) => {
+        if (!customerPaymentData.account_received_in?.account_code) {
+            delete customerPaymentData.account_received_in;
+        }
+        
         console.log("🎯 RAW FORM DATA:", customerPaymentData);
 
 

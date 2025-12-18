@@ -20,7 +20,7 @@ import { management, spinningStyles } from "../constants/styles";
 
 
 import { CompanyPurchaseOrderInputs, 
-    CompanyPurchaseOrderResponse, EditCompanyPurchaseOrderInputs } from "../Interfaces";
+    CompanyPurchaseOrderResponse, EditCompanyPurchaseOrderInputs } from "../constants/Types";
 
 
 import CompanyPurchaseOrderDetails from "./CompanyPurchaseOrderDetails";
@@ -164,29 +164,32 @@ function CompanyPurchaseOrderManagement() {
     // ------------------------------------------------------------------------------------
                     // MUTATION USE
     
-    const toFormData = (obj, form = new FormData(), parentKey = '') => {
-        Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        const field = parentKey ? `${parentKey}.${key}` : key;
-        if (value === null || value === undefined) return;
-        if (Array.isArray(value)) {
-            value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-        } else if (value instanceof File) {
-            form.append(field, value);
-        } else if (typeof value === 'object') {
-            toFormData(value, form, field);
-        } else {
-            form.append(field, value);
-        }
-        });
-        return form;
-    };
+    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    //    Object.keys(obj).forEach(key => {
+    //    const value = obj[key];
+    //    const field = parentKey ? `${parentKey}.${key}` : key;
+    //    if (value === null || value === undefined) return;
+    //    if (Array.isArray(value)) {
+    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+    //    } else if (value instanceof File) {
+    //        form.append(field, value);
+    //    } else if (typeof value === 'object') {
+    //        toFormData(value, form, field);
+    //    } else {
+    //        form.append(field, value);
+    //    }
+    //    });
+    //    return form;
+    //};
 
 
 
 
 
     const handleAddCompanyPurchaseOrder = async (companyPurchaseOrderData: CompanyPurchaseOrderInputs) => {
+        if (!companyPurchaseOrderData.account?.account_code) {
+            delete companyPurchaseOrderData.account;
+        }
         console.log("🎯 RAW FORM DATA:", companyPurchaseOrderData)
 
         createCompanyPurchaseOrderMutation.mutate(companyPurchaseOrderData);

@@ -192,6 +192,17 @@ function InvoicePaymentManagement() {
 
 
   const handleAddInvoicePayment = async (invoicePaymentData: InvoicePaymentInputs) => {
+    if (!invoicePaymentData.account_received_in?.account_code) {
+      delete invoicePaymentData.account_received_in;
+    }
+    if (invoicePaymentData.related_invoice_payment) {
+      invoicePaymentData.related_invoice_payment = invoicePaymentData.related_invoice_payment?.filter(item =>
+        item.payment_date
+      );
+      if (invoicePaymentData.related_invoice_payment?.length === 0) {
+        delete invoicePaymentData.related_invoice_payment;
+    }
+    }
     console.log("RAW FORM DATA:", invoicePaymentData);
 
     createInvoicePaymentMutation.mutate(invoicePaymentData);

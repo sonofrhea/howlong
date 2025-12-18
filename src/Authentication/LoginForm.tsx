@@ -108,7 +108,7 @@ const Login = () => {
                     <Box className={"itemBox"}>
                         <MyButton 
                             type={"submit"}
-                            label={loading ? <span className={spinningStyles.terminalBar.spinner}>↻</span> : "Login"}
+                            label={loading ? <span className={spinningStyles.terminalBar.spinner}> ↻</span> : "Login"}
                             disabled={loading}
                         />
                     </Box>

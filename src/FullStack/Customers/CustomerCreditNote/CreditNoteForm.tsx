@@ -44,13 +44,14 @@ const CreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, custo
                     tax_amount: 0.00,
                     credit_note_lines: [
                         {
-                            description: "",
                             amount: 0.00,
+                            description: "",
                             tax_inclusive: false,
                             tax_amount: 0.00,
                             cancelled: false
                         }
-                    ]
+                    ],
+                    paid_amount: 0.00
                 }
             });
         
@@ -115,7 +116,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                 {...register("customer")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
                                         {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
@@ -131,7 +132,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                 className={forms.select.partial}
                                 onChange={controlAccountChange}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                     <option key={account.account_code} value={account.account_code}>
                                         {account.account_code} ({account.account_name})
@@ -147,10 +148,10 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             <p className={forms.label}>Agent</p>
                             <select className={forms.select.partial}
                                 {...register("agent")}>
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => agents.map((agent: AgentInterface) => (
                                         <option key={agent.name} value={agent.name}>
-                                            {agent.name}
+                                            {agent.name} | {agent.email}
                                         </option>
                                     )), [agents])}
                             </select>
@@ -162,7 +163,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                 {...register("related_payment")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() =>customerPayments.map((payment: CustomerPaymentResponse) => (
                                     <option key={payment.payment_number} value={payment.payment_number}>
                                         POST-{payment.payment_number} | Paid Amount: {payment.paid_amount}
@@ -193,7 +194,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                 {...register("currency")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                     <option key={currency.currency_code} value={currency.currency_code}>
                                         {currency.currency_code}

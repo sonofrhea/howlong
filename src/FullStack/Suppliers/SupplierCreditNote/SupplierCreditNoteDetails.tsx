@@ -108,12 +108,12 @@ const SupplierCreditNoteDetails: React.FC<any> = ({ supplierCreditNote, isLoadin
                                                 
                         <p>
                             <p className={details.extraSmallUppercase}>Account</p>
-                            {supplierCreditNote.account.account_code} - {supplierCreditNote.account.account_name}
+                            {supplierCreditNote.account.account_code || 'N/A'} - ({supplierCreditNote.account.account_name || 'N/A'})
                         </p>
                                                 
                         <p>
                             <p className={details.extraSmallUppercase}>Reference Supplier</p>
-                            {formatSupplierNumber()}{supplierCreditNote.supplier || 'N/A'} | {supplierCreditNote.supplier_name}
+                            {formatSupplierNumber()}{supplierCreditNote.supplier || 'N/A'} | {supplierCreditNote.supplier_name || 'N/A'}
                         </p>
                         
                         <p>

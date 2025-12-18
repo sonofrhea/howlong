@@ -108,9 +108,10 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                 <p className={forms.secondLevelLabel}>Invoice Due Date</p>
                                 <input 
                                     type="date"
-                                    {...register("invoice_due_date")}
+                                    {...register("invoice_due_date", {required: "Due date required"})}
                                     className={forms.input.date}
                                 />
+                                {errors.invoice_due_date && <p className="text-amber-600 text-sm">{errors.invoice_due_date?.message}</p>}
                             </div>
 
                             <div>
@@ -120,7 +121,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                     onChange={controlAccountChange}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                         <option key={account.account_code} value={account.account_code}>
                                             {account.account_code} ({account.account_name})
@@ -138,7 +139,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                     {...register("currency")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                         <option key={currency.currency_code} value={currency.currency_code}>
                                             {currency.currency_code}
@@ -153,7 +154,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                     {...register("supplier")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => supplierProfiles.map((supplier: SupplierProfileResponse) => (
                                         <option key={supplier.supplier_code} value={supplier.supplier_code}>
                                             {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
@@ -177,13 +178,14 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                     {...register("agent")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => agents.map((agent: AgentInterface) => (
                                         <option key={agent.name} value={agent.name}>
-                                            {agent.name}
+                                            {agent.name} | {agent.email}
                                         </option>
                                     )), [agents])}
                                 </select>
+                                {errors.agent && <p className="text-amber-600 text-sm">{errors.agent?.message}</p>}
                             </div>
                             
                             <div>
@@ -242,7 +244,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                         {...register(`related_invoice.${index}.item_name`)}
                                                         className={forms.select.full}
                                                     >
-                                                        <option value=""></option>
+                                                        <option value="">select...</option>
                                                         {productItems.map((product: ProductItemCreateResponse) => (
                                                             <option key={product.item_code} value={product.item_code}>
                                                                 SKU-{product.item_code} | {product.item_description}

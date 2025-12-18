@@ -121,12 +121,12 @@ const SupplierDebitNoteDetails: React.FC<any> = ({ supplierDebitNote, isLoading,
                         
                         <p>
                             <p className={details.extraSmallUppercase}>Account</p>
-                            {supplierDebitNote.account.account_code} - ({supplierDebitNote.account.account_name})
+                            {supplierDebitNote.account?.account_code || 'N/A'} - ({supplierDebitNote.account?.account_name || 'N/A'})
                         </p>
                         
                         <p>
                             <p className={details.extraSmallUppercase}>Reference Supplier</p>
-                            {formatSupplierNumber()}{supplierDebitNote.supplier || 'N/A'} | {supplierDebitNote.supplier_name}
+                            {formatSupplierNumber()}{supplierDebitNote.supplier || 'N/A'} | {supplierDebitNote.supplier_name || 'N/A'}
                         </p>
                         
                         <p>

@@ -15,7 +15,7 @@ import {
 
 
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
-import { fetchCurrencies, fetchAgents, fetchBanks } from "../../Core/Engines"
+import { fetchCurrencies, fetchBanks } from "../../Core/Engines"
 
 
 
@@ -69,11 +69,6 @@ function CustomerManagement() {
   const { data: accounts = [] } = useQuery({
     queryKey: ['accounts'],
     queryFn: fetchChartOfAccounts
-  });
-
-  const { data: agents = [] } = useQuery({
-    queryKey: ['agents'],
-    queryFn: fetchAgents
   });
 
   const { data: banks = [] } = useQuery({
@@ -497,7 +492,6 @@ return (
                   onCancel={() => setView('list')}
                   currencies={currencies}
                   accounts={accounts}
-                  agents={agents}
                   banks={banks}
                 />
                 {createCustomersMutation.isError && (

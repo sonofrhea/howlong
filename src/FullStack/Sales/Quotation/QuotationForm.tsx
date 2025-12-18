@@ -44,8 +44,9 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                 cancelled: false,
                 related_quotation: [
                     {
-                       price_per_unit: 0.00,
-                       cancelled: false, 
+                        quantity: 1.00,
+                        price_per_unit: 0.00,
+                        cancelled: false, 
                     }
                 ],
                 tax_inclusive: false,
@@ -127,7 +128,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                             {...register("customer")}
                             className={forms.select.partial}
                         >
-                            <option value=""></option>
+                            <option value="">select...</option>
                             {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
                                     {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
@@ -151,10 +152,10 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                 {...register("agent")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => agents.map((agent: AgentInterface) => (
                                     <option key={agent.name} value={agent.name}>
-                                        {agent.name}
+                                        {agent.name} | {agent.email}
                                     </option>
                                 )), [agents])}
                             </select>
@@ -216,7 +217,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                     {...register(`related_quotation.${index}.item`)}
                                                     className={forms.select.full}
                                                 >
-                                                    <option value=""></option>
+                                                    <option value="">select...</option>
                                                     {productOptions}
                                                 </select>
                                             </td>
@@ -263,7 +264,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                     {...register(`related_quotation.${index}.currency`)}
                                                     className={forms.select.full}
                                                 >
-                                                    <option value=""></option>
+                                                    <option value="">select...</option>
                                                     {currencies.map((currency: CurrencyInterface) => (
                                                         <option key={currency.currency_code} value={currency.currency_code}>
                                                             {currency.currency_code}

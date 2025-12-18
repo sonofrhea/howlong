@@ -182,6 +182,17 @@ function SupplierPaymentManagement() {
 
 
     const handleAddSupplierPayment = async (supplierPaymentData: SupplierPaymentInputs) => {
+        if (!supplierPaymentData.account_code?.account_code) {
+            delete supplierPaymentData.account_code;
+        }
+        if (supplierPaymentData.related_payment) {
+            supplierPaymentData.related_payment = supplierPaymentData.related_payment?.filter(
+                item => item.payment_date
+            );
+            if (supplierPaymentData.related_payment?.length === 0) {
+                delete supplierPaymentData.related_payment;
+            }
+            }
         console.log("🎯 RAW FORM DATA:", supplierPaymentData);
 
 

@@ -183,6 +183,17 @@ function RefundManagement() {
 
 
     const handleAddRefund = async (refundData: CustomerRefundInputs) => {
+        if (!refundData.payment_account?.account_code) {
+            delete refundData.payment_account;
+        }
+        if (refundData.related_customer_refund) {
+            refundData.related_customer_refund = refundData.related_customer_refund?.filter(item => 
+                item.date
+            );
+            if (refundData.related_customer_refund?.length === 0) {
+                delete refundData.related_customer_refund;
+            }
+        }
         console.log("🎯 RAW FORM DATA:", refundData)
 
         createRefundMutation.mutate(refundData);

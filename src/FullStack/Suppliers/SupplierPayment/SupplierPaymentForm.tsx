@@ -53,6 +53,7 @@ const formatInvoiceNumber = () => {
 
 
 
+
 const SupplierPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, currencies, 
     accounts, agents, supplierInvoices, supplierProfiles }) => {
 
@@ -62,6 +63,7 @@ const SupplierPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                 defaultValues: {
                     related_payment: [
                         {
+                            payment_type: 'Cash',
                             payment_amount: 0.00,
                             additional_payment: 0.00,
                             cancelled: false
@@ -134,9 +136,10 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                             <p className="px-2 py-1 text-center tracking-widest text-xs font-semibold uppercase">Posted Date</p>
                             <input 
                                 type="date"
-                                {...register("date_created")}
+                                {...register("date_created", {required: "Date is required"})}
                                 className="px-3 py-2 border hover:cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors"
                             />
+                            {errors.date_created && <p className="text-amber-600 text-sm">{errors.date_created?.message}</p>}
                         </div>
 
                         <div>
@@ -146,7 +149,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                 onChange={controlAccountChange}
                                 className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                     <option key={account.account_code} value={account.account_code}>
                                         {account.account_code} ({account.account_name})
@@ -164,7 +167,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                 {...register("currency")}
                                 className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                     <option key={currency.currency_code} value={currency.currency_code}>
                                         {currency.currency_code}
@@ -179,7 +182,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                 {...register("supplier")}
                                 className="w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => supplierProfiles.map((supplier: SupplierProfileResponse) => (
                                     <option key={supplier.supplier_code} value={supplier.supplier_code}>
                                     {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
@@ -195,7 +198,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                 onChange={invoicePaymentChange}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => supplierInvoices.map((invoice: SupplierInvoiceResponse) => (
                                     <option key={invoice.invoice_number} value={invoice.invoice_number}>
                                         {formatInvoiceNumber()}{invoice.invoice_number} | Total: {invoice.aggregate_total}
@@ -222,16 +225,17 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                         <div>
                             <p className={forms.label}>Agent</p>
                             <select
-                                {...register("created_by")}
+                                {...register("created_by", {required: "creator is required"})}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => agents.map((agent: AgentInterface) => (
                                     <option key={agent.name} value={agent.name}>
-                                        {agent.name}
+                                        {agent.name} | {agent.email}
                                     </option>
                                 )), [agents])}
                             </select>
+                            {errors.created_by && <p className="text-amber-600 text-sm">{errors.created_by?.message}</p>}
                         </div>
                     </div>
 
@@ -282,7 +286,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                                     {...register(`related_payment.${index}.payment_type`)}
                                                     className={forms.select.small}
                                                 >
-                                                    <option value=""></option>
+                                                    <option value="">select...</option>
                                                     {PAYMENT_TYPE_OPTIONS.map(option => (
                                                         <option key={option.value} value={option.value}>
                                                             {option.label}

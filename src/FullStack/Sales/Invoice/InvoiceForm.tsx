@@ -94,9 +94,10 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                             <p className={forms.label}>Due Date</p>
                             <input 
                                 type="date"
-                                {...register("invoice_due_date")}
+                                {...register("invoice_due_date", {required: "Due date is required"})}
                                 className={forms.input.date}
                             />
+                            {errors.invoice_due_date && <p className="text-amber-600 text-sm">{errors.invoice_due_date?.message}</p>}
                         </div>
                     
                         <div>
@@ -105,7 +106,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                 {...register("customer")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
                                         {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
@@ -138,13 +139,14 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                 {...register("agent")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => agents.map((agent: AgentInterface) => (
                                     <option key={agent.name} value={agent.name}>
-                                        {agent.name}
+                                        {agent.name} | {agent.email}
                                     </option>
                                 )), [agents])}
                             </select>
+                            {errors.agent && <p className="text-amber-600 text-sm">{errors.agent?.message}</p>}
                         </div>
                     </div>
 
@@ -157,7 +159,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                 {...register("project")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                     <option key={project.project_code} value={project.project_code}>
                                         {project.project_name} - {formatProjectNumber()}{project.project_code}
@@ -173,7 +175,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                 {...register("currency")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                     <option key={currency.currency_code} value={currency.currency_code}>
                                         {currency.currency_code}
@@ -236,7 +238,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                                     {...register(`related_invoice.${index}.item`)}
                                                     className={forms.select.small}
                                                 >
-                                                    <option value=""></option>
+                                                    <option value="">select...</option>
                                                     {productOptions}
                                                 </select>
                                             </td>

@@ -66,24 +66,24 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
 
                 <div className="grid grid-cols-3 gap-6">
                     <div>
-                        <p className="text-center tracking-[0.1em] text-xs font-semibold uppercase">Payment No</p>
+                        <p className="text-center tracking-widest text-xs font-semibold uppercase">Payment No</p>
                         <p className="text-sm font-medium text-gray-700">POST-{customerPayment.payment_number}</p>
 
-                        <p className="text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Posted Date</p>
+                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Posted Date</p>
                         <p className="text-sm font-medium text-gray-700">{formatDate(customerPayment.date)}</p>
 
-                        <p className="text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Account received in</p>
-                        <p className="text-sm font-medium text-gray-700">{customerPayment.account_received_in}</p>
+                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Account received in</p>
+                        <p className="text-sm font-medium text-gray-700">{customerPayment.account_received_in || 'N/A'}</p>
                     </div>
 
                     <div>
-                        <p className="text-center tracking-[0.1em] text-xs font-semibold uppercase ">Customer</p>
-                        <p className="text-sm font-medium text-gray-700">{customerPayment.customer_name}</p>
+                        <p className="text-center tracking-widest text-xs font-semibold uppercase ">Customer</p>
+                        <p className="text-sm font-medium text-gray-700">{customerPayment.customer_name || 'N/A'}</p>
 
-                        <p className="text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Project</p>
-                        <p className="text-sm font-medium text-gray-700">{customerPayment.project_name}</p>
+                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Project</p>
+                        <p className="text-sm font-medium text-gray-700">{customerPayment.project_name || 'N/A'}</p>
 
-                        <p className="text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Completed</p>
+                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Completed</p>
                         <p className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                             customerPayment.completed ? 
                             'bg-green-100 text-green-900 drop-shadow-md shadow-inner border-collapse border-green-200' : 
@@ -94,11 +94,11 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
                     </div>
 
                     <div>
-                        <p className="text-center tracking-[0.1em] text-xs font-semibold uppercase">Agent</p>
+                        <p className="text-center tracking-widest text-xs font-semibold uppercase">Agent</p>
                         <p className="text-sm font-medium text-gray-700">{customerPayment.agent}</p>
 
-                        <p className="text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4">Currency</p>
-                        <p className="text-sm font-medium text-gray-700">{customerPayment.currency}</p>
+                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Currency</p>
+                        <p className="text-sm font-medium text-gray-700">{customerPayment.currency || 'N/A'}</p>
                     </div>
                 </div>
 
@@ -108,14 +108,14 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
                     <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                         <thead className="bg-blue-100 drop-shadow-md shadow-lg">
                         <tr>
-                            <th className="px-4 py-3 text-center tracking-[0.1em] text-xs font-semibold uppercase">Description</th>
-                            <th className="px-4 py-3 text-center tracking-[0.1em] text-xs font-semibold uppercase">Cancelled</th>
-                            <th className="px-4 py-3 text-center tracking-[0.1em] text-xs font-semibold uppercase">Paid Amount</th>
+                            <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Description</th>
+                            <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Cancelled</th>
+                            <th className="px-4 py-3 text-center tracking-widest text-xs font-semibold uppercase">Paid Amount</th>
                         </tr>
                         </thead>
                         <tbody className="border border-gray-200">
                         <tr className="border-b border-gray-100">
-                            <td className="px-4 py-3 text-gray-700">{customerPayment.description}</td>
+                            <td className="px-4 py-3 text-gray-700">{customerPayment.description || 'N/A'}</td>
                             <td className={`px-4 py-3 text-gray-700 ${
                                 customerPayment.cancelled ? 
                                 ' text-red-700' : 
@@ -134,17 +134,17 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
                         <div className="bg-gray-100 p-8 rounded-lg drop-shadow-md shadow-lg">
                             <div className="flex justify-between text-sm text-gray-600 mt-2">
                             <span>Amount Posted</span>
-                            <span className="font-semibold text-gray-800">RM {customerPayment.paid_amount}</span>
+                            <span className="font-semibold text-gray-800">RM {customerPayment.paid_amount || 'N/A'}</span>
                             </div>
 
                             <div className="flex justify-between text-sm text-gray-600 mt-2">
                             <span>Additional bank charges</span>
-                            <span className="font-semibold text-gray-800">RM {customerPayment.additional_bank_charges}</span>
+                            <span className="font-semibold text-gray-800">RM {customerPayment.additional_bank_charges || 'N/A'}</span>
                             </div>
 
                             <div className="border-t border-dashed border-blue-300 mt-3 pt-3 flex justify-between items-center">
                             <span>Outstanding</span>
-                            <span className="font-semibold text-gray-800">RM {customerPayment.outstanding}</span>
+                            <span className="font-semibold text-gray-800">RM {customerPayment.outstanding || 'N/A'}</span>
                             </div>
                         </div>
                     </div>

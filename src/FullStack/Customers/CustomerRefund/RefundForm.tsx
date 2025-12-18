@@ -54,8 +54,10 @@ const RefundForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers
                     tax_amount: 0.00,
                     related_customer_refund: [
                         {
+                            payment_type: 'Cash' as any,
                             refund_amount: 0.00,
-                            additional_charges: 0.00
+                            additional_charges: 0.00,
+                            cancelled: false
                         }
                     ]
                 }
@@ -108,9 +110,10 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             <p className={forms.label}>Date</p>
                             <input 
                                 type="date"
-                                {...register("date")}
+                                {...register("date", {required: "Date is required"})}
                                 className={forms.input.date}
                             />
+                            {errors.date && <p className="text-amber-600 text-sm">{errors.date?.message}</p>}
                         </div>
                         
                         <div>
@@ -119,7 +122,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                 {...register("pay_to")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
                                         {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
@@ -135,7 +138,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                 className={forms.select.partial}
                                 onChange={controlAccountChange}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                     <option key={account.account_code} value={account.account_code}>
                                         {account.account_code} ({account.account_name})
@@ -153,7 +156,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                 {...register("related_credit_note")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => creditNotes.map((creditNotes: CreditNoteCreateResponse) => (
                                     <option key={creditNotes.credit_note_number} value={creditNotes.credit_note_number}>
                                         {formatCreditNoteNumber()}{creditNotes.credit_note_number} | Outstanding: {creditNotes.credit_note_outstanding || '--'}
@@ -184,7 +187,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                 {...register("currency")}
                                 className={forms.select.partial}
                             >
-                                <option value=""></option>
+                                <option value="">select...</option>
                                 {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                     <option key={currency.currency_code} value={currency.currency_code}>
                                         {currency.currency_code}
@@ -197,13 +200,14 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             <p className={forms.label}>Agent</p>
                             <select className={forms.select.partial}
                                 {...register("agent")}>
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => agents.map((agent: AgentInterface) => (
                                         <option key={agent.name} value={agent.name}>
-                                            {agent.name}
+                                            {agent.name} | {agent.email}
                                         </option>
                                     )), [agents])}
                             </select>
+                            {errors.agent && <p className="text-amber-600 text-sm">{errors.agent?.message}</p>}
                         </div>
                     </div>
 
@@ -214,12 +218,13 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             <table className={tables.base}>
                                 <colgroup>
                                     {[
-                                        'w-1/5 text-center',
-                                        'w-1/5 text-center',
-                                        'w-1/5 text-center',
-                                        'w-1/5 text-center',
-                                        'w-1/5 text-center',
-                                        'w-[9%] text-center',
+                                        'w-1/6 text-center',
+                                        'w-1/6 text-center',
+                                        'w-1/6 text-center',
+                                        'w-1/6 text-center',
+                                        'w-1/6 text-center',
+                                        'w-1/6 text-center',
+                                        'w-[7%] text-center',
                                     ].map((line, index) => (
                                         <col key={index} className={line} />
                                     ))}
@@ -231,7 +236,8 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                         <th className={tables.headerCell}>Additional Charges</th>
                                         <th className={tables.headerCell}>Payment Type</th>
                                         <th className={tables.headerCell}>Total</th>
-                                        <th></th>
+                                        <th className={tables.headerCell}>Cancelled</th>
+                                        <th className={tables.headerCell}></th>
                                     </tr>
                                 </thead>
 
@@ -242,7 +248,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                                 <input 
                                                     type="date"
                                                     {...register(`related_customer_refund.${index}.date`)}
-                                                    className={forms.input.date}
+                                                    className={forms.select.full}
                                                 />
                                             </td>
 
@@ -278,9 +284,9 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                             <td className={forms.label}>
                                                 <select
                                                     {...register(`related_customer_refund.${index}.payment_type`)}
-                                                    className={forms.select.partial}
+                                                    className={forms.select.full}
                                                 >
-                                                    <option value=""></option>
+                                                    <option value="">select...</option>
                                                     {REFUND_TYPE_OPTIONS.map(option => (
                                                         <option key={option.value} value={option.value}>
                                                             {option.label}
@@ -296,6 +302,14 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                                 )}
                                             </td>
                                             
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    {...register(`related_customer_refund.${index}.cancelled`)}
+                                                    type="checkbox"
+                                                    className={forms.input.base}
+                                                />
+                                            </td>
+                                            
                                             <td>
                                                 <button
                                                     type="button"
@@ -309,7 +323,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                         </tr>
                                     ))}
                                     <tr>
-                                        <td>
+                                        <td className={tables.headerCell}>
                                             <button
                                                 type="button"
                                                 onClick={() => append({
@@ -321,7 +335,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                                 })}
                                                 className={buttons.addLine}
                                             >
-                                                + Add New Line
+                                                ++ New Line
                                             </button>
                                         </td>
                                     </tr>

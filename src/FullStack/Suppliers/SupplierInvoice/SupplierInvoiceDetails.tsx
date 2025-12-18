@@ -90,29 +90,29 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
                         <p className="text-sm font-medium text-black">{formatDate(supplierInvoice.invoice_date)}</p>
 
                         <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Payment Account</p>
-                        <p className="text-sm font-medium text-black">{supplierInvoice.purchase_account.account_code} - {supplierInvoice.purchase_account.account_name}</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.purchase_account?.account_code || 'N/A'} - ({supplierInvoice.purchase_account?.account_name || 'N/A'})</p>
                     </div>
 
                     <div>
                         <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Supplier</p>
-                        <p className="text-sm font-medium text-black">{supplierInvoice.supplier_name}</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.supplier_name || 'N/A'}</p>
                         
                         <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Supplier Extra Details</p>
-                        <p className="text-sm font-medium text-black">{supplierInvoice.supplier_details}</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.supplier_details || 'N/A'}</p>
 
                         <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Product</p>
-                        <p className="text-sm font-medium text-black">{supplierInvoice.product}</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.product || 'N/A'}</p>
                     </div>
 
                     <div>
                         <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Currency</p>
-                        <p className="text-sm font-medium text-black">{supplierInvoice.currency}</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.currency || 'N/A'}</p>
 
                         <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Invoice Due Date</p>
                         <p className="text-sm font-medium text-black">{supplierInvoice.invoice_due_date}</p>
 
                         <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Agent</p>
-                        <p className="text-sm font-medium text-black">{supplierInvoice.agent}</p>
+                        <p className="text-sm font-medium text-black">{supplierInvoice.agent || 'N/A'}</p>
                     </div>
                 </div>
 
@@ -140,13 +140,13 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
                                 <tbody className="bg-white divide-y divide-gray-100">
                                     {supplierInvoice.related_invoice.map((line: any, index: any) => (
                                         <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
-                                            <td className={tables.cell}>SKU-{line.item} | {line.item_name}</td>
-                                            <td className={tables.cell}>{line.description}</td>
-                                            <td className={tables.cell}>{line.quantity}</td>
-                                            <td className={tables.cell}>{line.unit_of_measure}</td>
-                                            <td className={tables.cell}>{line.price_per_unit}</td>
+                                            <td className={tables.cell}>SKU-{line.item || 'N/A'} | {line.item_name || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.description || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.quantity || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.unit_of_measure || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.price_per_unit || 'N/A'}</td>
                                             <td className={tables.cell}>{line.total}</td>
-                                            <td className={tables.cell}>{line.tax_amount}</td>
+                                            <td className={tables.cell}>{line.tax_amount || 0}</td>
                                             <td className={tables.cell}>{line.sub_total}</td>
                                             <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                         </tr>
@@ -161,7 +161,7 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
                                     <div>Gross Total</div>
-                                    <div className="font-medium text-gray-800">{supplierInvoice.gross_total}</div>
+                                    <div className="font-medium text-gray-800">{supplierInvoice.gross_total || 'N/A'}</div>
                                 </div>
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
@@ -171,7 +171,7 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
                                     <div>Tax %</div>
-                                    <div className="font-medium text-gray-800">{supplierInvoice.tax_amount}%</div>
+                                    <div className="font-medium text-gray-800">{supplierInvoice.tax_amount || 'N/A'}%</div>
                                 </div>
 
                                 <div className="border-t border-dashed border-blue-500 mt-3 pt-3 flex justify-between items-center">

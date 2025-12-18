@@ -91,11 +91,11 @@ export type SupplierProfileInputs = {
     buy: number | null;
     sell: number | null;
   };
-  control_account: {
-    account_code: number;
-    account_name: string;
-    account_type: string;
-  };
+  control_account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   address: string;
   country: keyof typeof COUNTRY_OPTIONS;
   post_code: string;
@@ -194,19 +194,19 @@ export type SupplierPaymentInputs = {
   date_created: string;
   supplier: string;
   supplier_name: string;
-  account_code: {
-    account_code: number;
-    account_name: string;
-    account_type: string;
-  };
+  account_code?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   currency: string;
-  related_payment: Array <{
-    payment_date: string;
-    payment_type: string;
-    payment_amount: number;
-    additional_payment: number;
-    cancelled: boolean;
-  }>;
+  related_payment?: Array <{
+    payment_date?: string | null;
+    payment_type?: string | null;
+    payment_amount?: number | null;
+    additional_payment?: number | null;
+    cancelled?: boolean | null;
+  }> | null;
   related_invoice: string;
   invoice_amount: number;
   tax_inclusive: boolean;
@@ -264,23 +264,23 @@ export type SupplierInvoiceInputs = {
   supplier_name: string;
   supplier_details: string;
   currency: string;
-  purchase_account: {
-    account_code: number;
-    account_name: string;
-    account_type: string;
-  },
+  purchase_account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   agent: string;
   product: string;
-  related_invoice: Array <{
-    item_name: string;
-    description: string;
-    quantity: number;
-    unit_of_measure: string;
-    price_per_unit: number;
-    tax_inclusive: boolean;
-    tax_amount: number;
-    cancelled: boolean;
-  }>
+  related_invoice?: Array <{
+    item_name?: string | null;
+    description?: string | null;
+    quantity?: number | null;
+    unit_of_measure?: string | null;
+    price_per_unit?: number | null;
+    tax_inclusive?: boolean | null;
+    tax_amount?: number | null;
+    cancelled?: boolean | null;
+  }> | null;
   tax_inclusive: boolean;
   tax_amount: number;
   cancelled: boolean;
@@ -392,10 +392,10 @@ export type SupplierCreditNoteInputs = {
   supplier: string;
   supplier_name: string;
   description: string;
-  account: {
-    account_code: number | null;
-    account_name: string | null;
-    account_type: string | null;
+  account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
   } | null;
   related_invoice: string;
   related_invoice_total: number;

@@ -114,22 +114,22 @@ const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) =
                         
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Customer</p>
-                            {formatCustomerNumber()}{invoice.customer} | {invoice.customer_name}
+                            {formatCustomerNumber()}{invoice.customer || 'N/A'} | {invoice.customer_name || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Customer Extra Details</p>
-                            {invoice.customer_details}
+                            {invoice.customer_details || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Description</p>
-                            {invoice.description}
+                            {invoice.description || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Currency</p>
-                            {invoice.currency}
+                            {invoice.currency || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
@@ -183,24 +183,24 @@ const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) =
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Gross Total</div>
-                                        <div className="font-medium text-gray-800">{invoice.gross_total}</div>
+                                        <div className="font-medium text-gray-800">{invoice.gross_total || 'N/A'}</div>
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Discount %</div>
-                                        <div className="font-medium text-gray-800">{invoice.discount_amount}%</div>
+                                        <div className="font-medium text-gray-800">{invoice.discount_amount || 'N/A'}%</div>
                                     </div>
 
                                     <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                         <div>Tax %</div>
-                                        <div className="font-medium text-gray-800">{invoice.tax_amount}%</div>
+                                        <div className="font-medium text-gray-800">{invoice.tax_amount || 'N/A'}%</div>
                                     </div>
 
                                     <div className="border-t border-dashed border-blue-500 mt-3 pt-3 flex justify-between items-center"></div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Net Total</div>
-                                        <div className="text-xl font-bold text-gray-900">{invoice.net_total}</div>
+                                        <div className="text-xl font-bold text-gray-900">{invoice.net_total || 'N/A'}</div>
                                     </div>
 
                                     </div>

@@ -125,7 +125,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     className={forms.select.partial}
                                     onChange={accountChange}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                         <option key={account.account_code} value={account.account_code}>
                                             {account.account_code} ({account.account_name})
@@ -143,7 +143,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     {...register("supplier")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => SupplierProfiles.map((supplier: SupplierProfileResponse) => (
                                         <option key={supplier.supplier_code} value={supplier.supplier_code}>
                                             {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
@@ -159,7 +159,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     className={forms.select.partial}
                                     onChange={invoiceTotalChange}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => SupplierInvoices.map((invoice: SupplierInvoiceResponse) => (
                                         <option key={invoice.invoice_number} value={invoice.invoice_number}>
                                             {formatSupplierInvoiceNumber()}{invoice.invoice_number} | Total:  {invoice.aggregate_total}
@@ -189,7 +189,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     {...register("currency")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                         <option key={currency.currency_code} value={currency.currency_code}>
                                             {currency.currency_code}
@@ -204,10 +204,10 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     {...register("agent")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => agents.map((agent: AgentInterface) => (
                                         <option key={agent.name} value={agent.name}>
-                                            {agent.name}
+                                            {agent.name} | {agent.email}
                                         </option>
                                     )), [agents])}
                                 </select>
@@ -271,7 +271,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                                         {...register(`related_debit_note.${index}.debit_note_item`)}
                                                         className={forms.select.full}
                                                     >
-                                                        <option value=""></option>
+                                                        <option value="">select...</option>
                                                         {productOptions}
                                                     </select>
                                                 </td>

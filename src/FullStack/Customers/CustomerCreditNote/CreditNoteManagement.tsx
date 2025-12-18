@@ -183,6 +183,17 @@ function CreditNoteManagement() {
 
 
   const handleAddCreditNote = async (creditNoteData: CreditNoteInputs) => {
+    if (!creditNoteData.account?.account_code) {
+      delete creditNoteData.account;
+    }
+    if (creditNoteData.credit_note_lines) {
+      creditNoteData.credit_note_lines = creditNoteData.credit_note_lines?.filter(item => 
+        item.date
+      );
+      if (creditNoteData.credit_note_lines?.length === 0) {
+        delete creditNoteData.credit_note_lines;
+      }
+    }
     console.log("🎯 RAW FORM DATA:", creditNoteData)
 
 
@@ -240,11 +251,10 @@ function CreditNoteManagement() {
 
   const filteredCreditNotes = creditNotes.filter((creditNote: any) => {
     const creditNoteNumber = String(creditNote.credit_note_number)?.toLowerCase() || '';
-    const customerName = creditNote.customer.toLowerCase() || '';
     const agentName = creditNote.agent.toLowerCase() || '';
     const search = searchTerm.toLowerCase();
     
-    return creditNoteNumber.includes(search) || customerName.includes(search) || agentName.includes(search);
+    return creditNoteNumber.includes(search) || agentName.includes(search);
 });
 
   // ------------------------------------------------------------------------------------

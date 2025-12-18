@@ -195,10 +195,11 @@ function QuotationManagement() {
 
 
     const handleAddQuotation = async (quotationData: QuotationInputs) => {
+        if (quotationData.related_quotation?.length === 0) {
+            delete quotationData.related_quotation;
+        }
         console.log("🎯 RAW FORM DATA:", quotationData);
-
         
-
 
         createQuotationMutation.mutate(quotationData);
     };

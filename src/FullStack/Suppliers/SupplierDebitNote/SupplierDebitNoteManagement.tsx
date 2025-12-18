@@ -193,6 +193,9 @@ function SupplierDebitNoteManagement() {
 
 
     const handleAddSupplierDebitNote = async (supplierDebitNoteData: SupplierDebitNoteInputs) => {
+        if (!supplierDebitNoteData.account?.account_code) {
+            delete supplierDebitNoteData.account;
+        }
         console.log("🎯 RAW FORM DATA:", supplierDebitNoteData)
 
         createSupplierDebitNoteMutation.mutate(supplierDebitNoteData);

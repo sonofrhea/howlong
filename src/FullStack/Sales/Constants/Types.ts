@@ -44,17 +44,17 @@ export type QuotationInputs = {
   agent: string;
   project_description: string;
   cancelled: boolean;
-  related_quotation: Array<{
-    item: string;
-    description: string;
-    quantity: number;
-    unit_of_measure: string;
-    price_per_unit: number;
-    currency: string;
-    cancelled: boolean;
-    tax_inclusive: boolean;
-    tax_amount: number;
-  }>
+  related_quotation?: Array<{
+    item?: string | null;
+    description?: string | null;
+    quantity?: number | null;
+    unit_of_measure?: string | null;
+    price_per_unit?: number | null;
+    currency?: string | null;
+    cancelled?: boolean | null;
+    tax_inclusive?: boolean | null;
+    tax_amount?: number | null;
+  }> | null;
   tax_inclusive: boolean;
   tax_amount: number;
   discount: number;
@@ -113,16 +113,16 @@ export type InvoiceInputs = {
   project_name: string;
   discount: boolean;
   discount_amount: number;
-  related_invoice: Array<{
-    item: string;
-    description: string;
-    quantity: number;
-    unit_of_measure: string;
-    price_per_unit: number;
-    tax_inclusive: boolean;
-    tax_amount: number;
-    cancelled: boolean;
-  }>
+  related_invoice?: Array<{
+    item?: string | null;
+    description?: string | null;
+    quantity?: number | null;
+    unit_of_measure?: string | null;
+    price_per_unit?: number | null;
+    tax_inclusive?: boolean | null;
+    tax_amount?: number | null;
+    cancelled?: boolean | null;
+  }> | null;
   cancelled: boolean;
   created_by: string;
 };
@@ -183,11 +183,11 @@ export type CustomerPaymentInputs = {
   related_payment: string;
   related_payment_paid_amount: string;
   related_payment_outstanding: string;
-  account_received_in: {
-    account_code: number;
-    account_name: string;
-    account_type: string;
-  };
+  account_received_in?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   currency: string;
   description: string;
   paid_amount: number;
@@ -240,25 +240,25 @@ export type InvoicePaymentInputs = {
   date_created: string;
   related_invoice: number;
   related_invoice_details: string;
-  account_received_in: {
-    account_code: number;
-    account_name: string;
-    account_type: string;
-  };
+  account_received_in?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   currency: string;
   related_invoice_total: number;
   tax_inclusive: boolean;
   tax_amount: number;
   cancelled: boolean;
-  related_invoice_payment: Array<{
-    payment_date: string;
-    payment_type: keyof typeof PAYMENT_TYPE_OPTIONS;
+  related_invoice_payment?: Array<{
+    payment_date?: string | null;
+    payment_type?: keyof typeof PAYMENT_TYPE_OPTIONS | null;
     //payment_amount: number;
-    tax_inclusive: boolean;
-    tax_amount: number;
-    total: number;
-    cancelled: boolean;
-  }>;
+    tax_inclusive?: boolean | null;
+    tax_amount?: number | null;
+    total?: number | null;
+    cancelled?: boolean | null;
+  }> | null;
   gross_paid: number;
   net_aggregate_paid: number;
   outstanding_amount: number;

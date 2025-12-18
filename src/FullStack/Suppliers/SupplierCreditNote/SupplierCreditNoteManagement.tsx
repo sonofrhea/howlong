@@ -186,6 +186,9 @@ function SupplierCreditNoteManagement() {
 
 
     const handleAddSupplierCreditNote = async (supplierCreditNoteData: SupplierCreditNoteInputs) => {
+        if (!supplierCreditNoteData.account?.account_code) {
+            delete supplierCreditNoteData.account;
+        }
         console.log("🎯 RAW FORM DATA:", supplierCreditNoteData)
 
         createSupplierCreditNoteMutation.mutate(supplierCreditNoteData);

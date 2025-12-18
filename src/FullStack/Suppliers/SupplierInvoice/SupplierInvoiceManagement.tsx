@@ -167,6 +167,12 @@ function SupplierInvoiceManagement() {
 
 
     const handleAddSupplierInvoice = async (supplierInvoiceData: SupplierInvoiceInputs) => {
+        if (!supplierInvoiceData.purchase_account?.account_code) {
+            delete supplierInvoiceData.purchase_account;
+        }
+        if (supplierInvoiceData.related_invoice?.length === 0) {
+            delete supplierInvoiceData.related_invoice;
+        }
         console.log("🎯 RAW FORM DATA:", supplierInvoiceData)
 
 

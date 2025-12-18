@@ -122,7 +122,7 @@ const CreditNoteDetails: React.FC<any> = ({ creditNote, isLoading, onBack, onEdi
 
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Bill To...</p>
-                            {formatCustomerNumber()}{creditNote.customer} | {creditNote.customer_name || 'N/A'}
+                            {formatCustomerNumber()}{creditNote.customer || 'N/A'} | {creditNote.customer_name || 'N/A'}
                         </p>
 
                         <p className={labelStyles}>
