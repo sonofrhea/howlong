@@ -173,13 +173,14 @@ export type DebitNoteInputs = {
     description: string;
     amount: number;
     tax_inclusive: boolean;
-    tax_amount: number;
+    tax_amount: number | 0.00;
     cancelled: boolean;
   }>
   tax_inclusive: boolean;
-  tax_amount: number;
+  tax_amount: number | 0.00;
   agent: string;
   currency: string | null;
+  cancelled: boolean;
 }
 
 export type DebitNoteCreateResponse = {

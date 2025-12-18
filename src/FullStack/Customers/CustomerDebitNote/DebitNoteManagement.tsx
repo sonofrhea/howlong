@@ -146,12 +146,23 @@ function DebitNoteManagement() {
 // ------------------------------------------------------------------------------------
               // DELETE
 
-  const deleteDebitNoteMutation = useMutation({
-    mutationFn: deleteDebitNote,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['debitNotes'] });
-    }
-  });
+const deleteDebitNoteMutation = useMutation({
+  mutationFn: deleteDebitNote,
+  onMutate: async (debitNoteId) => {
+    await queryClient.cancelQueries({ queryKey: ['debitNotes'] });
+    const previous = queryClient.getQueryData(['debitNotes']);
+    queryClient.setQueryData(['debitNotes'], (old: any[]) =>
+      old?.filter(d => d.debit_note_number !== debitNoteId) ?? []
+    );
+    return { previous };
+  },
+  onError: (err, debitNoteId, context) => {
+    queryClient.setQueryData(['debitNotes'], context?.previous);
+  },
+  onSettled: () => {
+    queryClient.invalidateQueries({ queryKey: ['debitNotes'] });
+  },
+});
 
 // ------------------------------------------------------------------------------------
                 // MUTATION USE

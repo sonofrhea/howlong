@@ -124,3 +124,16 @@ export const supplierDebitNoteInvoiceTotal = (supplierInvoices: SupplierInvoiceR
     }
   }
 }
+
+
+
+export const supplierCreditNoteInvoiceTotal = (supplierInvoices: SupplierInvoiceResponse[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const invoiceNumber = Number(e.target.value)
+    const selectedInvoice = supplierInvoices.find(a => a.invoice_number === invoiceNumber)
+
+    if (selectedInvoice) {
+      setValue("related_invoice_total", selectedInvoice.aggregate_total)
+    }
+  }
+}

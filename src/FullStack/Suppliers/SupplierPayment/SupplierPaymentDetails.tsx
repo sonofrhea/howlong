@@ -42,7 +42,7 @@ const SupplierPaymentDetails: React.FC<any> = ({ supplierPayment, isLoading, onB
     if (isLoading) {
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto">↺</div>
                 <p className="mt-3 text-gray-600">Loading payment...</p>
             </div>
         );

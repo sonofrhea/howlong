@@ -49,7 +49,7 @@ function SuppliersDashboard() {
             name: 'Supplier Credit Note',
             description: 'Manage Supplier Credit Notes',
             path: '/suppliers/supplier-credit-notes',
-            available: false
+            available: true
         },
     ];
 

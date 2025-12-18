@@ -1,7 +1,8 @@
 import React from "react";
+import { SupplierCreditNoteList } from "../constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
@@ -10,13 +11,27 @@ const formatNumber = () => {
     return `SCN-${currentYear}-`;
 };
 
-const SupplierCreditNoteTable = ({ supplierCreditNotes, onSupplierCreditNoteClick, onEditSupplierCreditNote,
+const formatSupplierInvoiceNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `SI-${currentYear}-`;
+};
+
+
+
+
+
+
+
+
+
+
+const SupplierCreditNoteTable: React.FC<any> = ({ supplierCreditNotes, onSupplierCreditNoteClick, onEditSupplierCreditNote,
     onDeleteSupplierCreditNote, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
 }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -65,7 +80,7 @@ const SupplierCreditNoteTable = ({ supplierCreditNotes, onSupplierCreditNoteClic
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Supplier Credit Notes List</h3>
                     <div className="flex items-center gap-4">
@@ -87,21 +102,25 @@ const SupplierCreditNoteTable = ({ supplierCreditNotes, onSupplierCreditNoteClic
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/6 text-center" />  {/* Credit Note Number - Fixed */}
-                        <col className="w-1/6 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/6 text-center" /> {/* Supplier - 20% */}
-                        <col className="w-1/6 text-center" /> {/* Net Total - 20% */}
-                        <col className="w-1/6 text-center" /> {/* Agent - 16.6% */}
-                        <col className="w-1/6 text-center" /> {/* Cancelled - 20% */}
-                        <col className="w-[9%] text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/6 text-center",
+                        "w-1/6 text-center",
+                        "w-1/6 text-center",
+                        "w-1/6 text-center",
+                        "w-1/6 text-center",
+                        "w-1/6 text-center",
+                        "w-[7%] text-center"
+                    ].map((line, index) => (
+                        <col key={index} className={line}/>
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Credit Note #" sortKey="credit_note_number" />
                             <SortableHeader label="Date" sortKey="date" />
                             <SortableHeader label="Supplier" sortKey="supplier" />
+                            <SortableHeader label="Related Invoice" sortKey="related_invoice" />
                             <SortableHeader label="Net Total" sortKey="net_total" />
-                            <SortableHeader label="Agent" sortKey="agent" />
                             <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
@@ -109,7 +128,7 @@ const SupplierCreditNoteTable = ({ supplierCreditNotes, onSupplierCreditNoteClic
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {supplierCreditNotes.map((supplierCreditNote) => {
+                        {supplierCreditNotes.map((supplierCreditNote: SupplierCreditNoteList) => {
                             const supplierCreditNoteId = supplierCreditNote.credit_note_number;
 
                             return (
@@ -117,37 +136,41 @@ const SupplierCreditNoteTable = ({ supplierCreditNotes, onSupplierCreditNoteClic
                                 onClick={() => onSupplierCreditNoteClick(supplierCreditNoteId)}>
                                     {/* Credit Note Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={supplierCreditNote.credit_note_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
                                             {formatNumber()}{supplierCreditNote.credit_note_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(supplierCreditNote.date)}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-gray-900 truncate">
                                             {formatDate(supplierCreditNote.date)}
                                         </div>
                                     </td>
 
                                     {/* Supplier */}
-                                    <td className="px-2 py-2 truncate" title={supplierCreditNote.supplier}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierCreditNote.supplier}</div>
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {supplierCreditNote.supplier}
+                                        </div>
+                                    </td>
+
+                                    {/* Related Invoice */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {formatSupplierInvoiceNumber()}{supplierCreditNote.related_invoice}
+                                        </div>
                                     </td>
 
                                     {/* Net Total */}
-                                    <td className="px-2 py-2 truncate" title={supplierCreditNote.net_total}>
-                                        <div className="text-sm text-gray-900 truncate">RM {supplierCreditNote.net_total}</div>
-                                    </td>
-
-                                    {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={supplierCreditNote.agent}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">
-                                            {supplierCreditNote.agent}
+                                            {supplierCreditNote.net_total}
                                         </div>
                                     </td>
 
                                     {/* cancelled */}
-                                    <td className="px-2 py-2 truncate" title={supplierCreditNote.cancelled}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
                                             {supplierCreditNote.cancelled ? ' true ' : ' false '}
                                         </div>

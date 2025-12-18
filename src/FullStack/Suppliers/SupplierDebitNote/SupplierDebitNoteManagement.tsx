@@ -369,7 +369,7 @@ function SupplierDebitNoteManagement() {
                 <div className="flex items-start justify-between mb-8">
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-linear-to-br from-blue-300 to-indigo-300 rounded-2xl flex items-center justify-center border border-blue-100">
+                    <div className="w-12 h-12 bg-linear-to-br bg-blue-200 rounded-2xl flex items-center justify-center border border-white">
                         ￥
                     </div>
                     <div>

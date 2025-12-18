@@ -13,7 +13,7 @@ import { forms, buttons, layout, tables, text, utils } from "../constants/Styles
 
 import { Trash2 } from "lucide-react";
 
-import { controlAccountHandler } from "../../handlers";
+import { supplierDebitNoteAccountHandler } from "../../handlers";
 
 
 //const formatDebitNoteNumber = () => {
@@ -50,6 +50,8 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
             customer: "",
             currency: "",
             agent: "",
+            tax_amount: 0.00,
+            cancelled: false,
             debit_note_details: [
                 {
                     amount: 0.00,
@@ -68,7 +70,7 @@ const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCance
 
 
 
-const controlAccountChange = controlAccountHandler(accounts, setValue);
+const controlAccountChange = supplierDebitNoteAccountHandler(accounts, setValue);
 
 
 
@@ -244,11 +246,11 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => (
                                     <tr key={field.id} className={tables.row}>
-                                        <td>
+                                        <td className={tables.cell}>
                                             <input 
                                                 type="date"
                                                 {...register(`debit_note_details.${index}.date`)}
-                                                className={forms.input.date}
+                                                className={tables.text}
                                             />
                                         </td>
 
@@ -354,15 +356,24 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                     <div>Tax Amount</div>
                                     <input 
                                         type="number"
-                                        {...register("tax_amount")}
+                                        {...register("tax_amount", { valueAsNumber: true })}
                                         className={forms.input.smallNumber}
                                         placeholder="0.00"
+                                        defaultValue={0.00}
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
                                                 e.target.value = parseFloat(e.target.value).toFixed(2);
                                             }
                                         }}
                                         
+                                    />
+                                </div>
+                                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                    <div>Cancelled</div>
+                                    <input 
+                                    {...register("cancelled")}
+                                    type="checkbox"
+                                    className="ml-2 forced-colors:bg-green-300"
                                     />
                                 </div>
                             </div>

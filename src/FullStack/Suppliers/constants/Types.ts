@@ -327,17 +327,16 @@ export type SupplierDebitNoteInputs = {
   description: string;
   supplier: string;
   supplier_name: string;
-  account: {
-    account_code: number;
-    account_name: string;
-    account_type: string;
-  };
+  account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
   currency: string;
   related_invoice: string;
   related_invoice_total: string;
   related_debit_note: Array <{
     debit_note_item: string;
-    debit_note_item_name: string;
     description: string;
     amount: number;
     tax_inclusive: boolean;
@@ -377,6 +376,15 @@ export type EditSupplierDebitNoteInputs = {
 
 // -------- BEGIN ----------- SUPPLIER CREDIT NOTE INPUT ----------------
 
+export type SupplierCreditNoteList = {
+  credit_note_number: number;
+  date: string;
+  supplier: string;
+  supplier_name: string;
+  related_invoice: string;
+  net_total: number;
+  cancelled: boolean;
+}
 
 
 export type SupplierCreditNoteInputs = {
@@ -385,18 +393,23 @@ export type SupplierCreditNoteInputs = {
   supplier_name: string;
   description: string;
   account: {
-    account_code: number;
-    account_name: string;
-    account_type: string;
-  };
+    account_code: number | null;
+    account_name: string | null;
+    account_type: string | null;
+  } | null;
   related_invoice: string;
+  related_invoice_total: number;
   related_credit_note: Array <{
-    credit_note_item_name: string;
+    credit_note_item: string;
+    description: string;
     amount: number;
     tax_inclusive: boolean;
     tax_amount: number;
+    cancelled: boolean;
   }>
   currency: string;
+  tax_inclusive: boolean;
+  tax_amount: number;
   agent: string;
   cancelled: boolean;
 };

@@ -273,7 +273,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                                 <input 
                                                     type="date"
                                                     {...register(`related_payment.${index}.payment_date`)}
-                                                    className={forms.input.date}
+                                                    className={forms.select.full}
                                                 />
                                             </td>
 

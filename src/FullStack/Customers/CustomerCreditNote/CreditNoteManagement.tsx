@@ -152,6 +152,7 @@ function CreditNoteManagement() {
   const deleteCreditNoteMutation = useMutation({
     mutationFn: deleteCreditNote,
     onSuccess: () => {
+      console.log("Delete successful, invalidating queries");
       queryClient.invalidateQueries({ queryKey: ['creditNotes'] });
     }
   });

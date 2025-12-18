@@ -102,7 +102,9 @@ const SupplierInvoiceTable: React.FC<any> = ({ supplierInvoices, onSupplierInvoi
                         "w-1/8 text center",
                         "w-1/8 text center",
                         "w-[7%] text center",
-                    ]}
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>

@@ -19,7 +19,9 @@ import { fetchProductItems } from "../../Products/Engines";
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines";
 
 
-import { EditSupplierCreditNoteInputs, SupplierCreditNoteInputs, SupplierCreditNoteResponse } from "../Interfaces";
+import { EditSupplierCreditNoteInputs,
+     SupplierCreditNoteInputs,
+      SupplierCreditNoteResponse } from "../constants/Types";
 
 
 import SupplierCreditNoteDetails from "./SupplierCreditNoteDetails";
@@ -34,6 +36,17 @@ interface SortConfig {
   key: string | null;
   direction: 'asc' | 'desc';
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -65,12 +78,12 @@ function SupplierCreditNoteManagement() {
     });
 
     const { data: supplierInvoices = [] } = useQuery({
-        queryKey: ['SupplierInvoices'],
+        queryKey: ['supplierInvoices'],
         queryFn: fetchSupplierInvoices
     });
 
     const { data: supplierProfiles = [] } = useQuery({
-        queryKey: ['SupplierProfiles'],
+        queryKey: ['supplierProfiles'],
         queryFn: fetchSupplierProfiles
     });
 
@@ -150,23 +163,23 @@ function SupplierCreditNoteManagement() {
     // ------------------------------------------------------------------------------------
                     // MUTATION USE
 
-    const toFormData = (obj, form = new FormData(), parentKey = '') => {
-        Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        const field = parentKey ? `${parentKey}.${key}` : key;
-        if (value === null || value === undefined) return;
-        if (Array.isArray(value)) {
-            value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-        } else if (value instanceof File) {
-            form.append(field, value);
-        } else if (typeof value === 'object') {
-            toFormData(value, form, field);
-        } else {
-            form.append(field, value);
-        }
-        });
-        return form;
-    };
+    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    //    Object.keys(obj).forEach(key => {
+    //    const value = obj[key];
+    //    const field = parentKey ? `${parentKey}.${key}` : key;
+    //    if (value === null || value === undefined) return;
+    //    if (Array.isArray(value)) {
+    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+    //    } else if (value instanceof File) {
+    //        form.append(field, value);
+    //    } else if (typeof value === 'object') {
+    //        toFormData(value, form, field);
+    //    } else {
+    //        form.append(field, value);
+    //    }
+    //    });
+    //    return form;
+    //};
 
 
 
@@ -252,7 +265,7 @@ function SupplierCreditNoteManagement() {
 
 
     // Sort handler
-    const handleSort = (key) => {
+    const handleSort = (key: any) => {
     setSortConfig(current => ({
         key,
         direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'
@@ -285,16 +298,16 @@ function SupplierCreditNoteManagement() {
     // ERROR DISPLAYS
 
     if (isLoadingSupplierCreditNotes) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading supplier credit notes...</p>
+            <p className="mt-4 text-gray-600">fetching credit notes...</p>
         </div>
         </div>
     );
 
     if (supplierCreditNotesError) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
             <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
@@ -322,7 +335,7 @@ function SupplierCreditNoteManagement() {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                        <div className="w-2 h-8 bg-linear-to-b from-blue-500 to-purple-600 rounded-full"></div>
                         <div>
                             <h1 className="text-lg font-semibold text-gray-900">Suppliers Suite</h1>
                             <p className="text-sm text-gray-500">Supplier Credit Note Management</p>
@@ -351,7 +364,7 @@ function SupplierCreditNoteManagement() {
                 <div className="flex items-start justify-between mb-8">
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
+                    <div className="w-12 h-12 bg-linear-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
                         <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
@@ -389,7 +402,7 @@ function SupplierCreditNoteManagement() {
                     <div className="w-px h-8 bg-gray-200"></div>
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                        {new Set(supplierCreditNotes.map(c => c.currency?.currency_code)).size}
+                        {new Set(supplierCreditNotes.map((c: any) => c.currency?.currency_code)).size}
                         </div>
                         <div className="text-sm text-gray-500">Currencies</div>
                     </div>
@@ -398,7 +411,7 @@ function SupplierCreditNoteManagement() {
                         <div className="relative">
                             <input
                             type="text"
-                            placeholder="Search..."
+                            placeholder="Search credit notes..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className={management.searchSize}
@@ -442,7 +455,7 @@ function SupplierCreditNoteManagement() {
             )}
 
             {view === 'form' && (
-                <div className="w-[100%] bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
+                <div className="min-w-full bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
                 <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
                     <div className="flex items-center gap-4 mb-8 justify-between">
                     <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100">

@@ -9,7 +9,7 @@ import { details } from "../../Core/constants/Styles";
 
 
 
-const formatDate = (dateString: any) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
