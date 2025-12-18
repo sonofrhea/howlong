@@ -284,7 +284,7 @@ function SupplierInvoiceManagement() {
     if (isLoadingSupplierInvoices) return (
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-            <span className={spinningStyles.terminalBar.spinner}>𐮜</span>
+            <span className={spinningStyles.terminalBar.spinner}>↺</span>
             <p className="mt-4 text-gray-600">Loading supplier invoices...</p>
         </div>
         </div>

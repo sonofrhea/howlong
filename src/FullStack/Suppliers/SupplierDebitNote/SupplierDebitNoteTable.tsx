@@ -1,6 +1,7 @@
 import React from "react";
 
 import { forms, buttons, layout, tables, text, utils, listTable } from "../constants/Styles";
+import { SupplierDebitNoteList } from "../constants/Types";
 
 const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
@@ -10,6 +11,20 @@ const formatNumber = () => {
     const currentYear = new Date().getFullYear();
     return `SDN-${currentYear}-`;
 };
+
+const formatSupplierInvoiceNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `SI-${currentYear}-`;
+};
+
+
+
+
+
+
+
+
+
 
 
 
@@ -68,13 +83,13 @@ const SupplierDebitNoteTable: React.FC<any> = ({ supplierDebitNotes, onSupplierD
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Supplier Debit Notes List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded text-black px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -90,21 +105,23 @@ const SupplierDebitNoteTable: React.FC<any> = ({ supplierDebitNotes, onSupplierD
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/6 text-center" />  {/* Debit Note Number - Fixed */}
-                        <col className="w-1/6 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/6 text-center" /> {/* Supplier - 20% */}
-                        <col className="w-1/6 text-center" />{/* Net Total - 20% */}
-                        <col className="w-1/6 text-center" /> {/* Agent - 16.6% */}
-                         <col className="w-1/6 text-center" /> {/* Cancelled - 20% */}
-                        <col className="w-[9%] text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/6 text-center",
+                        "w-1/6 text-center",
+                        "w-1/6 text-center",
+                        "w-1/6 text-center",
+                        "w-1/6 text-center",
+                        "w-1/6 text-center",
+                        "w-[7%] text-center",
+                    ]}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Debit Note #" sortKey="debit_note_number" />
                             <SortableHeader label="Date" sortKey="date" />
-                            <SortableHeader label="Supplier" sortKey="supplier" />
+                            <SortableHeader label="Supplier" sortKey="supplier_name" />
+                            <SortableHeader label="Related Invoice" sortKey="related_invoice" />
                             <SortableHeader label="Total" sortKey="net_total" />
-                            <SortableHeader label="Agent" sortKey="agent" />
                             <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
@@ -112,7 +129,7 @@ const SupplierDebitNoteTable: React.FC<any> = ({ supplierDebitNotes, onSupplierD
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {supplierDebitNotes.map((supplierDebitNote: any) => {
+                        {supplierDebitNotes.map((supplierDebitNote: SupplierDebitNoteList) => {
                             const supplierDebitNoteId = supplierDebitNote.debit_note_number;
 
                             return (
@@ -120,35 +137,41 @@ const SupplierDebitNoteTable: React.FC<any> = ({ supplierDebitNotes, onSupplierD
                                 onClick={() => onSupplierDebitNoteClick(supplierDebitNoteId)}>
                                     {/* Debit Note Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={supplierDebitNote.debit_note_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
                                             {formatNumber()}{supplierDebitNote.debit_note_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(supplierDebitNote.date)}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-gray-900 truncate">
                                             {formatDate(supplierDebitNote.date)}
                                         </div>
                                     </td>
 
                                     {/* Supplier */}
-                                    <td className="px-2 py-2 truncate" title={supplierDebitNote.supplier}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierDebitNote.supplier}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {supplierDebitNote.supplier || 'N/A'}
+                                        </div>
+                                    </td>
+
+                                    {/* Related Invoice */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {formatSupplierInvoiceNumber()}{supplierDebitNote.related_invoice || 'N/A'}
+                                        </div>
                                     </td>
 
                                     {/* Net Total */}
-                                    <td className="px-2 py-2 truncate" title={supplierDebitNote.net_total}>
-                                        <div className="text-sm text-gray-900 truncate">RM {supplierDebitNote.net_total}</div>
-                                    </td>
-
-                                    {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={supplierDebitNote.agent}>
-                                        <div className="text-sm text-gray-900 truncate">{supplierDebitNote.agent}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {supplierDebitNote.net_total || 'N/A'}
+                                        </div>
                                     </td>
 
                                     {/* cancelled */}
-                                    <td className="px-2 py-2 truncate" title={supplierDebitNote.cancelled}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-s font-medium ${
                                             supplierDebitNote.cancelled ? 
                                             'text-amber-700' : 

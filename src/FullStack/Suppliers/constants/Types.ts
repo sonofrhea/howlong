@@ -311,6 +311,15 @@ export type EditSupplierInvoiceInputs = {
 
 // -------- BEGIN ----------- SUPPLIER DEBIT NOTE INPUT ----------------
 
+export type SupplierDebitNoteList = {
+  debit_note_number: number;
+  date: string;
+  supplier: string;
+  supplier_name: string;
+  related_invoice: string;
+  net_total: number;
+  cancelled: boolean;
+}
 
 
 export type SupplierDebitNoteInputs = {
@@ -325,13 +334,19 @@ export type SupplierDebitNoteInputs = {
   };
   currency: string;
   related_invoice: string;
+  related_invoice_total: string;
   related_debit_note: Array <{
+    debit_note_item: string;
+    debit_note_item_name: string;
     description: string;
     amount: number;
     tax_inclusive: boolean;
     tax_amount: number;
+    cancelled: boolean;
   }>
   agent: string;
+  tax_inclusive: boolean;
+  tax_amount: number;
   cancelled: boolean;
 };
 

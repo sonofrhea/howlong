@@ -18,9 +18,9 @@ import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 
 import { EditSupplierDebitNoteInputs, SupplierDebitNoteInputs, 
-    SupplierDebitNoteResponse } from "../Interfaces";
+    SupplierDebitNoteResponse } from "../constants/Types";
 
-
+import { fetchProductItems } from "../../Products/Engines";
 
 
 
@@ -30,7 +30,7 @@ import SupplierDebitNoteForm from "./SupplierDebitNoteForm";
 import SupplierDebitNoteTable from "./SupplierDebitNoteTable";
 //import SupplierDebitNoteEdit from "./SupplierDebitNoteEdit";
 
-import { iconStyles, management } from "../constants/Styles";
+import { iconStyles, management, spinningStyles } from "../constants/Styles";
 
 
 
@@ -93,6 +93,11 @@ function SupplierDebitNoteManagement() {
         queryKey: ['SupplierProfiles'],
         queryFn: fetchSupplierProfiles
     });
+
+    const { data: productItems = [] } = useQuery({
+        queryKey: ['productItems'],
+        queryFn: fetchProductItems
+    })
 
     // ------------------------------------------------------------------------------------
 
@@ -165,23 +170,23 @@ function SupplierDebitNoteManagement() {
     // ------------------------------------------------------------------------------------
                     // MUTATION USE
 
-    const toFormData = (obj, form = new FormData(), parentKey = '') => {
-        Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        const field = parentKey ? `${parentKey}.${key}` : key;
-        if (value === null || value === undefined) return;
-        if (Array.isArray(value)) {
-            value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-        } else if (value instanceof File) {
-            form.append(field, value);
-        } else if (typeof value === 'object') {
-            toFormData(value, form, field);
-        } else {
-            form.append(field, value);
-        }
-        });
-        return form;
-    };
+    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    //    Object.keys(obj).forEach(key => {
+    //    const value = obj[key];
+    //    const field = parentKey ? `${parentKey}.${key}` : key;
+    //    if (value === null || value === undefined) return;
+    //    if (Array.isArray(value)) {
+    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+    //    } else if (value instanceof File) {
+    //        form.append(field, value);
+    //    } else if (typeof value === 'object') {
+    //        toFormData(value, form, field);
+    //    } else {
+    //        form.append(field, value);
+    //    }
+    //    });
+    //    return form;
+    //};
 
 
 
@@ -298,16 +303,16 @@ function SupplierDebitNoteManagement() {
     // ERROR DISPLAYS
 
     if (isLoadingSupplierDebitNotes) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading supplierDebitNotes...</p>
+            <span className={spinningStyles.terminalBar.spinner}>↺</span>
+            <p className="mt-4 text-gray-600">fetching debit notes...</p>
         </div>
         </div>
     );
 
     if (supplierDebitNotesError) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
             <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
@@ -335,7 +340,7 @@ function SupplierDebitNoteManagement() {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                        <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                         <div>
                             <h1 className="text-lg font-semibold text-gray-900">Suppliers Suite</h1>
                             <p className="text-sm text-gray-500">Supplier Debit Note Management</p>
@@ -364,8 +369,8 @@ function SupplierDebitNoteManagement() {
                 <div className="flex items-start justify-between mb-8">
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-linear-to-br from-yellow-300 to-indigo-300 rounded-2xl flex items-center justify-center border border-blue-100">
-                        <BanknoteArrowDown size={40} strokeWidth={0.75} />
+                    <div className="w-12 h-12 bg-linear-to-br from-blue-300 to-indigo-300 rounded-2xl flex items-center justify-center border border-blue-100">
+                        ￥
                     </div>
                     <div>
                         <h2 className="text-4xl font-light text-gray-900 tracking-tight">Supplier Debit Notes</h2>
@@ -379,7 +384,7 @@ function SupplierDebitNoteManagement() {
                     {(view === 'form' || view === 'details' || view === 'edit') && (
                     <button
                         onClick={handleBackToSupplierDebitNotesList}
-                        className="bg-white border-gray-200 hover:border-gray-300 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
+                        className="bg-white border border-gray-200 hover:border-yellow-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                     >
                         <MoveLeft size={20} strokeWidth={1.75} />
                         Back
@@ -398,19 +403,19 @@ function SupplierDebitNoteManagement() {
                     <div className="w-px h-8 bg-gray-200"></div>
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                        {new Set(supplierDebitNotes.map(c => c.currency?.currency_code)).size}
+                        {new Set(supplierDebitNotes.map((c: any) => c.currency?.currency_code)).size}
                         </div>
                         <div className="text-sm text-gray-500">Currencies</div>
                     </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex gap-4">
                         <div className="relative">
                             <input
                             type="text"
-                            placeholder="Search..."
+                            placeholder="Search debit notes..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className={management.searchSize}
+                            className="pl-10 pr-2 py-1 text-gray-600 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
                             />
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -420,7 +425,7 @@ function SupplierDebitNoteManagement() {
                         </div>
                         <button
                             onClick={() => setView('form')}
-                            className="bg-white border border-gray-200 hover:border-purple-500 text-white px-3 py-1 font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
+                            className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                             <Plus size={16}/>
                             New Supplier Debit Note
@@ -451,7 +456,7 @@ function SupplierDebitNoteManagement() {
             )}
 
             {view === 'form' && (
-                <div className="w-[100%] bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
+                <div className="min-w-full bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
                 <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
                     <div className="flex items-center gap-4 mb-8 justify-between">
                     <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100">
@@ -479,6 +484,7 @@ function SupplierDebitNoteManagement() {
                     agents={agents}
                     SupplierInvoices={SupplierInvoices}
                     SupplierProfiles={SupplierProfiles}
+                    productItems={productItems}
                     />
                     {createSupplierDebitNoteMutation.isError && (
                     <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">

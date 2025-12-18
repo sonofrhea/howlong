@@ -300,7 +300,7 @@ function SupplierPaymentManagement() {
     if (isLoadingSupplierPayments) return (
             <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
             <div className="text-center">
-               <span className={spinningStyles.terminalBar.spinner}>𐮜</span> 
+               <span className={spinningStyles.terminalBar.spinner}>↺</span> 
                 <p className="mt-4 text-gray-600">fetching payments...</p>
             </div>
             </div>
@@ -376,7 +376,7 @@ function SupplierPaymentManagement() {
                     {(view === 'form' || view === 'details' || view === 'edit') && (
                     <button
                         onClick={handleBackToSupplierPaymentsList}
-                        className="bg-white border border-gray-200 hover:border-gray-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
+                        className="bg-white border border-gray-200 hover:border-yellow-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

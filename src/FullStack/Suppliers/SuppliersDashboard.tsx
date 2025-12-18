@@ -42,7 +42,7 @@ function SuppliersDashboard() {
             name: 'Supplier Debit Note',
             description: 'Manage Supplier Debit Notes',
             path: '/suppliers/supplier-debit-notes',
-            available: false
+            available: true
         },
         {
             id: 'suppliersCreditNote',

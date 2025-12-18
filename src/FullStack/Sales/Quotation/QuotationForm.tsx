@@ -338,82 +338,86 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                             </td>
                                         </tr>
                                     ))}
-                                    <button
-                                        type="button"
-                                        onClick={() => append({ 
-                                            item: "", 
-                                            description: "",
-                                            quantity: 0, 
-                                            unit_of_measure: "", 
-                                            price_per_unit: 0.00, 
-                                            currency: "",
-                                            tax_inclusive: false,
-                                            tax_amount: 0.00,
-                                            cancelled: false 
-                                            })}
-                                        className="min-w-full divide-y divide-gray-100"
-                                    >
-                                        + Add New Line
-                                    </button>
+                                    <tr>
+                                        <td className={tables.headerCell}>
+                                            <button
+                                                type="button"
+                                                onClick={() => append({ 
+                                                    item: "", 
+                                                    description: "",
+                                                    quantity: 0, 
+                                                    unit_of_measure: "", 
+                                                    price_per_unit: 0.00, 
+                                                    currency: "",
+                                                    tax_inclusive: false,
+                                                    tax_amount: 0.00,
+                                                    cancelled: false 
+                                                    })}
+                                                className="min-w-full divide-y divide-gray-100"
+                                            >
+                                                ++ New Line
+                                            </button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
 
                         <div className="mt-6 sm:flex sm:items-center sm:justify-end">
-                            <div className="w-full sm:w-1/2 lg:w-1/3">
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+                        <div className="w-full sm:w-1/2 lg:w-1/3">
+                            <div className="bg-gray-50 p-4 rounded-lg">
+                                <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
-                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Tax Inclusive?</div>
-                                            <input 
-                                            {...register("tax_inclusive")}
-                                            type="checkbox"
-                                            className="ml-2 forced-colors:bg-green-300"
-                                            />
-                                        </div>
-
-                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Tax %</div>
-                                            <input 
-                                                type="number"
-                                                {...register("tax_amount")}
-                                                className={forms.input.smallNumber}
-                                                placeholder="0.00"
-                                                step="0.01" min="0.00" onBlur={(e) => {
-                                                    if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                    }
-                                                }}
-                                                
-                                            />
-                                        </div>
-
-                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Discount %</div>
-                                            <input 
-                                                type="number"
-                                                {...register("discount")}
-                                                className={forms.input.smallNumber}
-                                                placeholder="0.00"
-                                                step="0.01" min="0.00" onBlur={(e) => {
-                                                    if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                    }
-                                                }}
-                                            />
-                                        </div>
-                                            
-                                        <td className={tables.cell}>
-                                            <input 
-                                                type="checkbox"
-                                                {...register(`cancelled`)}
-                                                className="text-black cursor-pointer"
-                                            />
-                                        </td>
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Tax Inclusive?</div>
+                                        <input 
+                                        {...register("tax_inclusive")}
+                                        type="checkbox"
+                                        className="ml-2 forced-colors:bg-green-300"
+                                        />
                                     </div>
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Tax %</div>
+                                        <input 
+                                            type="number"
+                                            {...register("tax_amount")}
+                                            className={forms.input.smallNumber}
+                                            placeholder="0.00"
+                                            step="0.01" min="0.00" onBlur={(e) => {
+                                                if (e.target.value) {
+                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                }
+                                            }}
+                                            
+                                        />
+                                    </div>
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Discount %</div>
+                                        <input 
+                                            type="number"
+                                            {...register("discount")}
+                                            className={forms.input.smallNumber}
+                                            placeholder="0.00"
+                                            step="0.01" min="0.00" onBlur={(e) => {
+                                                if (e.target.value) {
+                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                        
+                                    <td className={tables.cell}>
+                                        <input 
+                                            type="checkbox"
+                                            {...register(`cancelled`)}
+                                            className="text-black cursor-pointer"
+                                        />
+                                    </td>
                                 </div>
                             </div>
+                        </div>
                         </div>
 
                         {/* SUBMIT BUTTON */}

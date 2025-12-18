@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 
 
@@ -8,13 +8,15 @@ import { forms, buttons, layout, tables, text, utils,
 
 import { Trash2 } from 'lucide-react';
 
-import { SupplierDebitNoteInputs, SupplierInvoiceInterface, 
-    SupplierProfileInterface, 
- } from "../Interfaces";
+import { SupplierDebitNoteInputs, SupplierInvoiceResponse, 
+    SupplierProfileResponse, 
+ } from "../constants/Types";
 
-import { CurrencyInterface, AgentInterface } from "../../Core/Interfaces"
+import { CurrencyInterface, AgentInterface } from "../../Core/constants/Types"
 
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces"
+import { supplierDebitNoteAccountHandler, supplierDebitNoteInvoiceTotal } from "../../handlers";
+import { ProductItemCreateResponse } from "../../Products/constants/Types";
 
 
 const formatSupplierNumber = () => {
@@ -30,13 +32,31 @@ const formatSupplierInvoiceNumber = () => {
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`;
 };
 
 
 
+
+
+
+
+
+
+
+
+
+
 const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, currencies, 
-    accounts, agents, SupplierInvoices, SupplierProfiles }) => {
+    accounts, agents, SupplierInvoices, SupplierProfiles, productItems }) => {
+    
+            const productOptions = useMemo(() => 
+                productItems.map((product: ProductItemCreateResponse) => (
+                <option key={product.item_code} value={product.item_code}>
+                    SKU-{product.item_code} | {product.item_description}
+                </option>
+            )), [productItems])
+
         
         const { register, handleSubmit, watch, setValue, control,
             formState: { errors } } = useForm<SupplierDebitNoteInputs>({
@@ -44,9 +64,14 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                     related_debit_note: [
                         {
                             amount: 0.00,
-                            tax_amount: 0.00
+                            tax_inclusive: false,
+                            tax_amount: 0.00,
+                            cancelled: false
                         }
-                    ]
+                    ],
+                    tax_inclusive: false,
+                    tax_amount: 0.00,
+                    cancelled: false
                 }
             });
 
@@ -56,24 +81,11 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
             });
 
             
-            const selectedControlAccount = watch("account.account_code");
-            useEffect(() => {
-                if (selectedControlAccount) {
+const accountChange = supplierDebitNoteAccountHandler(accounts, setValue);
+const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setValue);
 
-                    const selectedCodeNumber = Number(selectedControlAccount);
-                    console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
 
-                    const selectedAccount = accounts.find((a: ControlAccountInterface) => 
-                        a.account_code === selectedCodeNumber);
 
-                    console.log(" ✅ Found account:", selectedAccount);
-
-                    if (selectedAccount) {
-                        setValue("account.account_name", selectedAccount.account_name);
-                        setValue("account.account_type", selectedAccount.account_type);
-                    }
-                }
-            }, [selectedControlAccount, accounts, setValue])
 
 
 
@@ -111,13 +123,14 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                 <select
                                     {...register("account.account_code")}
                                     className={forms.select.partial}
+                                    onChange={accountChange}
                                 >
                                     <option value=""></option>
-                                    {accounts.map((account: ControlAccountInterface) => (
+                                    {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                         <option key={account.account_code} value={account.account_code}>
                                             {account.account_code} ({account.account_name})
                                         </option>
-                                    ))}
+                                    )), [accounts])}
                                 </select>
 
                                 <input type="hidden" {...register("account.account_name")} />
@@ -131,11 +144,11 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                     className={forms.select.partial}
                                 >
                                     <option value=""></option>
-                                    {SupplierProfiles.map((supplier: SupplierProfileInterface) => (
+                                    {useMemo(() => SupplierProfiles.map((supplier: SupplierProfileResponse) => (
                                         <option key={supplier.supplier_code} value={supplier.supplier_code}>
                                             {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
                                         </option>
-                                    ))}
+                                    )), [SupplierProfiles])}
                                 </select>
                             </div>
 
@@ -144,14 +157,30 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                 <select
                                     {...register("related_invoice")}
                                     className={forms.select.partial}
+                                    onChange={invoiceTotalChange}
                                 >
                                     <option value=""></option>
-                                    {SupplierInvoices.map((invoice: SupplierInvoiceInterface) => (
+                                    {useMemo(() => SupplierInvoices.map((invoice: SupplierInvoiceResponse) => (
                                         <option key={invoice.invoice_number} value={invoice.invoice_number}>
-                                            {formatSupplierInvoiceNumber()}{invoice.invoice_number} | {invoice.supplier_details}
+                                            {formatSupplierInvoiceNumber()}{invoice.invoice_number} | Total:  {invoice.aggregate_total}
                                         </option>
-                                    ))}
+                                    )), [SupplierInvoices])}
                                 </select>
+                            </div>
+
+                            <div>
+                                <p className={forms.label}>Related Invoice Total</p>
+                                <input 
+                                    type="number"
+                                    {...register("related_invoice_total")}
+                                    className={forms.input.midNumber}
+                                    placeholder="0.00"
+                                    step="0.01" min="0.00" onBlur={(e) => {
+                                        if (e.target.value) {
+                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        }
+                                    }}
+                                />
                             </div>
                             
                             <div>
@@ -161,11 +190,11 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                     className={forms.select.partial}
                                 >
                                     <option value=""></option>
-                                    {currencies.map((currency: CurrencyInterface) => (
+                                    {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                         <option key={currency.currency_code} value={currency.currency_code}>
                                             {currency.currency_code}
                                         </option>
-                                    ))}
+                                    )), [currencies])}
                                 </select>
                             </div>
                             
@@ -176,11 +205,11 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                     className={forms.select.partial}
                                 >
                                     <option value=""></option>
-                                    {agents.map((agent: AgentInterface) => (
-                                        <option key={agent.username} value={agent.username}>
-                                            {agent.username}
+                                    {useMemo(() => agents.map((agent: AgentInterface) => (
+                                        <option key={agent.name} value={agent.name}>
+                                            {agent.name}
                                         </option>
-                                    ))}
+                                    )), [agents])}
                                 </select>
                             </div>
                         </div>
@@ -209,24 +238,28 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                 <table className={tables.base}>
                                     <colgroup>
                                         {[
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-[9%] text-center',
+                                            'w-1/7 text-center',
+                                            'w-1/7 text-center',
+                                            'w-1/7 text-center',
+                                            'w-1/7 text-center',
+                                            'w-1/7 text-center',
+                                            'w-1/7 text-center',
+                                            'w-1/7 text-center',
+                                            'w-[7%] text-center',
                                         ].map((line, index) => (
                                             <col key={index} className={line} />
                                         ))}
                                     </colgroup>
                                     <thead className={tables.header}>
                                         <tr>
+                                            <th className={tables.headerCell}>Item</th>
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>Amount</th>
                                             <th className={tables.headerCell}>Tax Inclusive</th>
                                             <th className={tables.headerCell}>Tax Amount</th>
                                             <th className={tables.headerCell}>SubTotal(After Tax)</th>
-                                            <th></th>
+                                            <th className={tables.headerCell}>Cancelled</th>
+                                            <th className={tables.headerCell}></th>
                                         </tr>
                                     </thead>
 
@@ -234,6 +267,16 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                         {fields.map((field, index) => (
                                             <tr key={field.id} className={tables.row}>
                                                 <td>
+                                                    <select
+                                                        {...register(`related_debit_note.${index}.debit_note_item`)}
+                                                        className={forms.select.full}
+                                                    >
+                                                        <option value=""></option>
+                                                        {productOptions}
+                                                    </select>
+                                                </td>
+
+                                                <td className={tables.cell}>
                                                     <input 
                                                         type="text"
                                                         {...register(`related_debit_note.${index}.description`)}
@@ -283,6 +326,13 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                                     )}
                                                 </td>
 
+                                                <td className={tables.cell}>
+                                                    <input
+                                                        type="checkbox"
+                                                        {...register(`related_debit_note.${index}.cancelled`)} 
+                                                    />
+                                                </td>
+
                                                 <td>
                                                     <button 
                                                         type="button"
@@ -296,23 +346,68 @@ const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                             </tr>
                                         ))}
                                         <tr>
-                                            <td>
+                                            <td className={tables.headerCell}>
                                                 <button  
                                                     type="button"
                                                     onClick={() => append({
+                                                        debit_note_item: "",
                                                         description: "",
                                                         amount: 0.00,
                                                         tax_inclusive: false,
-                                                        tax_amount: 0.00
+                                                        tax_amount: 0.00,
+                                                        cancelled: false
                                                     })}
                                                     className={buttons.addLine}
                                                     >
-                                                        + Add New Line
+                                                        ++ New Line
                                                 </button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                                                    
+                            <div className="mt-6 sm:flex sm:items-center sm:justify-end">
+                            <div className="w-full sm:w-1/2 lg:w-1/3">
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+    
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Tax Inclusive?</div>
+                                            <input 
+                                            {...register("tax_inclusive")}
+                                            type="checkbox"
+                                            className="ml-2 forced-colors:bg-green-300"
+                                            />
+                                        </div>
+    
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Tax %</div>
+                                            <input 
+                                                type="number"
+                                                {...register("tax_amount")}
+                                                className={forms.input.smallNumber}
+                                                placeholder="0.00"
+                                                step="0.01" min="0.00" onBlur={(e) => {
+                                                    if (e.target.value) {
+                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    }
+                                                }}
+                                            
+                                            />
+                                        </div>
+    
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Cancelled?</div>
+                                            <input 
+                                            {...register("cancelled")}
+                                            type="checkbox"
+                                            className="ml-2 forced-colors:bg-green-300"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             </div>
 
                             {/* SUBMIT BUTTON */}

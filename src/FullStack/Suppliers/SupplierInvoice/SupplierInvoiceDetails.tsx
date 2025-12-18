@@ -1,5 +1,6 @@
 import React from "react";
-import { buttons, labelStyles, layout, tables, text } from "../constants/Styles";
+import { buttons, labelStyles, layout, 
+    spinningStyles, tables, text } from "../constants/Styles";
 import { SquarePen } from "lucide-react";
 
 
@@ -24,8 +25,8 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
     if (isLoading) {
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-3 text-gray-600">Loading supplier invoice...</p>
+                <span className={spinningStyles.terminalBar.spinner}>↺</span>
+                <p className="mt-3 text-gray-600">fetching supplier invoice...</p>
             </div>
         );
     }

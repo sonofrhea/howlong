@@ -97,3 +97,30 @@ export const supplierRelatedInvoice = (supplierInvoices: SupplierInvoiceResponse
     }
   }
 }
+
+
+
+
+export const supplierDebitNoteAccountHandler = (accounts: ControlAccountInterface[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const accountCode = Number(e.target.value)
+    const selectedAccount = accounts.find(a => a.account_code === accountCode)
+    
+    if (selectedAccount) {
+      setValue("account.account_name", selectedAccount.account_name)
+      setValue("account.account_type", selectedAccount.account_type)
+    }
+  }
+}
+
+
+export const supplierDebitNoteInvoiceTotal = (supplierInvoices: SupplierInvoiceResponse[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const invoiceNumber = Number(e.target.value)
+    const selectedInvoice = supplierInvoices.find(a => a.invoice_number === invoiceNumber)
+
+    if (selectedInvoice) {
+      setValue("related_invoice_total", selectedInvoice.aggregate_total)
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import apiClient from '../../BaseEngine';
 import { AllProductGroupInputs, ProductGroupInputs,
     ProductItemInputs, AllProductItemInputs
- } from './Interfaces';
+ } from './constants/Types';
 
 
 
