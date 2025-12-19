@@ -366,6 +366,7 @@ const SupplierProfileDetails: React.FC<any> = ({ supplierProfile, isLoading, onB
                     <p className={details.extraSmallUppercase}>Created by</p>
                     {formatDate(supplierProfile.date_created) || 'N/A'}
                 </p>
+                <hr className="my-6 border-gray-200" />
             </div>
         </div>
     );

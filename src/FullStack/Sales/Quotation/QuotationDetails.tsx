@@ -200,6 +200,7 @@ const QuotationDetails: React.FC<any> = ({ quotation, isLoading, onBack, onEdit 
                 <p className={details.extraSmallUppercase}>Created by</p>
                 {quotation.created_by}
             </p>
+            <hr className="my-6 border-gray-200" />
         </div>
     );
 };

@@ -236,6 +236,7 @@ const SupplierDebitNoteDetails: React.FC<any> = ({ supplierDebitNote, isLoading,
                     <p className={details.extraSmallUppercase}>Created by</p>
                     {supplierDebitNote.created_by || 'N/A'}
                 </p>
+                <hr className="my-6 border-gray-200" />
             </div>
         </div>
     );

@@ -155,6 +155,7 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
                 <div>
                     <p className="text-sm font-semibold text-gray-500">Created By: {customerPayment.created_by}</p>
                 </div>
+                <hr className="my-6 border-gray-200" />
             </div>
         </div>
     );

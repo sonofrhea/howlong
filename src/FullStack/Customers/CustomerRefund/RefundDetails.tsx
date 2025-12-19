@@ -219,6 +219,7 @@ const RefundDetails: React.FC<any> = ({ refund, isLoading, onBack, onEdit }) => 
                     <p className={details.extraSmallUppercase}>Created by</p>
                     {refund.created_by || 'N/A'}
                 </p>
+                <hr className="my-6 border-gray-200" />
             </div>
         </div>
     );

@@ -134,7 +134,7 @@ const SupplierPaymentDetails: React.FC<any> = ({ supplierPayment, isLoading, onB
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Agent/p>
+                            <p className={details.extraSmallUppercase}>Agent</p>
                             {supplierPayment.agent || 'N/A'}
                         </p>
                     </div>
@@ -219,6 +219,7 @@ const SupplierPaymentDetails: React.FC<any> = ({ supplierPayment, isLoading, onB
                 <p className={details.extraSmallUppercase}>Created By</p>
                 {supplierPayment.created_by || 'N/A'}
             </p>
+            <hr className="my-6 border-gray-200" />
         </div>
     </div>
     );

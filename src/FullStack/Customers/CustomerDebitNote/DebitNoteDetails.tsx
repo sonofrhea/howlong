@@ -228,6 +228,7 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                     <p className={details.extraSmallUppercase}>Created By</p>
                     {debitNote.created_by || 'N/A'}
                 </p>
+                <hr className="my-6 border-gray-200" />
             </div>
         </div>
     );

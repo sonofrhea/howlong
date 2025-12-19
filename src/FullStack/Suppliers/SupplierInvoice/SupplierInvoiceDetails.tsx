@@ -190,6 +190,7 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
 
             <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Created by</p>
             <p className="text-sm font-medium text-black">{supplierInvoice.created_by || 'N/A'}</p>
+            <hr className="my-6 border-gray-200" />
         </div>
     );
 
