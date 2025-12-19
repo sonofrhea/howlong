@@ -154,7 +154,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                             >
                                 <option value="">select...</option>
                                 {useMemo(() => agents.map((agent: AgentInterface) => (
-                                    <option key={agent.name} value={agent.name}>
+                                    <option key={agent.email} value={agent.email}>
                                         {agent.name} | {agent.email}
                                     </option>
                                 )), [agents])}

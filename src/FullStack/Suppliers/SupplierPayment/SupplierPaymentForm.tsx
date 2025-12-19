@@ -225,17 +225,16 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                         <div>
                             <p className={forms.label}>Agent</p>
                             <select
-                                {...register("created_by", {required: "creator is required"})}
+                                {...register("agent")}
                                 className={forms.select.partial}
                             >
                                 <option value="">select...</option>
                                 {useMemo(() => agents.map((agent: AgentInterface) => (
-                                    <option key={agent.name} value={agent.name}>
+                                    <option key={agent.email} value={agent.email}>
                                         {agent.name} | {agent.email}
                                     </option>
                                 )), [agents])}
                             </select>
-                            {errors.created_by && <p className="text-amber-600 text-sm">{errors.created_by?.message}</p>}
                         </div>
                     </div>
 

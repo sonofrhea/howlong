@@ -56,8 +56,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => agents.map((agent: AgentInterface) => (
-                                        <option key={agent.name} value={agent.name}>
-                                            {agent.name}
+                                        <option key={agent.email} value={agent.email}>
+                                            {agent.name}1 {agent.email} 
                                         </option>
                                     )), [agents])}
                                 </select>

@@ -209,6 +209,13 @@ const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) =
                         </div>
                     )}
                 </div>
+
+                <hr className="my-6 border-gray-200" />
+                        
+                <p className={labelStyles}>
+                    <p className={details.extraSmallUppercase}>Created By</p>
+                    {invoice.created_by}
+                </p>
             </div>
         </div>
     );

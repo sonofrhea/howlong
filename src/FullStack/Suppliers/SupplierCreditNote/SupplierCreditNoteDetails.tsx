@@ -214,6 +214,13 @@ const SupplierCreditNoteDetails: React.FC<any> = ({ supplierCreditNote, isLoadin
                     </div>
                     )}
                 </div>
+
+                <hr className="my-6 border-gray-200" />
+                                                
+                <p>
+                    <p className={details.extraSmallUppercase}>Created by</p>
+                    {supplierCreditNote.created_by || 'N/A'}
+                </p>
             </div>
         </div>
     );

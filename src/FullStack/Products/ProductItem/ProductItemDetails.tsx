@@ -110,6 +110,14 @@ const ProductItemDetails: React.FC<any> = ({ productItem, isLoading, onBack, onE
                             {formatDate(productItem.date_created)}
                         </div>
                     </div>
+
+                    <div className="bg-purple-50 text-center border border-purple-300 hover:border-purple-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <div className="text-sm text-purple-900 font-medium">Created by</div>
+
+                        <div className="text-lg font-semibold text-gray-800">
+                            {productItem.created_by}
+                        </div>
+                    </div>
                 </div>
             </div>
 

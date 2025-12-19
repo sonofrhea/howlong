@@ -236,6 +236,13 @@ const InvoicePaymentDetails: React.FC<any> = ({ invoicePayment, isLoading, onBac
                         </div>
                     )}
                 </div>
+
+                <hr className="my-6 border-gray-200" />
+                        
+                <p className={labelStyles}>
+                    <p className={details.extraSmallUppercase}>Created By</p>
+                    {invoicePayment?.created_by || 'N/A'}
+                </p>
             </div>
         </div>
     );

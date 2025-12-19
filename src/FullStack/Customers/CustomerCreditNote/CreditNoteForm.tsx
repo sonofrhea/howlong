@@ -150,7 +150,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                 {...register("agent")}>
                                     <option value="">select...</option>
                                     {useMemo(() => agents.map((agent: AgentInterface) => (
-                                        <option key={agent.name} value={agent.name}>
+                                        <option key={agent.email} value={agent.email}>
                                             {agent.name} | {agent.email}
                                         </option>
                                     )), [agents])}

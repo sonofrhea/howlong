@@ -22,7 +22,7 @@ const ProductGroupDetails: React.FC<any> = ({ productGroup, isLoading, onBack, o
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-3 text-gray-600">Loading product group...</p>
+                <p className="mt-3 text-gray-600">fetching product group...</p>
             </div>
         );
     }
@@ -115,6 +115,14 @@ const ProductGroupDetails: React.FC<any> = ({ productGroup, isLoading, onBack, o
 
                         <div className="text-lg font-semibold text-black">
                             {formatDate(productGroup.date_created)}
+                        </div>
+                    </div>
+
+                    <div className="bg-purple-50 text-center border border-purple-300 hover:border-purple-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <div className="text-sm text-purple-900 font-medium">created by</div>
+
+                        <div className="text-lg font-semibold text-black">
+                            {productGroup.created_by}
                         </div>
                     </div>
                 </div>

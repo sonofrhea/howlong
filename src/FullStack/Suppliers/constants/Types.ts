@@ -208,6 +208,7 @@ export type SupplierPaymentInputs = {
     cancelled?: boolean | null;
   }> | null;
   related_invoice: string;
+  agent: string;
   invoice_amount: number;
   tax_inclusive: boolean;
   tax_amount: number;

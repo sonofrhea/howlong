@@ -146,6 +146,11 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                             <p className={details.extraSmallUppercase}>Agent</p>
                             {debitNote.agent || 'N/A'}
                         </p>
+
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Created By</p>
+                            {debitNote.created_by || 'N/A'}
+                        </p>
                     </div>
 
                     <hr className="my-6 border-gray-200" />
@@ -216,6 +221,13 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                         </div>
                     )}
                 </div>
+
+                <hr className="my-6 border-gray-200" />
+
+                <p className={labelStyles}>
+                    <p className={details.extraSmallUppercase}>Created By</p>
+                    {debitNote.created_by || 'N/A'}
+                </p>
             </div>
         </div>
     );

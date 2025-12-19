@@ -23,12 +23,6 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
 
     const submission = async (data: any) => {
-        console.log("SUBMISSION FUNCTION CALLED!", data);
-        if (loading) {
-            console.log("YES, LOADING!")
-        } else {
-            console.log("NOT LOADING, PROCEEDING...");
-        }
         if (loading) return
         setLoading(true);
         setError("")
@@ -108,7 +102,7 @@ const Login = () => {
                     <Box className={"itemBox"}>
                         <MyButton 
                             type={"submit"}
-                            label={loading ? <span className={spinningStyles.terminalBar.spinner}> ↻</span> : "Login"}
+                            label={loading ? <span className={spinningStyles.terminalBar.spinner}>◖◗</span> : "Login"}
                             disabled={loading}
                         />
                     </Box>

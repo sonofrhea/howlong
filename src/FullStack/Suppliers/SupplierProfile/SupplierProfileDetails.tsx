@@ -1,4 +1,5 @@
 import React from "react";
+import { details } from "../../Core/constants/Styles";
 
 
 
@@ -358,6 +359,13 @@ const SupplierProfileDetails: React.FC<any> = ({ supplierProfile, isLoading, onB
                         </div>
                     </div>
                 </div>
+                
+                <hr className="my-6 border-gray-200" />
+                
+                <p>
+                    <p className={details.extraSmallUppercase}>Created by</p>
+                    {formatDate(supplierProfile.date_created) || 'N/A'}
+                </p>
             </div>
         </div>
     );

@@ -126,7 +126,7 @@ const SupplierCategoryTable: React.FC<any> = ({ supplierCategories, onSupplierCa
                                         <div className="text-sm text-gray-900 truncate">{supplierCategory.category}</div>
                                     </td>
 
-                                    {/* Created by */}
+                                    {/* Description */}
                                     <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-gray-900 truncate">{supplierCategory.description}</div>
                                     </td>

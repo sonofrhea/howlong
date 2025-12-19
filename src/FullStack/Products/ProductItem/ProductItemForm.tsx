@@ -62,6 +62,7 @@ const ProductItemForm: React.FC<any> = ({ onSubmit, onCancel, isSubmitting,
                                     {...register("active")}
                                     className="ml-4 w-25 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
                                 >
+                                    <option value="">select...</option>
                                     {BOOLEAN_OPTIONS.map(option => (
                                         <option key={String(option.value)} value={String(option.value)}>
                                             {option.label}
@@ -96,7 +97,7 @@ const ProductItemForm: React.FC<any> = ({ onSubmit, onCancel, isSubmitting,
                                     {...register("product_group")}
                                     className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                 >
-                                    <option value=""></option>
+                                    <option value="">select...</option>
                                     {useMemo(() => productGroups.map((productGroup: ProductGroupCreateResponse) => (
                                         <option key={productGroup.group_code} value={productGroup.group_code}>
                                             SKG-{productGroup.group_code} | Group name: {productGroup.group_name}
@@ -173,7 +174,7 @@ const ProductItemForm: React.FC<any> = ({ onSubmit, onCancel, isSubmitting,
                                         {...register("currency")}
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     >
-                                        <option value=""></option>
+                                        <option value="">select...</option>
                                         {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                             <option key={currency.currency_code} value={currency.currency_code}>
                                                 {currency.currency_code} - {currency.country}

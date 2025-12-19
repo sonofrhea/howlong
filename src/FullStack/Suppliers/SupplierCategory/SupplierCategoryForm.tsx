@@ -65,10 +65,10 @@ const SuppliersCategoryForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel
                                         {...register("created_by")} 
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2"
                                     >
-                                        <option value=""></option>
+                                        <option value="">select...</option>
                                         {useMemo(() => agents.map((agent: AgentInterface) => (
                                             <option key={agent.name} value={agent.name}>
-                                                {agent.name}
+                                                {agent?.name} | {agent?.email}
                                             </option>
                                         )), [agents])}
                                     </select>
