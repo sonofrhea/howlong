@@ -76,10 +76,10 @@ export type CustomersList = {
 export type CustomerInputs = {
   customer_name: string | null;
   company_name: string | null;
-  control_account: {
-    account_code: number;
-    account_name: string | null;
-    account_type: string | null;
+  control_account?: {
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
   };
   address: string | null;
   country: string | null;
@@ -173,7 +173,7 @@ export type DebitNoteInputs = {
     description?: string | null;
     amount?: number | null;
     tax_inclusive?: boolean | null;
-    tax_amount?: number | null;
+    tax_amount?: number;
     cancelled?: boolean | null;
   }> | null;
   tax_inclusive: boolean;
@@ -213,7 +213,7 @@ export type DebitNoteDetails = {
     description?: string | null;
     amount?: number | null;
     tax_inclusive?: boolean | null;
-    tax_amount?: number | null;
+    tax_amount?: number;
     current_total?: number | null;
     cancelled?: boolean | null;
   }> | null;

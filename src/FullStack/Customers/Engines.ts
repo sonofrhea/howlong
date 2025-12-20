@@ -2,7 +2,9 @@ import apiClient from '../../BaseEngine';
 import { AllCustomerInputs, CustomerInputs, 
   EditCustomerInputs, DebitNoteInputs,
   AllDebitNoteInputs, AllCreditNoteInputs,
-  CreditNoteInputs
+  CreditNoteInputs,
+  CustomerRefundInputs,
+  AllCustomerRefundInputs
  } from './constants/Types';
 
 
@@ -23,6 +25,11 @@ import { AllCustomerInputs, CustomerInputs,
 
 
 // CUSTOMER PROFILE -  AXIOS
+
+export const paginatedCustomers = async (page: number, pageSize: number) => {
+  const response = await apiClient.get(`/customers/customerprofile/?page=${page}&page_size=${pageSize}/`);
+  return response.data;
+};
 
 export const fetchCustomers = async () => {
   const response = await apiClient.get('/customers/customerprofile/');
@@ -52,6 +59,7 @@ export const deleteCustomer = async (customer_number: number) => {
   await apiClient.delete(`/customers/customerprofile/${customer_number}/`);
   return true;
 };
+
 
 
 // --------------------------------------------------------------------------------------------------------
@@ -127,22 +135,22 @@ export const fetchRefunds = async () => {
   return response.data;
 };
 
-export const fetchRefundById = async (refund_number) => {
+export const fetchRefundById = async (refund_number: number) => {
   const response = await apiClient.get(`/customers/customerrefund/${refund_number}/`);
   return response.data;
 };
 
-export const createRefund = async (refundData) => {
+export const createRefund = async (refundData: CustomerRefundInputs) => {
   const response = await apiClient.post('/customers/customerrefund/', refundData);
   return response.data;
 };
 
-export const updateRefund = async ({ refund_number, refundData }) => {
+export const updateRefund = async ({ refund_number, refundData }: AllCustomerRefundInputs) => {
   const response = await apiClient.put(`/customers/customerrefund/${refund_number}/`, refundData);
   return response.data;
 };
 
-export const deleteRefund = async (refund_number) => {
+export const deleteRefund = async (refund_number: number) => {
   await apiClient.delete(`/customers/customerrefund/${refund_number}/`);
   return true;
 };

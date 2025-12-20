@@ -234,7 +234,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                         <th className={tables.headerCell}>Amount</th>
                                         <th className={tables.headerCell}>Additional Charges</th>
                                         <th className={tables.headerCell}>Payment Type</th>
-                                        <th className={tables.headerCell}>Total</th>
+                                        <th className={tables.headerCell}>Total<br></br>(After Charges)</th>
                                         <th className={tables.headerCell}>Cancelled</th>
                                         <th className={tables.headerCell}></th>
                                     </tr>

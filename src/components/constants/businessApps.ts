@@ -10,7 +10,7 @@ export const BUSINESS_APPS: BusinessAppInterface[] = [
     { id: 'suppliers', name: 'Suppliers', path: '/suppliers', available: true },
     { id: 'accounting', name: 'Accounting', path: '/accounting', available: false },
     { id: 'projects', name: 'Projects', path: '/projects', available: false },
-    { id: 'purchases', name: 'Purchases', path: '/purchases', available: false },
+    { id: 'purchases', name: 'Purchases', path: '/purchases', available: true },
     { id: 'reports', name: 'Reports', path: '/reports', available: false },
     { id: 'core', name: 'HR & Workers', path: '/core', available: false },
 ];
@@ -65,7 +65,7 @@ export const DASHBOARD_APPS: DashboardInterface[] = [
       name: 'Purchases Management', 
       description: 'Manage company purchases database', 
       path: '/purchases',
-      available: false
+      available: true
     },
     { 
       id: 'reports', 

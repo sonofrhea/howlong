@@ -87,10 +87,6 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                         </div>
                     </div>
 
-                    <div>
-                        <p className="text-xs text-gray-500 mt-1">Details</p>
-                    </div>
-
                     <div className="flex gap-3">
                         <button 
                             onClick={onEdit}
@@ -146,11 +142,6 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                             <p className={details.extraSmallUppercase}>Agent</p>
                             {debitNote.agent || 'N/A'}
                         </p>
-
-                        <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Created By</p>
-                            {debitNote.created_by || 'N/A'}
-                        </p>
                     </div>
 
                     <hr className="my-6 border-gray-200" />
@@ -167,7 +158,7 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                                             <th className={tables.headerCell}>Amount</th>
                                             <th className={tables.headerCell}>SST Inclusive?</th>
                                             <th className={tables.headerCell}>SST %</th>
-                                            <th className={tables.headerCell}>Current Total</th>
+                                            <th className={tables.headerCell}>Current Total<br></br>(After SST)</th>
                                         </tr>
                                     </thead>
 
@@ -229,6 +220,7 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                     {debitNote.created_by || 'N/A'}
                 </p>
                 <hr className="my-6 border-gray-200" />
+                
             </div>
         </div>
     );

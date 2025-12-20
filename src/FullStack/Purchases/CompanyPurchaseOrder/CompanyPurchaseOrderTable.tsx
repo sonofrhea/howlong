@@ -1,7 +1,8 @@
 import React from "react";
+import { CompanyPurchaseOrderList } from "../constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
@@ -13,13 +14,13 @@ const formatNumber = () => {
 
 
 
-const CompanyPurchaseOrderTable = ({ companyPurchaseOrders, onCompanyPurchaseOrderClick, onEditCompanyPurchaseOrder,
+const CompanyPurchaseOrderTable: React.FC<any> = ({ companyPurchaseOrders, onCompanyPurchaseOrderClick, onEditCompanyPurchaseOrder,
     onDeleteCompanyPurchaseOrder, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
  }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -68,7 +69,7 @@ const CompanyPurchaseOrderTable = ({ companyPurchaseOrders, onCompanyPurchaseOrd
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Company Purchase Order List</h3>
                     <div className="flex items-center gap-4">
@@ -90,30 +91,37 @@ const CompanyPurchaseOrderTable = ({ companyPurchaseOrders, onCompanyPurchaseOrd
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/5 text-center" />  {/* Purchase Order Number - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/5 text-center" /> {/* Supplier - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Status */}
-                        <col className="w-1/5 text-center" /> {/* Address - 16.6% */}
-                         <col className="w-1/5 text-center" /> {/* Agent - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-[7%] text-center",
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Purchase Order #" sortKey="purchase_order_number" />
                             <SortableHeader label="Date" sortKey="date" />
-                            <SortableHeader label="Supplier" sortKey="supplier" />
+                            <SortableHeader label="Invoice total" sortKey="supplier_name" />
+                            <SortableHeader label="Invoice total" sortKey="invoice_total" />
+                            <SortableHeader label="Net Total paid" sortKey="net_total_paid" />
+                            <SortableHeader label="Outstanding" sortKey="outstanding_amount" />
                             <SortableHeader label="Status" sortKey="status" />
-                            <SortableHeader label="Address" sortKey="address" />
-                            <SortableHeader label="Agent" sortKey="agent" />
-                            <SortableHeader label="Created By" sortKey="created_by" />
+                            <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {companyPurchaseOrders.map((companyPurchaseOrder) => {
+                        {companyPurchaseOrders.map((companyPurchaseOrder: CompanyPurchaseOrderList) => {
                             const companyPurchaseOrdersId = companyPurchaseOrder.purchase_order_number;
 
                             return (
@@ -121,37 +129,67 @@ const CompanyPurchaseOrderTable = ({ companyPurchaseOrders, onCompanyPurchaseOrd
                                 onClick={() => onCompanyPurchaseOrderClick(companyPurchaseOrdersId)}>
                                     {/* Purchase Order Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={companyPurchaseOrder.purchase_order_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
                                             {formatNumber()}{companyPurchaseOrder.purchase_order_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(companyPurchaseOrder.date)}>
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(companyPurchaseOrder.date)}
                                         </div>
                                     </td>
 
                                     {/* Supplier */}
-                                    <td className="px-2 py-2 truncate" title={companyPurchaseOrder.supplier}>
-                                        <div className="text-sm text-gray-900 truncate">{companyPurchaseOrder.supplier}</div>
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {companyPurchaseOrder.supplier_name || '--'}
+                                        </div>
+                                    </td>
+
+                                    {/* Invoice total */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {companyPurchaseOrder.invoice_total || '--'}
+                                        </div>
+                                    </td>
+
+                                    {/* total paid */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {companyPurchaseOrder.net_total_paid || '--'}
+                                        </div>
+                                    </td>
+
+                                    {/* Outstanding */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {companyPurchaseOrder.outstanding_amount || '--'}
+                                        </div>
                                     </td>
 
                                     {/* Status */}
-                                    <td className="px-2 py-2 truncate" title={companyPurchaseOrder.status}>
-                                        <div className="text-sm text-gray-900 truncate">{companyPurchaseOrder.status}</div>
+                                    <td className="px-2 py-2 truncate">
+                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                            companyPurchaseOrder.status === 'Paid' ? 'bg-green-100 text-green-800' :
+                                            companyPurchaseOrder.status === 'Partial' ? 'bg-yellow-100 text-yellow-800' :
+                                            companyPurchaseOrder.status === 'Unpaid' ? 'bg-red-100 text-red-800' :
+                                            'N/A'
+                                        }`}>
+                                            {companyPurchaseOrder.status}
+                                        </div>
                                     </td>
 
-                                    {/* Address */}
-                                    <td className="px-2 py-2 truncate" title={companyPurchaseOrder.address}>
-                                        <div className="text-sm text-gray-900 truncate">{companyPurchaseOrder.address}</div>
-                                    </td>
-
-                                    {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={companyPurchaseOrder.agent}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {companyPurchaseOrder.agent}
+                                    {/* Cancelled */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                            companyPurchaseOrder.cancelled
+                                                ? 'bg-red-100 text-red-800'
+                                                : 'bg-green-100 text-green-800'
+                                                 
+                                        }`}>
+                                            {companyPurchaseOrder.cancelled || '--'}
                                         </div>
                                     </td>
 

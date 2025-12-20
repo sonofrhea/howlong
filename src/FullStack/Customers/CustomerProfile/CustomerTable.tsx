@@ -104,7 +104,7 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
             </div>
         );
     }
-
+    console.log(customers);
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
@@ -119,6 +119,7 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
                                 onChange={(e) => onItemsPerPageChange(e.target.value)}
                                 className="border text-black border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
                             >
+                                <option value="5">5</option>
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>

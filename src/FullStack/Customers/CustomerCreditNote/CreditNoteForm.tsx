@@ -229,7 +229,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                     <th className={tables.headerCell}>Amount</th>
                                     <th className={tables.headerCell}>Tax Inclusive?</th>
                                     <th className={tables.headerCell}>Tax %</th>
-                                    <th className={tables.headerCell}>Current Total</th>
+                                    <th className={tables.headerCell}>Current Total<br></br>(After SST)</th>
                                     <th></th>
                                 </tr>
                             </thead>

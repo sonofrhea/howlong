@@ -239,7 +239,7 @@ const controlAccountChange = supplierDebitNoteAccountHandler(accounts, setValue)
                                     <th className={tables.headerCell}>Amount</th>
                                     <th className={tables.headerCell}>SST Inclusive?</th>
                                     <th className={tables.headerCell}>SST %</th>
-                                    <th className={tables.headerCell}>Current Total</th>
+                                    <th className={tables.headerCell}>Current Total<br></br>(After SST)</th>
                                     <th className={tables.headerCell}></th>
                                 </tr>
                             </thead>

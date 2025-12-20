@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 
@@ -9,8 +9,8 @@ import { forms, buttons, layout, tables, text, utils } from "../constants/styles
 import { CompanyPurchaseInvoiceInputs } from "../constants/Types";
 
 import { AgentInterface } from "../../Core/constants/Types";
-import { SupplierProfileInterface } from "../../Suppliers/constants/Types";
-import { ProductItemInterface } from "../../Products/constants/Types";
+import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
+import { ProductItemCreateResponse } from "../../Products/constants/Types";
 
 import { Trash2 } from "lucide-react";
 
@@ -33,15 +33,23 @@ const decimalPlaces = (amount: number) => {
 const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
     agents, products, suppliers }) => {
 
+        const productOption = useMemo(() => products.map((product: ProductItemCreateResponse) => (
+                            <option key={product.item_code} value={product.item_code}>
+                                SKU-{product.item_code} - {product.item_description}
+                            </option>
+                        )), [products])
+
 
         const { register, handleSubmit, watch, setValue, 
             control, formState: { errors } } = useForm<CompanyPurchaseInvoiceInputs>({
                 defaultValues: {
+                    tax: 0.00,
+                    status: 'Active' as any,
                     related_invoice: [
                         {
                             quantity: 1,
                             price: 0.00,
-                            tax: 0.00
+                            tax: 0.00,
                         }
                     ],
                 }
@@ -86,9 +94,10 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                 <p className={forms.label}>Date</p>
                                 <input 
                                     type="date"
-                                    {...register("date")}
+                                    {...register("date", {required: "Date is required"})}
                                     className={forms.input.date}
                                 />
+                                {errors.date && <p className="text-amber-600 text-sm">{errors.date?.message}</p>}
                             </div>
 
                             <div>
@@ -97,12 +106,12 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                     {...register("supplier")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
-                                    {suppliers.map((supplier: SupplierProfileInterface) => (
+                                    <option value="">select...</option>
+                                    {useMemo(() => suppliers.map((supplier: SupplierProfileResponse) => (
                                         <option key={supplier.supplier_code} value={supplier.supplier_code}>
                                             {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
                                         </option>
-                                    ))}
+                                    )), [suppliers])}
                                 </select>
                             </div>
 
@@ -110,12 +119,12 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                 <p className={forms.label}>Agent</p>
                                 <select className={forms.select.partial}
                                     {...register("agent")}>
-                                        <option value=""></option>
-                                        {agents.map((agent: AgentInterface) => (
-                                            <option key={agent.name} value={agent.name}>
-                                                {agent.name}
+                                        <option value="">select...</option>
+                                        {useMemo(() => agents.map((agent: AgentInterface) => (
+                                            <option key={agent.email} value={agent.email}>
+                                                {agent.name} | {agent.email}
                                             </option>
-                                        ))}
+                                        )), [agents])}
                                 </select>
                             </div>
 
@@ -125,12 +134,12 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                     {...register("status")}
                                     className={forms.select.partial}
                                 >
-                                    <option value=""></option>
-                                    {PURCHASE_INVOICE_STATUS.map(option => (
+                                    <option value="">select...</option>
+                                    {useMemo(() => PURCHASE_INVOICE_STATUS.map(option => (
                                         <option key={option.value} value={option.value}>
                                             {option.label}
                                         </option>
-                                    ))}
+                                    )), [PURCHASE_INVOICE_STATUS])}
                                 </select>
                             </div>
                         </div>
@@ -188,7 +197,7 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                             <th className={tables.headerCell}>Price</th>
                                             <th className={tables.headerCell}>Gross Total</th>
                                             <th className={tables.headerCell}>Tax Inclusive</th>
-                                            <th className={tables.headerCell}>Tax</th>
+                                            <th className={tables.headerCell}>Tax %</th>
                                              <th className={tables.headerCell}>Cancelled</th>
                                             <th className={tables.headerCell}>SubTotal</th>
                                             <th></th>
@@ -203,12 +212,8 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
                                                         {...register(`related_invoice.${index}.product_item`)}
                                                         className={forms.select.full}
                                                     >
-                                                        <option value=""></option>
-                                                        {products.map((product: ProductItemInterface) => (
-                                                            <option key={product.item_code} value={product.item_code}>
-                                                                SKU-{product.item_code} - {product.item_description}
-                                                            </option>
-                                                        ))}
+                                                        <option value="">select...</option>
+                                                        {productOption}
                                                     </select>
                                                 </td>
 

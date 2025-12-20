@@ -1,4 +1,6 @@
 import React from "react";
+import { buttons, details, forms, labelStyles, layout, tables, text } from "../constants/styles";
+import { SquarePen } from "lucide-react";
 
 
 
@@ -21,7 +23,7 @@ const CompanyPurchaseInvoiceDetails: React.FC<any> = ({ companyPurchaseInvoice, 
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-3 text-gray-600">Loading Invoice...</p>
+                <p className="mt-3 text-gray-600">fetching Invoice...</p>
             </div>
         );
     }
@@ -46,102 +48,107 @@ const CompanyPurchaseInvoiceDetails: React.FC<any> = ({ companyPurchaseInvoice, 
 
 
     return(
-        <div className="bg-gray-100">
-            <div className="w-full mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
-                    <div>
-                        <p className="text-sm text-gray-500 mt-1">Official Payment Documentation</p>
+        <div className="w-full mx-auto page bg-white shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden">
+            <div className={forms.body}>
+                <div className={layout.header}>
+                    <div className={layout.tag}>
+
+                        <div className="text-center space-y-6 px-6 py-3 gap-4">
+                            <div className={layout.redBadge}>
+                                <p className={text.badgeLarge}>
+                                    COMPANY PURCHASE INVOICE
+                                </p>
+                                <p className={labelStyles}>
+                                    {formatNumber()}{companyPurchaseInvoice.purchase_invoice_number}
+                                </p>
+                            </div>
+                        </div>
                     </div>
+                    
+
                     <div className="flex gap-3">
                         <button 
                             onClick={onEdit}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                            className={buttons.editButtonGreen}
                         >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
+                            <SquarePen size={20} strokeWidth={1.5} />
                             Edit
                         </button>
                     </div>
                 </div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
-                    <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-lg bg-linear-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white font-bold">PO</div>
-                        <div>
-                            <h1 className="text-2xl font-semibold text-gray-800">COMPANY PURCHASE INVOICE</h1>
-                            <p className="text-sm text-gray-500">Purchase Invoice</p>
-                        </div>
+
+                <hr className="my-6 border-gray-200" />
+
+                <div>
+                    <div className="grid grid-cols-3 gap-6">
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Refund No.</p>
+                            {formatNumber()}{companyPurchaseInvoice.purchase_invoice_number}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Date</p>
+                            {formatDate(companyPurchaseInvoice.date)}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Supplier</p>
+                            {companyPurchaseInvoice.supplier || 'N/A'} | {companyPurchaseInvoice.supplier_name || 'N/A'}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Address</p>
+                            {companyPurchaseInvoice.address || 'N/A'}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Description</p>
+                            {companyPurchaseInvoice.description || 'N/A'}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <p className={details.extraSmallUppercase}>Status</p>
+                            {companyPurchaseInvoice.status || 'N/A'}
+                        </p>
                     </div>
+                    
+                    <hr className="my-6 border-gray-200" />
 
-                    <div className="text-right">
-                        <div className="inline-block bg-rose-50 border border-rose-100 px-4 py-2 rounded-lg">
-                            <div className="text-xs text-rose-700 uppercase tracking-wide">Purchase Invoice</div>
-                            <div className="text-lg font-bold text-rose-800">{formatNumber()}{companyPurchaseInvoice.purchase_invoice_number}</div>
-                        </div>
-                        <div className="mt-3 text-sm text-gray-500">
-                            <div><strong>Date:</strong> <span>{formatDate(companyPurchaseInvoice.date)}</span></div>
-                            <div><strong>Reference Supplier:</strong> <span>{companyPurchaseInvoice.supplier_name}</span></div>
-                        </div>
-                        <div className="mt-3 text-sm text-gray-500">
-                            <div><strong>Status: </strong> 
-                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium">
-                            {companyPurchaseInvoice.status}
-                            </span>
-                        </div>
-                        </div>
-                    </div>
-                </div>
+                    {/* LINES */}
+                    {companyPurchaseInvoice.related_invoice && companyPurchaseInvoice.related_invoice.length > 0 && (
 
-                <div className="border-t border-b border-gray-100 p-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                        <h3 className="text-sm text-gray-500 font-bold uppercase">Address</h3>
-                        <p className="mt-2 text-gray-800 font-medium whitespace-pre">{companyPurchaseInvoice.address}</p>
-                    </div>
-
-                    <div>
-                        <h3 className="text-sm text-gray-500 font-bold uppercase">Agent</h3>
-                        <p className="mt-2 text-gray-800 font-medium">{companyPurchaseInvoice.created_by}</p>
-                    </div>
-                </div>
-
-                <div className="p-6">
-                    <h4 className="text-sm text-gray-500 font-bold uppercase">Description</h4>
-                    <p className="mt-2 text-sm text-gray-700">{companyPurchaseInvoice.description}</p>
-                </div>
-
-                {/* LINES */}
-                {companyPurchaseInvoice.related_invoice && companyPurchaseInvoice.related_invoice.length > 0 && (
-
-                    <div className="p-6">
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-100">
-                                <thead className="bg-blue-100">
+                        <div className="p-6">
+                            <div className="overflow-x-auto">
+                            <table className={forms.body}>
+                                <thead className={tables.header}>
                                     <tr>
-                                        <th className="px-4 py-3 border p-3 text-center text-xs font-bold text-gray-500 uppercase">Product Item</th>
-                                        <th className="px-4 py-3 border p-3 text-center text-xs font-bold text-gray-500 uppercase">Description</th>
-                                        <th className="px-4 py-3 border p-3 text-center text-xs font-bold text-gray-500 uppercase">Quantity</th>
-                                        <th className="px-4 py-3 border p-3 text-center text-xs font-bold text-gray-500 uppercase">Base UOM</th>
-                                        <th className="px-4 py-3 border p-3 text-center text-xs font-bold text-gray-500 uppercase">Price</th>
-                                        <th className="px-4 py-3 border p-3 text-center text-xs font-bold text-gray-500 uppercase">Amount</th>
-                                        <th className="px-4 py-3 border p-3 text-center text-xs font-bold text-gray-500 uppercase">Tax Inclusive</th>
-                                        <th className="px-4 py-3 border p-3 text-center text-xs font-bold text-gray-500 uppercase">Tax</th>
-                                        <th className="px-4 py-3 border p-3 text-center text-xs font-bold text-gray-500 uppercase">SubTotal</th>
+                                        <th className={tables.headerCell}>Product Item</th>
+                                        <th className={tables.headerCell}>Description</th>
+                                        <th className={tables.headerCell}>Quantity</th>
+                                        <th className={tables.headerCell}>Base UOM</th>
+                                        <th className={tables.headerCell}>Price</th>
+                                        <th className={tables.headerCell}>Amount</th>
+                                        <th className={tables.headerCell}>Tax Inclusive</th>
+                                        <th className={tables.headerCell}>Tax %</th>
+                                        <th className={tables.headerCell}>SubTotal</th>
+                                        <th className={tables.headerCell}>Cancelled</th>
                                     </tr>
                                 </thead>
 
-                                <tbody className="bg-white divide-y divide-gray-100">
+                                <tbody className={tables.body}>
                                     {companyPurchaseInvoice.related_invoice.map((line: any, index: any) => (
 
-                                        <tr key={index}>
-                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.product_item}</td>
-                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.description}</td>
-                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.quantity}</td>
-                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.base_unit_of_measure}</td>
-                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.price}</td>
-                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">RM {line.gross_total}</td>
-                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">{line.tax_inclusive ? 'Yes' : 'No'}</td>
-                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">RM {line.tax}</td>
-                                            <td className="px-4 border p-3 py-4 text-sm text-gray-600">RM {line.sub_total}</td>
+                                        <tr key={index} className={tables.row}>
+                                            <td className={tables.cell}>{line.product_item || 'N/A'} | {line.product_item_name || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.description || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.quantity || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.base_unit_of_measure || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.price || '--'}</td>
+                                            <td className={tables.cell}>{line.total || '--'}</td>
+                                            <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
+                                            <td className={tables.cell}>{line.tax || '--'}</td>
+                                            <td className={tables.cell}>{line.sub_total || '--'}</td>
+                                            <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -150,16 +157,45 @@ const CompanyPurchaseInvoiceDetails: React.FC<any> = ({ companyPurchaseInvoice, 
 
                         <div className="mt-6 sm:flex sm:items-center sm:justify-end">
                             <div className="w-full sm:w-1/2 lg:w-1/3">
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Total</div>
-                                        <div className="font-extrabold text-gray-800">RM {companyPurchaseInvoice.related_invoice[0].net_total}</div>
+                                    <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Gross Total</div>
+                                            <div className="font-medium text-gray-800">{companyPurchaseInvoice.gross_total || '--'}</div>
+                                        </div>
+
+                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                            <div>Tax %</div>
+                                            <div className="font-medium text-gray-800">{companyPurchaseInvoice.tax_amount || '0'}%</div>
+                                        </div>
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Net Total:</div>
+                                            <div className="font-medium text-black">
+                                                {companyPurchaseInvoice.net_total || '--'}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Cancelled:</div>
+                                            <div className="font-medium text-black">
+                                                {companyPurchaseInvoice.cancelled ? 'Yes' : 'No'}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
-                )}
+                    )}
+                </div>
+                
+                <hr className="my-6 border-gray-200" />
+
+                <p className={labelStyles}>
+                    <p className={details.extraSmallUppercase}>Created by</p>
+                    {companyPurchaseInvoice.created_by || 'N/A'}
+                </p>
+                <hr className="my-6 border-gray-200" />
             </div>
         </div>
     );

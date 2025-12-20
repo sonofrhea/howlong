@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { Plus } from "lucide-react";
 
-import { fetchCompanyPurchaseInvoices, fetchCompanyPurchaseInvoiceById, createCompanyPurchaseInvoice, 
+import { fetchCompanyPurchaseInvoices, fetchCompanyPurchaseInvoiceById, 
+    createCompanyPurchaseInvoice, 
     updateCompanyPurchaseInvoice, deleteCompanyPurchaseInvoice
 } from "../Engines";
 
@@ -17,7 +18,8 @@ import { fetchSupplierProfiles } from "../../Suppliers/Engines";
 
 import { management, spinningStyles } from "../constants/styles";
 
-import { CompanyPurchaseInvoiceInputs, CompanyPurchaseInvoiceResponse, EditCompanyPurchaseInvoiceInputs } from "../Interfaces";
+import { CompanyPurchaseInvoiceInputs, CompanyPurchaseInvoiceResponse,
+     EditCompanyPurchaseInvoiceInputs } from "../constants/Types";
 
 
 import CompanyPurchaseInvoiceDetails from "./CompanyPurchaseInvoiceDetails";
@@ -150,29 +152,32 @@ function CompanyPurchaseInvoiceManagement() {
     // ------------------------------------------------------------------------------------
                     // MUTATION USE
     
-    const toFormData = (obj, form = new FormData(), parentKey = '') => {
-        Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        const field = parentKey ? `${parentKey}.${key}` : key;
-        if (value === null || value === undefined) return;
-        if (Array.isArray(value)) {
-            value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-        } else if (value instanceof File) {
-            form.append(field, value);
-        } else if (typeof value === 'object') {
-            toFormData(value, form, field);
-        } else {
-            form.append(field, value);
-        }
-        });
-        return form;
-    };
+    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    //    Object.keys(obj).forEach(key => {
+    //    const value = obj[key];
+    //    const field = parentKey ? `${parentKey}.${key}` : key;
+    //    if (value === null || value === undefined) return;
+    //    if (Array.isArray(value)) {
+    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+    //    } else if (value instanceof File) {
+    //        form.append(field, value);
+    //    } else if (typeof value === 'object') {
+    //        toFormData(value, form, field);
+    //    } else {
+    //        form.append(field, value);
+    //    }
+    //    });
+    //    return form;
+    //};
 
 
 
 
 
     const handleAddCompanyPurchaseInvoice = async (companyPurchaseInvoiceData: CompanyPurchaseInvoiceInputs) => {
+        if (companyPurchaseInvoiceData.related_invoice?.length === 0) {
+            delete companyPurchaseInvoiceData.related_invoice
+        }
         console.log("🎯 RAW FORM DATA:", companyPurchaseInvoiceData)
 
         createCompanyPurchaseInvoiceMutation.mutate(companyPurchaseInvoiceData);
@@ -284,7 +289,7 @@ function CompanyPurchaseInvoiceManagement() {
     if (isLoadingCompanyPurchaseInvoices) return (
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-            <span className={spinningStyles.terminalBar.spinner}>𐬽</span>
+            <span className={spinningStyles.terminalBar.spinner}></span>
             <p className="mt-4 text-gray-600">Loading Company Purchase Invoices...</p>
         </div>
         </div>
@@ -319,7 +324,7 @@ function CompanyPurchaseInvoiceManagement() {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <span className={spinningStyles.terminalBar.spinner}>𐬽</span>
+                        <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                         <div>
                             <h1 className="text-lg font-semibold text-gray-900">Purchases Suite</h1>
                             <p className="text-sm text-gray-500">Company Purchase Invoice Management</p>
@@ -348,7 +353,7 @@ function CompanyPurchaseInvoiceManagement() {
                 <div className="flex items-start justify-between mb-8">
                     <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl flex items-center justify-center border border-green-100">
+                        <div className="w-12 h-12 bg-linear-to-br from-green-50 to-emerald-100 rounded-2xl flex items-center justify-center border border-green-100">
                         <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
@@ -386,7 +391,7 @@ function CompanyPurchaseInvoiceManagement() {
                         <div className="w-px h-8 bg-gray-200"></div>
                         <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                            {new Set(companyPurchaseInvoices.map(c => c.suppliers?.supplier_code)).size}
+                            {new Set(companyPurchaseInvoices.map((c: any) => c.suppliers?.supplier_code)).size}
                         </div>
                         <div className="text-sm text-gray-500">Suppliers</div>
                         </div>
@@ -395,10 +400,10 @@ function CompanyPurchaseInvoiceManagement() {
                         <div className="relative">
                             <input
                                 type="text"
-                                placeholder="Search..."
+                                placeholder="Search purchase invoices..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className={management.searchSize}
+                                className="pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
                             />
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -408,7 +413,7 @@ function CompanyPurchaseInvoiceManagement() {
                         </div>
                         <button
                         onClick={() => setView('form')}
-                        className={management.newButton}
+                        className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                         <Plus size={16} />
                         New Purchase Invoice
@@ -439,7 +444,7 @@ function CompanyPurchaseInvoiceManagement() {
                 )}
 
                 {view === 'form' && (
-                <div className="w-[100%] bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
+                <div className="min-w-full bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
                     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
                     <div className="flex items-center gap-4 mb-8 justify-between">
                         <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center border border-green-100">

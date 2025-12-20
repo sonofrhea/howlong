@@ -124,9 +124,8 @@ function CompanyPurchaseOrderManagement() {
     const createCompanyPurchaseOrderMutation = useMutation({
         mutationFn: createCompanyPurchaseOrder,
         onSuccess: (data: CompanyPurchaseOrderResponse) => {
-            const newCompanyPurchaseOrder = data.purchase_order_number
             queryClient.invalidateQueries({ queryKey: ['CompanyPurchaseOrders']});
-            setSelectedCompanyPurchaseOrderId(newCompanyPurchaseOrder);
+            setSelectedCompanyPurchaseOrderId(data.purchase_order_number);
             setView('details');
         },
         onError: (error: any) => {
@@ -187,12 +186,21 @@ function CompanyPurchaseOrderManagement() {
 
 
     const handleAddCompanyPurchaseOrder = async (companyPurchaseOrderData: CompanyPurchaseOrderInputs) => {
-        if (!companyPurchaseOrderData.account?.account_code) {
-            delete companyPurchaseOrderData.account;
-        }
-        console.log("🎯 RAW FORM DATA:", companyPurchaseOrderData)
+        const newCompanyPurchaseOrderData = new FormData();
 
-        createCompanyPurchaseOrderMutation.mutate(companyPurchaseOrderData);
+        Object.entries(companyPurchaseOrderData).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+                if (value instanceof File) {
+                    newCompanyPurchaseOrderData.append(key, value);
+                } else {
+                    newCompanyPurchaseOrderData.append(key, String(value));
+                }
+            }
+        });
+
+        console.log("🎯 RAW FORM DATA:", newCompanyPurchaseOrderData)
+
+        createCompanyPurchaseOrderMutation.mutate(newCompanyPurchaseOrderData);
     };
 
 
@@ -245,10 +253,9 @@ function CompanyPurchaseOrderManagement() {
 
     const filteredCompanyPurchaseOrders = CompanyPurchaseOrders.filter((companyPurchaseOrder: any) => {
     const purchaseOrderNumber = String(companyPurchaseOrder.purchase_order_number)?.toLowerCase() || '';
-    const agentName = companyPurchaseOrder.agent.toLowerCase() || '';
     const search = searchTerm.toLowerCase();
     
-    return purchaseOrderNumber.includes(search) || agentName.includes(search);
+    return purchaseOrderNumber.includes(search);
     });
 
     // ------------------------------------------------------------------------------------
@@ -270,7 +277,7 @@ function CompanyPurchaseOrderManagement() {
 
 
     // Sort handler
-    const handleSort = (key) => {
+    const handleSort = (key: any) => {
     setSortConfig(current => ({
         key,
         direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'
@@ -305,14 +312,14 @@ function CompanyPurchaseOrderManagement() {
     if (isLoadingCompanyPurchaseOrders) return (
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-            <span className={spinningStyles.terminalBar.spinner}>𐬽</span>
+            <span className={spinningStyles.terminalBar.spinner}></span>
             <p className="mt-4 text-gray-600">fetching purchase orders...</p>
         </div>
         </div>
     );
 
     if (CompanyPurchaseOrderError) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
             <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
@@ -369,7 +376,7 @@ function CompanyPurchaseOrderManagement() {
                 <div className="flex items-start justify-between mb-8">
                     <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl flex items-center justify-center border border-green-100">
+                        <div className="w-12 h-12 bg-linear-to-br from-green-50 to-emerald-100 rounded-2xl flex items-center justify-center border border-green-100">
                         <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
@@ -415,10 +422,10 @@ function CompanyPurchaseOrderManagement() {
                         <div className="relative">
                         <input
                             type="text"
-                            placeholder="Search..."
+                            placeholder="Search purchase orders..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className={management.searchSize}
+                            className="pl-10 pr-2 py-1 border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
                         />
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -428,7 +435,7 @@ function CompanyPurchaseOrderManagement() {
                         </div>
                         <button
                         onClick={() => setView('form')}
-                        className={management.newButton}
+                        className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                         <Plus size={16} />
                         New Purchase Order
@@ -459,7 +466,7 @@ function CompanyPurchaseOrderManagement() {
                 )}
 
                 {view === 'form' && (
-                <div className="w-[100%] bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
+                <div className="min-w-full bg-gray-50 rounded-2xl shadow-sm border border-gray-200">
                     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
                     <div className="flex items-center gap-4 mb-8 justify-between">
                         <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center border border-green-100">

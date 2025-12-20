@@ -61,8 +61,12 @@ export const fetchCompanyPurchaseOrderById = async (purchase_order_number: numbe
   return response.data;
 };
 
-export const createCompanyPurchaseOrder = async (companyPurchaseOrderData: CompanyPurchaseOrderInputs) => {
-  const response = await apiClient.post('/purchases/companypurchaseorder/', companyPurchaseOrderData);
+export const createCompanyPurchaseOrder = async (companyPurchaseOrderData: CompanyPurchaseOrderInputs | FormData) => {
+  const response = await apiClient.post('/purchases/companypurchaseorder/', companyPurchaseOrderData, {
+    headers: {
+      "Content-Type": 'multipart/form-data',
+    },
+  });
   return response.data;
 };
 

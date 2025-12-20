@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 
@@ -6,10 +6,13 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { PURCHASE_ORDER_STATUS } from "../constants/options";
 import { forms, buttons, layout, tables, text, utils } from "../constants/styles";
 
-import { CompanyPurchaseOrderInputs, ControlAccountInterface,
-    AgentInterface, CompanyPurchaseInvoiceInterface,
-    SupplierProfileInterface
- } from "../constants/Types";
+import { CompanyPurchaseOrderInputs } from "../constants/Types";
+import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
+
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import { AgentInterface } from "../../Core/constants/Types";
+import { CompanyPurchaseInvoiceResponse } from "../constants/Types";
+import { companyPurchaseAccountHandler, companyPurchaseInvoiceTotal } from "../../handlers";
 
 import { Trash2 } from "lucide-react";
 
@@ -27,8 +30,18 @@ const formatPurchaseInvoiceNumber = () => {
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`;
 };
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -43,10 +56,14 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                     related_purchase: [
                         {
                             total_paid: 0.00,
-                            tax_inclusive: true,
-                            tax: 0.00
+                            tax_inclusive: false,
+                            tax_amount: 0.00,
+                            cancelled: false
                         }
                     ],
+                    tax_inclusive: false,
+                    tax_amount: 0.00,
+                    status: 'Unpaid' as any
                 }
             });
 
@@ -57,44 +74,9 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
             });
 
 
-            const selectedControlAccount = watch("account.account_code");
-            useEffect(() => {
-                if (selectedControlAccount) {
 
-                    const selectedCodeNumber = Number(selectedControlAccount);
-                    console.log("🔍 Converting:", selectedControlAccount, "→", selectedCodeNumber);
-
-                    const selectedAccount = accounts.find((a: ControlAccountInterface) =>
-                        a.account_code === selectedCodeNumber);
-
-                    console.log(" ✅ Found account:", selectedAccount);
-
-                    if (selectedAccount) {
-                        setValue("account.account_name", selectedAccount.account_name);
-                        setValue("account.account_type", selectedAccount.account_type);
-                    }
-                }
-            }, [selectedControlAccount, accounts, setValue])
-
-
-
-            const selectedPurchaseInvoice = watch("related_invoice");
-            useEffect(() => {
-                if (selectedPurchaseInvoice) {
-
-                    const selectedInvoiceNumber = Number(selectedPurchaseInvoice)
-                    console.log("🔍 Converting:", selectedPurchaseInvoice, "→", selectedInvoiceNumber);
-
-                    const selectedInvoice = purchaseInvoices.find((invoice: CompanyPurchaseInvoiceInterface) =>
-                        invoice.purchase_invoice_number === selectedInvoiceNumber);
-
-                    console.log(" ✅ Found invoice:", selectedInvoice);
-
-                    if (selectedInvoice) {
-                        setValue("related_invoice_total", selectedInvoice.net_total);
-                    }
-                }
-            }, [selectedPurchaseInvoice, purchaseInvoices, setValue])
+const accountChange = companyPurchaseAccountHandler(accounts, setValue);
+const invoiceChange = companyPurchaseInvoiceTotal(accounts, setValue);
 
 
 
@@ -131,9 +113,10 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                 <p className={forms.label}>Date</p>
                                 <input 
                                     type="date"
-                                    {...register("date")}
+                                    {...register("date", {required: "Date is required"})}
                                     className={forms.input.date}
                                 />
+                                {errors.date && <p className="text-amber-600 text-sm">{errors.date?.message}</p>}
                             </div>
                             
                             <div>
@@ -143,11 +126,11 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                     className={forms.select.partial}
                                 >
                                     <option value="">select...</option>
-                                    {supplierProfiles.map((supplier: SupplierProfileInterface) => (
+                                    {useMemo(() => supplierProfiles.map((supplier: SupplierProfileResponse) => (
                                         <option key={supplier.supplier_code} value={supplier.supplier_code}>
                                             {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
                                         </option>
-                                    ))}
+                                    )), [supplierProfiles])}
                                 </select>
                             </div>
 
@@ -156,13 +139,14 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                 <select
                                     {...register("account.account_code")}
                                     className={forms.select.partial}
+                                    onChange={accountChange}
                                 >
                                     <option value="">select...</option>
-                                    {accounts.map((account: ControlAccountInterface) => (
+                                    {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                         <option key={account.account_code} value={account.account_code}>
                                             {account.account_code} ({account.account_name})
                                         </option>
-                                    ))}
+                                    )), [accounts])}
                                 </select>
 
                                 <input type="hidden" {...register("account.account_name")} />
@@ -174,13 +158,43 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                 <select
                                     {...register("related_invoice")}
                                     className={forms.select.partial}
+                                    onChange={invoiceChange}
                                 >
                                     <option value="">select...</option>
-                                    {purchaseInvoices.map((invoice: CompanyPurchaseInvoiceInterface) => (
+                                    {useMemo(() => purchaseInvoices.map((invoice: CompanyPurchaseInvoiceResponse) => (
                                         <option key={invoice.purchase_invoice_number} value={invoice.purchase_invoice_number}>
-                                            {formatPurchaseInvoiceNumber()}{invoice.purchase_invoice_number} - {invoice.net_total}
+                                            {formatPurchaseInvoiceNumber()}{invoice.purchase_invoice_number} | Total: {invoice.net_total}
                                         </option>
-                                    ))}
+                                    )), [purchaseInvoices])}
+                                </select>
+                            </div>
+
+                            <div>
+                                <p className={forms.label}>Related Invoice Total</p>
+                                <input 
+                                    {...register("invoice_total")}
+                                    className={forms.input.midNumber}
+                                    placeholder="0.00"
+                                    step="0.01" min="0.00" onBlur={(e) => {
+                                        if (e.target.value) {
+                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        }
+                                    }}
+                                />
+                            </div>
+
+                            <div>
+                                <p className={forms.label}>Status</p>
+                                <select
+                                    {...register("status")}
+                                    className={forms.select.partial}
+                                >
+                                    <option value="">select...</option>
+                                    {useMemo(() => PURCHASE_ORDER_STATUS.map(option => (
+                                        <option key={option.value} value={option.value} >
+                                            {option.label}
+                                        </option>
+                                    )), [agents])}
                                 </select>
                             </div>
 
@@ -191,31 +205,14 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                     className={forms.select.partial}
                                 >
                                     <option value="">select...</option>
-                                    {agents.map((agent: AgentInterface) => (
-                                        <option key={agent.username} value={agent.username}>
-                                            {agent.username}
+                                    {useMemo(() => agents.map((agent: AgentInterface) => (
+                                        <option key={agent.email} value={agent.email}>
+                                            {agent.email} | {agent.name}
                                         </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div>
-                                <p className={forms.label}>Status</p>
-                                <select
-                                    {...register("status")}
-                                    className={forms.select.partial}
-                                >
-                                    <option value="">select...</option>
-                                    {PURCHASE_ORDER_STATUS.map(option => (
-                                        <option key={option.value} value={option.value} >
-                                            {option.label}
-                                        </option>
-                                    ))}
+                                    )), [agents])}
                                 </select>
                             </div>
                         </div>
-
-                        <hr className="my-6 border-gray-200" />
 
                         <div>
                             <p className={forms.label}>Address</p>
@@ -226,8 +223,6 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                             />
                         </div>
 
-                        <hr className="my-6 border-gray-200" />
-
                         <div>
                             <p className={forms.label}>Description</p>
                             <textarea 
@@ -237,11 +232,25 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                             />
                         </div>
 
+                        <div>
+                            <p className={forms.label}>Payment receipt</p>
+                            <input 
+                                type="file"
+                                className="w-[40%] text-black cursor-pointer rounded-lg border border-gray-300 px-3 py-2"
+                                placeholder="upload payment receipt"
+                                title="upload payment receipt..."
+                                onChange={e => {
+                                    const file = e.target.files?.[0] || null;
+                                    setValue('payment_receipt', file);
+                                }}
+                            />
+                        </div>
+
                         <hr className="my-6 border-gray-200" />
 
                         <div className="p-6">
                             <div className="w-full">
-                                <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
+                                <table className={tables.base}>
                                     <colgroup>
                                         {[
                                             'w-1/6 text-center',
@@ -250,22 +259,20 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                             'w-1/6 text-center',
                                             'w-1/6 text-center',
                                             'w-1/6 text-center',
-                                            'w-1/6 text-center',
-                                            'w-[9%] text-center',
+                                            'w-[7%] text-center',
                                         ].map((line, index) => (
                                             <col key={index} className={line} />
                                         ))}
                                     </colgroup>
                                     <thead className={tables.header}>
                                         <tr>
-                                            <th className={tables.headerCell}>Related Invoice Total</th>
-                                            <th className={tables.headerCell}>Payment Date</th>
+                                            <th className={tables.headerCell}>Date</th>
                                             <th className={tables.headerCell}>Total Paid</th>
                                             <th className={tables.headerCell}>Tax Inclusive</th>
-                                            <th className={tables.headerCell}>Tax %</th>
+                                            <th className={tables.headerCell}>SST %</th>
                                             <th className={tables.headerCell}>Cancelled</th>
-                                            <th className={tables.headerCell}>SubTotal<br></br>(After Tax)</th>
-                                            <th></th>
+                                            <th className={tables.headerCell}>SubTotal<br></br>(After SST)</th>
+                                            <th className={tables.headerCell}></th>
                                         </tr>
                                     </thead>
 
@@ -274,16 +281,9 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                             <tr key={field.id} className={tables.row}>
                                                 <td className={tables.cell}> 
                                                     <input 
-                                                        {...register("related_invoice_total")}
-                                                        className={forms.input.number}
-                                                        readOnly
-                                                    />
-                                                </td>
-                                                <td className={tables.cell}>
-                                                    <input 
-                                                        {...register(`related_purchase.${index}.payment_date`)}
                                                         type="date"
-                                                        className={forms.input.date}
+                                                        {...register(`related_purchase.${index}.payment_date`)}
+                                                        className={forms.input.number}
                                                     />
                                                 </td>
 
@@ -311,7 +311,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                                 <td className={text.numbers}>
                                                     <input 
                                                         type="number"
-                                                        {...register(`related_purchase.${index}.tax`)}
+                                                        {...register(`related_purchase.${index}.tax_amount`)}
                                                         className={forms.input.number}
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
@@ -322,18 +322,18 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                                     />
                                                 </td>
 
-                                                <td className={tables.autoCalculate}>
-                                                    {decimalPlaces(
-                                                        Number(watch(`related_purchase.${index}.total_paid`) || 0.00) +
-                                                        Number(watch(`related_purchase.${index}.tax`) || 0.00)
-                                                    )}
-                                                </td>
-
                                                 <td className={tables.cell}>
                                                     <input 
                                                         {...register(`related_purchase.${index}.cancelled`)}
                                                         type="checkbox"
                                                     />
+                                                </td>
+
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(
+                                                        Number(watch(`related_purchase.${index}.total_paid`) || 0.00) *
+                                                        (1 + (Number(watch(`related_purchase.${index}.tax_amount`) / 100))|| 0.00)
+                                                    )}
                                                 </td>
 
                                                 <td>
@@ -355,7 +355,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                                         payment_date: "",
                                                         total_paid: 0.00,
                                                         tax_inclusive: true,
-                                                        tax: 0.00,
+                                                        tax_amount: 0.00,
                                                         cancelled: false
                                                     })}
                                                     className={buttons.addLine}
@@ -383,10 +383,10 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
                                         </div>
         
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Tax Amount</div>
+                                            <div>Tax %</div>
                                             <input 
                                                 type="number"
-                                                {...register("tax")}
+                                                {...register("tax_amount")}
                                                 className={forms.input.smallNumber}
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {

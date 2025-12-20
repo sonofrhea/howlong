@@ -7,9 +7,11 @@ import { Link } from "react-router-dom";
 
 
 import { 
-  fetchCustomers, createCustomer, 
+  createCustomer, 
   fetchCustomerById, updateCustomer, 
-  deleteCustomer
+  deleteCustomer,
+  paginatedCustomers,
+  fetchCustomers
  } from "../Engines";
 
 
@@ -53,8 +55,8 @@ function CustomerManagement() {
   const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(null);
 // ------------------------------------------------------------------------------------
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
-  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
 
   
@@ -77,14 +79,15 @@ function CustomerManagement() {
   });
 
 
+
 // ------------------------------------------------------------------------------------
                     // QUERIES
 
 // LIST QUERIES 
 
-  const { data: customers = [], isLoading: isLoadingCustomers, error: customersError } = useQuery({
-    queryKey: ['customers'],
-    queryFn: fetchCustomers
+  const { data: {results: customers = []} = {}, isLoading: isLoadingCustomers, error: customersError } = useQuery({
+    queryKey: ['customers', currentPage, itemsPerPage],
+    queryFn: () => paginatedCustomers(currentPage, itemsPerPage)
   });
 
 
@@ -174,7 +177,6 @@ function CustomerManagement() {
     Object.entries(customerData).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
         if (value instanceof File) {
-          //console.log(File.name);
           newCustomerData.append(key, value);
         } else {
           newCustomerData.append(key, String(value));
@@ -241,10 +243,17 @@ function CustomerManagement() {
 // ------------------------------------------------------------------------------------
 
   const filteredCustomers = customers.filter((customer: any) =>
-    customer.customer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    customer.date_created?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleItemsPerPageChange = (value: any) => {
+    setItemsPerPage(Number(value));
+    setCurrentPage(1); // Reset to first page
+  };
+
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+  };
 
   // ------------------------------------------------------------------------------------
                               // SORTING
@@ -272,27 +281,10 @@ const handleSort = (key: any) => {
   }));
 };
 
-// ------------------------------------------------------------------------------------
-
-  // Pagination calculations for CustomerTable
-  const totalCustomerPages = Math.ceil(sortedCustomers.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedCustomers = sortedCustomers.slice(startIndex, startIndex + itemsPerPage);
-
-  // Page change handler
-  const handlePageChange = (page: any) => {
-    setCurrentPage(page);
-  };
-
-  // Items per page handler
-  const handleItemsPerPageChange = (value: any) => {
-    setItemsPerPage(Number(value));
-    setCurrentPage(1); // Reset to first page
-  };
-
-  // console.log('First customer object:', paginatedCustomers[0]);
+const totalCustomerPages = Math.ceil(sortedCustomers.length / itemsPerPage);
 
 // ------------------------------------------------------------------------------------
+
 
 
 // ERROR DISPLAYS
@@ -446,7 +438,7 @@ return (
           {view === 'list' && (
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
               <CustomerTable 
-                customers={paginatedCustomers}
+                customers={sortedCustomers}
                 onCustomerClick={handleCustomerClick}
                 onEditCustomer={handleEditCustomer}
                 onDeleteCustomer={handleDeleteCustomer}

@@ -56,8 +56,8 @@ function DebitNoteManagement() {
   const [selectedDebitNoteId, setSelectedDebitNoteId] = useState<number | null>(null);
 // ------------------------------------------------------------------------------------
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
-  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 // ------------------------------------------------------------------------------------
           // DEPENDENCIES
 
