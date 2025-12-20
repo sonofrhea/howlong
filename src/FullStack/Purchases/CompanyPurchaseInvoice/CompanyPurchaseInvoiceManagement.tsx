@@ -19,7 +19,7 @@ import { fetchSupplierProfiles } from "../../Suppliers/Engines";
 import { management, spinningStyles } from "../constants/styles";
 
 import { CompanyPurchaseInvoiceInputs, CompanyPurchaseInvoiceResponse,
-     EditCompanyPurchaseInvoiceInputs } from "../constants/Types";
+     EditCompanyPurchaseInvoiceInputs, AllCompanyPurchaseInvoiceInputs } from "../constants/Types";
 
 
 import CompanyPurchaseInvoiceDetails from "./CompanyPurchaseInvoiceDetails";
@@ -187,7 +187,7 @@ function CompanyPurchaseInvoiceManagement() {
 
 
 
-    const handleUpdateCompanyPurchaseInvoice = (companyPurchaseInvoiceData: CompanyPurchaseInvoiceInputs) => {
+    const handleUpdateCompanyPurchaseInvoice = (companyPurchaseInvoiceData: AllCompanyPurchaseInvoiceInputs) => {
         updateCompanyPurchaseInvoiceMutation.mutate({
         purchase_invoice_number: selectedCompanyPurchaseInvoiceId!,
         companyPurchaseInvoiceData: companyPurchaseInvoiceData
@@ -231,9 +231,12 @@ function CompanyPurchaseInvoiceManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredCompanyPurchaseInvoices = companyPurchaseInvoices.filter((companyPurchaseInvoice: any) =>
-        String(companyPurchaseInvoice.purchase_invoice_number)?.toLowerCase().includes(searchTerm.toLocaleLowerCase())
-    );
+    const filteredCompanyPurchaseInvoices = companyPurchaseInvoices?.filter((invoice: any) => {
+        const purchaseDate = invoice.date?.toLowerCase() || '';
+        const search = searchTerm.toLowerCase();
+        
+        return purchaseDate.includes(search);
+    });
 
     // ------------------------------------------------------------------------------------
                                 // SORTING

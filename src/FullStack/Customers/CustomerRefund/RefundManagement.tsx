@@ -203,7 +203,7 @@ function RefundManagement() {
 
 
 
-    const handleUpdateRefund = (refundData: number) => {
+    const handleUpdateRefund = (refundData: AllCustomerRefundInputs) => {
         updateRefundMutation.mutate({
         refund_number: selectedRefundId,
         refundData: refundData
@@ -248,11 +248,10 @@ function RefundManagement() {
 
     const filteredRefunds = refunds.filter((refund: any) => {
         const refundNumber = String(refund.refund_number)?.toLowerCase() || '';
-        const customerName = refund.related_customer?.toLowerCase() || '';
-        const agentName = refund.agent.toLowerCase() || '';
+        const date = refund.date.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
         
-        return refundNumber.includes(search) || customerName.includes(search) || agentName.includes(search);
+        return refundNumber.includes(search) || date.includes(search);
     });
 
     // ------------------------------------------------------------------------------------

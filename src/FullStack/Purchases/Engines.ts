@@ -3,7 +3,7 @@ import apiClient from '../../BaseEngine';
 
 import { AllCompanyPurchaseInvoiceInputs, AllCompanyPurchaseOrderInputs, 
     CompanyPurchaseInvoiceInputs, CompanyPurchaseInvoiceResponse, 
-    CompanyPurchaseOrderInputs, CompanyPurchaseOrderResponse } from './Interfaces';
+    CompanyPurchaseOrderInputs, CompanyPurchaseOrderResponse } from './constants/Types';
 
 
 
