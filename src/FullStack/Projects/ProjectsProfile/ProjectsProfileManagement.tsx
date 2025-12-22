@@ -16,7 +16,7 @@ import { fetchCustomers } from "../../Customers/Engines"
 import { fetchAgents } from "../../Core/Engines"
 
 
-//import ProjectsProfileDetails from "./ProjectsProfileDetails";
+import ProjectsProfileDetails from "./ProjectsProfileDetails";
 import ProjectsProfileForm from "./ProjectsProfileForm";
 import ProjectsProfileTable from "./ProjectsProfileTable";
 //import ProjectsProfileEdit from "./ProjectsProfileEdit";

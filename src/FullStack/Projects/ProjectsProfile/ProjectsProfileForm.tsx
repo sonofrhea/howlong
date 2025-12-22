@@ -58,8 +58,16 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
             actual_cost: 0.00,
             variance: 0.00,
             estimated_end_date: new Date().toISOString().split('T')[0],
-            actual_end_date: new Date().toISOString().split('T')[0]
-        }
+            actual_end_date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+
+            phases: [
+                {
+                    current_phase: 'Not Started' as any,
+                    start_date: new Date().toISOString().split('T')[0],
+                    end_date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                }
+            ]
+        },
     });
 
 
@@ -151,6 +159,7 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                     {...register("start_date", {required: "When is the start date?"})}
                                     type="date"
                                     name="start_date"
+                                    className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                 required/>
                             </div>
                             {errors.start_date && <p className="text-amber-600 text-sm">{errors.start_date?.message}</p>}
@@ -160,6 +169,7 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                 <input 
                                     type="date"
                                     {...register("estimated_end_date")}
+                                    className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                 />
                             </div>
 
@@ -168,6 +178,7 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                 <input 
                                     type="date"
                                     {...register("actual_end_date")}
+                                    className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                 />
                             </div>
                         </div>
@@ -379,6 +390,7 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                             <input
                                                 type="date"
                                                 {...register(`phases.${index}.start_date`)}
+                                                className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                             />
                                         </div>
 
@@ -387,6 +399,7 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                             <input
                                                 type="date"
                                                 {...register(`phases.${index}.end_date`)}
+                                                className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                             />
                                         </div>
                                     </div>
@@ -418,7 +431,7 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                             onClick={() => append({
                                 phase_description: "",
                                 start_date: "",
-                                current_phase: "",
+                                current_phase: 'Not Started' as any,
                                 end_date: "",
                             })}
                             className={buttons.secondary}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { PROJECTS_ICONS } from "./ModuleIcons";
+import { COUNTRY_OPTIONS, PROJECT_PHASE_OPTIONS, PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from "./Options";
 
 
 
@@ -29,16 +30,27 @@ export interface ProjectsModuleInterface {
 
 // -------- BEGIN ----------- PROJECT PROFILE INPUT ----------------
 
+export type ProjectsProfileList = {
+  project_code: number;
+  date: string;
+  project_name: string;
+  project_type: string;
+  city: string;
+  start_date: string;
+  estimated_end_date: string;
+  client_details: string;
+  status: string;
+}
 
 export interface ProjectProfileInputs {
   date: string;
   project_name: string;
   project_description: string;
-  project_type: string;
-  status: string;
+  project_type: keyof typeof PROJECT_TYPE_OPTIONS;
+  status: keyof typeof PROJECT_STATUS_OPTIONS;
 
   address: string;
-  country: string;
+  country: keyof typeof COUNTRY_OPTIONS;
   city: string;
   state: string;
   zip_code: string;
@@ -46,8 +58,8 @@ export interface ProjectProfileInputs {
   start_date: string;
   estimated_end_date: string;
   actual_end_date: string;
-
   duration: number;
+  
   project_budget: number;
   actual_cost: number;
   variance: number;
@@ -59,7 +71,7 @@ export interface ProjectProfileInputs {
   phases?: Array<{
     phase_description?: string;
     start_date?: string;
-    current_phase?: string;
+    current_phase?: keyof typeof PROJECT_PHASE_OPTIONS ;
     end_date?: string;
   }> | null; 
   created_by: string;

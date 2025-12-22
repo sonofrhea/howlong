@@ -84,7 +84,6 @@
         color: #ef4444;
     }
     
-    input[type="date"],
     input[type="number"],
     textarea {
         width: 100%;
@@ -99,7 +98,6 @@
     }
     
     input:focus,
-    select:focus,
     textarea:focus {
         outline: none;
         border-color: var(--accent);

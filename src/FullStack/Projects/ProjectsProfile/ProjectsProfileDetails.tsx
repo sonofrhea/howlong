@@ -1,17 +1,36 @@
 import React from "react";
+import '../constants/ProjectDetails.css';
+import { Building, Calendar1, Clock, NotepadText } from "lucide-react";
+
 
 
 const formatNumber = () => {
     const currentYear = new Date().getFullYear();
-    return `${currentYear}-0`;
+    return `PZN-${currentYear}-0`;
 };
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
 
-const ProjectsProfileDetails = ({ project, isLoading, onBack, onEdit }) => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const ProjectsProfileDetails: React.FC<any> = ({ project, isLoading, onBack, onEdit }) => {
 
 
     if (isLoading) {
@@ -44,224 +63,223 @@ const ProjectsProfileDetails = ({ project, isLoading, onBack, onEdit }) => {
 
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-            {/* Header */}
-            <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                <div className="flex items-center gap-4 flex-1">
-                    <button 
-                        onClick={onBack}
-                        className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-lg"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                    </button>
+        <div className="w-full bg-gray-100 rounded-xl p-4">
+            <header>
+                <div className="header-top">
                     <div>
-                        <h2 className="text-xl font-semibold text-gray-800">PZN-{formatNumber()}{project.project_code}</h2>
+                        <h1>{project.project_name}</h1>
+                        <div className="flex items-center gap-[8px] my-[8px_0px]">
+                            <span className="badge badge-success">
+                                ● {project.status || 'N/A'}
+                            </span>
+                            <span className="badge badge-info">
+                                {project.project_type || 'N/A'}
+                            </span>
+                        </div>
+                        <div className="meta">
+                            <span className="meta-item">
+                                <NotepadText />{formatNumber()}{project.project_code}
+                            </span>
+                            <span className="meta-item">
+                                <Building />{project.client_details || 'N/A'}
+                            </span>
+                            <span className="meta-item">
+                                <Calendar1 />{project.start_date || 'N/A'} → {project.actual_end_date || 'N/A'}
+                            </span>
+                            <span className="meta-item">
+                                <Clock />Duration: {project.duration || 'N/A'} day(s)
+                            </span>
+                        </div>
                     </div>
 
-                    <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <div className="text-sm text-gray-500">Project provided details</div>
+                    <div className="controls">
+                        <button
+                            className="btn-primary btn"
+                            onClick={onEdit}
+                        >
+                            Edit Project
+                        </button>
                     </div>
                 </div>
-                <div className="flex gap-3">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                        project.status === 'Active Construction' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                    }`}>
-                        {project.status}
-                    </span>
-                    <button 
-                        onClick={onEdit}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-                    >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                        Edit
-                    </button>
+            </header>
+
+            {/*<!-- Financial Stats -->*/}
+            <div className="stats-grid">
+                <div className="card stat-card">
+                    <div className="stat-label">Budget</div>
+                    <div className="stat-value">{project.project_budget || 'N/A'}</div>
+                    <div className="stat-desc">Total allocated</div>
+                </div>
+
+                <div className="card stat-card">
+                    <div className="stat-label">Actual cost</div>
+                    <div className="stat-value">{project.actual_cost || 'N/A'}</div>
+                    <div className="stat-desc">Spent to date</div>
+                </div>
+
+                <div className="card stat-card">
+                    <div className="stat-label">Variance</div>
+                    <div className="stat-value">{project.variance || 'N/A'}</div>
+                    <div className="stat-desc">{project.final_budget}</div>
                 </div>
             </div>
 
-            {/* Content */}
-            <div className="p-6 space-y-6">
-                {/* Key Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="bg-blue-50 rounded-lg p-4">
-                        <div className="text-sm text-blue-600 font-medium">Project Number</div>
+            {/*<!-- Main Content -->*/}
+            <div className="main-grid">
 
-                        <div className="text-lg font-semibold text-gray-800">
-                            PZN-{formatNumber()}{project.project_code}
-                        </div>
-                    </div>
+                {/*Left Column*/}
+                <div className="space-y">
 
-                    <div className="bg-green-50 rounded-lg p-4">
-                        <div className="text-sm text-green-600 font-medium">Project Name</div>
 
-                        <div className="text-lg font-semibold text-gray-800">
-                            {project.project_name || 'Not provided'}
-                        </div>
-                    </div>
-
-                    <div className="bg-orange-50 rounded-lg p-4">
-                        <div className="text-sm text-orange-600 font-medium">Project Type</div>
-
-                        <div className="text-lg font-semibold text-gray-800">
-                            {project.project_type}
-                        </div>
-                    </div>
-
-                    <div className="bg-purple-50 rounded-lg p-4">
-                        <div className="text-sm text-purple-600 font-medium">Date</div>
-
-                        <div className="text-lg font-semibold text-gray-800">
-                            {formatDate(project.date)}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Project Phase */}
-                {project.phases && project.phases.length > 0 && (
-                    <div className="bg-amber-50 rounded-lg p-6">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Project Phase</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                            {project.phases[0]?.phase_description && (
-                                <div>
-                                    <div className="text-sm text-gray-500">Phase description</div>
-                                    <div className="text-gray-800">
-                                        {project.phases[0].phase_description || 'Not provided'}
-                                    </div>
-                                </div>
-                            )}
-
-                            {project.phases[0]?.start_date && (
-                                <div>
-                                    <div className="text-sm text-gray-500">Start date</div>
-                                    <div className="text-gray-800">
-                                        {formatDate(project.phases[0].start_date) || 'Not provided'}
-                                    </div>
-                                </div>
-                            )}
-
-                            {project.phases[0]?.current_phase && (
-                                <div>
-                                    <div className="text-sm text-gray-500">Current phase</div>
-                                    <div className="text-gray-800">
-                                        {project.phases[0].current_phase || 'Not provided'}
-                                    </div>
-                                </div>
-                            )}
-
-                            {project.phases[0]?.end_date && (
-                                <div>
-                                    <div className="text-sm text-gray-500">End date</div>
-                                    <div className="text-gray-800">
-                                        {formatDate(project.phases[0].end_date) || 'Not provided'}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                )}
-
-                {/* Project Information */}
-                <div className="bg-slate-50 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Project Information</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <div className="text-sm text-gray-500">Project description</div>
-                            <div className="text-gray-800">
-                                {project.project_description || 'Not provided'}
+                    {/*<!-- Project Information -->*/}
+                    <div className="card">
+                        <div className="section-title">Project Information</div>
+                        <div className="info-grid">
+                            <div className="info-item">
+                                <div className="info-label">Project Type</div>
+                                <div className="info-value">{project.project_type || 'N/A'}</div>
                             </div>
-                        </div>
-                        <div>
-                            <div className="text-sm text-gray-500">Start date</div>
-                            <div className="text-gray-800">
-                                {formatDate(project.start_date) || 'Not provided'}
+
+                            <div className="info-item">
+                                <div className="info-label">Status</div>
+                                <div className="info-value">{project.status || 'N/A'}</div>
                             </div>
-                        </div>
-                        <div>
-                            <div className="text-sm text-gray-500">Estimated end date</div>
-                            <div className="text-gray-800">
-                                {formatDate(project.estimated_end_date) || 'Not provided'}
+
+                            <div className="info-item">
+                                <div className="info-label">Start Date</div>
+                                <div className="info-value">{project.start_date || 'N/A'}</div>
                             </div>
-                        </div>
-                        <div>
-                            <div className="text-sm text-gray-500">Actual end date</div>
-                            <div className="text-gray-800">
-                                {formatDate(project.actual_end_date) || 'Not provided'}
+
+                            <div className="info-item">
+                                <div className="info-label">Est. Completion</div>
+                                <div className="info-value">{project.estimated_end_date || 'N/A'}</div>
                             </div>
-                        </div>
-                        <div>
-                            <div className="text-sm text-gray-500">Project duration</div>
-                            <div className="text-gray-800">
-                                {project.duration || 'Not provided'} days
+
+                            <div className="info-item">
+                                <div className="info-label">Duration</div>
+                                <div className="info-value">{project.duration || 'N/A'} day(s)</div>
+                            </div>
+
+                            <div className="info-item">
+                                <div className="info-label">Days Elapsed</div>
+                                <div className="info-value">{project.days_elapsed || 'N/A'} days</div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                {/* Project Cost */}
-                <div className="bg-green-50 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Project cost</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <div className="text-sm text-gray-500">Project budget</div>
-                            <div className="text-gray-800">
-                                RM {project.project_budget || 'Not provided'}
+
+
+                    {/*<!-- Location -->*/}
+                    <div className="card">
+                        <div className="section-title">Location Details</div>
+                        <div className="info-grid">
+                            <div className="info-item col-span-full">
+                                <div className="info-label">Address</div>
+                                <div className="info-value">{project.address || 'N/A'}</div>
+                            </div>
+
+                            <div className="info-item">
+                                <div className="info-label">City</div>
+                                <div className="info-value">{project.city || 'N/A'}</div>
+                            </div>
+
+                            <div className="info-item">
+                                <div className="info-label">State</div>
+                                <div className="info-value">{project.state || 'N/A'}</div>
+                            </div>
+
+                            <div className="info-item">
+                                <div className="info-label">Zip Code</div>
+                                <div className="info-value">{project.zip_code || 'N/A'}</div>
+                            </div>
+
+                            <div className="info-item">
+                                <div className="info-label">Country</div>
+                                <div className="info-value">{project.country || 'N/A'}</div>
                             </div>
                         </div>
-                        <div>
-                            <div className="text-sm text-gray-500">Actual cost</div>
-                            <div className="text-gray-800">
-                                RM {project.actual_cost || 'Not provided'}
-                            </div>
-                        </div>
-                        <div>
-                            <div className="text-sm text-gray-500">Variance</div>
-                            <div className="text-gray-800">
-                                RM {project.variance || 'Not provided'}
-                            </div>
-                        </div>
+                    </div>
+
+                    {/*<!-- Description -->*/}
+                    <div className="card">
+                        <div className="section-title">Project Description</div>
+                        <p className="description-text">
+                            {project.project_description || 'N/A'}
+                        </p>
                     </div>
                 </div>
 
-                {/* Project Management */}
-                <div className="bg-slate-50 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Project Management</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <div className="text-sm text-gray-500">Project manager</div>
-                            <div className="text-gray-800">
-                                {project.project_manager || 'Not provided'}
-                            </div>
-                        </div>
-                        <div>
-                            <div className="text-sm text-gray-500">Superintendent</div>
-                            <div className="text-gray-800">
-                                {project.superintendent || 'Not provided'}
-                            </div>
-                        </div>
-                        <div>
-                            <div className="text-sm text-gray-500">Created by</div>
-                            <div className="text-gray-800">
-                                {project.created_by || 'Not provided'}
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                {/* Related customer */}
-                <div className="bg-slate-50 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Related customer</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <div className="text-sm text-gray-500">Client details</div>
-                            <div className="text-gray-800">
-                                {project.client_details || 'Not provided'}
+                {/*<!-- Right Column -->*/}
+                <div className="space-y">
+
+                    {/*<!-- Team -->*/}
+                    <div className="card">
+                        <div className="section-title">Project Team</div>
+                        <div className="team-member">
+                            <div className="member-info">
+                                <div className="member-name">{project.project_manager || 'N/A'}</div>
+                                <div className="member-role">Project Manager</div>
+                            </div>
+                        </div>
+                        <div className="team-member">
+                            <div className="member-info">
+                                <div className="member-name">{project.superintendent || 'N/A'}</div>
+                                <div className="member-role">Superintendent</div>
                             </div>
                         </div>
                     </div>
+
+
+                    {/*<!-- Timeline -->*/}
+                    <div className="card">
+                        <div className="section-title">Project Timeline</div>
+                        <div className="timeline-item">
+                            <div className="timeline-marker active"></div>
+                            <div className="timeline-content">
+                                <div className="timeline-title">Project Start</div>
+                                <div className="timeline-date">{project.start_date || 'N/A'}</div>
+                                <div className="timeline-desc">Kickoff & site preparation</div>
+                            </div>
+                        </div>
+                        <div className="timeline-item">
+                            <div className="timeline-marker pending"></div>
+                            <div className="timeline-content">
+                                <div className="timeline-title">Est. Completion</div>
+                                <div className="timeline-date">{project.estimated_end_date || 'N/A'}</div>
+                                <div className="timeline-desc">Project completion</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/*!-- Phases -->*/}
+                    {project.phases && project.phases.length > 0 && (
+                        <div>
+                            {project.phases.map((line: any, index: any) => (
+                                <div key={index} className="card">
+                                    <div key={index} className="section-title">Project Phases Log</div>
+                                    <div className="phase-item completed">
+                                        <span>
+                                            {line.current_phase}
+                                        </span>
+                                    </div>
+
+                                    <div></div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+
+
+            {/*<!-- Footer -->*/}
+            <div className="footer">
+                <div>Created by 
+                    <strong>{project.created_by}</strong>
+                </div>
+                <div>
+                    Last Updated
+                    <strong>{project.date_updated}</strong> . Version <strong>{project.version}</strong>
                 </div>
             </div>
         </div>
