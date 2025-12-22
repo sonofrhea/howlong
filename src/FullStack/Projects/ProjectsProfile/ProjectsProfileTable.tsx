@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 

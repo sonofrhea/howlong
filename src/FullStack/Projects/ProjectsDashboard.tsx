@@ -22,21 +22,21 @@ function ProjectsDashboard() {
             name: 'Project Documents',
             description: 'Manage Project Documents',
             path: '/projects/project-documents',
-            available: true
+            available: false
         },
         {
             id: 'jobCostLedger',
             name: 'Job Cost Ledger',
             description: 'Manage cost of jobs with job cost ledger',
             path: '/projects/job-cost-ledger',
-            available: true
+            available: false
         },
         {
             id: 'billOfQuantities',
             name: 'Bill Of Quantities',
             description: 'Manage Bill Of Quantities',
             path: '/projects/bill-of-quantities',
-            available: true
+            available: false
         },
     ];
 

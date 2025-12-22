@@ -4,7 +4,7 @@ export const spinningStyles = {
     terminalBar: {
         container: "font-mono p-8",
         row: "flex items-center",
-        spinner: "text-green-500 mr-2 animate-spin",
+        spinner: "text-green-500 mr-2 animate-spin text-4xl",
         barContainer: "w-64 h-4 bg-gray-800 border border-gray-700 overflow-hidden",
         barFill: "h-full bg-black animate-progress",
         text: "text-gray-600 text-sm mt-2 ml-8"
@@ -40,6 +40,7 @@ export const forms = {
 
 export const buttons = {
   primary: "px-6 py-3 bg-amber-900 text-white rounded drop-shadow-md shadow-xl hover:bg-green-700 font-medium disabled:opacity-50",
+  secondary: "px-3 py-1 bg-green-700 text-white rounded drop-shadow-md shadow-xl hover:bg-blue-700 font-medium disabled:opacity-50",
   remove: "text-red-600 hover:text-red-800 font-medium text-sm",
   add: "text-blue-600 hover:text-blue-800 font-medium text-sm w-full",
   addLine: "min-w-full divide-y divide-gray-100"
@@ -108,4 +109,6 @@ export const management = {
 export const iconStyles = {
     small: "w-6 h-6"
 };
+
+
 

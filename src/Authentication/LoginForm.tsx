@@ -33,7 +33,7 @@ const Login = () => {
             let errorMessage = "";
 
             if (error.code === "ECONNABORTED") {
-                errorMessage = "Network timed out. Please try again.";
+                errorMessage = "Network timed out, Please try again. Will wake in 30seconds.";
             }
 
             else if (error.response.data?.detail?.[0]) {
@@ -73,12 +73,12 @@ const Login = () => {
         <div className={"myLoginBackground"}>
             <form onSubmit={handleSubmit(submission)}>
 
-                <Box className={"whiteBox"}>
+                <Box className="whiteBox" sx={{ width: 420, maxWidth: '100%' }}>
                     <Box className={"itemBox"}>
                         <Box className={'title'}>Login for Auth App</Box>
                     </Box>
 
-                    <Box className={"itemBox"}>
+                    <Box className="itemBox" sx={{ width: '100%' }}>
                         <MyTextField 
                             label={"Email"}
                             name={"email"}
@@ -86,28 +86,29 @@ const Login = () => {
                         />
                     </Box>
 
-                    <Box className={"itemBox"}>
+                    <Box className="itemBox" sx={{ width: '100%' }}>
                         <MyPassField 
                             label={"Password"}
                             name={"password"}
                             control={control}
                         />
                     </Box>
+
                     {error && (
-                    <Box className="text-red-900 text-sm">
-                        {error}
-                    </Box>
+                        <p className="text-amber-800 text-sm">
+                            {error}
+                        </p>
                     )}
 
-                    <Box className={"itemBox"}>
+                    <Box className="itemBox" sx={{ width: '100%' }}>
                         <MyButton 
                             type={"submit"}
-                            label={loading ? <span className={spinningStyles.terminalBar.spinner}>◖◗</span> : "Login"}
+                            label={loading ? <p className={spinningStyles.terminalBar.spinner}>◖</p> : "Login"}
                             disabled={loading}
                         />
                     </Box>
 
-                    <Box>
+                    <Box className="itemBox" sx={{ width: '100%' }}>
                         <p className="text-blue-800">No Account yet?</p>
                         <Link to="/register">
                             <p className="text-blue-800 underline">Register</p>

@@ -10,18 +10,18 @@ import { fetchProjects, fetchProjectById, createProject,
 import { ProjectProfileInputs, AllProjectProfileInputs,
     EditProjectProfileInputs,
     ProjectProfileResponse
- } from "../Interfaces"
+ } from "../constants/Types"
 
 import { fetchCustomers } from "../../Customers/Engines"
-import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
-import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
+import { fetchAgents } from "../../Core/Engines"
 
 
-import ProjectsProfileDetails from "./ProjectsProfileDetails";
-//import ProjectsProfileForm from "./ProjectsProfileForm";
+//import ProjectsProfileDetails from "./ProjectsProfileDetails";
+import ProjectsProfileForm from "./ProjectsProfileForm";
 import ProjectsProfileTable from "./ProjectsProfileTable";
 //import ProjectsProfileEdit from "./ProjectsProfileEdit";
 
+import { spinningStyles } from "../constants/Styles";
 
 
 
@@ -64,25 +64,11 @@ function ProjectsProfileManagement() {
         queryFn: fetchCustomers
     });
 
-    const { data: currencies = [] } = useQuery({
-        queryKey: ['currencies'],
-        queryFn: fetchCurrencies
-    });
-
-    const { data: accounts = [] } = useQuery({
-        queryKey: ['accounts'],
-        queryFn: fetchChartOfAccounts
-    });
-
     const { data: agents = [] } = useQuery({
         queryKey: ['agents'],
         queryFn: fetchAgents
     });
 
-    const { data: invoices = [] } = useQuery({
-        queryKey: ['invoices'],
-        queryFn: fetchInvoices
-    });
 
     // ------------------------------------------------------------------------------------
 
@@ -155,23 +141,23 @@ function ProjectsProfileManagement() {
     // ------------------------------------------------------------------------------------
                     // MUTATION USE
     
-    const toFormData = (obj, form = new FormData(), parentKey = '') => {
-        Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        const field = parentKey ? `${parentKey}.${key}` : key;
-        if (value === null || value === undefined) return;
-        if (Array.isArray(value)) {
-            value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-        } else if (value instanceof File) {
-            form.append(field, value);
-        } else if (typeof value === 'object') {
-            toFormData(value, form, field);
-        } else {
-            form.append(field, value);
-        }
-        });
-        return form;
-    };
+    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    //    Object.keys(obj).forEach(key => {
+    //    const value = obj[key];
+    //    const field = parentKey ? `${parentKey}.${key}` : key;
+    //    if (value === null || value === undefined) return;
+    //    if (Array.isArray(value)) {
+    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+    //    } else if (value instanceof File) {
+    //        form.append(field, value);
+    //    } else if (typeof value === 'object') {
+    //        toFormData(value, form, field);
+    //    } else {
+    //        form.append(field, value);
+    //    }
+    //    });
+    //    return form;
+    //};
 
 
 
@@ -327,7 +313,7 @@ function ProjectsProfileManagement() {
                 <div className="max-w-7xl mx-auto px-4 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                            <div className="w-2 h-8 bg-linear-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                            <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                             <div>
                                 <h1 className="text-lg font-semibold text-gray-900">Projects Suite</h1>
                                 <p className="text-sm text-gray-500">Projects Management</p>
@@ -369,34 +355,6 @@ function ProjectsProfileManagement() {
                     </div>
                 
                 <div className="flex items-center gap-3">
-                {view === 'list' && (
-                    <div className="relative">
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-1 focus:ring-green-500 focus:border-green-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
-                    />
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
-                    </div>
-                )}
-
-                {view === 'list' && (
-                    <button
-                    onClick={() => setView('form')}
-                    className="bg-white border border-gray-200 hover:border-green-500 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-green-50"
-                    >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
-                    New Note
-                    </button>
-                )}
 
                 {(view === 'form' || view === 'details' || view === 'edit') && (
                     <button
@@ -413,19 +371,44 @@ function ProjectsProfileManagement() {
             </div>
 
             {view === 'list' && (
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-6 justify-between">
                 <div className="flex items-center gap-4">
                     <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">{projects.length}</div>
-                    <div className="text-sm text-gray-500">Total Notes</div>
+                    <div className="text-sm text-gray-500">Total Projects</div>
                     </div>
                     <div className="w-px h-8 bg-gray-200"></div>
                     <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">
-                        {new Set(projects.map(c => c.currency?.currency_code)).size}
+                        {new Set(projects.map((c: any) => c.status)).size}
                     </div>
-                    <div className="text-sm text-gray-500">Currencies</div>
+                    <div className="text-sm text-gray-500">--</div>
                     </div>
+                </div>
+                <div className="flex gap-4">
+                    <div className="relative">
+                        <input
+                            type="text"
+                            placeholder="Search projects..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-10 pr-2 py-1 text-black border border-gray-200 rounded-xl focus:ring-1 focus:ring-purple-500 focus:border-purple-500 bg-white transition-all duration-200 w-64 focus:shadow-sm"
+                        />
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <button
+                    onClick={() => setView('form')}
+                    className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
+                    >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    New Project
+                    </button>
                 </div>
                 </div>
             )}
@@ -452,28 +435,34 @@ function ProjectsProfileManagement() {
             )}
 
             {view === 'form' && (
-            <div className="max-w-4xl mx-auto">
-                <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
-                <div className="flex items-center gap-4 mb-8">
-                    <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center border border-green-100">
-                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-full bg-green-50 rounded-2xl shadow-sm border border-gray-200">
+                <div className="bg-gray-50 border border-green-100 rounded-2xl shadow-sm p-8">
+                <div className="flex items-center gap-4 mb-8 justify-between">
+                    <div className="w-6 h-6 bg-green-50 rounded-xl flex items-center justify-center border border-green-100">
+                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
                     </svg>
                     </div>
                     <div>
-                    <h2 className="text-2xl font-light text-gray-900">Create Project</h2>
+                    <h2 className="text-xl font-light text-gray-600">Create Project</h2>
                     <p className="text-gray-500">Add a new Project to your records</p>
                     </div>
+                    <button 
+                        onClick={() => setView('list')}
+                        className="bg-white text-black px-2 py-1 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1"
+                    >
+                        <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}  />
+                        </svg>
+                        x Cancel
+                    </button>
                 </div>
                 <ProjectsProfileForm 
                     onSubmit={handleAddProject} 
                     isSubmitting={createProjectMutation.isPending} 
                     onCancel={handleBackToProjectsList}
                     customers={customers}
-                    currencies={currencies}
-                    accounts={accounts}
                     agents={agents}
-                    invoices={invoices}
                 />
                 {createProjectMutation.isError && (
                     <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">

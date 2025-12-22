@@ -56,14 +56,13 @@ export interface ProjectProfileInputs {
   superintendent: string;
   client_details: string;
 
-  phases: Array<{
-    phase_description: string;
-    start_date: string;
-    current_phase: boolean;
-    end_date: string;
-  }>
+  phases?: Array<{
+    phase_description?: string;
+    start_date?: string;
+    current_phase?: string;
+    end_date?: string;
+  }> | null; 
   created_by: string;
-  date_created: string;
 };
 
 export type ProjectProfileResponse = {

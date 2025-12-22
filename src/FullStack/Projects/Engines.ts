@@ -2,7 +2,7 @@ import apiClient from '../../BaseEngine';
 
 import { ProjectProfileInputs,
     AllProjectProfileInputs, EditProjectProfileInputs
- } from './Interfaces';
+ } from './constants/Types';
 
 
 

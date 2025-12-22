@@ -39,6 +39,7 @@ const Register = () => {
             navigate(`/`);
         } catch (error: any) {
             let errorMessage = "";
+            let errorMessage2 = "";
 
             if (error.code === "ECONNABORTED") {
                 errorMessage = "Request timed out. Please try again.";
@@ -48,8 +49,8 @@ const Register = () => {
                 errorMessage = error.response.data.detail;
             }
 
-            else if (error.message) {
-                console.log(error.message);
+            else if (error.response.data?.password1) {
+                errorMessage = error.response.data.password1;
             }
 
             setError(errorMessage);
@@ -75,7 +76,7 @@ const Register = () => {
             <form onSubmit={handleSubmit(submission)}>
 
             
-                <Box className={"whiteBox"}>
+                <Box className="whiteBox" sx={{ width: 420, maxWidth: '100%' }}>
                     <Box className={"itemBox"}>
                         <Box className={'title'}>User Registration</Box>
                     </Box>
@@ -106,12 +107,19 @@ const Register = () => {
                             control={control}
                         />
                     </Box>
-                    {error && <p className="text-amber-800 text-sm">{error}</p>}
+                    
+                    {error && (
+                        <Box className={"itemBox"}>
+                            <p className="text-amber-800 text-sm">
+                                {error}
+                            </p>
+                        </Box>
+                    )}
 
                     <Box className={"itemBox"}>
                         <MyButton 
                             type={"submit"}
-                            label={loading ? <span className={spinningStyles.terminalBar.spinner}>◖◗</span> : "Register"}
+                            label={loading ? <span className={spinningStyles.terminalBar.spinner}>◖</span> : "Register"}
                             disabled={loading}
                         />
                     </Box>
