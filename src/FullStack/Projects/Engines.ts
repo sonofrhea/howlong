@@ -1,7 +1,9 @@
 import apiClient from '../../BaseEngine';
 
 import { ProjectProfileInputs,
-    AllProjectProfileInputs, EditProjectProfileInputs
+    AllProjectProfileInputs, EditProjectProfileInputs,
+    BillOfQuantitiesInputs,
+    AllBillOfQuantitiesInputs
  } from './constants/Types';
 
 
@@ -95,12 +97,12 @@ export const fetchBillOfQuantityById = async (boq_number: number) => {
     return response.data;
 };
 
-export const createBillOfQuantity = async (billOfQuantitiesData) => {
+export const createBillOfQuantity = async (billOfQuantitiesData: BillOfQuantitiesInputs) => {
     const response = await apiClient.post('/projects/billofquantities/', billOfQuantitiesData);
     return response.data;
 };
 
-export const updateBillOfQuantity = async ({boq_number, billOfQuantitiesData}) => {
+export const updateBillOfQuantity = async ({boq_number, billOfQuantitiesData}: AllBillOfQuantitiesInputs) => {
     const response = await apiClient.put(`/projects/billofquantities/${boq_number}`, billOfQuantitiesData);
     return response.data;
 };

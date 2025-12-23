@@ -1,7 +1,8 @@
 import React from "react";
+import { BillofquantitiesList } from "../constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
@@ -10,14 +11,32 @@ const formatNumber = () => {
     return `${currentYear}-`;
 };
 
+const formatProjectNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `PZN-${currentYear}-0`;
+};
 
-const BillOfQuantitiesTable = ({ billOfQuantities, onBillOfQuantityClick, onEditBillOfQuantity,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const BillOfQuantitiesTable: React.FC<any> = ({ billOfQuantities, onBillOfQuantityClick, onEditBillOfQuantity,
     onDeleteBillOfQuantity, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
  }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -66,13 +85,13 @@ const BillOfQuantitiesTable = ({ billOfQuantities, onBillOfQuantityClick, onEdit
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Bill Of Quantities List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded text-black px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -88,27 +107,33 @@ const BillOfQuantitiesTable = ({ billOfQuantities, onBillOfQuantityClick, onEdit
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-16 text-center" />  {/* BOQ Number - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/5 text-center" /> {/* Project - 20% */}
-                        <col className="w-1/6 text-center" />  {/* BOQ Description */}
-                        <col className="w-20 text-center" />  {/* Created By - Fixed */}
-                        <col className="w-20 text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/7 text-center",
+                        "w-1/7 text-center",
+                        "w-1/7 text-center",
+                        "w-1/7 text-center",
+                        "w-1/7 text-center",
+                        "w-1/7 text-center",
+                        "w-1/7 text-center",
+                        "w-[7%] text-center",
+                    ]}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="BOQ #" sortKey="boq_number" />
                             <SortableHeader label="Date" sortKey="date" />
                             <SortableHeader label="Project" sortKey="project" />
+                            <SortableHeader label="Project Name" sortKey="project_name" />
                             <SortableHeader label="BOQ Description" sortKey="boq_description" />
-                            <SortableHeader label="Created By" sortKey="created_by" />
+                            <SortableHeader label="Contingency Rate%" sortKey="contingency_rate" />
+                            <SortableHeader label="Net Estimation" sortKey="net_estimation" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {billOfQuantities.map((billOfQuantity) => {
+                        {billOfQuantities.map((billOfQuantity: BillofquantitiesList) => {
                             const billOfQuantityId = billOfQuantity.boq_number;
 
                             return (
@@ -116,32 +141,50 @@ const BillOfQuantitiesTable = ({ billOfQuantities, onBillOfQuantityClick, onEdit
                                 onClick={() => onBillOfQuantityClick(billOfQuantityId)}>
                                     {/* BOQ Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={billOfQuantity.boq_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
                                             BOQ-{formatNumber()}{billOfQuantity.boq_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(billOfQuantity.date)}>
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(billOfQuantity.date)}
                                         </div>
                                     </td>
 
                                     {/* Project */}
-                                    <td className="px-2 py-2 truncate" title={billOfQuantity.project}>
-                                        <div className="text-sm text-gray-900 truncate">{billOfQuantity.project}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {formatProjectNumber()}{billOfQuantity.project}
+                                        </div>
+                                    </td>
+
+                                    {/* Project Name */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {billOfQuantity.project_name}
+                                        </div>
                                     </td>
 
                                     {/* BOQ Description */}
-                                    <td className="px-2 py-2 truncate" title={billOfQuantity.boq_description}>
-                                        <div className="text-sm text-gray-900 truncate">{billOfQuantity.boq_description}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {billOfQuantity.boq_description}
+                                        </div>
                                     </td>
 
-                                    {/* Created By */}
-                                    <td className="px-2 py-2 truncate" title={billOfQuantity.created_by}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {billOfQuantity.created_by}
+                                    {/* Contingency rate */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {billOfQuantity.contingency_rate}%
+                                        </div>
+                                    </td>
+
+                                    {/* Net Estimation */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {billOfQuantity.net_estimation}
                                         </div>
                                     </td>
 

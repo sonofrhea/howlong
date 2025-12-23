@@ -108,10 +108,10 @@ const Login = () => {
                         />
                     </Box>
 
-                    <Box className="itemBox" sx={{ width: '100%' }}>
-                        <p className="text-blue-800">No Account yet?</p>
+                    <Box>
+                        <p className="text-blue-800">No Account yet? </p>
                         <Link to="/register">
-                            <p className="text-blue-800 underline">Register</p>
+                            <p className="text-blue-800 underline"> Click to Register</p>
                         </Link>
                     </Box>
                 </Box>

@@ -8,8 +8,17 @@ const formatDate = (dateString: string) => {
 
 const formatNumber = () => {
     const currentYear = new Date().getFullYear();
-    return `${currentYear}-0`;
+    return `PZN-${currentYear}-0`;
 };
+
+
+
+
+
+
+
+
+
 
 const ProjectsProfileTable: React.FC<any> = ({ projectsProfiles, onProjectClick, onEditProjectsProfile,
     onDeleteProjectsProfile, sortConfig, onSort, currentPage, totalPages, totalItems,
@@ -127,7 +136,7 @@ const ProjectsProfileTable: React.FC<any> = ({ projectsProfiles, onProjectClick,
                                     {/* Project Code */}
                                     <td className="px-2 py-2">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            PZN-{formatNumber()}{projectsProfile.project_code}
+                                            {formatNumber()}{projectsProfile.project_code}
                                         </span>
                                     </td>
 

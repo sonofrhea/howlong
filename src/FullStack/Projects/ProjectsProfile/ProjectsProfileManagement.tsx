@@ -164,6 +164,9 @@ function ProjectsProfileManagement() {
 
 
     const handleAddProject = async (projectData: ProjectProfileInputs) => {
+        if (projectData.phases?.length === 0) {
+            delete projectData.phases;
+        }
         console.log("🎯 RAW FORM DATA:", projectData)
 
 

@@ -1,0 +1,164 @@
+/* ===== CSS Variables ===== */
+:root {
+  --bg: #f6f8fa;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #0ea5a4;
+  --line: #e6eef6;
+}
+
+/* ===== Base Styles ===== */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, Segoe UI, Roboto, Arial;
+  background: var(--bg);
+  color: #0f1724;
+}
+
+/* ===== Layout ===== */
+.wrap {
+  max-width: 1200px;
+  margin: 28px auto;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+/* ===== Typography ===== */
+h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ===== Card & Table ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(15, 23, 36, 0.03);
+}
+
+.boq-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+/* Table Head */
+thead th {
+  background: #fbfdfe;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Table Body */
+tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13px;
+}
+
+.section-row {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+/* ===== Table Columns ===== */
+.right {
+  text-align: right;
+}
+
+.unit {
+  width: 80px;
+}
+
+.qty {
+  width: 110px;
+}
+
+.rate {
+  width: 140px;
+}
+
+.amount {
+  width: 160px;
+}
+
+/* ===== Form Controls ===== */
+input[type="number"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #e6eef6;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ===== Buttons ===== */
+.export {
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+}
+
+/* ===== Totals Section ===== */
+.totals {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.totals .box {
+  background: #fbfdfe;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  min-width: 220px;
+  text-align: right;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 900px) {
+  .wrap {
+    padding: 10px;
+  }
+  
+  thead th,
+  tbody td {
+    font-size: 12px;
+  }
+  
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

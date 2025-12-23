@@ -263,7 +263,9 @@ const ProjectsProfileDetails: React.FC<any> = ({ project, isLoading, onBack, onE
                                         </span>
                                     </div>
 
-                                    <div></div>
+                                    <div>
+                                        
+                                    </div>
                                 </div>
                             ))}
                         </div>

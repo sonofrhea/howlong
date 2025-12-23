@@ -128,3 +128,59 @@ export interface ProjectDocumentsResponse {
 
 
 // -------- END ----------- PROJECT DOCUMENTS -------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// -------- BEGIN ----------- BILL OF QUANTITIES INPUT --------------------------------------
+
+
+
+
+// -------- END ----------- BILL OF QUANTITIES INPUT ------------------------------------------
+
+export type BillofquantitiesList = {
+  boq_number: number;
+  date: string;
+  project: string;
+  project_name: string;
+  boq_description: string;
+  contingency_rate: number;
+  net_estimation: number;
+}
+
+export type BillOfQuantitiesInputs = {
+  date: string;
+  project: string;
+  project_name: string;
+  boq_description: string;
+  boq?: Array <{
+    product_item: string | null;
+    additional_item: string | null;
+    unit_of_measurement: string | null;
+    quantity: number | null;
+    rate_per_unit: number | null;
+  }> | null;
+  gross_estimation: number;
+  contingency_rate: number;
+};
+
+
+export type BillOfQuantitiesResponse = {
+  boq_number: number;
+}
+
+
+export type AllBillOfQuantitiesInputs = {
+  boq_number: number;
+  billOfQuantitiesData: BillOfQuantitiesInputs;
+};
+
+export type EditBillOfQuantities = {
+  billOfQuantityId: number;
+  billOfQuantitiesData: BillOfQuantitiesInputs;
+}
