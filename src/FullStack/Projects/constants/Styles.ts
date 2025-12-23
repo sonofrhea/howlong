@@ -22,6 +22,8 @@ export const forms = {
     base: "px-3 py-2 border rounded focus:ring-2 focus:border-transparent transition-colors"
   },
   select: {
+    partialLarge: "w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-3 focus:ring-2 focus:ring-green-300",
+    fullLarge: "w-full drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-5 py-4 focus:ring-2 focus:ring-green-300",
     full: "w-full drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
     partial: "w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
     small: "w-[80%] cursor-pointer border drop-shadow-md shadow-inner rounded border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300"
@@ -75,7 +77,7 @@ export const tables = {
   row: "bg-white divide-y divide-x divide-gray-100",
   cell: "px-4 py-4 text-sm text-gray-600",
   autoCalculate: "px-4 py-4 text-sm text-gray-600 whitespace-nowrap",
-  text: "w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  text: "w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
 };
 
 export const text = {

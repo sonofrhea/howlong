@@ -22,7 +22,7 @@ import { BillOfQuantitiesInputs, AllBillOfQuantitiesInputs,
 
 
 import BillOfQuantitiesDetails from "./BillOfQuantitiesDetails";
-//import BillOfQuantitiesForm from "./BillOfQuantitiesForm";
+import BillOfQuantitiesForm from "./BillOfQuantitiesForm";
 import BillOfQuantitiesTable from "./BillOfQuantitiesTable";
 import { spinningStyles } from "../constants/Styles";
 //import BillOfQuantitiesEdit from "./BillOfQuantitiesEdit";

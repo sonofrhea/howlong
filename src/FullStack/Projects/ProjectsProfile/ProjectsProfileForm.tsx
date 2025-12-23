@@ -18,6 +18,7 @@ import { Trash2 } from "lucide-react";
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
+
 const formatNumber = () => {
     const currentYear = new Date().getFullYear();
     return `CV-${currentYear}-`;
@@ -156,13 +157,14 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                             <div className="form-group">
                                 <label>Start Date <span className="required">*</span></label>
                                 <input 
-                                    {...register("start_date", {required: "When is the start date?"})}
+                                    {...register("start_date", {required: "Start date required."})}
                                     type="date"
                                     name="start_date"
                                     className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                 required/>
+                                {errors.start_date && <p className="text-amber-600 text-sm">{errors.start_date?.message}</p>}
                             </div>
-                            {errors.start_date && <p className="text-amber-600 text-sm">{errors.start_date?.message}</p>}
+                            
 
                             <div className="form-group">
                                 <label>Estimated End Date</label>

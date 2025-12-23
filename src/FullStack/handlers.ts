@@ -4,6 +4,7 @@ import { CurrencyInterface } from "./Core/constants/Types"
 import { InvoiceInterface, InvoicePaymentInterface } from "./Sales/Constants/Types"
 import { SupplierInvoiceResponse } from "./Suppliers/constants/Types"
 import { CompanyPurchaseInvoiceResponse } from "./Purchases/constants/Types"
+import { ProjectProfileResponse } from "./Projects/constants/Types"
 
 
 
@@ -178,4 +179,18 @@ export const companyPurchaseInvoiceTotal = (purchaseInvoices: CompanyPurchaseInv
       setValue("invoice_total", selectedInvoice.net_total)
     }
   }
-} 
+}
+
+
+
+export const billofQuantitiesProjectName = (projects: ProjectProfileResponse[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const projectCode = Number(e.target.value)
+    const selectedProject = projects.find(a => a.project_code === projectCode)
+    console.log("✅ Found Project:", selectedProject);
+
+    if (selectedProject) {
+      setValue('project_name', selectedProject.project_name)
+    }
+  }
+}
