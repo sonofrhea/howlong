@@ -183,7 +183,7 @@ function BillOfQuantitiesManagement() {
 
     const handleUpdateBillOfQuantity = (billOfQuantitiesData: BillOfQuantitiesInputs) => {
         updateBillOfQuantityMutation.mutate({
-        boq_number: selectedBillOfQuantityId,
+        boq_number: selectedBillOfQuantityId!,
         billOfQuantitiesData: billOfQuantitiesData
         });
     };

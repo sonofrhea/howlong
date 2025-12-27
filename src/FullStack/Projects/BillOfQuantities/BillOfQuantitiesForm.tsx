@@ -137,7 +137,7 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                 
                 {/*<!-- BOQ Items Section -->*/}
                 <div className="totals-section border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
-                    <h1 >Bill of Quantities Items</h1>
+                    <h1 className="text-2xl mb-6">Bill of Quantities Items</h1>
 
                     {fields.map((field, index) => (
                         <div key={field.id}>
@@ -190,7 +190,7 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                                     <label>Quantity</label>
                                     <input 
                                         {...register(`boq.${index}.quantity`)}
-                                        name="quantity"
+                                        className={forms.select.partial}
                                         type="number"
                                         title="enter budget..."
                                         placeholder="0.00"
@@ -206,7 +206,7 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                                     <label>Rate Per Unit</label>
                                     <input 
                                         {...register(`boq.${index}.rate_per_unit`)}
-                                        name="rate_per_unit"
+                                        className={forms.select.partial}
                                         type="number"
                                         title="enter budget..."
                                         placeholder="0.00"
@@ -251,12 +251,13 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                 
                 <div className="totals-section border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
                     <div>
-                        <h1 className='mb-6'>Contingency</h1>
+                        <h1 className="text-2xl mb-6">Contingency</h1>
                     <div className="form-grid mb-[30px]">
                         <div className="form-group">
                             <label>Contingency Rate (%)</label>
                             <input 
                                 {...register('contingency_rate')}
+                                className={forms.select.partialLarge}
                                 type='number'
                                 name="contingency_rate"
                                 title="enter rate..."

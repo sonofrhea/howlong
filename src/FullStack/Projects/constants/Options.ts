@@ -240,3 +240,26 @@ export const COUNTRY_OPTIONS = [
     {value: 'Zambia', label: 'Zambia'},
     {value: 'Zimbabwe', label: 'Zimbabwe'},
 ];
+
+
+
+
+export const JOB_COST_LEDGER_STATUS_OPTIONS = [
+    {value: "Active", label: "Active"},
+    {value: "Completed", label: "Completed"},
+    {value: "On Hold", label: "On Hold"},
+]
+
+
+
+export const COST_TYPE_CHOICES_OPTIONS = [
+    {value: 'Direct Cost', label: 'Direct Cost'},
+    {value: 'Indirect Cost', label: 'Indirect Cost'},
+    {value: 'Overhead', label: 'Overhead'},
+];
+
+export const JOB_COST_LINES_STATUS_OPTIONS = [
+    {value: 'Committed', label: 'Committed'},
+    {value: 'Invoiced', label: 'Invoiced'},
+    {value: 'Paid', label: 'Paid'}, 
+];

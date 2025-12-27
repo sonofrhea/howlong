@@ -36,7 +36,7 @@ function ProjectsDashboard() {
             name: 'Job Cost Ledger',
             description: 'Manage cost of jobs with job cost ledger',
             path: '/projects/job-cost-ledger',
-            available: false
+            available: true
         },
     ];
 

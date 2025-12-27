@@ -1,0 +1,145 @@
+@font-face {
+  font-family: 'Novecentosanswide-Medium';
+  src: url(../../../../fonts/Novecentosanswide-Medium-webfont.woff);
+  font-display: swap;
+}
+
+
+:root {
+  --bg: #f6f8fa;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #0ea5a4;
+  --line: #e6eef6;
+}
+
+/* ===== Base Styles ===== */
+
+/* ===== Layout ===== */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+/* ===== Typography ===== */
+h1 {
+  font-size: 24px;
+  margin: 0 0 16px 0;
+  font-weight: 600;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  align-items: center;
+  text-align: center;
+}
+
+
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #e0f2fe;
+  color: #0369a1;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+
+
+.section-row {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+
+
+
+
+/* ===== Totals Section ===== */
+.totals {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.totals .box  {
+  background: #fbfdfe;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  min-width: 220px;
+  text-align: right;
+  font-size: 24px !important;
+  font-weight: bolder !important;
+}
+
+.totals .box .font-bold  {
+  text-align: right;
+  font-size: 18px !important;
+  font-family: 'Novecentosanswide-Medium';
+}
+
+/* ===== Description Section ===== */
+.description-section {
+  margin-top: 24px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+}
+
+.description-section .label {
+  font-weight: 2000px;
+  margin-bottom: 10px;
+  color: #000000;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.description-section .content {
+  color: #334155;
+  line-height: 1.7;
+  font-size: 13px;
+  text-align: left;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 900px) {
+
+  
+
+
+}

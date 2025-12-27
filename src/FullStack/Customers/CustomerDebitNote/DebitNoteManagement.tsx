@@ -492,7 +492,7 @@ const handleItemsPerPageChange = (value: number) => {
                     <button 
                         onClick={() => setView('list')}
                         className="bg-white text-black cursor-pointer px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
-                    >
+                        >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}  />
                         </svg>

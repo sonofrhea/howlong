@@ -1,6 +1,7 @@
 import React from "react";
 import '../constants/ProjectDetails.css';
-import { Building, Calendar1, Clock, NotepadText } from "lucide-react";
+import { Building, Calendar1, Clock, NotepadText, SquarePen } from "lucide-react";
+import { buttons } from "../constants/Styles";
 
 
 
@@ -63,18 +64,19 @@ const ProjectsProfileDetails: React.FC<any> = ({ project, isLoading, onBack, onE
 
 
     return (
-        <div className="w-full bg-gray-100 rounded-xl p-4">
-            <header>
-                <div className="header-top">
+        <div className="bg-white rounded-lg shadow-sm">
+            <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                <div className="flex items-center gap-4 flex-1">
                     <div>
-                        <h1>{project.project_name}</h1>
-                        <div className="flex items-center gap-[8px] my-[8px_0px]">
+                        
+                        <div className="flex items-center gap-[8px] mb-10 my-[8px_0px]">
                             <span className="badge badge-success">
                                 ● {project.status || 'N/A'}
                             </span>
                             <span className="badge badge-info">
                                 {project.project_type || 'N/A'}
                             </span>
+                            <h1>{project.project_name}</h1>
                         </div>
                         <div className="meta">
                             <span className="meta-item">
@@ -91,17 +93,17 @@ const ProjectsProfileDetails: React.FC<any> = ({ project, isLoading, onBack, onE
                             </span>
                         </div>
                     </div>
-
-                    <div className="controls">
-                        <button
-                            className="btn-primary btn"
-                            onClick={onEdit}
-                        >
-                            Edit Project
-                        </button>
-                    </div>
                 </div>
-            </header>
+                <div className="flex gap-3">
+                    <button 
+                        onClick={onEdit}
+                        className={buttons.editButtonGreen}
+                        >
+                            <SquarePen size={20} strokeWidth={1.5} />
+                            Edit
+                    </button>
+                </div>
+            </div>
 
             {/*<!-- Financial Stats -->*/}
             <div className="stats-grid">
@@ -280,8 +282,8 @@ const ProjectsProfileDetails: React.FC<any> = ({ project, isLoading, onBack, onE
                     <strong>{project.created_by}</strong>
                 </div>
                 <div>
-                    Last Updated
-                    <strong>{project.date_updated}</strong> . Version <strong>{project.version}</strong>
+                    Last Updated: 
+                    <strong> {formatDate(project.date_updated)}</strong> • Version <strong>{project.version}</strong>
                 </div>
             </div>
         </div>

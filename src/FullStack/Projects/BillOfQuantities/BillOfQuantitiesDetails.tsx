@@ -1,4 +1,8 @@
 import React from "react";
+import '../constants/BOQDetails.css';
+import { buttons, forms, tables } from "../constants/Styles";
+import { SquarePen } from "lucide-react";
+import { billofQuantitiesProjectName } from "../../handlers";
 
 const formatNumber = () => {
     const currentYear = new Date().getFullYear();
@@ -7,20 +11,32 @@ const formatNumber = () => {
 
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
 
 
-const BillOfQuantitiesDetails = ({ billOfQuantity, isLoading, onBack, onEdit }) => {
+
+
+
+
+
+
+
+
+
+
+
+
+const BillOfQuantitiesDetails: React.FC<any> = ({ billOfQuantity, isLoading, onBack, onEdit }) => {
 
 
     if (isLoading) {
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-3 text-gray-600">Loading bill of quantities...</p>
+                <p className="mt-3 text-gray-600">fetching bill of quantities...</p>
             </div>
         );
     }
@@ -45,157 +61,116 @@ const BillOfQuantitiesDetails = ({ billOfQuantity, isLoading, onBack, onEdit }) 
     }
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-            {/* Header */}
-            <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                <div className="flex items-center gap-4 flex-1">
-                    <button 
-                        onClick={onBack}
-                        className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-lg"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                    </button>
-                    <div>
-                        <h2 className="text-xl font-semibold text-gray-800">{formatNumber()}{billOfQuantity.boq_number}</h2>
+        <div className="w-[95%] mx-auto page border border-gray-200 p-8 rounded-2xl bg-white overflow-hidden">
+            <header>
+                <div className="flex-1">
+                    <div className="mb-12">
+                        <h1>Bill of Quantities</h1>
                     </div>
+                    <div className="meta">
+                        <div className="meta-item">
+                            <span className="meta-label">BOQ Number</span>
+                            <span className="meta-value">
+                                {formatNumber()}{billOfQuantity.boq_number}
+                            </span>
+                        </div>
 
-                    <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <div className="text-sm text-gray-500">Bill of quantity details</div>
+                        <div className="meta-item">
+                            <span className="meta-label">Date</span>
+                            <span className="meta-value">
+                                {formatDate(billOfQuantity.date)}
+                            </span>
+                        </div>
+
+                        <div className="meta-item">
+                            <span className="meta-label">Project</span>
+                            <span className="meta-value">
+                                {billOfQuantity.project || 'N/A'} | {billOfQuantity.project_name || 'N/A'}
+                            </span>
+                        </div>
+
+                        <div className="meta-item">
+                            <span className="meta-label">Status</span>
+                            <span className="status-badge">
+                                {billOfQuantity.status}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div className="flex gap-3">
                     <button 
                         onClick={onEdit}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                        className={buttons.editButtonGreen}
                     >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
+                        <SquarePen size={20} strokeWidth={1.5} />
                         Edit
                     </button>
                 </div>
-            </div>
+            </header>
 
-            {/* Content */}
-            <div className="p-6 space-y-6">
-                {/* Key Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="bg-blue-50 rounded-lg p-4">
-                        <div className="text-sm text-blue-600 font-medium">BOQ Number</div>
+            <div className="">
+                <div className="description-section">
+                    <div className="label text-2xl font-extrabold">BOQ Description</div>
+                    <div className="content">
+                        {billOfQuantity.boq_description}
+                    </div>
+                </div>
 
-                        <div className="text-lg font-semibold text-gray-800">
-                            {formatNumber()}{billOfQuantity.boq_number}
+
+                {billOfQuantity.boq && billOfQuantity.boq.length > 0 && (
+                <div className="py-6">
+                    <div className="overflow-x-auto">
+                        <table className={forms.bodyBOQ}>
+                            <thead className={tables.headerBOQ}>
+                                <tr>
+                                    <th className={tables.headerCellBOQ}>Product Item</th>
+                                    <th className={tables.headerCellBOQ}>Additional Item Description</th>
+                                    <th className={tables.headerCellBOQ}>Unit of Measurement</th>
+                                    <th className={tables.headerCellBOQ}>Quantity</th>
+                                    <th className={tables.headerCellBOQ}>Rate per unit</th>
+                                    <th className={tables.headerCellBOQ}>Estimated Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody className={tables.body}>
+                                {billOfQuantity.boq.map((line: any, index: any) => (
+                                    <tr key={index} className={tables.row}>
+                                        <td>SKU-{line.product_item || 'N/A'} | {line.product_item_name || 'N/A'}</td>
+                                        <td>{line.additional_item || '--'}</td>
+                                        <td className="unit">{line.unit_of_measurement}</td>
+                                        <td className="qty right">{line.quantity}</td>
+                                        <td className="rate right">{line.rate_per_unit}</td>
+                                        <td className="text-black">{line.estimated_amount}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                )}
+
+                <div className="totals">
+                    <div className="box">
+                        <div className="small">Gross Estimation</div>
+                        <div className="font-bold">
+                            {billOfQuantity.gross_estimation}
                         </div>
                     </div>
 
-                    <div className="bg-green-50 rounded-lg p-4">
-                        <div className="text-sm text-green-600 font-medium">Related Project</div>
-
-                        <div className="text-lg font-semibold text-gray-800">
-                            {billOfQuantity.project.project_code}
+                    <div className="box">
+                        <div className="small">Contingency Rate %</div>
+                        <div className="font-bold">
+                            +{billOfQuantity.contingency_rate}%
                         </div>
                     </div>
 
-                    <div className="bg-orange-50 rounded-lg p-4">
-                        <div className="text-sm text-green-600 font-medium">Date</div>
-
-                        <div className="text-lg font-semibold text-gray-800">
-                            {formatDate(billOfQuantity.date)}
-                        </div>
-                    </div>
-
-                    <div className="bg-purple-50 rounded-lg p-4">
-                        <div className="text-sm text-purple-600 font-medium">Created by</div>
-
-                        <div className="text-lg font-semibold text-gray-800">
-                            {billOfQuantity.created_by}
+                    <div className="box">
+                        <div className="small">Net Estimation</div>
+                        <div className="font-bold text-[#2d64c3]">
+                            {billOfQuantity.net_estimation}
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Lines */}
-            {billOfQuantity.boq && billOfQuantity.boq.length > 0 && (
-                <div className="bg-amber-50 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Bill Of Quantities</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                        {billOfQuantity.boq[0]?.product_item && (
-                            <div>
-                                <div className="text-sm text-gray-500">Product</div>
-                                <div className="text-gray-800">
-                                    {billOfQuantity.boq[0].product_item || 'Not provided'}
-                                </div>
-                            </div>
-                        )}
-
-                        {billOfQuantity.boq[0]?.additional_item && (
-                            <div>
-                                <div className="text-sm text-gray-500">Additional item?</div>
-                                <div className="text-gray-800">
-                                    {billOfQuantity.boq[0].additional_item || 'Not provided'}
-                                </div>
-                            </div>
-                        )}
-
-                        {billOfQuantity.boq[0]?.unit_of_measurement && (
-                            <div>
-                                <div className="text-sm text-gray-500">Unit of measurement</div>
-                                <div className="text-gray-800">
-                                    {billOfQuantity.boq[0].unit_of_measurement || 'Not provided'}
-                                </div>
-                            </div>
-                        )}
-
-                        {billOfQuantity.boq[0]?.quantity && (
-                            <div>
-                                <div className="text-sm text-gray-500">Quantity</div>
-                                <div className="text-gray-800">
-                                    {billOfQuantity.boq[0].quantity || 'Not provided'}
-                                </div>
-                            </div>
-                        )}
-
-                        {billOfQuantity.boq[0]?.rate_per_unit && (
-                            <div>
-                                <div className="text-sm text-gray-500">Rate per unit</div>
-                                <div className="text-gray-800">
-                                    RM {billOfQuantity.boq[0].rate_per_unit || 'Not provided'}
-                                </div>
-                            </div>
-                        )}
-
-                        {billOfQuantity.boq[0]?.estimated_amount && (
-                            <div>
-                                <div className="text-sm text-gray-500">Estimated amount</div>
-                                <div className="text-gray-800">
-                                    RM {billOfQuantity.boq[0].estimated_amount || 'Not provided'}
-                                </div>
-                            </div>
-                        )}
-
-                        {billOfQuantity.boq[0]?.contingency_rate && (
-                            <div>
-                                <div className="text-sm text-gray-500">Contingency rate</div>
-                                <div className="text-gray-800">
-                                    RM {billOfQuantity.boq[0].contingency_rate || 'Not provided'}
-                                </div>
-                            </div>
-                        )}
-
-                        {billOfQuantity.boq[0]?.net_estimation && (
-                            <div>
-                                <div className="text-sm text-gray-500">Net estimation</div>
-                                <div className="text-gray-800">
-                                    RM {billOfQuantity.boq[0].net_estimation || 'Not provided'}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

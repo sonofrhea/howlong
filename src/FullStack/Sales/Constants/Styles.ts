@@ -51,7 +51,7 @@ export const buttons = {
   remove: "text-red-600 hover:text-red-800 font-medium text-sm",
   add: "text-blue-600 hover:text-blue-800 font-medium text-sm w-full",
   addLine: "min-w-full text-black cursor-pointer divide-y divide-gray-100 border-x-gray-100 border-y-gray-100",
-  editButtonGreen: "bg-white border border-gray-200 cursor-pointer hover:border-gray-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
+  editButtonGreen: "bg-white border cursor-pointer border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
 };
 
 

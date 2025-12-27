@@ -3,7 +3,9 @@ import apiClient from '../../BaseEngine';
 import { ProjectProfileInputs,
     AllProjectProfileInputs, EditProjectProfileInputs,
     BillOfQuantitiesInputs,
-    AllBillOfQuantitiesInputs
+    AllBillOfQuantitiesInputs,
+    JobCostLedgerInputs,
+    AllJobCostLedgerInputs
  } from './constants/Types';
 
 
@@ -13,12 +15,13 @@ import { ProjectProfileInputs,
 
 
 
+// --------------------------------------------------------------------------------------------------------
+                // JOB COST CODES
 
-
-
-
-
-
+export const fetchJobCostCodes = async () => {
+    const response = await apiClient.get('/projects/jobcostcodes/');
+    return response.data;
+}
 
 
 
@@ -127,12 +130,12 @@ export const fetchJobCostLedgerById = async (job_cost_number: number) => {
     return response.data;
 };
 
-export const createJobCostLedger = async (jobCostLedgerData) => {
+export const createJobCostLedger = async (jobCostLedgerData: JobCostLedgerInputs) => {
     const response = await apiClient.post('/projects/jobcostledger/', jobCostLedgerData);
     return response.data;
 };
 
-export const updateJobCostLedger = async ({job_cost_number, jobCostLedgerData}) => {
+export const updateJobCostLedger = async ({job_cost_number, jobCostLedgerData}: AllJobCostLedgerInputs) => {
     const response = await apiClient.put(`/projects/jobcostledger/${job_cost_number}`, jobCostLedgerData);
     return response.data;
 };

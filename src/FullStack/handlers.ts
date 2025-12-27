@@ -4,7 +4,8 @@ import { CurrencyInterface } from "./Core/constants/Types"
 import { InvoiceInterface, InvoicePaymentInterface } from "./Sales/Constants/Types"
 import { SupplierInvoiceResponse } from "./Suppliers/constants/Types"
 import { CompanyPurchaseInvoiceResponse } from "./Purchases/constants/Types"
-import { ProjectProfileResponse } from "./Projects/constants/Types"
+import { BillOfQuantitiesResponse, ProjectProfileResponse } from "./Projects/constants/Types"
+import { JobCostCodesInterface } from "./Projects/constants/Types"
 
 
 
@@ -191,6 +192,51 @@ export const billofQuantitiesProjectName = (projects: ProjectProfileResponse[], 
 
     if (selectedProject) {
       setValue('project_name', selectedProject.project_name)
+    }
+  }
+}
+
+
+
+export const jobCostProjectsHandler = (projects: ProjectProfileResponse[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const projectCode = Number(e.target.value)
+    const selectedProject = projects.find(a => a.project_code === projectCode)
+    console.log("✅ Found Project:", selectedProject);
+
+    if (selectedProject) {
+      setValue('project_name', selectedProject.project_name)
+      setValue('project_budget', selectedProject.project_budget)
+    }
+  }
+}
+
+
+
+
+
+export const jobcostcodesHandler = (jobCostCodes: JobCostCodesInterface[], setValue: any, index: number) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const jobCostCode = Number(e.target.value)
+    const selectedCode = jobCostCodes.find(a => a.job_cost_code === jobCostCode)
+    console.log("✅ Found Job Cost Code:", selectedCode);
+
+    if (selectedCode) {
+      setValue(`job_cost_ledger.${index}.cost_code.job_cost_description`, selectedCode.job_cost_description)
+    }
+  }
+}
+
+
+
+export const jobCostBoqHandler = (billOfQuantities: BillOfQuantitiesResponse[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const boqNumber = Number(e.target.value)
+    const selectedNumber = billOfQuantities.find(a => a.boq_number === boqNumber)
+    console.log("✅ Found BOQ:", selectedNumber);
+
+    if (selectedNumber) {
+      setValue("boq_estimated_amount", selectedNumber.net_estimation)
     }
   }
 }

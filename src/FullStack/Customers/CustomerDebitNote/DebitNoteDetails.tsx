@@ -91,7 +91,7 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                         <button 
                             onClick={onEdit}
                             
-                            className={buttons.editButtonGreen}
+                            className="bg-white border cursor-pointer border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
                             Edit

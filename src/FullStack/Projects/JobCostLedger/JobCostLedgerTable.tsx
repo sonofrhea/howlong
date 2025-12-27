@@ -1,7 +1,8 @@
 import React from "react";
+import { JobCostLedgerList } from "../constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
@@ -10,13 +11,22 @@ const formatNumber = () => {
     return `${currentYear}-0`;
 };
 
-const JobCostLedgerTable = ({ jobCostLedgers, onJobCostLedgerClick, onEditJobCostLedger,
+
+
+
+
+
+
+
+
+
+const JobCostLedgerTable: React.FC<any> = ({ jobCostLedgers, onJobCostLedgerClick, onEditJobCostLedger,
     onDeleteJobCostLedger, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
  }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -65,13 +75,13 @@ const JobCostLedgerTable = ({ jobCostLedgers, onJobCostLedgerClick, onEditJobCos
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Job Cost Ledgers List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded text-black px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -87,31 +97,35 @@ const JobCostLedgerTable = ({ jobCostLedgers, onJobCostLedgerClick, onEditJobCos
             <div className="flex justify-center">
                 <table className="w-full table-auto divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/5 text-center" />  {/* Job Cost Number - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Project - 20% */}
-                        <col className="w-1/5 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Description */}
-                        <col className="w-1/5 text-center" />  {/* Status */}
-                        <col className="w-1/5 text-center" /> {/* Agent - 16.6% */}
-                         <col className="w-1/5 text-center" /> {/* Created By - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Date Created - Fixed */}
+                    {[
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-[7%] text-center",
+                    ]}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Job Cost #" sortKey="job_cost_number" />
-                            <SortableHeader label="Project" sortKey="project" />
                             <SortableHeader label="Date" sortKey="date" />
+                            <SortableHeader label="Project" sortKey="project" />
                             <SortableHeader label="Description" sortKey="description" />
-                            <SortableHeader label="Status" sortKey="status" />
-                            <SortableHeader label="Created By" sortKey="created_by" />
-                            <SortableHeader label="Date Created" sortKey="date_created" />
+                            <SortableHeader label="ESTIMATED AMOUNT" sortKey="boq_estimated_amount" />
+                            <SortableHeader label="Actual cost" sortKey="total_actual_cost" />
+                            <SortableHeader label="Variance" sortKey="net_variance" />
+                            <SortableHeader label="status" sortKey="status" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {jobCostLedgers.map((jobCostLedger) => {
+                        {jobCostLedgers.map((jobCostLedger: JobCostLedgerList) => {
                             const jobCostLedgerId = jobCostLedger.job_cost_number;
 
                             return (
@@ -119,44 +133,60 @@ const JobCostLedgerTable = ({ jobCostLedgers, onJobCostLedgerClick, onEditJobCos
                                 onClick={() => onJobCostLedgerClick(jobCostLedgerId)}>
                                     {/* Job Cost Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={jobCostLedger.job_cost_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
                                             JOB-0-{jobCostLedger.job_cost_number}
                                         </span>
                                     </td>
 
-                                    {/* Project */}
-                                    <td className="px-2 py-2 truncate" title={jobCostLedger.project}>
-                                        <div className="text-sm font-medium text-gray-900 truncate">
-                                            {jobCostLedger.project}
-                                        </div>
-                                    </td>
-
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(jobCostLedger.date)}>
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(jobCostLedger.date)}
                                         </div>
                                     </td>
 
+                                    {/* Project */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
+                                            {jobCostLedger.project}
+                                        </div>
+                                    </td>
+
                                     {/* Description */}
-                                    <td className="px-2 py-2 truncate" title={jobCostLedger.description}>
-                                        <div className="text-sm text-gray-900 truncate">{jobCostLedger.description}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">{jobCostLedger.description}</div>
+                                    </td>
+
+                                    {/* Project */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
+                                            {jobCostLedger.boq_estimated_amount}
+                                        </div>
+                                    </td>
+
+                                    {/* Project */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
+                                            {jobCostLedger.total_actual_cost}
+                                        </div>
+                                    </td>
+
+                                    {/* Project */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
+                                            {jobCostLedger.net_variance}
+                                        </div>
                                     </td>
 
                                     {/* Status */}
-                                    <td className="px-2 py-2 truncate" title={jobCostLedger.status}>
-                                        <div className="text-sm text-gray-900 truncate">{jobCostLedger.status}</div>
-                                    </td>
-
-                                    {/* Created By */}
-                                    <td className="px-2 py-2 truncate" title={jobCostLedger.created_by}>
-                                        <div className="text-sm text-gray-900 truncate">{jobCostLedger.created_by}</div>
-                                    </td>
-
-                                    {/* Date Created */}
-                                    <td className="px-2 py-2 truncate" title={jobCostLedger.date_created}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {formatDate(jobCostLedger.date_created)}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                                            jobCostLedger.status === 'Active' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 
+                                            jobCostLedger.status === 'Completed' ? 'bg-green-100 text-green-600 border border-green-200' :
+                                            jobCostLedger.status === 'Suspended' ? 'bg-red-50 text-red-700 border border-red-200' :
+                                            'bg-gray-50 text-gray-600 border border-gray-200'
+                                            }`}>
+                                            {jobCostLedger.status}
                                         </div>
                                     </td>
 

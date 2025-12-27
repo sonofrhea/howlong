@@ -1,7 +1,31 @@
 import React, { useState } from "react";
 
 import { PROJECTS_ICONS } from "./ModuleIcons";
-import { COUNTRY_OPTIONS, PROJECT_PHASE_OPTIONS, PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from "./Options";
+import { COST_TYPE_CHOICES_OPTIONS, COUNTRY_OPTIONS, 
+  JOB_COST_LEDGER_STATUS_OPTIONS, 
+  JOB_COST_LINES_STATUS_OPTIONS, PROJECT_PHASE_OPTIONS,
+   PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from "./Options";
+
+
+
+
+
+
+
+
+
+
+
+export type JobCostCodesInterface = {
+  job_cost_code: number;
+  job_cost_description: string;
+}
+
+
+
+
+
+
 
 
 
@@ -14,6 +38,7 @@ export interface ProjectsModuleInterface {
     path: string;
     available: boolean;
 };
+
 
 
 
@@ -80,6 +105,7 @@ export interface ProjectProfileInputs {
 export type ProjectProfileResponse = {
   project_code: number;
   project_name: string;
+  project_budget: number;
 }
 
 export type AllProjectProfileInputs = {
@@ -139,10 +165,6 @@ export interface ProjectDocumentsResponse {
 // -------- BEGIN ----------- BILL OF QUANTITIES INPUT --------------------------------------
 
 
-
-
-// -------- END ----------- BILL OF QUANTITIES INPUT ------------------------------------------
-
 export type BillofquantitiesList = {
   boq_number: number;
   date: string;
@@ -162,8 +184,8 @@ export type BillOfQuantitiesInputs = {
     product_item: string | null;
     additional_item: string | null;
     unit_of_measurement: string | null;
-    quantity: number | null;
-    rate_per_unit: number | null;
+    quantity: number;
+    rate_per_unit: number;
   }> | null;
   gross_estimation: number;
   contingency_rate: number;
@@ -172,6 +194,8 @@ export type BillOfQuantitiesInputs = {
 
 export type BillOfQuantitiesResponse = {
   boq_number: number;
+  project_name: string;
+  net_estimation: number;
 }
 
 
@@ -184,3 +208,71 @@ export type EditBillOfQuantities = {
   billOfQuantityId: number;
   billOfQuantitiesData: BillOfQuantitiesInputs;
 }
+
+
+// -------- END ----------- BILL OF QUANTITIES INPUT ------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// -------- BEGIN ----------- JOB COST LEDGER INPUT --------------------------------------
+
+export type JobCostLedgerList = {
+  job_cost_number: number;
+  date: string;
+  project: string;
+  description: string;
+  boq_estimated_amount: number;
+  total_actual_cost: number;
+  net_variance: number;
+  status: string;
+};
+
+
+export type JobCostLedgerInputs = {
+  project: string;
+  date: string;
+  description: string;
+  status: typeof JOB_COST_LEDGER_STATUS_OPTIONS;
+  boq_estimation: string | null;
+  boq_estimated_amount: number | null;
+  job_cost_ledger?: Array<{
+    cost_code?: {
+      job_cost_code?: number | null;
+      job_cost_description?: string | null;
+    } | null;
+    description: string | null;
+    supplier: string | null;
+    cost_type: typeof COST_TYPE_CHOICES_OPTIONS,
+    status: typeof JOB_COST_LINES_STATUS_OPTIONS,
+    cost: number | null;
+    tax: number | null;
+  }> | null;
+  date_created: string | null;
+  project_budget: string | null;
+};
+
+
+export type JobCostLedgerResponse = {
+  job_cost_number: number;
+};
+
+export type AllJobCostLedgerInputs = {
+  job_cost_number: number;
+  jobCostLedgerData: JobCostLedgerInputs;
+};
+
+
+export type EditJobCostLedger = {
+  jobCostLedgerId: number;
+  jobCostLedgerData: JobCostLedgerInputs;
+};
+
+
+
+
+// -------- END ----------- JOB COST LEDGER INPUT ------------------------------------------

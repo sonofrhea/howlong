@@ -16,13 +16,14 @@ export const spinningStyles = {
 
 export const forms = {
   body: "w-[100%] mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden",
+  bodyBOQ: "w-[100%] mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden",
   input: {
     date: "px-3 py-2 border hover:cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors",
     number: "w-full border border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
     base: "px-3 py-2 border rounded focus:ring-2 focus:border-transparent transition-colors"
   },
   select: {
-    partialLarge: "w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-3 focus:ring-2 focus:ring-green-300",
+    partialLarge: "w-[20%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-3 focus:ring-2 focus:ring-green-300",
     fullLarge: "w-full drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-5 py-4 focus:ring-2 focus:ring-green-300",
     full: "w-full drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
     partial: "w-[60%] drop-shadow-md shadow-inner rounded cursor-pointer border border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
@@ -39,13 +40,12 @@ export const forms = {
 
 
 
-
 export const buttons = {
-  primary: "px-6 py-3 bg-amber-900 text-white rounded drop-shadow-md shadow-xl hover:bg-green-700 font-medium disabled:opacity-50",
-  secondary: "px-3 py-1 bg-green-700 text-white rounded drop-shadow-md shadow-xl hover:bg-blue-700 font-medium disabled:opacity-50",
+  primary: "px-6 py-3 bg-amber-900 cursor-pointer text-white rounded drop-shadow-md shadow-xl hover:bg-green-700 font-medium disabled:opacity-50",
   remove: "text-red-600 hover:text-red-800 font-medium text-sm",
   add: "text-blue-600 hover:text-blue-800 font-medium text-sm w-full",
-  addLine: "min-w-full divide-y divide-gray-100"
+  addLine: "min-w-full text-black cursor-pointer divide-y divide-gray-100 border-x-gray-100 border-y-gray-100",
+  editButtonGreen: "bg-white border cursor-pointer border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
 };
 
 
@@ -72,12 +72,15 @@ export const layout = {
 export const tables = {
   base: "w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner",
   header: "bg-blue-100 drop-shadow-md shadow-lg",
+  headerBOQ: "bg-blue-100 drop-shadow-md shadow-lg",
   headerCell: "text-center text-xs font-semibold uppercase",
+  headerCellBOQ: 'text-center text-xs font-semibold uppercase',
   body: "bg-white divide-y divide-gray-100",
   row: "bg-white divide-y divide-x divide-gray-100",
   cell: "px-4 py-4 text-sm text-gray-600",
   autoCalculate: "px-4 py-4 text-sm text-gray-600 whitespace-nowrap",
-  text: "w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  jobCostTableHeadLeft: "px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider",
+  text: "w-[100%] border border-gray-300 drop-shadow-md shadow-inner rounded px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
 };
 
 export const text = {
