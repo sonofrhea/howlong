@@ -49,8 +49,8 @@ const SupplierDebitNoteDetails: React.FC<any> = ({ supplierDebitNote, isLoading,
     if (isLoading) {
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
-                <span className={spinningStyles.terminalBar.spinner}>↺</span>
-                <p className="mt-3 text-gray-600">fetching payment...</p>
+                <span className={spinningStyles.terminalBar.spinner}></span>
+                <p className="mt-3 text-gray-600">fetching debit note...</p>
             </div>
         );
     }

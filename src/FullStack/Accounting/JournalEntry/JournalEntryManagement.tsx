@@ -18,6 +18,7 @@ import { spinningStyles } from "../Constants/Styles";
 
 import JournalEntryTable from "./JournalEntryTable";
 import JournalEntryForm from "./JournalEntryForm";
+import JournalEntryDetails from "./JournalEntryDetails";
 
 
 
