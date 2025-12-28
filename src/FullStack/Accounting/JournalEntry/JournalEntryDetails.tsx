@@ -39,7 +39,7 @@ const JournalEntryDetails: React.FC<any> = ({ journalEntry, isLoading, onBack, o
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">Journal Entry Not Found</h2>
-                <p className="text-gray-600 mb-4">Unable to journal entry.</p>
+                <p className="text-gray-600 mb-4">Unable to load journal entry.</p>
                 <button 
                     onClick={onBack}
                     className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"

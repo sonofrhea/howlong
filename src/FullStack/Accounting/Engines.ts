@@ -1,7 +1,8 @@
 import apiClient from '../../BaseEngine';
 
 
-import { AllJournalHeaderInputs, 
+import { AllIncomeAndExpenses, AllJournalHeaderInputs, 
+  IncomeAndExpensesInputs, 
   JournalHeaderInputs } from './Constants/Types';
 
 
@@ -19,22 +20,22 @@ export const fetchIncomeAndExpenses = async () => {
   return response.data;
 };
 
-export const fetchIncomeAndExpenseById = async (reference_number) => {
+export const fetchIncomeAndExpenseById = async (reference_number: number) => {
   const response = await apiClient.get(`/accounting/incomeandexpenses/${reference_number}/`);
   return response.data;
 };
 
-export const createIncomeAndExpense = async (incomeAndExpensesData) => {
+export const createIncomeAndExpense = async (incomeAndExpensesData: IncomeAndExpensesInputs) => {
   const response = await apiClient.post('/accounting/incomeandexpenses/', incomeAndExpensesData);
   return response.data;
 };
 
-export const updateIncomeAndExpense = async ({ reference_number, incomeAndExpensesData }) => {
+export const updateIncomeAndExpense = async ({ reference_number, incomeAndExpensesData }: AllIncomeAndExpenses) => {
   const response = await apiClient.put(`/accounting/incomeandexpenses/${reference_number}/`, incomeAndExpensesData);
   return response.data;
 };
 
-export const deleteIncomeAndExpense = async (reference_number) => {
+export const deleteIncomeAndExpense = async (reference_number: number) => {
   await apiClient.delete(`/accounting/incomeandexpenses/${reference_number}/`);
   return true;
 };

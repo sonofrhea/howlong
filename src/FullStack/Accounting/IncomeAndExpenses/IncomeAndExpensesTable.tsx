@@ -1,17 +1,30 @@
 import React from "react";
+import { IncomeAndExpensesList } from "../Constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
-const IncomeAndExpensesTable = ({ incomeAndExpenses, onIncomeAndExpenseClick, onEditIncomeAndExpense,
+const formatNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `IE-${currentYear}-00`
+}
+
+
+
+
+
+
+
+
+const IncomeAndExpensesTable: React.FC<any> = ({ incomeAndExpenses, onIncomeAndExpenseClick, onEditIncomeAndExpense,
     onDeleteIncomeAndExpense, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
 }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -60,13 +73,13 @@ const IncomeAndExpensesTable = ({ incomeAndExpenses, onIncomeAndExpenseClick, on
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Income And Expenses List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded text-black px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -82,15 +95,16 @@ const IncomeAndExpensesTable = ({ incomeAndExpenses, onIncomeAndExpenseClick, on
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/5 text-center" />  {/* Reference Number - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/5 text-center" /> {/* Category - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Description */}
-                        <col className="w-1/5 text-center" /> {/* currency - 16.6% */}
-                        <col className="w-1/5 text-center" /> {/* Net Debit - 20% */}
-                        <col className="w-1/5 text-center" /> {/* Net Credit - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Running Balance - Fixed */}
-                        <col className="w-1/5 text-center" />  {/* Actions - Fixed */}
+                    {[
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-1/8 text-center",
+                        "w-[7%] text-center",
+                    ]}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
@@ -99,8 +113,8 @@ const IncomeAndExpensesTable = ({ incomeAndExpenses, onIncomeAndExpenseClick, on
                             <SortableHeader label="Category" sortKey="category" />
                             <SortableHeader label="Description" sortKey="description" />
                             <SortableHeader label="Currency" sortKey="currency" />
-                            <SortableHeader label="Net Debit" sortKey="net_debit" />
-                            <SortableHeader label="Net Credit" sortKey="net_credit" />
+                            <SortableHeader label="Net Debit(IN)" sortKey="net_debit" />
+                            <SortableHeader label="Net Credit(OUT)" sortKey="net_credit" />
                             <SortableHeader label="Running Balance" sortKey="running_balance" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
@@ -108,7 +122,7 @@ const IncomeAndExpensesTable = ({ incomeAndExpenses, onIncomeAndExpenseClick, on
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {incomeAndExpenses.map((incomeAndExpense) => {
+                        {incomeAndExpenses.map((incomeAndExpense: IncomeAndExpensesList) => {
                             const incomeAndExpenseId = incomeAndExpense.reference_number;
 
                             return (
@@ -116,48 +130,58 @@ const IncomeAndExpensesTable = ({ incomeAndExpenses, onIncomeAndExpenseClick, on
                                 onClick={() => onIncomeAndExpenseClick(incomeAndExpenseId)}>
                                     {/* Reference Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={incomeAndExpense.reference_number}>
-                                            {incomeAndExpense.reference_number}
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
+                                            {formatNumber()}{incomeAndExpense.reference_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(incomeAndExpense.date)}>
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(incomeAndExpense.date)}
                                         </div>
                                     </td>
 
                                     {/* Category */}
-                                    <td className="px-2 py-2 truncate" title={incomeAndExpense.category}>
-                                        <div className="text-sm text-gray-900 truncate">{incomeAndExpense.category}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {incomeAndExpense.category}
+                                        </div>
                                     </td>
 
                                     {/* Description */}
-                                    <td className="px-2 py-2 truncate" title={incomeAndExpense.description}>
-                                        <div className="text-sm text-gray-900 truncate">{incomeAndExpense.description}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {incomeAndExpense.description}
+                                        </div>
                                     </td>
 
                                     {/* Currency */}
-                                    <td className="px-2 py-2 truncate" title={incomeAndExpense.currency}>
-                                        <div className="text-sm text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
                                             {incomeAndExpense.currency}
                                         </div>
                                     </td>
 
                                     {/* Net Debit */}
-                                    <td className="px-2 py-2 truncate" title={incomeAndExpense.net_debit}>
-                                        <div className="text-sm text-gray-900 truncate">RM {incomeAndExpense.net_debit}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {incomeAndExpense.net_debit}
+                                        </div>
                                     </td>
 
                                     {/* Net Credit */}
-                                    <td className="px-2 py-2 truncate" title={incomeAndExpense.net_credit}>
-                                        <div className="text-sm text-gray-900 truncate">RM {incomeAndExpense.net_credit}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {incomeAndExpense.net_credit}
+                                        </div>
                                     </td>
 
                                     {/* Running Balance */}
-                                    <td className="px-2 py-2 truncate" title={incomeAndExpense.running_balance}>
-                                        <div className="text-sm text-gray-900 truncate">RM {incomeAndExpense.running_balance}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {incomeAndExpense.running_balance}
+                                        </div>
                                     </td>
 
                                     {/* Actions */}

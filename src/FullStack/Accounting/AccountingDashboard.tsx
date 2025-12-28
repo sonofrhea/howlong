@@ -27,7 +27,7 @@ function AccountingDashboard() {
             name: 'Income And Expenses',
             description: 'Manage income and expenses',
             path: '/accounting/income-and-expenses',
-            available: false
+            available: true
         },
         {
             id: 'cashbook',

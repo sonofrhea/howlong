@@ -30,3 +30,9 @@ export const BANK_TYPE_CHOICES = [
     { value: 'DualPay', label: 'DualPay' },
     { value: 'Other Bank', label: 'Other Bank' }
 ];
+
+
+export const INCOME_EXPENSES_OPTIONS = [
+    { value: 'INCOME', label: 'INCOME'},
+    { value: 'EXPENSES', label: 'EXPENSES'},
+];
