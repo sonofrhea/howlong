@@ -68,7 +68,7 @@ const CustomerPaymentManagement = lazy(() => import('./FullStack/Sales/CustomerP
 
 const AccountingDashboard = lazy(() => import('./FullStack/Accounting/AccountingDashboard'))
 const ReceiptVoucherManagement = lazy(() => import('./FullStack/Accounting/ReceiptVoucher/ReceiptVoucherManagement'))
-//import JournalManagement from './FullStack/Accounting/Journal/JournalManagement';
+const JournalEntryManagement = lazy(() => import('./FullStack/Accounting/JournalEntry/JournalEntryManagement'))
 const BankStatementManagement = lazy(() => import('./FullStack/Accounting/BankStatement/BankStatementManagement'))
 const PaymentVoucherManagement = lazy(() => import('./FullStack/Accounting/PaymentVoucher/PaymentVoucherManagement'))
 const IncomeAndExpensesManagement = lazy(() => import('./FullStack/Accounting/IncomeAndExpenses/IncomeAndExpensesManagement'))
@@ -553,6 +553,16 @@ function App() {
                     <AccountingDashboard title="Accounting & Finance Management" />
                   </Layout>
                 </Suspense>
+              } />
+
+
+              <Route path="/accounting/journal-entries" element={
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                    <JournalEntryManagement />
+                  </Layout>
+                </Suspense>
+                
               } />
 
 

@@ -240,3 +240,18 @@ export const jobCostBoqHandler = (billOfQuantities: BillOfQuantitiesResponse[], 
     }
   }
 }
+
+
+
+export const journalEntryAccountHandler = (accounts: ControlAccountInterface[], setValue: any, index: number) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const accountCode = Number(e.target.value)
+    const selectedAccount = accounts.find(a => a.account_code === accountCode)
+    console.log("✅ Found Account:", selectedAccount);
+
+    if (selectedAccount) {
+      setValue(`journal_entries.${index}.account.account_name`, selectedAccount.account_name)
+      setValue(`journal_entries.${index}.account.account_type`, selectedAccount.account_type)
+    }
+  }
+}

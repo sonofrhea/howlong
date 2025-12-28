@@ -153,7 +153,9 @@ function RefundManagement() {
     const deleteRefundMutation = useMutation({
         mutationFn: deleteRefund,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['refunds'] });
+            console.info("Delete successful, invalidating queries");
+            console.log("Delete successful, invalidating queries");
+            queryClient.invalidateQueries({ queryKey: ['refunds'] });
         }
     });
 
@@ -203,9 +205,9 @@ function RefundManagement() {
 
 
 
-    const handleUpdateRefund = (refundData: AllCustomerRefundInputs) => {
+    const handleUpdateRefund = (refundData: CustomerRefundInputs) => {
         updateRefundMutation.mutate({
-        refund_number: selectedRefundId,
+        refund_number: selectedRefundId!,
         refundData: refundData
         });
     };
@@ -214,10 +216,8 @@ function RefundManagement() {
 
 
 
-    const handleDeleteRefund = async (refundId: number) => {
-        if (window.confirm('Are you sure you want to delete this customer?')) {
+    const handleDeleteRefund = (refundId: number) => {
         deleteRefundMutation.mutate(refundId);
-        }
     };
     // ------------------------------------------------------------------------------------
 

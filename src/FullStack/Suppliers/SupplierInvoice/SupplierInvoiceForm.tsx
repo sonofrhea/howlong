@@ -376,47 +376,47 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                 </table>
                             </div>
                             
-                                                    <div className="mt-6 sm:flex sm:items-center sm:justify-end">
-                                                    <div className="w-full sm:w-1/2 lg:w-1/3">
-                                                        <div className="bg-gray-50 p-4 rounded-lg">
-                                                            <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
-                            
-                                                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                                                    <div>Tax Inclusive?</div>
-                                                                    <input 
-                                                                    {...register("tax_inclusive")}
-                                                                    type="checkbox"
-                                                                    className="ml-2 forced-colors:bg-green-300"
-                                                                    />
-                                                                </div>
-                            
-                                                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                                                    <div>Tax %</div>
-                                                                    <input 
-                                                                        type="number"
-                                                                        {...register("tax_amount")}
-                                                                        className={forms.input.smallNumber}
-                                                                        placeholder="0.00"
-                                                                        step="0.01" min="0.00" onBlur={(e) => {
-                                                                            if (e.target.value) {
-                                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                                            }
-                                                                        }}
-                                                                    
-                                                                    />
-                                                                </div>
-                                                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                                                    <div>Cancelled?</div>
-                                                                    <input 
-                                                                    {...register("cancelled")}
-                                                                    type="checkbox"
-                                                                    className="ml-2 forced-colors:bg-green-300"
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>
+                            <div className="mt-6 sm:flex sm:items-center sm:justify-end">
+                                <div className="w-full sm:w-1/2 lg:w-1/3">
+                                    <div className="bg-gray-50 p-4 rounded-lg">
+                                        <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
+        
+                                            <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                                <div>Tax Inclusive?</div>
+                                                <input 
+                                                {...register("tax_inclusive")}
+                                                type="checkbox"
+                                                className="ml-2 forced-colors:bg-green-300"
+                                                />
+                                            </div>
+        
+                                            <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                                <div>Tax %</div>
+                                                <input 
+                                                    type="number"
+                                                    {...register("tax_amount")}
+                                                    className={forms.input.smallNumber}
+                                                    placeholder="0.00"
+                                                    step="0.01" min="0.00" onBlur={(e) => {
+                                                        if (e.target.value) {
+                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        }
+                                                    }}
+                                                
+                                                />
+                                            </div>
+                                            <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                                <div>Cancelled?</div>
+                                                <input 
+                                                {...register("cancelled")}
+                                                type="checkbox"
+                                                className="ml-2 forced-colors:bg-green-300"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
 

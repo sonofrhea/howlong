@@ -19,7 +19,7 @@ function AccountingDashboard() {
             id: 'journal',
             name: 'Journal Entries',
             description: 'Journal entry management',
-            path: '/accounting/journals',
+            path: '/accounting/journal-entries',
             available: true
         },
         {
@@ -27,35 +27,35 @@ function AccountingDashboard() {
             name: 'Income And Expenses',
             description: 'Manage income and expenses',
             path: '/accounting/income-and-expenses',
-            available: true
+            available: false
         },
         {
             id: 'cashbook',
             name: 'Cash Book',
             description: 'Manage company cash book',
             path: '/accounting/cashbook',
-            available: true
+            available: false
         },
         {
             id: 'paymentVoucher',
             name: 'Payment Voucher',
             description: 'Manage payment vouchers',
             path: '/accounting/payment-vouchers',
-            available: true
+            available: false
         },
         {
             id: 'receiptVoucher',
             name: 'Receipt Voucher',
             description: 'Manage receipt vouchers',
             path: '/accounting/receipt-vouchers',
-            available: true
+            available: false
         },
         {
             id: 'bankStatement',
             name: 'Bank Statements',
             description: 'Manage bank statements for reconciliation',
             path: '/accounting/bank-statements',
-            available: true
+            available: false
         },
     ];
 

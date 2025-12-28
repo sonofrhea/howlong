@@ -18,12 +18,12 @@ import { CreditNoteInputs, AllCreditNoteInputs,
  } from "../constants/Types";
 
 
+import { spinningStyles } from "../constants/Styles";
 
 
 import CreditNoteDetails from "./CreditNoteDetails";
 import CreditNoteForm from "./CreditNoteForm";
 import CreditNoteTable from "./CreditNoteTable";
-import { spinningStyles } from "../constants/Styles";
 //import CreditNoteEdit from "./CreditNoteEdit";
 
 
@@ -217,8 +217,8 @@ function CreditNoteManagement() {
 
 
 
-  const handleDeleteCreditNote = async (creditNoteId: number) => {
-    if (window.confirm('Are you sure you want to delete this customer?')) {
+  const handleDeleteCreditNote = (creditNoteId: number) => {
+    if (window.confirm('Are you sure you want to delete this credit note?')) {
       deleteCreditNoteMutation.mutate(creditNoteId);
     }
   };
@@ -285,7 +285,7 @@ const handleSort = (key: any) => {
 
 // ------------------------------------------------------------------------------------
 
-// Pagination calculations for Credit Note Table
+// Pagination calculations 
 const totalCreditNotePages = Math.ceil(sortedCreditNotes.length / itemsPerPage);
 const startIndex = (currentPage - 1) * itemsPerPage;
 const paginatedCreditNotes = sortedCreditNotes.slice(startIndex, startIndex + itemsPerPage);
@@ -312,7 +312,7 @@ const handleItemsPerPageChange = (value: any) => {
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
       <div className="text-center">
         <p className="mt-4 text-gray-600">fetching credit notes...</p>
-        <span className={spinningStyles.terminalBar.spinner}>𐬽</span>
+        <span className={spinningStyles.terminalBar.spinner}></span>
       </div>
     </div>
   );

@@ -1,40 +1,10 @@
 import apiClient from '../../BaseEngine';
 
-import { allCustomerInputs, CustomerCreateResponse, CustomerInputs } from './Interfaces';
+
+import { AllJournalHeaderInputs, 
+  JournalHeaderInputs } from './Constants/Types';
 
 
-
-
-
-// --------------------------------------------------------------------------------------------------------
-
-
-// CUSTOMER PROFILE -  AXIOS
-
-export const fetchCustomers = async () => {
-  const response = await apiClient.get('/customers/customerprofile/');
-  return response.data;
-};
-
-export const fetchCustomerById = async (customer_number: number) => {
-  const response = await apiClient.get(`/customers/customerprofile/${customer_number}/`);
-  return response.data;
-};
-
-export const createCustomer = async (customerData: CustomerInputs) => {
-  const response = await apiClient.post('/customers/customerprofile/', customerData);
-  return response.data;
-};
-
-export const updateCustomer = async ({ customer_number, customerData }: allCustomerInputs) => {
-  const response = await apiClient.put(`/customers/customerprofile/${customer_number}/`, customerData);
-  return response.data;
-};
-
-export const deleteCustomer = async (customer_number: number) => {
-  await apiClient.delete(`/customers/customerprofile/${customer_number}/`);
-  return true;
-};
 
 
 
@@ -75,27 +45,27 @@ export const deleteIncomeAndExpense = async (reference_number) => {
 
 // JOURNAL -  AXIOS
 
-export const fetchJournals = async () => {
+export const fetchJournalEntries = async () => {
   const response = await apiClient.get('/accounting/journalheaders/');
   return response.data;
 };
 
-export const fetchJournalById = async (journal_number) => {
+export const fetchJournalEntryById = async (journal_number: number) => {
   const response = await apiClient.get(`/accounting/journalheaders/${journal_number}/`);
   return response.data;
 };
 
-export const createJournal = async (journalData) => {
-  const response = await apiClient.post('/accounting/journalheaders/', journalData);
+export const createJournalEntry = async (journalEntryData: JournalHeaderInputs) => {
+  const response = await apiClient.post('/accounting/journalheaders/', journalEntryData);
   return response.data;
 };
 
-export const updateJournal = async ({ journal_number, journalData }) => {
-  const response = await apiClient.put(`/accounting/journalheaders/${journal_number}/`, journalData);
+export const updateJournalEntry = async ({ journal_number, journalEntryData }: AllJournalHeaderInputs) => {
+  const response = await apiClient.put(`/accounting/journalheaders/${journal_number}/`, journalEntryData);
   return response.data;
 };
 
-export const deleteJournal = async (journal_number) => {
+export const deleteJournalEntry = async (journal_number: number) => {
   await apiClient.delete(`/accounting/journalheaders/${journal_number}/`);
   return true;
 };

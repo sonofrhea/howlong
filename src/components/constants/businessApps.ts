@@ -8,7 +8,7 @@ export const BUSINESS_APPS: BusinessAppInterface[] = [
     { id: 'products', name: 'Products', path: '/products', available: true },
     { id: 'sales', name: 'Sales', path: '/sales', available: true },
     { id: 'suppliers', name: 'Suppliers', path: '/suppliers', available: true },
-    { id: 'accounting', name: 'Accounting', path: '/accounting', available: false },
+    { id: 'accounting', name: 'Accounting', path: '/accounting', available: true },
     { id: 'projects', name: 'Projects', path: '/projects', available: true },
     { id: 'purchases', name: 'Purchases', path: '/purchases', available: true },
     { id: 'reports', name: 'Reports', path: '/reports', available: false },
@@ -51,7 +51,7 @@ export const DASHBOARD_APPS: DashboardInterface[] = [
       name: 'Accounting & Finance', 
       description: 'Manage company accounting & finance', 
       path: '/accounting',
-      available: false
+      available: true
     },
     { 
       id: 'projects', 
