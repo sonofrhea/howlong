@@ -41,7 +41,8 @@ export const forms = {
   label: "px-2 py-1 text-center tracking-[0.1em] text-black text-xs font-semibold uppercase",
   nextLevelLabel: "px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4",
   secondLevelLabel: "px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-5",
-  description: "w-[50%] border border-gray-300 drop-shadow-md shadow-inner text-black rounded p-1 focus:outline-none focus:ring-1 focus:ring-green-500"
+  description: "w-[50%] border border-gray-300 drop-shadow-md shadow-inner text-black rounded p-1 focus:outline-none focus:ring-1 focus:ring-green-500",
+  bigDescription: "w-[100%] border border-gray-300 drop-shadow-md shadow-inner text-black rounded p-1 focus:outline-none focus:ring-1 focus:ring-green-500"
 };
 
 

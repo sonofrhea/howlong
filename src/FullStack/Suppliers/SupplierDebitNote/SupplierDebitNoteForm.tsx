@@ -125,7 +125,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     className={forms.select.partial}
                                     onChange={accountChange}
                                 >
-                                    <option value="">select...</option>
+                                    <option value="">Select...</option>
                                     {useMemo(() => accounts.map((account: ControlAccountInterface) => (
                                         <option key={account.account_code} value={account.account_code}>
                                             {account.account_code} ({account.account_name})
@@ -143,7 +143,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     {...register("supplier")}
                                     className={forms.select.partial}
                                 >
-                                    <option value="">select...</option>
+                                    <option value="">Select...</option>
                                     {useMemo(() => SupplierProfiles.map((supplier: SupplierProfileResponse) => (
                                         <option key={supplier.supplier_code} value={supplier.supplier_code}>
                                             {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
@@ -159,7 +159,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     className={forms.select.partial}
                                     onChange={invoiceTotalChange}
                                 >
-                                    <option value="">select...</option>
+                                    <option value="">Select...</option>
                                     {useMemo(() => SupplierInvoices.map((invoice: SupplierInvoiceResponse) => (
                                         <option key={invoice.invoice_number} value={invoice.invoice_number}>
                                             {formatSupplierInvoiceNumber()}{invoice.invoice_number} | Total:  {invoice.aggregate_total}
@@ -321,8 +321,8 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
 
                                                 <td className={tables.autoCalculate}>
                                                     {decimalPlaces(
-                                                        Number(watch(`related_debit_note.${index}.amount`) || 0.00) +
-                                                        Number(watch(`related_debit_note.${index}.tax_amount`) || 0.00)
+                                                        Number(watch(`related_debit_note.${index}.amount`) || 0.00) *
+                                                        (1 + (Number(watch(`related_debit_note.${index}.tax_amount`) || 0.00)/100))
                                                     )}
                                                 </td>
 
@@ -339,7 +339,8 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                                         title="remove"
                                                         onClick={() => remove(index)}
                                                     >
-                                                        <Trash2 size={16}/>
+                                                        <Trash2 size={16} strokeWidth={1.5}
+                                                        className="text-black cursor-pointer"/>
                                                     </button> 
                                                     
                                                 </td>

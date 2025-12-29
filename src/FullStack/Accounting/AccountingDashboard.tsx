@@ -41,7 +41,7 @@ function AccountingDashboard() {
             name: 'Payment Voucher',
             description: 'Manage payment vouchers',
             path: '/accounting/payment-vouchers',
-            available: false
+            available: true
         },
         {
             id: 'receiptVoucher',

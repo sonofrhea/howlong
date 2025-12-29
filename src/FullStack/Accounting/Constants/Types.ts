@@ -134,3 +134,55 @@ export type EditIncomeAndExpenses = {
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
+// --------BEGIN-----------INCOME AND EXPENSES FORM----------------
+
+export type PaymentVoucherList = {
+    reference_number: number;
+    date: string;
+    payment_to: string;
+    description: string;
+    currency: string;
+    cancelled: boolean;
+    aggregate_total: number;
+    agent: string;
+};
+
+export type PaymentVoucherInputs = {
+    date: string;
+    payment_to: string;
+    account_paid_by?: {
+        account_code?: number | null;
+        account_name?: string | null;
+        account_type?: string | null;
+    } | null;
+    description: string;
+    project: string;
+    payment_voucher_lines: Array <{
+        description: string;
+        gst_number: string;
+        amount: number;
+        tax_inclusive: boolean;
+        tax: number;
+        cancelled: boolean;
+    }>;
+    tax_inclusive: boolean;
+    tax: number;
+    cancelled: boolean;
+    currency: string;
+    agent: string;
+};
+
+export type PaymentVoucherResponse = {
+    reference_number: number;
+    aggregate_total: number;
+};
+
+export type AllPaymentVoucherInputs = {
+    reference_number: number;
+    paymentVoucherData: PaymentVoucherInputs;
+};
+
+export type EditPaymentVoucher = {
+    paymentVoucherId: number;
+    paymentVoucherData: PaymentVoucherInputs;
+};

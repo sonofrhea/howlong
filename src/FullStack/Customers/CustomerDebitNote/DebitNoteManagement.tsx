@@ -320,7 +320,7 @@ const handleItemsPerPageChange = (value: number) => {
   if (isLoadingDebitNotes) return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
       <div className="text-center">
-        <span className={spinningStyles.terminalBar.spinner}>↺</span>
+        <span className={spinningStyles.terminalBar.spinner}></span>
         <p className="mt-4 text-gray-600">fetching debit notes...</p>
       </div>
     </div>

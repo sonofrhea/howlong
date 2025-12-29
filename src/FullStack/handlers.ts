@@ -271,3 +271,18 @@ export const incomeExpensesAccountHandler = (accounts: ControlAccountInterface[]
     }
   }
 }
+
+
+
+export const paymentVoucherAccountHandler = (accounts: ControlAccountInterface[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const accountCode = Number(e.target.value)
+    const selectedAccount = accounts.find(a => a.account_code === accountCode)
+    console.log("✅ Found Account:", selectedAccount);
+
+    if (selectedAccount) {
+      setValue("account_paid_by.account_name", selectedAccount.account_name)
+      setValue("account_paid_by.account_type", selectedAccount.account_type)
+    }
+  }
+}

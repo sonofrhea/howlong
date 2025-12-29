@@ -1,17 +1,26 @@
 import React from "react";
+import { PaymentVoucherList } from "../Constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
-const PaymentVoucherTable = ({ paymentVouchers, onPaymentVoucherClick, onEditPaymentVoucher,
+const formatNumber = () => {
+    const current_year = new Date().getFullYear()
+    return `PV-${current_year}-`;
+};
+
+
+
+
+const PaymentVoucherTable: React.FC<any> = ({ paymentVouchers, onPaymentVoucherClick, onEditPaymentVoucher,
     onDeletePaymentVoucher, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
 }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -60,13 +69,13 @@ const PaymentVoucherTable = ({ paymentVouchers, onPaymentVoucherClick, onEditPay
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Payment Vouchers List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 text-black py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -82,14 +91,17 @@ const PaymentVoucherTable = ({ paymentVouchers, onPaymentVoucherClick, onEditPay
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/5 text-center" />  {/* Reference Number - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/5 text-center" /> {/* Payment To - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Description */}
-                        <col className="w-1/5 text-center" /> {/* currency - 16.6% */}
-                        <col className="w-1/5 text-center" /> {/* Net Total - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Agent - Fixed */}
-                        <col className="w-1/5 text-center" />  {/* Actions - Fixed */}
+                        {[
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-1/8 text-center",
+                            "w-[7%] text-center",
+                        ]}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
@@ -98,6 +110,7 @@ const PaymentVoucherTable = ({ paymentVouchers, onPaymentVoucherClick, onEditPay
                             <SortableHeader label="Payment To" sortKey="payment_to" />
                             <SortableHeader label="Description" sortKey="description" />
                             <SortableHeader label="Currency" sortKey="currency" />
+                            <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Net Total" sortKey="net_total" />
                             <SortableHeader label="Agent" sortKey="agent" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
@@ -106,7 +119,7 @@ const PaymentVoucherTable = ({ paymentVouchers, onPaymentVoucherClick, onEditPay
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {paymentVouchers.map((paymentVoucher) => {
+                        {paymentVouchers.map((paymentVoucher: PaymentVoucherList) => {
                             const paymentVoucherId = paymentVoucher.reference_number;
 
                             return (
@@ -114,43 +127,60 @@ const PaymentVoucherTable = ({ paymentVouchers, onPaymentVoucherClick, onEditPay
                                 onClick={() => onPaymentVoucherClick(paymentVoucherId)}>
                                     {/* Reference Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={paymentVoucher.reference_number}>
-                                            {paymentVoucher.reference_number}
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
+                                            {formatNumber()}{paymentVoucher.reference_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(paymentVoucher.date)}>
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(paymentVoucher.date)}
                                         </div>
                                     </td>
 
                                     {/* Received from */}
-                                    <td className="px-2 py-2 truncate" title={paymentVoucher.payment_to}>
-                                        <div className="text-sm text-gray-900 truncate">{paymentVoucher.payment_to}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {paymentVoucher.payment_to}
+                                        </div>
                                     </td>
 
                                     {/* Description */}
-                                    <td className="px-2 py-2 truncate" title={paymentVoucher.description}>
-                                        <div className="text-sm text-gray-900 truncate">{paymentVoucher.description}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {paymentVoucher.description}
+                                        </div>
                                     </td>
 
                                     {/* Currency */}
-                                    <td className="px-2 py-2 truncate" title={paymentVoucher.currency}>
-                                        <div className="text-sm text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
                                             {paymentVoucher.currency}
                                         </div>
                                     </td>
 
+                                    {/* Cancelled */}
+                                    <td className={`inline-flex items-center px-0.1 py-0.1 rounded ${
+                                            paymentVoucher.cancelled
+                                                ? 'bg-red-100 text-red-800'
+                                                : 'bg-green-100 text-green-800'
+                                        }`}>
+                                        <div className="text-xs truncate">
+                                            {paymentVoucher.cancelled ? 'Yes' : 'No'}
+                                        </div>
+                                    </td>
+
                                     {/* Net Total */}
-                                    <td className="px-2 py-2 truncate" title={paymentVoucher.payment_voucher_lines?.[0]?.net_total}>
-                                        <div className="text-sm text-gray-900 truncate">RM {paymentVoucher.payment_voucher_lines?.[0]?.net_total}</div>
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {paymentVoucher.aggregate_total}
+                                        </div>
                                     </td>
                                     
                                     {/* Agent */}
                                     <td className="px-2 py-2 truncate" title={paymentVoucher.agent}>
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-black truncate">
                                             {paymentVoucher.agent}
                                         </div>
                                     </td>
@@ -174,7 +204,7 @@ const PaymentVoucherTable = ({ paymentVouchers, onPaymentVoucherClick, onEditPay
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${paymentVoucher.reference_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${paymentVoucher.reference_number}?`)) {
                                                         onDeletePaymentVoucher(paymentVoucherId);
                                                     }
                                                 }}

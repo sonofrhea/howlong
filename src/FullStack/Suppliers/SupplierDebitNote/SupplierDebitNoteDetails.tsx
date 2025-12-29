@@ -155,7 +155,13 @@ const SupplierDebitNoteDetails: React.FC<any> = ({ supplierDebitNote, isLoading,
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Cancelled</p>
+                            <p className={`inline-flex items-center px-0.1 py-0.1 rounded ${
+                                supplierDebitNote.cancelled
+                                ? 'bg-red-100 text-red-800'
+                                : 'bg-green-100 text-green-800'
+                            }`}>
+                                Cancelled
+                            </p>
                             {supplierDebitNote.cancelled ? 'Yes' : 'No'}
                         </p>
 
