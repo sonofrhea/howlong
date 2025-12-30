@@ -4,21 +4,13 @@ import { SquarePen } from "lucide-react";
 import { details } from "../../Customers/constants/Styles";
 
 
-
 const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
-
 const formatNumber = () => {
-    const current_year = new Date().getFullYear()
-    return `PV-${current_year}-`;
-};
-
-
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
+    const current_year = new Date().getFullYear();
+    return `RV-${current_year}-`;
 };
 
 const formatProjectNumber = () => {
@@ -26,10 +18,16 @@ const formatProjectNumber = () => {
     return `PZN-${currentYear}-0`;
 };
 
+const formatCustomerNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `CV-${currentYear}-`;
+};
 
 
 
-const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBack, onEdit }) => {
+
+
+const ReceiptVoucherDetails: React.FC<any> = ({ receiptVoucher, isLoading, onBack, onEdit }) => {
 
 
     
@@ -42,14 +40,14 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
         );
     }
 
-    if (!paymentVoucher) {
+    if (!receiptVoucher) {
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
                 <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">Payment Voucher Not Found</h2>
-                <p className="text-gray-600 mb-4">Unable to load payment voucher.</p>
+                <h2 className="text-xl font-semibold text-gray-800 mb-2">Receipt Voucher Not Found</h2>
+                <p className="text-gray-600 mb-4">Unable to load receipt voucher.</p>
                 <button 
                     onClick={onBack}
                     className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -73,10 +71,10 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
                         <div className="text-center space-y-6 px-6 py-3 gap-4">
                             <div className={layout.badge}>
                                 <p className={text.badgeLarge}>
-                                    PAYMENT VOUCHER DETAILS
+                                    RECEIPT VOUCHER DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{paymentVoucher.reference_number}
+                                    {formatNumber()}{receiptVoucher.reference_number}
                                 </p>
                             </div>
                         </div>
@@ -87,7 +85,7 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} 
-                            className="cursor-pointer"/>
+                            className="cursor-pointer" />
                             Edit
                         </button>
                     </div>
@@ -99,59 +97,58 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
                     <div className="grid grid-cols-3 gap-6">
                         <p>
                             <p className={details.extraSmallUppercase}>Reference Number</p>
-                            {formatNumber()}{paymentVoucher.reference_number}
+                            {formatNumber()}{receiptVoucher.reference_number}
                         </p>
-
+                        
                         <p>
                             <p className={details.extraSmallUppercase}>Date</p>
-                            {formatDate(paymentVoucher.date)}
+                            {formatDate(receiptVoucher.date)}
                         </p>
 
                         <p>
                             <p className={details.extraSmallUppercase}>Cancelled</p>
                             <p className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
-                                paymentVoucher.cancelled
+                                receiptVoucher.cancelled
                                     ? 'bg-red-100 text-red-800 border border-red-200'
                                     : 'bg-green-100 text-green-800 border border-green-200'
                             }`}>
-                                {paymentVoucher.cancelled ? 'Yes' : 'No'}
+                                {receiptVoucher.cancelled ? 'Yes' : 'No'}
                             </p>
                         </p>
-
+                        
                         <p>
-                            <p className={details.extraSmallUppercase}>Payment To</p>
-                            {formatSupplierNumber()}{paymentVoucher.payment_to || 'N/A'} - {paymentVoucher.payment_to_name || 'N/A'}
+                            <p className={details.extraSmallUppercase}>Received From</p>
+                            {formatCustomerNumber()}{receiptVoucher.received_from || 'N/A'} - {receiptVoucher.received_from_name || 'N/A'}
                         </p>
-
+                        
                         <p>
-                            <p className={details.extraSmallUppercase}>Account Paid By</p>
-                            {paymentVoucher.account_paid_by?.account_code || 'N/A'} - ({paymentVoucher.account_paid_by?.account_name || 'N/A'})
+                            <p className={details.extraSmallUppercase}>Account Received In</p>
+                            {receiptVoucher.account_received_in?.account_code || 'N/A'} - {receiptVoucher.account_received_in?.account_name || 'N/A'}
                         </p>
-
+                        
                         <p>
                             <p className={details.extraSmallUppercase}>Related Project</p>
-                            {formatProjectNumber()}{paymentVoucher.project || 'N/A'} | {paymentVoucher.project_name || 'N/A'}
+                            {formatProjectNumber()}{receiptVoucher.project || 'N/A'} | {receiptVoucher.project_name || 'N/A'}
                         </p>
-
+                        
                         <p>
                             <p className={details.extraSmallUppercase}>Currency</p>
-                            {paymentVoucher.currency || 'N/A'}
+                            {receiptVoucher.currency || 'N/A'}
                         </p>
 
                         <p>
                             <p className={details.extraSmallUppercase}>Description</p>
-                            {paymentVoucher.description || 'N/A'}
+                            {receiptVoucher.description || 'N/A'}
                         </p>
 
                         <p>
                             <p className={details.extraSmallUppercase}>Agent</p>
-                            {paymentVoucher.agent || 'N/A'}
+                            {receiptVoucher.agent || 'N/A'}
                         </p>
                     </div>
 
-
                     {/* LINES */}
-                    {paymentVoucher.payment_voucher_lines && paymentVoucher.payment_voucher_lines.length > 0 && (
+                    {receiptVoucher.receipt_voucher_lines && receiptVoucher.receipt_voucher_lines.length > 0 && (
 
                         <div className="p-6">
                             <div className="overflow-x-auto">
@@ -161,24 +158,34 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>GST Number</th>
                                             <th className={tables.headerCell}>Amount</th>
+                                            <th className={tables.headerCell}>Special treatment</th>
+                                            <th className={tables.headerCell}>Discount %</th>
+                                            <th className={tables.headerCell}>Discount Amount</th>
+                                            <th className={tables.headerCell}>Total <br/>(After Discount)</th>
+                                            <th className={tables.headerCell}>GST Inclusive</th>
                                             <th className={tables.headerCell}>GST %</th>
                                             <th className={tables.headerCell}>GST Rate</th>
-                                            <th className={tables.headerCell}>Total</th>
                                             <th className={tables.headerCell}>Cancelled</th>
+                                            <th className={tables.headerCell}>Total</th>
                                         </tr>
                                     </thead>
 
                                     <tbody className="bg-white divide-y divide-gray-100">
 
-                                        {paymentVoucher.payment_voucher_lines.map((line: any, index: any) => (
+                                        {receiptVoucher.receipt_voucher_lines.map((line: any, index: any) => (
                                             <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
                                                 <td className={tables.cell}>{line.description || '--'}</td>
                                                 <td className={tables.cell}>{line.gst_number || '--'}</td>
                                                 <td className={tables.cell}>{line.amount || '--'}</td>
+                                                <td className={tables.cell}>{line.special_treatment ? 'Yes' : 'No'}</td>
+                                                <td className={tables.cell}>{line.treatment_amount || '--'}%</td>
+                                                <td className={tables.cell}>{line.treatment_rate || '--'}</td>
+                                                <td className={tables.cell}>{line.total_after_discount || '--'}</td>
+                                                <td className={tables.cell}>{line.tax_inclusive? 'Yes' : 'No'}</td>
                                                 <td className={tables.cell}>{line.tax || '--'}%</td>
                                                 <td className={tables.cell}>{line.tax_rate || '--'}</td>
-                                                <td className={tables.cell}>{line.net_total || '--'}</td>
                                                 <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
+                                                <td className={tables.cell}>{line.net_total || '--'}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -192,28 +199,28 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Gross Total</div>
                                             <div className="font-medium text-gray-800">
-                                                {paymentVoucher.gross_total || '--'}
+                                                {receiptVoucher.gross_total || '--'}
                                             </div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Tax Inclusive</div>
                                             <div className="font-medium text-gray-800">
-                                                {paymentVoucher.tax_inclusive ? 'Yes' : 'No'}
+                                                {receiptVoucher.tax_inclusive ? 'Yes' : 'No'}
                                             </div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
                                             <div className="font-medium text-gray-800">
-                                                {paymentVoucher.tax || '--'}%
+                                                {receiptVoucher.tax || '--'}%
                                             </div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Tax Rate</div>
                                             <div className="font-medium text-gray-800">
-                                                {paymentVoucher.tax_rate || '--'}
+                                                {receiptVoucher.tax_rate || '--'}
                                             </div>
                                         </div>
 
@@ -222,7 +229,7 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total</div>
                                             <div className="font-medium text-gray-800">
-                                                {paymentVoucher.aggregate_total || '--'}
+                                                {receiptVoucher.aggregate_total || '--'}
                                             </div>
                                         </div>
                                     </div>
@@ -234,13 +241,13 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
             </div>
 
             <hr className="my-6 border-gray-200" />
-
+            
             <p>
                 <p className={details.extraSmallUppercase}>Created by</p>
-                {paymentVoucher.created_by || 'N/A'}
+                {receiptVoucher.created_by || 'N/A'}
             </p>
             <hr className="my-6 border-gray-200" />
         </div>
     );
 };
-export default PaymentVoucherDetails;
+export default ReceiptVoucherDetails;

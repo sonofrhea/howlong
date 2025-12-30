@@ -1,17 +1,28 @@
 import React from "react";
+import { ReceiptVoucherList } from "../Constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
-const ReceiptVoucherTable = ({ receiptVouchers, onReceiptVoucherClick, onEditReceiptVoucher,
+const formatNumber = () => {
+    const current_year = new Date().getFullYear();
+    return `RV-${current_year}-`;
+};
+
+
+
+
+
+
+const ReceiptVoucherTable: React.FC<any> = ({ receiptVouchers, onReceiptVoucherClick, onEditReceiptVoucher,
     onDeleteReceiptVoucher, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
 }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -60,13 +71,13 @@ const ReceiptVoucherTable = ({ receiptVouchers, onReceiptVoucherClick, onEditRec
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Receipt Vouchers List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded text-black px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -82,14 +93,17 @@ const ReceiptVoucherTable = ({ receiptVouchers, onReceiptVoucherClick, onEditRec
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/5 text-center" />  {/* Reference Number - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/5 text-center" /> {/* Received from - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Description */}
-                        <col className="w-1/5 text-center" /> {/* currency - 16.6% */}
-                        <col className="w-1/5 text-center" /> {/* Net Total - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Agent - Fixed */}
-                        <col className="w-1/5 text-center" />  {/* Actions - Fixed */}
+                 {[
+                    "w-1/8 text-center",
+                    "w-1/8 text-center",
+                    "w-1/8 text-center",
+                    "w-1/8 text-center",
+                    "w-1/8 text-center",
+                    "w-1/8 text-center",
+                    "w-1/8 text-center",
+                    "w-1/8 text-center",
+                    "w-[7%] text-center",
+                 ]}   
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
@@ -98,15 +112,16 @@ const ReceiptVoucherTable = ({ receiptVouchers, onReceiptVoucherClick, onEditRec
                             <SortableHeader label="Received from" sortKey="received_from" />
                             <SortableHeader label="Description" sortKey="description" />
                             <SortableHeader label="Currency" sortKey="currency" />
+                            <SortableHeader label="Tax %" sortKey="tax" />
+                            <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Net Total" sortKey="net_total" />
-                            <SortableHeader label="Agent" sortKey="agent" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {receiptVouchers.map((receiptVoucher) => {
+                        {receiptVouchers.map((receiptVoucher: ReceiptVoucherList) => {
                             const receiptVoucherId = receiptVoucher.reference_number;
 
                             return (
@@ -114,44 +129,61 @@ const ReceiptVoucherTable = ({ receiptVouchers, onReceiptVoucherClick, onEditRec
                                 onClick={() => onReceiptVoucherClick(receiptVoucherId)}>
                                     {/* Reference Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={receiptVoucher.reference_number}>
-                                            {receiptVoucher.reference_number}
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
+                                            {formatNumber()}{receiptVoucher.reference_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(receiptVoucher.date)}>
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(receiptVoucher.date)}
                                         </div>
                                     </td>
 
                                     {/* Received from */}
-                                    <td className="px-2 py-2 truncate" title={receiptVoucher.received_from}>
-                                        <div className="text-sm text-gray-900 truncate">{receiptVoucher.received_from}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {receiptVoucher.received_from}
+                                        </div>
                                     </td>
 
                                     {/* Description */}
-                                    <td className="px-2 py-2 truncate" title={receiptVoucher.description}>
-                                        <div className="text-sm text-gray-900 truncate">{receiptVoucher.description}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {receiptVoucher.description}
+                                        </div>
                                     </td>
 
                                     {/* Currency */}
-                                    <td className="px-2 py-2 truncate" title={receiptVoucher.currency}>
-                                        <div className="text-sm text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
                                             {receiptVoucher.currency}
                                         </div>
                                     </td>
 
-                                    {/* Net Total */}
-                                    <td className="px-2 py-2 truncate" title={receiptVoucher.receipt_voucher_lines?.[0]?.net_total}>
-                                        <div className="text-sm text-gray-900 truncate">RM {receiptVoucher.receipt_voucher_lines?.[0]?.net_total}</div>
+                                    {/* Tax */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {receiptVoucher.tax}%
+                                        </div>
+                                    </td>
+
+                                    {/* Cancelled */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                                            receiptVoucher.cancelled
+                                                ? 'bg-red-100 text-red-800 border border-red-200'
+                                                : 'bg-green-100 text-green-800 border border-green-200'
+                                        }`}>
+                                            {receiptVoucher.cancelled ? 'Yes' : 'No'}
+                                        </div>
                                     </td>
                                     
-                                    {/* Agent */}
-                                    <td className="px-2 py-2 truncate" title={receiptVoucher.agent}>
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {receiptVoucher.agent}
+                                    {/* Total */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {receiptVoucher.aggregate_total}
                                         </div>
                                     </td>
 
@@ -174,7 +206,7 @@ const ReceiptVoucherTable = ({ receiptVouchers, onReceiptVoucherClick, onEditRec
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${receiptVoucher.reference_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete?`)) {
                                                         onDeleteReceiptVoucher(receiptVoucherId);
                                                     }
                                                 }}

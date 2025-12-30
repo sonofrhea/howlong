@@ -2,8 +2,12 @@ import apiClient from '../../BaseEngine';
 
 
 import { AllIncomeAndExpenses, AllJournalHeaderInputs, 
+  AllPaymentVoucherInputs, 
+  AllReceiptVoucherInputs, 
   IncomeAndExpensesInputs, 
-  JournalHeaderInputs } from './Constants/Types';
+  JournalHeaderInputs, 
+  PaymentVoucherInputs,
+  ReceiptVoucherInputs} from './Constants/Types';
 
 
 
@@ -83,7 +87,7 @@ export const fetchCashBooks = async () => {
   return response.data;
 };
 
-export const fetchCashBookById = async (reference_number) => {
+export const fetchCashBookById = async (reference_number: number) => {
   const response = await apiClient.get(`/accounting/cashbookentries/${reference_number}/`);
   return response.data;
 };
@@ -98,7 +102,7 @@ export const updateCashBook = async ({ reference_number, cashBookData }) => {
   return response.data;
 };
 
-export const deleteCashBook = async (reference_number) => {
+export const deleteCashBook = async (reference_number: number) => {
   await apiClient.delete(`/accounting/cashbookentries/${reference_number}/`);
   return true;
 };
@@ -114,22 +118,22 @@ export const fetchPaymentVouchers = async () => {
   return response.data;
 };
 
-export const fetchPaymentVoucherById = async (reference_number) => {
+export const fetchPaymentVoucherById = async (reference_number: number) => {
   const response = await apiClient.get(`/accounting/paymentvouchers/${reference_number}/`);
   return response.data;
 };
 
-export const createPaymentVoucher = async (paymentVoucherData) => {
+export const createPaymentVoucher = async (paymentVoucherData: PaymentVoucherInputs) => {
   const response = await apiClient.post('/accounting/paymentvouchers/', paymentVoucherData);
   return response.data;
 };
 
-export const updatePaymentVoucher = async ({ reference_number, paymentVoucherData }) => {
+export const updatePaymentVoucher = async ({ reference_number, paymentVoucherData }: AllPaymentVoucherInputs) => {
   const response = await apiClient.put(`/accounting/paymentvouchers/${reference_number}/`, paymentVoucherData);
   return response.data;
 };
 
-export const deletePaymentVoucher = async (reference_number) => {
+export const deletePaymentVoucher = async (reference_number: number) => {
   await apiClient.delete(`/accounting/paymentvouchers/${reference_number}/`);
   return true;
 };
@@ -145,23 +149,23 @@ export const fetchReceiptVouchers = async () => {
   return response.data;
 };
 
-export const fetchReceiptVoucherById = async (reference_number) => {
+export const fetchReceiptVoucherById = async (reference_number: number) => {
   const response = await apiClient.get(`/accounting/receiptvoucher/${reference_number}/`);
   return response.data;
 };
 
-export const createReceiptVoucher = async (receiptVoucherData) => {
-  const response = await apiClient.post('accounting/paymentvouchers/', receiptVoucherData);
+export const createReceiptVoucher = async (receiptVoucherData: ReceiptVoucherInputs) => {
+  const response = await apiClient.post('accounting/receiptvoucher/', receiptVoucherData);
   return response.data;
 };
 
-export const updateReceiptVoucher = async ({ reference_number, receiptVoucherData }) => {
-  const response = await apiClient.put(`accounting/paymentvouchers/${reference_number}/`, receiptVoucherData);
+export const updateReceiptVoucher = async ({ reference_number, receiptVoucherData }: AllReceiptVoucherInputs) => {
+  const response = await apiClient.put(`accounting/receiptvoucher/${reference_number}/`, receiptVoucherData);
   return response.data;
 };
 
-export const deleteReceiptVoucher = async (reference_number) => {
-  await apiClient.delete(`accounting/paymentvouchers/${reference_number}/`);
+export const deleteReceiptVoucher = async (reference_number: number) => {
+  await apiClient.delete(`accounting/receiptvoucher/${reference_number}/`);
   return true;
 };
 
@@ -177,7 +181,7 @@ export const fetchBankStatements = async () => {
   return response.data;
 };
 
-export const fetchBankStatementById = async (statement_id) => {
+export const fetchBankStatementById = async (statement_id: number) => {
   const response = await apiClient.get(`/accounting/bankstatements/${statement_id}/`);
   return response.data;
 };
@@ -192,7 +196,7 @@ export const updateBankStatement = async ({ statement_id, receiptVoucherData }) 
   return response.data;
 };
 
-export const deleteBankStatement = async (statement_id) => {
+export const deleteBankStatement = async (statement_id: number) => {
   await apiClient.delete(`/accounting/bankstatements/${statement_id}/`);
   return true;
 };

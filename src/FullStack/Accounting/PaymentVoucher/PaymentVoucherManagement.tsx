@@ -99,7 +99,7 @@ function PaymentVoucherManagement() {
 
     const { data: selectedPaymentVoucher, isLoading: isLoadingPaymentVoucher } = useQuery({
         queryKey: ['paymentVoucher', selectedPaymentVoucherId],
-        queryFn: () => fetchPaymentVoucherById(selectedPaymentVoucherId),
+        queryFn: () => fetchPaymentVoucherById(selectedPaymentVoucherId!),
         enabled: !!selectedPaymentVoucherId,
     });
     // ------------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ function PaymentVoucherManagement() {
 
     const handleUpdatePaymentVoucher = (paymentVoucherData: PaymentVoucherInputs) => {
         updatePaymentVoucherMutation.mutate({
-        reference_number: selectedPaymentVoucherId,
+        reference_number: selectedPaymentVoucherId!,
         paymentVoucherData: paymentVoucherData
         });
     };

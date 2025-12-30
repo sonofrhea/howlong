@@ -196,7 +196,7 @@ const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) =
                                         <div className="font-medium text-gray-800">{invoice.tax_amount || 'N/A'}%</div>
                                     </div>
 
-                                    <div className="border-t border-dashed border-blue-500 mt-3 pt-3 flex justify-between items-center"></div>
+                                    <hr className="my-4 border-blue-200" />
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Net Total</div>

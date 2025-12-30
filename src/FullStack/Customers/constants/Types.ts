@@ -120,7 +120,7 @@ export type CustomerInputs = {
 
 export type CustomerCreateResponse = {
   customer_number: number;
-  customer_name: string | null;
+  customer_name: string;
 };
 
 export type AllCustomerInputs = {

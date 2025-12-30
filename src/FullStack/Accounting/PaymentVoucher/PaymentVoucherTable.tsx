@@ -161,10 +161,10 @@ const PaymentVoucherTable: React.FC<any> = ({ paymentVouchers, onPaymentVoucherC
                                     </td>
 
                                     {/* Cancelled */}
-                                    <td className={`inline-flex items-center px-0.1 py-0.1 rounded ${
+                                    <td className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
                                             paymentVoucher.cancelled
-                                                ? 'bg-red-100 text-red-800'
-                                                : 'bg-green-100 text-green-800'
+                                                ? 'bg-red-100 text-red-800 border border-red-200'
+                                                : 'bg-green-100 text-green-800 border border-green-200'
                                         }`}>
                                         <div className="text-xs truncate">
                                             {paymentVoucher.cancelled ? 'Yes' : 'No'}

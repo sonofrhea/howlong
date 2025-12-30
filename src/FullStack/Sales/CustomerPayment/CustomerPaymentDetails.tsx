@@ -142,6 +142,8 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
                             <span className="font-semibold text-gray-800">RM {customerPayment.additional_bank_charges || 'N/A'}</span>
                             </div>
 
+                            <hr className="my-4 border-blue-200" />
+
                             <div className="border-t border-dashed border-blue-300 mt-3 pt-3 flex justify-between items-center">
                             <span>Outstanding</span>
                             <span className="font-semibold text-gray-800">RM {customerPayment.outstanding || 'N/A'}</span>

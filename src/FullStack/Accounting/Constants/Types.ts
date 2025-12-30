@@ -134,7 +134,7 @@ export type EditIncomeAndExpenses = {
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
-// --------BEGIN-----------INCOME AND EXPENSES FORM----------------
+// --------BEGIN-----------PAYMENT VOUCHER----------------
 
 export type PaymentVoucherList = {
     reference_number: number;
@@ -185,4 +185,70 @@ export type AllPaymentVoucherInputs = {
 export type EditPaymentVoucher = {
     paymentVoucherId: number;
     paymentVoucherData: PaymentVoucherInputs;
+};
+
+
+
+// -------- END ----------- PAYMENT VOUCHER ----------------
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+// --------BEGIN-----------RECEIPT VOUCHER----------------
+
+export type ReceiptVoucherList = {
+    reference_number: number;
+    date: string;
+    received_from: string;
+    description: string;
+    tax: number;
+    currency: string;
+    cancelled: boolean;
+    aggregate_total: number;
+};
+
+export type ReceiptVoucherInputs = {
+  date: string;
+  received_from: string;
+  account_received_in?: {
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  } | null;
+  description: string;
+  project: string;
+  receipt_voucher_lines: Array<{
+      description: string;
+      gst_number: string;
+      amount: number;
+      special_treatment: boolean;
+      treatment_amount: number;
+      tax_inclusive: boolean;
+      tax: number;
+      cancelled: boolean;
+  }>
+  currency: string;
+  tax_inclusive: boolean;
+  tax: number;
+  cancelled: boolean;
+  agent: string;
+};
+
+
+export type ReceiptVoucherResponse = {
+    reference_number: number;
+    aggregate_total: number;
+};
+
+export type AllReceiptVoucherInputs = {
+    reference_number: number;
+    receiptVoucherData: ReceiptVoucherInputs;
+};
+
+export type EditReceiptVoucher = {
+    receiptVoucherId: number;
+    receiptVoucherData: ReceiptVoucherInputs;
 };

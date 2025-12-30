@@ -214,6 +214,8 @@ const SupplierDebitNoteDetails: React.FC<any> = ({ supplierDebitNote, isLoading,
                                     <div className="font-medium text-gray-800">{supplierDebitNote.tax_amount || '--'}%</div>
                                 </div>
 
+                                <hr className="my-4 border-blue-200" />
+
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                     <div>Net Total</div>
                                     <div className="font-medium text-gray-800">{supplierDebitNote.net_total || '--'}</div>

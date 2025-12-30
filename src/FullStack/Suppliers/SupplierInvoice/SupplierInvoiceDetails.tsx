@@ -174,6 +174,8 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
                                     <div className="font-medium text-gray-800">{supplierInvoice.tax_amount || 'N/A'}%</div>
                                 </div>
 
+                                <hr className="my-4 border-blue-200" />
+
                                 <div className="border-t border-dashed border-blue-500 mt-3 pt-3 flex justify-between items-center">
                                     <div className="text-sm text-gray-500">Net Total</div>
                                     <div className="text-xl font-bold text-gray-900">{supplierInvoice.aggregate_total}</div>

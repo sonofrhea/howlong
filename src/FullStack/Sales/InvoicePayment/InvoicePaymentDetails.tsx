@@ -217,6 +217,8 @@ const InvoicePaymentDetails: React.FC<any> = ({ invoicePayment, isLoading, onBac
                                             </div>
                                         </div>
 
+                                        <hr className="my-4 border-blue-200" />
+
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total:</div>
                                             <div className="font-medium text-black">

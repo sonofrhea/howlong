@@ -48,7 +48,7 @@ function AccountingDashboard() {
             name: 'Receipt Voucher',
             description: 'Manage receipt vouchers',
             path: '/accounting/receipt-vouchers',
-            available: false
+            available: true
         },
         {
             id: 'bankStatement',
