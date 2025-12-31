@@ -34,7 +34,7 @@ function AccountingDashboard() {
             name: 'Cash Book',
             description: 'Manage company cash book',
             path: '/accounting/cashbook',
-            available: false
+            available: true
         },
         {
             id: 'paymentVoucher',

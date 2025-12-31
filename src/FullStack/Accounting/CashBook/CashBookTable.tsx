@@ -1,17 +1,26 @@
 import React from "react";
+import { CashBookList } from "../Constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
 };
 
-const CashBookTable = ({ cashBooks, onCashBookClick, onEditCashBook,
+const formatNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `CASH-${currentYear}-`
+}
+
+
+
+
+const CashBookTable: React.FC<any> = ({ cashBooks, onCashBookClick, onEditCashBook,
     onDeleteCashBook, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
 }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -60,13 +69,13 @@ const CashBookTable = ({ cashBooks, onCashBookClick, onEditCashBook,
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Cash Book List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded text-black px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -82,20 +91,24 @@ const CashBookTable = ({ cashBooks, onCashBookClick, onEditCashBook,
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/5 text-center" />  {/* Reference Number - Fixed */}
-                        <col className="w-1/5 text-center" /> {/* Date - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Description */}
-                        <col className="w-1/5 text-center" />  {/* Transaction Type */}
-                        <col className="w-1/5 text-center" /> {/* currency - 16.6% */}
-                        <col className="w-1/5 text-center" /> {/* Net Debit - 20% */}
-                        <col className="w-1/5 text-center" /> {/* Net Credit - 20% */}
-                        <col className="w-1/5 text-center" />  {/* Running Balance - Fixed */}
-                        <col className="w-1/5 text-center" />  {/* Actions - Fixed */}
+                        {[
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-1/9 text-center',
+                            'w-[7%] text-center',
+                        ]}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
                             <SortableHeader label="Reference #" sortKey="reference_number" />
                             <SortableHeader label="Date" sortKey="date" />
+                            <SortableHeader label="Payment To/From" sortKey="payment_to_or_from" />
                             <SortableHeader label="Description" sortKey="description" />
                             <SortableHeader label="Transaction Type" sortKey="transaction_type" />
                             <SortableHeader label="Currency" sortKey="currency" />
@@ -108,7 +121,7 @@ const CashBookTable = ({ cashBooks, onCashBookClick, onEditCashBook,
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {cashBooks.map((cashBook) => {
+                        {cashBooks.map((cashBook: CashBookList) => {
                             const cashBookId = cashBook.reference_number;
 
                             return (
@@ -116,48 +129,65 @@ const CashBookTable = ({ cashBooks, onCashBookClick, onEditCashBook,
                                 onClick={() => onCashBookClick(cashBookId)}>
                                     {/* Reference Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={cashBook.reference_number}>
-                                            {cashBook.reference_number}
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
+                                            {formatNumber()}{cashBook.reference_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(cashBook.date)}>
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(cashBook.date)}
                                         </div>
                                     </td>
 
+                                    {/* Payment To/From */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {cashBook.payment_to_or_from}
+                                        </div>
+                                    </td>
+
                                     {/* Description */}
-                                    <td className="px-2 py-2 truncate" title={cashBook.description}>
-                                        <div className="text-sm text-gray-900 truncate">{cashBook.description}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {cashBook.description}
+                                        </div>
                                     </td>
 
                                     {/* Transaction Type */}
-                                    <td className="px-2 py-2 truncate" title={cashBook.transaction_type}>
-                                        <div className="text-sm text-gray-900 truncate">{cashBook.transaction_type}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {cashBook.transaction_type}
+                                        </div>
                                     </td>
 
                                     {/* Currency */}
-                                    <td className="px-2 py-2 truncate" title={cashBook.currency}>
-                                        <div className="text-sm text-gray-900 truncate">
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
                                             {cashBook.currency}
                                         </div>
                                     </td>
 
                                     {/* Net Debit */}
-                                    <td className="px-2 py-2 truncate" title={cashBook.net_debit}>
-                                        <div className="text-sm text-gray-900 truncate">RM {cashBook.net_debit}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {cashBook.net_debit}
+                                        </div>
                                     </td>
 
                                     {/* Net Credit */}
-                                    <td className="px-2 py-2 truncate" title={cashBook.net_credit}>
-                                        <div className="text-sm text-gray-900 truncate">RM {cashBook.net_credit}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {cashBook.net_credit}
+                                        </div>
                                     </td>
 
                                     {/* Running Balance */}
-                                    <td className="px-2 py-2 truncate" title={cashBook.running_balance}>
-                                        <div className="text-sm text-gray-900 truncate">RM {cashBook.running_balance}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-black truncate">
+                                            {cashBook.running_balance}
+                                        </div>
                                     </td>
 
                                     {/* Actions */}

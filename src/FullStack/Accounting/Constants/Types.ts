@@ -252,3 +252,58 @@ export type EditReceiptVoucher = {
     receiptVoucherId: number;
     receiptVoucherData: ReceiptVoucherInputs;
 };
+
+
+// -------- END ----------- RECEIPT VOUCHER ----------------
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+// --------BEGIN-----------CASH BOOK----------------
+
+export type CashBookList = {
+    reference_number: string;
+    date: string;
+    payment_to_or_from: string;
+    description: string;
+    transaction_type: string;
+    currency: string;
+    net_debit: number;
+    net_credit: number;
+    running_balance: number;
+};
+
+export type CashBookInputs = {
+  date: string;
+  payment_to_or_from: string;
+  description: string;
+  account?: {
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
+  transaction_type: string;
+  currency: string;
+  net_debit: number;
+  net_credit: number;
+  remark: string;
+};
+
+
+export type CashBookResponse = {
+    reference_number: number;
+    running_balance: number;
+};
+
+export type AllCashBookInputs = {
+    reference_number: number;
+    cashBookData: CashBookInputs;
+};
+
+export type EditCashBook = {
+    cashBookId: number;
+    cashBookData: CashBookInputs;
+};

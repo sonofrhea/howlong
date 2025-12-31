@@ -1,9 +1,10 @@
 import apiClient from '../../BaseEngine';
 
 
-import { AllIncomeAndExpenses, AllJournalHeaderInputs, 
+import { AllCashBookInputs, AllIncomeAndExpenses, AllJournalHeaderInputs, 
   AllPaymentVoucherInputs, 
   AllReceiptVoucherInputs, 
+  CashBookInputs, 
   IncomeAndExpensesInputs, 
   JournalHeaderInputs, 
   PaymentVoucherInputs,
@@ -92,12 +93,12 @@ export const fetchCashBookById = async (reference_number: number) => {
   return response.data;
 };
 
-export const createCashBook = async (cashBookData) => {
+export const createCashBook = async (cashBookData: CashBookInputs) => {
   const response = await apiClient.post('/accounting/cashbookentries/', cashBookData);
   return response.data;
 };
 
-export const updateCashBook = async ({ reference_number, cashBookData }) => {
+export const updateCashBook = async ({ reference_number, cashBookData }: AllCashBookInputs) => {
   const response = await apiClient.put(`/accounting/cashbookentries/${reference_number}/`, cashBookData);
   return response.data;
 };
