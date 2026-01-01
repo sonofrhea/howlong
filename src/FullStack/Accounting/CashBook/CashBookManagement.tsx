@@ -13,13 +13,13 @@ import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 import { fetchCustomers } from "../../Customers/Engines"
 
 
-
-
-//import CashBookDetails from "./CashBookDetails";
-//import CashBookForm from "./CashBookForm";
-import CashBookTable from "./CashBookTable";
 import { CashBookInputs, EditCashBook } from "../Constants/Types";
 import { spinningStyles } from "../Constants/Styles";
+
+
+import CashBookDetails from "./CashBookDetails";
+import CashBookForm from "./CashBookForm";
+import CashBookTable from "./CashBookTable";
 //import CashBookEdit from "./CashBookEdit";
 
 

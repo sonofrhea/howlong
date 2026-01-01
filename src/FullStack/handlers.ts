@@ -300,3 +300,18 @@ export const receiptVoucherAccountHandler = (accounts: ControlAccountInterface[]
     }
   }
 }
+
+
+
+export const cashBookAccountHandler = (accounts: ControlAccountInterface[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const accountCode = Number(e.target.value)
+    const selectedAccount = accounts.find(a => a.account_code === accountCode)
+    console.log("✅ Found Account:", selectedAccount);
+
+    if (selectedAccount) {
+      setValue("account.account_name", selectedAccount.account_name)
+      setValue("account.account_type", selectedAccount.account_type)
+    }
+  }
+}

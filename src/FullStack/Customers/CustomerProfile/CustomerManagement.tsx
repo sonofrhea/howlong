@@ -169,6 +169,12 @@ function CustomerManagement() {
 
 
   const handleAddCustomer = async (customerData: CustomerInputs) => {
+    if (!customerData.id_file) {
+      delete customerData.id_file;
+    }
+    if (!customerData.taxpayers_qr_code) {
+      delete customerData.taxpayers_qr_code;
+    }
     const newCustomerData = new FormData();
 
     Object.entries(customerData).forEach(([key, value]) => {

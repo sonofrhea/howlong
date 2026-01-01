@@ -91,7 +91,7 @@ export type CustomerInputs = {
   fax: string;
   email: string;
   id_type: typeof ID_TYPE_CHOICES[number]['value'] | null;
-  id_file: File | null;
+  id_file?: File | null;
   preferred_currency: {
     currency_code: string | null;
     currency_name: string | null;
@@ -106,7 +106,7 @@ export type CustomerInputs = {
   tourism_number: string | null;
   expiration_date: string | null;
   service_tax_number: string | null;
-  taxpayers_qr_code: File | null;
+  taxpayers_qr_code?: File | null;
   customer_bank_name: string | null;
   customer_bank_account_number: number | null;
   bank_account_type: typeof BANK_TYPE_CHOICES[number]['value'] | null;

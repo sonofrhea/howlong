@@ -36,3 +36,4 @@ export const INCOME_EXPENSES_OPTIONS = [
     { value: 'INCOME', label: 'INCOME'},
     { value: 'EXPENSES', label: 'EXPENSES'},
 ];
+

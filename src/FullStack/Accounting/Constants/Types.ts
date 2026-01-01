@@ -284,7 +284,7 @@ export type CashBookInputs = {
     account_code?: number;
     account_name?: string;
     account_type?: string;
-  };
+  } | null;
   transaction_type: string;
   currency: string;
   net_debit: number;
