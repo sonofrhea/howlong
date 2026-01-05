@@ -13,7 +13,7 @@ const formatDate = (dateString: string) => {
 
 const formatJournalNumber = () => {
     const currentYear = new Date().getFullYear();
-    return `JV-${currentYear}-00`
+    return `JV-${currentYear}-`
 };
 
 

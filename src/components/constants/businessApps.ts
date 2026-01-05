@@ -11,7 +11,7 @@ export const BUSINESS_APPS: BusinessAppInterface[] = [
     { id: 'accounting', name: 'Accounting', path: '/accounting', available: true },
     { id: 'projects', name: 'Projects', path: '/projects', available: true },
     { id: 'purchases', name: 'Purchases', path: '/purchases', available: true },
-    { id: 'reports', name: 'Reports', path: '/reports', available: false },
+    { id: 'reports', name: 'Reports', path: '/reports', available: true },
     { id: 'core', name: 'HR & Workers', path: '/core', available: false },
 ];
 
@@ -72,7 +72,7 @@ export const DASHBOARD_APPS: DashboardInterface[] = [
       name: 'Reports & Analytics', 
       description: 'Access all company reports', 
       path: '/reports',
-      available: false
+      available: true
     },
     { 
       id: 'core', 

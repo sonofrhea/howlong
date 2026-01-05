@@ -4,7 +4,7 @@ export const spinningStyles = {
     terminalBar: {
         container: "font-mono p-8",
         row: "flex items-center",
-        spinner: "text-green-500 mr-2 animate-spin",
+        spinner: "text-violet-500 mr-2 animate-spin text-4xl",
         barContainer: "w-64 h-4 bg-gray-800 border border-gray-700 overflow-hidden",
         barFill: "h-full bg-black animate-progress",
         text: "text-gray-600 text-sm mt-2 ml-8"
@@ -109,3 +109,9 @@ export const iconStyles = {
     small: "w-6 h-6"
 };
 
+
+export const reportStyle = {
+  headerCell: "text-black text-center text-xs font-light uppercase border border-y-gray-100 border-x-gray-100",
+  headerCellCol: "border-e border-gray-300 px-4 py-3 text-xs font-medium text-gray-500 uppercase",
+  headerCellColEnd: "border-gray-300 px-4 py-3 text-xs font-medium text-gray-500 uppercase",
+}

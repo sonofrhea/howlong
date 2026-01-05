@@ -1,16 +1,43 @@
 import React from "react";
-import './GeneralLedgerCss.css';
+//import './GeneralLedgerCss.css';
+import { GeneralLedgerResponse } from "../../constants/Types";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import { forms, reportStyle, tables } from "../../constants/Styles";
 
-const formatDate = (dateString) => {
+
+
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
-const GeneralLedgerReport = ({ generalLedger, totalItems, startDate, endDate, 
-    sortConfig, onSort, onToggleGroup, expandedGroups 
+const getBalanceBracket = (opening_balance: number) => {
+    return opening_balance < 0 ? `(${opening_balance})` : `${opening_balance}`;
+};
+
+const formatJournalNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `JV-${currentYear}-`
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const GeneralLedgerReport: React.FC<any> = ({ generalLedger, totalItems, startDate, endDate, 
+    sortConfig, onSort, onToggleGroup, expandedAccounts, downloadCSV 
 }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -35,14 +62,6 @@ const GeneralLedgerReport = ({ generalLedger, totalItems, startDate, endDate,
     };
 
 
-    const groupedAccounts = {};
-    generalLedger.forEach(entry => {
-        if (!groupedAccounts[entry.account_title]) {
-            groupedAccounts[entry.account_title] = [];
-        }
-        groupedAccounts[entry.account_title].push(entry);
-    });
-
 
 
     if (!generalLedger || generalLedger.length === 0) {
@@ -62,12 +81,12 @@ const GeneralLedgerReport = ({ generalLedger, totalItems, startDate, endDate,
 
 
     return (
-        <div className="overflow-hidden">
+        <div className="overflow-hidden w-[113%]">
             {/* Report Header with Items Per Page */}
-            <div className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-                <div className="flex items-center justify-center">
-                    <h3 className="text-lg font-regular text-gray-800">
-                        General ledger report for dates between... {formatDate(startDate)} and {formatDate(endDate)}
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-gray-800">
+                        Ledger report for dates between... {formatDate(startDate)} and {formatDate(endDate)}
                     </h3>
                     <div className="flex items-center gap-4">
                     </div>
@@ -75,102 +94,130 @@ const GeneralLedgerReport = ({ generalLedger, totalItems, startDate, endDate,
             </div>
 
             {/* Report Body */}
-            <div className="flex justify-center">
-                <table className="w-[100%]">
-                    <colgroup>
-                        <col className="w-4 text-center" /> {/* Toggle */}
-                        <col className="w-1/5 text-center" />  {/* Date */}
-                        <col className="w-1/5 text-center" /> {/* Reference Number */}
-                        <col className="w-1/5 text-center" /> {/* Description */}
-                        <col className="w-1/5 text-center" />  {/* Net Debit */}
-                        <col className="w-1/5 text-center" /> {/* Net Credit */}
-                        <col className="w-1/5 text-center" />  {/* Local Balance */}
-                        <col className="w-1/5 text-center" />  {/* Tax - Fixed */}
-                    </colgroup>
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="w-8 px-2 py-3"></th>
-                            <SortableHeader className="uppercase" label="Date" sortKey="date_posted" />
-                            <SortableHeader className="uppercase" label="Reference Number" sortKey="reference_number" />
-                            <SortableHeader className="uppercase" label="Description" sortKey="description" />
-                            <SortableHeader className="uppercase" label="Net Debit" sortKey="net_debit" />
-                            <SortableHeader className="uppercase" label="Net Credit" sortKey="net_credit" />
-                            <SortableHeader className="uppercase" label="Local Balance" sortKey="local_balance" />
-                            <SortableHeader className="uppercase" label="Tax" sortKey="tax" />
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {Object.entries(groupedAccounts).map(([accountTitle, entries]) => {
-                            const isExpanded = expandedGroups[accountTitle];
-                            const summaryEntry = entries.find(entry => entry.is_summary);
-                            const detailEntries = entries.filter(entry => !entry.is_summary);
+            <div className="space-y-3">
+                {generalLedger.map((account: GeneralLedgerResponse, accountIndex: number) => {
+                    const isExpanded = expandedAccounts[account.account_title] || false;
 
-                            return (
-                                <React.Fragment key={accountTitle}>
+                    return(
+                        <div key={accountIndex} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                            {/* Account Header - Clickable */}
+                            <button
+                                onClick={() => onToggleGroup(account.account_title)}
+                                className="w-full px-0.5 py-0.5 flex items-center justify-between hover:bg-gray-100"
+                            >
+                                <div className="flex items-center gap-3 flex-1">
+                                    <div className="text-gray-500">
+                                        {isExpanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                                    </div>
+                                    <div className="text-left">
+                                        <p className="text-black">{account.account_title}</p>
+                                        <p className="text-sm text-gray-500 mt-1">
+                                            {account.ledger_lines.length} transaction{account.ledger_lines.length !== 1 ? 's' : ''}
+                                        </p>
+                                    </div>
+                                </div>
+                            </button>
 
-                                    {/* ACCOUNT HEADER ROW */}
-                                    <tr className="bg-green-50 border-t border-gray-300 text-left">
-                                        <td>
-                                            <button 
-                                                onClick={() => onToggleGroup(accountTitle)}
-                                                className="w-6 h-6 flex items-left justify-center hover:bg-gray-200 rounded"
-                                            >
-                                                {isExpanded ? '-' : '+'}
-                                            </button>
-                                        </td>
-                                        <td colSpan="7" className="px-6 py-4">
-                                            {accountTitle}
-                                        </td>
-                                    </tr>
+                            {/* Expandable Transaction Lines */}
+                            {isExpanded && (
+                                <div className="w-full">
+                                    <table className="w-full border-collapse">
+                                        <colgroup>
+                                            {[
+                                                "w-[10%] text-center",
+                                                "w-[12%] text-center",
+                                                "w-[18%] text-center",
+                                                "w-[22%] text-center",
+                                                "w-[10%] text-center",
+                                                "w-[10%] text-center",
+                                                "w-[10%] text-center",
+                                                "w-[8%] text-center",
+                                            ].map((width, index) => (
+                                                <col key={index} className={width} />
+                                            ))}
+                                        </colgroup>
+                                        <thead className="bg-gray-50">
+                                        {/* Table Header */}
+                                            <tr className="bg-green-50">
+                                                <th className={reportStyle.headerCellCol}>Date</th>
+                                                <th className={reportStyle.headerCellCol}>Reference #</th>
+                                                <th className={reportStyle.headerCellCol}>Description</th>
+                                                <th className={reportStyle.headerCellCol}>Entry Description</th>
+                                                <th className={reportStyle.headerCellCol}>Net Debit</th>
+                                                <th className={reportStyle.headerCellCol}>Net Credit</th>
+                                                <th className={reportStyle.headerCellCol}>Local balance</th>
+                                                <th className={reportStyle.headerCellColEnd}>Cancelled</th>
+                                            </tr>
+                                        </thead>
 
-                                    {isExpanded && detailEntries.map((entry, index) => (
-                                        <tr key={index}  className="hover:bg-gray-50">
-                                            <td className="px-2 py-4">
+                                        <tbody className={tables.body}>
+                                            <tr className="bg-blue-50">
+                                                <td colSpan={6} className="text-center text-black">
+                                                    Opening Balance (Balance B/F):
+                                                </td>
+                                                <td className={`text-center text-black `}>
+                                                    {account.opening_balance}
+                                                </td>
+                                                <td></td>
+                                            </tr>
 
-                                            </td>
+                                            {account.ledger_lines.map((line, lineIndex) => (
+                                                <tr key={lineIndex}className="hover:bg-gray-200 divide-x divide-y divide-gray-300">
 
-                                            <td className="px-6 py-4 text-sm text-gray-900">
-                                                {formatDate(entry.date_posted)}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">
-                                                JV-{formatNumber()}{entry.reference_number}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">
-                                                {entry.description}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">
-                                                RM {entry.net_debit}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">
-                                                RM {entry.net_credit}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">
-                                                RM {entry.local_balance}
-                                            </td>
-                                            <td className="px-6 py-2 text-sm text-gray-900">
-                                                RM {entry.tax}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    {isExpanded && summaryEntry && (
-                                        <tr className="font-semibold border-t-2">
-                                            <td className="px-2 py-4"></td>
-                                            <td colSpan="4" className="px-6 py-4 text-sm text-blue-800 text-left">
-                                                Account Summary:
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 bg-blue-50">
-                                                RM {summaryEntry.net_debit}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 bg-red-50">
-                                                RM {summaryEntry.net_credit}
-                                            </td>
-                                        </tr>
-                                    )}
-                                </React.Fragment>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                                    <td className="text-black font-light text-center">
+                                                        {formatDate(line.date)}
+                                                    </td>
+                                                    <td className="text-black font-light text-center">
+                                                        {formatJournalNumber()}{line.journal_number}
+                                                    </td>
+                                                    <td className="text-black font-light truncate">
+                                                        {line.jh_description}
+                                                    </td>
+                                                    <td className="text-black font-light truncate">
+                                                        {line.je_description}
+                                                    </td>
+                                                    <td className="text-center font-light text-black">
+                                                        {line.net_debit}
+                                                    </td>
+                                                    <td className="text-center font-light text-black">
+                                                        {line.net_credit}
+                                                    </td>
+                                                    <td className="text-black font-light text-center">
+                                                        {line.local_balance}
+                                                    </td>
+                                                    <td className="text-black font-light border-b border-gray-300 text-center">
+                                                        {line.cancelled ? (
+                                                            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-light bg-red-100 text-red-800">
+                                                                Yes
+                                                            </span>
+                                                        ) : (
+                                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                                No
+                                                            </span>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        
+                                            <tr className="bg-gray-100 font-semibold border-t-2 border-gray-300">
+                                                <td colSpan={4} className="text-black">
+                                                    Account totals for current period:
+                                                </td>
+                                                <td className="text-center">
+                                                    {account.total_debit}
+                                                </td>
+                                                <td className="text-center">
+                                                    {account.total_credit}
+                                                </td>
+                                                <td colSpan={2} className=""></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );

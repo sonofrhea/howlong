@@ -81,14 +81,14 @@
 
 
 h1 {
-  font-family: Questa_Sans_Regular;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   letter-spacing: 0.5px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h2 {
-  font-family: sofiapro-light;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 18px;
   letter-spacing: 0.5px;
   -webkit-font-smoothing: antialiased;
@@ -96,7 +96,7 @@ h2 {
 }
 
 h3 {
-  font-family: Questa_Sans_Regular;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px !important;
   color: #575555;
   letter-spacing: 0.5px;
@@ -105,15 +105,16 @@ h3 {
 }
 
 h4 {
-  font-family: Questa_Sans_Regular;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 15px !important;
   letter-spacing: 0.5px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 thead th > div, th {
-  font-family: Questa_Sans_Regular !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
   font-size: 12px !important;
   align-items: center;
   -webkit-font-smoothing: antialiased;
@@ -122,7 +123,7 @@ thead th > div, th {
 
 
 div {
-  font-family: cynthonext-light;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 700;
   font-size: 13.5px;
   letter-spacing: 0.2px;
@@ -146,7 +147,7 @@ th, td {
 
 
 .app-Name {
-  font-family: Novecentosanswide-Medium;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #000000;
   font-size: 16px;
   letter-spacing: 0.5px;

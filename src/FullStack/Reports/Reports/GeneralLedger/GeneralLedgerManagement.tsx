@@ -12,6 +12,9 @@ import { fetchGeneralLedgerReport } from "../../Engines";
 import GeneralLedgerReport from "./GeneralLedgerReport";
 
 
+import { spinningStyles } from "../../constants/Styles";
+
+
 
 
 
@@ -32,7 +35,7 @@ function GeneralLedgerManagement() {
     const queryClient = useQueryClient();
     const [dateRange, setDateRange] = useState({ start_date: '', end_date: '' });
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-    const [expandedGroups, setExpandedGroups] = useState({});
+    const [expandedAccounts, setExpandedAccounts] = useState({});
 
     const { data: generalLedger, isLoading: isLoadingGeneralLedger, error: generalLedgerError, refetch } = useQuery({
         queryKey: ['generalLedger', dateRange],
@@ -80,7 +83,7 @@ function GeneralLedgerManagement() {
     // Toggle expand/collapse for account groups
 
     const toggleGroup = (accountTitle: any) => {
-        setExpandedGroups((prev: any) => ({
+        setExpandedAccounts((prev: any) => ({
             ...prev,
             [accountTitle]: !prev[accountTitle]
         }));
@@ -118,7 +121,7 @@ function GeneralLedgerManagement() {
     // ERROR DISPLAYS
 
     if (isLoadingGeneralLedger) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
             <div className="text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
                 <p className="mt-4 text-gray-600">Generating Report...</p>
@@ -127,12 +130,12 @@ function GeneralLedgerManagement() {
     );
 
     if (generalLedgerError) return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
             <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
                 <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
                 </svg>
-                <h2 className="text-xl font-bold text-gray-800 mb-2">Error Loading Data</h2>
+                <h2 className="text-xl font-bold text-gray-800 mb-2">Error Generating Report</h2>
                 <p className="text-gray-600">Failed to generate report. Please try again.</p>
                 <button onClick={() => window.location.reload()}
                     className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
@@ -150,16 +153,16 @@ function GeneralLedgerManagement() {
 
 
     return (
-            <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white">
             {/* Minimal Header */}
             <div className="border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                            <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                            <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                             <div>
                                 <h1 className="text-lg font-semibold text-gray-900">Reports Suite</h1>
-                                <p className="text-sm text-gray-500">General Ledger</p>
+                                <p className="text-sm text-gray-500">General Ledger Report</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -178,85 +181,77 @@ function GeneralLedgerManagement() {
             </div>
 
             {/* Main Content */}
-            <div className="p-6">
-                {/* Header */}
-                <div className="flex items-center gap-3 mb-4">
-                    <div className="w-6 h-6 bg-green-100 rounded flex items-center justify-center">
-                        <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 className="text-lg font-semibold text-gray-900">General Ledger</h1>
-                        <p className="text-xs text-gray-500">Financial data</p>
-                    </div>
-                </div>
-                
-                <div className="flex items-end justify-between gap-2 mb-4">
-                    <div className="flex items-end gap-2">
-                        {/* Date Pickers */}
-                        <div className="flex gap-2">
-                            <div>
-                                <label className="block text-xs text-gray-600 mb-1">From</label>
-                                <input 
-                                    type="date" 
-                                    value={dateRange.start_date}
-                                    onChange={(e) => handleStartDateChange(e.target.value)}
-                                    className="w-32 px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-green-500"
-                                />
+            <div className="p-8">
+                <div className="max-w-5xl mx-auto">
+                        {/* Header */}
+                    <div className="mb-12">
+                        <div className="flex items-start justify-between mb-8">
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 bg-linear-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
+                                        <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h1 className="text-4xl font-light text-gray-900 tracking-tight">General Ledger</h1>
+                                        <p className="text-gray-500 mt-2">Financial report</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-xs text-gray-600 mb-1">To</label>
-                                <input 
-                                    type="date"
-                                    value={dateRange.end_date}
-                                    onChange={(e) => handleEndDateChange(e.target.value)}
-                                    className="w-32 px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-green-500"
-                                />
+                        
+                        
+                            <div className="flex items-end justify-between gap-2 mb-4">
+                                <div className="flex items-end gap-2">
+                                    {/* Date Pickers */}
+                                    <div className="flex gap-2">
+                                        <div>
+                                            <label className="block text-xs text-gray-600 mb-1">From</label>
+                                            <input 
+                                                type="date" 
+                                                value={dateRange.start_date}
+                                                onChange={(e) => handleStartDateChange(e.target.value)}
+                                                className="w-32 px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-green-500"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs text-gray-600 mb-1">To</label>
+                                            <input 
+                                                type="date"
+                                                value={dateRange.end_date}
+                                                onChange={(e) => handleEndDateChange(e.target.value)}
+                                                className="w-32 px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-green-500"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Generate Button */}
+                                    <button
+                                        onClick={handleGenerateReport} 
+                                        disabled={isLoadingGeneralLedger}
+                                        className="px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                                    >
+                                        {isLoadingGeneralLedger ? '...' : 'Generate'}
+                                    </button>
+                                </div>
                             </div>
                         </div>
-
-                        {/* Generate Button */}
-                        <button
-                            onClick={handleGenerateReport} 
-                            disabled={isLoadingGeneralLedger}
-                            className="px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
-                        >
-                            {isLoadingGeneralLedger ? '...' : 'Generate'}
-                        </button>
                     </div>
 
-                    <div className="flex items-end gap-1">
-                        <button 
-                            onClick={downloadCSV}
-                            className="px-3 py-1 text-xs bg-white border border-gray-300 text-gray-700 rounded hover:border-green-500 hover:bg-green-50 flex items-center gap-1"
-                        >
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            CSV
-                        </button>
-                        <button 
-                            onClick={exportPDF}
-                            className="px-3 py-1 text-xs bg-white border border-gray-300 text-gray-700 rounded hover:border-green-500 hover:bg-green-50 flex items-center gap-1"
-                            >
-                                PDF
-                        </button>
-                    </div>
+                    {generalLedger && (
+                        <GeneralLedgerReport 
+                            generalLedger={generalLedger}
+                            startDate={dateRange.start_date}
+                            endDate={dateRange.end_date}
+                            sortConfig={sortConfig}
+                            onSort={handleSort}
+                            onToggleGroup={toggleGroup}
+                            expandedAccounts={expandedAccounts}
+                            downloadCSV={downloadCSV}
+                        />
+                    )}
                 </div>
             </div>
-
-            {generalLedger && (
-                <GeneralLedgerReport 
-                    generalLedger={generalLedger}
-                    startDate={dateRange.start_date}
-                    endDate={dateRange.end_date}
-                    sortConfig={sortConfig}
-                    onSort={handleSort}
-                    onToggleGroup={toggleGroup}
-                    expandedGroups={expandedGroups}
-                />
-            )}
         </div>
     );
 }

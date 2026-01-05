@@ -11,7 +11,8 @@ import { fetchJournalEntries, fetchJournalEntryById,
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines";
 
 import { JournalHeaderInputs, AllJournalHeaderInputs,
-     EditJournalHeaderInputs } from "../Constants/Types";
+     EditJournalHeaderInputs, 
+     JournalEntryList} from "../Constants/Types";
 
 
 import { spinningStyles } from "../Constants/Styles";
@@ -341,14 +342,21 @@ function JournalEntryManagement() {
                   <div className="flex items-center gap-4">
                       <div className="text-center">
                       <div className="text-2xl font-light text-gray-900">{journalEntries.length}</div>
-                      <div className="text-sm text-gray-500">Total Notes</div>
+                      <div className="text-sm text-gray-500">Total Entries</div>
                       </div>
                       <div className="w-px h-8 bg-gray-200"></div>
                       <div className="text-center">
                       <div className="text-2xl font-light text-gray-900">
-                          {new Set(journalEntries.map((c: any) => c.currency?.currency_code)).size}
+                          {journalEntries.filter((entry: JournalEntryList) => !entry.cancelled).length}
                       </div>
-                      <div className="text-sm text-gray-500">Currencies</div>
+                      <div className="text-sm text-gray-500">Active</div>
+                      </div>
+                      <div className="w-px h-8 bg-gray-200"></div>
+                      <div className="text-center">
+                      <div className="text-2xl font-light text-gray-900">
+                          {journalEntries.filter((entry: JournalEntryList) => entry.cancelled).length}
+                      </div>
+                      <div className="text-sm text-gray-500">Cancelled</div>
                       </div>
                   </div>
                   <div className="flex gap-4">
