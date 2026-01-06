@@ -181,12 +181,11 @@ function JournalEntryManagement() {
 
 // ------------------------------------------------------------------------------------
 
-    const filteredJournalEntries = journalEntries.filter((journalEntry: any) => {
+    const filteredJournalEntries = journalEntries.filter((journalEntry: JournalEntryList) => {
         const journalEntryNumber = String(journalEntry.journal_number)?.toLowerCase() || '';
-        const dateCreated = journalEntry.date?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
 
-        return journalEntryNumber.includes(search) || dateCreated.includes(search);
+        return journalEntryNumber.includes(search);
     });
 
 
@@ -194,11 +193,11 @@ function JournalEntryManagement() {
                               // SORTING
         
     const sortedJournalEntries = React.useMemo(() => {
-        if (sortConfig.key) return filteredJournalEntries;
+        if (!sortConfig.key) return filteredJournalEntries;
 
         return [...filteredJournalEntries].sort((a, b) => {
             const aValue = a[sortConfig.key as keyof typeof a];
-            const bValue = a[sortConfig.key as keyof typeof b];
+            const bValue = b[sortConfig.key as keyof typeof b];
 
             if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
             if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
@@ -208,7 +207,7 @@ function JournalEntryManagement() {
 
 
     // Sort handler
-    const handleSort = (key: any) => {
+    const handleSort = (key: keyof JournalEntryList) => {
         setSortConfig(current => ({
             key,
             direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'

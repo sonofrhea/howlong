@@ -115,3 +115,8 @@ export const reportStyle = {
   headerCellCol: "border-e border-gray-300 px-4 py-3 text-xs font-medium text-gray-500 uppercase",
   headerCellColEnd: "border-gray-300 px-4 py-3 text-xs font-medium text-gray-500 uppercase",
 }
+
+export const trialBalanceStyle = {
+  header: "border border-gray-400 p-2 font-semibold text-center",
+  header2: "border border-gray-400 p-1 font-semibold text-center",
+}

@@ -7,7 +7,8 @@ import { Trash2 } from 'lucide-react';
 
 import { SupplierCreditNoteInputs,
     SupplierProfileResponse,
-    SupplierInvoiceResponse
+    SupplierInvoiceResponse,
+    SupplierCreditNoteFormProps
  } from "../constants/Types";
 
 import { ProductItemCreateResponse } from "../../Products/constants/Types"
@@ -44,7 +45,7 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const SupplierCreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, supplierInvoices, 
+const SupplierCreditNoteForm: React.FC<SupplierCreditNoteFormProps> = ({ onSubmit, isSubmitting, onCancel, supplierInvoices, 
     currencies, accounts, agents, supplierProfiles, productItems }) => {
         
                 const productOptions = useMemo(() => 

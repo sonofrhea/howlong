@@ -1,5 +1,4 @@
 import React from "react";
-//import './GeneralLedgerCss.css';
 import { GeneralLedgerResponse } from "../../constants/Types";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { forms, reportStyle, tables } from "../../constants/Styles";
@@ -26,42 +25,9 @@ const formatJournalNumber = () => {
 
 
 
-
-
-
-
-
-
 const GeneralLedgerReport: React.FC<any> = ({ generalLedger, totalItems, startDate, endDate, 
     sortConfig, onSort, onToggleGroup, expandedAccounts, downloadCSV 
 }) => {
-
-    // Sortable header component
-    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
-        const isSorted = sortConfig.key === sortKey;
-        const isAsc = sortConfig.direction === 'asc';
-
-        return (
-            <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"  title={label} onClick={() => onSort(sortKey)}>
-                <div className="flex items-center justify-center gap-1">
-                    {label}
-                    {isSorted && (
-                        <span className="text-gray-400">
-                            {isAsc ? '↑' : '↓'}
-                        </span>
-                    )}
-                </div>
-            </th>
-        );
-    };
-
-
-    const formatNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `${currentYear}-0`;
-    };
-
-
 
 
     if (!generalLedger || generalLedger.length === 0) {
@@ -162,30 +128,30 @@ const GeneralLedgerReport: React.FC<any> = ({ generalLedger, totalItems, startDa
                                             </tr>
 
                                             {account.ledger_lines.map((line, lineIndex) => (
-                                                <tr key={lineIndex}className="hover:bg-gray-200 divide-x divide-y divide-gray-300">
+                                                <tr key={lineIndex}className="hover:bg-gray-200 font-medium divide-x divide-y divide-gray-300">
 
-                                                    <td className="text-black font-light text-center">
+                                                    <td className="text-black text-center">
                                                         {formatDate(line.date)}
                                                     </td>
-                                                    <td className="text-black font-light text-center">
+                                                    <td className="text-black text-center">
                                                         {formatJournalNumber()}{line.journal_number}
                                                     </td>
-                                                    <td className="text-black font-light truncate">
+                                                    <td className="text-black truncate">
                                                         {line.jh_description}
                                                     </td>
-                                                    <td className="text-black font-light truncate">
+                                                    <td className="text-black truncate">
                                                         {line.je_description}
                                                     </td>
-                                                    <td className="text-center font-light text-black">
+                                                    <td className="text-center text-black">
                                                         {line.net_debit}
                                                     </td>
-                                                    <td className="text-center font-light text-black">
+                                                    <td className="text-center text-black">
                                                         {line.net_credit}
                                                     </td>
-                                                    <td className="text-black font-light text-center">
+                                                    <td className="text-black text-center">
                                                         {line.local_balance}
                                                     </td>
-                                                    <td className="text-black font-light border-b border-gray-300 text-center">
+                                                    <td className="text-black border-b border-gray-300 text-center">
                                                         {line.cancelled ? (
                                                             <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-light bg-red-100 text-red-800">
                                                                 Yes

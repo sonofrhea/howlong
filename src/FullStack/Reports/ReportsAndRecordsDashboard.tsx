@@ -26,7 +26,7 @@ function ReportsAndReceiptsDashboard() {
             name: 'Trial Balance',
             description: "Company's Trial Balance",
             path: '/reports/trial-balance',
-            available: false
+            available: true
         },
         {
             id: 'incomeStatement',

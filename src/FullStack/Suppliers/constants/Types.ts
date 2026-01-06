@@ -1,3 +1,6 @@
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
+import { ProductItemCreateResponse } from "../../Products/constants/Types";
 import { SUPPLIERS_ICONS } from "./ModuleIcons";
 
 import { BANK_TYPE_CHOICES, COUNTRY_OPTIONS, 
@@ -428,6 +431,19 @@ export type EditSupplierCreditNoteInputs = {
   supplierCreditNoteId: number;
   supplierCreditNoteData: SupplierCreditNoteInputs;
 }
+
+export type SupplierCreditNoteFormProps = {
+  onSubmit: (data: SupplierCreditNoteInputs) => void;
+  isSubmitting: boolean;
+  onCancel: () => void;
+  supplierInvoices: SupplierInvoiceResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  supplierProfiles: SupplierProfileResponse[];
+  productItems: ProductItemCreateResponse[];
+};
+
 
   // -------- END ----------- SUPPLIER CREDIT NOTE INPUT ----------------
 
