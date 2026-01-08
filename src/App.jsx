@@ -143,6 +143,7 @@ const SupplierCategoryManagement = lazy(() => import('./FullStack/Suppliers/Supp
 const ReportsAndReceiptsDashboard = lazy(() => import('./FullStack/Reports/ReportsAndRecordsDashboard'))
 const GeneralLedgerManagement = lazy(() => import('./FullStack/Reports/Reports/GeneralLedger/GeneralLedgerManagement'))
 const TrialBalanceManagement = lazy(() => import('./FullStack/Reports/Reports/TrialBalance/TrialBalanceManagement'))
+const IncomeStatementManagement = lazy(() => import('./FullStack/Reports/Reports/IncomeStatement/IncomeStatementManagement'))
 
 // -------------------end---------REPORTS--------------------------------------------
 
@@ -654,7 +655,7 @@ function App() {
               <Route path="/reports/income-statement" element={
                 <Suspense fallback={<div>fetching...</div>}>
                   <Layout>
-                    <ComingSoon />
+                    <IncomeStatementManagement />
                   </Layout>
                 </Suspense>
               } />

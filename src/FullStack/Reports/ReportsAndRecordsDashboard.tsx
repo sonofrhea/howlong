@@ -33,7 +33,7 @@ function ReportsAndReceiptsDashboard() {
             name: 'Income Statement',
             description: "Company's Income Statement(Profit and Loss)",
             path: '/reports/income-statement',
-            available: false
+            available: true
         },
         {
             id: 'balanceSheet',

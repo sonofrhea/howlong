@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { REPORTS_ICONS } from "./ModuleIcons";
 
+import { VALID_PERIOD_TYPES } from "./options";
 
 export interface ReportsModulesInterface {
     id: keyof typeof REPORTS_ICONS;
@@ -10,6 +11,9 @@ export interface ReportsModulesInterface {
     path: string;
     available: boolean;
 };
+
+
+export type PeriodTypes = typeof VALID_PERIOD_TYPES[number];
 
 
 
@@ -50,7 +54,7 @@ export type GeneralLedgerResponse = {
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
-// -------- BEGIN -----------GENERAL LEDGER REPORT----------------
+// -------- BEGIN -----------TRIAL BALANCE REPORT----------------
 
 export type TrialBalanceAccount = {
     account_code: number;
@@ -81,3 +85,51 @@ export type TrialBalanceResponse = {
     accounts: TrialBalanceAccount[];
     totals: TrialBalanceTotals;
 };
+
+// -------- END -----------TRIAL BALANCE REPORT----------------
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+// -------- BEGIN -----------INCOME STATEMENT REPORT----------------
+
+export type AccountArrayKeys = 
+    | "revenue_accounts"
+    | "sales_returns"
+    | "sales_discounts_and_adjustment"
+    | "cost_of_goods_sold"
+    | "expense_accounts"
+    | "other_taxes";
+
+export type AccountDetails = {
+    account_code: number;
+    account_name: string;
+    balance: number;
+};
+
+export type IncomeStatementResponse = {
+    revenue_accounts: AccountDetails[],
+    sales_returns: AccountDetails[],
+    sales_discounts_and_adjustment: AccountDetails[],
+    cost_of_goods_sold: AccountDetails[],
+    expense_accounts: AccountDetails[],
+    other_taxes: AccountDetails[],
+
+    total_sales: string;
+    sales_adjustments: string;
+    total_cost_of_goods_sold: string;
+    total_expense: string;
+    total_taxes: string;
+    net_sales: string;
+    gross_profit_or_loss: string;
+    net_profit_or_loss: string;
+    net_profit_or_loss_after_tax: string;
+
+    start_date: string;
+    end_date: string;
+    period: string;
+};
+
