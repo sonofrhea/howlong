@@ -1,5 +1,5 @@
 import apiClient from '../../BaseEngine';
-import { IncomeStatementResponse, PeriodTypes } from './constants/Types';
+import { BalanceSheetPeriodTypes, BalanceSheetResponse, IncomeStatementResponse, PeriodTypes } from './constants/Types';
 
 
 
@@ -34,6 +34,17 @@ export const fetchTrialBalanceReport = async (start_date: string, end_date: stri
 export const fetchIncomeStatementReport = async (period_type: PeriodTypes): Promise<IncomeStatementResponse[]> => {
     const response = await apiClient.get<IncomeStatementResponse[]>(
         `/reports/incomestatementreport/income_statement/?period_type=${period_type}`
+    );
+    return response.data;
+}
+
+// --------------------------------------------------------------------------------------------------------
+
+// BALANCE SHEET
+
+export const fetchBalanceSheet = async (period_type: BalanceSheetPeriodTypes): Promise<BalanceSheetResponse[]> => {
+    const response = await apiClient.get<BalanceSheetResponse[]>(
+        `/reports/balancesheetreport/balance_sheet/?period_type=${period_type}`
     );
     return response.data;
 }

@@ -77,8 +77,8 @@ const IncomeStatementReport: React.FC<{ incomeStatement: IncomeStatementResponse
                                         </tr>
                                         {getAllAccountNames(incomeStatement, 'revenue_accounts').map((accountName, index) => (
                                             <tr key={index} className="table-row-hover">
-                                                <td className="py-2.5 px-3 pl-8 text-left text-slate-700">
-                                                    {accountName}
+                                                <td className="py-2.5 px-3 pl-8 font-medium text-left text-slate-700">
+                                                    <span className="ml-6">{accountName}</span>
                                                 </td>
                                                 {incomeStatement.map((period, periodIndex) => (
                                                     <td key={periodIndex} 
@@ -91,7 +91,7 @@ const IncomeStatementReport: React.FC<{ incomeStatement: IncomeStatementResponse
                                         ))}
                                         <tr className="border-t border-slate-300">
                                             <td className="py-3 text-left px-3 pl-8 font-semibold text-slate-900">
-                                                Total Sales
+                                                <span className="ml-6 uppercase">Total Sales</span>
                                             </td>
                                             {incomeStatement.map((period, periodIndex) => (
                                                 <td key={periodIndex}
@@ -105,19 +105,19 @@ const IncomeStatementReport: React.FC<{ incomeStatement: IncomeStatementResponse
                                         {/* Sales Adjustments */}
                                         <tr>
                                             <td className="py-5 px-3 text-left font-semibold text-slate-700 text-sm" colSpan={columnCount + 1}>
-                                                LESS: SALES RETURNS
+                                                <span className="ml-6 uppercase">SALES RETURNS</span>
                                             </td>
                                         </tr>
                                         {getAllAccountNames(incomeStatement, 'sales_returns').map((accountName, index) => (
                                             <tr key={index} className="table-row-hover">
-                                                <td className="py-2.5 text-left px-3 pl-8 text-slate-700">
-                                                    {accountName}
+                                                <td className="py-2.5 font-medium text-left px-3 pl-8 text-slate-700">
+                                                    <span className="ml-6">{accountName}</span>
                                                 </td>
                                                 {incomeStatement.map((period, periodIndex) => (
                                                     <td key={periodIndex}
                                                         className="text-right py-2.5 px-6 number-cell text-red-600 font-medium whitespace-nowrap"
                                                     >
-                                                        {getBalances(period, 'sales_returns', accountName)}
+                                                        ({getBalances(period, 'sales_returns', accountName)})
                                                     </td>
                                                 ))}
                                             </tr>
@@ -125,26 +125,26 @@ const IncomeStatementReport: React.FC<{ incomeStatement: IncomeStatementResponse
 
                                         <tr>
                                             <td className="py-4 px-3 text-left font-semibold text-slate-700 text-sm" colSpan={columnCount + 1}>
-                                            LESS: SALES DISCOUNTS AND ADJUSTMENTS
+                                            <span className="ml-6 uppercase">SALES DISCOUNTS AND ADJUSTMENTS</span>
                                             </td>
                                         </tr>
                                         {getAllAccountNames(incomeStatement, 'sales_discounts_and_adjustment').map((accountName, index) => (
                                             <tr key={index} className="table-row-hover">
-                                                <td className="py-2.5 text-left px-3 pl-8 text-slate-700">
-                                                    {accountName}
+                                                <td className="py-2.5 font-medium text-left px-3 pl-8 text-slate-700">
+                                                    <span className="ml-6">{accountName}</span>
                                                 </td>
                                                 {incomeStatement.map((period, periodIndex) => (
                                                     <td key={periodIndex}
                                                         className="text-right py-2.5 px-6 number-cell text-red-600 font-medium whitespace-nowrap"
                                                     >
-                                                        {getBalances(period, 'sales_discounts_and_adjustment', accountName)}
+                                                        ({getBalances(period, 'sales_discounts_and_adjustment', accountName)})
                                                     </td>
                                                 ))}
                                             </tr>
                                         ))}
                                         <tr className="border-t border-slate-300">
                                             <td className="py-3 px-3 pl-8 text-left font-semibold text-slate-900">
-                                                Total Adjustments
+                                                <span className="ml-6 uppercase">Total Adjustments</span>
                                             </td>
                                             {incomeStatement.map((period, periodIndex) => (
                                                 <td key={periodIndex}
@@ -177,8 +177,8 @@ const IncomeStatementReport: React.FC<{ incomeStatement: IncomeStatementResponse
                                         </tr>
                                         {getAllAccountNames(incomeStatement, 'cost_of_goods_sold').map((accountName, index) => (
                                             <tr key={index} className="table-row-hover">
-                                                <td className="py-2.5 text-left px-3 pl-8 text-slate-700">
-                                                    {accountName}
+                                                <td className="py-2.5 font-medium text-left px-3 pl-8 text-slate-700">
+                                                    <span className="ml-6">{accountName}</span>
                                                 </td>
                                                 {incomeStatement.map((period, periodIndex) => (
                                                     <td key={periodIndex}
@@ -191,7 +191,7 @@ const IncomeStatementReport: React.FC<{ incomeStatement: IncomeStatementResponse
                                         ))}
                                         <tr className="border-t border-slate-300">
                                             <td className="py-3 text-left px-3 pl-8 font-semibold text-slate-900">
-                                                Total Cost of Goods Sold
+                                                <span className="ml-6">Total Cost of Goods Sold</span>
                                             </td>
                                             {incomeStatement.map((period, periodIndex) => (
                                                 <td key={periodIndex}
@@ -224,8 +224,8 @@ const IncomeStatementReport: React.FC<{ incomeStatement: IncomeStatementResponse
                                         </tr>
                                         {getAllAccountNames(incomeStatement, 'expense_accounts').map((accountName, index) => (
                                             <tr key={index} className="table-row-hover">
-                                                <td className="py-2.5 text-left px-3 pl-8 text-slate-700">
-                                                    {accountName}
+                                                <td className="py-2.5 font-medium text-left px-3 pl-8 text-slate-700">
+                                                    <span className="ml-6">{accountName}</span>
                                                 </td>
                                                 {incomeStatement.map((period, periodIndex) => (
                                                     <td key={periodIndex}
@@ -238,7 +238,7 @@ const IncomeStatementReport: React.FC<{ incomeStatement: IncomeStatementResponse
                                         ))}
                                         <tr className="border-t border-slate-300">
                                             <td className="py-3 px-3 pl-8 text-left font-semibold text-slate-900">
-                                                Total Operating Expenses
+                                                <span className="ml-6">Total Operating Expenses</span>
                                             </td>
                                             {incomeStatement.map((period, periodIndex) => (
                                                 <td key={periodIndex}
@@ -265,27 +265,27 @@ const IncomeStatementReport: React.FC<{ incomeStatement: IncomeStatementResponse
 
                                         {/* Taxes */}
                                         <tr>
-                                            <td className="py-5 px-3 text-left font-semibold text-slate-700 text-sm" colSpan={columnCount + 1}>
-                                                LESS: TAXATION
+                                            <td className="py-5 px-3 text-left font-semibold text-slate-700" colSpan={columnCount + 1}>
+                                                TAXATION
                                             </td>
                                         </tr>
                                         {getAllAccountNames(incomeStatement, 'other_taxes').map((accountName, index) => (
                                             <tr key={index} className="table-row-hover">
-                                                <td className="py-2.5 text-left px-3 pl-8 text-slate-700">
-                                                    {accountName}
+                                                <td className="py-2.5 font-medium text-left px-3 pl-8 text-slate-700">
+                                                    <span className="ml-6">{accountName}</span>
                                                 </td>
                                                 {incomeStatement.map((period, periodIndex) => (
                                                     <td key={periodIndex}
                                                         className="text-right py-2.5 px-6 number-cell text-slate-700 font-medium whitespace-nowrap"
                                                     >
-                                                        {getBalances(period, 'other_taxes', accountName)}
+                                                        ({getBalances(period, 'other_taxes', accountName)})
                                                     </td>
                                                 ))}
                                             </tr>
                                         ))}
                                         <tr className="border-t border-slate-300">
                                             <td className="py-3 text-left px-3 pl-8 font-semibold text-slate-900">
-                                                Total Taxes
+                                                <span className="ml-6">Total Taxes</span>
                                             </td>
                                             {incomeStatement.map((period, periodIndex) => (
                                                 <td key={periodIndex}

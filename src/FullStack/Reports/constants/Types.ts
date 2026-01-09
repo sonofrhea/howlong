@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { REPORTS_ICONS } from "./ModuleIcons";
 
-import { VALID_PERIOD_TYPES } from "./options";
+import { BALANCE_SHEET_CHOICES, VALID_PERIOD_TYPES } from "./options";
 
 export interface ReportsModulesInterface {
     id: keyof typeof REPORTS_ICONS;
@@ -15,7 +15,7 @@ export interface ReportsModulesInterface {
 
 export type PeriodTypes = typeof VALID_PERIOD_TYPES[number];
 
-
+export type BalanceSheetPeriodTypes = typeof BALANCE_SHEET_CHOICES[number];
 
 
 
@@ -111,12 +111,12 @@ export type AccountDetails = {
 };
 
 export type IncomeStatementResponse = {
-    revenue_accounts: AccountDetails[],
-    sales_returns: AccountDetails[],
-    sales_discounts_and_adjustment: AccountDetails[],
-    cost_of_goods_sold: AccountDetails[],
+    revenue_accounts: AccountDetails[];
+    sales_returns: AccountDetails[];
+    sales_discounts_and_adjustment: AccountDetails[];
+    cost_of_goods_sold: AccountDetails[];
     expense_accounts: AccountDetails[],
-    other_taxes: AccountDetails[],
+    other_taxes: AccountDetails[];
 
     total_sales: string;
     sales_adjustments: string;
@@ -133,3 +133,53 @@ export type IncomeStatementResponse = {
     period: string;
 };
 
+// -------- END -----------INCOME STATEMENT REPORT------------------------
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+// -------- BEGIN -----------BALANCE SHEET------------------------------
+
+export type BalanceSheetAccountArray = 
+    | "current_assets"
+    | "contra_current_assets"
+    | "fixed_assets"
+    | "contra_fixed_assets"
+    | "other_assets"
+    | "other_contra_assets"
+    | "current_liabilities"
+    | "long_term_liabilities"
+    | "shareholder_equity"
+    | "owner_draws_and_dividend";
+
+export type BalanceSheetResponse = {
+    current_assets: AccountDetails[];
+    contra_current_assets: AccountDetails[];
+    fixed_assets: AccountDetails[];
+    contra_fixed_assets: AccountDetails[];
+    other_assets: AccountDetails[];
+    other_contra_assets: AccountDetails[];
+    current_liabilities: AccountDetails[];
+    long_term_liabilities: AccountDetails[];
+    shareholder_equity: AccountDetails[];
+    owner_draws_and_dividend: AccountDetails[];
+
+    total_current_assets: string;
+    total_fixed_assets: string;
+    total_other_assets: string;
+    total_current_liabilities: string;
+    total_long_term_liabilities: string;
+    total_equity_and_draws: string;
+
+    net_income: string;
+
+    total_assets: string;
+    total_liabilities: string;
+    total_equity: string;
+    equity_liabilities: string;
+
+    period: string;
+};

@@ -4,40 +4,48 @@ import { Link } from 'react-router-dom';
 
 
 
-import { IncomeStatementResponse, PeriodTypes } from "../../constants/Types";
+import { fetchBalanceSheet } from "../../Engines";
 
-import { fetchIncomeStatementReport } from "../../Engines";
+import { BALANCE_SHEET_CHOICES, REPORT_TYPE } from "../../constants/options";
+import { BalanceSheetPeriodTypes } from "../../constants/Types";
+
+import BalanceSheetReport from "./BalanceSheetReport";
 import { spinningStyles } from "../../constants/Styles";
 
 
 
-import IncomeStatementReport from "./IncomeStatementReport";
-import { VALID_PERIOD_TYPES } from "../../constants/options";
 
 
 
 
 
-function IncomeStatementManagement() {
-    const [periodType, setPeriodType] = useState<PeriodTypes>("This Month");
+function BalanceSheetManagement() {
+    const [periodType, setPeriodType] = useState<BalanceSheetPeriodTypes>("This Month vs Last Month");
 
-    const periodOptions = useMemo(() => 
-    VALID_PERIOD_TYPES.map(option => (
+    const periodOptions = useMemo(() => BALANCE_SHEET_CHOICES.map(option => (
         <option key={option} value={option}>
             {option}
         </option>
-    )), [VALID_PERIOD_TYPES]);
+    )), [BALANCE_SHEET_CHOICES]);
 
-    const { data: incomeStatement, isLoading: isLoadingIncomeStatement, error: incomeStatementError, refetch } = useQuery({
-            queryKey: ['incomeStatement', periodType],
-            queryFn: () => fetchIncomeStatementReport(periodType),
-            enabled: false,
-        });
+    const reportType = useMemo(() => REPORT_TYPE.map(option => (
+        <option key={option} value={option}>
+            {option}
+        </option>
+    )), [REPORT_TYPE])
 
-    
-    const handlePeriodTypeChange = (newPeriodType: PeriodTypes) => {
+    const { data: balanceSheet, isLoading: isLoadingBalanceSheet, error: balanceSheetError, refetch } = useQuery({
+        queryKey: ['balanceSheet', periodType],
+        queryFn: () => fetchBalanceSheet(periodType),
+        enabled: false,
+    });
+
+
+
+    const handlePeriodTypeChange = (newPeriodType: BalanceSheetPeriodTypes) => {
         setPeriodType(newPeriodType);
     };
+
 
     const handleGenerateReport = () => {
 
@@ -49,31 +57,29 @@ function IncomeStatementManagement() {
 
 
 
-
-
         // ERROR DISPLAYS
 // ------------------------------------------------------------------------------------
 
-    if (isLoadingIncomeStatement) {
+    if (isLoadingBalanceSheet) {
         return(
             <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Generating Income Statement...</p>
+                    <p className="mt-4 text-gray-600">Generating Balance Sheet...</p>
                 </div>
             </div>
         );
     }
 
-    if (incomeStatementError) {
+    if (balanceSheetError) {
         return(
             <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
                 <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
                     <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
                     </svg>
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">Error Generating Income Statement</h2>
-                    <p className="text-gray-600">Failed to generate income statement. Please try again.</p>
+                    <h2 className="text-xl font-bold text-gray-800 mb-2">Error Generating Balance Sheet</h2>
+                    <p className="text-gray-600">Failed to generate balance sheet. Please try again.</p>
                     <button onClick={() => window.location.reload()}
                         className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
                             Retry
@@ -96,7 +102,7 @@ function IncomeStatementManagement() {
                             <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                             <div>
                                 <h1 className="text-lg font-semibold text-gray-900">Reports Suite</h1>
-                                <p className="text-sm text-gray-500">Income Statement Report</p>
+                                <p className="text-sm text-gray-500">Balance Sheet Report</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -127,7 +133,7 @@ function IncomeStatementManagement() {
                                         </svg>
                                     </div>
                                     <div>
-                                        <h1 className="text-4xl font-light text-gray-900 tracking-tight">Income Statement</h1>
+                                        <h1 className="text-4xl font-light text-gray-900 tracking-tight">Balance Sheet</h1>
                                         <p className="text-gray-500 mt-2">Financial report</p>
                                     </div>
                                 </div>
@@ -138,10 +144,18 @@ function IncomeStatementManagement() {
                                     {/* Date Pickers */}
                                     <div className="flex gap-2">
                                         <div>
+                                            <label className="block text-xs text-gray-600 mb-1">Report Type:</label>
+                                            <select
+                                                className="w-32 px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-green-500"
+                                            >
+                                                {reportType}
+                                            </select> 
+                                        </div>
+                                        <div>
                                             <label className="block text-xs text-gray-600 mb-1">Period:</label>
                                             <select
                                                 value={periodType}
-                                                onChange={(e) => handlePeriodTypeChange(e.target.value as PeriodTypes)}
+                                                onChange={(e) => handlePeriodTypeChange(e.target.value as BalanceSheetPeriodTypes)}
                                                 className="w-32 px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-green-500"
                                             >
                                                 {periodOptions}
@@ -152,19 +166,19 @@ function IncomeStatementManagement() {
                                     {/* Generate Button */}
                                     <button
                                         onClick={handleGenerateReport}
-                                        disabled={isLoadingIncomeStatement}
+                                        disabled={isLoadingBalanceSheet}
                                         className="px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
                                     >
-                                        {isLoadingIncomeStatement ? 'Generating...' : 'Generate'}
+                                        {isLoadingBalanceSheet ? 'Generating...' : 'Generate'}
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {incomeStatement && (
-                        <IncomeStatementReport 
-                            incomeStatement={incomeStatement}
+                    {balanceSheet && (
+                        <BalanceSheetReport 
+                            balanceSheet={balanceSheet}
                             periodType={periodType}
                         />
                     )}
@@ -172,6 +186,5 @@ function IncomeStatementManagement() {
             </div>
         </div>
     );
-
 };
-export default IncomeStatementManagement;
+export default BalanceSheetManagement;

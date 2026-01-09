@@ -144,6 +144,7 @@ const ReportsAndReceiptsDashboard = lazy(() => import('./FullStack/Reports/Repor
 const GeneralLedgerManagement = lazy(() => import('./FullStack/Reports/Reports/GeneralLedger/GeneralLedgerManagement'))
 const TrialBalanceManagement = lazy(() => import('./FullStack/Reports/Reports/TrialBalance/TrialBalanceManagement'))
 const IncomeStatementManagement = lazy(() => import('./FullStack/Reports/Reports/IncomeStatement/IncomeStatementManagement'))
+const BalanceSheetManagement = lazy(() => import('./FullStack/Reports/Reports/BalanceSheet/BalanceSheetManagement'))
 
 // -------------------end---------REPORTS--------------------------------------------
 
@@ -663,7 +664,7 @@ function App() {
               <Route path="/reports/balance-sheet" element={
                 <Suspense fallback={<div>fetching...</div>}>
                   <Layout>
-                    <ComingSoon />
+                    <BalanceSheetManagement />
                   </Layout>
                 </Suspense>
                 

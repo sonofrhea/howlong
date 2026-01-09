@@ -40,7 +40,7 @@ function ReportsAndReceiptsDashboard() {
             name: 'Balance Sheet',
             description: "Company's Balance Sheet",
             path: '/reports/balance-sheet',
-            available: false
+            available: true
         },
         {
             id: 'cashFlow',
