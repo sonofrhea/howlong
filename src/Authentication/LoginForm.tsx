@@ -49,7 +49,7 @@ const Login = () => {
             }
 
             setError(errorMessage);
-            console.log(errorMessage);
+            //console.log(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -70,52 +70,60 @@ const Login = () => {
    // }
 
     return(
-        <div className={"myLoginBackground"}>
-            <form onSubmit={handleSubmit(submission)}>
+        <div>
+            <div className="bg-gray-500">
+                <Link to="/">
+                    <button className="text-white hover:underline">Home</button>
+                </Link>
+            </div>
+            <div className={"myLoginBackground"}>
 
-                <Box className="whiteBox" sx={{ width: 420, maxWidth: '100%' }}>
-                    <Box className={"itemBox"}>
-                        <Box className={'title'}>Login for Auth App</Box>
+                <form onSubmit={handleSubmit(submission)}>
+
+                    <Box className="whiteBox" sx={{ width: 420, maxWidth: '100%' }}>
+                        <Box className={"itemBox"}>
+                            <Box className={'title'}>Login for Auth App</Box>
+                        </Box>
+
+                        <Box className="itemBox" sx={{ width: '100%' }}>
+                            <MyTextField 
+                                label={"Email"}
+                                name={"email"}
+                                control={control}
+                            />
+                        </Box>
+
+                        <Box className="itemBox" sx={{ width: '100%' }}>
+                            <MyPassField 
+                                label={"Password"}
+                                name={"password"}
+                                control={control}
+                            />
+                        </Box>
+
+                        {error && (
+                            <p className="text-amber-800 text-sm">
+                                {error}
+                            </p>
+                        )}
+
+                        <Box className="itemBox" sx={{ width: '100%' }}>
+                            <MyButton 
+                                type={"submit"}
+                                label={loading ? <p className={spinningStyles.terminalBar.spinner}>◖</p> : "Login"}
+                                disabled={loading}
+                            />
+                        </Box>
+
+                        <Box>
+                            <p className="text-blue-800">No Account yet? </p>
+                            <Link to="/register">
+                                <p className="text-blue-800 underline"> Click to Register</p>
+                            </Link>
+                        </Box>
                     </Box>
-
-                    <Box className="itemBox" sx={{ width: '100%' }}>
-                        <MyTextField 
-                            label={"Email"}
-                            name={"email"}
-                            control={control}
-                        />
-                    </Box>
-
-                    <Box className="itemBox" sx={{ width: '100%' }}>
-                        <MyPassField 
-                            label={"Password"}
-                            name={"password"}
-                            control={control}
-                        />
-                    </Box>
-
-                    {error && (
-                        <p className="text-amber-800 text-sm">
-                            {error}
-                        </p>
-                    )}
-
-                    <Box className="itemBox" sx={{ width: '100%' }}>
-                        <MyButton 
-                            type={"submit"}
-                            label={loading ? <p className={spinningStyles.terminalBar.spinner}>◖</p> : "Login"}
-                            disabled={loading}
-                        />
-                    </Box>
-
-                    <Box>
-                        <p className="text-blue-800">No Account yet? </p>
-                        <Link to="/register">
-                            <p className="text-blue-800 underline"> Click to Register</p>
-                        </Link>
-                    </Box>
-                </Box>
-            </form>
+                </form>
+            </div>
         </div>
     )
 }

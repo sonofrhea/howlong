@@ -36,7 +36,8 @@ const Register = () => {
             password1: data.password1,
             password2: data.password2
         });
-            navigate(`/`);
+            window.confirm("Registration successful!");
+            navigate(`/login`);
         } catch (error: any) {
             let errorMessage = "";
             let errorMessage2 = "";
@@ -54,7 +55,7 @@ const Register = () => {
             }
 
             setError(errorMessage);
-            console.log(errorMessage);
+            //console.log(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -71,68 +72,76 @@ const Register = () => {
     }
 
     return(
-        <div className={"myLoginBackground"}>
+        <div>
+            <div className="">
+                <Link to="/">
+                    <button className="text-white hover:underline">Home</button>
+                </Link>
+            </div>
+        
+            <div className={"myLoginBackground"}>
 
-            <form onSubmit={handleSubmit(submission)}>
+                <form onSubmit={handleSubmit(submission)}>
 
-            
-                <Box className="whiteBox" sx={{ width: 420, maxWidth: '100%' }}>
-                    <Box className={"itemBox"}>
-                        <Box className={'title'}>User Registration</Box>
-                    </Box>
-
-                    <div>
-                    <Box className={"itemBox"}>
-                        <MyTextField 
-                            label={"Email"}
-                            name={"email"}
-                            control={control}
-                            
-                        />
-                    </Box>
-                    </div>
-
-                    <Box className={"itemBox"}>
-                        <MyPassField 
-                            label={"Password"}
-                            name={"password1"}
-                            control={control}
-                        />
-                    </Box>
-
-                    <Box className={"itemBox"}>
-                        <MyPassField 
-                            label={"Confirm password"}
-                            name={"password2"}
-                            control={control}
-                        />
-                    </Box>
-                    
-                    {error && (
+                
+                    <Box className="whiteBox" sx={{ width: 420, maxWidth: '100%' }}>
                         <Box className={"itemBox"}>
-                            <p className="text-amber-800 text-sm">
-                                {error}
-                            </p>
+                            <Box className={'title'}>User Registration</Box>
                         </Box>
-                    )}
 
-                    <Box className={"itemBox"}>
-                        <MyButton 
-                            type={"submit"}
-                            label={loading ? <span className={spinningStyles.terminalBar.spinner}>◖</span> : "Register"}
-                            disabled={loading}
-                        />
+                        <div>
+                        <Box className={"itemBox"}>
+                            <MyTextField 
+                                label={"Email"}
+                                name={"email"}
+                                control={control}
+                                
+                            />
+                        </Box>
+                        </div>
+
+                        <Box className={"itemBox"}>
+                            <MyPassField 
+                                label={"Password"}
+                                name={"password1"}
+                                control={control}
+                            />
+                        </Box>
+
+                        <Box className={"itemBox"}>
+                            <MyPassField 
+                                label={"Confirm password"}
+                                name={"password2"}
+                                control={control}
+                            />
+                        </Box>
+                        
+                        {error && (
+                            <Box className={"itemBox"}>
+                                <p className="text-amber-800 text-sm">
+                                    {error}
+                                </p>
+                            </Box>
+                        )}
+
+                        <Box className={"itemBox"}>
+                            <MyButton 
+                                type={"submit"}
+                                label={loading ? <span className={spinningStyles.terminalBar.spinner}>◖</span> : "Register"}
+                                disabled={loading}
+                            />
+                        </Box>
+
+                        <Box >
+                            <p className="text-blue-900">Already have an account?</p>
+                            <Link to="/login">
+                                <button className="text-blue-900 underline">Login</button>
+                            </Link>
+                        </Box>
                     </Box>
 
-                    <Box >
-                        <p className="text-blue-900">Already have an account?</p>
-                        <Link to="/">
-                            <button className="text-blue-900 underline">Login</button>
-                        </Link>
-                    </Box>
-                </Box>
-
-            </form>
+                </form>
+            </div>
         </div>
     )
 }

@@ -1,0 +1,36 @@
+<svg width="240" height="240" viewBox="0 0 240 240"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Main triangle -->
+  <path d="M30 30 L30 210 L210 210 Z"
+        fill="none"
+        stroke="black"
+        stroke-width="10"
+        stroke-linejoin="round"/>
+
+  <!-- Inner cut-out -->
+  <path d="M70 70 L70 170 L170 170 Z"
+        fill="none"
+        stroke="black"
+        stroke-width="10"
+        stroke-linejoin="round"/>
+
+  <!-- Vertical ruler ticks -->
+  <g stroke="black" stroke-width="4">
+    <line x1="30" y1="60" x2="50" y2="60"/>
+    <line x1="30" y1="90" x2="45" y2="90"/>
+    <line x1="30" y1="120" x2="50" y2="120"/>
+    <line x1="30" y1="150" x2="45" y2="150"/>
+    <line x1="30" y1="180" x2="50" y2="180"/>
+  </g>
+
+  <!-- Horizontal ruler ticks -->
+  <g stroke="black" stroke-width="4">
+    <line x1="60" y1="210" x2="60" y2="190"/>
+    <line x1="90" y1="210" x2="90" y2="195"/>
+    <line x1="120" y1="210" x2="120" y2="190"/>
+    <line x1="150" y1="210" x2="150" y2="195"/>
+    <line x1="180" y1="210" x2="180" y2="190"/>
+  </g>
+
+</svg>
