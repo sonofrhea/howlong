@@ -73,7 +73,7 @@ const Register = () => {
 
     return(
         <div>
-            <div className="">
+            <div className="bg-gray-500">
                 <Link to="/">
                     <button className="text-white hover:underline">Home</button>
                 </Link>
