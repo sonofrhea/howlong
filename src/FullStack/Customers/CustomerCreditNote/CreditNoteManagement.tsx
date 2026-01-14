@@ -24,7 +24,7 @@ import { spinningStyles } from "../constants/Styles";
 import CreditNoteDetails from "./CreditNoteDetails";
 import CreditNoteForm from "./CreditNoteForm";
 import CreditNoteTable from "./CreditNoteTable";
-//import CreditNoteEdit from "./CreditNoteEdit";
+import CreditNoteEdit from "./CreditNoteEdit";
 
 
 
@@ -232,7 +232,7 @@ function CreditNoteManagement() {
 // ------------------------------------------------------------------------------------
 
 
-  const handleEditCreditNote = ({creditNoteId, creditNoteData}: EditCreditNoteInputs) => {
+  const handleEditCreditNote = (creditNoteId: number) => {
     setSelectedCreditNoteId(creditNoteId);
     setView('edit');
   };
@@ -526,6 +526,11 @@ const handleItemsPerPageChange = (value: any) => {
                 isSubmitting={updateCreditNoteMutation.isPending}
                 onBack={handleBackToCreditNotesList}
                 onCancel={handleBackToCreditNotesList}
+                customers={customers}
+                currencies={currencies}
+                accounts={accounts}
+                agents={agents}
+                customerPayments={customerPayments}
             />
             )}
         </div>

@@ -16,7 +16,7 @@ import { fetchCustomerPayments } from "../../Sales/Engines";
 import DebitNoteDetails from "./DebitNoteDetails";
 import DebitNoteForm from "./DebitNoteForm";
 import DebitNoteTable from "./DebitNoteTable";
-//import DebitNoteEdit from "./DebitNoteEdit";
+import DebitNoteEdit from "./DebitNoteEdit";
 
 
 import { DebitNoteInputs, DebitNoteCreateResponse,
@@ -211,6 +211,14 @@ const deleteDebitNoteMutation = useMutation({
     
 
 
+    
+
+
+
+  const handleEditDebitNote = (debitNoteId: number) => {
+    setSelectedDebitNoteId(debitNoteId);
+    setView('edit');
+  };
 
 
 
@@ -239,11 +247,6 @@ const deleteDebitNoteMutation = useMutation({
   };
 // ------------------------------------------------------------------------------------
 
-
-  const handleEditDebitNote = ({debitNoteId, debitNoteData}: EditDebitNoteInputs) => {
-    setSelectedDebitNoteId(debitNoteId);
-    setView('edit');
-  };
 // ------------------------------------------------------------------------------------
 
   const handleBackToDebitNotesList = () => {
@@ -535,6 +538,11 @@ const handleItemsPerPageChange = (value: number) => {
               isSubmitting={updateDebitNoteMutation.isPending}
               onBack={handleBackToDebitNotesList}
               onCancel={handleBackToDebitNotesList}
+              customers={customers}
+              currencies={currencies}
+              accounts={accounts}
+              agents={agents}
+              customerPayments={customerPayments}
             />
           )}
         </div>

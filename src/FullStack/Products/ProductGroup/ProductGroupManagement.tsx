@@ -15,7 +15,7 @@ import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 import ProductGroupTable from "./ProductGroupTable";
 import ProductGroupForm from "./ProductGroupForm";
 import ProductGroupDetails from "./ProductGroupDetails";
-//import ProductGroupEdit from "./ProductGroupEdit";
+import ProductGroupEdit from "./ProductGroupEdit";
 
 
 import { ProductGroupInputs, ProductGroupCreateResponse,
@@ -190,7 +190,7 @@ function ProductGroupManagement() {
   };
 
 // ------------------------------------------------------------------------------------
-  const handleEditProductGroup = ({productGroupId, productGroupData}: EditProductGroupInputs) => {
+  const handleEditProductGroup = (productGroupId: number) => {
     setSelectedProductGroupId(productGroupId);
     setView('edit');
   };
@@ -480,8 +480,9 @@ return (
               productGroup={selectedProductGroup}
               onSubmit={handleUpdateProductGroup}
               isSubmitting={updateProductGroupsMutation.isPending}
-              onBack={() => setView('details')}
-              onCancel={() => setView('list')}
+              onCancel={() => setView('details')}
+              accounts={accounts}
+              agents={agents}
             />
           )}
         </div>

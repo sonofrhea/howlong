@@ -1,56 +1,80 @@
 import React, { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { CreditNoteInputs, CreditNoteProps, CustomerCreateResponse } from "../constants/Types";
-import { controlAccountHandler } from "../../handlers";
+import { SupplierCreditNoteFormProps, SupplierCreditNoteInputs, SupplierInvoiceResponse, SupplierProfileResponse } from "../constants/Types";
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../constants/Styles";
+import { Trash2 } from "lucide-react";
+import { ProductItemCreateResponse } from "../../Products/constants/Types";
+import { supplierCreditNoteInvoiceTotal, supplierDebitNoteAccountHandler } from "../../handlers";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
-import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
-import { Trash2 } from "lucide-react";
 
 
 
-const formatCreditNoteNumber = () => {
+
+
+
+const formatSupplierNumber = () => {
     const currentYear = new Date().getFullYear();
-    return `CN-${currentYear}-`;
+    return `SUP-${currentYear}-`;
 };
+
+const formatProductItemCode = () => {
+    return `SKU`;
+};
+
+
+const formatSupplierInvoiceNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `SI-${currentYear}-`;
+};
+
 
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
 
-const formatCustomerNumber = () => {
+const formatNumber = () => {
     const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
+    return `SCN-${currentYear}-`;
 };
 
 
-const CreditNoteEdit: React.FC<CreditNoteProps> = ({
-  creditNote,
-  onSubmit,
-  isSubmitting,
-  onBack,
-  onCancel, customers, currencies, accounts, agents, customerPayments,
+
+
+
+
+const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
+    supplierCreditNote,
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    supplierInvoices, currencies, accounts, agents, supplierProfiles, productItems 
 }) => {
 
 
-    const { register, handleSubmit, watch,
-        setValue, control, formState: { errors }, reset } = useForm<CreditNoteInputs>({
-            defaultValues: creditNote
+    const { register, handleSubmit, watch, setValue, control,
+        formState: { errors }, reset } = useForm<SupplierCreditNoteInputs>({
+            defaultValues: supplierCreditNote
         });
-    
-    const { fields, append, remove } = useFieldArray({
-            name: "credit_note_lines",
-            control
-        });
-            
+
+
     React.useEffect(() => {
-        reset(creditNote);
-    }, [creditNote, reset]);
+        reset(supplierCreditNote);
+    }, [supplierCreditNote, reset]);
 
 
-const controlAccountChange = controlAccountHandler(accounts, setValue);
+
+    const { fields, append, remove } = useFieldArray({
+        name: "related_credit_note",
+        control
+    });
+    
+
+    const accountChange = supplierDebitNoteAccountHandler(accounts, setValue);
+    const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setValue);
+
+
 
 
 
@@ -59,14 +83,14 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
             <div className={forms.body}>
                 <div className={layout.header}>
                     <div className={layout.tag}>
-                                        
+
                         <div className="text-center space-y-6 px-6 py-3 gap-4">
                             <div className={layout.badge}>
                                 <p className={text.badgeLarge}>
-                                    DEBIT NOTE DETAILS
+                                    SUPPLIER CREDIT NOTE DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatCreditNoteNumber()}{creditNote.credit_note_number}
+                                    {formatNumber()}{supplierCreditNote.credit_note_number}
                                 </p>
                             </div>
                         </div>
@@ -74,40 +98,24 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                 </div>
 
                 <hr className="my-6 border-gray-200" />
-                                
+
                 <div className={layout.formSectionCol3}>
                     <div>
                         <p className={forms.label}>Date</p>
                         <input 
                             type="date"
-                            {...register("date")}
+                            {...register("date", {required: "Date is required"})}
                             className={forms.input.date}
                         />
-                        {errors.date && <p className="text-red-800 text-xs mt-1">
-                        {errors.date.message}</p>}
+                        {errors.date && <p className="text-amber-600 text-sm">{errors.date?.message}</p>}
                     </div>
-
-                    <div>
-                        <p className={forms.label}>Bill To...</p>
-                        <select
-                            {...register("customer")}
-                            className={forms.select.partial}
-                        >
-                            <option value="">select...</option>
-                            {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
-                                <option key={customer.customer_number} value={customer.customer_number}>
-                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
-                                </option>
-                            )), [customers])}
-                        </select>
-                    </div>
-
+                                                
                     <div>
                         <p className={forms.label}>Account</p>
                         <select
-                            {...register("account.account_code")}
+                            {...register("account.account_code", {required: false})}
                             className={forms.select.partial}
-                            onChange={controlAccountChange}
+                            onChange={accountChange}
                         >
                             <option value="">select...</option>
                             {useMemo(() => accounts.map((account: ControlAccountInterface) => (
@@ -120,42 +128,44 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                         <input type="hidden" {...register("account.account_name")} />
                         <input type="hidden" {...register("account.account_type")} />
                     </div>
-
+                                                
                     <div>
-                        <p className={forms.label}>Agent</p>
-                        <select className={forms.select.partial}
-                            {...register("agent")}>
-                                <option value="">select...</option>
-                                {useMemo(() => agents.map((agent: AgentInterface) => (
-                                    <option key={agent.email} value={agent.email}>
-                                        {agent.name} | {agent.email}
-                                    </option>
-                                )), [agents])}
-                        </select>
-                    </div>
-
-                    <div>
-                        <p className={forms.label}>Related Payment</p>
+                        <p className={forms.label}>Related Supplier</p>
                         <select
-                            {...register("related_payment")}
+                            {...register("supplier")}
                             className={forms.select.partial}
                         >
                             <option value="">select...</option>
-                            {useMemo(() =>customerPayments.map((payment: CustomerPaymentResponse) => (
-                                <option key={payment.payment_number} value={payment.payment_number}>
-                                    POST-{payment.payment_number} | Paid Amount: {payment.paid_amount}
+                            {useMemo(() => supplierProfiles.map((supplier: SupplierProfileResponse) => (
+                                <option key={supplier.supplier_code} value={supplier.supplier_code}>
+                                    {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
                                 </option>
-                            )), [customerPayments])}
+                            )), [supplierProfiles])}
                         </select>
                     </div>
-
+                    
                     <div>
-                        <p className={forms.label}>Paid Amount</p>
-                        <input 
-                            {...register("paid_amount")}
-                            type="number"
-                            title="enter paid amount..."
+                        <p className={forms.label}>Related Invoice</p>
+                        <select
+                            {...register("related_invoice")}
                             className={forms.select.partial}
+                            onChange={invoiceTotalChange}
+                        >
+                            <option value="">select...</option>
+                            {useMemo(() => supplierInvoices.map((invoice: SupplierInvoiceResponse) => (
+                                <option key={invoice.invoice_number} value={invoice.invoice_number}>
+                                    {formatSupplierInvoiceNumber()}{invoice.invoice_number} | {invoice.aggregate_total}
+                                </option>
+                            )), [supplierInvoices])}
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <p className={forms.label}>Related Invoice Total</p>
+                        <input 
+                            type="number"
+                            {...register("related_invoice_total")}
+                            className={forms.input.midNumber}
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
                                 if (e.target.value) {
@@ -164,21 +174,53 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             }}
                         />
                     </div>
-
+                                                
                     <div>
                         <p className={forms.label}>Currency</p>
-                        <select 
+                        <select
                             {...register("currency")}
                             className={forms.select.partial}
                         >
                             <option value="">select...</option>
-                            {useMemo(() => currencies.map((currency: CurrencyInterface) => (
+                            {currencies.map((currency: CurrencyInterface) => (
                                 <option key={currency.currency_code} value={currency.currency_code}>
                                     {currency.currency_code}
                                 </option>
-                            )), [currencies])}
+                            ))}
                         </select>
                     </div>
+                                                
+                    <div>
+                        <p className={forms.label}>Agent</p>
+                        <select
+                            {...register("agent")}
+                            className={forms.select.partial}
+                        >
+                            <option value="">select...</option>
+                            {useMemo(() => agents.map((agent: AgentInterface) => (
+                                <option key={agent.email} value={agent.email}>
+                                    {agent.name}
+                                </option>
+                            )), [agents])}
+                        </select>
+                    </div>
+                </div>
+
+                <hr className="my-6 border-gray-200" />
+                
+                <div>
+                    <p className={forms.label}>Description</p>
+                    <textarea 
+                        {...register("description")}
+                        className={forms.description}
+                        rows={2}
+                    />
+
+                    <p className={forms.secondLevelLabel}>Cancelled</p>
+                    <input 
+                        type="checkbox"
+                        {...register("cancelled")}
+                    />
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -186,80 +228,74 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                 <div className="p-6">
                     <div className="w-full">
                         <table className={tables.base}>
-                        <colgroup>
-                            {[
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-[9%] text-center',
-                            ].map((line, index) => (
-                                <col key={index} className={line} />
-                            ))}
-                        </colgroup>
-                        <thead className={tables.header}>
-                            <tr>
-                                <th className={tables.headerCell}>Date</th>
-                                <th className={tables.headerCell}>Description</th>
-                                <th className={tables.headerCell}>Amount</th>
-                                <th className={tables.headerCell}>Tax Inclusive?</th>
-                                <th className={tables.headerCell}>Tax %</th>
-                                <th className={tables.headerCell}>Current Total<br></br>(After SST)</th>
-                                <th></th>
-                            </tr>
-                        </thead>
+                            <colgroup>
+                                {[
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
+                                    'w-[7%] text-center',
+                                ].map((line, index) => (
+                                    <col key={index} className={line} />
+                                ))}
+                            </colgroup>
+                            <thead className={tables.header}>
+                                <tr>
+                                    <th className={tables.headerCell}>Item</th>
+                                    <th className={tables.headerCell}>Description</th>
+                                    <th className={tables.headerCell}>Amount</th>
+                                    <th className={tables.headerCell}>Tax Inclusive</th>
+                                    <th className={tables.headerCell}>Tax %</th>
+                                    <th className={tables.headerCell}>SubTotal(After Tax)</th>
+                                    <th className={tables.headerCell}>Cancelled</th>
+                                    <th className={tables.headerCell}></th>
+                                </tr>
+                            </thead>
+
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => {
-                                    const amount = Number(watch(`credit_note_lines.${index}.amount`) || 0.00);
-                                    const tax_percentage =  Number(watch(`credit_note_lines.${index}.tax_amount`) || 0.00) / 100;
-                                    const taxAmount = tax_percentage * amount;
-                                    const netTotal = amount - taxAmount;
+                                    
+                                    const productOptions = useMemo(() => 
+                                        productItems.map((product: ProductItemCreateResponse) => (
+                                        <option key={product.item_code} value={product.item_code}>
+                                            SKU-{product.item_code} | {product.item_description}
+                                        </option>
+                                    )), [productItems])
+
+
+                                    const detailsAmount = Number(watch(`related_credit_note.${index}.amount`) || 0.00);
+                                    const tax_percentage = Number(watch(`related_credit_note.${index}.tax_amount`) || 0.00) / 100;
+                                    const taxAmount = tax_percentage * detailsAmount;
+                                    const netTotal = detailsAmount + taxAmount;
+
+
 
                                     return(
                                     <tr key={field.id} className={tables.row}>
                                         <td>
-                                            <input 
-                                                type="date"
-                                                {...register(`credit_note_lines.${index}.date`)}
-                                                className={forms.input.date}
-                                            />
+                                            <select 
+                                                {...register(`related_credit_note.${index}.credit_note_item`)}
+                                                className={forms.select.small}
+                                            >
+                                                <option value=""></option>
+                                                {productOptions}
+                                            </select>
                                         </td>
-
+                                        
                                         <td className={tables.cell}>
-                                            <input 
-                                                {...register(`credit_note_lines.${index}.description`)}
+                                            <input
+                                                {...register(`related_credit_note.${index}.description`)}
                                                 className={tables.text}
                                             />
                                         </td>
 
                                         <td className={text.numbers}>
                                             <input 
-                                                {...register(`credit_note_lines.${index}.amount`)}
                                                 type="number"
-                                                className={forms.input.number}
-                                                placeholder="0.00"
-                                                step="0.01" min="0.00" onBlur={(e) => {
-                                                    if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                    }
-                                                }}                                                
-                                            />
-                                        </td>
-
-                                        <td className={tables.cell}>
-                                            <input 
-                                                type="checkbox"
-                                                {...register(`credit_note_lines.${index}.tax_inclusive`)}
-                                                className="text-black cursor-pointer"
-                                            />
-                                        </td>
-
-                                        <td className={text.numbers}>
-                                            <input 
-                                                {...register(`credit_note_lines.${index}.tax_amount`) || 0.00}
-                                                type="number"
+                                                {...register(`related_credit_note.${index}.amount`)}
                                                 className={forms.input.number}
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
@@ -269,30 +305,58 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                                 }}
                                             />
                                         </td>
-
+                                        
+                                        <td className={tables.cell}>
+                                            <input
+                                                type="checkbox"
+                                                {...register(`related_credit_note.${index}.tax_inclusive`)} 
+                                            />
+                                        </td>
+                                        
+                                        <td className={text.numbers}>
+                                            <input 
+                                                type="number"
+                                                {...register(`related_credit_note.${index}.tax_amount`)}
+                                                className={forms.input.number}
+                                                placeholder="0.00"
+                                                step="0.01" min="0.00" onBlur={(e) => {
+                                                    if (e.target.value) {
+                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    }
+                                                }}
+                                            />
+                                        </td>
+                                        
                                         <td className={tables.autoCalculate}>
                                             {decimalPlaces(netTotal)}
                                         </td>
-
+                                        
+                                        <td className={tables.cell}>
+                                            <input
+                                                type="checkbox"
+                                                {...register(`related_credit_note.${index}.cancelled`)} 
+                                            />
+                                        </td>
+                                        
                                         <td>
-                                            <button
+                                            <button 
                                                 type="button"
                                                 title="remove"
                                                 onClick={() => remove(index)}
                                             >
-                                                <Trash2 size={16} strokeWidth={1.5}
-                                                className="text-black cursor-pointer" />
-                                            </button>
+                                                <Trash2 size={16} strokeWidth={2}/>
+                                            </button> 
+                                            
                                         </td>
                                     </tr>
                                     );
                                 })}
-                                <tr >
+                                <tr>
                                     <td className={tables.headerCell}>
                                         <button
                                             type="button"
                                             onClick={() => append({
-                                                date: "",
+                                                credit_note_item: "",
                                                 description: "",
                                                 amount: 0.00,
                                                 tax_inclusive: false,
@@ -308,7 +372,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             </tbody>
                         </table>
                     </div>
-                    
+                                                                        
                     <div className="mt-6 sm:flex sm:items-center sm:justify-end">
                     <div className="w-full sm:w-1/2 lg:w-1/3">
                         <div className="bg-gray-50 p-4 rounded-lg">
@@ -324,7 +388,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                 </div>
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Amount</div>
+                                    <div>Tax %</div>
                                     <input 
                                         type="number"
                                         {...register("tax_amount")}
@@ -335,15 +399,24 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                                 e.target.value = parseFloat(e.target.value).toFixed(2);
                                             }
                                         }}
-                                        
+                                    
+                                    />
+                                </div>
+
+                                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                    <div>Cancelled?</div>
+                                    <input 
+                                    {...register("cancelled")}
+                                    type="checkbox"
+                                    className="ml-2 forced-colors:bg-green-300"
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
                     </div>
-                    
-                    
+
+                    {/* SUBMIT BUTTON */}
                     <div className={layout.submitSection}>
                         <button
                             type="submit"
@@ -353,10 +426,10 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             {isSubmitting ? (
                                 <span className="flex items-center gap-2">
                                     <div className={utils.spinner}></div>
-                                    Updating Credit Note...
+                                    Updating Supplier Credit Note...
                                 </span>
                             ) : (
-                                'Update Credit Note'
+                                'Update Supplier Credit Note'
                             )}
                         </button>
                         <button
@@ -371,5 +444,6 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
             </div>
         </form>
     );
+
 };
-export default CreditNoteEdit;
+export default SupplierCreditNoteEdit;

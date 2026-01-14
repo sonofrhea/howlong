@@ -23,7 +23,7 @@ import { fetchProductItems } from "../../Products/Engines";
 import SupplierInvoiceDetails from "./SupplierInvoiceDetails";
 import SupplierInvoiceForm from "./SupplierInvoiceForm";
 import SupplierInvoiceTable from "./SupplierInvoiceTable";
-//import SupplierInvoiceEdit from "./SupplierInvoiceEdit";
+import SupplierInvoiceEdit from "./SupplierInvoiceEdit";
 
 import { management, spinningStyles } from "../constants/Styles";
 
@@ -209,7 +209,7 @@ function SupplierInvoiceManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditSupplierInvoice = ({supplierInvoiceId, supplierInvoiceData}: EditSupplierInvoiceInputs) => {
+    const handleEditSupplierInvoice = (supplierInvoiceId: number) => {
         setSelectedSupplierInvoiceId(supplierInvoiceId);
         setView('edit');
     };
@@ -500,8 +500,12 @@ function SupplierInvoiceManagement() {
                 supplierInvoice={selectedSupplierInvoice}
                 onSubmit={handleUpdateSupplierInvoice}
                 isSubmitting={updateSupplierInvoiceMutation.isPending}
-                onBack={handleBackToSupplierInvoicesList}
                 onCancel={handleBackToSupplierInvoicesList}
+                currencies={currencies}
+                accounts={accounts}
+                agents={agents}
+                supplierProfiles={supplierProfiles}
+                productItems={productItems}
                 />
             )}
             </div>

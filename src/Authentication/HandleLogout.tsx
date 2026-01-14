@@ -14,7 +14,7 @@ export function LogoutButton() {
 
         }).then( () => {
             localStorage.removeItem("Token")
-            navigate('/')
+            navigate('/login')
         })
     };
     useEffect(() => {

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { forms, buttons, layout, tables, text, utils } from "../constants/Styles"
+import { forms, buttons, layout, tables, text, utils } from "../constants/Styles";
 
 
 import { Trash2 } from 'lucide-react';
@@ -236,7 +236,31 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                     </thead>
 
                                     <tbody className={tables.body}>
-                                        {fields.map((field, index) => (
+                                        {fields.map((field, index) => {
+                                        
+                                            const productOptions = useMemo(() => 
+                                                productItems.map((product: ProductItemCreateResponse) => (
+                                                <option key={product.item_code} value={product.item_code}>
+                                                    SKU-{product.item_code} | {product.item_description}
+                                                </option>
+                                            )), [productItems])
+        
+        
+                                            const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;
+                                            const price_per_unit = watch(`related_invoice.${index}.price_per_unit`) || 0.00;
+                                            let tax_amount = watch(`related_invoice.${index}.tax_amount`) || 0.00;
+                                            const tax_inclusive = watch(`related_invoice.${index}.tax_inclusive`) || false;
+        
+                                            let total = quantity * price_per_unit;
+        
+                                            if (!tax_inclusive) {
+                                                tax_amount = 0.00;
+                                            }
+        
+                                            total *= 1 + (tax_amount / 100);
+        
+        
+                                            return(
                                             <tr key={field.id} className={tables.row}>
                                                 <td>
                                                     <select
@@ -244,21 +268,17 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                         className={forms.select.full}
                                                     >
                                                         <option value="">select...</option>
-                                                        {productItems.map((product: ProductItemCreateResponse) => (
-                                                            <option key={product.item_code} value={product.item_code}>
-                                                                SKU-{product.item_code} | {product.item_description}
-                                                            </option>
-                                                        ))}
+                                                        {productOptions}
                                                     </select>
                                                 </td>
-
+        
                                                 <td className={tables.cell}>
                                                     <input 
                                                         {...register(`related_invoice.${index}.description`)}
                                                         className={tables.text}
                                                     />
                                                 </td>
-
+        
                                                 <td className={text.numbers}>
                                                     <input 
                                                         {...register(`related_invoice.${index}.quantity`)}
@@ -266,14 +286,14 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                         type="number"
                                                     />
                                                 </td>
-
+        
                                                 <td className={tables.cell}>
                                                     <input 
                                                         {...register(`related_invoice.${index}.unit_of_measure`)}
                                                         className={tables.text}
                                                     />
                                                 </td>
-
+        
                                                 <td className={text.numbers}>
                                                     <input 
                                                         {...register(`related_invoice.${index}.price_per_unit`)}
@@ -287,21 +307,21 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                         }}
                                                     />
                                                 </td>
-
+        
                                                 <td className={tables.autoCalculate}>
                                                     {decimalPlaces(
                                                         Number(watch(`related_invoice.${index}.quantity`) || 0.00) *
                                                         Number(watch(`related_invoice.${index}.price_per_unit`) || 0.00)
                                                     )}
                                                 </td>
-
+        
                                                 <td className={tables.cell}>
                                                     <input 
                                                         type="checkbox"
                                                         {...register(`related_invoice.${index}.tax_inclusive`)}
                                                     />
                                                 </td>
-
+        
                                                 <td className={text.numbers}>
                                                     <input 
                                                         {...register(`related_invoice.${index}.tax_amount`)}
@@ -315,7 +335,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                         }}
                                                     />
                                                 </td>
-
+        
                                                 <td className={tables.cell}>
                                                     <input 
                                                         type="checkbox"
@@ -324,22 +344,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                 </td>
                                                 
                                                 <td className={tables.autoCalculate}>
-                                                    {(() => {
-                                                        const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;
-                                                        const price_per_unit = watch(`related_invoice.${index}.price_per_unit`) || 0.00;
-                                                        let tax_amount = watch(`related_invoice.${index}.tax_amount`) || 0.00;
-                                                        const tax_inclusive = watch(`related_invoice.${index}.tax_inclusive`) || false;
-    
-                                                        let total = quantity * price_per_unit;
-    
-                                                        if (!tax_inclusive) {
-                                                            tax_amount = 0.00;
-                                                        }
-    
-                                                        total *= 1 + (tax_amount / 100);
-    
-                                                        return decimalPlaces(total);
-                                                    })()}
+                                                    {decimalPlaces(total)}
                                                 </td>
                                                 <td>
                                                     <button
@@ -351,7 +356,8 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                     </button>
                                                 </td>
                                             </tr>
-                                        ))}
+                                            );
+                                        })}
                                         <tr>
                                             <td className={tables.headerCell}>
                                                 <button

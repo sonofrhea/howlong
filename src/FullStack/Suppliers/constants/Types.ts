@@ -1,5 +1,5 @@
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
-import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
+import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
 import { SUPPLIERS_ICONS } from "./ModuleIcons";
 
@@ -35,6 +35,7 @@ export type SupplierCategoryList = {
 }
 
 export type SupplierCategoryInputs = {
+  category_id: number;
   date_created: string;
   category: string;
   description: string;
@@ -55,6 +56,15 @@ export type editSupplierCategory = {
   supplierCategoryId: number;
   supplierCategoryData: SupplierCategoryInputs;
 }
+
+export type SupplierCategoryProps = { 
+  supplierCategory: SupplierCategoryInputs;
+  onSubmit: (data: SupplierCategoryInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+};
 
 
 // -------- END ----------- SUPPLIER CATEGORY INPUT ----------------
@@ -83,6 +93,7 @@ export type SupplierProfileList = {
 }
 
 export type SupplierProfileInputs = {
+  supplier_code: number;
   supplier_name: string;
   company_name: string;
   category: string;
@@ -143,6 +154,18 @@ export type EditSupplierProfile = {
   supplierProfileData: SupplierProfileInputs;
 };
 
+export type SupplierProfileProps = { 
+  supplierProfile: SupplierProfileInputs;
+  onSubmit: (data: SupplierProfileInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  supplierCategories: SupplierCategoryResponse[];
+  banks: BankInterface[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+};
 
 // -------- END ----------- SUPPLIER PROFILE INPUT ----------------
 
@@ -194,6 +217,7 @@ export type SupplierPaymentList = {
 }
 
 export type SupplierPaymentInputs = {
+  payment_code: number;
   date_created: string;
   supplier: string;
   supplier_name: string;
@@ -233,6 +257,19 @@ export type EditSupplierPayment = {
   supplierPaymentData: SupplierPaymentInputs;
 };
 
+export type SupplierPaymentProps = {
+  supplierPayment: SupplierPaymentInputs;
+  onSubmit: (data: SupplierPaymentInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  supplierInvoices: SupplierInvoiceResponse[];
+  supplierProfiles: SupplierProfileResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+};
+
 
 // -------- END ----------- SUPPLIER PAYMENT INPUT ----------------
 
@@ -262,6 +299,7 @@ export type SupplierInvoiceList = {
 }
 
 export type SupplierInvoiceInputs = {
+  invoice_number: number;
   invoice_date: string;
   invoice_due_date: string;
   supplier: string;
@@ -307,6 +345,19 @@ export type EditSupplierInvoiceInputs = {
   supplierInvoiceData: SupplierInvoiceInputs;
 };
 
+export type SupplierInvoiceProps = {
+  supplierInvoice: SupplierInvoiceInputs;
+  onSubmit: (data: SupplierInvoiceInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  productItems: ProductItemCreateResponse[];
+  supplierProfiles: SupplierProfileResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+};
+
 // -------- END ----------- SUPPLIER INVOICE INPUT ----------------
 
 
@@ -327,6 +378,7 @@ export type SupplierDebitNoteList = {
 
 
 export type SupplierDebitNoteInputs = {
+  debit_note_number: number;
   date: string;
   description: string;
   supplier: string;
@@ -367,6 +419,19 @@ export type EditSupplierDebitNoteInputs = {
   supplierDebitNoteData: SupplierDebitNoteInputs;
 };
 
+export type SupplierDebitNoteProps = {
+  supplierDebitNote: SupplierDebitNoteInputs;
+  onSubmit: (data: SupplierDebitNoteInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  productItems: ProductItemCreateResponse[];
+  SupplierProfiles: SupplierProfileResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  SupplierInvoices: SupplierInvoiceResponse[];
+};
 
   // -------- END ----------- SUPPLIER DEBIT NOTE INPUT ----------------
 
@@ -392,6 +457,7 @@ export type SupplierCreditNoteList = {
 
 
 export type SupplierCreditNoteInputs = {
+  credit_note_number: number;
   date: string;
   supplier: string;
   supplier_name: string;
@@ -433,6 +499,7 @@ export type EditSupplierCreditNoteInputs = {
 }
 
 export type SupplierCreditNoteFormProps = {
+  supplierCreditNote: SupplierCreditNoteInputs;
   onSubmit: (data: SupplierCreditNoteInputs) => void;
   isSubmitting: boolean;
   onCancel: () => void;

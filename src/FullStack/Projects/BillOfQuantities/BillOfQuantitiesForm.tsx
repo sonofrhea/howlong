@@ -38,13 +38,6 @@ const decimalPlaces = (amount: number) => {
 const BillOfQuantitiesForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
     agents, projects, products }) => {
 
-        const productItem = useMemo(() => 
-        products.map((product: ProductItemCreateResponse) => (
-            <option key={product.item_code} value={product.item_code}>
-                SKU-{product.item_code} | {product.item_description}
-            </option>
-        )), [products])
-
         const { register, handleSubmit, watch, control, setValue, 
             formState: { errors } } = useForm<BillOfQuantitiesInputs>({
                 defaultValues: {
@@ -139,112 +132,123 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                 <div className="totals-section border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
                     <h1 className="text-2xl mb-6">Bill of Quantities Items</h1>
 
-                    {fields.map((field, index) => (
-                        <div key={field.id}>
+                    {fields.map((field, index) => {
 
-                            <div className="item-header">
-                                <div className="item-number">Item {index + 1}</div>
-                                <button
+                        const productItem = useMemo(() => 
+                        products.map((product: ProductItemCreateResponse) => (
+                            <option key={product.item_code} value={product.item_code}>
+                                SKU-{product.item_code} | {product.item_description}
+                            </option>
+                        )), [products])
+
+
+                        return(
+                            <div key={field.id}>
+
+                                <div className="item-header">
+                                    <div className="item-number">Item {index + 1}</div>
+                                    <button
+                                        type='button'
+                                        title='Remove Item'
+                                        className="remove-item border rounded-2xl shadow-sm"
+                                        onClick={() => remove(index)}
+                                        >
+                                            Remove
+                                        </button>
+                                </div>
+
+                                <div className={layout.formSectionCol3}>
+                                    <div className="form-group">
+                                        <label>Product Item</label>
+                                        <select
+                                            {...register(`boq.${index}.product_item`)}
+                                            className={forms.select.fullLarge}
+                                        >
+                                            <option value="">Select item...</option>
+                                            {productItem}
+                                            
+                                        </select>
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>Additional Item</label>
+                                        <input 
+                                            type='text'
+                                            className={tables.text}
+                                            {...register(`boq.${index}.additional_item`)}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>Unit Of Measurement</label>
+                                        <input 
+                                            type='text'
+                                            className={tables.text}
+                                            {...register(`boq.${index}.unit_of_measurement`)}
+                                            placeholder=" e.g., m², pcs, lot..."
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>Quantity</label>
+                                        <input 
+                                            {...register(`boq.${index}.quantity`)}
+                                            className={forms.select.partial}
+                                            type="number"
+                                            title="enter budget..."
+                                            placeholder="0.00"
+                                            step="0.01" min="0.00" onBlur={(e) => {
+                                                if (e.target.value) {
+                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                }
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>Rate Per Unit</label>
+                                        <input 
+                                            {...register(`boq.${index}.rate_per_unit`)}
+                                            className={forms.select.partial}
+                                            type="number"
+                                            title="enter budget..."
+                                            placeholder="0.00"
+                                            step="0.01" min="0.00" onBlur={(e) => {
+                                                if (e.target.value) {
+                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="form-grid mt-[20px]">
+                                    <div className="form-group">
+                                        <label>Estimated Amount</label>
+                                        <p className="helper-text">Auto-calculated</p><br/>
+                                        {decimalPlaces(
+                                            (Number(watch(`boq.${index}.quantity`) || 0.00)) *
+                                            (Number(watch(`boq.${index}.rate_per_unit`) || 0.00))
+                                        )}
+                                    </div>
+                                </div>
+
+                                <button 
+                                    className="add-item-btn"
                                     type='button'
-                                    title='Remove Item'
-                                    className="remove-item border rounded-2xl shadow-sm"
-                                    onClick={() => remove(index)}
-                                    >
-                                        Remove
-                                    </button>
+                                    onClick={() => append({
+                                        product_item: '',
+                                        additional_item: '',
+                                        unit_of_measurement: '',
+                                        quantity: 0.00,
+                                        rate_per_unit: 0.00
+                                    })}
+                                >
+                                    ++ Add New Item
+                                </button>
                             </div>
-
-                            <div className={layout.formSectionCol3}>
-                                <div className="form-group">
-                                    <label>Product Item</label>
-                                    <select
-                                        {...register(`boq.${index}.product_item`)}
-                                        className={forms.select.fullLarge}
-                                    >
-                                        <option value="">Select item...</option>
-                                        {productItem}
-                                        
-                                    </select>
-                                </div>
-
-                                <div className="form-group">
-                                    <label>Additional Item</label>
-                                    <input 
-                                        type='text'
-                                        className={tables.text}
-                                        {...register(`boq.${index}.additional_item`)}
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label>Unit Of Measurement</label>
-                                    <input 
-                                        type='text'
-                                        className={tables.text}
-                                        {...register(`boq.${index}.unit_of_measurement`)}
-                                        placeholder=" e.g., m², pcs, lot..."
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label>Quantity</label>
-                                    <input 
-                                        {...register(`boq.${index}.quantity`)}
-                                        className={forms.select.partial}
-                                        type="number"
-                                        title="enter budget..."
-                                        placeholder="0.00"
-                                        step="0.01" min="0.00" onBlur={(e) => {
-                                            if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                            }
-                                        }}
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label>Rate Per Unit</label>
-                                    <input 
-                                        {...register(`boq.${index}.rate_per_unit`)}
-                                        className={forms.select.partial}
-                                        type="number"
-                                        title="enter budget..."
-                                        placeholder="0.00"
-                                        step="0.01" min="0.00" onBlur={(e) => {
-                                            if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="form-grid mt-[20px]">
-                                <div className="form-group">
-                                    <label>Estimated Amount</label>
-                                    <p className="helper-text">Auto-calculated</p><br/>
-                                    {decimalPlaces(
-                                        (Number(watch(`boq.${index}.quantity`) || 0.00)) *
-                                        (Number(watch(`boq.${index}.rate_per_unit`) || 0.00))
-                                    )}
-                                </div>
-                            </div>
-
-                            <button 
-                                className="add-item-btn"
-                                type='button'
-                                onClick={() => append({
-                                    product_item: '',
-                                    additional_item: '',
-                                    unit_of_measurement: '',
-                                    quantity: 0.00,
-                                    rate_per_unit: 0.00
-                                })}
-                            >
-                                ++ Add New Item
-                            </button>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 {/*<!-- Totals Section -->*/}
@@ -282,7 +286,7 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                         {isSubmitting ? (
                             <span className="flex  items-center gap-2">
                                 <div className={utils.spinner}></div>
-                                Generating BOQ 
+                                Generating BOQ... 
                             </span>
                         ) : (
                             'Generate BOQ'

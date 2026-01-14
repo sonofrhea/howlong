@@ -28,7 +28,7 @@ import { fetchProductItems } from "../../Products/Engines";
 import SupplierDebitNoteDetails from "./SupplierDebitNoteDetails";
 import SupplierDebitNoteForm from "./SupplierDebitNoteForm";
 import SupplierDebitNoteTable from "./SupplierDebitNoteTable";
-//import SupplierDebitNoteEdit from "./SupplierDebitNoteEdit";
+import SupplierDebitNoteEdit from "./SupplierDebitNoteEdit";
 
 import { iconStyles, management, spinningStyles } from "../constants/Styles";
 
@@ -229,7 +229,7 @@ function SupplierDebitNoteManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const handleEditSupplierDebitNote = ({supplierDebitNoteId, supplierDebitNoteData}: EditSupplierDebitNoteInputs) => {
+    const handleEditSupplierDebitNote = (supplierDebitNoteId: number) => {
         setSelectedSupplierDebitNoteId(supplierDebitNoteId);
         setView('edit');
     };
@@ -512,8 +512,13 @@ function SupplierDebitNoteManagement() {
                 supplierDebitNote={selectedSupplierDebitNote}
                 onSubmit={handleUpdateSupplierDebitNote}
                 isSubmitting={updateSupplierDebitNoteMutation.isPending}
-                onBack={handleBackToSupplierDebitNotesList}
                 onCancel={handleBackToSupplierDebitNotesList}
+                currencies={currencies}
+                accounts={accounts}
+                agents={agents}
+                SupplierInvoices={SupplierInvoices}
+                SupplierProfiles={SupplierProfiles}
+                productItems={productItems}
                 />
             )}
             </div>

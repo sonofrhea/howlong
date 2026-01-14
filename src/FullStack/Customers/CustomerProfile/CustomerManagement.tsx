@@ -27,7 +27,7 @@ import { fetchCurrencies, fetchBanks } from "../../Core/Engines"
 import CustomerTable from "./CustomerTable";
 import CustomerForm from "./CustomerForm";
 import CustomerDetails from "./CustomerDetails";
-//import CustomerEdit from "./CustomerEdit";
+import CustomerEdit from "./CustomerEdit";
 
 
 
@@ -201,6 +201,13 @@ function CustomerManagement() {
 
 
   const handleUpdateCustomer = (customerData: CustomerInputs) => {
+    if (!customerData.id_file) {
+      delete customerData.id_file;
+    }
+    if (!customerData.taxpayers_qr_code) {
+      delete customerData.taxpayers_qr_code;
+    }
+    
     updateCustomersMutation.mutate({
       customer_number: selectedCustomerId!,
       customerData: customerData
@@ -228,7 +235,7 @@ function CustomerManagement() {
   };
 
 // ------------------------------------------------------------------------------------
-  const handleEditCustomer = ({customerId, customerData}: EditCustomerInputs) => {
+  const handleEditCustomer = (customerId: number) => {
     setSelectedCustomerId(customerId);
     setView('edit');
   };
@@ -523,6 +530,9 @@ return (
               isSubmitting={updateCustomersMutation.isPending}
               onBack={() => setView('details')}
               onCancel={() => setView('list')}
+              currencies={currencies}
+              accounts={accounts}
+              banks={banks}
             />
           )}
         </div>

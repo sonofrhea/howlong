@@ -14,7 +14,7 @@ import { fetchProductItems, fetchProductItemById, createProductItem,
 import ProductItemDetails from "./ProductItemDetails";
 import ProductItemForm from "./ProductItemForm";
 import ProductItemTable from "./ProductItemTable";
-//import ProductItemEdit from "./ProductItemEdit";
+import ProductItemEdit from "./ProductItemEdit";
 
 import { ProductItemInputs, ProductItemCreateResponse,
   EditProductItemInputs
@@ -212,7 +212,7 @@ function ProductItemManagement() {
 // ------------------------------------------------------------------------------------
 
 
-  const handleEditProductItem = ({productItemId, productItemData}: EditProductItemInputs) => {
+  const handleEditProductItem = (productItemId: number) => {
     setSelectedProductItemId(productItemId);
     setView('edit');
   };
@@ -495,8 +495,11 @@ const handleSort = (key: any) => {
               productItem={selectedProductItem}
               onSubmit={handleUpdateProductItem}
               isSubmitting={updateProductItemMutation.isPending}
-              onBack={handleBackToProductItemsList}
               onCancel={handleBackToProductItemsList}
+              currencies={currencies}
+              accounts={accounts}
+              agents={agents}
+              productGroups={productGroups}
             />
           )}
         </div>

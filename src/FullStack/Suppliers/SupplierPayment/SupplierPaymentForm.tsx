@@ -5,7 +5,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { PAYMENT_TYPE_OPTIONS } from "../constants/options";
 
 
-import { SupplierProfileResponse, SupplierPaymentInputs } from "../constants/Types";
+import { SupplierProfileResponse, SupplierPaymentInputs, SupplierPaymentProps } from "../constants/Types";
 
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { SupplierInvoiceResponse } from "../constants/Types";

@@ -25,7 +25,7 @@ import BillOfQuantitiesDetails from "./BillOfQuantitiesDetails";
 import BillOfQuantitiesForm from "./BillOfQuantitiesForm";
 import BillOfQuantitiesTable from "./BillOfQuantitiesTable";
 import { spinningStyles } from "../constants/Styles";
-//import BillOfQuantitiesEdit from "./BillOfQuantitiesEdit";
+import BillOfQuantitiesEdit from "./BillOfQuantitiesEdit";
 
 
 
@@ -207,7 +207,7 @@ function BillOfQuantitiesManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditBillOfQuantity = ({billOfQuantityId, billOfQuantitiesData}: EditBillOfQuantities) => {
+    const handleEditBillOfQuantity = (billOfQuantityId: number) => {
         setSelectedBillOfQuantityId(billOfQuantityId);
         setView('edit');
     };
@@ -491,8 +491,10 @@ function BillOfQuantitiesManagement() {
                     billOfQuantity={selectedBillOfQuantity}
                     onSubmit={handleUpdateBillOfQuantity}
                     isSubmitting={updateBillOfQuantityMutation.isPending}
-                    onBack={handleBackToBillOfQuantitiesList}
                     onCancel={handleBackToBillOfQuantitiesList}
+                    agents={agents}
+                    projects={projects}
+                    products={products}
                 />
                 )}
             </div>

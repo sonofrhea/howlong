@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 import { PRODUCTS_ICONS } from "./ModuleIcons";
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 
 
 
@@ -45,6 +47,7 @@ export type ProductGroupList = {
 }
 
 export type ProductGroupInputs = {
+  group_code: number;
   group_name: string;
   description: string;
   costing_method: string;
@@ -73,7 +76,16 @@ export type AllProductGroupInputs = {
 export type EditProductGroupInputs = {
   productGroupId: number;
   productGroupData: ProductGroupInputs;
-}
+};
+
+export type ProductGroupProps = {
+  productGroup: ProductGroupInputs;
+  onSubmit: (data: ProductGroupInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+};
 
 // -------- END ----------- PRODUCT GROUP INPUT ----------------
 
@@ -101,6 +113,7 @@ export type ProductItemList = {
 }
 
 export type ProductItemInputs = {
+  item_code: number;
   item_description: string;
   product_group: string;
   product_serial_number: number;
@@ -133,6 +146,17 @@ export type EditProductItemInputs = {
   productItemId: number;
   productItemData: ProductItemInputs;
 }
+
+export type ProductItemProps = {
+  productItem: ProductItemInputs;
+  onSubmit: (data: ProductItemInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  currencies: CurrencyInterface[];
+  productGroups: ProductGroupCreateResponse[];
+};
 
 // -------- END ----------- PRODUCT ITEM INPUT ----------------
 

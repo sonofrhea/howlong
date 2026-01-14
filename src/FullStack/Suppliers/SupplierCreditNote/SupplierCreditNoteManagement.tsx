@@ -27,7 +27,7 @@ import { EditSupplierCreditNoteInputs,
 import SupplierCreditNoteDetails from "./SupplierCreditNoteDetails";
 import SupplierCreditNoteForm from "./SupplierCreditNoteForm";
 import SupplierCreditNoteTable from "./SupplierCreditNoteTable";
-//import SupplierCreditNoteEdit from "./SupplierCreditNoteEdit";
+import SupplierCreditNoteEdit from "./SupplierCreditNoteEdit";
 
 import { management } from "../constants/Styles";
 
@@ -224,8 +224,7 @@ function SupplierCreditNoteManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditSupplierCreditNote = (
-        {supplierCreditNoteId, supplierCreditNoteData}: EditSupplierCreditNoteInputs) => {
+    const handleEditSupplierCreditNote = (supplierCreditNoteId: number) => {
         setSelectedSupplierCreditNoteId(supplierCreditNoteId);
         setView('edit');
     };
@@ -511,8 +510,13 @@ function SupplierCreditNoteManagement() {
                 supplierCreditNote={selectedSupplierCreditNote}
                 onSubmit={handleUpdateSupplierCreditNote}
                 isSubmitting={updateSupplierCreditNoteMutation.isPending}
-                onBack={handleBackToSupplierCreditNotesList}
                 onCancel={handleBackToSupplierCreditNotesList}
+                supplierInvoices={supplierInvoices}
+                currencies={currencies}
+                accounts={accounts}
+                agents={agents}
+                productItems={productItems}
+                supplierProfiles={supplierProfiles}
                 />
             )}
             </div>

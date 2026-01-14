@@ -66,8 +66,12 @@ export const fetchProductItemById = async (item_code: number) => {
     return response.data;
 };
 
-export const createProductItem = async (productItemData: ProductItemInputs) => {
-    const response = await apiClient.post('/products/productitem/', productItemData);
+export const createProductItem = async (productItemData: ProductItemInputs | FormData) => {
+    const response = await apiClient.post('/products/productitem/', productItemData, {
+        headers: {
+            "Content-Type": 'multipart/form-data',
+        },
+    });
     return response.data;
 };
 

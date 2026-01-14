@@ -11,9 +11,9 @@ const formatDate = (dateString: string) => {
 
 
 const formatDebitNoteNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `DN-${currentYear}-`;
-    };
+    const currentYear = new Date().getFullYear();
+    return `DN-${currentYear}-`;
+};
 
 
 
@@ -183,7 +183,7 @@ const DebitNoteTable: React.FC<any> = ({ debitNotes, onDebitNoteClick, onEditDeb
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    onEditDebitNote(debitNoteId, debitNote);
+                                                    onEditDebitNote(debitNote.debit_note_number);
                                                 }}
                                                 title="Edit Debit Note"
                                             >

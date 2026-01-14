@@ -221,7 +221,7 @@ function JobCostLedgerManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditJobCostLedger = ({jobCostLedgerId, jobCostLedgerData}: EditJobCostLedger) => {
+    const handleEditJobCostLedger = (jobCostLedgerId: number) => {
         setSelectedJobCostLedgerId(jobCostLedgerId);
         setView('edit');
     };
@@ -509,8 +509,12 @@ function JobCostLedgerManagement() {
                     jobCostLedger={selectedJobCostLedger}
                     onSubmit={handleUpdateJobCostLedger}
                     isSubmitting={updateJobCostLedgerMutation.isPending}
-                    onBack={handleBackToJobCostLedgersList}
                     onCancel={handleBackToJobCostLedgersList}
+                    suppliers={suppliers}
+                    jobCostCodes={jobCostCodes}
+                    billOfQuantities={billOfQuantities}
+                    agents={agents}
+                    projects={projects}
                 />
                 )}
             </div>

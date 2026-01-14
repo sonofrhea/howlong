@@ -19,7 +19,7 @@ import { fetchAgents } from "../../Core/Engines"
 import ProjectsProfileDetails from "./ProjectsProfileDetails";
 import ProjectsProfileForm from "./ProjectsProfileForm";
 import ProjectsProfileTable from "./ProjectsProfileTable";
-//import ProjectsProfileEdit from "./ProjectsProfileEdit";
+import ProjectsProfileEdit from "./ProjectsProfileEdit";
 
 import { spinningStyles } from "../constants/Styles";
 
@@ -203,7 +203,7 @@ function ProjectsProfileManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditProject = ({projectId, projectData}: EditProjectProfileInputs) => {
+    const handleEditProject = (projectId: number) => {
         setSelectedProjectId(projectId);
         setView('edit');
     };
@@ -490,8 +490,9 @@ function ProjectsProfileManagement() {
                 project={selectedProject}
                 onSubmit={handleUpdateProject}
                 isSubmitting={updateProjectMutation.isPending}
-                onBack={handleBackToProjectsList}
                 onCancel={handleBackToProjectsList}
+                customers={customers}
+                agents={agents}
             />
             )}
         </div>

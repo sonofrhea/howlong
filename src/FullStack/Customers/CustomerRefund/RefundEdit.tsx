@@ -1,12 +1,16 @@
 import React, { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { CreditNoteInputs, CreditNoteProps, CustomerCreateResponse } from "../constants/Types";
+import { CreditNoteCreateResponse, CustomerCreateResponse,
+    CustomerRefundInputs, CustomerRefundProps } from "../constants/Types";
 import { controlAccountHandler } from "../../handlers";
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../constants/Styles";
-import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
-import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
-import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
+import { REFUND_TYPE_OPTIONS } from "../constants/Options";
 import { Trash2 } from "lucide-react";
+import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+
+
+
 
 
 
@@ -15,42 +19,56 @@ const formatCreditNoteNumber = () => {
     return `CN-${currentYear}-`;
 };
 
+
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
-
 
 const formatCustomerNumber = () => {
     const currentYear = new Date().getFullYear();
     return `CV-${currentYear}-`;
 };
 
+const formatRefundNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `REF-${currentYear}-`;
+};
 
-const CreditNoteEdit: React.FC<CreditNoteProps> = ({
-  creditNote,
+
+
+
+
+
+const RefundEdit: React.FC<CustomerRefundProps> = ({
+  refund,
   onSubmit,
   isSubmitting,
   onBack,
-  onCancel, customers, currencies, accounts, agents, customerPayments,
+  onCancel,
+  customers, currencies, accounts, agents, creditNotes   
 }) => {
 
 
-    const { register, handleSubmit, watch,
-        setValue, control, formState: { errors }, reset } = useForm<CreditNoteInputs>({
-            defaultValues: creditNote
+    const { register, handleSubmit, watch, setValue, control,
+        formState: { errors }, reset } = useForm<CustomerRefundInputs>({
+            defaultValues: refund
         });
     
+        
     const { fields, append, remove } = useFieldArray({
-            name: "credit_note_lines",
-            control
-        });
-            
+        name: "related_customer_refund",
+        control
+    });
+        
     React.useEffect(() => {
-        reset(creditNote);
-    }, [creditNote, reset]);
+        reset(refund);
+    }, [refund, reset]);
+
 
 
 const controlAccountChange = controlAccountHandler(accounts, setValue);
+
+
 
 
 
@@ -59,14 +77,14 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
             <div className={forms.body}>
                 <div className={layout.header}>
                     <div className={layout.tag}>
-                                        
-                        <div className="text-center space-y-6 px-6 py-3 gap-4">
-                            <div className={layout.badge}>
+
+                        <div className="text-right">
+                            <div className={layout.redBadge}>
                                 <p className={text.badgeLarge}>
-                                    DEBIT NOTE DETAILS
+                                    CUSTOMER REFUND DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatCreditNoteNumber()}{creditNote.credit_note_number}
+                                    {formatRefundNumber()}{refund.refund_number}
                                 </p>
                             </div>
                         </div>
@@ -74,38 +92,37 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                 </div>
 
                 <hr className="my-6 border-gray-200" />
-                                
+
                 <div className={layout.formSectionCol3}>
                     <div>
                         <p className={forms.label}>Date</p>
                         <input 
                             type="date"
-                            {...register("date")}
+                            {...register("date", {required: "Date is required"})}
                             className={forms.input.date}
                         />
-                        {errors.date && <p className="text-red-800 text-xs mt-1">
-                        {errors.date.message}</p>}
+                        {errors.date && <p className="text-amber-600 text-sm">{errors.date?.message}</p>}
                     </div>
-
+                    
                     <div>
-                        <p className={forms.label}>Bill To...</p>
+                        <p className={forms.label}>Pay To...</p>
                         <select
-                            {...register("customer")}
+                            {...register("pay_to")}
                             className={forms.select.partial}
                         >
                             <option value="">select...</option>
-                            {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
+                            {customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
                                     {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
                                 </option>
-                            )), [customers])}
+                            ))}
                         </select>
                     </div>
-
+                    
                     <div>
                         <p className={forms.label}>Account</p>
                         <select
-                            {...register("account.account_code")}
+                            {...register("payment_account.account_code")}
                             className={forms.select.partial}
                             onChange={controlAccountChange}
                         >
@@ -117,44 +134,31 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             )), [accounts])}
                         </select>
 
-                        <input type="hidden" {...register("account.account_name")} />
-                        <input type="hidden" {...register("account.account_type")} />
+                        <input type="hidden" {...register("payment_account.account_name")} />
+                        <input type="hidden" {...register("payment_account.account_type")} />
                     </div>
 
                     <div>
-                        <p className={forms.label}>Agent</p>
-                        <select className={forms.select.partial}
-                            {...register("agent")}>
-                                <option value="">select...</option>
-                                {useMemo(() => agents.map((agent: AgentInterface) => (
-                                    <option key={agent.email} value={agent.email}>
-                                        {agent.name} | {agent.email}
-                                    </option>
-                                )), [agents])}
-                        </select>
-                    </div>
-
-                    <div>
-                        <p className={forms.label}>Related Payment</p>
+                        <p className={forms.label}>Related Credit Note</p>
                         <select
-                            {...register("related_payment")}
+                            {...register("related_credit_note")}
                             className={forms.select.partial}
                         >
                             <option value="">select...</option>
-                            {useMemo(() =>customerPayments.map((payment: CustomerPaymentResponse) => (
-                                <option key={payment.payment_number} value={payment.payment_number}>
-                                    POST-{payment.payment_number} | Paid Amount: {payment.paid_amount}
+                            {useMemo(() => creditNotes.map((creditNotes: CreditNoteCreateResponse) => (
+                                <option key={creditNotes.credit_note_number} value={creditNotes.credit_note_number}>
+                                    {formatCreditNoteNumber()}{creditNotes.credit_note_number} | Outstanding: {creditNotes.credit_note_outstanding || '--'}
                                 </option>
-                            )), [customerPayments])}
+                            )), [creditNotes])}
                         </select>
                     </div>
 
                     <div>
-                        <p className={forms.label}>Paid Amount</p>
+                        <p className={forms.label}>Expected Refund Amount</p>
                         <input 
-                            {...register("paid_amount")}
+                            {...register("expected_refund")}
                             type="number"
-                            title="enter paid amount..."
+                            title="enter expected amount..."
                             className={forms.select.partial}
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
@@ -164,7 +168,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             }}
                         />
                     </div>
-
+                    
                     <div>
                         <p className={forms.label}>Currency</p>
                         <select 
@@ -179,6 +183,19 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             )), [currencies])}
                         </select>
                     </div>
+                    
+                    <div>
+                        <p className={forms.label}>Agent</p>
+                        <select className={forms.select.partial}
+                            {...register("agent")}>
+                                <option value="">select...</option>
+                                {useMemo(() => agents.map((agent: AgentInterface) => (
+                                    <option key={agent.email} value={agent.email}>
+                                        {agent.name} | {agent.email}
+                                    </option>
+                                )), [agents])}
+                        </select>
+                    </div>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -186,94 +203,100 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                 <div className="p-6">
                     <div className="w-full">
                         <table className={tables.base}>
-                        <colgroup>
-                            {[
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-[9%] text-center',
-                            ].map((line, index) => (
-                                <col key={index} className={line} />
-                            ))}
-                        </colgroup>
-                        <thead className={tables.header}>
-                            <tr>
-                                <th className={tables.headerCell}>Date</th>
-                                <th className={tables.headerCell}>Description</th>
-                                <th className={tables.headerCell}>Amount</th>
-                                <th className={tables.headerCell}>Tax Inclusive?</th>
-                                <th className={tables.headerCell}>Tax %</th>
-                                <th className={tables.headerCell}>Current Total<br></br>(After SST)</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                            <tbody className={tables.body}>
-                                {fields.map((field, index) => {
-                                    const amount = Number(watch(`credit_note_lines.${index}.amount`) || 0.00);
-                                    const tax_percentage =  Number(watch(`credit_note_lines.${index}.tax_amount`) || 0.00) / 100;
-                                    const taxAmount = tax_percentage * amount;
-                                    const netTotal = amount - taxAmount;
+                            <colgroup>
+                                {[
+                                    'w-1/6 text-center',
+                                    'w-1/6 text-center',
+                                    'w-1/6 text-center',
+                                    'w-1/6 text-center',
+                                    'w-1/6 text-center',
+                                    'w-1/6 text-center',
+                                    'w-[7%] text-center',
+                                ].map((line, index) => (
+                                    <col key={index} className={line} />
+                                ))}
+                            </colgroup>
+                            <thead className={tables.header}>
+                                <tr>
+                                    <th className={tables.headerCell}>Date</th>
+                                    <th className={tables.headerCell}>Amount</th>
+                                    <th className={tables.headerCell}>Additional Charges</th>
+                                    <th className={tables.headerCell}>Payment Type</th>
+                                    <th className={tables.headerCell}>Total<br></br>(After Charges)</th>
+                                    <th className={tables.headerCell}>Cancelled</th>
+                                    <th className={tables.headerCell}></th>
+                                </tr>
+                            </thead>
 
-                                    return(
+                            <tbody className={tables.body}>
+                                {fields.map((field, index) => (
                                     <tr key={field.id} className={tables.row}>
                                         <td>
                                             <input 
                                                 type="date"
-                                                {...register(`credit_note_lines.${index}.date`)}
-                                                className={forms.input.date}
-                                            />
-                                        </td>
-
-                                        <td className={tables.cell}>
-                                            <input 
-                                                {...register(`credit_note_lines.${index}.description`)}
-                                                className={tables.text}
+                                                {...register(`related_customer_refund.${index}.date`)}
+                                                className={forms.select.full}
                                             />
                                         </td>
 
                                         <td className={text.numbers}>
                                             <input 
-                                                {...register(`credit_note_lines.${index}.amount`)}
                                                 type="number"
+                                                {...register(`related_customer_refund.${index}.refund_amount`)}
                                                 className={forms.input.number}
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
                                                         e.target.value = parseFloat(e.target.value).toFixed(2);
                                                     }
-                                                }}                                                
-                                            />
-                                        </td>
-
-                                        <td className={tables.cell}>
-                                            <input 
-                                                type="checkbox"
-                                                {...register(`credit_note_lines.${index}.tax_inclusive`)}
-                                                className="text-black cursor-pointer"
+                                                }} 
                                             />
                                         </td>
 
                                         <td className={text.numbers}>
                                             <input 
-                                                {...register(`credit_note_lines.${index}.tax_amount`) || 0.00}
                                                 type="number"
+                                                {...register(`related_customer_refund.${index}.additional_charges`)}
                                                 className={forms.input.number}
                                                 placeholder="0.00"
+                                                defaultValue="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
                                                         e.target.value = parseFloat(e.target.value).toFixed(2);
                                                     }
-                                                }}
+                                                }} 
                                             />
                                         </td>
 
+                                        <td className={forms.label}>
+                                            <select
+                                                {...register(`related_customer_refund.${index}.payment_type`)}
+                                                className={forms.select.full}
+                                            >
+                                                <option value="">select...</option>
+                                                {REFUND_TYPE_OPTIONS.map(option => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </td>
+                                        
                                         <td className={tables.autoCalculate}>
-                                            {decimalPlaces(netTotal)}
+                                            {decimalPlaces(
+                                                (Number(watch(`related_customer_refund.${index}.refund_amount`) || 0.00) +
+                                                Number(watch(`related_customer_refund.${index}.additional_charges`) || 0.00))
+                                            )}
                                         </td>
-
+                                        
+                                        <td className={tables.cell}>
+                                            <input 
+                                                {...register(`related_customer_refund.${index}.cancelled`)}
+                                                type="checkbox"
+                                                className={forms.input.base}
+                                            />
+                                        </td>
+                                        
                                         <td>
                                             <button
                                                 type="button"
@@ -285,18 +308,16 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                                             </button>
                                         </td>
                                     </tr>
-                                    );
-                                })}
-                                <tr >
+                                ))}
+                                <tr>
                                     <td className={tables.headerCell}>
                                         <button
                                             type="button"
                                             onClick={() => append({
                                                 date: "",
-                                                description: "",
-                                                amount: 0.00,
-                                                tax_inclusive: false,
-                                                tax_amount: 0.00,
+                                                refund_amount: 0.00,
+                                                additional_charges: 0.00,
+                                                payment_type: "" as any,
                                                 cancelled: false
                                             })}
                                             className={buttons.addLine}
@@ -308,7 +329,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             </tbody>
                         </table>
                     </div>
-                    
+                                        
                     <div className="mt-6 sm:flex sm:items-center sm:justify-end">
                     <div className="w-full sm:w-1/2 lg:w-1/3">
                         <div className="bg-gray-50 p-4 rounded-lg">
@@ -342,8 +363,7 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                         </div>
                     </div>
                     </div>
-                    
-                    
+
                     <div className={layout.submitSection}>
                         <button
                             type="submit"
@@ -351,12 +371,12 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             className={buttons.primary}
                         >
                             {isSubmitting ? (
-                                <span className="flex items-center gap-2">
+                                <span className="flex  items-center gap-2">
                                     <div className={utils.spinner}></div>
-                                    Updating Credit Note...
+                                    Updating Refund...
                                 </span>
                             ) : (
-                                'Update Credit Note'
+                                'Update Refund'
                             )}
                         </button>
                         <button
@@ -371,5 +391,6 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
             </div>
         </form>
     );
+
 };
-export default CreditNoteEdit;
+export default RefundEdit;

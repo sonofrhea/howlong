@@ -4,7 +4,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { forms, buttons, layout, tables, text, utils } from "../constants/Styles";
 
 import { Trash2 } from "lucide-react";
-import { CreditNoteInputs, CustomerCreateResponse } from "../constants/Types";
+import { CreditNoteInputs, CreditNoteProps, CustomerCreateResponse } from "../constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
@@ -19,20 +19,20 @@ const decimalPlaces = (amount: number) => {
 
 
 const formatCustomerNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `CV-${currentYear}-`;
+    const currentYear = new Date().getFullYear();
+    return `CV-${currentYear}-`;
 };
 
 
 
 const formatCreditNoteNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `CN-${currentYear}-`;
+    const currentYear = new Date().getFullYear();
+    return `CN-${currentYear}-`;
 };
 
 
 
-const CreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers, 
+const CreditNoteForm: React.FC<CreditNoteProps> = ({ onSubmit, isSubmitting, onCancel, customers, 
     currencies, accounts, agents, customerPayments }) => {
 
 

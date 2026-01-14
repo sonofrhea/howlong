@@ -21,8 +21,8 @@ const formatDebitNoteNumber = () => {
 
 
 const formatCustomerNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `CV-${currentYear}-`;
+    const currentYear = new Date().getFullYear();
+    return `CV-${currentYear}-`;
 };
 
 
@@ -187,7 +187,7 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                                             <div className="font-medium text-black">{debitNote.gross_total}</div>
                                         </div>
 
-                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
                                             <div className="font-medium text-black">{debitNote.tax_amount}%</div>
                                         </div>

@@ -5,6 +5,10 @@ import { COST_TYPE_CHOICES_OPTIONS, COUNTRY_OPTIONS,
   JOB_COST_LEDGER_STATUS_OPTIONS, 
   JOB_COST_LINES_STATUS_OPTIONS, PROJECT_PHASE_OPTIONS,
    PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from "./Options";
+import { CustomerCreateResponse } from "../../Customers/constants/Types";
+import { AgentInterface } from "../../Core/constants/Types";
+import { ProductItemCreateResponse } from "../../Products/constants/Types";
+import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
 
 
 
@@ -68,6 +72,7 @@ export type ProjectsProfileList = {
 }
 
 export interface ProjectProfileInputs {
+  project_code: number;
   date: string;
   project_name: string;
   project_description: string;
@@ -116,7 +121,16 @@ export type AllProjectProfileInputs = {
 export type EditProjectProfileInputs = {
   projectId: number;
   projectData: ProjectProfileInputs;
-}
+};
+
+export type ProjectProfileProps = {
+  project: ProjectProfileInputs;
+  onSubmit: (data: ProjectProfileInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  customers: CustomerCreateResponse[];
+  agents: AgentInterface[];
+};
 
 
 // -------- END ----------- PROJECT INPUT ----------------------------------------------
@@ -176,6 +190,7 @@ export type BillofquantitiesList = {
 }
 
 export type BillOfQuantitiesInputs = {
+  boq_number: number;
   date: string;
   project: string;
   project_name: string;
@@ -209,6 +224,16 @@ export type EditBillOfQuantities = {
   billOfQuantitiesData: BillOfQuantitiesInputs;
 }
 
+export type BillOfQuantitiesProps = {
+  billOfQuantity: BillOfQuantitiesInputs;
+  onSubmit: (data: BillOfQuantitiesInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  projects: ProjectProfileResponse[];
+  products: ProductItemCreateResponse[];
+};
+
 
 // -------- END ----------- BILL OF QUANTITIES INPUT ------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -234,6 +259,7 @@ export type JobCostLedgerList = {
 
 
 export type JobCostLedgerInputs = {
+  job_cost_number: number;
   project: string;
   date: string;
   description: string;
@@ -273,6 +299,17 @@ export type EditJobCostLedger = {
 };
 
 
+export type JobCostLedgerProps = {
+  jobCostLedger: JobCostLedgerInputs;
+  onSubmit: (data: JobCostLedgerInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  suppliers: SupplierProfileResponse[];
+  jobCostCodes: JobCostCodesInterface[];
+  billOfQuantities: BillOfQuantitiesResponse[];
+  agents: AgentInterface[];
+  projects: ProjectProfileInputs[];
+};
 
 
 // -------- END ----------- JOB COST LEDGER INPUT ------------------------------------------

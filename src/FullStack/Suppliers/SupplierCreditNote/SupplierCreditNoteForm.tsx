@@ -45,15 +45,9 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const SupplierCreditNoteForm: React.FC<SupplierCreditNoteFormProps> = ({ onSubmit, isSubmitting, onCancel, supplierInvoices, 
+const SupplierCreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, supplierInvoices, 
     currencies, accounts, agents, supplierProfiles, productItems }) => {
         
-                const productOptions = useMemo(() => 
-                    productItems.map((product: ProductItemCreateResponse) => (
-                    <option key={product.item_code} value={product.item_code}>
-                        SKU-{product.item_code} | {product.item_description}
-                    </option>
-                )), [productItems])
 
         const { register, handleSubmit, watch, setValue, control, 
             formState: { errors } } = useForm<SupplierCreditNoteInputs>({
@@ -265,7 +259,24 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                     </thead>
 
                                     <tbody className={tables.body}>
-                                        {fields.map((field, index) => (
+                                        {fields.map((field, index) => {
+                                                                            
+                                            const productOptions = useMemo(() => 
+                                                productItems.map((product: ProductItemCreateResponse) => (
+                                                <option key={product.item_code} value={product.item_code}>
+                                                    SKU-{product.item_code} | {product.item_description}
+                                                </option>
+                                            )), [productItems])
+        
+        
+                                            const detailsAmount = Number(watch(`related_credit_note.${index}.amount`) || 0.00);
+                                            const tax_percentage = Number(watch(`related_credit_note.${index}.tax_amount`) || 0.00) / 100;
+                                            const taxAmount = tax_percentage * detailsAmount;
+                                            const netTotal = detailsAmount + taxAmount;
+        
+        
+        
+                                            return(
                                             <tr key={field.id} className={tables.row}>
                                                 <td>
                                                     <select 
@@ -283,7 +294,7 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                                         className={tables.text}
                                                     />
                                                 </td>
-
+        
                                                 <td className={text.numbers}>
                                                     <input 
                                                         type="number"
@@ -320,10 +331,7 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                                 </td>
                                                 
                                                 <td className={tables.autoCalculate}>
-                                                    {decimalPlaces(
-                                                        Number(watch(`related_credit_note.${index}.amount`) || 0.00) +
-                                                        Number(watch(`related_credit_note.${index}.tax_amount`) || 0.00)
-                                                    )}
+                                                    {decimalPlaces(netTotal)}
                                                 </td>
                                                 
                                                 <td className={tables.cell}>
@@ -344,7 +352,8 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                                     
                                                 </td>
                                             </tr>
-                                        ))}
+                                            );
+                                        })}
                                         <tr>
                                             <td className={tables.headerCell}>
                                                 <button

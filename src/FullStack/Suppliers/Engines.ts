@@ -128,7 +128,7 @@ export const fetchSupplierPayments = async () => {
     return response.data;
 };
 
-export const fetchSupplierPaymentById = async (payment_code: number): Promise<SupplierPaymentResponse> => {
+export const fetchSupplierPaymentById = async (payment_code: number) => {
     const response = await apiClient.get(`/suppliers/supplierpayments/${payment_code}/`);
     return response.data;
 };

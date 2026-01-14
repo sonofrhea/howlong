@@ -964,8 +964,8 @@ export default function ConstructionERPLanding() {
             Manage Easier.<br />
             <span className='text-blue-700'>Build Faster & Better.</span>
             <p className='subheadline'><br />
-                URUSENTRA all-in-one ERP software engineered specifically with construction and building professionals in mind.
-                Improves company's productivity and production speed by streamlining projects, managing customers, teams, products and control costs and accounting and connecting with suppliers from one powerful system.
+                URUSENTRA is an all-in-one ERP software engineered specifically with construction and building professionals in mind.
+                Built to enhance company's productivity and production speed by streamlining projects, managing customers, teams, products and control costs, accounting with a powerful platform to connect with suppliers, all from one powerful system.
             </p>
 
             <div className="cta-group-header">

@@ -181,7 +181,7 @@ function SupplierCategoryManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditSupplierCategory = ({supplierCategoryId, supplierCategoryData}: editSupplierCategory) => {
+    const handleEditSupplierCategory = (supplierCategoryId: number) => {
         setSelectedSupplierCategoryId(supplierCategoryId);
         setView('edit');
     };
@@ -465,6 +465,7 @@ function SupplierCategoryManagement() {
                 isSubmitting={updateSupplierCategoryMutation.isPending}
                 onBack={handleBackToSupplierCategoriesList}
                 onCancel={handleBackToSupplierCategoriesList}
+                agents={agents}
                 />
             )}
             </div>

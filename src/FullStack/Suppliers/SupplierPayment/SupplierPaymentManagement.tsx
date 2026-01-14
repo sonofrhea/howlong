@@ -37,7 +37,7 @@ import { TriangleAlert, HandCoins,
 import SupplierPaymentDetails from "./SupplierPaymentDetails";
 import SupplierPaymentForm from "./SupplierPaymentForm";
 import SupplierPaymentTable from "./SupplierPaymentTable";
-//import SupplierPaymentEdit from "./SupplierPaymentEdit";
+import SupplierPaymentEdit from "./SupplierPaymentEdit";
 
 
 interface SortConfig {
@@ -229,7 +229,7 @@ function SupplierPaymentManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditSupplierPayment = ({supplierPaymentId, supplierPaymentData}: EditSupplierPayment) => {
+    const handleEditSupplierPayment = (supplierPaymentId: number) => {
         setSelectedSupplierPaymentId(supplierPaymentId);
         setView('edit');
     };
@@ -515,8 +515,12 @@ function SupplierPaymentManagement() {
                 supplierPayment={selectedSupplierPayment}
                 onSubmit={handleUpdateSupplierPayment}
                 isSubmitting={updateSupplierPaymentMutation.isPending}
-                onBack={handleBackToSupplierPaymentsList}
                 onCancel={handleBackToSupplierPaymentsList}
+                currencies={currencies}
+                accounts={accounts}
+                agents={agents}
+                supplierInvoices={supplierInvoices}
+                supplierProfiles={supplierProfiles}
                 />
             )}
             </div>

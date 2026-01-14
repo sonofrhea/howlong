@@ -17,7 +17,7 @@ import { fetchCurrencies, fetchAgents, fetchBanks } from "../../Core/Engines"
 import SupplierProfileDetails from "./SupplierProfileDetails";
 import SupplierProfileForm from "./SupplierProfileForm";
 import SupplierProfileTable from "./SupplierProfileTable";
-//import SupplierProfileEdit from "./SupplierProfileEdit";
+import SupplierProfileEdit from "./SupplierProfileEdit";
 
 
 
@@ -193,7 +193,7 @@ function SupplierProfileManagement() {
 
     const handleUpdateSupplierProfile = (supplierProfileData: SupplierProfileInputs) => {
         updateSupplierProfileMutation.mutate({
-        supplier_code: selectedSupplierProfileId,
+        supplier_code: selectedSupplierProfileId!,
         supplierProfileData: supplierProfileData
         });
     };
@@ -217,7 +217,7 @@ function SupplierProfileManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditSupplierProfile = ({supplierProfileId, supplierProfileData}: EditSupplierProfile) => {
+    const handleEditSupplierProfile = (supplierProfileId: number) => {
         setSelectedSupplierProfileId(supplierProfileId);
         setView('edit');
     };
@@ -305,7 +305,7 @@ function SupplierProfileManagement() {
     if (supplierProfilesError) return (
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
-            <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-red-500 mb-4">
+            <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
             </svg>
             <h2 className="text-xl font-bold text-gray-800 mb-2">Error Loading Data</h2>
@@ -510,6 +510,11 @@ function SupplierProfileManagement() {
                 isSubmitting={updateSupplierProfileMutation.isPending}
                 onBack={handleBackToSupplierProfilesList}
                 onCancel={handleBackToSupplierProfilesList}
+                supplierCategories={supplierCategories}
+                currencies={currencies}
+                accounts={accounts}
+                agents={agents}
+                banks={banks}
                 />
             )}
             </div>

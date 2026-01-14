@@ -264,88 +264,97 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     </thead>
 
                                     <tbody className={tables.body}>
-                                        {fields.map((field, index) => (
-                                            <tr key={field.id} className={tables.row}>
-                                                <td>
-                                                    <select
-                                                        {...register(`related_debit_note.${index}.debit_note_item`)}
-                                                        className={forms.select.full}
-                                                    >
-                                                        <option value="">select...</option>
-                                                        {productOptions}
-                                                    </select>
-                                                </td>
-
-                                                <td className={tables.cell}>
-                                                    <input 
-                                                        type="text"
-                                                        {...register(`related_debit_note.${index}.description`)}
-                                                        className={tables.text}
-                                                    />
-                                                </td>
-
-                                                <td className={text.numbers}>
-                                                    <input 
-                                                        type="number"
-                                                        {...register(`related_debit_note.${index}.amount`)}
-                                                        className={forms.input.number}
-                                                        placeholder="0.00"
-                                                        step="0.01" min="0.00" onBlur={(e) => {
-                                                            if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                            }
-                                                        }}
-                                                    />
-                                                </td>
-
-                                                <td className={tables.cell}>
-                                                    <input
-                                                        type="checkbox"
-                                                        {...register(`related_debit_note.${index}.tax_inclusive`)} 
-                                                    />
-                                                </td>
-
-                                                <td className={text.numbers}>
-                                                    <input 
-                                                        type="number"
-                                                        {...register(`related_debit_note.${index}.tax_amount`)}
-                                                        className={forms.input.number}
-                                                        placeholder="0.00"
-                                                        step="0.01" min="0.00" onBlur={(e) => {
-                                                            if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                            }
-                                                        }}
-                                                    />
-                                                </td>
-
-                                                <td className={tables.autoCalculate}>
-                                                    {decimalPlaces(
-                                                        Number(watch(`related_debit_note.${index}.amount`) || 0.00) *
-                                                        (1 + (Number(watch(`related_debit_note.${index}.tax_amount`) || 0.00)/100))
-                                                    )}
-                                                </td>
-
-                                                <td className={tables.cell}>
-                                                    <input
-                                                        type="checkbox"
-                                                        {...register(`related_debit_note.${index}.cancelled`)} 
-                                                    />
-                                                </td>
-
-                                                <td>
-                                                    <button 
-                                                        type="button"
-                                                        title="remove"
-                                                        onClick={() => remove(index)}
-                                                    >
-                                                        <Trash2 size={16} strokeWidth={1.5}
-                                                        className="text-black cursor-pointer"/>
-                                                    </button> 
-                                                    
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        {fields.map((field, index) => {
+                                            const productOptions = useMemo(() => 
+                                                productItems.map((product: ProductItemCreateResponse) => (
+                                                <option key={product.item_code} value={product.item_code}>
+                                                    SKU-{product.item_code} | {product.item_description}
+                                                </option>
+                                            )), [productItems])
+        
+                                            return(
+                                                <tr key={field.id} className={tables.row}>
+                                                    <td>
+                                                        <select
+                                                            {...register(`related_debit_note.${index}.debit_note_item`)}
+                                                            className={forms.select.full}
+                                                        >
+                                                            <option value="">select...</option>
+                                                            {productOptions}
+                                                        </select>
+                                                    </td>
+        
+                                                    <td className={tables.cell}>
+                                                        <input 
+                                                            type="text"
+                                                            {...register(`related_debit_note.${index}.description`)}
+                                                            className={tables.text}
+                                                        />
+                                                    </td>
+        
+                                                    <td className={text.numbers}>
+                                                        <input 
+                                                            type="number"
+                                                            {...register(`related_debit_note.${index}.amount`)}
+                                                            className={forms.input.number}
+                                                            placeholder="0.00"
+                                                            step="0.01" min="0.00" onBlur={(e) => {
+                                                                if (e.target.value) {
+                                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                }
+                                                            }}
+                                                        />
+                                                    </td>
+        
+                                                    <td className={tables.cell}>
+                                                        <input
+                                                            type="checkbox"
+                                                            {...register(`related_debit_note.${index}.tax_inclusive`)} 
+                                                        />
+                                                    </td>
+        
+                                                    <td className={text.numbers}>
+                                                        <input 
+                                                            type="number"
+                                                            {...register(`related_debit_note.${index}.tax_amount`)}
+                                                            className={forms.input.number}
+                                                            placeholder="0.00"
+                                                            step="0.01" min="0.00" onBlur={(e) => {
+                                                                if (e.target.value) {
+                                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                }
+                                                            }}
+                                                        />
+                                                    </td>
+        
+                                                    <td className={tables.autoCalculate}>
+                                                        {decimalPlaces(
+                                                            Number(watch(`related_debit_note.${index}.amount`) || 0.00) *
+                                                            (1 + (Number(watch(`related_debit_note.${index}.tax_amount`) || 0.00)/100))
+                                                        )}
+                                                    </td>
+        
+                                                    <td className={tables.cell}>
+                                                        <input
+                                                            type="checkbox"
+                                                            {...register(`related_debit_note.${index}.cancelled`)} 
+                                                        />
+                                                    </td>
+        
+                                                    <td>
+                                                        <button 
+                                                            type="button"
+                                                            title="remove"
+                                                            onClick={() => remove(index)}
+                                                        >
+                                                            <Trash2 size={16} strokeWidth={1.5}
+                                                            className="text-black cursor-pointer"/>
+                                                        </button> 
+                                                        
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                         <tr>
                                             <td className={tables.headerCell}>
                                                 <button  

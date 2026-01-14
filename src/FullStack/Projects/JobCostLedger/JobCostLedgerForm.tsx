@@ -44,34 +44,6 @@ const decimalPlaces = (amount: number) => {
 const JobCostLedgerForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, suppliers, 
     jobCostCodes, billOfQuantities, agents, projects }) => {
 
-        const costCode = useMemo(() => 
-            jobCostCodes.map((code: JobCostCodesInterface) => (
-            <option key={code.job_cost_code} value={code.job_cost_code}>
-                {code.job_cost_code} - ({code.job_cost_description})
-            </option>
-        )), [jobCostCodes])
-
-        const supplierSelect = useMemo(() => 
-            suppliers.map((supplier: SupplierProfileResponse) => (
-                <option key={supplier.supplier_name} value={supplier.supplier_name}>
-                    {supplier.supplier_name}
-                </option>
-        )), [suppliers])
-        
-        const costTypeSelect = useMemo(() => 
-            COST_TYPE_CHOICES_OPTIONS.map(option => (
-                <option key={option.value} value={option.value}>
-                    {option.label}
-                </option>
-        )), [COST_TYPE_CHOICES_OPTIONS])
-        
-        const statusLineSelect = useMemo(() => 
-            JOB_COST_LINES_STATUS_OPTIONS.map(option => (
-                <option key={option.value} value={option.value}>
-                    {option.label}
-                </option>
-        )), [JOB_COST_LINES_STATUS_OPTIONS])
-
 
 
 
@@ -234,7 +206,37 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                         </button>
                     </div>
                     {fields.length > 0 ? fields.map((field, index) => {
+
+                        const costCode = useMemo(() => 
+                            jobCostCodes.map((code: JobCostCodesInterface) => (
+                            <option key={code.job_cost_code} value={code.job_cost_code}>
+                                {code.job_cost_code} - ({code.job_cost_description})
+                            </option>
+                        )), [jobCostCodes])
+
+                        const supplierSelect = useMemo(() => 
+                            suppliers.map((supplier: SupplierProfileResponse) => (
+                                <option key={supplier.supplier_name} value={supplier.supplier_name}>
+                                    {supplier.supplier_name}
+                                </option>
+                        )), [suppliers])
+                        
+                        const costTypeSelect = useMemo(() => 
+                            COST_TYPE_CHOICES_OPTIONS.map(option => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                        )), [COST_TYPE_CHOICES_OPTIONS])
+                        
+                        const statusLineSelect = useMemo(() => 
+                            JOB_COST_LINES_STATUS_OPTIONS.map(option => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                        )), [JOB_COST_LINES_STATUS_OPTIONS])
+
                         const onJobCostCodeChange = jobcostcodesHandler(jobCostCodes, setValue, index);
+                        
                         return(
                             <div key={field.id}>
 

@@ -15,7 +15,7 @@ import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 import RefundDetails from "./RefundDetails";
 import RefundForm from "./RefundForm";
 import RefundTable from "./RefundTable";
-//import RefundEdit from "./RefundEdit";
+import RefundEdit from "./RefundEdit";
 
 
 import { EditCustomerRefundInputs, CustomerRefundInputs,
@@ -522,6 +522,11 @@ function RefundManagement() {
                     isSubmitting={updateRefundMutation.isPending}
                     onBack={handleBackToRefundsList}
                     onCancel={handleBackToRefundsList}
+                    customers={customers}
+                    currencies={currencies}
+                    accounts={accounts}
+                    agents={agents}
+                    creditNotes={creditNotes}
                 />
                 )}
             </div>

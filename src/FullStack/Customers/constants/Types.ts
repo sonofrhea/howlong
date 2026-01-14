@@ -10,6 +10,9 @@ import { ID_TYPE_CHOICES,
   STATUS_CHOICES,
   REFUND_TYPE_OPTIONS
  } from "./Options";
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
+import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
 
 
 
@@ -74,6 +77,7 @@ export type CustomersList = {
 
 
 export type CustomerInputs = {
+  customer_number: number;
   customer_name: string | null;
   company_name: string | null;
   control_account?: {
@@ -133,6 +137,17 @@ export type EditCustomerInputs = {
     customerData: CustomerInputs;
 };
 
+export type CustomerProps = {
+  customer: CustomerInputs;
+  onSubmit: (data: CustomerInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  banks: BankInterface[];
+};
+
 // -------- END ----------- CUSTOMER FORM INPUT ----------------
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -157,6 +172,7 @@ export type DebitNoteTableInput = {
 
 
 export type DebitNoteInputs = {
+  debit_note_number: number;
   date: string;
   customer: string;
   customer_name: string;
@@ -230,6 +246,20 @@ export type DebitNoteDetails = {
 };
 
 
+export type DebitNoteEditProps = {
+  debitNote: DebitNoteInputs;
+  onSubmit: (data: DebitNoteInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?:  () => void;
+  customers: CustomerCreateResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  customerPayments: CustomerPaymentResponse[];
+};
+
+
 // -------- END ----------- CUSTOMER DEBIT NOTE INPUT ----------------
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +281,7 @@ export type CreditNoteList = {
 };
 
 export type CreditNoteInputs = {
+  credit_note_number: number;
   date: string;
   customer: string;
   customer_name: string;
@@ -293,6 +324,19 @@ export type EditCreditNoteInputs = {
     creditNoteData: CreditNoteInputs;
 };
 
+export type CreditNoteProps = {
+  creditNote: CreditNoteInputs;
+  onSubmit: (data: CreditNoteInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  customers: CustomerCreateResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  customerPayments: CustomerPaymentResponse[];
+};
+
 
 // -------- END ----------- CUSTOMER CREDIT NOTE INPUT ----------------
 /////////////////////////////////////////////////////////////////////////////////////
@@ -319,6 +363,7 @@ export type CustomerRefundList = {
 
 
 export type CustomerRefundInputs = {
+  refund_number: number;
   date: string;
   pay_to: string | null;
   pay_to_name: string | null;
@@ -355,6 +400,19 @@ export type AllCustomerRefundInputs = {
 export type EditCustomerRefundInputs = {
     refundId: number;
     refundData: CustomerRefundInputs;
+};
+
+export type CustomerRefundProps = {
+  refund: CustomerRefundInputs;
+  onSubmit: (data: CustomerRefundInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  customers: CustomerCreateResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  creditNotes: CustomerCreateResponse[];
 };
 
 // -------- END ----------- CUSTOMER REFUND INPUT ----------------
