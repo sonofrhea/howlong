@@ -24,6 +24,20 @@ export const controlAccountHandler = (accounts: ControlAccountInterface[], setVa
 }
 
 
+export const customerControlAccountHandler = (accounts: ControlAccountInterface[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const accountCode = Number(e.target.value)
+    const selectedAccount = accounts.find(a => a.account_code === accountCode)
+    console.log("✅ Found Account:", selectedAccount);
+
+    if (selectedAccount) {
+      setValue("control_account.account_name", selectedAccount.account_name)
+      setValue("control_account.account_type", selectedAccount.account_type)
+    }
+  }
+}
+
+
 export const invoicePaymentHandler = (invoicePayments: InvoicePaymentInterface[], setValue: any) => {
   return (e: React.ChangeEvent<HTMLSelectElement>) => {
     const paymentCode = Number(e.target.value)

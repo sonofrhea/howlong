@@ -172,25 +172,31 @@ function CustomerManagement() {
     if (!customerData.id_file) {
       delete customerData.id_file;
     }
+    if (!customerData.control_account?.account_code) {
+      delete customerData.control_account;
+    }
     if (!customerData.taxpayers_qr_code) {
       delete customerData.taxpayers_qr_code;
     }
-    const newCustomerData = new FormData();
+    if (!customerData.preferred_currency?.currency_code) {
+      delete customerData.preferred_currency;
+    }
+    //const newCustomerData = new FormData();
 
-    Object.entries(customerData).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
-        if (value instanceof File) {
-          //console.log(File.name);
-          newCustomerData.append(key, (value));
-        } else {
-          newCustomerData.append(key, String(value));
-        }
-      }
-    });
+    //Object.entries(customerData).forEach(([key, value]) => {
+    //  if (value !== null && value !== undefined) {
+    //    if (value instanceof File) {
+    //      //console.log(File.name);
+    //      newCustomerData.append(key, (value));
+    //    } else {
+    //      newCustomerData.append(key, String(value));
+    //    }
+    //  }
+    //});
 
-    console.log("🎯 RAW FORM DATA:", newCustomerData);
+    console.log("🎯 RAW FORM DATA:", customerData);
 
-    createCustomersMutation.mutate(newCustomerData);
+    createCustomersMutation.mutate(customerData);
   };
 
 
@@ -204,8 +210,14 @@ function CustomerManagement() {
     if (!customerData.id_file) {
       delete customerData.id_file;
     }
+    if (!customerData.control_account?.account_code) {
+      delete customerData.control_account;
+    }
     if (!customerData.taxpayers_qr_code) {
       delete customerData.taxpayers_qr_code;
+    }
+    if (!customerData.preferred_currency?.currency_code) {
+      delete customerData.preferred_currency;
     }
     
     updateCustomersMutation.mutate({

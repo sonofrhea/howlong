@@ -84,7 +84,7 @@ export type CustomerInputs = {
     account_code?: number;
     account_name?: string;
     account_type?: string;
-  };
+  } | null;
   address: string | null;
   country: string | null;
   post_code: string | null;
@@ -96,14 +96,14 @@ export type CustomerInputs = {
   email: string;
   id_type: typeof ID_TYPE_CHOICES[number]['value'] | null;
   id_file?: File | null;
-  preferred_currency: {
-    currency_code: string | null;
-    currency_name: string | null;
-    currency_symbol: string | null;
-    country: string | null;
-    buy: number | null;
-    sell: number | null;
-  };
+  preferred_currency?: {
+    currency_code?: string | null;
+    currency_name?: string | null;
+    currency_symbol?: string | null;
+    country?: string | null;
+    buy?: number | null;
+    sell?: number | null;
+  } | null;
   gst_number: string | null;
   tax_id_type: typeof TAX_ID_CHOICES[number]['value'] | null;
   tax_number: string | null;

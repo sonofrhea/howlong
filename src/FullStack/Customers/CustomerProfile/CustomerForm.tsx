@@ -15,7 +15,7 @@ import { ID_TYPE_CHOICES,
   COUNTRY_OPTIONS,
   //BOOLEAN_OPTIONS,
  } from "../constants/Options"; 
-import { controlAccountHandler, currencyHandler } from "../../handlers";
+import { controlAccountHandler, currencyHandler, customerControlAccountHandler } from "../../handlers";
 
 
 
@@ -38,7 +38,7 @@ const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack,
 
 
 
-const controlAccountChange = controlAccountHandler(accounts, setValue);
+const controlAccountChange = customerControlAccountHandler(accounts, setValue);
 const currencyChange = currencyHandler(currencies, setValue);
 
 
@@ -270,6 +270,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                         onChange={currencyChange}
                                         className="w-full text-black rounded-lg border cursor-pointer border-gray-300 px-3 py-2" 
                                     >
+                                        <select value="">Select currency...</select>
                                         {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                             <option key={currency.currency_code} value={currency.currency_code} >
                                                 {currency.currency_code} - {currency.country}
