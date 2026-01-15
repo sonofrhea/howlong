@@ -18,7 +18,7 @@ import { fetchCustomers } from "../../Customers/Engines"
 import PaymentVoucherDetails from "./PaymentVoucherDetails";
 import PaymentVoucherForm from "./PaymentVoucherForm";
 import PaymentVoucherTable from "./PaymentVoucherTable";
-//import PaymentVoucherEdit from "./PaymentVoucherEdit";
+import PaymentVoucherEdit from "./PaymentVoucherEdit";
 
 
 import { EditPaymentVoucher, PaymentVoucherInputs } from "../Constants/Types";
@@ -501,8 +501,12 @@ function PaymentVoucherManagement() {
                 paymentVoucher={selectedPaymentVoucher}
                 onSubmit={handleUpdatePaymentVoucher}
                 isSubmitting={updatePaymentVoucherMutation.isPending}
-                onBack={handleBackToPaymentVouchersList}
                 onCancel={handleBackToPaymentVouchersList}
+                suppliers={suppliers}
+                currencies={currencies}
+                accounts={accounts}
+                agents={agents}
+                projects={projects}
                 />
             )}
             </div>

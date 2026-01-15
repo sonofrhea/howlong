@@ -20,7 +20,7 @@ import { spinningStyles } from "../Constants/Styles";
 import CashBookDetails from "./CashBookDetails";
 import CashBookForm from "./CashBookForm";
 import CashBookTable from "./CashBookTable";
-//import CashBookEdit from "./CashBookEdit";
+import CashBookEdit from "./CashBookEdit";
 
 
 
@@ -496,8 +496,10 @@ function CashBookManagement() {
                 cashBook={selectedCashBook}
                 onSubmit={handleUpdateCashBook}
                 isSubmitting={updateCashBookMutation.isPending}
-                onBack={handleBackToCashBooksList}
                 onCancel={handleBackToCashBooksList}
+                currencies={currencies}
+                accounts={accounts}
+                agents={agents}
                 />
             )}
             </div>

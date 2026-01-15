@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { ACCOUNTING_ICONS } from "./ModuleIcons";
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
+import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
+import { ProjectProfileResponse } from "../../Projects/constants/Types";
+import { CustomerCreateResponse } from "../../Customers/constants/Types";
 
 
 
@@ -38,6 +43,7 @@ export type JournalEntryList = {
 };
 
 export type JournalHeaderInputs = {
+    journal_number: number;
     date: string;
     description: string;
     journal_entries: Array<{
@@ -72,6 +78,13 @@ export type EditJournalHeaderInputs = {
     journalEntryData: JournalHeaderInputs;
 };
 
+export type JournalHeaderProps = {
+    journalEntry: JournalHeaderInputs;
+    onSubmit: (data: JournalHeaderInputs) => void;
+    isSubmitting: boolean;
+    onCancel?: () => void;
+    accounts: ControlAccountInterface[];
+};
 
 
 // -------- END ----------- JOURNAL INPUT ----------------
@@ -96,6 +109,7 @@ export type IncomeAndExpensesList = {
 };
 
 export type IncomeAndExpensesInputs = {
+    reference_number: number;
     date: string;
     account: {
         account_code: number;
@@ -125,6 +139,15 @@ export type EditIncomeAndExpenses = {
     incomeAndExpensesData: IncomeAndExpensesInputs;
 };
 
+export type IncomeAndExpensesProps = {
+    incomeAndExpense: IncomeAndExpensesInputs;
+    onSubmit: (data: IncomeAndExpensesInputs) => void;
+    isSubmitting: boolean;
+    onCancel?: () => void;
+    currencies: CurrencyInterface[];
+    accounts: ControlAccountInterface[];
+};
+
 
 // -------- END ----------- INCOME AND EXPENSES ----------------
 /////////////////////////////////////////////////////////////////////////////////////
@@ -148,6 +171,7 @@ export type PaymentVoucherList = {
 };
 
 export type PaymentVoucherInputs = {
+    reference_number: number;
     date: string;
     payment_to: string;
     account_paid_by?: {
@@ -187,6 +211,18 @@ export type EditPaymentVoucher = {
     paymentVoucherData: PaymentVoucherInputs;
 };
 
+export type PaymentVoucherProps = {
+    paymentVoucher: PaymentVoucherInputs;
+    onSubmit: (data: PaymentVoucherInputs) => void;
+    isSubmitting: boolean;
+    onCancel?: () => void;
+    currencies: CurrencyInterface[];
+    accounts: ControlAccountInterface[];
+    suppliers: SupplierProfileResponse[];
+    agents: AgentInterface[];
+    projects: ProjectProfileResponse[];
+};
+
 
 
 // -------- END ----------- PAYMENT VOUCHER ----------------
@@ -211,30 +247,31 @@ export type ReceiptVoucherList = {
 };
 
 export type ReceiptVoucherInputs = {
-  date: string;
-  received_from: string;
-  account_received_in?: {
+    reference_number: number;
+    date: string;
+    received_from: string;
+    account_received_in?: {
     account_code?: number;
     account_name?: string;
     account_type?: string;
-  } | null;
-  description: string;
-  project: string;
-  receipt_voucher_lines: Array<{
-      description: string;
-      gst_number: string;
-      amount: number;
-      special_treatment: boolean;
-      treatment_amount: number;
-      tax_inclusive: boolean;
-      tax: number;
-      cancelled: boolean;
-  }>
-  currency: string;
-  tax_inclusive: boolean;
-  tax: number;
-  cancelled: boolean;
-  agent: string;
+    } | null;
+    description: string;
+    project: string;
+    receipt_voucher_lines: Array<{
+        description: string;
+        gst_number: string;
+        amount: number;
+        special_treatment: boolean;
+        treatment_amount: number;
+        tax_inclusive: boolean;
+        tax: number;
+        cancelled: boolean;
+    }>
+    currency: string;
+    tax_inclusive: boolean;
+    tax: number;
+    cancelled: boolean;
+    agent: string;
 };
 
 
@@ -251,6 +288,18 @@ export type AllReceiptVoucherInputs = {
 export type EditReceiptVoucher = {
     receiptVoucherId: number;
     receiptVoucherData: ReceiptVoucherInputs;
+};
+
+export type ReceiptVoucherProps = {
+    receiptVoucher: ReceiptVoucherInputs;
+    onSubmit: (data: ReceiptVoucherInputs) => void;
+    isSubmitting: boolean;
+    onCancel?: () => void;
+    currencies: CurrencyInterface[];
+    accounts: ControlAccountInterface[];
+    customers: CustomerCreateResponse[];
+    agents: AgentInterface[];
+    projects: ProjectProfileResponse[];
 };
 
 
@@ -277,19 +326,20 @@ export type CashBookList = {
 };
 
 export type CashBookInputs = {
-  date: string;
-  payment_to_or_from: string;
-  description: string;
-  account?: {
+    reference_number: number;
+    date: string;
+    payment_to_or_from: string;
+    description: string;
+    account?: {
     account_code?: number;
     account_name?: string;
     account_type?: string;
-  } | null;
-  transaction_type: string;
-  currency: string;
-  net_debit: number;
-  net_credit: number;
-  remark: string;
+    } | null;
+    transaction_type: string;
+    currency: string;
+    net_debit: number;
+    net_credit: number;
+    remark: string;
 };
 
 
@@ -306,4 +356,14 @@ export type AllCashBookInputs = {
 export type EditCashBook = {
     cashBookId: number;
     cashBookData: CashBookInputs;
+};
+
+export type CashBookProps = {
+    cashBook: CashBookInputs;
+    onSubmit: (data: CashBookInputs) => void;
+    isSubmitting: boolean;
+    onCancel?: () => void;
+    currencies: CurrencyInterface[];
+    accounts: ControlAccountInterface[];
+    agents: AgentInterface[];
 };

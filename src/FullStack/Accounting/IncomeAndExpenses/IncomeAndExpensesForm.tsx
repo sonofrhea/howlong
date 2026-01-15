@@ -228,7 +228,7 @@ const onAccountChange = incomeExpensesAccountHandler(accounts, setValue)
                     {isSubmitting ? (
                         <span className="flex items-center gap-2">
                             <div className={utils.spinner}></div>
-                            Creating Transaction
+                            Creating Transaction...
                         </span>
                     ) : (
                         'Create Transaction'

@@ -20,6 +20,7 @@ import { spinningStyles } from "../Constants/Styles";
 import JournalEntryTable from "./JournalEntryTable";
 import JournalEntryForm from "./JournalEntryForm";
 import JournalEntryDetails from "./JournalEntryDetails";
+import JournalEntryEdit from "./JournalEntryEdit";
 
 
 
@@ -460,8 +461,8 @@ function JournalEntryManagement() {
                 journalEntry={selectedJournalEntry}
                 onSubmit={handleUpdateJournalEntry}
                 isSubmitting={updateJournalEntryMutation.isPending}
-                onBack={handleBackToJournalEntriesList}
                 onCancel={handleBackToJournalEntriesList}
+                accounts={accounts}
             />
             )}
         </div>

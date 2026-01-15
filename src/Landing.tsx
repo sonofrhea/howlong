@@ -703,6 +703,7 @@ export default function ConstructionERPLanding() {
                     align-items: center;
                     flex-wrap: wrap;
                     font-family: Helvetica;
+                    letter-spacing: 1px;
                 }
 
                 .cta-group-header .cta-primary {
@@ -716,6 +717,7 @@ export default function ConstructionERPLanding() {
                     transition: all 0.3s;
                     box-shadow: 0 4px 15px rgba(0,102,204,0.25);
                     display: inline-block;
+                    letter-spacing: 1px;
                 }
 
                 .cta-group-header .cta-primary:hover {
@@ -735,6 +737,7 @@ export default function ConstructionERPLanding() {
                     border: 2px solid var(--border-gray);
                     transition: all 0.3s;
                     display: inline-block;
+                    letter-spacing: 1px;
                 }
 
                 .cta-group-header .cta-secondary:hover {
@@ -1133,7 +1136,7 @@ export default function ConstructionERPLanding() {
             </div>
 
             <div className="cta-group">
-            <a href="#" className="cta-primary">Start Free Trial</a>
+            <a href="/register" className="cta-primary">Start Free Trial</a>
             <a href="#" className="cta-secondary">Click For Pricing</a>
             </div>
         </section>

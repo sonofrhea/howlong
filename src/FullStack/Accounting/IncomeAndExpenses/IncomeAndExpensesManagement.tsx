@@ -26,7 +26,7 @@ import { spinningStyles } from "../Constants/Styles";
 import IncomeAndExpensesDetails from "./IncomeAndExpensesDetails";
 import IncomeAndExpensesForm from "./IncomeAndExpensesForm";
 import IncomeAndExpensesTable from "./IncomeAndExpensesTable";
-//import IncomeAndExpensesEdit from "./IncomeAndExpensesEdit";
+import IncomeAndExpensesEdit from "./IncomeAndExpensesEdit";
 
 
 interface SortConfig {

@@ -25,13 +25,6 @@ const decimalPlaces = (amount: number) => {
 
 const JournalEntryForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, accounts }) => {
 
-    const onAccountSelect = useMemo(() => 
-        accounts.map((account: ControlAccountInterface) => (
-            <option key={account.account_code} value={account.account_code}>
-                {account.account_code} | {account.account_name}
-            </option>
-    )), [accounts])
-
 
 
     const { register, handleSubmit, watch, setValue, control, 
@@ -155,6 +148,14 @@ const JournalEntryForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, acc
                             </thead>
                             <tbody className={tables.body}>
                                 {fields.length > 0 ? fields.map((field, index) => {
+                                    
+                                    const onAccountSelect = useMemo(() => 
+                                        accounts.map((account: ControlAccountInterface) => (
+                                            <option key={account.account_code} value={account.account_code}>
+                                                {account.account_code} | {account.account_name}
+                                            </option>
+                                    )), [accounts])
+
                                     const onAccountChange = journalEntryAccountHandler(accounts, setValue, index);
 
                                     return(

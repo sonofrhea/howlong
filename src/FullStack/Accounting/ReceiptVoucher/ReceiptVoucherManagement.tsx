@@ -23,7 +23,7 @@ import { spinningStyles } from "../Constants/Styles";
 import ReceiptVoucherDetails from "./ReceiptVoucherDetails";
 import ReceiptVoucherForm from "./ReceiptVoucherForm";
 import ReceiptVoucherTable from "./ReceiptVoucherTable";
-//import ReceiptVoucherEdit from "./ReceiptVoucherEdit";
+import ReceiptVoucherEdit from "./ReceiptVoucherEdit";
 
 
 interface SortConfig {
@@ -500,8 +500,12 @@ function ReceiptVoucherManagement() {
                 receiptVoucher={selectedReceiptVoucher}
                 onSubmit={handleUpdateReceiptVoucher}
                 isSubmitting={updateReceiptVoucherMutation.isPending}
-                onBack={handleBackToReceiptVouchersList}
                 onCancel={handleBackToReceiptVouchersList}
+                customers={customers}
+                currencies={currencies}
+                accounts={accounts}
+                agents={agents}
+                projects={projects}
                 />
             )}
             </div>

@@ -262,7 +262,7 @@ const onAccountChange = cashBookAccountHandler(accounts, setValue);
                     {isSubmitting ? (
                         <span className="flex items-center gap-2">
                             <div className={utils.spinner}></div>
-                            Creating Cash Transaction
+                            Creating Cash Transaction...
                         </span>
                     ) : (
                         'Create Cash Transaction'

@@ -413,7 +413,7 @@ const onAccountChange = paymentVoucherAccountHandler(accounts, setValue);
             </div>
         </form>
     );
-    };
-    export default PaymentVoucherForm;
+};
+export default PaymentVoucherForm;
 
 
