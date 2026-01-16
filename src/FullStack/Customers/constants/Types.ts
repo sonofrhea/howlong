@@ -80,11 +80,6 @@ export type CustomerInputs = {
   customer_number: number;
   customer_name: string | null;
   company_name: string | null;
-  control_account?: {
-    account_code?: number;
-    account_name?: string;
-    account_type?: string;
-  } | null;
   address: string | null;
   country: string | null;
   post_code: string | null;
@@ -141,10 +136,8 @@ export type CustomerProps = {
   customer: CustomerInputs;
   onSubmit: (data: CustomerInputs) => void;
   isSubmitting: boolean;
-  onBack?: () => void;
   onCancel?: () => void;
   currencies: CurrencyInterface[];
-  accounts: ControlAccountInterface[];
   banks: BankInterface[];
 };
 

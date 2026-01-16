@@ -16,7 +16,7 @@ import { fetchCustomers } from "../../Customers/Engines"
 import QuotationDetails from "./QuotationDetails";
 import QuotationForm from "./QuotationForm";
 import QuotationTable from "./QuotationTable";
-//import QuotationEdit from "./QuotationEdit";
+import QuotationEdit from "./QuotationEdit";
 
 
 import { QuotationInputs, QuotationCreateResponse, 
@@ -81,20 +81,11 @@ function QuotationManagement() {
         queryFn: fetchCurrencies
     });
 
-    const { data: accounts = [] } = useQuery({
-        queryKey: ['accounts'],
-        queryFn: fetchChartOfAccounts
-    });
-
     const { data: agents = [] } = useQuery({
         queryKey: ['agents'],
         queryFn: fetchAgents
     });
 
-    const { data: invoices = [] } = useQuery({
-        queryKey: ['invoices'],
-        queryFn: fetchInvoices
-    });
 
     const { data: productItems = [] } = useQuery({
         queryKey: ['productItems'],
@@ -253,7 +244,7 @@ function QuotationManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditQuotation = ({quotationId, quotationData}: EditQuotationInputs) => {
+    const handleEditQuotation = (quotationId: number) => {
         setSelectedQuotationId(quotationId);
         setView('edit');
     };
@@ -519,9 +510,7 @@ function QuotationManagement() {
                     onCancel={handleBackToQuotationsList}
                     customers={customers}
                     currencies={currencies}
-                    accounts={accounts}
                     agents={agents}
-                    invoices={invoices}
                     productItems={productItems}
                     />
                     {createQuotationMutation.isError && (
@@ -547,8 +536,11 @@ function QuotationManagement() {
                 quotation={selectedQuotation}
                 onSubmit={handleUpdateQuotation}
                 isSubmitting={updateQuotationMutation.isPending}
-                onBack={handleBackToQuotationsList}
                 onCancel={handleBackToQuotationsList}
+                customers={customers}
+                currencies={currencies}
+                agents={agents}
+                productItems={productItems}
                 />
             )}
             </div>

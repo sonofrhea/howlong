@@ -195,7 +195,7 @@ const SupplierInvoiceTable: React.FC<any> = ({ supplierInvoices, onSupplierInvoi
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    onDeleteSupplierInvoice(supplierInvoiceId, supplierInvoice);
+                                                    onEditSupplierInvoice(supplierInvoiceId, supplierInvoice);
                                                 }}
                                                 title="Edit Supplier Invoice"
                                             >

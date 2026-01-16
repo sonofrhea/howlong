@@ -97,20 +97,12 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
             {/* Content */}
             <div className="p-6 space-y-6">
                 {/* Key Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div className="bg-orange-50 text-center rounded-lg p-6 border border-orange-300 hover:shadow-2xl hover:cursor-pointer hover:border-orange-600">
                         <h4 className="text-sm text-blue-600 font-medium">Customer Number</h4>
 
                         <div className="text-lg font-semibold text-black">
                             {formatNumber()}{customer.customer_number}
-                        </div>
-                    </div>
-
-                    <div className="bg-green-50 text-center border border-green-300 hover:border-green-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
-                        <h4 className="text-sm text-green-600 font-medium">Control Account</h4>
-
-                        <div className="text-lg font-semibold text-black">
-                            {customer.control_account?.account_code || "N/A"} - {customer.control_account?.account_name || "N/A"} - {customer.control_account?.account_type || "N/A"}
                         </div>
                     </div>
 

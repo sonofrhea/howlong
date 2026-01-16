@@ -1,4 +1,5 @@
 import React from "react";
+import { labelStyles, layout, text } from "../Constants/Styles";
 
 
 const formatNumber = () => {
@@ -47,6 +48,15 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
                     <div>
                         <h1 className="text-2xl font-bold text-gray-800 tracking-wide">CUSTOMER PAYMENT</h1>
                         <p className="text-sm text-gray-500 mt-1">Official Record of Payment Already Posted</p>
+
+                        <div className={layout.badge}>
+                            <p className={text.badgeLarge}>
+                                PAYMENT DETAILS
+                            </p>
+                            <p className={labelStyles}>
+                                POST-{customerPayment.payment_number}
+                            </p>
+                        </div>
                     </div>
 
                     <div className="flex gap-3">

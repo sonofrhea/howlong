@@ -20,7 +20,7 @@ import { fetchProductItems } from "../../Products/Engines";
 import InvoiceDetails from "./InvoiceDetails";
 import InvoiceForm from "./InvoiceForm";
 import InvoiceTable from "./InvoiceTable";
-//import InvoiceEdit from "./InvoiceEdit";
+import InvoiceEdit from "./InvoiceEdit";
 
 
 import { InvoiceInputs, InvoiceCreateResponse, 
@@ -233,7 +233,7 @@ function InvoiceManagement() {
     // -------------------------EDIT-----------------------------------------------------------
 
 
-    const handleEditInvoice = ({invoiceId, invoiceData}: EditInvoiceInputs) => {
+    const handleEditInvoice = (invoiceId: number) => {
         setSelectedInvoiceId(invoiceId);
         setView('edit');
     };
@@ -500,9 +500,7 @@ function InvoiceManagement() {
                     onCancel={handleBackToInvoicesList}
                     customers={customers}
                     currencies={currencies}
-                    accounts={accounts}
                     agents={agents}
-                    invoices={invoices}
                     projects={projects}
                     productItems={productItems}
                     />
@@ -529,8 +527,12 @@ function InvoiceManagement() {
                 invoice={selectedInvoice}
                 onSubmit={handleUpdateInvoice}
                 isSubmitting={updateInvoiceMutation.isPending}
-                onBack={handleBackToInvoicesList}
                 onCancel={handleBackToInvoicesList}
+                customers={customers}
+                currencies={currencies}
+                agents={agents}
+                projects={projects}
+                productItems={productItems}
                 />
             )}
             </div>

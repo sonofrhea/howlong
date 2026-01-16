@@ -107,7 +107,7 @@ export const createSupplierInvoice = async (supplierInvoiceData: SupplierInvoice
 };
 
 export const updateSupplierInvoice = async ({invoice_number, supplierInvoiceData}: allSupplierInvoiceInputs) => {
-    const response = await apiClient.put(`/suppliers/supplierinvoices/${invoice_number}`, supplierInvoiceData);
+    const response = await apiClient.put(`/suppliers/supplierinvoices/${invoice_number}/`, supplierInvoiceData);
     return response.data;
 };
 

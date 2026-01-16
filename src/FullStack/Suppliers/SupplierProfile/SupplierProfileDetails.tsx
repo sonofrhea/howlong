@@ -99,7 +99,7 @@ const SupplierProfileDetails: React.FC<any> = ({ supplierProfile, isLoading, onB
             {/* Content */}
             <div className="p-6 space-y-6">
                 {/* Key Information */}
-                <div className="grid grid-cols-6 md:grid-cols-6 lg:grid-cols-6 gap-6">
+                <div className="grid grid-cols-5 md:grid-cols-5 lg:grid-cols-5 gap-5">
                     <div className="bg-blue-50 text-center rounded-lg p-6 border border-blue-300 hover:shadow-2xl hover:cursor-pointer hover:border-blue-600">
                         <h4 className="text-sm text-blue-900 font-medium">Supplier Code</h4>
 
@@ -121,14 +121,6 @@ const SupplierProfileDetails: React.FC<any> = ({ supplierProfile, isLoading, onB
 
                         <div className="text-lg font-bold text-black">
                             {supplierProfile?.category || 'N/A'}
-                        </div>
-                    </div>
-
-                    <div className="bg-green-50 text-center border border-green-300 hover:border-green-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
-                        <h4 className="text-sm text-green-800 font-medium">Control Account</h4>
-
-                        <div className="text-lg font-semibold text-black">
-                            {supplierProfile.control_account?.account_code || "N/A"} - {supplierProfile.control_account?.account_name || "N/A"} - {supplierProfile.control_account?.account_type || "N/A"}
                         </div>
                     </div>
 

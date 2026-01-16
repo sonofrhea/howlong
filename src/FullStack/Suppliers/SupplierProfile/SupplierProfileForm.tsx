@@ -19,7 +19,7 @@ import { SupplierCategoryResponse, SupplierProfileInputs } from "../constants/Ty
 
 
 const SupplierProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
-    supplierCategories, currencies, accounts, agents, banks }) => {
+    supplierCategories, currencies, agents, banks }) => {
 
         const { register, handleSubmit, setValue, 
             formState: { errors } } = useForm<SupplierProfileInputs>({
@@ -30,7 +30,6 @@ const SupplierProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel,
     
 
     
-const controlAccountChange = controlAccountHandler(accounts, setValue);
 const currencyChange = currencyHandler(currencies, setValue);
 
 
@@ -132,26 +131,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                     </div>
                     
                     <div className="bg-orange-50 rounded-lg p-6 border border-orange-200">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Contact Information</h3>
+                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Additional Information</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <div>
-                                <div className="text-sm text-black font-medium mb-1">Control Account</div>
-                                <select 
-                                    {...register("control_account.account_code")}
-                                    onChange={controlAccountChange}
-                                    className="w-full text-black rounded-lg border border-gray-300 cursor-pointer px-3 py-2 focus:ring-2 focus:ring-green-300"
-                                >
-                                    <option value="">select...</option>
-                                    {useMemo(() => accounts.map((account: ControlAccountInterface) => (
-                                        <option key={account.account_code} value={account.account_code}>
-                                            {account.account_code} ({account.account_name})
-                                        </option>
-                                    )), [accounts])}
-                                </select>
-
-                                <input type="hidden" {...register("control_account.account_name")} />
-                                <input type="hidden" {...register("control_account.account_type")} />
-                            </div>
                         
                             <div>
                                 <div className="text-sm text-black mb-1">Currency</div>

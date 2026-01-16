@@ -36,12 +36,12 @@ export const createProductGroup = async (productGroupData: ProductGroupInputs) =
 };
 
 export const putUpdateProductGroup = async ({group_code, productGroupData}: AllProductGroupInputs) => {
-    const response = await apiClient.put(`/products/productgroup//${group_code}`, productGroupData);
+    const response = await apiClient.put(`/products/productgroup//${group_code}/`, productGroupData);
     return response.data;
 };
 
 export const patchUpdateProductGroup = async ({group_code, productGroupData}: AllProductGroupInputs) => {
-    const response = await apiClient.patch(`/products/productgroup/${group_code}`, productGroupData);
+    const response = await apiClient.patch(`/products/productgroup/${group_code}/`, productGroupData);
     return response.data;
 };
 
@@ -76,12 +76,12 @@ export const createProductItem = async (productItemData: ProductItemInputs | For
 };
 
 export const putUpdateProductItem = async ({item_code, productItemData}: AllProductItemInputs) => {
-    const response = await apiClient.put(`/products/productitem/${item_code}`, productItemData);
+    const response = await apiClient.put(`/products/productitem/${item_code}/`, productItemData);
     return response.data;
 };
 
 export const patchUpdateProductItem = async ({item_code, productItemData}: AllProductItemInputs) => {
-    const response = await apiClient.patch(`/products/productitem/${item_code}`, productItemData);
+    const response = await apiClient.patch(`/products/productitem/${item_code}/`, productItemData);
     return response.data;
 };
 

@@ -56,11 +56,6 @@ function SupplierProfileManagement() {
         queryFn: fetchCurrencies
     });
 
-    const { data: accounts = [] } = useQuery({
-        queryKey: ['accounts'],
-        queryFn: fetchChartOfAccounts
-    });
-
     const { data: agents = [] } = useQuery({
         queryKey: ['agents'],
         queryFn: fetchAgents
@@ -481,7 +476,6 @@ function SupplierProfileManagement() {
                     onCancel={handleBackToSupplierProfilesList}
                     supplierCategories={supplierCategories}
                     currencies={currencies}
-                    accounts={accounts}
                     agents={agents}
                     banks={banks}
                     />
@@ -508,11 +502,9 @@ function SupplierProfileManagement() {
                 supplierProfile={selectedSupplierProfile}
                 onSubmit={handleUpdateSupplierProfile}
                 isSubmitting={updateSupplierProfileMutation.isPending}
-                onBack={handleBackToSupplierProfilesList}
                 onCancel={handleBackToSupplierProfilesList}
                 supplierCategories={supplierCategories}
                 currencies={currencies}
-                accounts={accounts}
                 agents={agents}
                 banks={banks}
                 />

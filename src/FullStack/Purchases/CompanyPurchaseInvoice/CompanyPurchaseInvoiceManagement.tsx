@@ -25,7 +25,7 @@ import { CompanyPurchaseInvoiceInputs, CompanyPurchaseInvoiceResponse,
 import CompanyPurchaseInvoiceDetails from "./CompanyPurchaseInvoiceDetails";
 import CompanyPurchaseInvoiceForm from "./CompanyPurchaseInvoiceForm";
 import CompanyPurchaseInvoiceTable from "./CompanyPurchaseInvoiceTable";
-//import CompanyPurchaseInvoiceEdit from "./CompanyPurchaseInvoiceEdit";
+import CompanyPurchaseInvoiceEdit from "./CompanyPurchaseInvoiceEdit";
 
 
 interface SortConfig {
@@ -187,7 +187,7 @@ function CompanyPurchaseInvoiceManagement() {
 
 
 
-    const handleUpdateCompanyPurchaseInvoice = (companyPurchaseInvoiceData: AllCompanyPurchaseInvoiceInputs) => {
+    const handleUpdateCompanyPurchaseInvoice = (companyPurchaseInvoiceData: CompanyPurchaseInvoiceInputs) => {
         updateCompanyPurchaseInvoiceMutation.mutate({
         purchase_invoice_number: selectedCompanyPurchaseInvoiceId!,
         companyPurchaseInvoiceData: companyPurchaseInvoiceData
@@ -213,8 +213,7 @@ function CompanyPurchaseInvoiceManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditCompanyPurchaseInvoice = (
-        {companyPurchaseInvoiceId, companyPurchaseInvoiceData}: EditCompanyPurchaseInvoiceInputs) => {
+    const handleEditCompanyPurchaseInvoice = (companyPurchaseInvoiceId: number) => {
         setSelectedCompanyPurchaseInvoiceId(companyPurchaseInvoiceId!);
         setView('edit');
     };
@@ -497,8 +496,10 @@ function CompanyPurchaseInvoiceManagement() {
                     companyPurchaseInvoice={selectedCompanyPurchaseInvoice}
                     onSubmit={handleUpdateCompanyPurchaseInvoice}
                     isSubmitting={updateCompanyPurchaseInvoiceMutation.isPending}
-                    onBack={handleBackToCompanyPurchaseInvoicesList}
                     onCancel={handleBackToCompanyPurchaseInvoicesList}
+                    agents={agents}
+                    products={products}
+                    suppliers={suppliers}
                 />
                 )}
             </div>

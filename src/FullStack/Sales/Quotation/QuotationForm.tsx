@@ -29,14 +29,7 @@ const decimalPlaces = (amount: number) => {
 
 
 const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
-    currencies, accounts, agents, invoices, productItems }) => {
-
-        const productOptions = useMemo(() => 
-            productItems.map((product: ProductItemCreateResponse) => (
-            <option key={product.item_code} value={product.item_code}>
-                SKU-{product.item_code} | {product.item_description}
-            </option>
-        )), [productItems])
+    currencies, agents, productItems }) => {
         
         const { register, handleSubmit, watch, setValue,
              control, formState: { errors } } = useForm<QuotationInputs>({
@@ -210,135 +203,143 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                 </thead>
 
                                 <tbody className={tables.body}>
-                                    {fields.map((field, index) => (
-                                        <tr key={field.id} className={tables.row}>
-                                            <td>
-                                                <select
-                                                    {...register(`related_quotation.${index}.item`)}
-                                                    className={forms.select.full}
-                                                >
-                                                    <option value="">select...</option>
-                                                    {productOptions}
-                                                </select>
-                                            </td>
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_quotation.${index}.description`)}
-                                                    className={tables.text}
-                                                />
-                                            </td>
-                                            <td className={text.numbers}>
-                                                <input 
-                                                    {...register(`related_quotation.${index}.quantity`)}
-                                                    type="number"
-                                                    className={forms.input.number}
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }} 
-                                                />
-                                            </td>
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_quotation.${index}.unit_of_measure`)}
-                                                    className={tables.text}
-                                                />
-                                            </td>
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_quotation.${index}.price_per_unit`)}
-                                                    type="number"
-                                                    className={forms.input.number}
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}
-                                                />
-                                            </td>
-                                            <td className={tables.cell}>
-                                                <select
-                                                    {...register(`related_quotation.${index}.currency`)}
-                                                    className={forms.select.full}
-                                                >
-                                                    <option value="">select...</option>
-                                                    {currencies.map((currency: CurrencyInterface) => (
-                                                        <option key={currency.currency_code} value={currency.currency_code}>
-                                                            {currency.currency_code}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </td>
-                                            <td className={tables.autoCalculate}>
-                                                {decimalPlaces(
-                                                    (watch(`related_quotation.${index}.quantity`) || 0.00) *
-                                                    (watch(`related_quotation.${index}.price_per_unit`) || 0.00)
-                                                )}
+                                    {fields.map((field, index) => {
+
+                                        const quantity = watch(`related_quotation.${index}.quantity`) || 0.00;
+                                        const price_per_unit = watch(`related_quotation.${index}.price_per_unit`) || 0.00;
+                                        let tax_amount = watch(`related_quotation.${index}.tax_amount`) || 0.00;
+                                        const tax_inclusive = watch(`related_quotation.${index}.tax_inclusive`) || false;
+
+                                        let total = quantity * price_per_unit;
+
+                                        if (!tax_inclusive) {
+                                            tax_amount = 0.00;
+                                        }
+
+                                        total *= 1 + (tax_amount / 100);
+
+                                        const productOptions = useMemo(() => 
+                                            productItems.map((product: ProductItemCreateResponse) => (
+                                            <option key={product.item_code} value={product.item_code}>
+                                                SKU-{product.item_code} | {product.item_description}
+                                            </option>
+                                        )), [productItems])
+
+                                        return(
+                                            <tr key={field.id} className={tables.row}>
+                                                <td>
+                                                    <select
+                                                        {...register(`related_quotation.${index}.item`)}
+                                                        className={forms.select.full}
+                                                    >
+                                                        <option value="">select...</option>
+                                                        {productOptions}
+                                                    </select>
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_quotation.${index}.description`)}
+                                                        className={tables.text}
+                                                    />
+                                                </td>
+                                                <td className={text.numbers}>
+                                                    <input 
+                                                        {...register(`related_quotation.${index}.quantity`)}
+                                                        type="number"
+                                                        className={forms.input.number}
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            }
+                                                        }} 
+                                                    />
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_quotation.${index}.unit_of_measure`)}
+                                                        className={tables.text}
+                                                    />
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_quotation.${index}.price_per_unit`)}
+                                                        type="number"
+                                                        className={forms.input.number}
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            }
+                                                        }}
+                                                    />
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    <select
+                                                        {...register(`related_quotation.${index}.currency`)}
+                                                        className={forms.select.full}
+                                                    >
+                                                        <option value="">select...</option>
+                                                        {currencies.map((currency: CurrencyInterface) => (
+                                                            <option key={currency.currency_code} value={currency.currency_code}>
+                                                                {currency.currency_code}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(
+                                                        (watch(`related_quotation.${index}.quantity`) || 0.00) *
+                                                        (watch(`related_quotation.${index}.price_per_unit`) || 0.00)
+                                                    )}
+                                                    
+                                                </td>
                                                 
-                                            </td>
-                                            
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    type="checkbox"
-                                                    {...register(`related_quotation.${index}.tax_inclusive`)}
-                                                    className="text-black cursor-pointer"
-                                                />
-                                            </td>
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        type="checkbox"
+                                                        {...register(`related_quotation.${index}.tax_inclusive`)}
+                                                        className="text-black cursor-pointer"
+                                                    />
+                                                </td>
 
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_quotation.${index}.tax_amount`)}
-                                                    type="number"
-                                                    className={forms.input.number}
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}
-                                                />
-                                            </td>
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_quotation.${index}.tax_amount`)}
+                                                        type="number"
+                                                        className={forms.input.number}
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            }
+                                                        }}
+                                                    />
+                                                </td>
 
-                                            <td className={tables.autoCalculate}>
-                                                {(() => {
-                                                    const quantity = watch(`related_quotation.${index}.quantity`) || 0.00;
-                                                    const price_per_unit = watch(`related_quotation.${index}.price_per_unit`) || 0.00;
-                                                    let tax_amount = watch(`related_quotation.${index}.tax_amount`) || 0.00;
-                                                    const tax_inclusive = watch(`related_quotation.${index}.tax_inclusive`) || false;
-
-                                                    let total = quantity * price_per_unit;
-
-                                                    if (!tax_inclusive) {
-                                                        tax_amount = 0.00;
-                                                    }
-
-                                                    total *= 1 + (tax_amount / 100);
-
-                                                    return decimalPlaces(total);
-                                                })()}
-                                            </td>
-                                            
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    type="checkbox"
-                                                    {...register(`related_quotation.${index}.cancelled`)}
-                                                    className="text-black cursor-pointer"
-                                                />
-                                            </td>
-                                            <td>
-                                                <button
-                                                    type="button"
-                                                    title="remove"
-                                                    onClick={() => remove(index)}
-                                                >
-                                                    <Trash2 size={20} color="#000000" strokeWidth={1} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(total)}
+                                                </td>
+                                                
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        type="checkbox"
+                                                        {...register(`related_quotation.${index}.cancelled`)}
+                                                        className="text-black cursor-pointer"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        title="remove"
+                                                        onClick={() => remove(index)}
+                                                    >
+                                                        <Trash2 size={20} color="#000000" strokeWidth={1} />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                     <tr>
                                         <td className={tables.headerCell}>
                                             <button

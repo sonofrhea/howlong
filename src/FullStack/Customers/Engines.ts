@@ -51,7 +51,11 @@ export const createCustomer = async (customerData: CustomerInputs | FormData) =>
 };
 
 export const updateCustomer = async ({ customer_number, customerData }: AllCustomerInputs) => {
-  const response = await apiClient.put(`/customers/customerprofile/${customer_number}/`, customerData);
+  const response = await apiClient.put(`/customers/customerprofile/${customer_number}/`, customerData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };
 

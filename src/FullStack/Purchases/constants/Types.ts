@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import { PURCHASES_ICONS } from "./ModuleIcons";
 
 import { PURCHASE_INVOICE_STATUS, PURCHASE_ORDER_STATUS } from "./options";
+import { AgentInterface } from "../../Core/constants/Types";
+import { ProductItemCreateResponse } from "../../Products/constants/Types";
+import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 
 
 export interface PurchaseModulesInterface {
@@ -34,6 +38,7 @@ export interface PurchaseModulesInterface {
 // -------- BEGIN ----------- COMPANY PURCHASE INVOICE INPUT ----------------
 
 export type CompanyPurchaseInvoiceInputs = {
+  purchase_invoice_number: number;
   date: string;
   supplier: string;
   supplier_name: string;
@@ -69,7 +74,17 @@ export type AllCompanyPurchaseInvoiceInputs = {
 export type EditCompanyPurchaseInvoiceInputs = {
   companyPurchaseInvoiceId: number;
   companyPurchaseInvoiceData: CompanyPurchaseInvoiceInputs;
-}
+};
+
+export type CompanyPurchaseInvoiceProps = {
+  companyPurchaseInvoice: CompanyPurchaseInvoiceInputs;
+  onSubmit: (data: CompanyPurchaseInvoiceInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  products: ProductItemCreateResponse[];
+  suppliers: SupplierProfileResponse[];
+};
 
 
 // -------- END ----------- COMPANY PURCHASE INVOICE INPUT ----------------
@@ -95,6 +110,7 @@ export type CompanyPurchaseOrderList = {
 }
 
 export type CompanyPurchaseOrderInputs = {
+  purchase_order_number: number;
   date: string;
   supplier: string;
   supplier_name: string;
@@ -137,7 +153,18 @@ export type AllCompanyPurchaseOrderInputs = {
 export type EditCompanyPurchaseOrderInputs = {
   CompanyPurchaseOrderId: number;
   companyPurchaseOrderData: CompanyPurchaseOrderInputs;
-}
+};
+
+export type CompanyPurchaseOrderProps = {
+  companyPurchaseOrder: CompanyPurchaseOrderInputs;
+  onSubmit: (data: CompanyPurchaseOrderInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  supplierProfiles: SupplierProfileResponse[];
+  purchaseInvoices: CompanyPurchaseInvoiceResponse[];
+};
 
 
 // -------- END ----------- COMPANY PURCHASE ORDER INPUT ----------------

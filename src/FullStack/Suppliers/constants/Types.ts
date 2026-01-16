@@ -105,11 +105,6 @@ export type SupplierProfileInputs = {
     buy: number | null;
     sell: number | null;
   };
-  control_account?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
   address: string;
   country: keyof typeof COUNTRY_OPTIONS;
   post_code: string;
@@ -158,13 +153,11 @@ export type SupplierProfileProps = {
   supplierProfile: SupplierProfileInputs;
   onSubmit: (data: SupplierProfileInputs) => void;
   isSubmitting: boolean;
-  onBack?: () => void;
   onCancel?: () => void;
   agents: AgentInterface[];
   supplierCategories: SupplierCategoryResponse[];
   banks: BankInterface[];
   currencies: CurrencyInterface[];
-  accounts: ControlAccountInterface[];
 };
 
 // -------- END ----------- SUPPLIER PROFILE INPUT ----------------

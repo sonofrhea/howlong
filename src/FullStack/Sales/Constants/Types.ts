@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { SALES_ICONS } from "./ModuleIcons";
 
 import { PAYMENT_TYPE_OPTIONS } from "./Options";
+import { CustomerCreateResponse } from "../../Customers/constants/Types";
+import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
+import { ProductItemCreateResponse } from "../../Products/constants/Types";
+import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import { ProjectProfileResponse } from "../../Projects/constants/Types";
 
 
 
@@ -37,6 +42,7 @@ export type QuotationList = {
 }
 
 export type QuotationInputs = {
+  quotation_number: number;
   quotation_date: number; 
   valid_until: number;
   customer: string;
@@ -74,6 +80,17 @@ export type EditQuotationInputs = {
   quotationData: QuotationInputs;
 };
 
+export type QuotationProps = {
+  quotation: QuotationInputs;
+  onSubmit: (data: QuotationInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  customers: CustomerCreateResponse[];
+  currencies: CurrencyInterface[];
+  agents: AgentInterface[];
+  productItems: ProductItemCreateResponse[];
+};
+
 // -------- END ----------- QUOTATIONS INPUT ----------------
 
 
@@ -99,6 +116,7 @@ export type InvoiceList = {
 }
 
 export type InvoiceInputs = {
+  invoice_number: number;
   invoice_date: string;
   invoice_due_date: string;
   customer: string;
@@ -129,6 +147,7 @@ export type InvoiceInputs = {
 
 export type InvoiceCreateResponse = {
   invoice_number: number;
+  net_total: number;
 };
 
 export type AllInvoiceInputs = {
@@ -144,6 +163,18 @@ export type EditInvoiceInputs = {
 export type InvoiceInterface = {
   invoice_number: number;
   net_total: number;
+};
+
+export type InvoiceProps = {
+  invoice: InvoiceInputs;
+  onSubmit: (data: InvoiceInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  customers: CustomerCreateResponse[];
+  currencies: CurrencyInterface[];
+  agents: AgentInterface[];
+  projects: ProjectProfileResponse[];
+  productItems: ProductItemCreateResponse[];
 };
 
 // -------- END ----------- INVOICE INPUT ----------------
@@ -175,6 +206,7 @@ export type CustomerPaymentList = {
 
 
 export type CustomerPaymentInputs = {
+  payment_number: number;
   date: number;
   customer: string;
   customer_name: string;
@@ -211,7 +243,21 @@ export type AllCustomerPaymentInputs = {
 export type EditCustomerPaymentInputs = {
   customerPaymentId: number;
   customerPaymentData: CustomerPaymentInputs;
-}
+};
+
+
+export type CustomerPaymentProps = {
+  customerPayment: CustomerPaymentInputs;
+  onSubmit: (data: CustomerPaymentInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  customers: CustomerCreateResponse[];
+  invoicePayments: InvoicePaymentInterface[];
+  projects: ProjectProfileResponse[];
+};
 
 // -------- END ----------- CUSTOMER PAYMENT INPUT ----------------
 
@@ -237,6 +283,7 @@ export type InvoicePaymentList = {
 };
 
 export type InvoicePaymentInputs = {
+  invoice_payment_code: number;
   date_created: string;
   related_invoice: number;
   related_invoice_details: string;
@@ -286,4 +333,16 @@ export type InvoicePaymentInterface = {
   invoice_payment_code: number;
   net_aggregate_paid: number;
   outstanding_amount: number;
+};
+
+export type InvoicePaymentProps = {
+  invoicePayment: InvoicePaymentInputs;
+  onSubmit: (data: InvoicePaymentInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  invoices: InvoiceCreateResponse[];
+  customers: CustomerCreateResponse[];
 };

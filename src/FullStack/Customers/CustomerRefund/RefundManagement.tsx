@@ -229,7 +229,7 @@ function RefundManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditRefund = ({refundId, refundData}: EditCustomerRefundInputs) => {
+    const handleEditRefund = (refundId: number) => {
         setSelectedRefundId(refundId);
         setView('edit');
     };

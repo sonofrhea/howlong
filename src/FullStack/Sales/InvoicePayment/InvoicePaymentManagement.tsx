@@ -27,7 +27,7 @@ import InvoicePaymentDetails from "./InvoicePaymentDetails";
 import InvoicePaymentForm from "./InvoicePaymentForm";
 import InvoicePaymentTable from "./InvoicePaymentTable";
 import { spinningStyles } from "../Constants/Styles";
-//import InvoicePaymentEdit from "./InvoicePaymentEdit";
+import InvoicePaymentEdit from "./InvoicePaymentEdit";
 
 
 
@@ -238,7 +238,7 @@ function InvoicePaymentManagement() {
 // ------------------------------------------------------------------------------------
 
 
-  const handleEditInvoicePayment = ({invoicePaymentId, invoicePaymentData}: EditInvoicePaymentInputs) => {
+  const handleEditInvoicePayment = (invoicePaymentId: number) => {
     setSelectedInvoicePaymentId(invoicePaymentId);
     setView('edit');
   };
@@ -529,8 +529,12 @@ const handleItemsPerPageChange = (value: any) => {
               invoicePayment={selectedInvoicePayment}
               onSubmit={handleUpdateInvoicePayment}
               isSubmitting={updateInvoicePaymentMutation.isPending}
-              onBack={handleBackToInvoicePaymentList}
               onCancel={handleBackToInvoicePaymentList}
+              currencies={currencies}
+              accounts={accounts}
+              agents={agents}
+              invoices={invoices}
+              customers={customers}
             />
           )}
         </div>

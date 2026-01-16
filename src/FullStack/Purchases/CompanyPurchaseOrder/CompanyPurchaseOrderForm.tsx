@@ -76,7 +76,7 @@ const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCan
 
 
 const accountChange = companyPurchaseAccountHandler(accounts, setValue);
-const invoiceChange = companyPurchaseInvoiceTotal(accounts, setValue);
+const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
 
 
 
@@ -277,76 +277,79 @@ const invoiceChange = companyPurchaseInvoiceTotal(accounts, setValue);
                                     </thead>
 
                                     <tbody className={tables.body}>
-                                        {fields.map((field, index) => (
-                                            <tr key={field.id} className={tables.row}>
-                                                <td className={tables.cell}> 
-                                                    <input 
-                                                        type="date"
-                                                        {...register(`related_purchase.${index}.payment_date`)}
-                                                        className={forms.input.number}
-                                                    />
-                                                </td>
+                                        {fields.map((field, index) => {
 
-                                                <td className={text.numbers}>
-                                                    <input 
-                                                        type="number"
-                                                        {...register(`related_purchase.${index}.total_paid`)}
-                                                        className={forms.input.number}
-                                                        placeholder="0.00"
-                                                        step="0.01" min="0.00" onBlur={(e) => {
-                                                            if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                            }
-                                                        }}
-                                                    />
-                                                </td>
+                                            return(
+                                                <tr key={field.id} className={tables.row}>
+                                                    <td className={tables.cell}> 
+                                                        <input 
+                                                            type="date"
+                                                            {...register(`related_purchase.${index}.payment_date`)}
+                                                            className={forms.input.number}
+                                                        />
+                                                    </td>
 
-                                                <td className={tables.cell}>
-                                                    <input 
-                                                        {...register(`related_purchase.${index}.tax_inclusive`)}
-                                                        type="checkbox"
-                                                    />
-                                                </td>
+                                                    <td className={text.numbers}>
+                                                        <input 
+                                                            type="number"
+                                                            {...register(`related_purchase.${index}.total_paid`)}
+                                                            className={forms.input.number}
+                                                            placeholder="0.00"
+                                                            step="0.01" min="0.00" onBlur={(e) => {
+                                                                if (e.target.value) {
+                                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                }
+                                                            }}
+                                                        />
+                                                    </td>
 
-                                                <td className={text.numbers}>
-                                                    <input 
-                                                        type="number"
-                                                        {...register(`related_purchase.${index}.tax_amount`)}
-                                                        className={forms.input.number}
-                                                        placeholder="0.00"
-                                                        step="0.01" min="0.00" onBlur={(e) => {
-                                                            if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                            }
-                                                        }}
-                                                    />
-                                                </td>
+                                                    <td className={tables.cell}>
+                                                        <input 
+                                                            {...register(`related_purchase.${index}.tax_inclusive`)}
+                                                            type="checkbox"
+                                                        />
+                                                    </td>
 
-                                                <td className={tables.cell}>
-                                                    <input 
-                                                        {...register(`related_purchase.${index}.cancelled`)}
-                                                        type="checkbox"
-                                                    />
-                                                </td>
+                                                    <td className={text.numbers}>
+                                                        <input 
+                                                            type="number"
+                                                            {...register(`related_purchase.${index}.tax_amount`)}
+                                                            className={forms.input.number}
+                                                            placeholder="0.00"
+                                                            step="0.01" min="0.00" onBlur={(e) => {
+                                                                if (e.target.value) {
+                                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                }
+                                                            }}
+                                                        />
+                                                    </td>
 
-                                                <td className={tables.autoCalculate}>
-                                                    {decimalPlaces(
-                                                        Number(watch(`related_purchase.${index}.total_paid`) || 0.00) *
-                                                        (1 + (Number(watch(`related_purchase.${index}.tax_amount`) / 100))|| 0.00)
-                                                    )}
-                                                </td>
+                                                    <td className={tables.cell}>
+                                                        <input 
+                                                            {...register(`related_purchase.${index}.cancelled`)}
+                                                            type="checkbox"
+                                                        />
+                                                    </td>
 
-                                                <td>
-                                                    <button
-                                                        type="button"
-                                                        title="remove"
-                                                        onClick={() => remove(index)}
-                                                    >
-                                                        <Trash2 size={16} strokeWidth={2}/>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                    <td className={tables.autoCalculate}>
+                                                        {decimalPlaces(
+                                                            Number(watch(`related_purchase.${index}.total_paid`) || 0.00) *
+                                                            (1 + (Number(watch(`related_purchase.${index}.tax_amount`) / 100))|| 0.00)
+                                                        )}
+                                                    </td>
+
+                                                    <td>
+                                                        <button
+                                                            type="button"
+                                                            title="remove"
+                                                            onClick={() => remove(index)}
+                                                        >
+                                                            <Trash2 size={16} strokeWidth={2}/>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                         <tr>
                                             <td className={tables.headerCell}>
                                                 <button

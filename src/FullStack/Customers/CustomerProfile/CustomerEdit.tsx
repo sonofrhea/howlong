@@ -20,8 +20,7 @@ const CustomerEdit: React.FC<CustomerProps> = ({
     customer,
     onSubmit,
     isSubmitting,
-    onBack,
-    onCancel, currencies, accounts, banks }) => {
+    onCancel, currencies, banks }) => {
 
 
 
@@ -35,7 +34,6 @@ const CustomerEdit: React.FC<CustomerProps> = ({
     }, [customer, reset]);
 
 
-const controlAccountChange = controlAccountHandler(accounts, setValue);
 const currencyChange = currencyHandler(currencies, setValue);
 
 
@@ -119,24 +117,6 @@ const currencyChange = currencyHandler(currencies, setValue);
                                         setValue('id_file', file);
                                     }} 
                                 />
-                            </div>
-                            <div>
-                                <div className="text-sm text-black font-medium mb-1">Control Account</div>
-                                <select 
-                                    {...register("control_account.account_code")}
-                                    onChange={controlAccountChange}
-                                    className="w-full text-black rounded-lg border border-gray-300 cursor-pointer px-3 py-2 focus:ring-2 focus:ring-green-300"
-                                >
-                                    <option value=""></option>
-                                    {useMemo(() => accounts.map((account: ControlAccountInterface) => (
-                                        <option key={account.account_code} value={account.account_code}>
-                                            {account.account_code} ({account.account_name})
-                                        </option>
-                                    )), [accounts])}
-                                </select>
-
-                                <input type="hidden" {...register("control_account.account_name")} />
-                                <input type="hidden" {...register("control_account.account_type")} />
                             </div>
 
                             <div>

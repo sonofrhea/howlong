@@ -28,7 +28,7 @@ import CustomerPaymentDetails from "./CustomerPaymentDetails";
 import CustomerPaymentForm from "./CustomerPaymentForm";
 import CustomerPaymentTable from "./CustomerPaymentTable";
 import { spinningStyles } from "../Constants/Styles";
-//import CustomerPaymentEdit from "./CustomerPaymentEdit";
+import CustomerPaymentEdit from "./CustomerPaymentEdit";
 
 
 
@@ -240,7 +240,7 @@ function CustomerPaymentManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditCustomerPayment = ({customerPaymentId, customerPaymentData}: EditCustomerPaymentInputs) => {
+    const handleEditCustomerPayment = (customerPaymentId: number) => {
     setSelectedCustomerPaymentId(customerPaymentId);
     setView('edit');
     };
@@ -532,8 +532,13 @@ function CustomerPaymentManagement() {
                 customerPayment={selectedCustomerPayment}
                 onSubmit={handleUpdateCustomerPayment}
                 isSubmitting={updateCustomerPaymentMutation.isPending}
-                onBack={handleBackToCustomerPaymentsList}
                 onCancel={handleBackToCustomerPaymentsList}
+                currencies={currencies}
+                accounts={accounts}
+                agents={agents}
+                customers={customers}
+                invoicePayments={invoicePayments}
+                projects={projects}
             />
             )}
         </div>

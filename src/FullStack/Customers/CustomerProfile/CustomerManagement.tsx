@@ -66,11 +66,6 @@ function CustomerManagement() {
     queryFn: fetchCurrencies
   });
 
-  const { data: accounts = [] } = useQuery({
-    queryKey: ['accounts'],
-    queryFn: fetchChartOfAccounts
-  });
-
   const { data: banks = [] } = useQuery({
     queryKey: ['banks'],
     queryFn: fetchBanks
@@ -162,7 +157,7 @@ function CustomerManagement() {
   //      form.append(field, value);
   //    }
   //  });
-  //  return form;
+  //  return form
   //};
 
 
@@ -170,7 +165,7 @@ function CustomerManagement() {
 
   const handleAddCustomer = async (customerData: CustomerInputs) => {
     if (!customerData.id_file) {
-      delete customerData.id_file;
+      customerData.id_file === null;
     }
     if (!customerData.control_account?.account_code) {
       delete customerData.control_account;
@@ -208,7 +203,7 @@ function CustomerManagement() {
 
   const handleUpdateCustomer = (customerData: CustomerInputs) => {
     if (!customerData.id_file) {
-      delete customerData.id_file;
+      customerData.id_file === null;
     }
     if (!customerData.control_account?.account_code) {
       delete customerData.control_account;
@@ -514,7 +509,6 @@ return (
                   onBack={handleBackToCustomersList}
                   onCancel={() => setView('list')}
                   currencies={currencies}
-                  accounts={accounts}
                   banks={banks}
                 />
                 {createCustomersMutation.isError && (
@@ -540,10 +534,8 @@ return (
               customer={selectedCustomer}
               onSubmit={handleUpdateCustomer}
               isSubmitting={updateCustomersMutation.isPending}
-              onBack={() => setView('details')}
-              onCancel={() => setView('list')}
+              onCancel={() => setView('details')}
               currencies={currencies}
-              accounts={accounts}
               banks={banks}
             />
           )}

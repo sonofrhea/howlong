@@ -33,14 +33,9 @@ const formatProjectNumber = () => {
 
 
 const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers, 
-    currencies, accounts, agents, invoices, projects, productItems }) => {
+    currencies, agents, projects, productItems }) => {
 
-        const productOptions = useMemo(() => 
-            productItems.map((product: ProductItemCreateResponse) => (
-            <option key={product.item_code} value={product.item_code}>
-                SKU-{product.item_code} | {product.item_description}
-            </option>
-        )), [productItems])
+        
 
         const { register, handleSubmit, watch, setValue, 
             control, formState: { errors } } = useForm<InvoiceInputs>({
@@ -230,129 +225,138 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                 </thead>
 
                                 <tbody className={tables.body}>
-                                    {fields.map((field, index) => (
-                                        <tr key={field.id} className={tables.row}>
-                                            <td>
-                                                <select
-                                                    {...register(`related_invoice.${index}.item`)}
-                                                    className={forms.select.small}
-                                                >
-                                                    <option value="">select...</option>
-                                                    {productOptions}
-                                                </select>
-                                            </td>
+                                    {fields.map((field, index) => {
+                                        
+                                        const quantity = Number(watch(`related_invoice.${index}.quantity`) || 0.00);
+                                        const price_per_unit = Number(watch(`related_invoice.${index}.price_per_unit`) || 0.00);
+                                        let tax_amount = Number(watch(`related_invoice.${index}.tax_amount`) || 0.00);
+                                        const tax_inclusive = Number(watch(`related_invoice.${index}.tax_inclusive`) || false);
 
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_invoice.${index}.description`)}
-                                                    className={tables.text}
-                                                />
-                                            </td>
+                                        let total = quantity * price_per_unit;
 
-                                            <td className={text.numbers}>
-                                                <input 
-                                                    {...register(`related_invoice.${index}.quantity`)}
-                                                    type="number"
-                                                    className={forms.input.number}
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}  
-                                                />
-                                            </td>
+                                        if (!tax_inclusive) {
+                                            tax_amount = 0.00;
+                                        }
 
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_invoice.${index}.unit_of_measure`)}
-                                                    className={tables.text}
-                                                />
-                                            </td>
+                                        total *= 1 + (tax_amount / 100);
 
-                                            <td className={text.numbers}>
-                                                <input 
-                                                    {...register(`related_invoice.${index}.price_per_unit`)}
-                                                    type="number"
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}
-                                                    className={forms.input.number}
-                                                />
-                                            </td>
 
-                                            <td className={tables.autoCalculate}>
-                                                {decimalPlaces(
-                                                    (watch(`related_invoice.${index}.quantity`) || 0.00) *
-                                                    (watch(`related_invoice.${index}.price_per_unit`) || 0.00)
-                                                )}
-                                                
-                                            </td>
+                                        const productOptions = useMemo(() => 
+                                            productItems.map((product: ProductItemCreateResponse) => (
+                                            <option key={product.item_code} value={product.item_code}>
+                                                SKU-{product.item_code} | {product.item_description}
+                                            </option>
+                                        )), [productItems])
 
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_invoice.${index}.tax_inclusive`)}
-                                                    type="checkbox"
-                                                    className={forms.input.base}
-                                                />
-                                            </td>
+                                        return(
+                                            <tr key={field.id} className={tables.row}>
+                                                <td>
+                                                    <select
+                                                        {...register(`related_invoice.${index}.item`)}
+                                                        className={forms.select.small}
+                                                    >
+                                                        <option value="">select...</option>
+                                                        {productOptions}
+                                                    </select>
+                                                </td>
 
-                                            <td className={text.numbers}>
-                                                <input 
-                                                    {...register(`related_invoice.${index}.tax_amount`)}
-                                                    type="number"
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}
-                                                    className={forms.input.number}
-                                                />
-                                            </td>
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.description`)}
+                                                        className={tables.text}
+                                                    />
+                                                </td>
 
-                                            <td className={tables.autoCalculate}>
-                                                {(() => {
-                                                    const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;
-                                                    const price_per_unit = watch(`related_invoice.${index}.price_per_unit`) || 0.00;
-                                                    let tax_amount = watch(`related_invoice.${index}.tax_amount`) || 0.00;
-                                                    const tax_inclusive = watch(`related_invoice.${index}.tax_inclusive`) || false;
+                                                <td className={text.numbers}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.quantity`)}
+                                                        type="number"
+                                                        className={forms.input.number}
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            }
+                                                        }}  
+                                                    />
+                                                </td>
 
-                                                    let total = quantity * price_per_unit;
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.unit_of_measure`)}
+                                                        className={tables.text}
+                                                    />
+                                                </td>
 
-                                                    if (!tax_inclusive) {
-                                                        tax_amount = 0.00;
-                                                    }
+                                                <td className={text.numbers}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.price_per_unit`)}
+                                                        type="number"
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            }
+                                                        }}
+                                                        className={forms.input.number}
+                                                    />
+                                                </td>
 
-                                                    total *= 1 + (tax_amount / 100);
-
-                                                    return decimalPlaces(total);
-                                                })()}
-                                            </td>
-
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_invoice.${index}.cancelled`)}
-                                                    type="checkbox"
-                                                    className={forms.input.base}
-                                                />
-                                            </td>
-                                            <td>
-                                                <button
-                                                    type="button"
-                                                    title="remove"
-                                                    onClick={() => remove(index)}
-                                                >
-                                                    <Trash2 size={16}
-                                                    className="text-black cursor-pointer" />
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(
+                                                        (watch(`related_invoice.${index}.quantity`) || 0.00) *
+                                                        (watch(`related_invoice.${index}.price_per_unit`) || 0.00)
+                                                    )}
                                                     
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                </td>
+
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.tax_inclusive`)}
+                                                        type="checkbox"
+                                                        className={forms.input.base}
+                                                    />
+                                                </td>
+
+                                                <td className={text.numbers}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.tax_amount`)}
+                                                        type="number"
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            }
+                                                        }}
+                                                        className={forms.input.number}
+                                                    />
+                                                </td>
+
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(total)}
+                                                </td>
+
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_invoice.${index}.cancelled`)}
+                                                        type="checkbox"
+                                                        className={forms.input.base}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        title="remove"
+                                                        onClick={() => remove(index)}
+                                                    >
+                                                        <Trash2 size={16}
+                                                        className="text-black cursor-pointer" />
+                                                        
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                     <tr>
                                         <td className={tables.headerCell}>
                                             <button

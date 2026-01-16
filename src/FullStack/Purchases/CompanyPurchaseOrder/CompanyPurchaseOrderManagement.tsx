@@ -26,7 +26,7 @@ import { CompanyPurchaseOrderInputs,
 import CompanyPurchaseOrderDetails from "./CompanyPurchaseOrderDetails";
 import CompanyPurchaseOrderForm from "./CompanyPurchaseOrderForm";
 import CompanyPurchaseOrderTable from "./CompanyPurchaseOrderTable";
-//import CompanyPurchaseOrderEdit from "./CompanyPurchaseOrderEdit";
+import CompanyPurchaseOrderEdit from "./CompanyPurchaseOrderEdit";
 
 
 
@@ -233,8 +233,7 @@ function CompanyPurchaseOrderManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditCompanyPurchaseOrder = (
-        {CompanyPurchaseOrderId, companyPurchaseOrderData}: EditCompanyPurchaseOrderInputs) => {
+    const handleEditCompanyPurchaseOrder = (CompanyPurchaseOrderId: number) => {
         setSelectedCompanyPurchaseOrderId(CompanyPurchaseOrderId);
         setView('edit');
     };
@@ -517,8 +516,11 @@ function CompanyPurchaseOrderManagement() {
                     companyPurchaseOrder={selectedCompanyPurchaseOrder}
                     onSubmit={handleUpdateCompanyPurchaseOrder}
                     isSubmitting={updateCompanyPurchaseOrderMutation.isPending}
-                    onBack={handleBackToCompanyPurchaseOrdersList}
                     onCancel={handleBackToCompanyPurchaseOrdersList}
+                    accounts={accounts}
+                    agents={agents}
+                    supplierProfiles={supplierProfiles}
+                    purchaseInvoices={purchaseInvoices}
                 />
                 )}
             </div>
