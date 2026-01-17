@@ -49,10 +49,11 @@ export default function ConstructionERPLanding() {
                 /* HERO SECTION */
                 .hero {
                 position: relative;
-                width: 100%;
+                max-width: 100%;
                 min-height: 100vh;
                 background: linear-gradient(to bottom, var(--sky) 0%, #ffffff 100%);
                 overflow: hidden;
+                align: center;
                 }
 
                 .background {
@@ -193,15 +194,21 @@ export default function ConstructionERPLanding() {
                 background: rgba(0,102,204,0.05);
                 }
 
+                .logo-photo {
+                left: 10%;
+                padding: 1px 50px 1px;
+                }
+
 
                 .headline {
-                position: absolute;
+                position: relative;
                 top: 20vh;
-                left: 3%;
+                left: 4%;
                 text-align: left;
                 font-weight: 900;
                 font-size: 4vw;
                 line-height: 1;
+                padding: 10px 30px 1px;
                 letter-spacing: -2px;
                 color: var(--text-black);
                 z-index: 5;
@@ -222,6 +229,16 @@ export default function ConstructionERPLanding() {
                     max-width: 600px;
                     line-height: 1.6;
                     margin-bottom: 50px;
+                }
+                
+                .subheadline {
+                    font-size: clamp(18px, 2vw, 24px);
+                    font-weight: 100;
+                    color: var(--text-gray);
+                    max-width: 600px;
+                    line-height: 1.6;
+                    margin-bottom: 50px;
+                    font-family: 'Arial';
                 }
 
                 .right-column {
@@ -327,7 +344,17 @@ export default function ConstructionERPLanding() {
                 .feature-title {
                 }
 
-                .section-title p {
+                .section-title-1 p {
+                font-family: 'Montserrat', sans-serif;
+                font-size: clamp(32px, 5vw, 52px);
+                font-weight: 900;
+                line-height: 0.9;
+                margin-bottom: 20px;
+                color: #000;
+                text-align: center;
+                }
+
+                .section-title {
                 font-family: 'Montserrat', sans-serif;
                 font-size: clamp(32px, 5vw, 52px);
                 font-weight: 900;
@@ -347,11 +374,12 @@ export default function ConstructionERPLanding() {
                 }
 
                 .feature-description {
-                    font-size: 15px;
+                    font-size: 16px;
                     line-height: 1.6;
                     color: var(--text-gray);
                     margin-bottom: 0px;
                     text-align: left;
+                    font-family: Helvetica;
                 }
                 .nav-item.dropdown {
                     position: relative;
@@ -406,7 +434,7 @@ export default function ConstructionERPLanding() {
                 /* CTA SECTION */
                 .cta-section {
                     padding: 120px 60px;
-                    background: var(--blue-primary);
+                    background: #004e9c;;
                     color: var(--text-white);
                     text-align: center;
                 }
@@ -546,6 +574,9 @@ export default function ConstructionERPLanding() {
                 gap: 40px;
                 align-items: center;
                 font-family: Helvetica;
+
+                padding: 1px 50px 1px;
+                
                 }
 
                 .nav-links a {
@@ -616,21 +647,24 @@ export default function ConstructionERPLanding() {
                 }
 
                 .cta-section .cta-primary {
-                background: var(--accent);
+                background: black;
                 box-shadow: 0 4px 15px rgba(255,107,53,0.3);
                 }
 
                 .cta-section .cta-primary:hover {
-                background: #e85a2a;
+                transform: translateY(-10px) scale(1.02) !important;
+                border-width: 2px;
+                border-color: white;
                 }
 
                 .cta-section .cta-secondary {
                 background: transparent;
                 color: var(--text-white);
-                border-color: rgba(255,255,255,0.3);
+                border-color: white;
                 }
 
                 .cta-section .cta-secondary:hover {
+                transform: translateY(-10px) scale(1.02) !important;
                 border-color: var(--text-white);
                 background: rgba(255,255,255,0.1);
                 color: var(--text-white);
@@ -640,6 +674,52 @@ export default function ConstructionERPLanding() {
                 background: transparent;
                 color: var(--text-white);
                 border-color: rgba(255,255,255,0.3);
+                }
+
+
+                .feature-cards {
+                display: grid !important;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+                gap: 40px !important;
+                max-width: 1400px;
+                margin: 0 auto;
+                }
+
+                .feature-cards,
+                .features-section,
+                .testimonials-section,
+                .cta-section,
+                footer {
+                    padding-left: 40px;
+                    padding-right: 40px;
+                }
+
+
+                .feature-cards {
+                    grid-template-columns: 1fr;
+                    padding: 0 30px;
+                }
+
+
+
+
+                .feature-card {
+                background: #e4e9ed !important;
+                border-radius: 12px !important;
+                padding: 40px !important;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.08) !important;
+                border: 2px solid rgba(0,0,0,0.08) !important;
+                transition: all 0.3s ease !important;
+                font-family: Helvetica;
+                color: #e4e9ed;
+                font-weight: normal;
+                }
+
+                .feature-card:hover {
+                transform: translateY(-10px) scale(1.02) !important;
+                box-shadow: 0 30px 70px rgba(0,0,0,0.15) !important;
+                border-color: #0864bf !important;
+                cursor: pointer;
                 }
 
 
@@ -666,15 +746,6 @@ export default function ConstructionERPLanding() {
                 }
 
                 .feature-item {
-                background: #e4e9ed !important;
-                border-radius: 12px !important;
-                padding: 40px !important;
-                box-shadow: 0 20px 50px rgba(0,0,0,0.08) !important;
-                border: 2px solid rgba(0,0,0,0.08) !important;
-                transition: all 0.3s ease !important;
-                font-family: Helvetica;
-                color: #e4e9ed;
-                font-weight: normal;
                 }
 
                 .feature-item:hover {
@@ -756,6 +827,70 @@ export default function ConstructionERPLanding() {
 
                 .arrow {
                     left: 8%;
+                }
+
+                /* TESTIMONIALS SECTION */
+
+                .testimonials-section {
+                padding: 120px 60px;
+                background: linear-gradient(135deg, #f8fbff 0%, #e6f2ff 100%);
+                }
+
+                .testimonials-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 30px;
+                max-width: 1400px;
+                margin: 0 auto;
+                }
+
+                .testimonial {
+                background: white;
+                padding: 35px;
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+                }
+
+                .testimonial-text {
+                font-size: 16px;
+                line-height: 1.7;
+                color: var(--text-black);
+                margin-bottom: 25px;
+                font-style: italic;
+                }
+
+                .testimonial-author {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                }
+
+                .author-avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background: var(--blue-primary);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: 700;
+                font-size: 18px;
+                }
+
+                .author-info {
+                flex: 1;
+                }
+
+                .author-name {
+                font-weight: 700;
+                font-size: 15px;
+                margin-bottom: 3px;
+                }
+
+                .author-title {
+                font-size: 13px;
+                color: var(--text-gray);
                 }
                 }
             `}</style>
@@ -915,7 +1050,7 @@ export default function ConstructionERPLanding() {
 
             <nav>
             <div className="header-logo">
-                <div className="header-logo">
+                <div className="logo-photo">
                     <img src={logo} alt='logo' height="80" width="100" />
                 </div>
             </div>
@@ -959,15 +1094,16 @@ export default function ConstructionERPLanding() {
                 <a href="#pricing">Pricing</a>
                 <a href="#resources">Resources</a>
                 <a href="/login">Login</a>
-                <a href="/register" className="cta-nav">Try It Out</a>
+                <a href="#demo" className="cta-nav">Try It Out</a>
             </div>
             </nav>
 
             <div className="headline">
             Manage Easier.<br />
             <span className='text-blue-700'>Build Faster & Better.</span>
+            
             <p className='subheadline'><br />
-                URUSENTRA is an all-in-one ERP software engineered specifically with construction and building professionals in mind.
+                URUSENTRA is an all-in-one ERP software engineered specifically with building professionals in mind.
                 Built to enhance company's productivity and production speed by streamlining projects, managing customers, teams, products and control costs, accounting with a powerful platform to connect with suppliers, all from one powerful system.
             </p>
 
@@ -981,9 +1117,9 @@ export default function ConstructionERPLanding() {
 
             <div className="blue-box">
                 <span>USED BY SMALL AND MEDIUM BUSINESSES</span>
-                <span>IN THE CONSTRUCTION INDUSTRY INCLUDING</span>
-                <span>INTERIOR & EXTERIOR BUILDERS</span>
-                <span>AND LOVED BY ACCOUNTANTS.</span>
+                <span>IN THE BUILDING INDUSTRY INCLUDING</span>
+                <span>INTERIOR & EXTERIOR BUILDERS.</span>
+                <span>LOVED BY ACCOUNTANTS.</span>
             </div>
         </section>
 
@@ -991,7 +1127,7 @@ export default function ConstructionERPLanding() {
         <section className="features-section">
             <div className="section-header">
                 <span className="section-tag">Complete Solution</span>
-                <h2 className="section-title">
+                <h2 className="section-title-1">
                     <p>Everything You Need To</p>
                     <p>Manage Easier</p>
                 </h2>
@@ -1000,8 +1136,8 @@ export default function ConstructionERPLanding() {
                 </p>
             </div>
 
-            <div className="features-grid">
-            <div className="feature-item">
+            <div className="feature-cards">
+            <div className="feature-card">
                 <div className="feature-icon">
                     <svg width="42" height="24" viewBox="0 0 210 120" xmlns="http://www.w3.org/2000/svg">
                         <rect x="2" y="20" width="206" height="80" rx="10" fill="#F5C16C" stroke="#C9973F" strokeWidth="6"/>
@@ -1022,13 +1158,13 @@ export default function ConstructionERPLanding() {
                         </g>
                     </svg>
                 </div>
-                <h3 className="feature-title">ESTIMATION & BIDDING</h3>
+                <h3 className="feature-title">JOB COST & BOQ ESTIMATION</h3>
                 <p className="feature-description">
                 Create accurate estimates quickly with historical data, material costs, and labor rates. Win more bids with competitive proposals.
                 </p>
             </div>
 
-            <div className="feature-item">
+            <div className="feature-card">
                 <div className="feature-icon">
                     <svg width="42" height="42" viewBox="0 0 120 120">
                     <rect x="10" y="90" width="100" height="15" fill="#555"/>
@@ -1044,7 +1180,7 @@ export default function ConstructionERPLanding() {
                 </p>
             </div>
 
-            <div className="feature-item">
+            <div className="feature-card">
                 <div className="feature-icon">
                     <svg width="42" height="42" viewBox="0 0 120 120">
                     <polygon points="20,40 60,20 100,40 60,60" fill="#E8A55A"/>
@@ -1058,7 +1194,62 @@ export default function ConstructionERPLanding() {
                 </p>
             </div>
 
-            <div className="feature-item">
+            <div className="feature-card">
+                <div className="feature-icon">
+                    <svg width="42" height="42" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  
+                        <rect
+                            x="18"
+                            y="10"
+                            width="84"
+                            height="100"
+                            rx="8"
+                            fill="#FFFFFF"
+                            stroke="#4A90E2"
+                            stroke-width="5"
+                        />
+
+                        <rect
+                            x="26"
+                            y="18"
+                            width="68"
+                            height="12"
+                            rx="4"
+                            fill="#4A90E2"
+                        />
+
+                        <circle cx="60" cy="48" r="10" fill="#2196F3"/>
+                        <path
+                            d="M44 72c0-8.8 7.2-16 16-16s16 7.2 16 16"
+                            fill="#2196F3"
+                        />
+
+                        <circle cx="40" cy="52" r="7" fill="#4CAF50"/>
+                        <path
+                            d="M28 72c0-6.6 5.4-12 12-12"
+                            stroke="#4CAF50"
+                            stroke-width="6"
+                            stroke-linecap="round"
+                        />
+
+                        <circle cx="80" cy="52" r="7" fill="#FFC107"/>
+                        <path
+                            d="M92 72c0-6.6-5.4-12-12-12"
+                            stroke="#FFC107"
+                            stroke-width="6"
+                            stroke-linecap="round"
+                        />
+
+                    </svg>
+
+                </div>
+                <h3 className="feature-title">CLIENT MANAGEMENT</h3>
+                <p className="feature-description">
+                Track customers and potential customers, automate client & company relationships, and ensure client/company integrity.
+                </p>
+            </div>
+
+            <div className="feature-card">
                 <div className="feature-icon">
                     <svg width="42" height="42" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
 
@@ -1087,7 +1278,7 @@ export default function ConstructionERPLanding() {
                 </p>
             </div>
 
-            <div className="feature-item">
+            <div className="feature-card">
                 <div className="feature-icon">
                     <svg width="42" height="42" viewBox="0 0 120 120">
                     <rect x="25" y="20" width="70" height="90" rx="6" fill="#4A90E2"/>
@@ -1102,7 +1293,7 @@ export default function ConstructionERPLanding() {
                 </p>
             </div>
 
-            <div className="feature-item">
+            <div className="feature-card">
                 <div className="feature-icon">
                     <svg width="42" height="42" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                     <rect x="18" y="10" width="84" height="100" rx="8" fill="#FFFFFF" stroke="#4A90E2" strokeWidth="5"/>
@@ -1124,13 +1315,63 @@ export default function ConstructionERPLanding() {
             </div>
             </div>
         </section>
+  <section className="testimonials-section">
+    <div className="section-header">
+      <span className="section-tag">Client Success</span>
+      <h2 className="section-title">How does this work?</h2>
+      <p className="section-description">
+        See how building companies are transforming their operations with our ERP platform.
+      </p>
+    </div>
+
+    <div className="testimonials-grid">
+      <div className="testimonial">
+        <p className="testimonial-text">
+          "This platform cut our project planning time by 40%. We can now manage twice as many projects with the same team. The ROI was immediate."
+        </p>
+        <div className="testimonial-author">
+          <div className="author-avatar">MR</div>
+          <div className="author-info">
+            <div className="author-name">Michael Rodriguez</div>
+            <div className="author-title">VP Operations, Skyline Builders</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="testimonial">
+        <p className="testimonial-text">
+          "Finally, a system built for the building industry. No more juggling spreadsheets, emails and suppliers stress. Everything we need is in one place, accessible from the field."
+        </p>
+        <div className="testimonial-author">
+          <div className="author-avatar">JC</div>
+          <div className="author-info">
+            <div className="author-name">Jennifer Chen</div>
+            <div className="author-title">Project Manager, Metro Construction</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="testimonial">
+        <p className="testimonial-text">
+          "The cost control features alone saved us over $500K in the first year. We can now spot budget overruns before they become problems."
+        </p>
+        <div className="testimonial-author">
+          <div className="author-avatar">DW</div>
+          <div className="author-info">
+            <div className="author-name">David Washington</div>
+            <div className="author-title">CFO, Foundation Group</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
         {/* CTA SECTION */}
         <section id="demo" className="cta-section">
             <div className="section-header">
             <h2 className="section-title">Ready to Transform Your SME?</h2>
             <p className="section-description">
-                Join hundreds of construction companies already building smarter with our platform.
+                Join hundreds of building companies already building smarter with our platform.
                 Start your free 3-day trial today—no credit card required.
             </p>
             </div>
@@ -1157,7 +1398,6 @@ export default function ConstructionERPLanding() {
                     <ul>
                     <li><a href="#">Features</a></li>
                     <li><a href="#">Pricing</a></li>
-                    <li><a href="#">Integration</a></li>
                     <li><a href="#">Mobile App</a></li>
                     </ul>
                 </div>
@@ -1166,7 +1406,6 @@ export default function ConstructionERPLanding() {
                     <h4>Resources</h4>
                     <ul>
                     <li><a href="#">Documentation</a></li>
-                    <li><a href="#">Case Studies</a></li>
                     <li><a href="#">Blog</a></li>
                     <li><a href="#">Support</a></li>
                     </ul>
@@ -1176,7 +1415,6 @@ export default function ConstructionERPLanding() {
                     <h4>Company</h4>
                     <ul>
                     <li><a href="#">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
                     <li><a href="#">Contact</a></li>
                     <li><a href="#">Privacy</a></li>
                     </ul>

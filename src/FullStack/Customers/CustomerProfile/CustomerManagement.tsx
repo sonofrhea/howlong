@@ -167,9 +167,6 @@ function CustomerManagement() {
     if (!customerData.id_file) {
       customerData.id_file === null;
     }
-    if (!customerData.control_account?.account_code) {
-      delete customerData.control_account;
-    }
     if (!customerData.taxpayers_qr_code) {
       delete customerData.taxpayers_qr_code;
     }
@@ -204,9 +201,6 @@ function CustomerManagement() {
   const handleUpdateCustomer = (customerData: CustomerInputs) => {
     if (!customerData.id_file) {
       customerData.id_file === null;
-    }
-    if (!customerData.control_account?.account_code) {
-      delete customerData.control_account;
     }
     if (!customerData.taxpayers_qr_code) {
       delete customerData.taxpayers_qr_code;
