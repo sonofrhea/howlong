@@ -289,7 +289,7 @@ export default function ConstructionERPLanding() {
                 }
 
                 .section-tag {
-                font-size: 14px;
+                font-size: 18px;
                 font-weight: 700;
                 color: var(--blue-primary);
                 text-transform: uppercase;
@@ -327,11 +327,11 @@ export default function ConstructionERPLanding() {
                 .feature-title {
                 }
 
-                .section-title {
+                .section-title p {
                 font-family: 'Montserrat', sans-serif;
                 font-size: clamp(32px, 5vw, 52px);
                 font-weight: 900;
-                line-height: 1.2;
+                line-height: 0.9;
                 margin-bottom: 20px;
                 color: #000;
                 text-align: center;
@@ -996,7 +996,7 @@ export default function ConstructionERPLanding() {
                     <p>Manage Easier</p>
                 </h2>
                 <p className="section-description">
-                    From estimation to completion, our comprehensive ERP system covers every aspect of your construction business.
+                    From estimation to completion, our comprehensive ERP system covers every aspect of your building business.
                 </p>
             </div>
 
