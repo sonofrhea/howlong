@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import logo from "./assets/logo.svg";
+import logoWhite from "./assets/logoWhite.svg";
 import Ruler from "lucide-react";
 
 export default function ConstructionERPLanding() {
@@ -196,13 +197,13 @@ export default function ConstructionERPLanding() {
 
                 .logo-photo {
                 left: 10%;
-                padding: 1px 50px 1px;
+                padding: 1px 70px 1px;
                 }
 
 
                 .headline {
                 position: relative;
-                top: 20vh;
+                top: 15vh;
                 left: 4%;
                 text-align: left;
                 font-weight: 900;
@@ -1051,7 +1052,7 @@ export default function ConstructionERPLanding() {
             <nav>
             <div className="header-logo">
                 <div className="logo-photo">
-                    <img src={logo} alt='logo' height="80" width="100" />
+                    <img src={logo} alt='logo' height="80" width="200" />
                 </div>
             </div>
             <div className="nav-links">
@@ -1387,7 +1388,7 @@ export default function ConstructionERPLanding() {
             <div className="footer-content">
                 <div className="footer-brand">
                     <div className="footer logo">
-                        <img src={logo} alt='logo' height="80" width="100" />
+                        <img src={logoWhite} alt='logo' height="80" width="100" />
                     </div>
                     <p>The management ERP platform built by builders and accountants, for builders and accountants. Streamline your operations and manage your business better.</p>
                     <p>&copy; 2026 URUSENTRA. All rights reserved.</p>
