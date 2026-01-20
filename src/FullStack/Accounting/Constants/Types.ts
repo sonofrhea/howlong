@@ -86,6 +86,13 @@ export type JournalHeaderProps = {
     accounts: ControlAccountInterface[];
 };
 
+export type JournalEntryFormProps = {
+    onSubmit: (data: JournalHeaderInputs) => void;
+    isSubmitting: boolean;
+    onCancel?: () => void;
+    accounts: ControlAccountInterface[];
+};
+
 
 // -------- END ----------- JOURNAL INPUT ----------------
 /////////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { JournalHeaderInputs } from "../Constants/Types";
+import { JournalEntryFormProps, JournalHeaderInputs } from "../Constants/Types";
 
 
 
@@ -23,7 +23,12 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const JournalEntryForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, accounts }) => {
+const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    accounts 
+}) => {
 
 
 

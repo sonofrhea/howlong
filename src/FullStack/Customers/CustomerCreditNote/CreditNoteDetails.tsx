@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 
@@ -6,6 +7,7 @@ import { buttons, details, forms,
     labelStyles, 
     layout, tables, text } from "../constants/Styles";
 import { SquarePen } from "lucide-react";
+import { CreditNoteDetailsProps } from "../constants/Types";
 
 
 
@@ -36,7 +38,17 @@ const formatCustomerNumber = () => {
 
 
 
-const CreditNoteDetails: React.FC<any> = ({ creditNote, isLoading, onBack, onEdit, onCancel }) => {
+const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
+    creditNote,
+    isLoading,
+    onBack,
+    onEdit,
+    onCancel,
+    accounts, onCreateJournalEntry, isCreatingJournalEntry
+}) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+
+
     if (isLoading) {
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
@@ -92,11 +104,17 @@ const CreditNoteDetails: React.FC<any> = ({ creditNote, isLoading, onBack, onEdi
                     
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={() => onEdit(creditNote.credit_note_number)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
                             Edit
+                        </button>
+                        <button
+                            onClick={() => setIsJournalEntryOpen(true)}
+                            className="bg-purple-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                        >
+                            + Create Journal Entry
                         </button>
                     </div>
                 </div>
@@ -223,8 +241,15 @@ const CreditNoteDetails: React.FC<any> = ({ creditNote, isLoading, onBack, onEdi
                 </p>
                 <hr className="my-6 border-gray-200" />
             </div>
-        </div>
-    )
+            <JournalEntryModal
+                isOpen={isJournalEntryOpen}
+                onClose={() => setIsJournalEntryOpen(false)}
+                onCreate={onCreateJournalEntry}
+                isSubmitting={isCreatingJournalEntry}
+                accounts={accounts}
+            />
+        </div>  
+    );
 };
 export default CreditNoteDetails;
 

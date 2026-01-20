@@ -12,6 +12,8 @@ import Dashboard from "./components/Dashboard";
 
 import Landing from "./Landing";
 
+import { Toaster } from 'react-hot-toast';
+
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 
 
@@ -187,6 +189,7 @@ const CashFlowManagement = lazy(() => import('./FullStack/Reports/Reports/CashFl
 function App() {
   return (
     <>
+    <Toaster position="top-center" />
       <Router>
         <div className="App">
           <Routes>

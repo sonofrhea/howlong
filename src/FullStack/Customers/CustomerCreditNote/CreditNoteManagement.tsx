@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 
 import { fetchCreditNotes, createCreditNote, fetchCreditNoteById,
@@ -25,6 +26,8 @@ import CreditNoteDetails from "./CreditNoteDetails";
 import CreditNoteForm from "./CreditNoteForm";
 import CreditNoteTable from "./CreditNoteTable";
 import CreditNoteEdit from "./CreditNoteEdit";
+import { createJournalEntry } from "../../Accounting/Engines";
+
 
 
 
@@ -62,6 +65,11 @@ function CreditNoteManagement() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 // ------------------------------------------------------------------------------------
+  const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+// ------------------------------------------------------------------------------------
+
+
+
           // DEPENDENCIES
 
   const { data: customers = [] } = useQuery({
@@ -197,7 +205,14 @@ function CreditNoteManagement() {
     console.log("🎯 RAW FORM DATA:", creditNoteData)
 
 
-    createCreditNoteMutation.mutate(creditNoteData);
+      const toastId = toast.loading('Creating Credit Note...');
+      try {
+        await createCreditNoteMutation.mutateAsync(creditNoteData);
+        toast.success('Credit Note created successfully!', { id: toastId });
+      } catch (error) {
+        toast.error('Failed to create Credit Note', { id: toastId });
+        console.error(error);
+      }
     };
 
 
@@ -258,6 +273,26 @@ function CreditNoteManagement() {
 });
 
   // ------------------------------------------------------------------------------------
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+  
+  // ------------------------------------------------------------------------------------
+
                               // SORTING
 
 
@@ -516,6 +551,9 @@ const handleItemsPerPageChange = (value: any) => {
                 onBack={handleBackToCreditNotesList}
                 onEdit={handleEditCreditNoteButton}
                 onCancel={handleBackToCreditNotesList}
+                accounts={accounts}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
             />
             )}
 

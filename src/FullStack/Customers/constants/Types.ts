@@ -13,6 +13,7 @@ import { ID_TYPE_CHOICES,
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
+import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
 
 
 
@@ -273,8 +274,67 @@ export type CreditNoteList = {
   agent: string;
 };
 
-export type CreditNoteInputs = {
+export type CreditNoteDetails = {
   credit_note_number: number;
+  date: string;
+  customer: number;
+  customer_name: string;
+  credit_note_lines?: Array<{
+    date?: string | null;
+    description?: string | null;
+    amount?: number | null;
+    tax_inclusive: boolean;
+    tax_amount: number;
+    current_total: number;
+    cancelled: boolean;
+  }> | null;
+  related_payment: string;
+  related_payment_amount: string;
+  account?: {
+      account_code?: number | null;
+      account_name?: string | null;
+      account_type?: string | null;
+  } | null;
+  gross_total: number;
+  tax_inclusive: boolean;
+  tax_amount: number;
+  paid_amount: number;
+  aggregate_total: number;
+  credit_note_outstanding: number;
+  cancelled: boolean;
+  agent: string;
+  created_by: string;
+  currency: string;
+};
+
+export type CreditNoteEditInputs = {
+  credit_note_number: number;
+  date: string;
+  customer: string;
+  customer_name: string;
+  credit_note_lines?: Array<{
+    date?: string | null;
+    description?: string | null;
+    amount?: number | null;
+    tax_inclusive?: boolean | null;
+    tax_amount?: number | null;
+    cancelled?: boolean | null;
+  }> | null;
+  tax_inclusive: boolean;
+  tax_amount: number;
+  related_payment: string;
+  related_payment_amount: number;
+  account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
+  paid_amount: number;
+  agent: string;
+  currency: string | null;
+};
+
+export type CreditNoteInputs = {
   date: string;
   customer: string;
   customer_name: string;
@@ -318,7 +378,6 @@ export type EditCreditNoteInputs = {
 };
 
 export type CreditNoteProps = {
-  creditNote: CreditNoteInputs;
   onSubmit: (data: CreditNoteInputs) => void;
   isSubmitting: boolean;
   onBack?: () => void;
@@ -328,6 +387,30 @@ export type CreditNoteProps = {
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
   customerPayments: CustomerPaymentResponse[];
+};
+
+export type CreditNoteEditProps = {
+  creditNote: CreditNoteEditInputs;
+  onSubmit: (data: CreditNoteInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  customers: CustomerCreateResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  customerPayments: CustomerPaymentResponse[];
+};
+
+export type CreditNoteDetailsProps = {
+  creditNote: CreditNoteDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (creditNoteId: number) => void;
+  onCancel?: () => void;
+  accounts: ControlAccountInterface[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
 };
 
 

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { CreditNoteInputs, CreditNoteProps, CustomerCreateResponse } from "../constants/Types";
+import { CreditNoteEditProps, CreditNoteInputs, CreditNoteProps, CustomerCreateResponse } from "../constants/Types";
 import { controlAccountHandler } from "../../handlers";
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../constants/Styles";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
@@ -26,7 +26,7 @@ const formatCustomerNumber = () => {
 };
 
 
-const CreditNoteEdit: React.FC<CreditNoteProps> = ({
+const CreditNoteEdit: React.FC<CreditNoteEditProps> = ({
   creditNote,
   onSubmit,
   isSubmitting,

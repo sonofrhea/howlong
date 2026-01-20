@@ -10,7 +10,7 @@ import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
 
 
-import { controlAccountHandler } from "../../handlers";
+import { creditNoteAccountHandler } from "../../handlers";
 
 
 const decimalPlaces = (amount: number) => {
@@ -29,6 +29,13 @@ const formatCreditNoteNumber = () => {
     const currentYear = new Date().getFullYear();
     return `CN-${currentYear}-`;
 };
+
+
+
+
+
+
+
 
 
 
@@ -62,7 +69,7 @@ const CreditNoteForm: React.FC<CreditNoteProps> = ({ onSubmit, isSubmitting, onC
 
 
 
-const controlAccountChange = controlAccountHandler(accounts, setValue);
+const controlAccountChange = creditNoteAccountHandler(accounts, setValue);
 
 
 
