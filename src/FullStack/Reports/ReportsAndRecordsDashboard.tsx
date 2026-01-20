@@ -47,7 +47,7 @@ function ReportsAndReceiptsDashboard() {
             name: 'Cash Flow',
             description: "Company's Cash Flow Report",
             path: '/reports/cashflow',
-            available: false
+            available: true
         },
         {
             id: 'receiptRecords',

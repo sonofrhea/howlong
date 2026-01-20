@@ -19,3 +19,10 @@ export const BALANCE_SHEET_CHOICES = [
 export const REPORT_TYPE = [
   "IFRS"
 ]
+
+export const CASH_FLOW_CHOICES = [
+  'Yearly',
+  'Bi-Yearly',
+  'Quarterly',
+  'Monthly',
+] as const;

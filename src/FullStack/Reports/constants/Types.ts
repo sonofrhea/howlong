@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { REPORTS_ICONS } from "./ModuleIcons";
 
-import { BALANCE_SHEET_CHOICES, VALID_PERIOD_TYPES } from "./options";
+import { BALANCE_SHEET_CHOICES, CASH_FLOW_CHOICES, VALID_PERIOD_TYPES } from "./options";
 
 export interface ReportsModulesInterface {
     id: keyof typeof REPORTS_ICONS;
@@ -16,6 +16,8 @@ export interface ReportsModulesInterface {
 export type PeriodTypes = typeof VALID_PERIOD_TYPES[number];
 
 export type BalanceSheetPeriodTypes = typeof BALANCE_SHEET_CHOICES[number];
+
+export type CashFlowPeriodTypes = typeof CASH_FLOW_CHOICES[number];
 
 
 
@@ -183,3 +185,87 @@ export type BalanceSheetResponse = {
 
     period: string;
 };
+
+// -------- END -----------BALANCE SHEET------------------------
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+// -------- BEGIN -----------CASH FLOW------------------------------
+
+export type CashFlowAccountArray =
+    | "revenue_accounts"
+    | "sales_returns"
+    | "sales_discounts_and_adjustment"
+    | "cost_of_goods_sold"
+    | "expense_accounts"
+    | "other_taxes"
+    | "depreciation"
+    | "accounts_receivables"
+    | "inventories"
+    | "prepaid_expenses"
+    | "wip_assets"
+    | "allowance_for_doubtful_accounts"
+    | "accounts_payable"
+    | "accruals"
+    | "unearned_revenue"
+    | "fixed_assets"
+    | "contra_fixed_assets"
+    | "other_assets"
+    | "equity_and_owner_draws"
+    | "long_term_liabilities"
+    | "cash";
+
+
+export type CashFlowResponse = {
+    revenue_accounts: AccountDetails[];
+    sales_returns: AccountDetails[];
+    sales_discounts_and_adjustment: AccountDetails[];
+    cost_of_goods_sold: AccountDetails[];
+    expense_accounts: AccountDetails[];
+    other_taxes: AccountDetails[];
+    depreciation: AccountDetails[];
+    accounts_receivables: AccountDetails[];
+    inventories: AccountDetails[];
+    prepaid_expenses: AccountDetails[];
+    wip_assets: AccountDetails[];
+    allowance_for_doubtful_accounts: AccountDetails[];
+    accounts_payable: AccountDetails[];
+    accruals: AccountDetails[];
+    unearned_revenue: AccountDetails[];
+    fixed_assets: AccountDetails[];
+    contra_fixed_assets: AccountDetails[];
+    other_assets: AccountDetails[];
+    equity_and_owner_draws: AccountDetails[];
+    long_term_liabilities: AccountDetails[];
+    cash: AccountDetails[];
+
+    total_sales: string;
+    sales_adjustments: string;
+    total_cost_of_goods_sold: string;
+    total_expense: string;
+    total_taxes: string;
+    operating_cash: string;
+    investing_cash: string;
+    financing_cash: string;
+    total_cash_flow: string;
+    net_profit_before_tax: string;  
+    cash_balance: string;
+    cash_at_beginning: string;
+
+    period: string;
+}
+
+
+export type CashFLowProps = {
+    cashFlow: CashFlowResponse[],
+    periodType: CashFlowPeriodTypes
+};
+
+
+
+
+// -------- END -----------CASH FLOW------------------------
