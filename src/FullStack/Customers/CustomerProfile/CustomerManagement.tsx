@@ -31,8 +31,7 @@ import CustomerEdit from "./CustomerEdit";
 
 
 
-import { CustomerInputs, CustomerCreateResponse,
-   EditCustomerInputs, AllCustomerInputs } from "../constants/Types";
+import { CustomerInputs, CustomerCreateResponse } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
 
 
@@ -164,27 +163,10 @@ function CustomerManagement() {
 
 
   const handleAddCustomer = async (customerData: CustomerInputs) => {
-    if (!customerData.id_file) {
-      customerData.id_file === null;
-    }
-    if (!customerData.taxpayers_qr_code) {
-      delete customerData.taxpayers_qr_code;
-    }
+
     if (!customerData.preferred_currency?.currency_code) {
       delete customerData.preferred_currency;
     }
-    //const newCustomerData = new FormData();
-
-    //Object.entries(customerData).forEach(([key, value]) => {
-    //  if (value !== null && value !== undefined) {
-    //    if (value instanceof File) {
-    //      //console.log(File.name);
-    //      newCustomerData.append(key, (value));
-    //    } else {
-    //      newCustomerData.append(key, String(value));
-    //    }
-    //  }
-    //});
 
     console.log("🎯 RAW FORM DATA:", customerData);
 

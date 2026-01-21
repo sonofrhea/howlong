@@ -10,7 +10,7 @@ import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { COUNTRY_OPTIONS, STATUS_CHOICES, 
     TAX_ID_CHOICES, BANK_TYPE_CHOICES } from "../constants/options"
 
-import { controlAccountHandler, currencyHandler } from "../../handlers";
+import { currencyHandler } from "../../handlers";
 import { SupplierCategoryResponse, SupplierProfileInputs } from "../constants/Types";
 
 
@@ -347,22 +347,10 @@ const currencyChange = currencyHandler(currencies, setValue);
                             </div>
 
                             <div>
-                                <div className="text-sm text-black mb-1">Tax Number</div>
+                                <div className="text-sm text-black mb-1">Tax Number/TIN Number</div>
                                 <input
                                     className="w-full rounded-lg text-black border border-gray-300 px-3 py-2"
                                     {...register("tax_number")} 
-                                />
-                            </div>
-
-                            <div>
-                                <div className="text-sm text-black mb-1">Taxpayer's QR Code</div>
-                                <input 
-                                    type="file"
-                                    onChange={e => {
-                                        const file = e.target.files?.[0] || null;
-                                        setValue('taxpayers_qr_code', file);
-                                    }}
-                                    className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                 />
                             </div>
 

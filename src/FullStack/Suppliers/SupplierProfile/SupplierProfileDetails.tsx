@@ -297,7 +297,7 @@ const SupplierProfileDetails: React.FC<any> = ({ supplierProfile, isLoading, onB
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Tax Number</h4>
+                            <h4 className="text-sm text-gray-500">Tax Number/TIN Number</h4>
                             <div className="text-black">
                                 {supplierProfile?.tax_number || 'N/A'}
                             </div>

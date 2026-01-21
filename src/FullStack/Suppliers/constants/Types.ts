@@ -121,7 +121,6 @@ export type SupplierProfileInputs = {
   tax_id_type: keyof typeof TAX_ID_CHOICES;
   brn_number: number;
   tax_number: number;
-  taxpayers_qr_code: File | null;
   tourism_number: number;
   expiration_date: string;
   service_tax_number: number;

@@ -91,7 +91,7 @@ export type CustomerInputs = {
   fax: string;
   email: string;
   id_type: typeof ID_TYPE_CHOICES[number]['value'] | null;
-  id_file?: File | null;
+  id_number: string;
   preferred_currency?: {
     currency_code?: string | null;
     currency_name?: string | null;

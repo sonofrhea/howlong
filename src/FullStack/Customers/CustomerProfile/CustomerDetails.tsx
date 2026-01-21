@@ -114,6 +114,14 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                         </div>
                     </div>
 
+                    <div className="bg-orange-50 text-center border border-orange-300 hover:border-orange-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
+                        <h4 className="text-sm text-orange-900 font-medium">ID Number</h4>
+
+                        <div className="text-lg font-bold text-black">
+                            {customer?.id_number || 'N/A'}
+                        </div>
+                    </div>
+
                     <div className="bg-purple-50 text-center border border-purple-300 hover:border-purple-600 rounded-lg hover:cursor-pointer hover:shadow-2xl p-6">
                         <h4 className="text-sm text-purple-800 font-medium">Date created</h4>
                         
@@ -301,7 +309,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Tax Number</h4>
+                            <h4 className="text-sm text-gray-500">Tax Number/TIN Number</h4>
                             <div className="text-black">
                                 {customer?.tax_number || 'N/A'}
                             </div>
