@@ -569,6 +569,8 @@ const handleItemsPerPageChange = (value: any) => {
                 accounts={accounts}
                 agents={agents}
                 customerPayments={customerPayments}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
             />
             )}
         </div>

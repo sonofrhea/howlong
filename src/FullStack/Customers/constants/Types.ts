@@ -400,6 +400,8 @@ export type CreditNoteEditProps = {
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
   customerPayments: CustomerPaymentResponse[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
 };
 
 export type CreditNoteDetailsProps = {

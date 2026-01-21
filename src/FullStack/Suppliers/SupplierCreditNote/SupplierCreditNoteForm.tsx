@@ -47,6 +47,13 @@ const decimalPlaces = (amount: number) => {
 
 const SupplierCreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, supplierInvoices, 
     currencies, accounts, agents, supplierProfiles, productItems }) => {
+                                                                            
+        const productOptions = useMemo(() => 
+            productItems.map((product: ProductItemCreateResponse) => (
+            <option key={product.item_code} value={product.item_code}>
+                SKU-{product.item_code} | {product.item_description}
+            </option>
+        )), [productItems])
         
 
         const { register, handleSubmit, watch, setValue, control, 
@@ -260,13 +267,6 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
 
                                     <tbody className={tables.body}>
                                         {fields.map((field, index) => {
-                                                                            
-                                            const productOptions = useMemo(() => 
-                                                productItems.map((product: ProductItemCreateResponse) => (
-                                                <option key={product.item_code} value={product.item_code}>
-                                                    SKU-{product.item_code} | {product.item_description}
-                                                </option>
-                                            )), [productItems])
         
         
                                             const detailsAmount = Number(watch(`related_credit_note.${index}.amount`) || 0.00);

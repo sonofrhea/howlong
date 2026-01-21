@@ -30,6 +30,13 @@ const decimalPlaces = (amount: number) => {
 
 const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
     currencies, agents, productItems }) => {
+
+        const productOptions = useMemo(() => 
+            productItems.map((product: ProductItemCreateResponse) => (
+            <option key={product.item_code} value={product.item_code}>
+                SKU-{product.item_code} | {product.item_description}
+            </option>
+        )), [productItems])
         
         const { register, handleSubmit, watch, setValue,
              control, formState: { errors } } = useForm<QuotationInputs>({
@@ -217,13 +224,6 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                         }
 
                                         total *= 1 + (tax_amount / 100);
-
-                                        const productOptions = useMemo(() => 
-                                            productItems.map((product: ProductItemCreateResponse) => (
-                                            <option key={product.item_code} value={product.item_code}>
-                                                SKU-{product.item_code} | {product.item_description}
-                                            </option>
-                                        )), [productItems])
 
                                         return(
                                             <tr key={field.id} className={tables.row}>

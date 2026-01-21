@@ -33,6 +33,12 @@ const decimalPlaces = (amount: number) => {
 const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
     agents, products, suppliers }) => {
 
+        const productOption = useMemo(() => products.map((product: ProductItemCreateResponse) => (
+            <option key={product.item_code} value={product.item_code}>
+                SKU-{product.item_code} - {product.item_description}
+            </option>
+        )), [products])
+
         
 
 
@@ -202,12 +208,6 @@ const CompanyPurchaseInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onC
 
                                     <tbody className={tables.body}>
                                         {fields.map((field, index) => {
-
-                                            const productOption = useMemo(() => products.map((product: ProductItemCreateResponse) => (
-                                                <option key={product.item_code} value={product.item_code}>
-                                                    SKU-{product.item_code} - {product.item_description}
-                                                </option>
-                                            )), [products])
 
                                             const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;
                                             const price_per_unit = watch(`related_invoice.${index}.price`) || 0.00;

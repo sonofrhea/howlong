@@ -46,6 +46,12 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
     agents, products, suppliers
 }) => {
 
+    const productOption = useMemo(() => products.map((product: ProductItemCreateResponse) => (
+        <option key={product.item_code} value={product.item_code}>
+            SKU-{product.item_code} - {product.item_description}
+        </option>
+    )), [products])
+
 
     const { register, handleSubmit, watch, setValue, 
         reset, control, formState: { errors } } = useForm<CompanyPurchaseInvoiceInputs>({
@@ -208,12 +214,6 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
 
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => {
-
-                                    const productOption = useMemo(() => products.map((product: ProductItemCreateResponse) => (
-                                        <option key={product.item_code} value={product.item_code}>
-                                            SKU-{product.item_code} - {product.item_description}
-                                        </option>
-                                    )), [products])
 
                                     const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;
                                     const price_per_unit = watch(`related_invoice.${index}.price`) || 0.00;

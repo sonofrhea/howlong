@@ -46,6 +46,13 @@ const SupplierInvoiceEdit: React.FC<SupplierInvoiceProps> = ({
     onCancel,
     currencies, accounts, agents, supplierProfiles, productItems
 }) => {
+                                        
+    const productOptions = useMemo(() => 
+        productItems.map((product: ProductItemCreateResponse) => (
+        <option key={product.item_code} value={product.item_code}>
+            SKU-{product.item_code} | {product.item_description}
+        </option>
+    )), [productItems])
 
 
     const { register, handleSubmit, watch, setValue, control, 
@@ -224,13 +231,6 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
 
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => {
-
-                                    const productOptions = useMemo(() => 
-                                        productItems.map((product: ProductItemCreateResponse) => (
-                                        <option key={product.item_code} value={product.item_code}>
-                                            SKU-{product.item_code} | {product.item_description}
-                                        </option>
-                                    )), [productItems])
 
 
                                     const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;

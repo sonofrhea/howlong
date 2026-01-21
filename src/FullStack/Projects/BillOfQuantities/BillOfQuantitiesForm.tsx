@@ -38,6 +38,13 @@ const decimalPlaces = (amount: number) => {
 const BillOfQuantitiesForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
     agents, projects, products }) => {
 
+        const productItem = useMemo(() => 
+        products.map((product: ProductItemCreateResponse) => (
+            <option key={product.item_code} value={product.item_code}>
+                SKU-{product.item_code} | {product.item_description}
+            </option>
+        )), [products])
+
         const { register, handleSubmit, watch, control, setValue, 
             formState: { errors } } = useForm<BillOfQuantitiesInputs>({
                 defaultValues: {
@@ -133,13 +140,6 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                     <h1 className="text-2xl mb-6">Bill of Quantities Items</h1>
 
                     {fields.map((field, index) => {
-
-                        const productItem = useMemo(() => 
-                        products.map((product: ProductItemCreateResponse) => (
-                            <option key={product.item_code} value={product.item_code}>
-                                SKU-{product.item_code} | {product.item_description}
-                            </option>
-                        )), [products])
 
 
                         return(

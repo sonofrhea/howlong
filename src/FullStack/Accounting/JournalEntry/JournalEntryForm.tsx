@@ -31,6 +31,14 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
 }) => {
 
 
+    const onAccountSelect = useMemo(() => 
+        accounts.map((account: ControlAccountInterface) => (
+            <option key={account.account_code} value={account.account_code}>
+                {account.account_code} | {account.account_name}
+            </option>
+    )), [accounts])
+
+
 
     const { register, handleSubmit, watch, setValue, control, 
         formState: { errors } } = useForm<JournalHeaderInputs>({
@@ -153,13 +161,6 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                             </thead>
                             <tbody className={tables.body}>
                                 {fields.length > 0 ? fields.map((field, index) => {
-                                    
-                                    const onAccountSelect = useMemo(() => 
-                                        accounts.map((account: ControlAccountInterface) => (
-                                            <option key={account.account_code} value={account.account_code}>
-                                                {account.account_code} | {account.account_name}
-                                            </option>
-                                    )), [accounts])
 
                                     const onAccountChange = journalEntryAccountHandler(accounts, setValue, index);
 

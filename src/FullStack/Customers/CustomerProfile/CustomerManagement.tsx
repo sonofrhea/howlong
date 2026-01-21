@@ -181,12 +181,7 @@ function CustomerManagement() {
 
 
   const handleUpdateCustomer = (customerData: CustomerInputs) => {
-    if (!customerData.id_file) {
-      customerData.id_file === null;
-    }
-    if (!customerData.taxpayers_qr_code) {
-      delete customerData.taxpayers_qr_code;
-    }
+
     if (!customerData.preferred_currency?.currency_code) {
       delete customerData.preferred_currency;
     }
