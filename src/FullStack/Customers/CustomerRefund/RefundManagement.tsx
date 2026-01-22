@@ -11,6 +11,10 @@ import { fetchRefunds, createRefund, fetchRefundById,
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 
+import { toast } from "react-hot-toast";
+
+import { createJournalEntry } from "../../Accounting/Engines";
+
 
 import RefundDetails from "./RefundDetails";
 import RefundForm from "./RefundForm";
@@ -63,6 +67,11 @@ function RefundManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+
+
             // DEPENDENCIES
 
     const { data: customers = [] } = useQuery({
@@ -196,9 +205,17 @@ function RefundManagement() {
                 delete refundData.related_customer_refund;
             }
         }
-        console.log("🎯 RAW FORM DATA:", refundData)
+        //console.log("🎯 RAW FORM DATA:", refundData)
 
-        createRefundMutation.mutate(refundData);
+        const toastId = toast.loading('Creating Refund...');
+        try {
+            await createRefundMutation.mutateAsync(refundData);
+            toast.success('Refund created successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create refund', { id: toastId });
+            console.error(error);
+        }
+        
     };
 
 
@@ -255,6 +272,26 @@ function RefundManagement() {
     });
 
     // ------------------------------------------------------------------------------------
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
+
                                 // SORTING
 
 
@@ -512,6 +549,9 @@ function RefundManagement() {
                     isLoading={isLoadingRefund}
                     onBack={handleBackToRefundsList}
                     onEdit={handleEditRefundButton}
+                    accounts={accounts}
+                    onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                    isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
                 )}
 
@@ -527,6 +567,8 @@ function RefundManagement() {
                     accounts={accounts}
                     agents={agents}
                     creditNotes={creditNotes}
+                    onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                    isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
                 )}
             </div>

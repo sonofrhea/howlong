@@ -30,6 +30,8 @@ import SupplierCreditNoteTable from "./SupplierCreditNoteTable";
 import SupplierCreditNoteEdit from "./SupplierCreditNoteEdit";
 
 import { management } from "../constants/Styles";
+import { createJournalEntry } from "../../Accounting/Engines";
+import { toast } from "react-hot-toast";
 
 
 interface SortConfig {
@@ -60,6 +62,10 @@ function SupplierCreditNoteManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+
                 // DEPENDENCIES
 
     const { data: currencies = [] } = useQuery({
@@ -189,9 +195,17 @@ function SupplierCreditNoteManagement() {
         if (!supplierCreditNoteData.account?.account_code) {
             delete supplierCreditNoteData.account;
         }
-        console.log("🎯 RAW FORM DATA:", supplierCreditNoteData)
+        //console.log("🎯 RAW FORM DATA:", supplierCreditNoteData)
 
-        createSupplierCreditNoteMutation.mutate(supplierCreditNoteData);
+        const toastId = toast.loading('Creating Supplier Credit Note...')
+
+        try {
+            await createSupplierCreditNoteMutation.mutateAsync(supplierCreditNoteData);
+            toast.success('Supplier Credit Note created successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create Supplier Debit Note', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -249,6 +263,27 @@ function SupplierCreditNoteManagement() {
     });
 
     // ------------------------------------------------------------------------------------
+
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
+
                                 // SORTING
 
 
@@ -502,6 +537,9 @@ function SupplierCreditNoteManagement() {
                 isLoading={isLoadingSupplierCreditNote}
                 onBack={handleBackToSupplierCreditNotesList}
                 onEdit={handleEditSupplierCreditNoteButton}
+                accounts={accounts}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
 
@@ -517,6 +555,8 @@ function SupplierCreditNoteManagement() {
                 agents={agents}
                 productItems={productItems}
                 supplierProfiles={supplierProfiles}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
             </div>

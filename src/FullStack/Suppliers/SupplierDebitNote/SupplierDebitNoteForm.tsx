@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 
 
@@ -47,15 +47,22 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const SupplierDebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, currencies, 
-    accounts, agents, SupplierInvoices, SupplierProfiles, productItems }) => {
+const SupplierDebitNoteForm: React.FC<any> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    currencies, 
+    accounts, agents, SupplierInvoices, SupplierProfiles, productItems,
+    onCreateJournalEntry, isCreatingJournalEntry
+}) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
     
-            const productOptions = useMemo(() => 
-                productItems.map((product: ProductItemCreateResponse) => (
-                <option key={product.item_code} value={product.item_code}>
-                    SKU-{product.item_code} | {product.item_description}
-                </option>
-            )), [productItems])
+        const productOptions = useMemo(() => 
+            productItems.map((product: ProductItemCreateResponse) => (
+            <option key={product.item_code} value={product.item_code}>
+                SKU-{product.item_code} | {product.item_description}
+            </option>
+        )), [productItems])
 
         
         const { register, handleSubmit, watch, setValue, control,

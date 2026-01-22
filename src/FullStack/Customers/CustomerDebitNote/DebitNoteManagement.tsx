@@ -23,6 +23,8 @@ import { DebitNoteInputs, DebitNoteCreateResponse,
   EditDebitNoteInputs
  } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
+import toast from "react-hot-toast";
+import { createJournalEntry } from "../../Accounting/Engines";
 
 
 
@@ -59,6 +61,10 @@ function DebitNoteManagement() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 // ------------------------------------------------------------------------------------
+  const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+// ------------------------------------------------------------------------------------
+
+
           // DEPENDENCIES
 
   const { data: customers = [] } = useQuery({
@@ -201,9 +207,16 @@ const deleteDebitNoteMutation = useMutation({
         delete debitNoteData.debit_note_details;
       }
     }
-    console.log("🎯 RAW FORM DATA:", debitNoteData);
+    //console.log("🎯 RAW FORM DATA:", debitNoteData);
+      const toastId = toast.loading('Creating Debit Note...');
+      try {
+        await createDebitNoteMutation.mutateAsync(debitNoteData);
+        toast.success('Credit Note created successfully!', { id: toastId });
+      } catch (error) {
+        toast.error('Failed to create Debit Note', { id: toastId });
+        console.error(error);
+      }
     
-    createDebitNoteMutation.mutate(debitNoteData);
     };
 
     
@@ -270,6 +283,26 @@ const deleteDebitNoteMutation = useMutation({
 });
 
   // ------------------------------------------------------------------------------------
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
+
                               // SORTING
 
 
@@ -528,6 +561,9 @@ const handleItemsPerPageChange = (value: number) => {
               onBack={handleBackToDebitNotesList}
               onEdit={handleEditDebitNoteButton}
               onCancel={handleBackToDebitNotesList}
+              accounts={accounts}
+              onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+              isCreatingJournalEntry={createJournalEntryMutation.isPending}
             />
           )}
 
@@ -543,6 +579,8 @@ const handleItemsPerPageChange = (value: number) => {
               accounts={accounts}
               agents={agents}
               customerPayments={customerPayments}
+              onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+              isCreatingJournalEntry={createJournalEntryMutation.isPending}
             />
           )}
         </div>

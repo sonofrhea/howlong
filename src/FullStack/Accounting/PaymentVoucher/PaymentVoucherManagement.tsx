@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 
 import { fetchPaymentVouchers, fetchPaymentVoucherById, createPaymentVoucher,
-    updatePaymentVoucher, deletePaymentVoucher
+    updatePaymentVoucher, deletePaymentVoucher,
+    createJournalEntry
  } from "../Engines";
 
 import { fetchSupplierProfiles } from "../../Suppliers/Engines";
@@ -23,6 +24,7 @@ import PaymentVoucherEdit from "./PaymentVoucherEdit";
 
 import { EditPaymentVoucher, PaymentVoucherInputs } from "../Constants/Types";
 import { spinningStyles } from "../Constants/Styles";
+import { toast } from "react-hot-toast";
 
 interface SortConfig {
   key: string | null;
@@ -52,6 +54,10 @@ function PaymentVoucherManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+            
                 // DEPENDENCIES
     const { data: suppliers = [] } = useQuery({
         queryKey: ['suppliers'],
@@ -176,9 +182,16 @@ function PaymentVoucherManagement() {
         if (!paymentVoucherData.account_paid_by?.account_code) {
             delete paymentVoucherData.account_paid_by;
         }
-        console.log("RAW FORM DATA: ", paymentVoucherData);
+        //console.log("RAW FORM DATA: ", paymentVoucherData);
 
-        createPaymentVoucherMutation.mutate(paymentVoucherData);
+        const toastId = toast.loading('Creating payment voucher...');
+        try {
+            await createPaymentVoucherMutation.mutateAsync(paymentVoucherData);
+            toast.success('Payment Voucher successfully created', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create payment voucher.');
+            console.error(error);
+        }
     };
 
 
@@ -211,7 +224,7 @@ function PaymentVoucherManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditPaymentVoucher = ({paymentVoucherId, paymentVoucherData}: EditPaymentVoucher) => {
+    const handleEditPaymentVoucher = (paymentVoucherId: number) => {
         setSelectedPaymentVoucherId(paymentVoucherId);
         setView('edit');
     };
@@ -236,6 +249,26 @@ function PaymentVoucherManagement() {
     });
 
     // ------------------------------------------------------------------------------------
+
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
                                 // SORTING
 
 
@@ -493,6 +526,9 @@ function PaymentVoucherManagement() {
                 isLoading={isLoadingPaymentVoucher}
                 onBack={handleBackToPaymentVouchersList}
                 onEdit={handleEditPaymentVoucherButton}
+                accounts={accounts}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
 
@@ -507,6 +543,8 @@ function PaymentVoucherManagement() {
                 accounts={accounts}
                 agents={agents}
                 projects={projects}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
             </div>

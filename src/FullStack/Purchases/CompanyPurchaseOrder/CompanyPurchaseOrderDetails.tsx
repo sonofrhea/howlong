@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { buttons, details, forms, 
     labelStyles, layout, tables, text } from "../constants/styles";
 import { SquarePen } from "lucide-react";
+import { CompanyPurchaseOrderDetailsProps } from "../constants/Types";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
+
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
@@ -31,7 +34,15 @@ const formatPurchaseInvoiceNumber = () => {
 
 
 
-const CompanyPurchaseOrderDetails: React.FC<any> = ({ companyPurchaseOrder, isLoading, onBack, onEdit }) => {
+const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = ({
+    companyPurchaseOrder,
+    isLoading,
+    onBack,
+    onEdit,
+    accounts,
+    onCreateJournalEntry, isCreatingJournalEntry
+}) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
     
     if (isLoading) {
@@ -82,13 +93,19 @@ const CompanyPurchaseOrderDetails: React.FC<any> = ({ companyPurchaseOrder, isLo
 
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={() => onEdit(companyPurchaseOrder.purchase_order_number)}
                             
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
                             Edit
                         </button>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                     </div>
                 </div>
 
@@ -118,7 +135,7 @@ const CompanyPurchaseOrderDetails: React.FC<any> = ({ companyPurchaseOrder, isLo
                         
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Related Purchase Invoice</p>
-                            {formatPurchaseInvoiceNumber()}{companyPurchaseOrder.related_invoice} | Total: {companyPurchaseOrder.related_invoice_total}
+                            {formatPurchaseInvoiceNumber()}{companyPurchaseOrder.related_invoice} | Total: {companyPurchaseOrder.invoice_total}
                         </p>
                         
                         <p className={labelStyles}>
@@ -218,12 +235,33 @@ const CompanyPurchaseOrderDetails: React.FC<any> = ({ companyPurchaseOrder, isLo
                 
                 <p className={labelStyles}>
                     <p className={details.extraSmallUppercase}>Payment receipt</p>
-                    {companyPurchaseOrder.payment_receipt || 'N/A'}
+                    {companyPurchaseOrder.payment_receipt ? (
+                        <div>
+                        <p>📄 {companyPurchaseOrder.payment_receipt.name}</p>
+                        <p>Size: {(companyPurchaseOrder.payment_receipt.size / 1024).toFixed(2)} KB</p>
+                        <a
+                            href={URL.createObjectURL(companyPurchaseOrder.payment_receipt)}
+                            download={companyPurchaseOrder.payment_receipt.name}
+                            className="text-blue-500 underline"
+                        >
+                            Download Receipt
+                        </a>
+                        </div>
+                    ) : (
+                        'N/A'
+                    )}
                 </p>
 
                 <hr className="my-6 border-gray-200" />
 
             </div>
+            <JournalEntryModal
+                isOpen={isJournalEntryOpen}
+                onClose={() => setIsJournalEntryOpen(false)}
+                onCreate={onCreateJournalEntry}
+                isSubmitting={isCreatingJournalEntry}
+                accounts={accounts}
+            />
         </div>
     );
 };

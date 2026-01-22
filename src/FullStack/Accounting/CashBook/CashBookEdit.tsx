@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 import { CashBookInputs, CashBookProps } from "../Constants/Types";
@@ -6,6 +6,7 @@ import { cashBookAccountHandler } from "../../handlers";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { CurrencyInterface } from "../../Core/constants/Types";
 import { buttons, layout, utils } from "../Constants/Styles";
+import JournalEntryModal from "../JournalEntry/JournalEntryModal";
 
 
 
@@ -21,8 +22,10 @@ const CashBookEdit: React.FC<CashBookProps> = ({
     onSubmit,
     isSubmitting,
     onCancel,
-    currencies, accounts, agents
+    currencies, accounts, agents,
+    onCreateJournalEntry, isCreatingJournalEntry
 }) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
 
     const { register, formState: { errors }, setValue, control, 
@@ -274,6 +277,19 @@ const CashBookEdit: React.FC<CashBookProps> = ({
                 >
                     Cancel
                 </button>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
             </div>
         </form>
     );        

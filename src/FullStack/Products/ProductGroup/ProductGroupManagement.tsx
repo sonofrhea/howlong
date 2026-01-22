@@ -22,6 +22,7 @@ import { ProductGroupInputs, ProductGroupCreateResponse,
   EditProductGroupInputs
  } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
+import { toast } from "react-hot-toast";
 
 
 interface SortConfig {
@@ -151,9 +152,15 @@ function ProductGroupManagement() {
 
 
   const handleAddProductGroup = async (productGroupData: ProductGroupInputs) => {
-    console.log("🎯 RAW FORM DATA:", productGroupData);
-    
-    createProductGroupsMutation.mutate(productGroupData);
+    //console.log("🎯 RAW FORM DATA:", productGroupData);
+    const toastId = toast.loading('Creating Product Group...');
+    try {
+      await createProductGroupsMutation.mutateAsync(productGroupData);
+      toast.success('Product Group successfully created', {id: toastId});
+    } catch (error) {
+      toast.error('Failed to create product group', { id: toastId });
+      console.error(error);
+    }
   };
 
 

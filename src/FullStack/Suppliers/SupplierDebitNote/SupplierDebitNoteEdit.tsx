@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 import { SupplierDebitNoteInputs, SupplierDebitNoteProps, SupplierInvoiceResponse, SupplierProfileResponse } from "../constants/Types";
@@ -8,6 +8,7 @@ import { ProductItemCreateResponse } from "../../Products/constants/Types";
 import { Trash2 } from "lucide-react";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 
@@ -38,8 +39,10 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
     onSubmit,
     isSubmitting,
     onCancel,
-    currencies, accounts, agents, SupplierInvoices, SupplierProfiles, productItems
+    currencies, accounts, agents, SupplierInvoices, SupplierProfiles, productItems,
+    onCreateJournalEntry, isCreatingJournalEntry
 }) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
     const productOptions = useMemo(() => 
         productItems.map((product: ProductItemCreateResponse) => (
@@ -91,6 +94,12 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                             </div>
                         </div>
                     </div>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -427,6 +436,13 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                         </button>
                     </div>
                 </div>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
             </div>
         </form>
     );

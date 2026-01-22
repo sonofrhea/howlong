@@ -162,7 +162,7 @@ function JournalEntryManagement() {
 
         // EDIT
 
-    const handleEditJournalEntry = ({journalEntryId, journalEntryData}: EditJournalHeaderInputs) => {
+    const handleEditJournalEntry = (journalEntryId: number) => {
         setSelectedJournalEntryId(journalEntryId);
         setView('edit');
     };

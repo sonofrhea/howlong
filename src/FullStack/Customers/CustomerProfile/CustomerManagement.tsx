@@ -33,6 +33,7 @@ import CustomerEdit from "./CustomerEdit";
 
 import { CustomerInputs, CustomerCreateResponse } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
+import { toast } from "react-hot-toast";
 
 
 
@@ -168,9 +169,15 @@ function CustomerManagement() {
       delete customerData.preferred_currency;
     }
 
-    console.log("🎯 RAW FORM DATA:", customerData);
-
-    createCustomersMutation.mutate(customerData);
+    //console.log("🎯 RAW FORM DATA:", customerData);
+    const toastId = toast.loading('Creating Customer...');
+    try {
+      await createCustomersMutation.mutateAsync(customerData);
+      toast.success('Customer successfully created', {id: toastId});
+    } catch (error) {
+      toast.error('Failed to create customer', { id: toastId });
+      console.error(error);
+    }
   };
 
 

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { CreditNoteCreateResponse, CustomerCreateResponse,
     CustomerRefundInputs, CustomerRefundProps } from "../constants/Types";
@@ -8,6 +8,7 @@ import { REFUND_TYPE_OPTIONS } from "../constants/Options";
 import { Trash2 } from "lucide-react";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 
@@ -45,8 +46,10 @@ const RefundEdit: React.FC<CustomerRefundProps> = ({
   isSubmitting,
   onBack,
   onCancel,
-  customers, currencies, accounts, agents, creditNotes   
+  customers, currencies, accounts, agents, creditNotes,
+  onCreateJournalEntry, isCreatingJournalEntry
 }) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
 
     const { register, handleSubmit, watch, setValue, control,
@@ -89,6 +92,12 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                             </div>
                         </div>
                     </div>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -388,6 +397,13 @@ const controlAccountChange = controlAccountHandler(accounts, setValue);
                         </button>
                     </div>
                 </div>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
             </div>
         </form>
     );

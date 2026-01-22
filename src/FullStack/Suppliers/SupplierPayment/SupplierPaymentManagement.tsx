@@ -38,6 +38,8 @@ import SupplierPaymentDetails from "./SupplierPaymentDetails";
 import SupplierPaymentForm from "./SupplierPaymentForm";
 import SupplierPaymentTable from "./SupplierPaymentTable";
 import SupplierPaymentEdit from "./SupplierPaymentEdit";
+import { toast } from "react-hot-toast";
+import { createJournalEntry } from "../../Accounting/Engines";
 
 
 interface SortConfig {
@@ -59,6 +61,10 @@ function SupplierPaymentManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+
                 // DEPENDENCIES
 
     const { data: currencies = [] } = useQuery({
@@ -193,10 +199,16 @@ function SupplierPaymentManagement() {
                 delete supplierPaymentData.related_payment;
             }
             }
-        console.log("🎯 RAW FORM DATA:", supplierPaymentData);
+        //console.log("🎯 RAW FORM DATA:", supplierPaymentData);
 
-
-        createSupplierPaymentMutation.mutate(supplierPaymentData);
+        const toastId = toast.loading('Creating Supplier Payment...');
+        try {
+            await createSupplierPaymentMutation.mutateAsync(supplierPaymentData);
+            toast.success('Supplier Payment created successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create Supplier Payment', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -258,6 +270,26 @@ function SupplierPaymentManagement() {
     });
 
     // ------------------------------------------------------------------------------------
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
+
                                 // SORTING
 
 
@@ -507,6 +539,9 @@ function SupplierPaymentManagement() {
                 isLoading={isLoadingSupplierPayment}
                 onBack={handleBackToSupplierPaymentsList}
                 onEdit={handleEditSupplierPaymentButton}
+                accounts={accounts}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
 
@@ -521,6 +556,8 @@ function SupplierPaymentManagement() {
                 agents={agents}
                 supplierInvoices={supplierInvoices}
                 supplierProfiles={supplierProfiles}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
             </div>

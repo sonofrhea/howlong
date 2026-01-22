@@ -29,6 +29,8 @@ import CustomerPaymentForm from "./CustomerPaymentForm";
 import CustomerPaymentTable from "./CustomerPaymentTable";
 import { spinningStyles } from "../Constants/Styles";
 import CustomerPaymentEdit from "./CustomerPaymentEdit";
+import { createJournalEntry } from "../../Accounting/Engines";
+import { toast } from "react-hot-toast";
 
 
 
@@ -71,6 +73,10 @@ function CustomerPaymentManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+
             // DEPENDENCIES
 
 
@@ -204,10 +210,18 @@ function CustomerPaymentManagement() {
             delete customerPaymentData.account_received_in;
         }
         
-        console.log("🎯 RAW FORM DATA:", customerPaymentData);
+        //console.log("🎯 RAW FORM DATA:", customerPaymentData);
 
+        const toastId = toast.loading('Creating Payment...');
+        try {
+            await createCustomerPaymentMutation.mutateAsync(customerPaymentData);
+            toast.success('Payment created successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create Payment', { id: toastId });
+            console.error(error);
+        }
 
-        createCustomerPaymentMutation.mutate(customerPaymentData);
+        
     };
 
 
@@ -266,6 +280,26 @@ function CustomerPaymentManagement() {
     });
 
     // ------------------------------------------------------------------------------------
+    
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
+
                                 // SORTING
 
 
@@ -524,6 +558,9 @@ function CustomerPaymentManagement() {
                 isLoading={isLoadingCustomerPayment}
                 onBack={handleBackToCustomerPaymentsList}
                 onEdit={handleEditCustomerPaymentButton}
+                accounts={accounts}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
             />
             )}
 
@@ -539,6 +576,8 @@ function CustomerPaymentManagement() {
                 customers={customers}
                 invoicePayments={invoicePayments}
                 projects={projects}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
             />
             )}
         </div>

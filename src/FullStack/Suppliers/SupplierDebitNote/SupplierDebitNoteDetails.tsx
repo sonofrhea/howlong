@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 
 import { buttons, forms, labelStyles, 
     layout, spinningStyles, tables, text } from "../constants/Styles";
 import { SquarePen } from "lucide-react";
 import { details } from "../../Core/constants/Styles";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
+import { SupplierDebitNoteDetailsProps } from "../constants/Types";
 
 
 
@@ -42,7 +44,14 @@ const formatSupplierNumber = () => {
 
 
 
-const SupplierDebitNoteDetails: React.FC<any> = ({ supplierDebitNote, isLoading, onBack, onEdit }) => {
+const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
+    supplierDebitNote,
+    isLoading,
+    onBack,
+    onEdit,
+    accounts, onCreateJournalEntry, isCreatingJournalEntry
+}) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
 
     
@@ -96,12 +105,18 @@ const SupplierDebitNoteDetails: React.FC<any> = ({ supplierDebitNote, isLoading,
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={() => onEdit(supplierDebitNote.debit_note_number)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
                             Edit
                         </button>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                     </div>
                 </div>
 
@@ -246,6 +261,13 @@ const SupplierDebitNoteDetails: React.FC<any> = ({ supplierDebitNote, isLoading,
                 </p>
                 <hr className="my-6 border-gray-200" />
             </div>
+            <JournalEntryModal
+                isOpen={isJournalEntryOpen}
+                onClose={() => setIsJournalEntryOpen(false)}
+                onCreate={onCreateJournalEntry}
+                isSubmitting={isCreatingJournalEntry}
+                accounts={accounts}
+            />
         </div>
     );
 };

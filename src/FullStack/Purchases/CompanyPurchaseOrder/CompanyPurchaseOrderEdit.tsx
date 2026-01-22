@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 
@@ -15,6 +15,7 @@ import { CompanyPurchaseInvoiceResponse } from "../constants/Types";
 import { companyPurchaseAccountHandler, companyPurchaseInvoiceTotal } from "../../handlers";
 
 import { Trash2 } from "lucide-react";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 const formatSupplierNumber = () => {
@@ -57,8 +58,10 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
     onSubmit,
     isSubmitting,
     onCancel, 
-    accounts, agents, supplierProfiles, purchaseInvoices
+    accounts, agents, supplierProfiles, purchaseInvoices,
+    onCreateJournalEntry, isCreatingJournalEntry
 }) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
 
 
@@ -111,6 +114,12 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                             </div>
                         </div>
                     </div>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -246,7 +255,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                         className="w-[40%] text-black cursor-pointer rounded-lg border border-gray-300 px-3 py-2"
                         placeholder="upload payment receipt"
                         title="upload payment receipt..."
-                        onChange={e => {
+                        onChange={(e) => {
                             const file = e.target.files?.[0] || null;
                             setValue('payment_receipt', file);
                         }}
@@ -446,6 +455,13 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                         </button>
                     </div>
                 </div>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
             </div>
         </form>
     );

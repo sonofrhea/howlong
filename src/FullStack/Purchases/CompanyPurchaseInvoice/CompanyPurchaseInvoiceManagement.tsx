@@ -26,6 +26,7 @@ import CompanyPurchaseInvoiceDetails from "./CompanyPurchaseInvoiceDetails";
 import CompanyPurchaseInvoiceForm from "./CompanyPurchaseInvoiceForm";
 import CompanyPurchaseInvoiceTable from "./CompanyPurchaseInvoiceTable";
 import CompanyPurchaseInvoiceEdit from "./CompanyPurchaseInvoiceEdit";
+import { toast } from "react-hot-toast";
 
 
 interface SortConfig {
@@ -178,9 +179,15 @@ function CompanyPurchaseInvoiceManagement() {
         if (companyPurchaseInvoiceData.related_invoice?.length === 0) {
             delete companyPurchaseInvoiceData.related_invoice
         }
-        console.log("🎯 RAW FORM DATA:", companyPurchaseInvoiceData)
-
-        createCompanyPurchaseInvoiceMutation.mutate(companyPurchaseInvoiceData);
+        //console.log("🎯 RAW FORM DATA:", companyPurchaseInvoiceData)
+        const toastId = toast.loading('Creating Purchase Invoice...');
+        try {
+            await createCompanyPurchaseInvoiceMutation.mutateAsync(companyPurchaseInvoiceData);
+            toast.success('Purchase Invoice successfully created', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to create purchase invoice', { id: toastId });
+            console.error(error);
+        }
     };
 
 

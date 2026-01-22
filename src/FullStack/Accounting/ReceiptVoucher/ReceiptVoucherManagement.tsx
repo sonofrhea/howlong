@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 
 
 import { fetchReceiptVouchers, fetchReceiptVoucherById, createReceiptVoucher,
-    updateReceiptVoucher, deleteReceiptVoucher
+    updateReceiptVoucher, deleteReceiptVoucher,
+    createJournalEntry
  } from "../Engines";
 
 import { fetchProjects } from "../../Projects/Engines";
@@ -24,6 +25,7 @@ import ReceiptVoucherDetails from "./ReceiptVoucherDetails";
 import ReceiptVoucherForm from "./ReceiptVoucherForm";
 import ReceiptVoucherTable from "./ReceiptVoucherTable";
 import ReceiptVoucherEdit from "./ReceiptVoucherEdit";
+import { toast } from "react-hot-toast";
 
 
 interface SortConfig {
@@ -50,6 +52,9 @@ function ReceiptVoucherManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+    
                 // DEPENDENCIES
     const { data: customers = [] } = useQuery({
         queryKey: ['customers'],
@@ -176,9 +181,15 @@ function ReceiptVoucherManagement() {
             delete receiptVoucherData.account_received_in;
         }
 
-        console.log("RAW FORM DATA: ", receiptVoucherData);
-      
-        createReceiptVoucherMutation.mutate(receiptVoucherData);
+        //console.log("RAW FORM DATA: ", receiptVoucherData);
+        const toastId = toast.loading('Creating receipt voucher...');
+        try {
+            await createReceiptVoucherMutation.mutateAsync(receiptVoucherData);
+            toast.success('Receipt Voucher successfully created', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create receipt voucher.');
+            console.error(error);
+        }
     };
 
 
@@ -211,7 +222,7 @@ function ReceiptVoucherManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditReceiptVoucher = ({receiptVoucherId, receiptVoucherData}: EditReceiptVoucher) => {
+    const handleEditReceiptVoucher = (receiptVoucherId: number) => {
         setSelectedReceiptVoucherId(receiptVoucherId);
         setView('edit');
     };
@@ -236,6 +247,26 @@ function ReceiptVoucherManagement() {
     });
 
     // ------------------------------------------------------------------------------------
+
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
                                 // SORTING
 
 
@@ -492,6 +523,9 @@ function ReceiptVoucherManagement() {
                 isLoading={isLoadingReceiptVoucher}
                 onBack={handleBackToReceiptVouchersList}
                 onEdit={handleEditReceiptVoucherButton}
+                accounts={accounts}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
 
@@ -506,6 +540,8 @@ function ReceiptVoucherManagement() {
                 accounts={accounts}
                 agents={agents}
                 projects={projects}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
             </div>

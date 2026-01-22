@@ -26,7 +26,8 @@ import { spinningStyles } from "../constants/Styles";
 import JobCostLedgerDetails from "./JobCostLedgerDetails";
 import JobCostLedgerForm from "./JobCostLedgerForm";
 import JobCostLedgerTable from "./JobCostLedgerTable";
-//import JobCostLedgerEdit from "./JobCostLedgerEdit";
+import JobCostLedgerEdit from "./JobCostLedgerEdit";
+import { toast } from "react-hot-toast";
 
 
 
@@ -186,9 +187,15 @@ function JobCostLedgerManagement() {
             delete jobCostLedgerData.job_cost_ledger
         }
 
-        console.log("RAW FORM DATA: ", jobCostLedgerData);
-
-        createJobCostLedgerMutation.mutate(jobCostLedgerData);
+        //console.log("RAW FORM DATA: ", jobCostLedgerData);
+        const toastId = toast.loading('Creating Job Cost Ledger...');
+        try {
+            await createJobCostLedgerMutation.mutateAsync(jobCostLedgerData);
+            toast.success('Job Cost Ledger successfully created', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to create job cost ledger', { id: toastId });
+            console.error(error);
+        }
     };
 
 

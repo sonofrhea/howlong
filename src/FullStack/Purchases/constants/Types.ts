@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 import { PURCHASES_ICONS } from "./ModuleIcons";
 
@@ -7,6 +7,7 @@ import { AgentInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
 import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
 
 
 export interface PurchaseModulesInterface {
@@ -124,7 +125,7 @@ export type CompanyPurchaseOrderInputs = {
   related_invoice_total: number;
   invoice_total: number;
   description: string;
-  payment_receipt?: File | null;
+  payment_receipt: File | null;
   related_purchase: Array <{
     payment_date: string;
     total_paid: number;
@@ -137,6 +138,40 @@ export type CompanyPurchaseOrderInputs = {
   cancelled: boolean;
   tax_inclusive: boolean;
   tax_amount: number;
+};
+
+export type CompanyPurchaseOrderDetails = {
+  purchase_order_number: number;
+  date: string;
+  supplier: string;
+  supplier_name: string;
+  account? : {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
+  address: string;
+  related_invoice: string;
+  description: string;
+  payment_receipt: File;
+  invoice_total: number;
+  gross_paid: number;
+  tax_inclusive: boolean;
+  tax_amount: number;
+  related_purchase: Array<{
+    payment_date: string;
+    total_paid: number;
+    tax_inclusive: boolean;
+    tax_amount: number;
+    cancelled: boolean;
+    sub_total: number;
+}>
+  net_total_paid: number;
+  outstanding_amount: number;
+  cancelled: boolean;
+  status: string;
+  agent: string;
+  created_by: string;
 };
 
 
@@ -164,6 +199,19 @@ export type CompanyPurchaseOrderProps = {
   agents: AgentInterface[];
   supplierProfiles: SupplierProfileResponse[];
   purchaseInvoices: CompanyPurchaseInvoiceResponse[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
+};
+
+
+export type CompanyPurchaseOrderDetailsProps = {
+  companyPurchaseOrder: CompanyPurchaseOrderDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (CompanyPurchaseOrderId: number) => void;
+  accounts: ControlAccountInterface[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
 };
 
 

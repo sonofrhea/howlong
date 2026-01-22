@@ -26,6 +26,7 @@ interface SortConfig {
 import { SupplierCategoryInputs, allSupplierCategoryInputs,
     editSupplierCategory
  } from "../constants/Types";
+import { toast } from "react-hot-toast";
 
 
 
@@ -143,9 +144,15 @@ function SupplierCategoryManagement() {
 
 
     const handleAddSupplierCategory = async (supplierCategoryData: SupplierCategoryInputs) => {
-        console.log("🎯 RAW FORM DATA:", supplierCategoryData);
-
-        createSupplierCategoryMutation.mutate(supplierCategoryData);
+        //console.log("🎯 RAW FORM DATA:", supplierCategoryData);
+        const toastId = toast.loading('Creating Supplier Category...');
+        try {
+            await createSupplierCategoryMutation.mutateAsync(supplierCategoryData);
+            toast.success('Supplier Category successfully created!', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to create supplier category', { id: toastId });
+            console.error(error);
+        }
     };
 
 

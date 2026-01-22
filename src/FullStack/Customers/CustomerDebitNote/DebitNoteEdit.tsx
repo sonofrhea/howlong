@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { DebitNoteInputs, DebitNoteEditProps, CustomerCreateResponse } from "../constants/Types";
 import { supplierDebitNoteAccountHandler } from "../../handlers";
@@ -7,6 +7,7 @@ import { Trash2 } from "lucide-react";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 
@@ -46,7 +47,14 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
     onSubmit,
     isSubmitting,
     onBack,
-    onCancel, customers, customerPayments, currencies, accounts, agents }) => {
+    onCancel,
+    customers,
+    customerPayments,
+    currencies,
+    accounts,
+    agents, onCreateJournalEntry, isCreatingJournalEntry }) => {
+        
+        const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
 
     const { register, handleSubmit, watch, setValue, control,
@@ -100,6 +108,12 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                             </div>
                         </div>
                     </div>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -408,6 +422,13 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                         </button>
                     </div>
                 </div>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
             </div>
         </form>
     );

@@ -23,6 +23,7 @@ import SupplierProfileEdit from "./SupplierProfileEdit";
 
 import { EditSupplierProfile, SupplierProfileInputs } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
+import { toast } from "react-hot-toast";
 
 
 interface SortConfig {
@@ -177,9 +178,16 @@ function SupplierProfileManagement() {
                 }
             }
         });
-        console.log("🎯 RAW FORM DATA:", newSupplierProfileData);
+        //console.log("🎯 RAW FORM DATA:", newSupplierProfileData);
 
-        createSupplierProfileMutation.mutate(newSupplierProfileData);
+        const toastId = toast.loading('Creating Supplier Profile...');
+        try {
+            await createSupplierProfileMutation.mutateAsync(newSupplierProfileData);
+            toast.success('Supplier Profile created successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create Supplier Debit Note', { id: toastId });
+            console.error(error);
+        }
     };
 
 

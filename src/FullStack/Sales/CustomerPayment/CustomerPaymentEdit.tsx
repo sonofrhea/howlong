@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 
@@ -12,6 +12,7 @@ import { CustomerCreateResponse } from "../../Customers/constants/Types";
 
 
 import { controlAccountHandler, invoicePaymentHandler } from "../../handlers";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 const decimalPlaces = (amount: number) => {
@@ -48,8 +49,10 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
     onSubmit,
     isSubmitting,
     onCancel,
-    currencies, accounts, agents, customers, invoicePayments, projects
+    currencies, accounts, agents, customers, invoicePayments, projects,
+    onCreateJournalEntry, isCreatingJournalEntry
 }) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
 
     const { register, handleSubmit, watch, setValue, control, 
@@ -112,6 +115,12 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                             </div>
                         </div>
                     </div>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -380,6 +389,13 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                         </button>
                     </div>
                 </div>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
             </div>
         </form>
     );

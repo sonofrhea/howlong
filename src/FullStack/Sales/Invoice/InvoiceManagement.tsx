@@ -26,6 +26,7 @@ import InvoiceEdit from "./InvoiceEdit";
 import { InvoiceInputs, InvoiceCreateResponse, 
     EditInvoiceInputs } from "../Constants/Types";
 import { spinningStyles } from "../Constants/Styles";
+import { toast } from "react-hot-toast";
 
 
 interface SortConfig {
@@ -197,10 +198,15 @@ function InvoiceManagement() {
         if (invoiceData.related_invoice?.length === 0) {
             delete invoiceData.related_invoice;
         } 
-        console.log("🎯 RAW FORM DATA:", invoiceData);
-
-
-        createInvoiceMutation.mutate(invoiceData);
+        //console.log("🎯 RAW FORM DATA:", invoiceData);
+        const toastId = toast.loading('Creating Invoice...');
+        try {
+            await createInvoiceMutation.mutateAsync(invoiceData);
+            toast.success('Invoice successfully created', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to create invoice', { id: toastId });
+            console.error(error);
+        }
     };
 
 

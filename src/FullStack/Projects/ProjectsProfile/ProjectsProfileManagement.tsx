@@ -22,6 +22,7 @@ import ProjectsProfileTable from "./ProjectsProfileTable";
 import ProjectsProfileEdit from "./ProjectsProfileEdit";
 
 import { spinningStyles } from "../constants/Styles";
+import { toast } from "react-hot-toast";
 
 
 
@@ -167,10 +168,15 @@ function ProjectsProfileManagement() {
         if (projectData.phases?.length === 0) {
             delete projectData.phases;
         }
-        console.log("🎯 RAW FORM DATA:", projectData)
-
-
-        createProjectMutation.mutate(projectData);
+        //console.log("🎯 RAW FORM DATA:", projectData)
+        const toastId = toast.loading('Creating Project...');
+        try {
+            await createProjectMutation.mutateAsync(projectData);
+            toast.success('Project successfully created', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to create project', { id: toastId });
+            console.error(error);
+        }
     };
 
 

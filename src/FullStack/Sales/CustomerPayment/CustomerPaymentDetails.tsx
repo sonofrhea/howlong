@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { labelStyles, layout, text } from "../Constants/Styles";
+import { CustomerPaymentDetailsProps } from "../Constants/Types";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 const formatNumber = () => {
@@ -12,7 +14,14 @@ const formatDate = (dateString: string) => {
 };
 
 
-const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, onEdit }) => {
+const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
+    customerPayment,
+    isLoading,
+    onBack,
+    onEdit,
+    accounts, onCreateJournalEntry, isCreatingJournalEntry
+}) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
     if (isLoading) {
         return (
@@ -61,7 +70,7 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
 
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={() => onEdit(customerPayment.payment_number)}
                             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,6 +78,12 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
                             </svg>
                             Edit
                         </button>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                     </div>
                 </div>
 
@@ -83,7 +98,9 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
                         <p className="text-sm font-medium text-gray-700">{formatDate(customerPayment.date)}</p>
 
                         <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Account received in</p>
-                        <p className="text-sm font-medium text-gray-700">{customerPayment.account_received_in || 'N/A'}</p>
+                        <p className="text-sm font-medium text-gray-700">
+                            {customerPayment.account_received_in?.account_code || 'N/A'} ({customerPayment.account_received_in?.account_name || 'N/A'})
+                        </p>
                     </div>
 
                     <div>
@@ -148,11 +165,16 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
                             </div>
 
                             <div className="flex justify-between text-sm text-gray-600 mt-2">
-                            <span>Additional bank charges</span>
-                            <span className="font-semibold text-gray-800">RM {customerPayment.additional_bank_charges || 'N/A'}</span>
+                            <span>Related Payment Paid Amount</span>
+                            <span className="font-semibold text-gray-800">RM {customerPayment.related_payment_paid_amount || 'N/A'}</span>
                             </div>
 
                             <hr className="my-4 border-blue-200" />
+
+                            <div className="border-t border-dashed border-blue-300 mt-3 pt-3 flex justify-between items-center">
+                            <span>Related Payment Outstanding</span>
+                            <span className="font-semibold text-gray-800">RM {customerPayment.related_payment_outstanding || 'N/A'}</span>
+                            </div>
 
                             <div className="border-t border-dashed border-blue-300 mt-3 pt-3 flex justify-between items-center">
                             <span>Outstanding</span>
@@ -169,6 +191,13 @@ const customerPayment: React.FC<any> = ({ customerPayment, isLoading, onBack, on
                 </div>
                 <hr className="my-6 border-gray-200" />
             </div>
+            <JournalEntryModal
+                isOpen={isJournalEntryOpen}
+                onClose={() => setIsJournalEntryOpen(false)}
+                onCreate={onCreateJournalEntry}
+                isSubmitting={isCreatingJournalEntry}
+                accounts={accounts}
+            />
         </div>
     );
 };

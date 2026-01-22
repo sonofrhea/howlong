@@ -7,6 +7,7 @@ import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
+import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
 
 
 
@@ -207,7 +208,7 @@ export type CustomerPaymentList = {
 
 export type CustomerPaymentInputs = {
   payment_number: number;
-  date: number;
+  date: string;
   customer: string;
   customer_name: string;
   project: string;
@@ -228,6 +229,28 @@ export type CustomerPaymentInputs = {
   completed: boolean;
   agent: string;
   cancelled: boolean;
+};
+
+export type CustomerPaymentDetails = {
+  payment_number: number;
+  date: string;
+  customer_name: number;
+  project_name: number;
+  account_received_in?: {
+    account_code: number | null;
+    account_name: number | null;
+    account_type: number | null;
+  } | null;
+  currency: string;
+  description: string;
+  paid_amount: number;
+  related_payment_paid_amount: number;
+  outstanding: number;
+  related_payment_outstanding: number;
+  completed: boolean;
+  cancelled: boolean;
+  agent: string;
+  created_by: string;
 };
 
 export type CustomerPaymentResponse = {
@@ -257,7 +280,19 @@ export type CustomerPaymentProps = {
   customers: CustomerCreateResponse[];
   invoicePayments: InvoicePaymentInterface[];
   projects: ProjectProfileResponse[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
 };
+
+export type CustomerPaymentDetailsProps = {
+  customerPayment: CustomerPaymentDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (customerPaymentId: number) => void;
+  accounts: ControlAccountInterface[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
+}
 
 // -------- END ----------- CUSTOMER PAYMENT INPUT ----------------
 
@@ -315,6 +350,41 @@ export type InvoicePaymentInputs = {
 };
 
 
+export type InvoicePaymentDetails = {
+  invoice_payment_code: number;
+  related_invoice: string;
+  related_invoice_details: string;
+  account_received_in?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
+  gross_paid: number | null;
+  currency: string;
+  related_invoice_total: number | null;
+  tax_inclusive: boolean;
+  tax_amount: number | null;
+  cancelled: boolean;
+  net_aggregate_paid: number | null;
+  related_invoice_payment: Array<{
+    payment_date?: string;
+    total?: number | null;
+    tax_inclusive?: boolean;
+    tax_amount?: number | null;
+    payment_amount?: number | null;
+    cancelled?: boolean;
+    payment_type?: keyof typeof PAYMENT_TYPE_OPTIONS | null;
+}> | null;
+  outstanding_amount: number | null;
+  payment_receipt: File;
+  paid_by: string;
+  paid_by_name: string;
+  agent: string;
+  created_by: string;
+  date_created: string;
+};
+
+
 export type InvoicePaymentResponse = {
   invoice_payment_code: number;
 };
@@ -345,4 +415,16 @@ export type InvoicePaymentProps = {
   agents: AgentInterface[];
   invoices: InvoiceCreateResponse[];
   customers: CustomerCreateResponse[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
+};
+
+export type InvoicePaymentDetailsProps = {
+  invoicePayment: InvoicePaymentDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (invoicePaymentId: number) => void;
+  accounts: ControlAccountInterface[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
 };

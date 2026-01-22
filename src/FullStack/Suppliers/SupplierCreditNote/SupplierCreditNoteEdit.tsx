@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { SupplierCreditNoteFormProps, SupplierCreditNoteInputs, SupplierInvoiceResponse, SupplierProfileResponse } from "../constants/Types";
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../constants/Styles";
@@ -7,6 +7,7 @@ import { ProductItemCreateResponse } from "../../Products/constants/Types";
 import { supplierCreditNoteInvoiceTotal, supplierDebitNoteAccountHandler } from "../../handlers";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 
@@ -49,8 +50,10 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
     onSubmit,
     isSubmitting,
     onCancel,
-    supplierInvoices, currencies, accounts, agents, supplierProfiles, productItems 
+    supplierInvoices, currencies, accounts, agents, supplierProfiles, productItems,
+    onCreateJournalEntry, isCreatingJournalEntry 
 }) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
                                     
     const productOptions = useMemo(() => 
         productItems.map((product: ProductItemCreateResponse) => (
@@ -102,6 +105,12 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
                             </div>
                         </div>
                     </div>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -441,6 +450,13 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
                         </button>
                     </div>
                 </div>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
             </div>
         </form>
     );

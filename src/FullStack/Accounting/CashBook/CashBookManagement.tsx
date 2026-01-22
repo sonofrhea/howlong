@@ -3,7 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from 'react-router-dom';
 
 import { fetchCashBooks, fetchCashBookById, createCashBook,
-    updateCashBook, deleteCashBook
+    updateCashBook, deleteCashBook,
+    createJournalEntry
  } from "../Engines";
 
 
@@ -21,6 +22,7 @@ import CashBookDetails from "./CashBookDetails";
 import CashBookForm from "./CashBookForm";
 import CashBookTable from "./CashBookTable";
 import CashBookEdit from "./CashBookEdit";
+import { toast } from "react-hot-toast";
 
 
 
@@ -57,6 +59,10 @@ function CashBookManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+    
+         
                 // DEPENDENCIES
 
     const { data: currencies = [] } = useQuery({
@@ -173,9 +179,17 @@ function CashBookManagement() {
             delete cashBookData.account;
         }
 
-        console.log("RAW FORM DATA: ", cashBookData);
+        //console.log("RAW FORM DATA: ", cashBookData);
 
-        createCashBookMutation.mutate(cashBookData);
+        const toastId = toast.loading('Creating cash book...');
+
+        try {
+            await createCashBookMutation.mutateAsync(cashBookData);
+            toast.success('Cash Book successfully created', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create cash book.');
+            console.error(error);
+        }
     };
 
 
@@ -208,7 +222,7 @@ function CashBookManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditCashBook = ({cashBookId, cashBookData}: EditCashBook) => {
+    const handleEditCashBook = (cashBookId: number) => {
         setSelectedCashBookId(cashBookId);
         setView('edit');
     };
@@ -233,6 +247,26 @@ function CashBookManagement() {
     });
 
     // ------------------------------------------------------------------------------------
+
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
                                 // SORTING
 
 
@@ -488,6 +522,9 @@ function CashBookManagement() {
                 isLoading={isLoadingCashBook}
                 onBack={handleBackToCashBooksList}
                 onEdit={handleEditCashBookButton}
+                accounts={accounts}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
 
@@ -500,6 +537,8 @@ function CashBookManagement() {
                 currencies={currencies}
                 accounts={accounts}
                 agents={agents}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
             </div>

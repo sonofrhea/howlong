@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 
@@ -13,6 +13,7 @@ import { CustomerCreateResponse } from "../../Customers/constants/Types";
 import { receiptVoucherAccountHandler } from "../../handlers";
 import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
 import { Trash2 } from "lucide-react";
+import JournalEntryModal from "../JournalEntry/JournalEntryModal";
 
 
 const formatProjectNumber = () => {
@@ -46,8 +47,10 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
     onSubmit,
     isSubmitting,
     onCancel, 
-    customers, currencies, accounts, agents, projects 
+    customers, currencies, accounts, agents, projects,
+    onCreateJournalEntry, isCreatingJournalEntry 
 }) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
     const { register, setValue, control, watch, 
         reset, handleSubmit, formState: { errors } } = useForm<ReceiptVoucherInputs>({
@@ -92,6 +95,12 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                             </div>
                         </div>
                     </div>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -442,6 +451,13 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                         </button>
                     </div>
                 </div>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
             </div>
         </form>
     );

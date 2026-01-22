@@ -112,7 +112,7 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                         </button>
                         <button
                             onClick={() => setIsJournalEntryOpen(true)}
-                            className="bg-purple-600 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                            className="bg-purple-800 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
                         >
                             + Create Journal Entry
                         </button>

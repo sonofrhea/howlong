@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { buttons, forms, labelStyles, layout, tables, text } from "../constants/Styles";
 import { SquarePen } from "lucide-react";
 import { details } from "../../Core/constants/Styles";
+import { SupplierCreditNoteDetailsProps } from "../constants/Types";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
@@ -31,7 +33,15 @@ const formatSupplierNumber = () => {
 
 
 
-const SupplierCreditNoteDetails: React.FC<any> = ({ supplierCreditNote, isLoading, onBack, onEdit }) => {
+const SupplierCreditNoteDetails: React.FC<SupplierCreditNoteDetailsProps> = ({
+    supplierCreditNote,
+    isLoading,
+    onBack,
+    onEdit,
+    accounts,
+    onCreateJournalEntry, isCreatingJournalEntry
+}) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
 
     
@@ -83,12 +93,18 @@ const SupplierCreditNoteDetails: React.FC<any> = ({ supplierCreditNote, isLoadin
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={() => onEdit(supplierCreditNote.credit_note_number)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
                             Edit
                         </button>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                     </div>
                 </div>
 
@@ -108,7 +124,7 @@ const SupplierCreditNoteDetails: React.FC<any> = ({ supplierCreditNote, isLoadin
                                                 
                         <p>
                             <p className={details.extraSmallUppercase}>Account</p>
-                            {supplierCreditNote.account.account_code || 'N/A'} - ({supplierCreditNote.account.account_name || 'N/A'})
+                            {supplierCreditNote.account?.account_code || 'N/A'} - ({supplierCreditNote.account?.account_name || 'N/A'})
                         </p>
                                                 
                         <p>
@@ -209,7 +225,6 @@ const SupplierCreditNoteDetails: React.FC<any> = ({ supplierCreditNote, isLoadin
                                                  
                                         }`}>{supplierCreditNote.cancelled ? 'Yes' : 'No'}</div>
                                 </div>
-
                                 </div>
                             </div>
                         </div>
@@ -225,6 +240,13 @@ const SupplierCreditNoteDetails: React.FC<any> = ({ supplierCreditNote, isLoadin
                 </p>
                 <hr className="my-6 border-gray-200" />
             </div>
+            <JournalEntryModal
+                isOpen={isJournalEntryOpen}
+                onClose={() => setIsJournalEntryOpen(false)}
+                onCreate={onCreateJournalEntry}
+                isSubmitting={isCreatingJournalEntry}
+                accounts={accounts}
+            />
         </div>
     );
 };

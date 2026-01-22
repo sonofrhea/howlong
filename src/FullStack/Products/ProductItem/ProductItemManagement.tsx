@@ -20,6 +20,7 @@ import { ProductItemInputs, ProductItemCreateResponse,
   EditProductItemInputs
  } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
+import { toast } from "react-hot-toast";
 
 
 
@@ -176,9 +177,17 @@ function ProductItemManagement() {
       }
     });
 
-    console.log("🎯 RAW FORM DATA:", newProductItemData);
+    //console.log("🎯 RAW FORM DATA:", newProductItemData);
+    
+    const toastId = toast.loading('Creating Product...');
+    try {
+      await createProductItemMutation.mutateAsync(newProductItemData);
+      toast.success('Product created successfully!', { id: toastId });
+    } catch (error) {
+      toast.error('Failed to create product', { id: toastId });
+      console.error(error);
+    }
 
-    createProductItemMutation.mutate(newProductItemData);
   };
 
     

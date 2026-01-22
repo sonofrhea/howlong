@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 
 import { fetchIncomeAndExpenses, fetchIncomeAndExpenseById, createIncomeAndExpense,
-    updateIncomeAndExpense, deleteIncomeAndExpense
+    updateIncomeAndExpense, deleteIncomeAndExpense,
+    createJournalEntry
  } from "../Engines";
 
 
@@ -27,6 +28,7 @@ import IncomeAndExpensesDetails from "./IncomeAndExpensesDetails";
 import IncomeAndExpensesForm from "./IncomeAndExpensesForm";
 import IncomeAndExpensesTable from "./IncomeAndExpensesTable";
 import IncomeAndExpensesEdit from "./IncomeAndExpensesEdit";
+import { toast } from "react-hot-toast";
 
 
 interface SortConfig {
@@ -54,6 +56,9 @@ function IncomeAndExpensesManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
                 // DEPENDENCIES
 
     const { data: currencies = [] } = useQuery({
@@ -160,9 +165,16 @@ function IncomeAndExpensesManagement() {
 
 
     const handleAddIncomeAndExpense = async (incomeAndExpensesData: IncomeAndExpensesInputs) => {
-        console.log("RAW FORM DATA: ", incomeAndExpensesData);
+        //console.log("RAW FORM DATA: ", incomeAndExpensesData);
       
-        createIncomeAndExpenseMutation.mutate(incomeAndExpensesData);
+        const toastId = toast.loading('Creating transaction...');
+        try {
+            await createIncomeAndExpenseMutation.mutateAsync(incomeAndExpensesData);
+            toast.success('Transaction successfully created', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create transaction');
+            console.error(error);
+        }
     };
 
 
@@ -195,7 +207,7 @@ function IncomeAndExpensesManagement() {
     // ------------------------------------------------------------------------------------
 
 
-    const handleEditIncomeAndExpense = ({incomeAndExpenseId, incomeAndExpensesData}: EditIncomeAndExpenses) => {
+    const handleEditIncomeAndExpense = (incomeAndExpenseId: number) => {
         setSelectedIncomeAndExpenseId(incomeAndExpenseId);
         setView('edit');
     };
@@ -220,6 +232,26 @@ function IncomeAndExpensesManagement() {
     });
 
     // ------------------------------------------------------------------------------------
+
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
                                 // SORTING
 
 
@@ -474,6 +506,9 @@ function IncomeAndExpensesManagement() {
                 isLoading={isLoadingIncomeAndExpense}
                 onBack={handleBackToIncomeAndExpensesList}
                 onEdit={handleEditIncomeAndExpenseButton}
+                accounts={accounts}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
 
@@ -482,8 +517,11 @@ function IncomeAndExpensesManagement() {
                 incomeAndExpense={selectedIncomeAndExpense}
                 onSubmit={handleUpdateIncomeAndExpense}
                 isSubmitting={updateIncomeAndExpenseMutation.isPending}
-                onBack={handleBackToIncomeAndExpensesList}
                 onCancel={handleBackToIncomeAndExpensesList}
+                accounts={accounts}
+                currencies={currencies}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
             </div>

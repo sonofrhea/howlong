@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 
 
 import { buttons, details, forms, 
     labelStyles, 
     layout, tables, text } from "../constants/Styles";
 import { SquarePen } from "lucide-react";
+import { DebitNoteDetailsProps } from "../constants/Types";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 
@@ -40,7 +42,16 @@ const formatCustomerNumber = () => {
 
 
 
-const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit, onCancel }) => {
+const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
+    debitNote,
+    isLoading,
+    onBack,
+    onEdit,
+    onCancel,
+    accounts, onCreateJournalEntry, isCreatingJournalEntry
+}) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+
     if (isLoading) {
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
@@ -69,6 +80,8 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
 
     }
 
+
+
     return (
         <div className="w-full mx-auto page bg-white shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden">
             <div className={forms.body}>
@@ -89,12 +102,18 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
 
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={() => onEdit(debitNote.debit_note_number)}
                             
                             className="bg-white border cursor-pointer border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
                             Edit
+                        </button>
+                        <button
+                            onClick={() => setIsJournalEntryOpen(true)}
+                            className="bg-purple-800 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                        >
+                            + Create Journal Entry
                         </button>
                     </div>
                 </div>
@@ -222,6 +241,13 @@ const DebitNoteDetails: React.FC<any> = ({ debitNote, isLoading, onBack, onEdit,
                 <hr className="my-6 border-gray-200" />
                 
             </div>
+            <JournalEntryModal
+                isOpen={isJournalEntryOpen}
+                onClose={() => setIsJournalEntryOpen(false)}
+                onCreate={onCreateJournalEntry}
+                isSubmitting={isCreatingJournalEntry}
+                accounts={accounts}
+            />
         </div>
     );
 };

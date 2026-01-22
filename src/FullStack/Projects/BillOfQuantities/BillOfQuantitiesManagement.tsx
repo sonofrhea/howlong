@@ -26,6 +26,7 @@ import BillOfQuantitiesForm from "./BillOfQuantitiesForm";
 import BillOfQuantitiesTable from "./BillOfQuantitiesTable";
 import { spinningStyles } from "../constants/Styles";
 import BillOfQuantitiesEdit from "./BillOfQuantitiesEdit";
+import { toast } from "react-hot-toast";
 
 
 
@@ -172,9 +173,15 @@ function BillOfQuantitiesManagement() {
         if (billOfQuantitiesData.boq?.length === 0) {
             delete billOfQuantitiesData.boq;
         }
-        console.log("🎯 RAW FORM DATA:", billOfQuantitiesData)
-
-        createBillOfQuantityMutation.mutate(billOfQuantitiesData);
+        //console.log("🎯 RAW FORM DATA:", billOfQuantitiesData)
+        const toastId = toast.loading('Creating Bill Of Quantities...');
+        try {
+            await createBillOfQuantityMutation.mutateAsync(billOfQuantitiesData);
+            toast.success('Bill Of Quantities successfully created', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to create bill of quantities', { id: toastId });
+            console.error(error);
+        }
     };
 
 

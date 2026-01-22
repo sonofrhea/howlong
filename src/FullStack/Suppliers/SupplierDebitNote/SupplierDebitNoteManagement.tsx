@@ -8,6 +8,8 @@ import '../constants/Suppliers.css';
 
 import { BanknoteArrowDown, MoveLeft, Plus } from 'lucide-react';
 
+import { toast } from "react-hot-toast";
+
 
 import { fetchSupplierDebitNotes, fetchSupplierDebitNoteById, 
     createSupplierDebitNote,
@@ -31,6 +33,7 @@ import SupplierDebitNoteTable from "./SupplierDebitNoteTable";
 import SupplierDebitNoteEdit from "./SupplierDebitNoteEdit";
 
 import { iconStyles, management, spinningStyles } from "../constants/Styles";
+import { createJournalEntry } from "../../Accounting/Engines";
 
 
 
@@ -67,6 +70,10 @@ function SupplierDebitNoteManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+
                 // DEPENDENCIES
 
     const { data: currencies = [] } = useQuery({
@@ -196,9 +203,16 @@ function SupplierDebitNoteManagement() {
         if (!supplierDebitNoteData.account?.account_code) {
             delete supplierDebitNoteData.account;
         }
-        console.log("🎯 RAW FORM DATA:", supplierDebitNoteData)
+        //console.log("🎯 RAW FORM DATA:", supplierDebitNoteData)
 
-        createSupplierDebitNoteMutation.mutate(supplierDebitNoteData);
+        const toastId = toast.loading('Creating Supplier Debit Note...');
+        try {
+            await createSupplierDebitNoteMutation.mutateAsync(supplierDebitNoteData);
+            toast.success('Supplier Debit Note created successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create Supplier Debit Note', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -255,6 +269,26 @@ function SupplierDebitNoteManagement() {
     });
 
     // ------------------------------------------------------------------------------------
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
+
                                 // SORTING
 
 
@@ -504,6 +538,9 @@ function SupplierDebitNoteManagement() {
                 isLoading={isLoadingSupplierDebitNote}
                 onBack={handleBackToSupplierDebitNotesList}
                 onEdit={handleEditSupplierDebitNoteButton}
+                accounts={accounts}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
 
@@ -519,6 +556,8 @@ function SupplierDebitNoteManagement() {
                 SupplierInvoices={SupplierInvoices}
                 SupplierProfiles={SupplierProfiles}
                 productItems={productItems}
+                onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
             )}
             </div>

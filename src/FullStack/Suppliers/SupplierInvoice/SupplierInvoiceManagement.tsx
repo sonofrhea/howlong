@@ -26,6 +26,7 @@ import SupplierInvoiceTable from "./SupplierInvoiceTable";
 import SupplierInvoiceEdit from "./SupplierInvoiceEdit";
 
 import { management, spinningStyles } from "../constants/Styles";
+import { toast } from "react-hot-toast";
 
 
 
@@ -173,10 +174,15 @@ function SupplierInvoiceManagement() {
         if (supplierInvoiceData.related_invoice?.length === 0) {
             delete supplierInvoiceData.related_invoice;
         }
-        console.log("🎯 RAW FORM DATA:", supplierInvoiceData)
-
-
-        createSupplierInvoiceMutation.mutate(supplierInvoiceData);
+        //console.log("🎯 RAW FORM DATA:", supplierInvoiceData)
+        const toastId = toast.loading('Creating Supplier Invoice...');
+        try {
+            await createSupplierInvoiceMutation.mutateAsync(supplierInvoiceData);
+            toast.success('Supplier Invoice successfully created', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to create supplier invoice', { id: toastId });
+            console.error(error);
+        }
     };
 
 

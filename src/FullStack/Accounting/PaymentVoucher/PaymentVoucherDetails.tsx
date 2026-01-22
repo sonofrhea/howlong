@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { buttons, forms, labelStyles, layout, spinningStyles, tables, text } from "../Constants/Styles";
 import { SquarePen } from "lucide-react";
 import { details } from "../../Customers/constants/Styles";
+import { PaymentVoucherDetailsProps } from "../Constants/Types";
+import JournalEntryModal from "../JournalEntry/JournalEntryModal";
 
 
 
@@ -29,7 +31,15 @@ const formatProjectNumber = () => {
 
 
 
-const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBack, onEdit }) => {
+const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
+    paymentVoucher,
+    isLoading,
+    onBack,
+    onEdit,
+    accounts,
+    onCreateJournalEntry, isCreatingJournalEntry
+}) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
 
     
@@ -83,7 +93,7 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={() => onEdit(paymentVoucher.reference_number)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} 
@@ -91,6 +101,12 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
                             Edit
                         </button>
                     </div>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -232,6 +248,13 @@ const PaymentVoucherDetails: React.FC<any> = ({ paymentVoucher, isLoading, onBac
                     )}
                 </div>
             </div>
+            <JournalEntryModal
+                isOpen={isJournalEntryOpen}
+                onClose={() => setIsJournalEntryOpen(false)}
+                onCreate={onCreateJournalEntry}
+                isSubmitting={isCreatingJournalEntry}
+                accounts={accounts}
+            />
 
             <hr className="my-6 border-gray-200" />
 

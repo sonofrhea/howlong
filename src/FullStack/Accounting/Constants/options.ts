@@ -37,3 +37,9 @@ export const INCOME_EXPENSES_OPTIONS = [
     { value: 'EXPENSES', label: 'EXPENSES'},
 ];
 
+export const CASH_BOOK_OPTIONS = [
+    { value: 'Cash Receipts', label: 'Cash Receipts'},
+    { value: 'Cash Payments', label: 'Cash Payments'},
+    { value: 'Deposit', label: 'Deposit'},
+    { value: 'Cheque', label: 'Cheque'},
+];

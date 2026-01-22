@@ -27,6 +27,8 @@ import CompanyPurchaseOrderDetails from "./CompanyPurchaseOrderDetails";
 import CompanyPurchaseOrderForm from "./CompanyPurchaseOrderForm";
 import CompanyPurchaseOrderTable from "./CompanyPurchaseOrderTable";
 import CompanyPurchaseOrderEdit from "./CompanyPurchaseOrderEdit";
+import { createJournalEntry } from "../../Accounting/Engines";
+import { toast } from "react-hot-toast";
 
 
 
@@ -70,6 +72,10 @@ function CompanyPurchaseOrderManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+    
             // DEPENDENCIES
 
     const { data: accounts = [] } = useQuery({
@@ -198,9 +204,16 @@ function CompanyPurchaseOrderManagement() {
             }
         });
 
-        console.log("🎯 RAW FORM DATA:", newCompanyPurchaseOrderData)
+        //console.log("🎯 RAW FORM DATA:", newCompanyPurchaseOrderData)
 
-        createCompanyPurchaseOrderMutation.mutate(newCompanyPurchaseOrderData);
+        const toastId = toast.loading('Creating Purchase Order...');
+        try {
+            await createCompanyPurchaseOrderMutation.mutateAsync(newCompanyPurchaseOrderData);
+            toast.success('Purchase Order Created', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create purchase order', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -258,6 +271,26 @@ function CompanyPurchaseOrderManagement() {
     });
 
     // ------------------------------------------------------------------------------------
+
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
                                 // SORTING
 
 
@@ -508,6 +541,9 @@ function CompanyPurchaseOrderManagement() {
                     isLoading={isLoadingCompanyPurchaseOrder}
                     onBack={handleBackToCompanyPurchaseOrdersList}
                     onEdit={handleEditCompanyPurchaseOrderButton}
+                    accounts={accounts}
+                    onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                    isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
                 )}
 
@@ -521,6 +557,8 @@ function CompanyPurchaseOrderManagement() {
                     agents={agents}
                     supplierProfiles={supplierProfiles}
                     purchaseInvoices={purchaseInvoices}
+                    onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                    isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
                 )}
             </div>

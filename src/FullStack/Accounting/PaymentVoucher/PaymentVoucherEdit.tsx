@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 
@@ -13,6 +13,7 @@ import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { Trash2 } from "lucide-react";
+import JournalEntryModal from "../JournalEntry/JournalEntryModal";
 
 
 const formatNumber = () => {
@@ -48,8 +49,10 @@ const PaymentVoucherEdit: React.FC<PaymentVoucherProps> = ({
     isSubmitting,
     onCancel,
     suppliers, 
-    currencies, accounts, agents, projects
+    currencies, accounts, agents, projects,
+    onCreateJournalEntry, isCreatingJournalEntry
 }) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
     const { register, setValue, formState: { errors }, 
         reset, handleSubmit, control, watch } = useForm<PaymentVoucherInputs>({
@@ -92,6 +95,12 @@ const PaymentVoucherEdit: React.FC<PaymentVoucherProps> = ({
                             </div>
                         </div>
                     </div>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -412,6 +421,13 @@ const PaymentVoucherEdit: React.FC<PaymentVoucherProps> = ({
                         </button>
                     </div>
                 </div>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
             </div>
         </form>
     );

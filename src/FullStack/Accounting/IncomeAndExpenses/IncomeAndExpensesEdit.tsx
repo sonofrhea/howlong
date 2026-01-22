@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { incomeExpensesAccountHandler } from "../../handlers";
@@ -7,6 +7,12 @@ import { CurrencyInterface } from "../../Core/constants/Types";
 import { buttons, layout, utils } from "../Constants/Styles";
 
 import { IncomeAndExpensesInputs, IncomeAndExpensesProps } from "../Constants/Types";
+import JournalEntryModal from "../JournalEntry/JournalEntryModal";
+
+
+
+
+
 
 
 const IncomeAndExpensesEdit: React.FC<IncomeAndExpensesProps> = ({
@@ -14,8 +20,10 @@ const IncomeAndExpensesEdit: React.FC<IncomeAndExpensesProps> = ({
     onSubmit,
     isSubmitting,
     onCancel,
-    currencies, accounts
+    currencies, accounts,
+    onCreateJournalEntry, isCreatingJournalEntry
 }) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
     const { register, setValue, handleSubmit, watch, control, 
         reset, formState: { errors } } = useForm<IncomeAndExpensesInputs>({
@@ -56,6 +64,12 @@ const IncomeAndExpensesEdit: React.FC<IncomeAndExpensesProps> = ({
                     />
                 </div>
             </div>
+            <button
+                onClick={() => setIsJournalEntryOpen(true)}
+                className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+            >
+                + Create Journal Entry
+            </button>
 
             {/* <!-- Transaction Type --> */}
             <div>
@@ -239,6 +253,13 @@ const IncomeAndExpensesEdit: React.FC<IncomeAndExpensesProps> = ({
                 >
                     Cancel
                 </button>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
             </div>
         </form>
     );

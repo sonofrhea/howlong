@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
 import { InvoicePaymentProps } from "../Constants/Types";
@@ -14,6 +14,7 @@ import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { controlAccountHandler, invoiceHandler } from "../../handlers";
+import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`
@@ -46,8 +47,10 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
     onSubmit,
     isSubmitting,
     onCancel, 
-    currencies, accounts, agents, invoices, customers
+    currencies, accounts, agents, invoices, customers,
+    onCreateJournalEntry, isCreatingJournalEntry
 }) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
 
     const { register, handleSubmit, watch, setValue, control, 
@@ -111,6 +114,12 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                             </div>
                         </div>
                     </div>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -432,6 +441,13 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                         </button>
                     </div>
                 </div>
+            <JournalEntryModal
+                isOpen={isJournalEntryOpen}
+                onClose={() => setIsJournalEntryOpen(false)}
+                onCreate={onCreateJournalEntry}
+                isSubmitting={isCreatingJournalEntry}
+                accounts={accounts}
+            />
             </div>
         </form>
     );

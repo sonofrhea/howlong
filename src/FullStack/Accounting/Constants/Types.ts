@@ -5,6 +5,7 @@ import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
+import { CASH_BOOK_OPTIONS, INCOME_EXPENSES_OPTIONS } from "./options";
 
 
 
@@ -123,13 +124,35 @@ export type IncomeAndExpensesInputs = {
         account_name: string;
         account_type: string;
     };
-    category: string;
+    category: typeof INCOME_EXPENSES_OPTIONS;
     description: string;
     currency: string;
     gross_debit: number;
     gross_credit: number;
     tax: number;
     cancelled: boolean;
+};
+
+export type IncomeAndExpensesDetails = {
+    reference_number: number;
+    date: string;
+    account: {
+        account_code: number;
+        account_name: string;
+        account_type: string;
+    };
+    category: string;
+    description: string;
+    currency: string;
+    gross_debit: number;
+    gross_credit: number;
+    tax: number;
+    tax_rate: number;
+    cancelled: boolean;
+    net_debit: number;
+    net_credit: number;
+    running_balance: number;
+    created_by: number;
 };
 
 export type IncomeAndExpensesResponse = {
@@ -153,7 +176,19 @@ export type IncomeAndExpensesProps = {
     onCancel?: () => void;
     currencies: CurrencyInterface[];
     accounts: ControlAccountInterface[];
+    onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+    isCreatingJournalEntry: boolean;
 };
+
+export type IncomeAndExpensesDetailsProps = {
+    incomeAndExpense: IncomeAndExpensesDetails;
+    isLoading: boolean;
+    onBack?: () => void;
+    onEdit: (incomeAndExpenseId: number) => void;
+    accounts: ControlAccountInterface[];
+    onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+    isCreatingJournalEntry: boolean;
+}
 
 
 // -------- END ----------- INCOME AND EXPENSES ----------------
@@ -203,6 +238,40 @@ export type PaymentVoucherInputs = {
     agent: string;
 };
 
+export type PaymentVoucherDetails = {
+    reference_number: number;
+    date: string;
+    payment_to: string;
+    payment_to_name: string;
+    account_paid_by?: {
+        account_code?: number | null;
+        account_name?: string | null;
+        account_type?: string | null;
+    } | null;
+    description: string;
+    project: string;
+    project_name: string;
+    payment_voucher_lines: Array<{
+        description: string;
+        gst_number: string;
+        amount: number;
+        tax_inclusive: boolean;
+        tax: number;
+        tax_rate: number;
+        cancelled: boolean;
+        net_total: number;
+}>
+    gross_total: number;
+    tax_inclusive: boolean;
+    tax: number;
+    tax_rate: number;
+    cancelled: boolean;
+    aggregate_total: number;
+    currency: string;
+    agent: string;
+    created_by: string;
+};
+
 export type PaymentVoucherResponse = {
     reference_number: number;
     aggregate_total: number;
@@ -228,6 +297,18 @@ export type PaymentVoucherProps = {
     suppliers: SupplierProfileResponse[];
     agents: AgentInterface[];
     projects: ProjectProfileResponse[];
+    onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+    isCreatingJournalEntry: boolean;
+};
+
+export type PaymentVoucherDetailsProps = {
+    paymentVoucher: PaymentVoucherDetails;
+    isLoading: boolean;
+    onBack?: () => void;
+    onEdit: (paymentVoucherId: number) => void;
+    accounts: ControlAccountInterface[];
+    onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+    isCreatingJournalEntry: boolean;
 };
 
 
@@ -258,9 +339,9 @@ export type ReceiptVoucherInputs = {
     date: string;
     received_from: string;
     account_received_in?: {
-    account_code?: number;
-    account_name?: string;
-    account_type?: string;
+        account_code?: number;
+        account_name?: string;
+        account_type?: string;
     } | null;
     description: string;
     project: string;
@@ -279,6 +360,44 @@ export type ReceiptVoucherInputs = {
     tax: number;
     cancelled: boolean;
     agent: string;
+};
+
+export type ReceiptVoucherDetails = {
+    reference_number: number;
+    date: string;
+    received_from: string;
+    received_from_name: string;
+    account_received_in?: {
+        account_code?: number;
+        account_name?: string;
+        account_type?: string;
+    } | null;
+    description: string;
+    project: string;
+    project_name: string;
+    gross_total: number;
+    tax_inclusive: boolean;
+    tax: number;
+    tax_rate: number;
+    cancelled: boolean;
+    receipt_voucher_lines: Array<{
+        description: string;
+        gst_number: string;
+        amount: number;
+        special_treatment: boolean;
+        treatment_amount: number;
+        treatment_rate: number;
+        total_after_discount: number;
+        tax_inclusive: boolean;
+        tax: number;
+        tax_rate: number;
+        cancelled: boolean;
+        net_total: number;
+}>
+    aggregate_total: number;
+    currency: string;
+    agent: string;
+    created_by: string;
 };
 
 
@@ -307,8 +426,19 @@ export type ReceiptVoucherProps = {
     customers: CustomerCreateResponse[];
     agents: AgentInterface[];
     projects: ProjectProfileResponse[];
+    onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+    isCreatingJournalEntry: boolean;
 };
 
+export type ReceiptVoucherDetailsProps = {
+    receiptVoucher: ReceiptVoucherDetails;
+    isLoading: boolean;
+    onBack?: () => void;
+    onEdit: (receiptVoucherId: number) => void;
+    accounts: ControlAccountInterface[];
+    onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+    isCreatingJournalEntry: boolean;
+};
 
 // -------- END ----------- RECEIPT VOUCHER ----------------
 /////////////////////////////////////////////////////////////////////////////////////
@@ -338,15 +468,34 @@ export type CashBookInputs = {
     payment_to_or_from: string;
     description: string;
     account?: {
-    account_code?: number;
-    account_name?: string;
-    account_type?: string;
+        account_code?: number;
+        account_name?: string;
+        account_type?: string;
+    } | null;
+    transaction_type: typeof CASH_BOOK_OPTIONS;
+    currency: string;
+    net_debit: number;
+    net_credit: number;
+    remark: string;
+};
+
+export type CashBookDetails = {
+    reference_number: number;
+    date: string;
+    payment_to_or_from: string;
+    description: string;
+    account?: {
+        account_code?: number;
+        account_name?: string;
+        account_type?: string;
     } | null;
     transaction_type: string;
     currency: string;
     net_debit: number;
     net_credit: number;
+    running_balance: number;
     remark: string;
+    recorded_by: string;
 };
 
 
@@ -373,4 +522,16 @@ export type CashBookProps = {
     currencies: CurrencyInterface[];
     accounts: ControlAccountInterface[];
     agents: AgentInterface[];
+    onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+    isCreatingJournalEntry: boolean;
+};
+
+export type CashBookDetailsProps = {
+    paymentVoucher: CashBookDetails;
+    isLoading: boolean;
+    onBack?: () => void;
+    onEdit: (cashBookId: number) => void;
+    accounts: ControlAccountInterface[];
+    onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+    isCreatingJournalEntry: boolean;
 };

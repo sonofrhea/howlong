@@ -25,6 +25,7 @@ import { QuotationInputs, QuotationCreateResponse,
 
 import { fetchProductItems } from "../../Products/Engines";
 import { spinningStyles } from "../Constants/Styles";
+import { toast } from "react-hot-toast";
 
 
 interface SortConfig {
@@ -189,10 +190,15 @@ function QuotationManagement() {
         if (quotationData.related_quotation?.length === 0) {
             delete quotationData.related_quotation;
         }
-        console.log("🎯 RAW FORM DATA:", quotationData);
-        
-
-        createQuotationMutation.mutate(quotationData);
+        //console.log("🎯 RAW FORM DATA:", quotationData);
+        const toastId = toast.loading('Creating Quotation...');
+        try {
+            await createQuotationMutation.mutateAsync(quotationData);
+            toast.success('Quotation successfully created', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to create quotation', { id: toastId });
+            console.error(error);
+        } 
     };
 
         

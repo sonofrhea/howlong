@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { buttons, labelStyles, layout, spinningStyles, text } from "../Constants/Styles";
 import { SquarePen } from "lucide-react";
 import { details } from "../../Customers/constants/Styles";
+import { IncomeAndExpensesDetailsProps } from "../Constants/Types";
+import JournalEntryModal from "../JournalEntry/JournalEntryModal";
 
 
 const formatDate = (dateString: string) => {
@@ -14,7 +16,16 @@ const formatNumber = () => {
 }
 
 
-const IncomeAndExpensesDetails: React.FC<any> = ({ incomeAndExpense, isLoading, onBack, onEdit }) => {
+const IncomeAndExpensesDetails: React.FC<IncomeAndExpensesDetailsProps> = ({
+    incomeAndExpense,
+    isLoading,
+    onBack,
+    onEdit,
+    accounts,
+    onCreateJournalEntry,
+    isCreatingJournalEntry
+}) => {
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
 
     if (isLoading) {
@@ -69,12 +80,18 @@ const IncomeAndExpensesDetails: React.FC<any> = ({ incomeAndExpense, isLoading, 
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={() => onEdit(incomeAndExpense.reference_number)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
                             Edit
                         </button>
+                    <button
+                        onClick={() => setIsJournalEntryOpen(true)}
+                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                    >
+                        + Create Journal Entry
+                    </button>
                     </div>
                 </div>
 
@@ -220,6 +237,13 @@ const IncomeAndExpensesDetails: React.FC<any> = ({ incomeAndExpense, isLoading, 
                 </p>
                 <hr className="my-6 border-gray-200" />
             </div>
+                <JournalEntryModal
+                    isOpen={isJournalEntryOpen}
+                    onClose={() => setIsJournalEntryOpen(false)}
+                    onCreate={onCreateJournalEntry}
+                    isSubmitting={isCreatingJournalEntry}
+                    accounts={accounts}
+                />
         </div>
     );
 };

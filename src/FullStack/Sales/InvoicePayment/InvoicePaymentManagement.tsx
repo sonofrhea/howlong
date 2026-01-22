@@ -28,6 +28,8 @@ import InvoicePaymentForm from "./InvoicePaymentForm";
 import InvoicePaymentTable from "./InvoicePaymentTable";
 import { spinningStyles } from "../Constants/Styles";
 import InvoicePaymentEdit from "./InvoicePaymentEdit";
+import { toast } from "react-hot-toast";
+import { createJournalEntry } from "../../Accounting/Engines";
 
 
 
@@ -69,6 +71,12 @@ function InvoicePaymentManagement() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 // ------------------------------------------------------------------------------------
+  const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+  // ------------------------------------------------------------------------------------
+
+
+
+
           // DEPENDENCIES
 
 
@@ -203,9 +211,17 @@ function InvoicePaymentManagement() {
         delete invoicePaymentData.related_invoice_payment;
     }
     }
-    console.log("RAW FORM DATA:", invoicePaymentData);
+    //console.log("RAW FORM DATA:", invoicePaymentData);
 
-    createInvoicePaymentMutation.mutate(invoicePaymentData);
+    const toastId = toast.loading('Creating Invoice Payment...');
+    try {
+      await createInvoicePaymentMutation.mutateAsync(invoicePaymentData);
+      toast.success('Invoice Payment Successful!', { id: toastId });
+    } catch (error) {
+        toast.error('Failed to Invoice Payment', { id: toastId });
+        console.error(error);
+    }
+    
   };
 
 
@@ -264,6 +280,26 @@ function InvoicePaymentManagement() {
 });
 
   // ------------------------------------------------------------------------------------
+
+            // JOURNAL ENTRY
+
+
+    const createJournalEntryMutation = useMutation({
+        mutationFn: createJournalEntry,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            setIsJournalEntryOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Journal Entry.');
+          console.error('Error creating journal entry:', error.response?.data || error.message || error);
+        }
+    });
+
+  // ------------------------------------------------------------------------------------
+
                               // SORTING
 
 
@@ -521,6 +557,9 @@ const handleItemsPerPageChange = (value: any) => {
               isLoading={isLoadingInvoicePayment}
               onBack={handleBackToInvoicePaymentList}
               onEdit={handleEditInvoicePaymentButton}
+              accounts={accounts}
+              onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+              isCreatingJournalEntry={createJournalEntryMutation.isPending}
             />
           )}
 
@@ -535,6 +574,8 @@ const handleItemsPerPageChange = (value: any) => {
               agents={agents}
               invoices={invoices}
               customers={customers}
+              onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+              isCreatingJournalEntry={createJournalEntryMutation.isPending}
             />
           )}
         </div>

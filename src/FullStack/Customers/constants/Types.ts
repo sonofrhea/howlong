@@ -211,32 +211,34 @@ export type EditDebitNoteInputs = {
 export type DebitNoteDetails = {
   debit_note_number: number;
   date: string;
+  customer: string;
   customer_name: string;
   account?: {
     account_code?: number | null;
     account_name?: string | null;
     account_type?: string | null;
   } | null;
-  paid_amount: string;
+  related_payment: number;
+  related_payment_amount: number;
+  paid_amount: number;
+  gross_total: number;
+  tax_inclusive: boolean;
+  tax_amount: number;
   debit_note_details?: Array<{
     date?: string | null;
     description?: string | null;
     amount?: number | null;
-    tax_inclusive?: boolean | null;
-    tax_amount?: number;
+    tax_inclusive: boolean;
+    tax_amount?: number | null;
     current_total?: number | null;
-    cancelled?: boolean | null;
-  }> | null;
-  tax_amount: number;
-  aggregate_total: string;
-  debit_note_outstanding: string;
+    cancelled: boolean;
+  }>
+  aggregate_total: number;
+  debit_note_outstanding: number;
+  cancelled: boolean;
   agent: string;
-  created_by: number;
+  created_by: string;
   currency: string;
-  date_created: string;
-  updated_by: number;
-  date_updated: string;
-  version: number;
 };
 
 
@@ -251,6 +253,19 @@ export type DebitNoteEditProps = {
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
   customerPayments: CustomerPaymentResponse[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
+};
+
+export type DebitNoteDetailsProps = {
+  debitNote: DebitNoteDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (debitNoteId: number) => void;
+  onCancel?: () => void;
+  accounts: ControlAccountInterface[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
 };
 
 
@@ -466,6 +481,40 @@ export type CustomerRefundInputs = {
   currency: string | null;
 };
 
+
+export type CustomerRefundDetails = {
+  refund_number: number;
+  date: string;
+  pay_to: string;
+  pay_to_name: string;
+  related_credit_note: string;
+  related_credit_note_outstanding: number;
+  payment_account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
+  expected_refund: number;
+  gross_total: number;
+  tax_inclusive: boolean;
+  tax_amount: number;
+  related_customer_refund?: Array<{
+    date: string | null;
+    refund_amount: number | null;
+    additional_charges: number | null;
+    total_amount: number | null;
+    cancelled: boolean;
+    payment_type?: keyof typeof REFUND_TYPE_OPTIONS | null;
+  }> | null;
+  net_refunded: number;
+  outstanding: number;
+  cancelled: boolean;
+  agent: string;
+  currency: string;
+  created_by: string;
+};
+
+
 export type CustomerRefundResponse = {
   refund_number: number;
 }
@@ -490,7 +539,19 @@ export type CustomerRefundProps = {
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
-  creditNotes: CustomerCreateResponse[];
+  creditNotes: CreditNoteCreateResponse[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
+};
+
+export type CustomerRefundEditProps = {
+  refund: CustomerRefundDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (refundId: number) => void;
+  accounts: ControlAccountInterface[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
 };
 
 // -------- END ----------- CUSTOMER REFUND INPUT ----------------

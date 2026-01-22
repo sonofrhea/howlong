@@ -1,3 +1,4 @@
+import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
@@ -235,6 +236,38 @@ export type SupplierPaymentInputs = {
   created_by: string;
 };
 
+export type SupplierPaymentDetails = {
+  payment_code: number;
+  supplier: string;
+  supplier_name: string;
+  account_code?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
+  currency: string;
+  related_invoice: string;
+  gross_paid: number;
+  related_payment: Array<{
+    payment_date: string;
+    payment_type: string;
+    payment_amount: number;
+    additional_payment: number;
+    current_total: number;
+    cancelled: boolean;
+}>
+  agent: string;
+  invoice_amount: number;
+  tax_inclusive: boolean;
+  tax_amount: number;
+  aggregate_total: number;
+  cancelled: boolean;
+  outstanding_amount: number;
+  payment_receipt: File;
+  created_by: string;
+  date_created: string;
+};
+
 export type SupplierPaymentResponse = {
   payment_code: number;
 };
@@ -260,7 +293,19 @@ export type SupplierPaymentProps = {
   supplierProfiles: SupplierProfileResponse[];
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
 };
+
+export type SupplierPaymentDetailsProps = {
+  supplierPayment: SupplierPaymentDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (supplierPaymentId: number) => void;
+  accounts: ControlAccountInterface[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
+}
 
 
 // -------- END ----------- SUPPLIER PAYMENT INPUT ----------------
@@ -397,6 +442,42 @@ export type SupplierDebitNoteInputs = {
   cancelled: boolean;
 };
 
+
+export type SupplierDebitNoteDetails = {
+  debit_note_number: number;
+  date: string;
+  supplier: string;
+  supplier_name: string;
+  description: string;
+  account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
+  gross_total: number;
+  related_invoice: string;
+  related_invoice_total: number;
+  related_debit_note?: Array<{
+    debit_note_item: string;
+    debit_note_item_name: string;
+    description: string;
+    amount: number;
+    tax_inclusive: boolean;
+    tax_amount: number;
+    current_total: number;
+    cancelled: boolean;
+}> | null;
+  agent: string;
+  created_by: string;
+  currency: string;
+  tax_inclusive: boolean;
+  tax_amount: number;
+  cancelled: boolean;
+  net_total: number;
+  date_created: string;
+};
+
+
 export type SupplierDebitNoteResponse = {
   debit_note_number: number;
 }
@@ -423,6 +504,19 @@ export type SupplierDebitNoteProps = {
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
   SupplierInvoices: SupplierInvoiceResponse[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
+};
+
+
+export type SupplierDebitNoteDetailsProps = {
+  supplierDebitNote: SupplierDebitNoteDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (supplierDebitNoteId: number) => void;
+  accounts: ControlAccountInterface[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
 };
 
   // -------- END ----------- SUPPLIER DEBIT NOTE INPUT ----------------
@@ -476,6 +570,39 @@ export type SupplierCreditNoteInputs = {
   cancelled: boolean;
 };
 
+export type SupplierCreditNoteDetails = {
+  credit_note_number: number;
+  date: string;
+  supplier: string;
+  supplier_name: string;
+  description: string;
+  account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
+  gross_total: number;
+  related_invoice: string;
+  related_invoice_total: number;
+  tax_inclusive: boolean;
+  tax_amount: number;
+  cancelled: boolean;
+  related_credit_note: Array<{
+    credit_note_item: string;
+    credit_note_item_name: string;
+    amount: number;
+    tax_inclusive: boolean;
+    tax_amount: number;
+    current_total: number;
+    cancelled: boolean;
+  }>
+  net_total: number;
+  agent: string;
+  created_by: string;
+  currency: string;
+  date_created: string;
+};
+
 export type SupplierCreditNoteResponse = {
   credit_note_number: number;
 }
@@ -501,8 +628,19 @@ export type SupplierCreditNoteFormProps = {
   agents: AgentInterface[];
   supplierProfiles: SupplierProfileResponse[];
   productItems: ProductItemCreateResponse[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
 };
 
+export type SupplierCreditNoteDetailsProps = {
+  supplierCreditNote: SupplierCreditNoteDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (supplierCreditNoteId: number) => void;
+  accounts: ControlAccountInterface[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
+};
 
   // -------- END ----------- SUPPLIER CREDIT NOTE INPUT ----------------
 
