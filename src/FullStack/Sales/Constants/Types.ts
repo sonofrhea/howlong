@@ -334,7 +334,7 @@ export type InvoicePaymentInputs = {
   cancelled: boolean;
   related_invoice_payment?: Array<{
     payment_date?: string | null;
-    payment_type?: keyof typeof PAYMENT_TYPE_OPTIONS | null;
+    payment_type?: typeof PAYMENT_TYPE_OPTIONS[number]['value'] | null;
     //payment_amount: number;
     tax_inclusive?: boolean | null;
     tax_amount?: number | null;
@@ -373,7 +373,7 @@ export type InvoicePaymentDetails = {
     tax_amount?: number | null;
     payment_amount?: number | null;
     cancelled?: boolean;
-    payment_type?: keyof typeof PAYMENT_TYPE_OPTIONS | null;
+    payment_type?: typeof PAYMENT_TYPE_OPTIONS[number]['value'] | null;
 }> | null;
   outstanding_amount: number | null;
   payment_receipt: File;

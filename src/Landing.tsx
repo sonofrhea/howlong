@@ -22,7 +22,7 @@ export default function ConstructionERPLanding() {
                 --text-white: #ffffff;
                 --text-gray: #666666;
                 --border-gray: rgba(0,0,0,0.1);
-                --blue-box: #e3f5ff;
+                --blue-box: #e5f2ff;
                 }
 
                 * {
@@ -203,7 +203,7 @@ export default function ConstructionERPLanding() {
 
                 .headline {
                 position: relative;
-                top: 15vh;
+                top: 25vh;
                 left: 4%;
                 text-align: left;
                 font-weight: 900;
@@ -213,7 +213,7 @@ export default function ConstructionERPLanding() {
                 letter-spacing: -2px;
                 color: var(--text-black);
                 z-index: 5;
-                margin-bottom: 30px;
+                margin-bottom: 10px;
                 font-family: 'Montserrat', sans-serif;
                 }
 
@@ -223,23 +223,22 @@ export default function ConstructionERPLanding() {
 
                 .headline p {
                     font-size: 20px;
-                    font-weight: 600;
-                    font-family: Montserrat;
+                    font-weight: 500;
+                    font-family: 'Montserrat';
                     letter-spacing: 10%;
-                    color: gray;
                     max-width: 600px;
                     line-height: 1.6;
                     margin-bottom: 50px;
+                    margin-top: 20px;
                 }
                 
                 .subheadline {
-                    font-size: clamp(18px, 2vw, 24px);
-                    font-weight: 100;
-                    color: var(--text-gray);
+                    font-size: clamp(1px, 2vw, 24px);
+                    font-weight: 500;
                     max-width: 600px;
                     line-height: 1.6;
                     margin-bottom: 50px;
-                    font-family: 'Arial';
+                    font-family: 'Montserrat';
                 }
 
                 .right-column {
@@ -288,18 +287,6 @@ export default function ConstructionERPLanding() {
                 }
 
                 .blue-box {
-                position: absolute;
-                top: 85vh;
-                left: 65%;
-                background-color: var(--blue-box);
-                padding: 10px 30px;
-                color: #515151;
-                font-weight: 700;
-                font-size: 2.5vw;
-                line-height: 1.1;
-                z-index: 5;
-                font-family: 'Montserrat', sans-serif;
-                box-shadow: 0 8px 25px rgba(0,102,204,0.35);
                 }
 
                 .blue-box span {
@@ -616,9 +603,20 @@ export default function ConstructionERPLanding() {
 
 
                 .blue-box {
-                    left: 30%;
-                    font-size: 1.5vw;
+                    left: 10%;
+                    right: 10%;
+                    font-size: 1.1vw;
                     max-width: 4000px;
+                    font-weight: 500;
+                    font-family: 'Montserrat';
+                    position: absolute;
+                    top: 85vh;
+                    background-color: var(--blue-box);
+                    padding: 10px 10px;
+                    line-height: 1.1;
+                    z-index: 5;
+                    font-family: 'Montserrat', sans-serif;
+                    box-shadow: 0 8px 25px rgba(0,102,204,0.35);
                 }
 
                 .right-column {
@@ -1101,11 +1099,10 @@ export default function ConstructionERPLanding() {
 
             <div className="headline">
             Manage Easier.<br />
-            <span className='text-blue-700'>Build Faster & Better.</span>
+            <span className='text-[#002c9c]'>Build Faster & Better.</span>
             
-            <p className='subheadline'><br />
-                URUSENTRA is an all-in-one ERP software engineered specifically with building professionals in mind.
-                Built to enhance company's productivity and production speed by streamlining projects, managing customers, teams, products and control costs, accounting with a powerful platform to connect with suppliers, all from one powerful system.
+            <p className='subheadline'>
+                URUSENTRA is an all-in-one ERP software engineered specifically with building professionals in mind
             </p>
 
             <div className="cta-group-header">
@@ -1117,10 +1114,7 @@ export default function ConstructionERPLanding() {
 
 
             <div className="blue-box">
-                <span>USED BY SMALL AND MEDIUM BUSINESSES</span>
-                <span>IN THE BUILDING INDUSTRY INCLUDING</span>
-                <span>INTERIOR & EXTERIOR BUILDERS.</span>
-                <span>LOVED BY ACCOUNTANTS.</span>
+                <span>Trusted by accountants. Used by Small and Medium Businesses in the building industry including interior and exterior builders </span>
             </div>
         </section>
 
@@ -1161,7 +1155,7 @@ export default function ConstructionERPLanding() {
                 </div>
                 <h3 className="feature-title">JOB COST & BOQ ESTIMATION</h3>
                 <p className="feature-description">
-                Create accurate estimates quickly with historical data, material costs, and labor rates. Win more bids with competitive proposals.
+                Create accurate estimates, material costs, and labor rates quickly with bill of quantities and calculate actual cost with Job cost ledger. Keep track of project variance accurately.
                 </p>
             </div>
 
@@ -1175,23 +1169,9 @@ export default function ConstructionERPLanding() {
                     <rect x="98" y="55" width="10" height="20" fill="#777"/>
                     </svg>
                 </div>
-                <h3 className="feature-title">PROJECT SCHEDULING</h3>
+                <h3 className="feature-title">PROJECT TRACKING</h3>
                 <p className="feature-description">
-                Build detailed schedules, assign resources, and track progress in real-time. Keep every stakeholder informed.
-                </p>
-            </div>
-
-            <div className="feature-card">
-                <div className="feature-icon">
-                    <svg width="42" height="42" viewBox="0 0 120 120">
-                    <polygon points="20,40 60,20 100,40 60,60" fill="#E8A55A"/>
-                    <polygon points="20,40 60,60 60,100 20,80" fill="#D18B47"/>
-                    <polygon points="100,40 60,60 60,100 100,80" fill="#C47C3A"/>
-                    </svg>
-                </div>
-                <h3 className="feature-title">MATERIAL MANAGEMENT</h3>
-                <p className="feature-description">
-                Track inventory, automate procurement, and ensure materials arrive exactly when needed. Reduce waste.
+                Monitor projects and project duration, maintenance schedules, and utilization. maximize ROI on your projects, build detailed schedules, assign resources, and track progress in real-time. Keep every stakeholder informed.
                 </p>
             </div>
 
@@ -1253,29 +1233,21 @@ export default function ConstructionERPLanding() {
             <div className="feature-card">
                 <div className="feature-icon">
                     <svg width="42" height="42" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="18" y="10" width="84" height="100" rx="8" fill="#FFFFFF" stroke="#4A90E2" strokeWidth="5"/>
 
-                    <circle cx="60" cy="60" r="38" fill="#9E9E9E"/>
+                    <rect x="26" y="18" width="68" height="12" rx="4" fill="#4A90E2"/>
 
-                    <g fill="#7D7D7D">
-                        <rect x="56" y="2" width="8" height="20"/>
-                        <rect x="56" y="98" width="8" height="20"/>
-                        <rect x="2" y="56" width="20" height="8"/>
-                        <rect x="98" y="56" width="20" height="8"/>
+                    <rect x="32" y="78" width="10" height="20" fill="#4CAF50"/>
+                    <rect x="50" y="66" width="10" height="32" fill="#FFC107"/>
+                    <rect x="68" y="54" width="10" height="44" fill="#2196F3"/>
 
-                        <rect x="18" y="18" width="14" height="14" transform="rotate(45 25 25)"/>
-                        <rect x="88" y="18" width="14" height="14" transform="rotate(45 95 25)"/>
-                        <rect x="18" y="88" width="14" height="14" transform="rotate(45 25 95)"/>
-                        <rect x="88" y="88" width="14" height="14" transform="rotate(45 95 95)"/>
-                    </g>
-
-                    <circle cx="60" cy="60" r="16" fill="#555555"/>
-                    <circle cx="60" cy="60" r="6" fill="#2F2F2F"/>
+                    <polyline points="32,84 55,62 75,48 90,34" fill="none" stroke="#E53935" strokeWidth="4"/>
 
                     </svg>
                 </div>
-                <h3 className="feature-title">EQUIPMENT TRACKING</h3>
+                <h3 className="feature-title">ACCOUNTING & FINANCE</h3>
                 <p className="feature-description">
-                Monitor equipment location, maintenance schedules, and utilization. Maximize ROI on your machinery.
+                Generate all important financial accounting reports from records all used by accountants and bookkeepers. Get instant insights into company performance, profitability, and productivity. Make informed decisions.
                 </p>
             </div>
 
@@ -1288,9 +1260,9 @@ export default function ConstructionERPLanding() {
                     </svg>
 
                 </div>
-                <h3 className="feature-title">QUALITY & SAFETY</h3>
+                <h3 className="feature-title">SUPPLIER RELATIONSHIP</h3>
                 <p className="feature-description">
-                Digitize inspections, track compliance, and maintain safety standards. Ensure regulatory compliance.
+                Connect with suppliers across country through listings and get to see available products and materials. Get instant restock of products by eliminating time looking for suppliers by getting to see hundreds of suppliers and their available products all in one place.
                 </p>
             </div>
 
@@ -1311,7 +1283,7 @@ export default function ConstructionERPLanding() {
                 </div>
                 <h3 className="feature-title">ANALYTICS & REPORTING</h3>
                 <p className="feature-description">
-                Get instant insights into project performance, profitability, and productivity. Make informed decisions.
+                Get instant insights into company performance, financial performance, project performance, profitability, and productivity. Make informed decisions.
                 </p>
             </div>
             </div>

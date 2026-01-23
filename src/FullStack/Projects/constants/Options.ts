@@ -7,7 +7,7 @@ export const PROJECT_STATUS_OPTIONS = [
     {value: 'On Hold', label: 'On Hold'},
     {value: 'Completed', label: 'Completed'},
     {value: 'Cancelled', label: 'Cancelled'},
-];
+] as const;
 
 export const PROJECT_TYPE_OPTIONS = [
     {value: 'Residential', label: 'Residential'},
@@ -16,14 +16,14 @@ export const PROJECT_TYPE_OPTIONS = [
     {value: 'Infrastructure', label: 'Infrastructure'},
     {value: 'Renovation', label: 'Renovation'},
     {value: 'Institutional', label: 'Institutional'},
-];
+] as const;
 
 export const PROJECT_PHASE_OPTIONS = [
     {value: 'Not Started', label: 'Not Started'},
     {value: 'In Progress', label: 'In Progress'},
     {value: 'Completed', label: 'Completed'},
     {value: 'Delayed', label: 'Delayed'},
-];
+] as const;
 
 export const DOCUMENT_TYPE_OPTIONS = [
     {value: 'Contract', label: 'Contract'},
@@ -32,14 +32,14 @@ export const DOCUMENT_TYPE_OPTIONS = [
     {value: 'Specification', label: 'Specification'},
     {value: 'Report', label: 'Report'},
     {value: 'Photo', label: 'Photo'},
-];
+] as const;
 
 export const BILL_OF_QUANTITIES_OPTIONS = [
     {value: 'Draft', label: 'Draft'},
     {value: 'Tender', label: 'Tender'},
     {value: 'Contract', label: 'Contract'},
     {value: 'Revision', label: 'Revision'},
-];
+] as const;
 
 
 
@@ -239,7 +239,7 @@ export const COUNTRY_OPTIONS = [
     {value: 'Yemen', label: 'Yemen'},
     {value: 'Zambia', label: 'Zambia'},
     {value: 'Zimbabwe', label: 'Zimbabwe'},
-];
+] as const;
 
 
 
@@ -248,7 +248,7 @@ export const JOB_COST_LEDGER_STATUS_OPTIONS = [
     {value: "Active", label: "Active"},
     {value: "Completed", label: "Completed"},
     {value: "On Hold", label: "On Hold"},
-]
+] as const;
 
 
 
@@ -256,10 +256,10 @@ export const COST_TYPE_CHOICES_OPTIONS = [
     {value: 'Direct Cost', label: 'Direct Cost'},
     {value: 'Indirect Cost', label: 'Indirect Cost'},
     {value: 'Overhead', label: 'Overhead'},
-];
+] as const;
 
 export const JOB_COST_LINES_STATUS_OPTIONS = [
     {value: 'Committed', label: 'Committed'},
     {value: 'Invoiced', label: 'Invoiced'},
     {value: 'Paid', label: 'Paid'}, 
-];
+] as const;

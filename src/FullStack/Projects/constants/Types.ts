@@ -76,11 +76,11 @@ export interface ProjectProfileInputs {
   date: string;
   project_name: string;
   project_description: string;
-  project_type: keyof typeof PROJECT_TYPE_OPTIONS;
-  status: keyof typeof PROJECT_STATUS_OPTIONS;
+  project_type: typeof PROJECT_TYPE_OPTIONS[number]['value'] | null;
+  status: typeof PROJECT_STATUS_OPTIONS[number]['value'] | null;
 
   address: string;
-  country: keyof typeof COUNTRY_OPTIONS;
+  country: typeof COUNTRY_OPTIONS[number]['value'] | null;
   city: string;
   state: string;
   zip_code: string;
@@ -101,7 +101,7 @@ export interface ProjectProfileInputs {
   phases?: Array<{
     phase_description?: string;
     start_date?: string;
-    current_phase?: keyof typeof PROJECT_PHASE_OPTIONS ;
+    current_phase?: typeof PROJECT_PHASE_OPTIONS[number]['value'] | null;
     end_date?: string;
   }> | null; 
   created_by: string;

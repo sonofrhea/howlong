@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { PRODUCTS_ICONS } from "./ModuleIcons";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
+import { COSTING_METHOD_OPTIONS } from "./options";
 
 
 
@@ -36,7 +37,7 @@ export type ProductGroupList = {
   group_code: number;
   group_name: string;
   description: string;
-  costing_method: string;
+  costing_method: typeof COSTING_METHOD_OPTIONS[number]['value'] | null;
   sales_code: number;
   purchase_code: number;
   cash_sales_code: number;

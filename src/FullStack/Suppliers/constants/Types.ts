@@ -107,7 +107,7 @@ export type SupplierProfileInputs = {
     sell: number | null;
   };
   address: string;
-  country: keyof typeof COUNTRY_OPTIONS;
+  country: typeof COUNTRY_OPTIONS[number]['value'] | null;
   post_code: string;
   city: string;
   state: string;
@@ -117,9 +117,9 @@ export type SupplierProfileInputs = {
   email: string;
   account_open_date: string;
   registration_number: number;
-  status: keyof typeof STATUS_CHOICES;
+  status: typeof STATUS_CHOICES[number]['value'] | null;
   gst_number: number;
-  tax_id_type: keyof typeof TAX_ID_CHOICES;
+  tax_id_type: typeof TAX_ID_CHOICES[number]['value'] | null;
   brn_number: number;
   tax_number: number;
   tourism_number: number;
@@ -128,7 +128,7 @@ export type SupplierProfileInputs = {
   supplier_bank_name: string;
   remark: string;
   supplier_bank_account_number: number;
-  bank_account_type: keyof typeof BANK_TYPE_CHOICES;
+  bank_account_type: typeof BANK_TYPE_CHOICES[number]['value'] | null;
   is_active: boolean;
   created_by: string;
   date_created: string;

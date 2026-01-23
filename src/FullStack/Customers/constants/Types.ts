@@ -116,7 +116,50 @@ export type CustomerInputs = {
   remark: string | null;
   date_created: string;
   created_by: string;
+  date_updated: string;
 };
+
+
+export type CustomerEdit = {
+  customer_number: number;
+  customer_name: string;
+  company_name: string;
+  address: string;
+  country: string;
+  post_code: string;
+  city: string;
+  state: string;
+  mobile_number: string;
+  home_number: string;
+  fax: string;
+  email: string;
+  id_type: typeof ID_TYPE_CHOICES[number]['value'] | null;
+  id_number: string;
+  preferred_currency?: {
+    currency_code?: string | null;
+    currency_name?: string | null;
+    currency_symbol?: string | null;
+    country?: string | null;
+    buy?: number | null;
+    sell?: number | null;
+  } | null;
+  customer_bank_name: string;
+  customer_bank_account_number: string;
+  bank_account_type: typeof BANK_TYPE_CHOICES[number]['value'] | null;
+  swift_code: string;
+  is_active: boolean;
+  gst_number: string;
+  tax_id_type: typeof TAX_ID_CHOICES[number]['value'] | null;
+  tax_number: string;
+  tourism_number: string;
+  expiration_date: string;
+  service_tax_number: string;
+  status: typeof STATUS_CHOICES[number]['value'] | null;
+  remark: string;
+  created_by: string;
+  date_created: string;
+  date_updated: string;
+}
 
 export type CustomerCreateResponse = {
   customer_number: number;
@@ -472,7 +515,7 @@ export type CustomerRefundInputs = {
     date?: string | null;
     refund_amount?: number | null;
     additional_charges?: number | null;
-    payment_type?: keyof typeof REFUND_TYPE_OPTIONS | null;
+    payment_type?: typeof REFUND_TYPE_OPTIONS[number]['value'] | null;
     cancelled?: boolean | null;
   }> | null;
   tax_inclusive: boolean;
@@ -504,7 +547,7 @@ export type CustomerRefundDetails = {
     additional_charges: number | null;
     total_amount: number | null;
     cancelled: boolean;
-    payment_type?: keyof typeof REFUND_TYPE_OPTIONS | null;
+    payment_type?: typeof REFUND_TYPE_OPTIONS[number]['value'] | null;
   }> | null;
   net_refunded: number;
   outstanding: number;

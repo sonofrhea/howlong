@@ -45,7 +45,7 @@ export type CompanyPurchaseInvoiceInputs = {
   supplier_name: string;
   address: string;
   description: string;
-  status: typeof PURCHASE_INVOICE_STATUS;
+  status: typeof PURCHASE_INVOICE_STATUS[number]['value'] | null;
   agent: string;
   related_invoice?: Array <{
     product_item?: string | null;
@@ -133,7 +133,7 @@ export type CompanyPurchaseOrderInputs = {
     tax_amount: number;
     cancelled: boolean;
   }>
-  status: typeof PURCHASE_ORDER_STATUS;
+  status: typeof PURCHASE_ORDER_STATUS[number]['value'] | null;
   agent: string;
   cancelled: boolean;
   tax_inclusive: boolean;
