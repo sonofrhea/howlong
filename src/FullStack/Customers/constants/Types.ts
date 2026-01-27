@@ -114,9 +114,10 @@ export type CustomerInputs = {
   is_active: boolean;
   status: typeof STATUS_CHOICES[number]['value'] | null;
   remark: string | null;
-  date_created: string;
   created_by: string;
+  date_created: string;
   date_updated: string;
+  updated_by: string;
 };
 
 
@@ -156,9 +157,6 @@ export type CustomerEdit = {
   service_tax_number: string;
   status: typeof STATUS_CHOICES[number]['value'] | null;
   remark: string;
-  created_by: string;
-  date_created: string;
-  date_updated: string;
 }
 
 export type CustomerCreateResponse = {

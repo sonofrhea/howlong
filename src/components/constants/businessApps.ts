@@ -4,15 +4,33 @@ import React, { useState } from "react";
 import { BusinessAppInterface, DashboardInterface } from "./LayoutTypes";
 
 export const BUSINESS_APPS: BusinessAppInterface[] = [
-    { id: 'customers', name: 'Customers', path: '/customers', available: true },
-    { id: 'products', name: 'Products', path: '/products', available: true },
-    { id: 'sales', name: 'Sales', path: '/sales', available: true },
-    { id: 'suppliers', name: 'Suppliers', path: '/suppliers', available: true },
-    { id: 'accounting', name: 'Accounting', path: '/accounting', available: true },
-    { id: 'projects', name: 'Projects', path: '/projects', available: true },
-    { id: 'purchases', name: 'Purchases', path: '/purchases', available: true },
-    { id: 'reports', name: 'Reports', path: '/reports', available: true },
-    { id: 'core', name: 'HR & Workers', path: '/core', available: false },
+    { 
+      id: 'customers', name: 'Customers', path: '/customers', available: true
+    },
+    {
+      id: 'products', name: 'Products', path: '/products', available: true
+    },
+    {
+      id: 'sales', name: 'Sales', path: '/sales', available: true
+    },
+    {
+      id: 'suppliers', name: 'Suppliers', path: '/suppliers', available: true
+    },
+    {
+      id: 'accounting', name: 'Accounting', path: '/accounting', available: true
+    },
+    {
+      id: 'projects', name: 'Projects', path: '/projects', available: true
+    },
+    {
+      id: 'purchases', name: 'Purchases', path: '/purchases', available: true
+    },
+    {
+      id: 'reports', name: 'Reports', path: '/reports', available: true
+    },
+    {
+      id: 'core', name: 'HR & Workers', path: '/core', available: false
+    },
 ];
 
 

@@ -13,9 +13,9 @@ const HandleRegistration = async (data: RegistrationFormInputs) => {
         const response = await apiClient.post(`${baseEntry}core/register/`, data);
         return response?.data;
     } catch (err: any) {
-        //console.log("ERROR TYPE:", err.constructor.name);
-        //console.log("ERROR KEYS:", Object.keys(err));
-        //console.log("FULL ERROR OBJECT:", err);
+        console.log("ERROR TYPE:", err.constructor.name);
+        console.log("ERROR KEYS:", Object.keys(err));
+        console.log("FULL ERROR OBJECT:", err);
         throw err;
     }
 };

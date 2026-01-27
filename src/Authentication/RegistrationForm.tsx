@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { RegistrationFormInputs } from "./Types";
 import '../App.css';
 
+import { toast } from "react-hot-toast";
+
 
 import { Box } from '@mui/material';
 import MyTextField from "../components/constants/forms/MyTextField";
@@ -15,12 +17,13 @@ import apiClient from "../BaseEngine";
 
 import HandleRegistration from "./HandleRegistration";
 import { spinningStyles } from "./Styles";
+import MyCompanyField from "../components/constants/forms/MyCompanyField";
 
 
 
 const Register = () => {
     const navigate = useNavigate()
-    const {handleSubmit, control} = useForm();
+    const {handleSubmit, control, formState} = useForm();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -30,13 +33,15 @@ const Register = () => {
         setLoading(true);
         setError("")
 
+        const toastId = toast.loading('Registering...');
         try {
             await HandleRegistration({
             email: data.email,
             password1: data.password1,
-            password2: data.password2
+            password2: data.password2,
+            company: data.company
         });
-            window.confirm("Registration successful!");
+            toast.success('Registration successful!', {id: toastId});
             navigate(`/login`);
         } catch (error: any) {
             let errorMessage = "";
@@ -55,7 +60,8 @@ const Register = () => {
             }
 
             setError(errorMessage);
-            //console.log(errorMessage);
+            toast.error('Registration failed.', {id: toastId});
+            //console.error(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -113,8 +119,24 @@ const Register = () => {
                                 label={"Confirm password"}
                                 name={"password2"}
                                 control={control}
+                                rules={{
+                                    required: 'Please confirm your password',
+                                    validate: (value, formValues) => value === formValues.password1 || "Passwords do not match"
+                                }}
                             />
                         </Box>
+
+                        <div>
+                        <Box className={"itemBox"}>
+                            <MyCompanyField 
+                                label={"Company Name"}
+                                name={"company"}
+                                control={control}
+                                rules={{required: 'Please enter company name'}}
+                                
+                            />
+                        </Box>
+                        </div>
                         
                         {error && (
                             <Box className={"itemBox"}>

@@ -248,7 +248,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                         onChange={currencyChange}
                                         className="w-full text-black rounded-lg border cursor-pointer border-gray-300 px-3 py-2" 
                                     >
-                                        <select value="">Select currency...</select>
+                                        <option value="">Select currency...</option>
                                         {useMemo(() => currencies.map((currency: CurrencyInterface) => (
                                             <option key={currency.currency_code} value={currency.currency_code} >
                                                 {currency.currency_code} - {currency.country}
