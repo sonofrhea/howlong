@@ -342,7 +342,7 @@ const CustomerDetails: React.FC<any> = ({ customer, isLoading, onBack, onEdit })
             
             <hr className="my-6 border-gray-200" />
 
-            <div className="grid lg:grid-cols-5 flex">
+            <div className="grid lg:grid-cols-5">
                 <p className={labelStyles}>
                     <p className={details.extraSmallUppercase}>Date Updated</p>
                     {formatDate(customer?.date_updated) || "N/A"}

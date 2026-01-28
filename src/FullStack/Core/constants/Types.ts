@@ -1,4 +1,5 @@
 import { CORE_ICONS } from "./ModuleIcons";
+import { ROLES_OPTIONS } from "./Options";
 
 
 
@@ -48,4 +49,8 @@ export interface AgentInterface {
   id: number;
   name: string;
   email: string;
+};
+
+export type Role = {
+  name: typeof ROLES_OPTIONS[number]['value'] | null;
 };

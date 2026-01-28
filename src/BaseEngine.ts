@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ImportMeta } from './vite-env';
+import { toast } from "react-hot-toast";
 
 //const baseEntry = 'http://127.0.0.1:8000/';
 
@@ -31,6 +32,12 @@ apiClient.interceptors.response.use(response => {
   if (error.response && error.response.status === 401) {
     localStorage.removeItem('Token')
     window.location.href = "/"
+  }
+  else if (error.response.status === 403) {
+    const message = error.response.data?.detail
+    || 'You do not have permission to perform this action.';
+
+    toast.error(message, {duration: 5000,});
   }
   return Promise.reject(error);
 })

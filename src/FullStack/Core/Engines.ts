@@ -53,3 +53,10 @@ export const fetchBanks = async () => {
   const response = await apiClient.get('/core/banks/');
   return response.data;
 };
+
+//  ROLES
+
+export const fetchRoles = async (name: string) => {
+  const response = await apiClient.get('/core/roles/');
+  return response.data;
+};

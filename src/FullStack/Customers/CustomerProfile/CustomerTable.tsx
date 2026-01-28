@@ -104,7 +104,7 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
             </div>
         );
     }
-    console.log(customers);
+    //console.log(customers);
     return (
         <div className="overflow-hidden">
             {/* Table Header with Items Per Page */}
