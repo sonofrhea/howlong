@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Ruler, { X } from "lucide-react";
+import { X } from "lucide-react";
 import { BillingCycle } from './Types';
 import { BILLING_OPTIONS } from './Options';
 
@@ -32,12 +32,12 @@ function PricingPage() {
 
     const billingLabel: Record<string, Record<BillingCycle, string>> = {
         Basic: {
-            "6 months": " / month (billed every 6 months)",
-            "Yearly": " / month (billed yearly)",
+            "6 months": " MYR/ month (billed every 6 months)",
+            "Yearly": " MYR/ month (billed yearly)",
         },
         Enterprise: {
-            "6 months": " / month (billed every 6 months)",
-            "Yearly": " / month (billed yearly)",
+            "6 months": " MYR/ month (billed every 6 months)",
+            "Yearly": " MYR/ month (billed yearly)",
         },
     };
 
@@ -74,7 +74,6 @@ function PricingPage() {
                 </div>
 
                 {/* Billing toggle */}
-
                 <div className="flex justify-center mb-20">
                     <div className="inline-flex rounded-full border border-slate-300 p-1 text-sm">
                         {buttons()}
@@ -90,12 +89,15 @@ function PricingPage() {
                         <p className="text-slate-600 mb-6">For exploring core functionality</p>
 
                         <div className="mb-6">
-                            <span className="text-4xl font-semibold">RM0</span>
-                            <span className="text-slate-500" data-cycle> / 3days</span>
+                            <span className="text-4xl font-semibold">0</span>
+                            <span className="text-slate-500" data-cycle> MYR/ 3days</span>
                         </div>
 
-                        <button className="w-full rounded-lg border border-slate-300 py-3 font-medium mb-8 hover:bg-slate-50">
-                            <a href="/register">Get Started</a>
+                        <button className="w-full rounded-lg border border-slate-300 py-3 font-medium mb-8 hover:bg-slate-50"
+                            onClick={() => window.location.href = "/register"}
+                            aria-label="Registration page"
+                        >
+                            Get Started
                         </button>
 
                         <div className='space-y-10 text-sm'>
@@ -128,7 +130,7 @@ function PricingPage() {
 
                         <div className="mb-6">
                             <span className="text-4xl font-semibold">
-                                RM{pricingLabel["Basic"][cycle]}
+                                {pricingLabel["Basic"][cycle]}
                             </span>
                             <span className="text-slate-500">{billingLabel["Basic"][cycle]}</span>
                         </div>
@@ -180,7 +182,7 @@ function PricingPage() {
 
                         <div className="mb-6">
                             <span className="text-4xl font-semibold">
-                                RM{pricingLabel["Enterprise"][cycle]}
+                                {pricingLabel["Enterprise"][cycle]}
                             </span>
                             <span className="text-slate-500">
                                 {billingLabel["Enterprise"][cycle]}

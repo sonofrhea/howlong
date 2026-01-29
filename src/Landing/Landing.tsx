@@ -1247,22 +1247,22 @@ export default function ConstructionERPLanding() {
                 </div>
                 <h3 className="feature-title">ACCOUNTING & FINANCE</h3>
                 <p className="feature-description">
-                Generate all important financial accounting reports from records all used by accountants and bookkeepers. Get instant insights into company performance, profitability, and productivity. Make informed decisions.
+                    Generate all important financial accounting reports from records all used by accountants and bookkeepers. Get instant insights into company performance, profitability, and productivity. Make informed decisions.
                 </p>
             </div>
 
             <div className="feature-card">
                 <div className="feature-icon">
                     <svg width="42" height="42" viewBox="0 0 120 120">
-                    <rect x="25" y="20" width="70" height="90" rx="6" fill="#4A90E2"/>
-                    <rect x="35" y="10" width="50" height="20" rx="5" fill="#2D6FB8"/>
-                    <polyline points="40,55 55,70 85,40" fill="none" stroke="#FFFFFF" strokeWidth="8"/>
+                        <rect x="25" y="20" width="70" height="90" rx="6" fill="#4A90E2"/>
+                        <rect x="35" y="10" width="50" height="20" rx="5" fill="#2D6FB8"/>
+                        <polyline points="40,55 55,70 85,40" fill="none" stroke="#FFFFFF" strokeWidth="8"/>
                     </svg>
 
                 </div>
                 <h3 className="feature-title">SUPPLIER RELATIONSHIP</h3>
                 <p className="feature-description">
-                Connect with suppliers across country through listings and get to see available products and materials. Get instant restock of products by eliminating time looking for suppliers by getting to see hundreds of suppliers and their available products all in one place.
+                    Connect with suppliers across country through listings and get to see available products and materials. Get instant restock of products by eliminating time looking for suppliers by getting to see hundreds of suppliers and their available products all in one place.
                 </p>
             </div>
 
