@@ -1090,7 +1090,7 @@ export default function ConstructionERPLanding() {
                     </div>
                 </div>
                 <a href="#solutions">Solutions</a>
-                <a href="#pricing">Pricing</a>
+                <a href="/pricing">Pricing</a>
                 <a href="#resources">Resources</a>
                 <a href="/login">Login</a>
                 <a href="/pricing" className="cta-nav">Try It Out</a>
@@ -1288,56 +1288,57 @@ export default function ConstructionERPLanding() {
             </div>
             </div>
         </section>
-  <section className="testimonials-section">
-    <div className="section-header">
-      <span className="section-tag">Client Success</span>
-      <h2 className="section-title">How does this work?</h2>
-      <p className="section-description">
-        See how building companies are transforming their operations with our ERP platform.
-      </p>
-    </div>
+        
+        <section className="testimonials-section">
+            <div className="section-header">
+            <span className="section-tag">Client Success</span>
+            <h2 className="section-title">How does this work?</h2>
+            <p className="section-description">
+                See how building companies are transforming their operations with our ERP platform.
+            </p>
+            </div>
 
-    <div className="testimonials-grid">
-      <div className="testimonial">
-        <p className="testimonial-text">
-          "This platform cut our project planning time by 40%. We can now manage twice as many projects with the same team. The ROI was immediate."
-        </p>
-        <div className="testimonial-author">
-          <div className="author-avatar">MR</div>
-          <div className="author-info">
-            <div className="author-name">Michael Rodriguez</div>
-            <div className="author-title">VP Operations, Skyline Builders</div>
-          </div>
-        </div>
-      </div>
+            <div className="testimonials-grid">
+            <div className="testimonial">
+                <p className="testimonial-text">
+                "This platform cut our project planning time by 40%. We can now manage twice as many projects with the same team. The ROI was immediate."
+                </p>
+                <div className="testimonial-author">
+                <div className="author-avatar">MR</div>
+                <div className="author-info">
+                    <div className="author-name">Michael Rodriguez</div>
+                    <div className="author-title">VP Operations, Skyline Builders</div>
+                </div>
+                </div>
+            </div>
 
-      <div className="testimonial">
-        <p className="testimonial-text">
-          "Finally, a system built for the building industry. No more juggling spreadsheets, emails and suppliers stress. Everything we need is in one place, accessible from the field."
-        </p>
-        <div className="testimonial-author">
-          <div className="author-avatar">JC</div>
-          <div className="author-info">
-            <div className="author-name">Jennifer Chen</div>
-            <div className="author-title">Project Manager, Metro Construction</div>
-          </div>
-        </div>
-      </div>
+            <div className="testimonial">
+                <p className="testimonial-text">
+                "Finally, a system built for the building industry. No more juggling spreadsheets, emails and suppliers stress. Everything we need is in one place, accessible from the field."
+                </p>
+                <div className="testimonial-author">
+                <div className="author-avatar">JC</div>
+                <div className="author-info">
+                    <div className="author-name">Jennifer Chen</div>
+                    <div className="author-title">Project Manager, Metro Construction</div>
+                </div>
+                </div>
+            </div>
 
-      <div className="testimonial">
-        <p className="testimonial-text">
-          "The cost control features alone saved us over $500K in the first year. We can now spot budget overruns before they become problems."
-        </p>
-        <div className="testimonial-author">
-          <div className="author-avatar">DW</div>
-          <div className="author-info">
-            <div className="author-name">David Washington</div>
-            <div className="author-title">CFO, Foundation Group</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+            <div className="testimonial">
+                <p className="testimonial-text">
+                "The cost control features alone saved us over $500K in the first year. We can now spot budget overruns before they become problems."
+                </p>
+                <div className="testimonial-author">
+                <div className="author-avatar">DW</div>
+                <div className="author-info">
+                    <div className="author-name">David Washington</div>
+                    <div className="author-title">CFO, Foundation Group</div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </section>
 
         {/* CTA SECTION */}
         <section id="demo" className="cta-section">
@@ -1369,7 +1370,7 @@ export default function ConstructionERPLanding() {
                     <h4>Product</h4>
                     <ul>
                     <li><a href="#">Features</a></li>
-                    <li><a href="#">Pricing</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
                     <li><a href="#">Mobile App</a></li>
                     </ul>
                 </div>
