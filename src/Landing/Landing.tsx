@@ -1359,7 +1359,7 @@ export default function ConstructionERPLanding() {
             <div className="footer-content">
                 <div className="footer-brand">
                     <div className="footer logo">
-                        <img src={logoWhite} alt='logo' height="80" width="100" />
+                        <img src={logo} alt='logo' height="80" width="100" />
                     </div>
                     <p>The management ERP platform built by builders and accountants, for builders and accountants. Streamline your operations and manage your business better.</p>
                     <p>&copy; 2026 URUSENTRA. All rights reserved.</p>
