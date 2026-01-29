@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 import '../App.css';
 import { Box } from '@mui/material';
@@ -25,8 +26,11 @@ const Login = () => {
         if (loading) return
         setLoading(true);
         setError("")
+
+        const toastId = toast.loading('Logging in...');
         try {
-            await HandleLogin(data.email, data.password)
+            await HandleLogin(data.email, data.password);
+            toast.success('Login successful!', {id: toastId});
             navigate(`/dashboard`);
         } catch (error: any) {
             let errorMessage = "";

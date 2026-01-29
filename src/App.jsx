@@ -10,13 +10,13 @@ import Layout from './components/Layout';
 
 import Dashboard from "./components/Dashboard";
 
-import Landing from "./Landing";
+import Landing from "./Landing/Landing";
 
 import { Toaster } from 'react-hot-toast';
 
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 
-
+import PricingPage from './Landing/PricingPage';
 
 
 
@@ -197,6 +197,8 @@ function App() {
             <Route path="/" element={<Navigate to="/home" replace />} />
 
             <Route path='/home' element={<Landing />} />
+
+            <Route path='/pricing' element={<PricingPage />} />
 
             {/* Login route */}
             <Route path='/login' element={<LoginForm />} />

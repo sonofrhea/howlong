@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import logo from "./assets/logo.svg";
-import logoWhite from "./assets/logoWhite.svg";
+import logo from "../assets/logo.svg";
+import logoWhite from "../assets/logoWhite.svg";
 import Ruler from "lucide-react";
 
 export default function ConstructionERPLanding() {
@@ -1093,7 +1093,7 @@ export default function ConstructionERPLanding() {
                 <a href="#pricing">Pricing</a>
                 <a href="#resources">Resources</a>
                 <a href="/login">Login</a>
-                <a href="#demo" className="cta-nav">Try It Out</a>
+                <a href="/pricing" className="cta-nav">Try It Out</a>
             </div>
             </nav>
 
@@ -1350,8 +1350,7 @@ export default function ConstructionERPLanding() {
             </div>
 
             <div className="cta-group">
-            <a href="/register" className="cta-primary">Start Free Trial</a>
-            <a href="#" className="cta-secondary">Click For Pricing</a>
+            <a href="/pricing" className="cta-secondary">Click For Pricing</a>
             </div>
         </section>
 
