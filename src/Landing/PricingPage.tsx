@@ -142,10 +142,10 @@ function PricingPage() {
                         <div className="space-y-12 text-sm">
                             <div>
                                 <ul className="space-y-2 text-slate-700">
+                                    <li>✔ Unlimited Management access</li>
                                     <li>✔ Unlimited projects</li>
                                     <li>✔ Higher usage limits</li>
                                     <li>✔ Priority support</li>
-                                    <li>✔ Advanced analytics</li>
                                 </ul>
                             </div>
 
@@ -197,9 +197,22 @@ function PricingPage() {
                             <div>
                                 <h3 className="font-medium mb-3">Platform</h3>
                                 <ul className="space-y-2 text-slate-700">
-                                    <li>✔ Unlimited users</li>
+                                    <li>✔ Full Financial reports</li>
+                                    <li>✔ Cloud Access</li>
+                                    <li>✔ Client Server Database</li>
+                                    <li>✔ Unlimited Management access</li>
                                     <li>✔ Unlimited projects</li>
                                     <li>✔ Custom integrations</li>
+                                    <li>✔ Suppliers connection</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h3 className="font-medium mb-3">Collaboration</h3>
+                                <ul className="space-y-2 text-slate-700">
+                                    <li>✔ Up to 5 users</li>
+                                    <li>✔ Shared workspaces</li>
+                                    <li>✔ Role-based permissions</li>
                                 </ul>
                             </div>
 

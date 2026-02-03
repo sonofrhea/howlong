@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 
 
 import { fetchQuotations, fetchQuotationById, createQuotation,
-    updateQuotation, deleteQuotation, fetchInvoices
+    updateQuotation, deleteQuotation, sendQuotation
  } from "../Engines";
 
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
-import { fetchCustomers } from "../../Customers/Engines"
+import { fetchCustomers } from "../../Customers/Engines";
 
 
 
@@ -265,6 +265,25 @@ function QuotationManagement() {
     const handleEditQuotationButton = () => {
         setView('edit');
     };
+
+
+
+    // ------------------------------------------------------------------------------------
+
+
+    const handleSendQuotation = async () => {
+
+        if (!selectedQuotation) return;
+
+        const toastId = toast.loading('Sending Quotation...');
+        try {
+            await sendQuotation(selectedQuotation.quotation_number);
+            toast.success('Quotation successfully sent.', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to send quotation', { id: toastId });
+            console.error(error);
+        }
+    }
     // ------------------------------------------------------------------------------------
 
     const filteredQuotations = quotations.filter((quotation: any) => {
@@ -532,6 +551,7 @@ function QuotationManagement() {
                 <QuotationDetails 
                 quotation={selectedQuotation}
                 isLoading={isLoadingQuotation}
+                onSendQuotation={handleSendQuotation}
                 onBack={handleBackToQuotationsList}
                 onEdit={handleEditQuotationButton}
                 />
@@ -547,6 +567,7 @@ function QuotationManagement() {
                 currencies={currencies}
                 agents={agents}
                 productItems={productItems}
+                onSendQuotation={handleSendQuotation}
                 />
             )}
             </div>

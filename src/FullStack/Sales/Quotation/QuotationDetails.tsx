@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { forms, tables, text } from "../Constants/Styles";
 import {layout, details} from "../Constants/Styles";
 import { labelStyles, buttons } from "../../Customers/constants/Styles";
 import { SquarePen } from "lucide-react";
+import { QuotationDetailsProps } from "../Constants/Types";
+import PrintQuotation from "./PrintQuotation";
+import { useReactToPrint } from "react-to-print";
+
 
 
 const formatNumber = () => {
@@ -30,7 +34,20 @@ const productItem = () => {
 
 
 
-const QuotationDetails: React.FC<any> = ({ quotation, isLoading, onBack, onEdit }) => {
+const QuotationDetails: React.FC<QuotationDetailsProps> = ({
+    quotation,
+    isLoading,
+    onBack,
+    onEdit,
+    onSendQuotation
+}) => {
+
+    const printRef = useRef<HTMLDivElement>(null);
+
+    const handlePrint = useReactToPrint({
+        contentRef: printRef,
+        documentTitle: `Quotation-${quotation.quotation_number}`,
+    });
 
     
     if (isLoading) {
@@ -86,13 +103,24 @@ const QuotationDetails: React.FC<any> = ({ quotation, isLoading, onBack, onEdit 
                         </div>
                     </div>
 
-                    <div className="flex gap-3">
+                    <div className="flex gap-4">
                         <button 
                             onClick={onEdit}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
                             Edit
+                        </button>
+                        <button
+                            onClick={onSendQuotation}
+                            className={buttons.editButtonGreen}>
+                            Send to email
+                        </button>
+                        <button
+                            onClick={handlePrint}
+                            className={buttons.editButtonGreen}
+                        >
+                            Print
                         </button>
                     </div>
                 </div>
@@ -203,6 +231,12 @@ const QuotationDetails: React.FC<any> = ({ quotation, isLoading, onBack, onEdit 
                 {quotation.created_by}
             </p>
             <hr className="my-6 border-gray-200" />
+            <div style={{ display: "none" }}>
+                <PrintQuotation
+                    ref={printRef}
+                    quotation={quotation}
+                />
+            </div>
         </div>
     );
 };

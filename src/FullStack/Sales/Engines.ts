@@ -52,6 +52,13 @@ export const deleteQuotation = async (quotation_number: number) => {
 
 
 
+export const sendQuotation = async (quotation_number: number) => {
+    const response = await apiClient.post(`/sales/quotation/${quotation_number}/send/`);
+    return response.data;
+};
+
+
+
 
 
 

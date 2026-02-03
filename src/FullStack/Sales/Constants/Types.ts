@@ -44,7 +44,7 @@ export type QuotationList = {
 
 export type QuotationInputs = {
   quotation_number: number;
-  quotation_date: number; 
+  quotation_date: string; 
   valid_until: number;
   customer: string;
   customer_details: string;
@@ -67,6 +67,36 @@ export type QuotationInputs = {
   discount: number;
 };
 
+export type QuotationDetails = {
+  quotation_number: number;
+  quotation_date: string;
+  valid_until: number;
+  customer_name: string;
+  customer_details: string;
+  agent: string;
+  project_description: string;
+  related_quotation?: Array<{
+    item?: string | null;
+    item_name?: string | null;
+    description?: string | null;
+    quantity?: number | null;
+    unit_of_measure?: string | null;
+    price_per_unit?: number | null;
+    currency?: string | null;
+    sub_total?: string | null;
+    version?: number | null;
+  }> | null;
+  discount: number;
+  discount_amount: number;
+  tax_inclusive: boolean;
+  tax_amount: number;
+  cancelled: boolean;
+  gross_total: number;
+  net_total: number;
+  created_by: string;
+  date_created: string;
+}
+
 export type QuotationCreateResponse = {
   quotation_number: number;
 };
@@ -81,16 +111,29 @@ export type EditQuotationInputs = {
   quotationData: QuotationInputs;
 };
 
-export type QuotationProps = {
+export type QuotationEditProps = {
   quotation: QuotationInputs;
   onSubmit: (data: QuotationInputs) => void;
   isSubmitting: boolean;
   onCancel?: () => void;
+  onSendQuotation: () => void;
   customers: CustomerCreateResponse[];
   currencies: CurrencyInterface[];
   agents: AgentInterface[];
   productItems: ProductItemCreateResponse[];
 };
+
+export type QuotationDetailsProps = {
+  quotation: QuotationDetails;
+  isLoading: boolean;
+  onBack: () => void;
+  onEdit: () => void;
+  onSendQuotation: () => void;
+}
+
+export type PrintQuotationProps = {
+  quotation: QuotationDetails
+}
 
 // -------- END ----------- QUOTATIONS INPUT ----------------
 

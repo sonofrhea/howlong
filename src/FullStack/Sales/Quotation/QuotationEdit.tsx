@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
-import { QuotationInputs, QuotationProps } from "../Constants/Types";
+import { QuotationInputs, QuotationEditProps } from "../Constants/Types";
 
 import { AgentInterface,CurrencyInterface } from "../../Core/constants/Types"
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
@@ -34,11 +34,12 @@ const formatNumber = () => {
 
 
 
-const QuotationEdit: React.FC<QuotationProps> = ({
+const QuotationEdit: React.FC<QuotationEditProps> = ({
     quotation,
     onSubmit,
     isSubmitting,
     onCancel,
+    onSendQuotation,
     customers, currencies, agents, productItems
 }) => {
 
