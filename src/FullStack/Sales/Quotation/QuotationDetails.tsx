@@ -46,7 +46,7 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
 
     const handlePrint = useReactToPrint({
         contentRef: printRef,
-        documentTitle: `Quotation-${quotation.quotation_number}`,
+        documentTitle: quotation ? `Quotation-${quotation.quotation_number}` : "Quotation",
     });
 
     
@@ -114,7 +114,7 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                         <button
                             onClick={onSendQuotation}
                             className={buttons.editButtonGreen}>
-                            Send to email
+                            Send to customer email
                         </button>
                         <button
                             onClick={handlePrint}
@@ -170,9 +170,9 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                             </thead>
                             
                             <tbody className={tables.body}>
-                                {quotation.related_quotation.map((line: any, index: any) => (
+                                {quotation.related_quotation.map((line, index) => (
                                     <tr key={index}>
-                                        <td className={tables.cell}>{productItem()}{line.item} | {line.item_description}</td>
+                                        <td className={tables.cell}>{productItem()}{line.item} | {line.item_name}</td>
                                         <td className={tables.cell}>{line.description}</td>
                                         <td className={tables.cell}>{line.quantity}</td>
                                         <td className={tables.cell}>{line.unit_of_measure}</td>

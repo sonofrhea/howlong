@@ -52,6 +52,7 @@ const Login = () => {
             }
 
             setError(errorMessage);
+            toast.error(errorMessage, { id: toastId });
             //console.log(errorMessage);
         } finally {
             setLoading(false);

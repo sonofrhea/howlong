@@ -17,7 +17,7 @@ import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { forms, buttons, layout, tables, text, utils } from "../constants/Styles";
 
 import { Trash2 } from "lucide-react";
-import { controlAccountHandler } from "../../handlers";
+import { RefundAccountHandler } from "../../handlers";
 
 
 
@@ -70,7 +70,7 @@ const RefundForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers
 
 
 
-const controlAccountChange = controlAccountHandler(accounts, setValue);
+const controlAccountChange = RefundAccountHandler(accounts, setValue);
 
 
 

@@ -45,12 +45,11 @@ export type QuotationList = {
 export type QuotationInputs = {
   quotation_number: number;
   quotation_date: string; 
-  valid_until: number;
+  valid_until: string;
   customer: string;
   customer_details: string;
   agent: string;
   project_description: string;
-  cancelled: boolean;
   related_quotation?: Array<{
     item?: string | null;
     description?: string | null;
@@ -64,13 +63,15 @@ export type QuotationInputs = {
   }> | null;
   tax_inclusive: boolean;
   tax_amount: number;
-  discount: number;
+  discount: boolean;
+  discount_amount: number;
+  cancelled: boolean;
 };
 
 export type QuotationDetails = {
   quotation_number: number;
   quotation_date: string;
-  valid_until: number;
+  valid_until: string;
   customer_name: string;
   customer_details: string;
   agent: string;
@@ -84,9 +85,10 @@ export type QuotationDetails = {
     price_per_unit?: number | null;
     currency?: string | null;
     sub_total?: string | null;
+    cancelled?: boolean;
     version?: number | null;
   }> | null;
-  discount: number;
+  discount: boolean;
   discount_amount: number;
   tax_inclusive: boolean;
   tax_amount: number;
@@ -111,6 +113,26 @@ export type EditQuotationInputs = {
   quotationData: QuotationInputs;
 };
 
+interface SortConfig {
+  key: string | null;
+  direction: 'asc' | 'desc';
+}
+
+export type QuotationListProps = {
+  quotations: QuotationList[];
+  onQuotationClick: (quotationId: number) => void;
+  onEditQuotation: (quotationId: number, quotation: QuotationList) => void;
+  onDeleteQuotation: (quotationId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+};
+
 export type QuotationEditProps = {
   quotation: QuotationInputs;
   onSubmit: (data: QuotationInputs) => void;
@@ -129,11 +151,11 @@ export type QuotationDetailsProps = {
   onBack: () => void;
   onEdit: () => void;
   onSendQuotation: () => void;
-}
+};
 
 export type PrintQuotationProps = {
   quotation: QuotationDetails
-}
+};
 
 // -------- END ----------- QUOTATIONS INPUT ----------------
 

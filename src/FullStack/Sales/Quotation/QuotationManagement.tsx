@@ -329,12 +329,12 @@ function QuotationManagement() {
     const paginatedQuotations = sortedQuotations.slice(startIndex, startIndex + itemsPerPage);
 
     // Page change handler
-    const handlePageChange = (page: any) => {
+    const handlePageChange = (page: number) => {
     setCurrentPage(page);
     };
 
     // Items per page handler
-    const handleItemsPerPageChange = (value: any) => {
+    const handleItemsPerPageChange = (value: string) => {
     setItemsPerPage(Number(value));
     setCurrentPage(1); // Reset to first page
     };

@@ -203,14 +203,21 @@ function CustomerManagement() {
 
   
 
-
-
+  
 
   const handleDeleteCustomer = async (customerId: number) => {
-    if (window.confirm('Are you sure you want to delete this customer?')) {
-      deleteCustomersMutation.mutate(customerId);
+    const toastId = toast.loading('Deleting Customer...');
+    try {
+      await deleteCustomersMutation.mutateAsync(customerId);
+      toast.success('Customer successfully deleted', { id: toastId });
+      // Optional: Do something after successful deletion
+    } catch (error) {
+      toast.error('Failed to delete customer', { id: toastId });
+      console.error(error);
     }
   };
+
+
 
 // ------------------------------------------------------------------------------------
   const handleCustomerClick = (customerId: number) => {

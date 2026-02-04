@@ -1,5 +1,5 @@
 import React from "react";
-import { QuotationList } from "../Constants/Types";
+import { QuotationList, QuotationListProps } from "../Constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -28,7 +28,7 @@ const formatNumber = () => {
 
 
 
-const QuotationTable: React.FC<any> = ({ quotations, onQuotationClick, onEditQuotation,
+const QuotationTable: React.FC<QuotationListProps> = ({ quotations, onQuotationClick, onEditQuotation,
     onDeleteQuotation, sortConfig, onSort, currentPage, totalPages, totalItems,
     itemsPerPage, onPageChange, onItemsPerPageChange
  }) => {
@@ -89,7 +89,9 @@ const QuotationTable: React.FC<any> = ({ quotations, onQuotationClick, onEditQuo
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">Show</span>
-                            <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
+                            <select 
+                                value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)}
+                                className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>

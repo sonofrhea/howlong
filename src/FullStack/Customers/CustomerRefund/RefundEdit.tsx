@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { CreditNoteCreateResponse, CustomerCreateResponse,
     CustomerRefundInputs, CustomerRefundProps } from "../constants/Types";
-import { controlAccountHandler } from "../../handlers";
+import { RefundAccountHandler } from "../../handlers";
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../constants/Styles";
 import { REFUND_TYPE_OPTIONS } from "../constants/Options";
 import { Trash2 } from "lucide-react";
@@ -69,7 +69,7 @@ const RefundEdit: React.FC<CustomerRefundProps> = ({
 
 
 
-const controlAccountChange = controlAccountHandler(accounts, setValue);
+const controlAccountChange = RefundAccountHandler(accounts, setValue);
 
 
 

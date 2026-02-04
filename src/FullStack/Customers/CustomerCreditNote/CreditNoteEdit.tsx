@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { CreditNoteEditProps, CreditNoteInputs, CreditNoteProps, CustomerCreateResponse } from "../constants/Types";
-import { controlAccountHandler } from "../../handlers";
+import { creditNoteAccountHandler } from "../../handlers";
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../constants/Styles";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
@@ -53,7 +53,8 @@ const CreditNoteEdit: React.FC<CreditNoteEditProps> = ({
     }, [creditNote, reset]);
 
 
-const controlAccountChange = controlAccountHandler(accounts, setValue);
+
+const controlAccountChange = creditNoteAccountHandler(accounts, setValue);
 
 
 
