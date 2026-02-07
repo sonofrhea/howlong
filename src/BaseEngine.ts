@@ -31,7 +31,7 @@ apiClient.interceptors.response.use(response => {
 }, (error) => {
   if (error.response && error.response.status === 401) {
     localStorage.removeItem('Token')
-    window.location.href = "/"
+    window.location.href = "/login"
   }
   else if (error.response.status === 403) {
     const message = error.response.data?.detail

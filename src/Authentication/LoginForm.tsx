@@ -44,7 +44,7 @@ const Login = () => {
             }
 
             else if (error.message) {
-                console.log(error.message);
+                errorMessage = error.message;
             }
 
             else {
@@ -56,22 +56,10 @@ const Login = () => {
             //console.log(errorMessage);
         } finally {
             setLoading(false);
+            toast.dismiss(toastId);
         }
     }
         
-   //     apiClient.post(`core/login/`,{
-   //         email: data.email,
-   //         password: data.password,
-   //     })
-//
-   //     .then((response) => {
-   //         localStorage.setItem('Token', response.data.token)
-   //         navigate(`/dashboard`)
-   //     })
-   //     .catch((error) => {
-   //         console.error("Login failed", error, error.response?.data || error.message)
-   //     })
-   // }
 
     return(
         <div>
