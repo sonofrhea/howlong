@@ -42,9 +42,6 @@ function CashFlowChart() {
   if (!reports.length)
     return <div className="text-center py-32 text-gray-400 text-2xl">Loading…</div>;
 
-  if (!reports)
-    return <div className="text-center py-32 text-gray-400 text-2xl">No enough data yet!</div>;
-
 
   const chronological = [...reports].reverse();
 
@@ -164,7 +161,7 @@ function CashFlowChart() {
           <div className="px-8 pt-8 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Financial Overview</h2>
-              <p className="text-gray-500 text-sm font-medium">Monthly revenue vs expenses</p>
+              <p className="text-gray-500 text-sm font-medium">Monthly Cash vs Expenses</p>
             </div>
             
             {/*  */}
