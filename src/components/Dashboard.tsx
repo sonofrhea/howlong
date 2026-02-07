@@ -60,11 +60,10 @@ function Dashboard() {
                             className={`${dashboardStyles.availability}
                                 ${app.available ? dashboardStyles.yes : dashboardStyles.no}`}
                             >
-
                                 <div 
                                 className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${
                                     app.available ? 
-                                    'bg-white text-black border border-black hover:bg-blue-100 hover:border-blue-300 hover:text-blue-600' :
+                                    ' bg-green-50 text-[#088F03]' :
                                     'bg-gray-100 text-gray-400'}`}>
                                         <AppIcon appId={app.id} />
                                 </div>

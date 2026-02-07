@@ -29,15 +29,15 @@ apiClient.interceptors.request.use(config => {
 apiClient.interceptors.response.use(response => {
   return response
 }, (error) => {
-  if (error.response && error.response.status === 401) {
+  if (error.response && error.response?.status === 401) {
     localStorage.removeItem('Token')
     window.location.href = "/login"
   }
-  else if (error.response.status === 403) {
-    const message = error.response.data?.detail
+  else if (error.response?.status === 403) {
+    const message = error.response?.data?.detail
     || 'You do not have permission to perform this action.';
 
-    toast.error(message, {duration: 5000,});
+    toast.error(message, {duration: 8000,});
   }
   return Promise.reject(error);
 })

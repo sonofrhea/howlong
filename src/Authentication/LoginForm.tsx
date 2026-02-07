@@ -27,7 +27,7 @@ const Login = () => {
         setLoading(true);
         setError("")
 
-        const toastId = toast.loading('Logging in...');
+        const toastId = toast.loading('Logging in...', {duration: 8000,});
         try {
             await HandleLogin(data.email, data.password);
             toast.success('Login successful!', {id: toastId});
@@ -36,17 +36,21 @@ const Login = () => {
             let errorMessage = "";
 
             if (error.code === "ECONNABORTED") {
-                errorMessage = "Network timed out, Please try again. Will wake in 30seconds.";
+                errorMessage = "Network timed out, Please try again. System will wake in 20seconds.";
             }
 
-            else if (error.response.data?.detail?.[0]) {
+            else if (error.response?.data?.detail?.[0]) {
                 errorMessage = error.response.data.detail[0];
+            }
+
+            else if (error.response?.data?.detail) {
+                errorMessage = error.response.data.detail;
             }
 
             else if (error.message) {
                 errorMessage = error.message;
             }
-
+            
             else {
                 errorMessage = "Invalid email or password";
             }
@@ -56,7 +60,6 @@ const Login = () => {
             //console.log(errorMessage);
         } finally {
             setLoading(false);
-            toast.dismiss(toastId);
         }
     }
         

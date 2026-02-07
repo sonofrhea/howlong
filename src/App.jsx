@@ -742,7 +742,7 @@ function App() {
 
 
 
-function ComingSoon() {
+export function ComingSoon() {
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
       <div className="text-center">

@@ -43,7 +43,7 @@ function CashFlowChart() {
     return <div className="text-center py-32 text-gray-400 text-2xl">Loading…</div>;
 
   if (!reports)
-    return <div className="text-center py-32 text-gray-400 text-2xl">No Data!</div>;
+    return <div className="text-center py-32 text-gray-400 text-2xl">No enough data yet!</div>;
 
 
   const chronological = [...reports].reverse();
@@ -209,7 +209,7 @@ function CashFlowChart() {
             to="/reports"
             className="group flex items-center gap-3 px-4 py-2 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-600 shadow-sm transition-all duration-300 hover:text-blue-600 hover:shadow-md hover:-translate-y-0.5"
           >
-            {/* The Icon */}
+
             <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-blue-50 transition-colors duration-300">
               <CornerDownLeft size={18} className="text-gray-400 group-hover:text-blue-500" />
             </div>
