@@ -17,7 +17,6 @@ import { Line } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 import { fetchCashFlow } from "../Reports/Engines";
 import { CashFlowResponse } from '../Reports/constants/Types';
-import { LogoutAllbutton, LogoutButton } from '../../Authentication/HandleLogout';
 import { CornerDownLeft, MoveRight } from "lucide-react";
 
 ChartJS.register(
@@ -158,21 +157,6 @@ function CashFlowChart() {
 
     return (
       <div className="w-full max-w-7xl mx-auto p-4 md:p-8">
-        
-        <div className="flex">
-          <div className="fixed top-4 left-4 z-50">
-              <LogoutButton />
-          </div>
-          <Link 
-              to="/dashboard"
-              className="fixed top-4 right-4 z-50 group flex items-center gap-3 px-3 py-1 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-600 shadow-sm transition-all duration-300 hover:text-blue-600 hover:shadow-md hover:-translate-y-0.5"
-          >
-              
-              <span>Main Dashboard</span>
-
-              <MoveRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-          </Link>
-        </div>
 
         <div className="bg-white mt-10 border border-gray-100 rounded-4xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] shadow-gray-300 overflow-hidden">
           

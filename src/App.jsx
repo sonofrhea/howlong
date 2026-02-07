@@ -19,7 +19,7 @@ import PricingPage from './Landing/PricingPage';
 
 const Dashboard = lazy(() => import('./components/Dashboard'))
 
-const MainCharts = lazy(() => import('./FullStack/Charts/MainCharts'))
+const MainPage = lazy(() => import('../src/components/MainPage'))
 
 // -------------------begin---------CUSTOMERS--------------------------------------------
 
@@ -236,7 +236,7 @@ function App() {
                 {/* MAIN PAGE */}
               <Route path='/mainpage' element={
                 <Suspense fallback={<div>fetching...</div>}>
-                  <MainCharts />
+                  <MainPage />
                 </Suspense>
               } />
 
