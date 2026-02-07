@@ -100,15 +100,15 @@ function IncomeStatementManagement() {
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
-                            <Link 
+                        <Link 
                             to="/reports"
-                            className="text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200 flex items-center gap-2"
-                            >
+                            className="text-sm text-black px-3 py-1 border border-gray-200 rounded-2xl transition-colors duration-200 flex items-center gap-2 hover:bg-purple-50 hover:border-purple-500 hover:shadow-md hover:-translate-y-0.5"
+                        >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
                             Back to Reports Dashboard
-                            </Link>
+                        </Link>
                         </div>
                     </div>
                 </div>

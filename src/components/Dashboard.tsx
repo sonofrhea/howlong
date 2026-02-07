@@ -10,6 +10,7 @@ import { APP_ICONS } from "./constants/appIcons";
 
 
 import { LogoutButton } from '../Authentication/HandleLogout';
+import { CornerDownLeft, MoveRight } from 'lucide-react';
 
 
 
@@ -30,9 +31,26 @@ function Dashboard() {
                         Choose a module to get started...
                     </p>
                 </div>
-                <div className="fixed top-4 left-4 z-50">
-                    <LogoutButton />
+
+                <div className="flex">
+                    <div className="fixed top-4 left-4 z-50">
+                        <LogoutButton />
+                    </div>
+                    
+                    <Link
+                        to="/mainpage"
+                        className="fixed top-4 right-4 z-50 group flex items-center gap-3 px-3 py-1 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-600 shadow-sm transition-all duration-300 hover:text-blue-600 hover:shadow-md hover:-translate-y-0.5"
+                    >
+
+                        <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-blue-50 transition-colors duration-300">
+                            <CornerDownLeft size={14} className="text-gray-400 group-hover:text-blue-500" />
+                        </div>
+
+                        <span>Back to Main Page...</span>
+                    </Link>
                 </div>
+
+            
 
                 <div className={dashboardStyles.gridStyle3}>
                     {DASHBOARD_APPS.map(app => (

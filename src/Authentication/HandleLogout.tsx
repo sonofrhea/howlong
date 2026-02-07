@@ -27,9 +27,9 @@ export function LogoutButton() {
     return (
         <button
             onClick={logoutUser}
-            className={`hover:text-yellow-800 px-3 py-1 rounded-lg  text-black cursor-pointer ${isRed ? "text-yellow-800 text-bold border border-yellow-300" : "text-black"}`}
+            className={`group flex items-center gap-3 bg-white border border-gray-200 rounded-2xl text-sm font-semibold shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:text-yellow-800 px-3 py-1 text-black cursor-pointer ${isRed ? "text-yellow-800 px-3 py-1 text-bold" : "text-black"}`}
         >
-            <span className="ml-2">⟵ </span> Logout
+            <span className="ml-2 ">⟵ </span> Logout
         </button>
     );
 }
@@ -59,7 +59,7 @@ export function LogoutAllbutton() {
     return (
         <button
             onClick={logoutUser}
-            className={`hover:text-amber-800 px-3 py-1 rounded-lg text-black cursor-pointer ${isRed ? "text-amber-800 text-bold border border-amber-800" : "text-black"}`}
+            className={`group flex items-center gap-3 bg-white border border-gray-200 rounded-2xl text-sm font-semibold shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:text-red-900 px-3 py-1 text-black cursor-pointer ${isRed ? "text-red-900 px-3 py-1 text-bold" : "text-yellow-400"}`}
         >
             <span className="ml-2">⟵ </span> Logout All
         </button>

@@ -21,6 +21,7 @@ import { fetchCustomers } from "../../Customers/Engines";
 import ProjectDocumentsDetails from "./ProjectDocumentsDetails";
 //import ProjectDocumentsForm from "./ProjectDocumentsForm";
 import ProjectDocumentsTable from "./ProjectDocumentsTable";
+import { fetchInvoices } from "../../Sales/Engines";
 //import ProjectDocumentsEdit from "./ProjectDocumentsEdit";
 
 
@@ -80,7 +81,7 @@ function ProjectDocumentsManagement() {
 
     const { data: selectedProjectDocument, isLoading: isLoadingProjectDocument } = useQuery({
         queryKey: ['projectDocument', selectedProjectDocumentId],
-        queryFn: () => fetchProjectDocumentById(selectedProjectDocumentId),
+        queryFn: () => fetchProjectDocumentById(selectedProjectDocumentId!),
         enabled: !!selectedProjectDocumentId,
     });
     // ------------------------------------------------------------------------------------
@@ -96,7 +97,7 @@ function ProjectDocumentsManagement() {
         setSelectedProjectDocumentId(data.document_number);
         setView('details');
         },
-        onError: (error) => {
+        onError: (error: any) => {
         console.error('Error creating projectDocument:', error.response?.data || error.message || error);
         }
     });
@@ -114,7 +115,7 @@ function ProjectDocumentsManagement() {
         queryClient.invalidateQueries({ queryKey: ['projectDocument', selectedProjectDocumentId]});
         setView('details');
         },
-        onError: (error) => {
+        onError: (error: any) => {
         console.error('Error updating projectDocument:', error.response?.data || error.message);
         }
     });
@@ -131,23 +132,23 @@ function ProjectDocumentsManagement() {
     // ------------------------------------------------------------------------------------
                     // MUTATION USE
     
-    const toFormData = (obj, form = new FormData(), parentKey = '') => {
-        Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        const field = parentKey ? `${parentKey}.${key}` : key;
-        if (value === null || value === undefined) return;
-        if (Array.isArray(value)) {
-            value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-        } else if (value instanceof File) {
-            form.append(field, value);
-        } else if (typeof value === 'object') {
-            toFormData(value, form, field);
-        } else {
-            form.append(field, value);
-        }
-        });
-        return form;
-    };
+    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
+    //    Object.keys(obj).forEach(key => {
+    //    const value = obj[key];
+    //    const field = parentKey ? `${parentKey}.${key}` : key;
+    //    if (value === null || value === undefined) return;
+    //    if (Array.isArray(value)) {
+    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
+    //    } else if (value instanceof File) {
+    //        form.append(field, value);
+    //    } else if (typeof value === 'object') {
+    //        toFormData(value, form, field);
+    //    } else {
+    //        form.append(field, value);
+    //    }
+    //    });
+    //    return form;
+    //};
 
 
 
@@ -282,7 +283,7 @@ function ProjectDocumentsManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredProjectDocuments = projectDocuments.filter(projectDocument =>
+    const filteredProjectDocuments = projectDocuments.filter((projectDocument: any) =>
         String(projectDocument.document_number)?.toLowerCase().includes(searchTerm.toLocaleLowerCase())
     );
 
@@ -294,8 +295,8 @@ function ProjectDocumentsManagement() {
         if (!sortConfig.key) return filteredProjectDocuments;
 
         return [...filteredProjectDocuments].sort((a, b) => {
-        const aValue = a[sortConfig.key];
-        const bValue = b[sortConfig.key];
+        const aValue = a[sortConfig.key as keyof typeof a];
+        const bValue = b[sortConfig.key as keyof typeof b];
 
         if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
         if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
@@ -305,7 +306,7 @@ function ProjectDocumentsManagement() {
 
 
     // Sort handler
-    const handleSort = (key) => {
+    const handleSort = (key: any) => {
     setSortConfig(current => ({
         key,
         direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'

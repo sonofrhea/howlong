@@ -31,7 +31,7 @@ const Login = () => {
         try {
             await HandleLogin(data.email, data.password);
             toast.success('Login successful!', {id: toastId});
-            navigate(`/dashboard`);
+            navigate(`/mainpage`);
         } catch (error: any) {
             let errorMessage = "";
 
@@ -75,9 +75,12 @@ const Login = () => {
 
     return(
         <div>
-            <div className="bg-gray-500">
-                <Link to="/">
-                    <button className="text-white hover:underline">Home</button>
+            <div className="fixed top-4 left-4 z-50">
+                <Link 
+                    to="/"
+                    className="fixed top-4 right-4 z-50 group flex items-center gap-3 px-3 py-1 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-600 shadow-sm transition-all duration-300 hover:text-blue-600 hover:shadow-md hover:-translate-y-0.5"
+                >
+                    <span>Home</span>
                 </Link>
             </div>
             <div className={"myLoginBackground"}>

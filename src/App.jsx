@@ -8,8 +8,6 @@ import RegistrationPage from './Authentication/RegistrationForm';
 
 import Layout from './components/Layout';
 
-import Dashboard from "./components/Dashboard";
-
 import Landing from "./Landing/Landing";
 
 import { Toaster } from 'react-hot-toast';
@@ -19,9 +17,9 @@ const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 import PricingPage from './Landing/PricingPage';
 
 
+const Dashboard = lazy(() => import('./components/Dashboard'))
 
-
-
+const MainCharts = lazy(() => import('./FullStack/Charts/MainCharts'))
 
 // -------------------begin---------CUSTOMERS--------------------------------------------
 
@@ -150,6 +148,16 @@ const BalanceSheetManagement = lazy(() => import('./FullStack/Reports/Reports/Ba
 const CashFlowManagement = lazy(() => import('./FullStack/Reports/Reports/CashFlow/CashFlowManagement'))
 
 // -------------------end---------REPORTS--------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+// -------------------begin---------CHARTS--------------------------------------------
+
+
+// -------------------end---------REPORTS--------------------------------------------
 
 
 
@@ -205,12 +213,9 @@ function App() {
             
             {/* Registration route */}
             <Route path='/register' element={<RegistrationPage />} />
-            
 
-            {/* Dashboard route - no layout  */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Route>
+
+          
             
             
             
@@ -218,7 +223,7 @@ function App() {
             {/* ALL OTHER ROUTES - WITH layout */}
             
 
-              {/* CORE */}
+              
             <Route element={
               <Suspense fallback={<div>Checking authorization...</div>}>
                 <ProtectedRoute />
@@ -226,6 +231,24 @@ function App() {
               } >
 
 
+
+
+                {/* MAIN PAGE */}
+              <Route path='/mainpage' element={
+                <Suspense fallback={<div>fetching...</div>}>
+                  <MainCharts />
+                </Suspense>
+              } />
+
+                {/* DASHBOARD */}
+              <Route path='/dashboard' element={
+                <Suspense fallback={<div>Authorizing...</div>}>
+                  <Dashboard />
+                </Suspense>
+              } />
+
+
+              {/* CORE */}
               <Route path='/core' element={
                 <Suspense fallback={<div>fetching...</div>}>
                   <Layout>
