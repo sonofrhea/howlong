@@ -158,10 +158,10 @@ function PricingPage() {
                                         <X className="w-5 h-5 cursor-pointer" />
                                     </button>
                                     <h3 className="text-lg font-semibold mb-4">Contact Sales</h3>
-                                    <p className="mb-4 text-slate-600">Send us a message and we will get back to you immediately.</p>
+                                    <p className="mb-4 text-slate-600">Click on Email and us a message or send us a message at subscription@urusentra.com and we will get back to you within 45minutes.</p>
                                     <button
                                         className="w-full flex items-center justify-center gap-2 rounded-lg bg-black text-white py-2 font-medium hover:bg-slate-800"
-                                        onClick={() => window.location.href = "mailto:urusentra@urusentra.com?subject=SOFTWARE INQUIRY"}
+                                        onClick={() => window.location.href = "mailto:subscription@urusentra.com?subject=SOFTWARE INQUIRY"}
                                     >
                                         <Mail className="w-5 h-5" />
                                         Email
@@ -237,14 +237,14 @@ function PricingPage() {
                                     >
                                         <X className="w-5 h-5 cursor-pointer" />
                                     </button>
-                                    
+
                                     <h3 className="text-lg font-semibold mb-4">Contact Sales</h3>
 
-                                    <p className="mb-4 text-slate-600">Send us a message and we will get back to you immediately.</p>
+                                    <p className="mb-4 text-slate-600">Click on Email and us a message or send us a message at subscription@urusentra.com and we will get back to you within 45minutes.</p>
                                     
                                     <button
                                         className="w-full flex items-center justify-center gap-2 rounded-lg bg-black text-white py-2 font-medium hover:bg-slate-800"
-                                        onClick={() => window.location.href = "mailto:urusentra@urusentra.com?subject=SOFTWARE INQUIRY"}
+                                        onClick={() => window.location.href = "mailto:subscription@urusentra.com?subject=SOFTWARE INQUIRY"}
                                     >
                                         <Mail className="w-5 h-5" />
                                         Email
