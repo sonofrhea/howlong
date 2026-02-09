@@ -18,6 +18,8 @@ const MyButton = lazy(() => import("../components/constants/forms/MyButton"));
 const MyCompanyField = lazy(() => import("../components/constants/forms/MyCompanyField"));
 const RolesSelect = lazy(() => import("../components/constants/forms/RolesSelect"));
 
+
+
 const FormFallback = () => (
   <div className="whiteBox" style={{ width: 420, maxWidth: '100%', padding: 20 }}>
     <div style={{ height: 400, background: '#f5f5f5', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -38,7 +40,7 @@ const Register = () => {
         setLoading(true);
         setError("")
 
-        const toastId = toast.loading('Registering...');
+        const toastId = toast.loading('Registering...', {duration: 12000,});
         try {
             await HandleRegistration({
             email: data.email,
@@ -47,26 +49,39 @@ const Register = () => {
             company: data.company,
             role: data.role
         });
-            toast.success('Registration successful!', {id: toastId});
+            toast.success('Check your E-mail for verification.', {id: toastId});
             navigate(`/login`);
         } catch (error: any) {
             let errorMessage = "";
             let errorMessage2 = "";
 
             if (error.code === "ECONNABORTED") {
-                errorMessage = "Request timed out. Please try again.";
+                errorMessage = "Request timed out. Please try again. System will wake in 20seconds.";
             }
 
-            else if (error.response.data?.detail) {
+            else if (error.response?.data?.detail?.[0]) {
+                errorMessage = error.response.data.detail[0];
+            }
+
+            else if (error.response?.data?.detail) {
                 errorMessage = error.response.data.detail;
             }
 
-            else if (error.response.data?.password1) {
+            else if (error.response?.data?.password1) {
                 errorMessage = error.response.data.password1;
             }
 
+            else if (error.message) {
+                errorMessage = error.message;
+            }
+            
+            else {
+                errorMessage = "Invalid credentials."
+            }
+
             setError(errorMessage);
-            toast.error('Registration failed.', {id: toastId});
+            toast.error(errorMessage, {id: toastId});
+            //console.log(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -96,7 +111,7 @@ const Register = () => {
                             <div>
                             <Box className={"itemBox"}>
                                 <MyTextField 
-                                    label={"Email"}
+                                    label={"Enter a valid email address for verification"}
                                     name={"email"}
                                     control={control}
                                     
