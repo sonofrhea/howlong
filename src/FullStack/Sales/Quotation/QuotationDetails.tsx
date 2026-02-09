@@ -99,6 +99,16 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                                 <div>
                                     <strong>Valid until:</strong> <span>{quotation.valid_until}</span>
                                 </div>
+                                <div>
+                                    <strong>Cancelled:</strong> 
+                                    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                            quotation.cancelled
+                                                ? 'bg-green-100 text-green-800'
+                                                : 'bg-red-100 text-red-800'
+                                        }`}>
+                                            {quotation.cancelled ? 'No' : 'Yes'}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>

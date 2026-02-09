@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { X } from "lucide-react";
+import { Mail, X } from "lucide-react";
 import { BillingCycle } from './Types';
 import { BILLING_OPTIONS } from './Options';
+import { Link, useLocation } from 'react-router-dom';
 
 
 function PricingPage() {
     const [cycle, setCycle] = useState<BillingCycle>("6 months");
     const [view, setView] = useState('/home');
+    const [contactOpen, setContactOpen] = useState(false);
 
 
     const buttons = () => (
@@ -27,6 +29,8 @@ function PricingPage() {
             ))}
         </div>
     );
+
+
 
 
 
@@ -85,7 +89,7 @@ function PricingPage() {
 
                     {/* FREE TRIAL */}
                     <div className="border border-slate-200 rounded-2xl p-8 flex flex-col">
-                        <h2 className="text-xl font-semibold mb-1">Free Trial</h2>
+                        <h2 className="text-xl font-semibold mb-1">Exploration</h2>
                         <p className="text-slate-600 mb-6">For exploring core functionality</p>
 
                         <div className="mb-6">
@@ -135,9 +139,37 @@ function PricingPage() {
                             <span className="text-slate-500">{billingLabel["Basic"][cycle]}</span>
                         </div>
 
-                        <button className="w-full rounded-lg border border-slate-300 py-3 font-medium mb-8 hover:bg-slate-50">
+                        <div className="relative w-full mb-8">
+
+                        <button 
+                            onClick={() => setContactOpen(!contactOpen)}
+                            className="w-full rounded-lg border border-slate-300 py-3 font-medium mb-8 hover:bg-slate-50">
                             Contact sales
                         </button>
+
+                        {contactOpen && (
+                            <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
+                                <div className="bg-white rounded-xl shadow-lg w-80 p-6 relative">
+                                    <button
+                                        onClick={() => setContactOpen(false)}
+                                        aria-label="Close"
+                                        className="absolute top-3 right-3 text-gray-400 hover:text-gray-700"
+                                    >
+                                        <X className="w-5 h-5 cursor-pointer" />
+                                    </button>
+                                    <h3 className="text-lg font-semibold mb-4">Contact Sales</h3>
+                                    <p className="mb-4 text-slate-600">Send us a message and we will get back to you immediately.</p>
+                                    <button
+                                        className="w-full flex items-center justify-center gap-2 rounded-lg bg-black text-white py-2 font-medium hover:bg-slate-800"
+                                        onClick={() => window.location.href = "mailto:urusentra@urusentra.com?subject=SOFTWARE INQUIRY"}
+                                    >
+                                        <Mail className="w-5 h-5" />
+                                        Email
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                        </div>
 
                         <div className="space-y-12 text-sm">
                             <div>
@@ -189,9 +221,37 @@ function PricingPage() {
                             </span>
                         </div>
 
-                        <button className="w-full rounded-lg border border-slate-300 py-3 font-medium mb-8 hover:bg-slate-50">
+                        <button 
+                            onClick={() => setContactOpen(!contactOpen)}
+                            className="w-full rounded-lg border border-slate-300 py-3 font-medium mb-8 hover:bg-slate-50">
                             Contact sales
                         </button>
+
+                        {contactOpen && (
+                            <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
+                                <div className="bg-white rounded-xl shadow-lg w-80 p-6 relative">
+                                    <button
+                                        onClick={() => setContactOpen(false)}
+                                        aria-label="Close"
+                                        className="absolute top-3 right-3 text-gray-400 hover:text-gray-700"
+                                    >
+                                        <X className="w-5 h-5 cursor-pointer" />
+                                    </button>
+                                    
+                                    <h3 className="text-lg font-semibold mb-4">Contact Sales</h3>
+
+                                    <p className="mb-4 text-slate-600">Send us a message and we will get back to you immediately.</p>
+                                    
+                                    <button
+                                        className="w-full flex items-center justify-center gap-2 rounded-lg bg-black text-white py-2 font-medium hover:bg-slate-800"
+                                        onClick={() => window.location.href = "mailto:urusentra@urusentra.com?subject=SOFTWARE INQUIRY"}
+                                    >
+                                        <Mail className="w-5 h-5" />
+                                        Email
+                                    </button>
+                                </div>
+                            </div>
+                        )}
 
                         <div className="space-y-12 text-sm">
                             <div>

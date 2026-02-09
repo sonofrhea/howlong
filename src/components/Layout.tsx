@@ -78,7 +78,7 @@ function Layout({ children }: LayoutPropsInterface) {
                             )}
                     </Link>
 
-                    {currentApp && (
+                    {/*{currentApp && (
                         <div className={sideBarStyles.current}>
                             <div className={sideBarStyles.justify}>
                                 <AppIcon appId={currentApp.id} />
@@ -89,7 +89,7 @@ function Layout({ children }: LayoutPropsInterface) {
                                 </span>
                             )}
                         </div>
-                    )}
+                    )}*/}
 
                     {sidebarOpen && (
                         <div className="px-6 py-2">
@@ -100,42 +100,48 @@ function Layout({ children }: LayoutPropsInterface) {
                     )}
 
 
-                    {BUSINESS_APPS.filter(app => app.path !== location.pathname).map(app => (
-                        <Link 
-                            key={app.id}
-                            to={app.available ? app.path : '#'}
-                            className={`${sideBarStyles.availability.duration} 
-                            ${app.available ? 
-                                sideBarStyles.availability.yes :
-                                sideBarStyles.availability.no
-                             }`}
-                            title={!sidebarOpen ? (app.available ?
-                                 `Go to ${app.name}` : 'Update...') : ''}
-                            onClick={(e) => {
-                                if (!sidebarOpen) {
-                                    e.preventDefault();
-                                    setSidebarOpen(true);
-                                }
-                            }}
-                        >
-                            <div className={sideBarStyles.justify}>
-                                <AppIcon appId={app.id} />
-                            </div>
-                            {sidebarOpen && (
-                                <span className={sideBarStyles.expandedFont}>
-                                    {app.name}
-                                    {!app.available && (
-                                        <span className="ml-2 text-xs text-gray-400">
-                                            (Update...)
-                                        </span>
-                                    )}
-                                </span>
-                            )}
-                        </Link>
-                    ))}
+                    {BUSINESS_APPS.map(app => {
+                        const isActive = app.path === location.pathname;
+
+                        return(
+                            <Link 
+                                key={app.id}
+                                to={app.available ? app.path : '#'}
+                                className={`${sideBarStyles.availability.duration} 
+                                ${app.available ? 
+                                    sideBarStyles.availability.yes :
+                                    sideBarStyles.availability.no}
+                                    ${isActive ? sideBarStyles.current : ''}`}
+                                    
+                                title={!sidebarOpen ? (app.available ?
+                                    `Go to ${app.name}` : 'Update...') : ''}
+                                onClick={(e) => {
+                                    if (!sidebarOpen) {
+                                        e.preventDefault();
+                                        setSidebarOpen(true);
+                                    }
+                                }}
+                            >
+                                <div className={sideBarStyles.justify}>
+                                    <AppIcon appId={app.id} />
+                                </div>
+                                {sidebarOpen && (
+                                    <span className={sideBarStyles.expandedFont}>
+                                        {app.name}
+                                        {!app.available && (
+                                            <span className="ml-2 text-xs text-gray-400">
+                                                (Update...)
+                                            </span>
+                                        )}
+                                    </span>
+                                )}
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 <div className="absolute bottom-4 left-0 right-0 px-6">
+                    
 
                         {/* hide the ugly little grid shit */}
                     {sidebarOpen ? (
@@ -153,7 +159,17 @@ function Layout({ children }: LayoutPropsInterface) {
                                 <span className="ml-4 text-sm font-medium">All Apps</span>
                             </button>
                         </>
-                    ) : null}  {/*  */}
+                    ) : <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowAppsMenu(!showAppsMenu);
+                            }}
+                            className={sideBarStyles.availability.fullDuration}
+                        >
+                            <div className={sideBarStyles.justify}>
+                                <LayoutGrid />
+                            </div>
+                        </button>}
                 </div>
             </div>
 
