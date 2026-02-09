@@ -10,7 +10,7 @@ const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : impo
 // my base configuration
 const apiClient = axios.create({
   baseURL: baseEntry,
-  timeout: 12000,
+  timeout: 7000,
   withCredentials: false
 });
 
@@ -37,7 +37,7 @@ apiClient.interceptors.response.use(response => {
     const message = error.response?.data?.detail
     || 'You do not have permission to perform this action.';
 
-    toast.error(message, {duration: 12000,});
+    toast.error(message, {duration: 8000,});
   }
   return Promise.reject(error);
 })

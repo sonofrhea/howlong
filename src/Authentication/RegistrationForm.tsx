@@ -40,7 +40,7 @@ const Register = () => {
         setLoading(true);
         setError("")
 
-        const toastId = toast.loading('Registering...', {duration: 12000,});
+        const toastId = toast.loading('Registering...', {duration: 8000,});
         try {
             await HandleRegistration({
             email: data.email,
@@ -49,7 +49,7 @@ const Register = () => {
             company: data.company,
             role: data.role
         });
-            toast.success('Check your E-mail for verification.', {id: toastId});
+            toast.success('Registration successful! Login with credentials.', {id: toastId});
             navigate(`/login`);
         } catch (error: any) {
             let errorMessage = "";
