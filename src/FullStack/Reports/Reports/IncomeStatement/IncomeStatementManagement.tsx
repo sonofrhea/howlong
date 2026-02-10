@@ -67,17 +67,25 @@ function IncomeStatementManagement() {
 
     if (incomeStatementError) {
         return(
-            <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-                <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
-                    <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
-                    </svg>
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">Error Generating Income Statement</h2>
-                    <p className="text-gray-600">Failed to generate income statement. Please try again.</p>
-                    <button onClick={() => window.location.reload()}
-                        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                            Retry
-                    </button>
+            <div>
+                <Link
+                    to="/reports"
+                    className="fixed top-4 right-4 z-50 group flex items-center gap-3 px-3 py-1 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-600 shadow-sm transition-all duration-300 hover:text-blue-600 hover:shadow-md hover:-translate-y-0.5"
+                >
+                    <span>⟵ Back to reports</span>
+                </Link>
+                <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+                    <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
+                        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
+                        </svg>
+                        <h2 className="text-xl font-bold text-gray-800 mb-2">Error Generating Income Statement</h2>
+                        <p className="text-gray-600">Failed to generate income statement. Please try again.</p>
+                        <button onClick={() => window.location.reload()}
+                            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                Retry
+                        </button>
+                    </div>
                 </div>
             </div>
         );
