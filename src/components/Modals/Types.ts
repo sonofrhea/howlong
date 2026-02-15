@@ -18,3 +18,10 @@ export type JournalEntryModalTypes = {
     isSubmitting?: boolean;
     accounts: ControlAccountInterface[];
 };
+
+
+
+export type LoginModalProps = {
+  open: boolean;
+  onClose: () => void;
+}

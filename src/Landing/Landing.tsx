@@ -2,9 +2,18 @@ import React, { useState } from 'react';
 import logo from "../assets/logo.svg";
 import logoWhite from "../assets/logoWhite.svg";
 import Ruler from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+
+import { ArrowRight } from "lucide-react";
+
+
+
+
+
 
 export default function ConstructionERPLanding() {
     const [featuresOpen, setFeaturesOpen] = useState(false);
+    const navigate = useNavigate() 
 
     
     return (
@@ -175,6 +184,46 @@ export default function ConstructionERPLanding() {
                     background: #0052a3;
                     transform: translateY(-3px);
                     box-shadow: 0 8px 25px rgba(0,102,204,0.35);
+                    }
+
+                    .cta-marketplace {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: #ea580c;
+                        color: #ffffff;
+                        font-weight: 600;
+                        font-size: 16px;
+                        padding: 14px 36px;
+                        border: none;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        transition: all 0.2s ease-in-out;
+                        line-height: 1.4;
+                        text-align: center;
+                        letter-spacing: 1px;
+                    }
+
+                    .cta-marketplace:hover {
+                        background-color: #ff7a3c;
+                        transform: translateY(-2px);
+                    }
+
+                    .arrow-icon {
+                        width: 20px;
+                        height: 20px;
+                        transition: transform 0.3s ease-in-out;
+                    }
+
+                    /* Animate arrow moving slightly to the right every second */
+                    @keyframes arrowMove {
+                        0%, 50%, 100% { transform: translateX(0); }
+                        95% { transform: translateX(40px); }
+                        95% { transform: translateX(20px); }
+                    }
+
+                    .arrow-icon {
+                        animation: arrowMove 1s infinite;
                     }
 
                     .cta-secondary {
@@ -968,7 +1017,7 @@ export default function ConstructionERPLanding() {
             <div className="grid-lines"></div>
 
             {/* CONSTRUCTION SKETCH */}
-            <div className="sketch" aria-hidden="true" style={{ width: '1500px' }}>
+            <div className="sketch" aria-hidden="true" style={{ width: '1900px' }}>
                 <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 1200 3200" xmlns="http://www.w3.org/2000/svg">
                     <style>{`
                         /* 10 SECOND TOTAL DURATION */
@@ -1076,7 +1125,7 @@ export default function ConstructionERPLanding() {
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                         <div>
-                            <h1 className="logo-text text-xl font-bold text-gray-900">Urusentra</h1>
+                            <h1 className="logo-text-lower text-xl font-bold text-gray-900">Urusentra</h1>
                         </div>
                     </div>
                 </div>
@@ -1124,19 +1173,25 @@ export default function ConstructionERPLanding() {
             <span className='text-[#002c9c]'>Build Faster & Better.</span>
             
             <p className='subheadline'>
-                URUSENTRA is an all-in-one ERP software engineered specifically with building professionals in mind
+                URUSENTRA is an all-in-one ERP software and marketplace engineered specifically with building professionals in mind
             </p>
 
             <div className="cta-group-header">
                 <a href="#demo" className="cta-primary">Try It Out</a>
                 <a href="#features" className="cta-secondary">Learn More</a>
             </div>
+            <div>
+                <button className="cta-marketplace" onClick={() => navigate("/marketplace-signin")}>
+                    Enter Marketplace
+                    <ArrowRight className="ml-2 arrow-icon" />
+                </button>
+            </div>
             </div>
             
 
 
             <div className="blue-box">
-                <span>Trusted by accountants. Used by Small and Medium Businesses in the building industry including interior and exterior builders </span>
+                <span>Trusted by accountants. Designed for Small and Medium Businesses in the building industry to improve management and productivity</span>
             </div>
         </section>
 
@@ -1311,15 +1366,14 @@ export default function ConstructionERPLanding() {
             </div>
         </section>
 
-        {/* KINETIC MARQUEE - STAYS FULL WIDTH BUT CONTENT BELOW IS CENTERED */}
         <div className="bg-[#001a5e] border-y border-white/10 py-3 overflow-hidden sticky top-0 z-50">
             <div className="animate-marquee whitespace-nowrap flex items-center">
                 {Array.from({length: 4}).map((_, i) => (
                     <React.Fragment key={i}>
                         <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-emerald-400">Steel Index / +1.2%</span>
                         <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-white/40">Lumber / $540.00/mbf</span>
-                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-rose-500">Copper / -0.4%</span>
-                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-white/40">Concrete / STABLE</span>
+                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-rose-500">Nails / -0.4%</span>
+                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-white/40">Wood / STABLE</span>
                     </React.Fragment>
                 ))}
             </div>
@@ -1419,8 +1473,8 @@ export default function ConstructionERPLanding() {
             <div className="section-header">
             <h2 className="section-title">Ready to Transform Your SME?</h2>
             <p className="section-description">
-                Join hundreds of building companies already building smarter with our platform.
-                Start your free 3-day trial today—no credit card required.
+                Join hundreds of building companies already building smarter with our platform. <br />
+                Explore our platform with out 14-day trial today—no credit card required.
             </p>
             </div>
 

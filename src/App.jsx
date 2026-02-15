@@ -9,6 +9,7 @@ import RegistrationPage from './Authentication/RegistrationForm';
 import Layout from './components/Layout';
 
 import Landing from "./Landing/Landing";
+import MarketplaceLanding from './Landing/MarketplaceLanding';
 
 import { Toaster } from 'react-hot-toast';
 
@@ -205,6 +206,7 @@ function App() {
             <Route path="/" element={<Navigate to="/home" replace />} />
 
             <Route path='/home' element={<Landing />} />
+            <Route path='/marketplace-signin' element={<MarketplaceLanding />} />
 
             <Route path='/pricing' element={<PricingPage />} />
 
