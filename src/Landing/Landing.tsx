@@ -8,12 +8,18 @@ import { ArrowRight } from "lucide-react";
 
 
 
+const formatCurrentYear = () => {
+    const currentYear = new Date().getFullYear();
+    return `${currentYear}`
+}
+
 
 
 
 export default function ConstructionERPLanding() {
     const [featuresOpen, setFeaturesOpen] = useState(false);
     const navigate = useNavigate() 
+
 
     
     return (
@@ -1498,7 +1504,7 @@ export default function ConstructionERPLanding() {
                         </div>
                     </div>
                     <p>The management ERP platform built by builders and accountants, for builders and accountants. Streamline your operations and manage your business better.</p>
-                    <p>&copy; 2026 URUSENTRA. All rights reserved.</p>
+                    <p>&copy; {formatCurrentYear()} URUSENTRA. All rights reserved.</p>
                 </div>
 
                 <div className="footer-column">

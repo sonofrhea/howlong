@@ -4,7 +4,7 @@ export const STATUS_CHOICES = [
     { value: 'Suspended', label: 'Suspended' },
     { value: 'Prospect', label: 'Prospect' },
     { value: 'Pending', label: 'Pending' }
-];
+] as const;
 
 export const ID_TYPE_CHOICES = [
     { value: 'Business Registration Number', label: 'Business Registration Number' },
@@ -13,7 +13,7 @@ export const ID_TYPE_CHOICES = [
     { value: 'Passport', label: 'Passport' },
     { value: 'Police ID', label: 'Police ID' },
     { value: 'Army ID', label: 'Army ID' }
-];
+] as const;
 
 export const TAX_ID_CHOICES = [
     { value: 'BRN(New)', label: 'BRN(New)' },
@@ -21,26 +21,26 @@ export const TAX_ID_CHOICES = [
     { value: 'Passport', label: 'Passport' },
     { value: 'Army', label: 'Army' },
     { value: 'BRN(Old)', label: 'BRN(Old)' }
-];
+] as const;
 
 export const BANK_TYPE_CHOICES = [
     { value: 'Bank', label: 'Bank' },
     { value: 'JoinPAY', label: 'JoinPAY' },
     { value: 'DualPay', label: 'DualPay' },
     { value: 'Other Bank', label: 'Other Bank' }
-];
+] as const;
 
 export const PAYMENT_TYPE_OPTIONS = [
     {value: 'Cash', label: 'Cash'},
     {value: 'Card', label: 'Card'},
     {value: 'Online', label: 'Online'}
-];
+] as const;
 
 export const REFUND_TYPE_OPTIONS = [
     {value: 'Cash', label: 'Cash'},
     {value: 'Cheque', label: 'Cheque'},
     {value: 'Bank Transfer', label: 'Bank Transfer'}
-];
+] as const;
 
 
 
@@ -239,4 +239,4 @@ export const COUNTRY_OPTIONS = [
     {value: 'Yemen', label: 'Yemen'},
     {value: 'Zambia', label: 'Zambia'},
     {value: 'Zimbabwe', label: 'Zimbabwe'},
-];
+] as const;

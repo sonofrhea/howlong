@@ -4,6 +4,11 @@ const config: Config = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        display: ['Bebas Neue', 'sans-serif'],
+        body: ['Outfit', 'sans-serif'],
+      },
       keyframes: {
         terminal: {
           "0%": { width: "0%" },

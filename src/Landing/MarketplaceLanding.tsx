@@ -4,8 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 
 
+
+
+
+
 export default function MarketplaceLanding() {
-    const [loginOpen, setLoginOpen] = useState(false);
+    const [loginOpen, setLoginOpen] = useState(true);
     const navigate = useNavigate()
 
     const openLogin = () => setLoginOpen(true);
@@ -14,6 +18,9 @@ export default function MarketplaceLanding() {
 
     return (
         <div className="app">
+            <title>Market Homepage | Urusentra · Explore the community of building professionals worldwide</title>
+            <meta name="description" content="Urusentra Marketplace – modern building industry community" />
+
             <style>
                 {` 
                     @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap");
@@ -47,8 +54,8 @@ export default function MarketplaceLanding() {
                     <div className="max-w-400 mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between h-16">
                             <div className="flex items-center space-x-3">
-                                <svg className="w-9 h-9 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                <svg className="w-9 h-9 text-orange-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                 </svg>
                                 <div>
                                     <h1 className="logo-text text-xl font-bold text-gray-900">Urusentra</h1>
@@ -73,6 +80,7 @@ export default function MarketplaceLanding() {
                             
                             <div className="flex items-center space-x-6">
                                 <a href="/" className="hidden sm:block text-sm font-semibold text-gray-700 hover:text-orange-600 transition">Home</a>
+                                <a href="/marketplace-login" className="hidden sm:block text-sm font-semibold text-gray-700 hover:text-orange-600 transition">Login</a>
                                 <a href="/marketplace-register" className="hidden sm:block text-sm font-semibold text-gray-700 hover:text-orange-600 transition">Register</a>
                                 <button onClick={openLogin}
                                     className="text-gray-600 hover:text-orange-600 transition"
@@ -131,7 +139,7 @@ export default function MarketplaceLanding() {
                                 </label>
                                 <label className="flex items-center cursor-pointer group">
                                     <input type="checkbox" className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"/>
-                                    <span className="ml-3 text-sm text-gray-700 group-hover:text-orange-600 transition">National Shipping</span>
+                                    <span className="ml-3 text-sm text-gray-700 group-hover:text-orange-600 transition">Worldwide Shipping</span>
                                 </label>
                             </div>
                         </div>
@@ -253,7 +261,7 @@ export default function MarketplaceLanding() {
                 <div className="bg-white border border-stone-200 rounded-xl p-4 mb-6">
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="flex items-center space-x-4">
-                            <span className="text-sm text-gray-600">Showing <span className="font-semibold text-gray-900">245</span> suppliers</span>
+                            <span className="text-sm text-gray-600">Showing <span className="font-semibold text-gray-900">2935</span> suppliers</span>
                             <span className="text-gray-300">|</span>
                             <button onClick={openLogin} className="lg:hidden text-sm text-orange-600 font-semibold flex items-center">
                                 <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -296,7 +304,7 @@ export default function MarketplaceLanding() {
                                     <div className="flex items-start justify-between mb-3">
                                         <div>
                                             <div className="flex items-center space-x-2 mb-1">
-                                                <h3 className="text-2xl font-bold text-gray-900">TimberCraft Lumber Co.</h3>
+                                                <h3 className="text-2xl font-bold text-gray-900">TimberCraft Lumber Sdn Bhd.</h3>
                                                 <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
                                                     <path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
                                                 </svg>
@@ -324,7 +332,7 @@ export default function MarketplaceLanding() {
                                     </div>
                                     
                                     <p className="text-gray-700 leading-relaxed mb-4">
-                                        Premium lumber supplier specializing in sustainably-sourced framing lumber, hardwoods, and custom milling services. Serving contractors and builders across the Pacific Northwest since 1982.
+                                        Premium lumber supplier specializing in sustainably-sourced framing lumber, hardwoods, and custom milling services. Serving contractors and builders across Southeast Asia since 1982.
                                     </p>
                                     
                                     <div className="flex flex-wrap gap-2 mb-4">
@@ -348,11 +356,11 @@ export default function MarketplaceLanding() {
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
                                                 </svg>
                                                 <span className="font-semibold">Ships to:</span>
-                                                <span className="ml-1">All 50 states</span>
+                                                <span className="ml-1">Southeast Asia</span>
                                             </div>
                                             <div className="flex items-center text-gray-600">
                                                 <span className="font-semibold">Min Order:</span>
-                                                <span className="ml-1">$500</span>
+                                                <span className="ml-1">RM500</span>
                                             </div>
                                         </div>
                                         
@@ -435,11 +443,11 @@ export default function MarketplaceLanding() {
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
                                                 </svg>
                                                 <span className="font-semibold">Ships to:</span>
-                                                <span className="ml-1">Pacific NW</span>
+                                                <span className="ml-1">Worldwide</span>
                                             </div>
                                             <div className="flex items-center text-gray-600">
                                                 <span className="font-semibold">Min Order:</span>
-                                                <span className="ml-1">$300</span>
+                                                <span className="ml-1">¥300</span>
                                             </div>
                                         </div>
                                         
@@ -519,11 +527,11 @@ export default function MarketplaceLanding() {
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
                                                 </svg>
                                                 <span className="font-semibold">Ships to:</span>
-                                                <span className="ml-1">Southeast US</span>
+                                                <span className="ml-1">Worldwide</span>
                                             </div>
                                             <div className="flex items-center text-gray-600">
                                                 <span className="font-semibold">Min Order:</span>
-                                                <span className="ml-1">$750</span>
+                                                <span className="ml-1">R750</span>
                                             </div>
                                         </div>
                                         
@@ -563,9 +571,8 @@ export default function MarketplaceLanding() {
         </div>
     </div>
                 
-            </div>
-
-            <MarketplaceLoginModal open={loginOpen} onClose={closeLogin} />
-        </div>
+    </div>
+        <MarketplaceLoginModal open={loginOpen} onClose={closeLogin} />
+    </div>
     );
 }

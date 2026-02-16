@@ -1,14 +1,20 @@
 import { useState, Suspense, lazy } from 'react'
 import './App.css'
+import { spinningStyles } from "./Authentication/Styles";
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import LoginForm from './Authentication/LoginForm';
 import RegistrationPage from './Authentication/RegistrationForm';
 
+
+const MarketplaceRegister = lazy(() => import('./Authentication/MarketplaceRegistrationForm'))
+const MarketplaceLogin = lazy(() => import('./Authentication/MarketplaceLoginForm'))
+
 import Layout from './components/Layout';
 
 import Landing from "./Landing/Landing";
+
 import MarketplaceLanding from './Landing/MarketplaceLanding';
 
 import { Toaster } from 'react-hot-toast';
@@ -206,15 +212,48 @@ function App() {
             <Route path="/" element={<Navigate to="/home" replace />} />
 
             <Route path='/home' element={<Landing />} />
+
+            {/* Marketplace landing page */}
             <Route path='/marketplace-signin' element={<MarketplaceLanding />} />
 
             <Route path='/pricing' element={<PricingPage />} />
 
             {/* Login route */}
             <Route path='/login' element={<LoginForm />} />
+
+            {/* Marketplace login */}
+            <Route path='/marketplace-login' element={
+              <Suspense fallback={
+                  <div className="whiteBox" style={{ width: 420, maxWidth: '100%', padding: 20 }}>
+                    <div style={{ height: 400, background: '#f5f5f5', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <span className={spinningStyles.terminalBar.spinner}></span>
+                    </div>
+                  </div>}>
+                <MarketplaceLogin />
+              </Suspense>
+            } />
+            
+
             
             {/* Registration route */}
             <Route path='/register' element={<RegistrationPage />} />
+
+
+
+
+
+            {/* Marketplace Registration */}
+            <Route path='marketplace-register' element={
+              <Suspense fallback={
+                <div className="whiteBox" style={{ width: 420, maxWidth: '100%', padding: 20 }}>
+                  <div style={{ height: 400, background: '#f5f5f5', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <span className={spinningStyles.terminalBar.spinner}></span>
+                  </div>
+                </div>}>
+                <MarketplaceRegister />
+              </Suspense>
+            } />
+            
 
 
           
