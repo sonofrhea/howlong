@@ -1046,8 +1046,8 @@ export default function ConstructionERPLanding() {
                             stroke-dasharray: 2500;
                             stroke-dashoffset: 2500;
                             animation: traceWithLongPause 10s ease-in-out infinite;
-                            stroke-linecap: round;
-                            stroke-linejoin: round;
+                            strokeLinecap: round;
+                            strokeLinejoin: round;
                         }
 
                         .grid-line {
@@ -1127,8 +1127,8 @@ export default function ConstructionERPLanding() {
             <div className="header-logo">
                 <div className="logo-photo"> 
                     <div className="flex items-center space-x-3">
-                        <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                         <div>
                             <h1 className="logo-text-lower text-xl font-bold text-gray-900">Urusentra</h1>
@@ -1270,7 +1270,7 @@ export default function ConstructionERPLanding() {
                             rx="8"
                             fill="#FFFFFF"
                             stroke="#4A90E2"
-                            stroke-width="5"
+                            strokeWidth="5"
                         />
 
                         <rect
@@ -1292,16 +1292,16 @@ export default function ConstructionERPLanding() {
                         <path
                             d="M28 72c0-6.6 5.4-12 12-12"
                             stroke="#4CAF50"
-                            stroke-width="6"
-                            stroke-linecap="round"
+                            strokeWidth="6"
+                            strokeLinecap="round"
                         />
 
                         <circle cx="80" cy="52" r="7" fill="#FFC107"/>
                         <path
                             d="M92 72c0-6.6-5.4-12-12-12"
                             stroke="#FFC107"
-                            stroke-width="6"
-                            stroke-linecap="round"
+                            strokeWidth="6"
+                            strokeLinecap="round"
                         />
 
                     </svg>
@@ -1495,8 +1495,8 @@ export default function ConstructionERPLanding() {
                 <div className="footer-brand">
                     <div className="logo-photo-lower"> 
                         <div className="logo-lower flex items-center space-x-3">
-                            <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                             </svg>
                             <div>
                                 <h1 className="logo-text-lower text-xl font-bold text-gray-900">Urusentra</h1>

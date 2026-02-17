@@ -2,7 +2,8 @@ import apiClient from '../BaseEngine';
 import { ImportMeta } from '../vite-env';
 
 
-const HandleLogin = async (email: string, password: any) => {
+
+export const HandleLogin = async (email: string, password: any) => {
   const isDevelopment = import.meta.env.MODE === "development";
   const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : import.meta.env.VITE_API_BASE_URL_DEPLOY;
 
@@ -20,4 +21,21 @@ const HandleLogin = async (email: string, password: any) => {
       throw error; 
  }
 };
-export default HandleLogin;
+
+
+
+
+export const handleStayLoggedIn = async () => {
+  const isDevelopment = import.meta.env.MODE === "development";
+  const baseEntry = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : import.meta.env.VITE_API_BASE_URL_DEPLOY;
+
+  try {
+    const response = await apiClient.post(`${baseEntry}core/auth/ping/`, {});
+    return response?.data;
+  } catch (error: any) {
+      //console.log("ERROR TYPE:", error.constructor.name);
+      //console.log("ERROR KEYS:", Object.keys(error));
+      //console.log("FULL ERROR OBJECT:", error);
+    throw error;
+  }
+};

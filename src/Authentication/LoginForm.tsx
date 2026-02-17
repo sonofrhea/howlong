@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
@@ -10,8 +10,9 @@ import MyButton from "../components/constants/forms/MyButton";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import HandleLogin from "./HandleLogin";
+import {HandleLogin} from "./HandleLogin";
 import { spinningStyles } from "./Styles";
+
 
 
 
@@ -21,6 +22,28 @@ const Login = () => {
     const {handleSubmit, control} = useForm()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false);
+    const toastShown = useRef(false);
+
+    const searchParams = new URLSearchParams(location.search);
+    const reason = searchParams.get('reason');
+
+    useEffect(() => {
+        if (!reason || toastShown.current) return;
+
+        let message = "";
+        if (reason === "idle_timeout") {
+            message = "Your session timed out due to inactivity. Please log in again.";
+
+        } else if (reason === "session_expired") {
+            message = "Your session has expired. Please log in again.";
+        }
+
+        if (message) {
+            toast(message, { duration: 12000, style: {fontFamily: "Helvetica"} });
+            toastShown.current = true;
+        }
+    }, [reason]);
+
 
     const submission = async (data: any) => {
         if (loading) return

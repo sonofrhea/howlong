@@ -24,4 +24,11 @@ export type JournalEntryModalTypes = {
 export type LoginModalProps = {
   open: boolean;
   onClose: () => void;
-}
+};
+
+
+export type SessionTimeoutModalProps = {
+  showPrompt: boolean;
+  countdown: number;
+  handleStayLoggedInValidation: () => Promise<void>;
+};

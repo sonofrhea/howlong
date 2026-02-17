@@ -1,31 +1,38 @@
 import { useState, Suspense, lazy } from 'react'
 import './App.css'
 import { spinningStyles } from "./Authentication/Styles";
-
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 
-import LoginForm from './Authentication/LoginForm';
-import RegistrationPage from './Authentication/RegistrationForm';
+
+
+const LoginForm = lazy(() => import('./Authentication/LoginForm'))
+const RegistrationPage = lazy(() => import('./Authentication/RegistrationForm'))
 
 
 const MarketplaceRegister = lazy(() => import('./Authentication/MarketplaceRegistrationForm'))
 const MarketplaceLogin = lazy(() => import('./Authentication/MarketplaceLoginForm'))
 
+
+
+
+const MarketplaceLanding = lazy(() => import('./Landing/MarketplaceLanding'))
+const Landing = lazy(() => import('./Landing/Landing'))
 import Layout from './components/Layout';
+const PricingPage = lazy(() => import('./Landing/PricingPage'))
 
-import Landing from "./Landing/Landing";
 
-import MarketplaceLanding from './Landing/MarketplaceLanding';
 
-import { Toaster } from 'react-hot-toast';
+import { useSessionTimeout } from './Authentication/UseSessionTimeout';
+import SessionTimeoutModal from './components/Modals/SessionTimeoutModal';
 
-const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 
-import PricingPage from './Landing/PricingPage';
+
+
 
 
 const Dashboard = lazy(() => import('./components/Dashboard'))
-
 const MainPage = lazy(() => import('../src/components/MainPage'))
 
 // -------------------begin---------CUSTOMERS--------------------------------------------
@@ -192,7 +199,11 @@ const CashFlowManagement = lazy(() => import('./FullStack/Reports/Reports/CashFl
 
 
 
-
+function SessionHandler() {
+  const timeoutProps = useSessionTimeout();
+  if (!timeoutProps) return null;
+  return <SessionTimeoutModal {...timeoutProps} />;
+}
 
 
 
@@ -207,28 +218,52 @@ function App() {
     <Toaster position="top-center" />
       <Router>
         <div className="App">
+          <SessionHandler />
+
           <Routes>
             {/* Default route */}
             <Route path="/" element={<Navigate to="/home" replace />} />
 
-            <Route path='/home' element={<Landing />} />
+
+            <Route path='/home' element={
+              <Suspense fallback={<div>loading urusentra.com...</div>}>
+                <Landing />
+              </Suspense>
+            } />
+
 
             {/* Marketplace landing page */}
-            <Route path='/marketplace-signin' element={<MarketplaceLanding />} />
+            <Route path='/marketplace-signin' element={
+              <Suspense fallback={<div>loading...</div>}>
+                <MarketplaceLanding />
+              </Suspense>
+            } />
 
-            <Route path='/pricing' element={<PricingPage />} />
+
+
+
+            <Route path='/pricing' element={
+              <Suspense fallback={<div>loading...</div>}>
+                <PricingPage />
+              </Suspense>
+            } />
+
+
+
+
+
 
             {/* Login route */}
-            <Route path='/login' element={<LoginForm />} />
+            <Route path='/login' element={
+              <Suspense fallback={<div>loading...</div>}>
+                <LoginForm />
+              </Suspense>
+            } />
+
 
             {/* Marketplace login */}
             <Route path='/marketplace-login' element={
-              <Suspense fallback={
-                  <div className="whiteBox" style={{ width: 420, maxWidth: '100%', padding: 20 }}>
-                    <div style={{ height: 400, background: '#f5f5f5', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <span className={spinningStyles.terminalBar.spinner}></span>
-                    </div>
-                  </div>}>
+              <Suspense fallback={<div>loading...</div>}>
                 <MarketplaceLogin />
               </Suspense>
             } />
@@ -236,7 +271,11 @@ function App() {
 
             
             {/* Registration route */}
-            <Route path='/register' element={<RegistrationPage />} />
+            <Route path='/register' element={
+              <Suspense fallback={<div>loading...</div>}>
+                <RegistrationPage />
+              </Suspense>
+            } />
 
 
 
@@ -244,12 +283,7 @@ function App() {
 
             {/* Marketplace Registration */}
             <Route path='marketplace-register' element={
-              <Suspense fallback={
-                <div className="whiteBox" style={{ width: 420, maxWidth: '100%', padding: 20 }}>
-                  <div style={{ height: 400, background: '#f5f5f5', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <span className={spinningStyles.terminalBar.spinner}></span>
-                  </div>
-                </div>}>
+              <Suspense fallback={<div>loading...</div>}>
                 <MarketplaceRegister />
               </Suspense>
             } />

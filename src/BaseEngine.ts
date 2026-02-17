@@ -29,20 +29,19 @@ apiClient.interceptors.request.use(config => {
 apiClient.interceptors.response.use(response => {
   return response
 }, (error) => {
-  if (error.response && error.response?.status === 401) {
+  
+  const isInvalidToken = error.response?.data?.detail === 'Invalid Token';
+  const is401 = error.response && error.response?.status === 401;
+
+  if (is401 || isInvalidToken) {
     localStorage.removeItem('Token')
-    window.location.href = "/login"
+    window.location.href = "/login?reason=idle_timeout";
   }
   else if (error.response?.status === 403) {
     const message = error.response?.data?.detail
     || 'You do not have permission to perform this action.';
 
     toast.error(message, {duration: 8000,});
-  }
-  else if (error.response?.data?.detail == 'Invalid Token') {
-    const message = 'Invalid Token'
-    toast.error(message, {duration: 5000,});
-    window.location.href = "/login"
   }
   return Promise.reject(error);
 })
