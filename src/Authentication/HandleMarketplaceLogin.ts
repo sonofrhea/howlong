@@ -15,9 +15,9 @@ const HandleMarketplaceLogin = async (email: string, password: any) => {
         localStorage.setItem('MarketplaceToken', response.data.marketplace_token);
         return response?.data;
     } catch (error: any) {
-        console.log("ERROR TYPE:", error.constructor.name);
-        console.log("ERROR KEYS:", Object.keys(error));
-        console.log("FULL ERROR OBJECT:", error);
+        //console.log("ERROR TYPE:", error.constructor.name);
+        //console.log("ERROR KEYS:", Object.keys(error));
+        //console.log("FULL ERROR OBJECT:", error);
         throw error;
     }
 };

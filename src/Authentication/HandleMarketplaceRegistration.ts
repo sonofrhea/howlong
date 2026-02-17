@@ -12,9 +12,9 @@ const HandleMarketplaceRegistration = async (data: RegistrationFormInputs) => {
         const response = await marketplaceApiClient.post(`${baseEntry}marketplace/marketplace-register/`, data);
         return response?.data;
     } catch (err: any) {
-        console.log("ERROR TYPE:", err.constructor.name);
-        console.log("ERROR KEYS:", Object.keys(err));
-        console.log("FULL ERROR OBJECT:", err);
+        //console.log("ERROR TYPE:", err.constructor.name);
+        //console.log("ERROR KEYS:", Object.keys(err));
+        //console.log("FULL ERROR OBJECT:", err);
         throw err;
     }
 };

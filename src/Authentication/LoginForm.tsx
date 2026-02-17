@@ -75,7 +75,7 @@ const Login = () => {
                     to="/marketplace-login"
                     className="fixed top-4 left-4 z-50 group flex items-center gap-3 px-3 py-1 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-600 shadow-sm transition-all duration-300 hover:text-blue-600 hover:shadow-md hover:-translate-y-0.5"
                 >
-                    <span>Marketplace Login</span>
+                    <span>Marketplace Login for suppliers</span>
                 </Link>
             </div>
 

@@ -39,6 +39,11 @@ apiClient.interceptors.response.use(response => {
 
     toast.error(message, {duration: 8000,});
   }
+  else if (error.response?.data?.detail == 'Invalid Token') {
+    const message = 'Invalid Token'
+    toast.error(message, {duration: 5000,});
+    window.location.href = "/login"
+  }
   return Promise.reject(error);
 })
 
