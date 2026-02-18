@@ -73,7 +73,7 @@ const JournalEntryDetails: React.FC<any> = ({ journalEntry, isLoading, onBack, o
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={onEdit(journalEntry.journal_number)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />

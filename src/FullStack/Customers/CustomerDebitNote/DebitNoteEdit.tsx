@@ -257,9 +257,15 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
 
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => {
+
                                     const detailsAmount = Number(watch(`debit_note_details.${index}.amount`) || 0.00);
                                     const tax_percentage = Number(watch(`debit_note_details.${index}.tax_amount`) || 0.00) / 100;
-                                    const taxAmount = tax_percentage * detailsAmount;
+                                    let tax_inclusive = watch(`debit_note_details.${index}.tax_inclusive`) || false;
+                                    let taxAmount = detailsAmount * tax_percentage;
+
+                                    if (!tax_inclusive) {
+                                        taxAmount = 0.00;
+                                    }
                                     const netTotal = detailsAmount - taxAmount;
 
                                     return(

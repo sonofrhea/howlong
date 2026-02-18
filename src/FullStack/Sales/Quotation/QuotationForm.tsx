@@ -51,8 +51,8 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                 ],
                 tax_inclusive: false,
                 tax_amount: 0.00,
-                discount: 0.00,
-                
+                discount_amount: 0.00,
+                discount: false,
             }
         });
 
@@ -95,9 +95,10 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                             <span>
                                                 <input 
                                                     type="date"
-                                                    {...register("valid_until")}
+                                                    {...register("valid_until", {required: "Date is required"})}
                                                     className={forms.input.date}
                                                 />
+                                                {errors?.valid_until && <p className="text-amber-600 text-sm">{errors?.valid_until?.message}</p>}
                                             </span>
                                         </div>
                                     </div>
@@ -410,13 +411,14 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                         />
                                     </div>
                                         
-                                    <td className={tables.cell}>
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Cancelled? </div>
                                         <input 
                                             type="checkbox"
-                                            {...register(`cancelled`)}
+                                            {...register("cancelled")}
                                             className="text-black cursor-pointer"
                                         />
-                                    </td>
+                                    </div>
                                 </div>
                             </div>
                         </div>

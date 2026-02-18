@@ -5,7 +5,7 @@ import { forms, buttons, layout, tables, text, utils } from "../constants/Styles
 
 import { Trash2 } from 'lucide-react';
 
-import {SupplierProfileResponse, SupplierInvoiceInputs } from "../constants/Types";
+import {SupplierProfileResponse, SupplierInvoiceInputs, SupplierInvoiceFormProps } from "../constants/Types";
 
 
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
@@ -45,7 +45,11 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const SupplierInvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, currencies, 
+const SupplierInvoiceForm: React.FC<SupplierInvoiceFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    currencies, 
     accounts, agents, supplierProfiles, productItems }) => {
                                         
         const productOptions = useMemo(() => 

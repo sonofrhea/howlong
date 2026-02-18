@@ -245,78 +245,92 @@ const controlAccountChange = supplierDebitNoteAccountHandler(accounts, setValue)
                             </thead>
 
                             <tbody className={tables.body}>
-                                {fields.map((field, index) => (
-                                    <tr key={field.id} className={tables.row}>
-                                        <td className={tables.cell}>
-                                            <input 
-                                                type="date"
-                                                {...register(`debit_note_details.${index}.date`)}
-                                                className={tables.text}
-                                            />
-                                        </td>
+                                {fields.map((field, index) => {
+                                    
+                                    let amount = watch(`debit_note_details.${index}.amount`) || 0.00;
+                                    let tax_amount = watch(`debit_note_details.${index}.tax_amount`) || 0.00;
+                                    let tax_inclusive = watch(`debit_note_details.${index}.tax_inclusive`) || false;
+                                    
+                                    let tax_rate = tax_amount / 100;
 
-                                        <td className={tables.cell}>
-                                            <input 
-                                                {...register(`debit_note_details.${index}.description`)}
-                                                className={tables.text}
-                                            />
-                                        </td>
+                                    if (!tax_inclusive) {
+                                        tax_amount = 0.00;
+                                    }
 
-                                        <td className={text.numbers}>
-                                            <input 
-                                                {...register(`debit_note_details.${index}.amount`)}
-                                                type="number"
-                                                className={forms.input.number}
-                                                placeholder="0.00"
-                                                step="0.01" min="0.00" onBlur={(e) => {
-                                                    if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                    }
-                                                }}                                                
-                                            />
-                                        </td>
+                                    const total = amount - (amount * tax_rate);
 
-                                        <td className={tables.cell}>
-                                            <input 
-                                                type="checkbox"
-                                                {...register(`debit_note_details.${index}.tax_inclusive`)}
-                                                className="text-black cursor-pointer"
-                                            />
-                                        </td>
 
-                                        <td className={text.numbers}>
-                                            <input 
-                                                {...register(`debit_note_details.${index}.tax_amount`) || 0.00}
-                                                type="number"
-                                                className={forms.input.number}
-                                                placeholder="0.00"
-                                                step="0.01" min="0.00" onBlur={(e) => {
-                                                    if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                    }
-                                                }}
-                                            />
-                                        </td>
 
-                                        <td className={tables.autoCalculate}>
-                                            {decimalPlaces(
-                                                (Number(watch(`debit_note_details.${index}.amount`) || 0.00) *
-                                                (1 + (Number(watch(`debit_note_details.${index}.tax_amount`) / 100))|| 0.00))
-                                            )}
-                                        </td>
+                                    return(
+                                        <tr key={field.id} className={tables.row}>
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    type="date"
+                                                    {...register(`debit_note_details.${index}.date`)}
+                                                    className={tables.text}
+                                                />
+                                            </td>
 
-                                        <td>
-                                            <button
-                                                type="button"
-                                                title="remove"
-                                                onClick={() => remove(index)}
-                                            >
-                                                <Trash2 size={16} strokeWidth={1.5}
-                                                className="text-black cursor-pointer" />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    {...register(`debit_note_details.${index}.description`)}
+                                                    className={tables.text}
+                                                />
+                                            </td>
+
+                                            <td className={text.numbers}>
+                                                <input 
+                                                    {...register(`debit_note_details.${index}.amount`)}
+                                                    type="number"
+                                                    className={forms.input.number}
+                                                    placeholder="0.00"
+                                                    step="0.01" min="0.00" onBlur={(e) => {
+                                                        if (e.target.value) {
+                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        }
+                                                    }}                                                
+                                                />
+                                            </td>
+
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    type="checkbox"
+                                                    {...register(`debit_note_details.${index}.tax_inclusive`)}
+                                                    className="text-black cursor-pointer"
+                                                />
+                                            </td>
+
+                                            <td className={text.numbers}>
+                                                <input 
+                                                    {...register(`debit_note_details.${index}.tax_amount`) || 0.00}
+                                                    type="number"
+                                                    className={forms.input.number}
+                                                    placeholder="0.00"
+                                                    step="0.01" min="0.00" onBlur={(e) => {
+                                                        if (e.target.value) {
+                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        }
+                                                    }}
+                                                />
+                                            </td>
+
+                                            <td className={tables.autoCalculate}>
+                                                {decimalPlaces(total)}
+                                            </td>
+
+                                            <td>
+                                                <button
+                                                    type="button"
+                                                    title="remove"
+                                                    onClick={() => remove(index)}
+                                                >
+                                                    <Trash2 size={16} strokeWidth={1.5}
+                                                    className="text-black cursor-pointer" />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                                 <tr className={tables.headerCell}>
                                     <td >
                                         <button

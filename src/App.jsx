@@ -3,6 +3,7 @@ import './App.css'
 import { spinningStyles } from "./Authentication/Styles";
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 
 
@@ -226,15 +227,15 @@ function App() {
 
 
             <Route path='/home' element={
-              <Suspense fallback={<div>loading urusentra.com...</div>}>
+              <Suspense fallback={<div></div>}>
                 <Landing />
               </Suspense>
             } />
 
 
             {/* Marketplace landing page */}
-            <Route path='/marketplace-signin' element={
-              <Suspense fallback={<div>loading...</div>}>
+            <Route path='/marketplace' element={
+              <Suspense fallback={<div></div>}>
                 <MarketplaceLanding />
               </Suspense>
             } />
@@ -243,7 +244,7 @@ function App() {
 
 
             <Route path='/pricing' element={
-              <Suspense fallback={<div>loading...</div>}>
+              <Suspense fallback={<div></div>}>
                 <PricingPage />
               </Suspense>
             } />
@@ -255,7 +256,7 @@ function App() {
 
             {/* Login route */}
             <Route path='/login' element={
-              <Suspense fallback={<div>loading...</div>}>
+              <Suspense fallback={<div></div>}>
                 <LoginForm />
               </Suspense>
             } />
@@ -263,7 +264,7 @@ function App() {
 
             {/* Marketplace login */}
             <Route path='/marketplace-login' element={
-              <Suspense fallback={<div>loading...</div>}>
+              <Suspense fallback={<div></div>}>
                 <MarketplaceLogin />
               </Suspense>
             } />
@@ -272,7 +273,7 @@ function App() {
             
             {/* Registration route */}
             <Route path='/register' element={
-              <Suspense fallback={<div>loading...</div>}>
+              <Suspense fallback={<div></div>}>
                 <RegistrationPage />
               </Suspense>
             } />
@@ -283,7 +284,7 @@ function App() {
 
             {/* Marketplace Registration */}
             <Route path='marketplace-register' element={
-              <Suspense fallback={<div>loading...</div>}>
+              <Suspense fallback={<div></div>}>
                 <MarketplaceRegister />
               </Suspense>
             } />

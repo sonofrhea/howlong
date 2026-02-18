@@ -98,6 +98,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                                 {...register("valid_until")}
                                                 className={forms.input.date}
                                             />
+                                            {errors.valid_until && <p className="text-amber-600 text-sm">{errors.valid_until?.message}</p>}
                                         </span>
                                     </div>
                                 </div>
@@ -411,14 +412,15 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                         }}
                                     />
                                 </div>
-                                    
-                                <td className={tables.cell}>
+                                        
+                                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                    <div>Cancelled? </div>
                                     <input 
                                         type="checkbox"
-                                        {...register(`cancelled`)}
+                                        {...register("cancelled")}
                                         className="text-black cursor-pointer"
                                     />
-                                </td>
+                                </div>
                             </div>
                         </div>
                     </div>

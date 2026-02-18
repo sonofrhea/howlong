@@ -1,5 +1,5 @@
 import React from "react";
-import { SupplierCategoryList } from "../constants/Types";
+import { SupplierCategoryList, SupplierCategoryTableProps } from "../constants/Types";
 
 
 
@@ -9,12 +9,21 @@ import { SupplierCategoryList } from "../constants/Types";
 
 
 
-const SupplierCategoryTable: React.FC<any> = ({ supplierCategories, onSupplierCategoryClick, onEditSupplierCategory,
-    onDeleteSupplierCategory, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const SupplierCategoryTable: React.FC<SupplierCategoryTableProps> = ({
+    supplierCategories,
+    onSupplierCategoryClick,
+    onEditSupplierCategory,
+    onDeleteSupplierCategory,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
 }) => {
 
-    // Sortable header component
     const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';

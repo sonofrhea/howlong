@@ -114,10 +114,10 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                         <p className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                             customerPayment.completed ? 
                             'bg-green-100 text-green-900 drop-shadow-md shadow-inner border-collapse border-green-200' : 
-                            'text-red-600'}
+                            'bg-red-100 text-red-900 drop-shadow-md shadow-inner border-collapse border-red-200'}
                             `}>
                             {customerPayment.completed ? 'Yes' : 'No'}
-                        </p>
+                        </p>                        
                     </div>
 
                     <div>
@@ -126,6 +126,16 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
 
                         <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Currency</p>
                         <p className="text-sm font-medium text-gray-700">{customerPayment.currency || 'N/A'}</p>
+
+                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Cancelled</p>
+                        <p className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                            customerPayment.cancelled ? 
+                            'bg-red-100 text-red-900 drop-shadow-md shadow-inner border-collapse border-red-200' :
+                            'bg-green-100 text-green-900 drop-shadow-md shadow-inner border-collapse border-green-200' 
+                            }
+                            `}>
+                            {customerPayment.cancelled ? 'Yes' : 'No'}
+                        </p>  
                     </div>
                 </div>
 

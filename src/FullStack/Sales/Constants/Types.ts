@@ -148,8 +148,8 @@ export type QuotationEditProps = {
 export type QuotationDetailsProps = {
   quotation: QuotationDetails;
   isLoading: boolean;
-  onBack: () => void;
-  onEdit: () => void;
+  onBack?: () => void;
+  onEdit: (quotationId: number) => void;
   onSendQuotation: () => void;
 };
 
@@ -243,6 +243,21 @@ export type InvoiceProps = {
   productItems: ProductItemCreateResponse[];
 };
 
+
+export type InvoiceTableProps = {
+  invoices: InvoiceList[];
+  onInvoiceClick: (invoiceId: number) => void;
+  onEditInvoice: (invoiceId: number, invoice: InvoiceList) => void;
+  onDeleteInvoice: (invoiceId: number) => void;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+  sortConfig: SortConfig;
+};
 // -------- END ----------- INVOICE INPUT ----------------
 
 
@@ -258,7 +273,7 @@ export type InvoiceProps = {
 
 export type CustomerPaymentList = {
   payment_number: number;
-  date: number;
+  date: string;
   customer: string;
   currency: string;
   description: string;
@@ -357,6 +372,22 @@ export type CustomerPaymentDetailsProps = {
   accounts: ControlAccountInterface[];
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
+}
+
+
+export type CustomerPaymentTableProps = {
+  customerPayments: CustomerPaymentList[];
+  onCustomerPaymentClick: (customerPaymentId: number) => void;
+  onEditCustomerPayment: (customerPaymentId: number, customerPayment: CustomerPaymentList) => void;
+  onDeleteCustomerPayment: (customerPaymentId: number) => void;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+  sortConfig: SortConfig;
 }
 
 // -------- END ----------- CUSTOMER PAYMENT INPUT ----------------
@@ -492,4 +523,19 @@ export type InvoicePaymentDetailsProps = {
   accounts: ControlAccountInterface[];
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
+};
+
+export type InvoicePaymentTableProps = {
+  invoicePayments: InvoicePaymentList[];
+  onInvoicePaymentClick: (invoicePaymentId: number) => void;
+  onEditInvoicePayment: (invoicePaymentId: number, invoicePayment: InvoicePaymentList) => void;
+  onDeleteInvoicePayment: (invoicePaymentId: number) => void;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+  sortConfig: SortConfig;
 };

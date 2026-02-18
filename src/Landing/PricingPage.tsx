@@ -35,7 +35,7 @@ function PricingPage() {
 
 
     const billingLabel: Record<string, Record<BillingCycle, string>> = {
-        Basic: {
+        Starter: {
             "6 months": " MYR/ month (billed every 6 months)",
             "Yearly": " MYR/ month (billed yearly)",
         },
@@ -46,7 +46,7 @@ function PricingPage() {
     };
 
     const pricingLabel: Record<string, Record<BillingCycle, number | string>> = {
-        Basic: {
+        Starter: {
             "6 months": 95.98,
             "Yearly": 79.99,
         },
@@ -71,10 +71,10 @@ function PricingPage() {
 
                 {/* Header */}
                 <div className="text-center mb-16">
-                    <h1 className="text-5xl font-semibold tracking-tight mb-4">Pricing</h1>
-                    <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                    <a className="text-5xl font-semibold tracking-tight mb-4">Pricing</a><br /><br />
+                    <a className="text-lg text-slate-600 max-w-2xl mx-auto">
                         Choose a plan that fits your needs. Upgrade, downgrade, or cancel anytime.
-                    </p>
+                    </a>
                 </div>
 
                 {/* Billing toggle */}
@@ -88,13 +88,13 @@ function PricingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
 
                     {/* FREE TRIAL */}
-                    <div className="border border-slate-200 rounded-2xl p-8 flex flex-col">
-                        <h2 className="text-xl font-semibold mb-1">Exploration</h2>
-                        <p className="text-slate-600 mb-6">For exploring core functionality</p>
+                    <div className="border border-slate-200 rounded-2xl p-8 flex flex-col hover:border-2 hover:border-black">
+                        <a className="text-xl font-semibold mb-1">Exploration</a>
+                        <a className="text-slate-600 mb-6">For exploring core functionality</a>
 
                         <div className="mb-6">
                             <span className="text-4xl font-semibold">0</span>
-                            <span className="text-slate-500" data-cycle> MYR/ 3days</span>
+                            <span className="text-slate-500" data-cycle> MYR/ 14days</span>
                         </div>
 
                         <button className="w-full rounded-lg border border-slate-300 py-3 font-medium mb-8 hover:bg-slate-50"
@@ -120,23 +120,23 @@ function PricingPage() {
                                     <li>• 1 user</li>
                                     <li>• 5 GB storage</li>
                                     <li>• Standard performance</li>
-                                </ul>
-                                <p className="mt-3 text-xs text-slate-500">Usage limits apply and may change over time.</p>
+                                </ul><br />
+                                <a className="mt-3 text-xs text-slate-500">Usage limits apply and may change over time.</a>
                             </div>
                         </div>
                     </div>
 
-                    {/* Basic */}
-                    <div className='border-2 border-black rounded-2xl p-8 flex flex-col'>
+                    {/* Starter */}
+                    <div className='border border-slate-200 rounded-2xl p-8 flex flex-col hover:border-2 hover:border-black'>
 
-                        <h2 className="text-xl font-semibold mb-1">Basic</h2>
-                        <p className="text-slate-600 mb-6">For individuals and teams doing production work</p>
+                        <a className="text-xl font-semibold mb-1">Starter</a>
+                        <a className="text-slate-600 mb-6">For individuals and teams doing production work</a>
 
                         <div className="mb-6">
                             <span className="text-4xl font-semibold">
-                                {pricingLabel["Basic"][cycle]}
+                                {pricingLabel["Starter"][cycle]}
                             </span>
-                            <span className="text-slate-500">{billingLabel["Basic"][cycle]}</span>
+                            <span className="text-slate-500">{billingLabel["Starter"][cycle]}</span>
                         </div>
 
                         <div className="relative w-full mb-8">
@@ -174,6 +174,7 @@ function PricingPage() {
                         <div className="space-y-12 text-sm">
                             <div>
                                 <ul className="space-y-2 text-slate-700">
+                                    <li>✔ Urusentra Marketplace</li>
                                     <li>✔ Unlimited Management access</li>
                                     <li>✔ Unlimited projects</li>
                                     <li>✔ Higher usage limits</li>
@@ -196,21 +197,21 @@ function PricingPage() {
                                     <li>✔ 100 GB storage</li>
                                     <li>✔ Extended API limits</li>
                                     <li>✔ Faster processing</li>
-                                </ul>
-                                <p className="mt-3 text-xs text-slate-500">
+                                </ul><br />
+                                <a className="mt-3 text-xs text-slate-500">
                                     Fair-use policy applies. Excessive usage may be rate-limited.
-                                </p>
+                                </a>
                             </div>
                         </div>
                     </div>
 
                     {/* Enterprise */}
-                    <div className='border border-slate-200 rounded-2xl p-8 flex flex-col'>
+                    <div className='border border-slate-200 rounded-2xl p-8 flex flex-col hover:border-2 hover:border-black'>
                         <div className="mb-3 inline-flex self-start rounded-full bg-black px-3 py-1 text-xs font-medium text-white">
                             Most popular
                         </div>
-                        <h2 className="text-xl font-semibold mb-1">Enterprise</h2>
-                        <p className="text-slate-600 mb-6">For organizations with advanced needs</p>
+                        <a className="text-xl font-semibold mb-1">Enterprise</a>
+                        <a className="text-slate-600 mb-6">For organizations with advanced needs</a>
 
                         <div className="mb-6">
                             <span className="text-4xl font-semibold">
@@ -257,6 +258,8 @@ function PricingPage() {
                             <div>
                                 <h3 className="font-medium mb-3">Platform</h3>
                                 <ul className="space-y-2 text-slate-700">
+                                    <li>✔ Urusentra Marketplace</li>
+                                    <li>✔ After-sales service</li>
                                     <li>✔ Full Financial reports</li>
                                     <li>✔ Cloud Access</li>
                                     <li>✔ Client Server Database</li>
@@ -291,10 +294,10 @@ function PricingPage() {
                                     <li>✔ Dedicated account manager</li>
                                     <li>✔ 24/7 priority support</li>
                                     <li>✔ Custom SLA</li>
-                                </ul>
-                                <p className="mt-3 text-xs text-slate-500">
+                                </ul><br />
+                                <a className="mt-3 text-xs text-slate-500">
                                     Contract terms and pricing vary based on usage and requirements.
-                                </p>
+                                </a>
                             </div>
                         </div>
 
@@ -303,11 +306,11 @@ function PricingPage() {
                 </div>
 
                 {/* FINE PRINT */}
-                <div className="mt-20 max-w-3xl text-xs text-slate-500 leading-relaxed">
-                    <p>
+                <div className="mt-40 text-xs text-center text-slate-500 leading-relaxed">
+                    <a>
                         Pricing shown is exclusive of applicable taxes. Features and limits are subject to change. Certain advanced
                         capabilities may be gated or rolled out gradually. See terms of service for full details.
-                    </p>
+                    </a>
                 </div>
             </div>
         </div>

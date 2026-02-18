@@ -8,7 +8,7 @@ import { forms, buttons, layout, tables, text, utils,
 
 import { Trash2 } from 'lucide-react';
 
-import { SupplierDebitNoteInputs, SupplierInvoiceResponse, 
+import { SupplierDebitNoteFormProps, SupplierDebitNoteInputs, SupplierInvoiceResponse, 
     SupplierProfileResponse, 
  } from "../constants/Types";
 
@@ -47,7 +47,7 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const SupplierDebitNoteForm: React.FC<any> = ({
+const SupplierDebitNoteForm: React.FC<SupplierDebitNoteFormProps> = ({
     onSubmit,
     isSubmitting,
     onCancel,

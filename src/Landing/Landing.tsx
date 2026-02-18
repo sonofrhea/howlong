@@ -1187,7 +1187,7 @@ export default function ConstructionERPLanding() {
                 <a href="#features" className="cta-secondary">Learn More</a>
             </div>
             <div>
-                <button className="cta-marketplace" onClick={() => navigate("/marketplace-signin")}>
+                <button className="cta-marketplace" onClick={() => navigate("/marketplace")}>
                     Enter Marketplace
                     <ArrowRight className="ml-2 arrow-icon" />
                 </button>
@@ -1377,9 +1377,9 @@ export default function ConstructionERPLanding() {
                 {Array.from({length: 4}).map((_, i) => (
                     <React.Fragment key={i}>
                         <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-emerald-400">Steel Index / +1.2%</span>
-                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-white/40">Lumber / $540.00/mbf</span>
+                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-yellow-500">Lumber / $540.00/mbf</span>
                         <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-rose-500">Nails / -0.4%</span>
-                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-white/40">Wood / STABLE</span>
+                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-yellow-500">Wood / STABLE</span>
                     </React.Fragment>
                 ))}
             </div>
@@ -1395,6 +1395,50 @@ export default function ConstructionERPLanding() {
                     <rect width="100%" height="100%" fill="url(#grid)" />
                 </svg>
             </div>
+
+            <div className="absolute inset-0 pointer-events-none flex items-start overflow-hidden">
+                <div className="w-full opacity-50 select-none">
+                    <div className="animate-marquee whitespace-nowrap flex items-center">
+                        {Array.from({length: 4}).map((_, i) => (
+                            <span key={i} className="text-[5vw] font-black uppercase tracking-tighter text-white mx-12 italic">
+                                DISCOUNTED SUPPLIERS PRICES • 
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <div className="absolute inset-0 pointer-events-none flex items-end overflow-hidden">
+                <div className="w-full opacity-50 select-none">
+                    <div className="animate-marquee whitespace-nowrap flex items-center">
+                        {Array.from({length: 4}).map((_, i) => (
+                            <span key={i} 
+                                className="text-[5vw] font-black uppercase tracking-tighter  mx-12 italic text-transparent"
+                                style={{ WebkitTextStroke: '2px white' }}
+                            >
+                                FIND BUILDING SUPPLIERS • WORLDWIDE • 
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <div className="absolute inset-0 pointer-events-none flex items-center overflow-hidden">
+                <div className="w-full opacity-50 select-none">
+                    <div className="animate-marquee whitespace-nowrap flex items-center gap-32">
+                        {Array.from({length: 4}).map((_, i) => (
+                            <span key={i} 
+                                className="text-[2vw] font-black tracking-tighter italic text-white">
+                                urusentra.com/marketplace <span className="gap-32 opacity-50">•</span>
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            
+
+            
 
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative">
                 <div className="space-y-48">
@@ -1417,7 +1461,11 @@ export default function ConstructionERPLanding() {
             <div className="animate-marquee whitespace-nowrap flex items-center font-black text-2xl text-[#002c9c] uppercase tracking-tighter">
                 {Array.from({length: 8}).map((_, i) => (
                     <span key={i} className="mx-10 flex items-center gap-4">
-                        500+ Verified Suppliers Connected <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> Procurement Streamlined
+                        5000+ Verified Suppliers Connected <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
+                        CHINA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
+                        SOUTH AFRICA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
+                        INDONESIA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
+                        MALAYSIA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
                     </span>
                 ))}
             </div>
@@ -1440,7 +1488,7 @@ export default function ConstructionERPLanding() {
                 <div className="testimonial-author">
                 <div className="author-avatar">MR</div>
                 <div className="author-info">
-                    <div className="author-name">Michael Rodriguez</div>
+                    <div className="author-name">Noor Farhana</div>
                     <div className="author-title">VP Operations, Skyline Builders</div>
                 </div>
                 </div>
@@ -1448,20 +1496,20 @@ export default function ConstructionERPLanding() {
 
             <div className="testimonial">
                 <p className="testimonial-text">
-                "Finally, a system built for the building industry. No more juggling spreadsheets, emails and suppliers stress. Everything we need is in one place, accessible from the field."
+                "Finally, a system built for the building industry. The marketplace is a real gem! It helped our company to find and contact suppliers in china with the best prices, I can't believe how helpful it has been!"
                 </p>
                 <div className="testimonial-author">
                 <div className="author-avatar">JC</div>
                 <div className="author-info">
                     <div className="author-name">Jennifer Chen</div>
-                    <div className="author-title">Project Manager, Metro Construction</div>
+                    <div className="author-title">Project Manager, Bintang Builders</div>
                 </div>
                 </div>
             </div>
 
             <div className="testimonial">
                 <p className="testimonial-text">
-                "The cost control features alone saved us over $500K in the first year. We can now spot budget overruns before they become problems."
+                "Even though we aren't in the building industry, This software is unbelievably useful for us. The cost control features alone saved us over 500K in the first year. We can now spot budget overruns before they become problems."
                 </p>
                 <div className="testimonial-author">
                 <div className="author-avatar">DW</div>
@@ -1504,7 +1552,7 @@ export default function ConstructionERPLanding() {
                         </div>
                     </div>
                     <p>The management ERP platform built by builders and accountants, for builders and accountants. Streamline your operations and manage your business better.</p>
-                    <p>&copy; {formatCurrentYear()} URUSENTRA. All rights reserved.</p>
+                    <p>&copy; {formatCurrentYear()} Syafeez Enterprise. All rights reserved.</p>
                 </div>
 
                 <div className="footer-column">

@@ -49,6 +49,9 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
         documentTitle: quotation ? `Quotation-${quotation.quotation_number}` : "Quotation",
     });
 
+
+    const quotationId = quotation.quotation_number;
+
     
     if (isLoading) {
         return (
@@ -100,13 +103,12 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                                     <strong>Valid until:</strong> <span>{quotation.valid_until}</span>
                                 </div>
                                 <div>
-                                    <strong>Cancelled:</strong> 
+                                    <strong>Cancelled: </strong> 
                                     <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                                             quotation.cancelled
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-red-100 text-red-800'
+                                                ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
                                         }`}>
-                                            {quotation.cancelled ? 'No' : 'Yes'}
+                                            {quotation.cancelled ? 'Yes' : 'No'}
                                     </span>
                                 </div>
                             </div>
@@ -115,7 +117,7 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
 
                     <div className="flex gap-4">
                         <button 
-                            onClick={onEdit}
+                            onClick={(() => onEdit(quotationId))}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
@@ -138,24 +140,24 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                 <hr className="my-6 border-gray-200" />
 
                 <div className="grid grid-cols-3 gap-6">
-                    <p className={labelStyles}>
+                    <div className={labelStyles}>
                         <p className={details.extraSmallUppercase}>Customer Details</p>
                         {quotation.customer_name}
                         <br />
                         <p className="text-gray-500">
                             {quotation.customer_details}
                         </p>
-                    </p>
+                    </div>
 
-                    <p className={labelStyles}>
+                    <div className={labelStyles}>
                         <p className={details.extraSmallUppercase}>Project description</p>
                         {quotation.project_description}
-                    </p>
+                    </div>
 
-                    <p className={labelStyles}>
+                    <div className={labelStyles}>
                         <p className={details.extraSmallUppercase}>Prepared by</p>
                         {quotation.agent}
-                    </p>
+                    </div>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -236,10 +238,10 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
             <hr className="my-6 border-gray-200" />
 
 
-            <p className={labelStyles}>
+            <div className={labelStyles}>
                 <p className={details.extraSmallUppercase}>Created by</p>
                 {quotation.created_by}
-            </p>
+            </div>
             <hr className="my-6 border-gray-200" />
             <div style={{ display: "none" }}>
                 <PrintQuotation

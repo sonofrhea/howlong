@@ -175,14 +175,13 @@ const QuotationTable: React.FC<QuotationListProps> = ({ quotations, onQuotationC
                                     </td>
 
                                     {/* Cancelled */}
-                                    <td className="px-2 py-2 truncate">
-                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
-                                            quotation.cancelled
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-red-100 text-red-800'
-                                        }`}>
-                                            {quotation.cancelled ? 'No' : 'Yes'}
-                                            </div>
+                                    <td className="px-2 py-2 truncate"> 
+                                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                                quotation.cancelled
+                                                    ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                                            }`}>
+                                                {quotation.cancelled ? 'Yes' : 'No'}
+                                        </span>
                                     </td>
                                     
                                     {/* Net Total */}
@@ -206,7 +205,7 @@ const QuotationTable: React.FC<QuotationListProps> = ({ quotations, onQuotationC
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    onEditQuotation(quotationId, quotation);
+                                                    onEditQuotation(quotation.quotation_number, quotation);
                                                 }}
                                                 title="Edit Quotation"
                                             >
@@ -218,8 +217,8 @@ const QuotationTable: React.FC<QuotationListProps> = ({ quotations, onQuotationC
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${quotation.quotation_number}?`)) {
-                                                        onDeleteQuotation(quotationId);
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${quotation.quotation_number}?`)) {
+                                                        onDeleteQuotation(quotation.quotation_number);
                                                     }
                                                 }}
                                                 title="Delete Quotation"

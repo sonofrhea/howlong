@@ -2,6 +2,7 @@ import React from "react";
 import { buttons, labelStyles, layout, 
     spinningStyles, tables, text } from "../constants/Styles";
 import { SquarePen } from "lucide-react";
+import { SupplierInvoiceDetailsProps } from "../constants/Types";
 
 
 const formatNumber = () => {
@@ -19,7 +20,12 @@ const formatDate = (dateString: any) => {
 
 
 
-const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onBack, onEdit }) => {
+const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
+    supplierInvoice,
+    isLoading,
+    onBack,
+    onEdit }) => {
+    const supplierInvoiceId = supplierInvoice.invoice_number;
 
 
     if (isLoading) {
@@ -70,7 +76,7 @@ const SupplierInvoiceDetails: React.FC<any> = ({ supplierInvoice, isLoading, onB
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={(() => onEdit(supplierInvoiceId))}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />

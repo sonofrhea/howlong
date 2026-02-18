@@ -157,11 +157,11 @@ const MarketplaceRegister = () => {
                             {/*-- Main Headline */}
                             <div>
                                 <h2 className="font-display text-6xl! text-gray-900! leading-tight! mb-4! tracking-tight!">
-                                    JOIN 50,000+<br/>
-                                    <span className="text-orange-600">SUPPLIERS</span>
+                                    SIGN UP FOR FREE<br/>
+                                    <span className="text-orange-600">ADVERTISE YOUR PRODUCTS</span>
                                 </h2>
                                 <a className="font-display! text-xl! text-gray-600! leading-relaxed!">
-                                    Advertise your stock and products to thousands of verified building companies and contractors all over the world.
+                                    Advertise your stock and products to thousands of verified building companies and contractors worldwide.
                                 </a>
                             </div>
                             
@@ -186,8 +186,8 @@ const MarketplaceRegister = () => {
                                         </svg>
                                     </div>
                                     <div>
-                                        <a className="text-lg! font-bold! text-gray-900! mb-2!">Wholesale Pricing</a><br />
-                                        <a className="text-gray-600! leading-relaxed!">Save up to 40% with volume discounts and exclusive contractor rates.</a>
+                                        <a className="text-lg! font-bold! text-gray-900! mb-2!">Profitable Retention</a><br />
+                                        <a className="text-gray-600! leading-relaxed!">Guaranteed to get and retain countless customers at once from all around the world.</a>
                                     </div>
                                 </div>
                                 
@@ -240,7 +240,7 @@ const MarketplaceRegister = () => {
                                 {/*-- Form Header */}
                                 <div className="mb-8">
                                     <a className="text-3xl! font-display! font-bold! text-left! text-gray-900! mb-2!">Create Your Account</a><br />
-                                    <a className="text-gray-600 font-display! text-left!">Join thousands of contractors finding better suppliers</a>
+                                    <a className="text-gray-600 font-display! text-left!">Advertise to thousands of builders worldwide looking for suppliers</a>
                                 </div>
 
                                 

@@ -20,6 +20,11 @@ export interface SuppliersModulesInterface {
 
 
 
+export interface SortConfig {
+  key: string | null;
+  direction: 'asc' | 'desc';
+}
+
 
 
 
@@ -65,6 +70,21 @@ export type SupplierCategoryProps = {
   onBack?: () => void;
   onCancel?: () => void;
   agents: AgentInterface[];
+};
+
+export type SupplierCategoryTableProps = {
+  supplierCategories: SupplierCategoryList[];
+  onSupplierCategoryClick: (supplierCategoryId: number) => void;
+  onEditSupplierCategory: (supplierCategoryId: number, supplierCategory: SupplierCategoryList) => void;
+  onDeleteSupplierCategory: (supplierCategoryId: number) => void;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+  sortConfig: SortConfig;
 };
 
 
@@ -158,6 +178,22 @@ export type SupplierProfileProps = {
   supplierCategories: SupplierCategoryResponse[];
   banks: BankInterface[];
   currencies: CurrencyInterface[];
+};
+
+
+export type SupplierProfileTableProps = {
+  supplierProfiles: SupplierProfileList[];
+  onSupplierProfileClick: (supplierProfileId: number) => void;
+  onEditSupplierProfile: (supplierProfileId: number, supplierProfile: SupplierProfileList) => void;
+  onDeleteSupplierProfile: (supplierProfileId: number) => void;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+  sortConfig: SortConfig;
 };
 
 // -------- END ----------- SUPPLIER PROFILE INPUT ----------------
@@ -305,7 +341,22 @@ export type SupplierPaymentDetailsProps = {
   accounts: ControlAccountInterface[];
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
-}
+};
+
+export type SupplierPaymentTableProps = {
+  supplierPayments: SupplierPaymentList[];
+  onSupplierPaymentClick: (supplierPaymentId: number) => void;
+  onEditSupplierPayment: (supplierPaymentId: number, supplierPayment: SupplierPaymentList) => void;
+  onDeleteSupplierPayment: (supplierPaymentId: number) => void;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+  sortConfig: SortConfig;
+};
 
 
 // -------- END ----------- SUPPLIER PAYMENT INPUT ----------------
@@ -333,7 +384,49 @@ export type SupplierInvoiceList = {
   aggregate_total: number;
   cancelled: boolean;
   agent: string;
-}
+};
+
+
+export type SupplierInvoiceDetails = {
+  invoice_number: number,
+  invoice_date: string,
+  invoice_due_date: string,
+  currency: string,
+
+  purchase_account: {
+    account_code: number,
+    account_name: string,
+    account_type: string
+  },
+
+  supplier_name: string,
+  supplier_details: string,
+
+  related_invoice: Array<{
+    item: number,
+    item_name: string | null,
+    description: string,
+    quantity: string,
+    unit_of_measure: string,
+    price_per_unit: string,
+    total: string,
+    tax_amount: string,
+    sub_total: string,
+    cancelled: boolean
+  }>,
+
+  gross_total: string,
+  tax_inclusive: boolean,
+  tax_amount: string,
+  cancelled: boolean,
+  aggregate_total: string,
+
+  agent: string,
+  product: string,
+  created_by: string,
+  date_created: string
+};
+
 
 export type SupplierInvoiceInputs = {
   invoice_number: number;
@@ -382,6 +475,27 @@ export type EditSupplierInvoiceInputs = {
   supplierInvoiceData: SupplierInvoiceInputs;
 };
 
+
+export type SupplierInvoiceFormProps = {
+  onSubmit: (data: SupplierInvoiceInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  productItems: ProductItemCreateResponse[];
+  supplierProfiles: SupplierProfileResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+};
+
+
+export type SupplierInvoiceDetailsProps = {
+  supplierInvoice: SupplierInvoiceDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (supplierInvoiceId: number) => void;
+};
+
 export type SupplierInvoiceProps = {
   supplierInvoice: SupplierInvoiceInputs;
   onSubmit: (data: SupplierInvoiceInputs) => void;
@@ -393,6 +507,21 @@ export type SupplierInvoiceProps = {
   supplierProfiles: SupplierProfileResponse[];
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
+};
+
+export type SupplierInvoiceTableProps = {
+  supplierInvoices: SupplierInvoiceList[];
+  onSupplierInvoiceClick: (supplierInvoiceId: number) => void;
+  onEditSupplierInvoice: (supplierInvoiceId: number, supplierInvoice: SupplierInvoiceList) => void;
+  onDeleteSupplierInvoice: (supplierInvoiceId: number) => void;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+  sortConfig: SortConfig;
 };
 
 // -------- END ----------- SUPPLIER INVOICE INPUT ----------------
@@ -492,6 +621,22 @@ export type EditSupplierDebitNoteInputs = {
   supplierDebitNoteData: SupplierDebitNoteInputs;
 };
 
+
+export type SupplierDebitNoteFormProps = {
+  onSubmit: (data: SupplierDebitNoteInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  productItems: ProductItemCreateResponse[];
+  SupplierProfiles: SupplierProfileResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  SupplierInvoices: SupplierInvoiceResponse[];
+  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
+  isCreatingJournalEntry: boolean;
+};
+
 export type SupplierDebitNoteProps = {
   supplierDebitNote: SupplierDebitNoteInputs;
   onSubmit: (data: SupplierDebitNoteInputs) => void;
@@ -517,6 +662,22 @@ export type SupplierDebitNoteDetailsProps = {
   accounts: ControlAccountInterface[];
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
+};
+
+
+export type SupplierDebitNoteTableProps = {
+  supplierDebitNotes: SupplierDebitNoteList[];
+  onSupplierDebitNoteClick: (supplierDebitNoteId: number) => void;
+  onEditSupplierDebitNote: (supplierDebitNoteId: number, supplierDebitNote: SupplierDebitNoteList) => void;
+  onDeleteSupplierDebitNote: (supplierDebitNoteId: number) => void;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+  sortConfig: SortConfig;
 };
 
   // -------- END ----------- SUPPLIER DEBIT NOTE INPUT ----------------

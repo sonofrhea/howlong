@@ -165,8 +165,8 @@ const MarketplaceLogin = () => {
                                         </svg>
                                     </div>
                                     <div className='font-poppins!'>
-                                        <h3 className="text-lg! font-semibold! text-left! text-white! mb-2! drop-shadow-lg!">Wholesale Pricing</h3>
-                                        <p className="text-gray-100! text-left! leading-relaxed! drop-shadow-md!">Save up to 40% with volume discounts and exclusive contractor rates.</p>
+                                        <h3 className="text-lg! font-semibold! text-left! text-white! mb-2! drop-shadow-lg!">Profitable Retention</h3>
+                                        <p className="text-gray-100! text-left! leading-relaxed! drop-shadow-md!">Guaranteed to get and retain countless customers at once from all around the world.</p>
                                     </div>
                                 </div>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { SupplierInvoiceList } from "../constants/Types";
+import { SupplierInvoiceList, SupplierInvoiceTableProps } from "../constants/Types";
 
 const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
@@ -15,9 +15,19 @@ const formatNumber = () => {
 
 
 
-const SupplierInvoiceTable: React.FC<any> = ({ supplierInvoices, onSupplierInvoiceClick, onEditSupplierInvoice,
-    onDeleteSupplierInvoice, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const SupplierInvoiceTable: React.FC<SupplierInvoiceTableProps> = ({
+    supplierInvoices,
+    onSupplierInvoiceClick,
+    onEditSupplierInvoice,
+    onDeleteSupplierInvoice,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
 }) => {
 
     // Sortable header component

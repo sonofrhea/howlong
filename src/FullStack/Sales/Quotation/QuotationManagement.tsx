@@ -190,7 +190,7 @@ function QuotationManagement() {
         if (quotationData.related_quotation?.length === 0) {
             delete quotationData.related_quotation;
         }
-        //console.log("🎯 RAW FORM DATA:", quotationData);
+        console.log("🎯 RAW FORM DATA:", quotationData);
         const toastId = toast.loading('Creating Quotation...');
         try {
             await createQuotationMutation.mutateAsync(quotationData);
@@ -263,6 +263,7 @@ function QuotationManagement() {
     // ------------------------------------------------------------------------------------
 
     const handleEditQuotationButton = () => {
+        if (!selectedQuotationId === null) return;
         setView('edit');
     };
 

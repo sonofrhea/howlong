@@ -1,19 +1,29 @@
 import React from "react";
-import { CustomerPaymentList } from "../Constants/Types";
+import { CustomerPaymentList, CustomerPaymentTableProps } from "../Constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
 
-const CustomerPaymentTable = ({ customerPayments, onCustomerPaymentClick, onEditCustomerPayment,
-    onDeleteCustomerPayment, onSort, currentPage, totalPages, totalItems, itemsPerPage, onPageChange,
-    onItemsPerPageChange, sortConfig
+const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
+    customerPayments,
+    onCustomerPaymentClick,
+    onEditCustomerPayment,
+    onDeleteCustomerPayment,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange,
+    sortConfig
  }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -162,10 +172,13 @@ const CustomerPaymentTable = ({ customerPayments, onCustomerPaymentClick, onEdit
                                     </td>
 
                                     {/* Completed */}
-                                    <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
-                                            {customerPayment.completed ? 'Yes' : 'No'}
-                                        </div>
+                                    <td className="px-2 py-2 truncate"> 
+                                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                                customerPayment.completed
+                                                    ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                            }`}>
+                                                {customerPayment.completed ? 'Yes' : 'No'}
+                                        </span>
                                     </td>
 
                                     {/* Agent */}
@@ -176,14 +189,13 @@ const CustomerPaymentTable = ({ customerPayments, onCustomerPaymentClick, onEdit
                                     </td>
 
                                     {/* Cancelled */}
-                                    <td className="px-2 py-2 truncate">
-                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
-                                            customerPayment.cancelled
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-red-100 text-red-800'
-                                        }`}>
-                                            {customerPayment.cancelled ? 'No' : 'Yes'}
-                                        </div>
+                                    <td className="px-2 py-2 truncate"> 
+                                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                                customerPayment.cancelled
+                                                    ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
+                                            }`}>
+                                                {customerPayment.cancelled ? 'Yes' : 'No'}
+                                        </span>
                                     </td>
 
                                     {/* Actions */}

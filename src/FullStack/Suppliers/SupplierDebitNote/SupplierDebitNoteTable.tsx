@@ -1,7 +1,7 @@
 import React from "react";
 
 import { forms, buttons, layout, tables, text, utils, listTable } from "../constants/Styles";
-import { SupplierDebitNoteList } from "../constants/Types";
+import { SupplierDebitNoteList, SupplierDebitNoteTableProps } from "../constants/Types";
 
 const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString();
@@ -28,12 +28,21 @@ const formatSupplierInvoiceNumber = () => {
 
 
 
-const SupplierDebitNoteTable: React.FC<any> = ({ supplierDebitNotes, onSupplierDebitNoteClick, onEditSupplierDebitNote,
-    onDeleteSupplierDebitNote, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const SupplierDebitNoteTable: React.FC<SupplierDebitNoteTableProps> = ({
+    supplierDebitNotes,
+    onSupplierDebitNoteClick,
+    onEditSupplierDebitNote,
+    onDeleteSupplierDebitNote,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
-    // Sortable header component
     const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';

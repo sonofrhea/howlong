@@ -496,11 +496,11 @@ const handleItemsPerPageChange = (value: any) => {
                 invoicePayments={paginatedInvoicePayments}
                 onInvoicePaymentClick={handleInvoicePaymentClick}
                 onEditInvoicePayment={handleEditInvoicePayment}
-                ondeleteInvoicePayment={handleDeleteInvoicePayment}
+                onDeleteInvoicePayment={handleDeleteInvoicePayment}
                 sortConfig={sortConfig}
                 onSort={handleSort}
                 currentPage={currentPage}
-                totalInvoicePayments={totalInvoicePayments}
+                totalPages={totalInvoicePayments}
                 totalItems={sortedInvoicePayments.length}
                 itemsPerPage={itemsPerPage}
                 onPageChange={handlePageChange}

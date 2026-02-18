@@ -1,5 +1,5 @@
 import React from "react";
-import { SupplierPaymentList } from "../constants/Types";
+import { SupplierPaymentList, SupplierPaymentTableProps } from "../constants/Types";
 
 
 const formatDate = (dateString: any) => {
@@ -22,9 +22,19 @@ const formatNumber = () => {
 
 
 
-const SupplierPaymentTable: React.FC<any> = ({ supplierPayments, onSupplierPaymentClick, onEditSupplierPayment,
-    onDeleteSupplierPayment, sortConfig, onSort, currentPage, totalSupplierPaymentPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const SupplierPaymentTable: React.FC<SupplierPaymentTableProps> = ({
+    supplierPayments,
+    onSupplierPaymentClick,
+    onEditSupplierPayment,
+    onDeleteSupplierPayment,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
 }) => {
 
     // Sortable header component
@@ -248,12 +258,12 @@ const SupplierPaymentTable: React.FC<any> = ({ supplierPayments, onSupplierPayme
                                 Previous
                         </button>
                         <span className="px-2 text-xs">
-                            Page {currentPage} of {totalSupplierPaymentPages}
+                            Page {currentPage} of {totalPages}
                         </span>
                         <button 
                             className="px-3 py-1 border border-gray-300 rounded text-xs hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={() => onPageChange(currentPage + 1)}
-                            disabled={currentPage === totalSupplierPaymentPages}>
+                            disabled={currentPage === totalPages}>
                                 Next
                         </button>
                     </div>

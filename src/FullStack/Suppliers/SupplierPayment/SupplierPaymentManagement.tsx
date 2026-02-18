@@ -482,7 +482,7 @@ function SupplierPaymentManagement() {
                     sortConfig={sortConfig}
                     onSort={handleSort}
                     currentPage={currentPage}
-                    totalSupplierPaymentPages={totalSupplierPaymentPages}
+                    totalPages={totalSupplierPaymentPages}
                     totalItems={sortedSupplierPayments.length}
                     itemsPerPage={itemsPerPage}
                     onPageChange={handlePageChange}

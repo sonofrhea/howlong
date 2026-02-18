@@ -1,5 +1,5 @@
 import React from "react";
-import { SupplierProfileList } from "../constants/Types";
+import { SupplierProfileList, SupplierProfileTableProps } from "../constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -17,9 +17,19 @@ const formatSupplierNumber = () => {
 
 
 
-const SupplierProfileTable: React.FC<any> = ({ supplierProfiles, onSupplierProfileClick, onEditSupplierProfile,
-    onDeleteSupplierProfile, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const SupplierProfileTable: React.FC<SupplierProfileTableProps> = ({
+    supplierProfiles,
+    onSupplierProfileClick,
+    onEditSupplierProfile,
+    onDeleteSupplierProfile,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
     // Sortable header component

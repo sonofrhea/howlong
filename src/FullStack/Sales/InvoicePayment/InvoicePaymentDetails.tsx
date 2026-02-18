@@ -108,25 +108,25 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                     </div>
 
                     <div>
-                        <p className="text-xs text-gray-500 mt-1">Details</p>
+                        <a className="text-xs text-gray-500 mt-1">Payment Details</a>
                     </div>
                     
                     <div className="flex gap-3">
                         <button 
                             onClick={() => onEdit(invoicePayment.invoice_payment_code)}
                             
-                            className={buttons.editButtonGreen}
+                            className="bg-white border cursor-pointer border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
                             Edit
                         </button>
+                        <button
+                            onClick={() => setIsJournalEntryOpen(true)}
+                            className="bg-purple-800 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                        >
+                            + Create Journal Entry
+                        </button>
                     </div>
-                    <button
-                        onClick={() => setIsJournalEntryOpen(true)}
-                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
-                    >
-                        + Create Journal Entry
-                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -165,7 +165,7 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                         
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Account received in</p>
-                            {invoicePayment.account_received_in?.account_code || 'N/A'} ({invoicePayment.account_received_in?.account_name || 'N/A'})
+                            {invoicePayment.account_received_in?.account_code || 'N/A'} ({invoicePayment.account_received_in?.account_name || 'N/A'}) - {invoicePayment.account_received_in?.account_type || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>

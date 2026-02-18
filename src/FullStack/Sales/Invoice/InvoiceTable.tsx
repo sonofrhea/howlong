@@ -1,5 +1,5 @@
 import React from "react";
-import { InvoiceList } from "../Constants/Types";
+import { InvoiceList, InvoiceTableProps } from "../Constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -27,9 +27,19 @@ const formatNumber = () => {
 
 
 
-const InvoiceTable: React.FC<any> = ({ invoices, onInvoiceClick, onEditInvoice, onDeleteInvoice,
-    onSort, currentPage, totalPages, totalItems, itemsPerPage, onPageChange, 
-    onItemsPerPageChange, sortConfig
+const InvoiceTable: React.FC<InvoiceTableProps> = ({
+    invoices,
+    onInvoiceClick,
+    onEditInvoice,
+    onDeleteInvoice,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange, 
+    onItemsPerPageChange,
+    sortConfig
  }) => {
 
     // Sortable header component
@@ -192,14 +202,13 @@ const InvoiceTable: React.FC<any> = ({ invoices, onInvoiceClick, onEditInvoice, 
                                     </td>
 
                                     {/* Cancelled */}
-                                    <td className="px-2 py-2 truncate" >
-                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
-                                            invoice.cancelled
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-red-100 text-red-800'
-                                        }`}>
-                                            {invoice.cancelled ? 'No' : 'Yes'}
-                                        </div>
+                                    <td className="px-2 py-2 truncate" > 
+                                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                                invoice.cancelled
+                                                    ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                                            }`}>
+                                                {invoice.cancelled ? 'Yes' : 'No'}
+                                        </span>
                                     </td>
 
                                     {/* Agent */}
