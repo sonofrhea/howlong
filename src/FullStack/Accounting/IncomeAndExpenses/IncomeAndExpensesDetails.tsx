@@ -26,6 +26,7 @@ const IncomeAndExpensesDetails: React.FC<IncomeAndExpensesDetailsProps> = ({
     isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const incomeAndExpenseId = incomeAndExpense?.reference_number;
 
 
     if (isLoading) {
@@ -80,7 +81,7 @@ const IncomeAndExpensesDetails: React.FC<IncomeAndExpensesDetailsProps> = ({
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={() => onEdit(incomeAndExpense.reference_number)}
+                            onClick={() => onEdit(incomeAndExpenseId)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />

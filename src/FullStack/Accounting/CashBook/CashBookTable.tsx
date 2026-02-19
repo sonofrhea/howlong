@@ -1,5 +1,5 @@
 import React from "react";
-import { CashBookList } from "../Constants/Types";
+import { CashBookList, CashBookTableProps } from "../Constants/Types";
 
 
 const formatDate = (dateString: any) => {
@@ -14,9 +14,19 @@ const formatNumber = () => {
 
 
 
-const CashBookTable: React.FC<any> = ({ cashBooks, onCashBookClick, onEditCashBook,
-    onDeleteCashBook, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const CashBookTable: React.FC<CashBookTableProps> = ({
+    cashBooks,
+    onCashBookClick,
+    onEditCashBook,
+    onDeleteCashBook,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
 }) => {
 
     // Sortable header component
@@ -209,7 +219,7 @@ const CashBookTable: React.FC<any> = ({ cashBooks, onCashBookClick, onEditCashBo
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${cashBook.reference_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${cashBook.reference_number}?`)) {
                                                         onDeleteCashBook(cashBookId);
                                                     }
                                                 }}

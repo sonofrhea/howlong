@@ -236,6 +236,13 @@ function PaymentVoucherManagement() {
     };
     // ------------------------------------------------------------------------------------
 
+    const handleBackToPaymentVoucherDetails = (paymentVoucherId: number) => {
+        setSelectedPaymentVoucherId(paymentVoucherId);
+        setView('details');
+    };
+    // ------------------------------------------------------------------------------------
+
+
     const handleEditPaymentVoucherButton = () => {
         setView('edit');
     };
@@ -537,7 +544,7 @@ function PaymentVoucherManagement() {
                 paymentVoucher={selectedPaymentVoucher}
                 onSubmit={handleUpdatePaymentVoucher}
                 isSubmitting={updatePaymentVoucherMutation.isPending}
-                onCancel={handleBackToPaymentVouchersList}
+                onCancel={handleBackToPaymentVoucherDetails}
                 suppliers={suppliers}
                 currencies={currencies}
                 accounts={accounts}

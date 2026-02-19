@@ -24,11 +24,16 @@ const IncomeAndExpensesEdit: React.FC<IncomeAndExpensesProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const incomeAndExpenseId = incomeAndExpense?.reference_number;
 
     const { register, setValue, handleSubmit, watch, control, 
         reset, formState: { errors } } = useForm<IncomeAndExpensesInputs>({
             defaultValues: incomeAndExpense
         });
+            
+    React.useEffect(() => {
+        reset(incomeAndExpense);
+    }, [incomeAndExpense, reset]);
 
     const onAccountChange = incomeExpensesAccountHandler(accounts, setValue)
     
@@ -248,7 +253,7 @@ const IncomeAndExpensesEdit: React.FC<IncomeAndExpensesProps> = ({
                 </button>
                 <button
                     type="button"
-                    onClick={onCancel}
+                    onClick={() => onCancel(incomeAndExpenseId)}
                     className={buttons.secondary}
                 >
                     Cancel

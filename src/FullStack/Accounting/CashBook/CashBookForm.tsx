@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
-import { CashBookInputs } from "../Constants/Types";
+import { CashBookFormProps, CashBookInputs } from "../Constants/Types";
 import { cashBookAccountHandler } from "../../handlers";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { CurrencyInterface } from "../../Core/constants/Types";
@@ -24,7 +24,14 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const CashBookForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, currencies, accounts, agents }) => {
+const CashBookForm: React.FC<CashBookFormProps> = ({
+    onSubmit,
+    onCancel,
+    isSubmitting,
+    currencies,
+    accounts,
+    agents
+}) => {
 
 
     const { register, formState: { errors }, setValue, control, 

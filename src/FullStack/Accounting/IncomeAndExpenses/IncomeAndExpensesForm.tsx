@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 
-import { IncomeAndExpensesInputs } from "../Constants/Types";
+import { IncomeAndExpensesFormProps, IncomeAndExpensesInputs } from "../Constants/Types";
 import { incomeExpensesAccountHandler } from "../../handlers";
 import { useMatch } from "react-router-dom";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
@@ -12,7 +12,13 @@ import { buttons, layout, utils } from "../Constants/Styles";
 
 
 
-const IncomeAndExpensesForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, currencies, accounts }) => {
+const IncomeAndExpensesForm: React.FC<IncomeAndExpensesFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    currencies,
+    accounts
+}) => {
 
     const { register, setValue, handleSubmit, watch, control, 
         formState: { errors } } = useForm<IncomeAndExpensesInputs>({

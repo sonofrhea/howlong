@@ -1,5 +1,5 @@
 import React from "react";
-import { IncomeAndExpensesList } from "../Constants/Types";
+import { IncomeAndExpensesList, IncomeAndExpensesListProps } from "../Constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -18,9 +18,19 @@ const formatNumber = () => {
 
 
 
-const IncomeAndExpensesTable: React.FC<any> = ({ incomeAndExpenses, onIncomeAndExpenseClick, onEditIncomeAndExpense,
-    onDeleteIncomeAndExpense, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const IncomeAndExpensesTable: React.FC<IncomeAndExpensesListProps> = ({
+    incomeAndExpenses,
+    onIncomeAndExpenseClick,
+    onEditIncomeAndExpense,
+    onDeleteIncomeAndExpense,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
 }) => {
 
     // Sortable header component
@@ -123,7 +133,7 @@ const IncomeAndExpensesTable: React.FC<any> = ({ incomeAndExpenses, onIncomeAndE
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
                         {incomeAndExpenses.map((incomeAndExpense: IncomeAndExpensesList) => {
-                            const incomeAndExpenseId = incomeAndExpense.reference_number;
+                            const incomeAndExpenseId = incomeAndExpense?.reference_number;
 
                             return (
                                 <tr key={incomeAndExpense.reference_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
@@ -203,7 +213,7 @@ const IncomeAndExpensesTable: React.FC<any> = ({ incomeAndExpenses, onIncomeAndE
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${incomeAndExpense.reference_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${incomeAndExpense.reference_number}?`)) {
                                                         onDeleteIncomeAndExpense(incomeAndExpenseId);
                                                     }
                                                 }}

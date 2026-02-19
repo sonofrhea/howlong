@@ -2,6 +2,7 @@ import React from "react";
 import { buttons, forms, labelStyles, layout, spinningStyles, tables, text } from "../Constants/Styles";
 import { SquarePen } from "lucide-react";
 import { details } from "../../Core/constants/Styles";
+import { JournalEntryDetailsProps } from "../Constants/Types";
 
 
 
@@ -19,7 +20,13 @@ const formatJournalNumber = () => {
 
 
 
-const JournalEntryDetails: React.FC<any> = ({ journalEntry, isLoading, onBack, onEdit, onCancel }) => {
+const JournalEntryDetails: React.FC<JournalEntryDetailsProps> = ({
+    journalEntry,
+    isLoading,
+    onBack,
+    onEdit
+}) => {
+    const journalEntryId = journalEntry?.journal_number;
 
 
 
@@ -73,7 +80,7 @@ const JournalEntryDetails: React.FC<any> = ({ journalEntry, isLoading, onBack, o
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit(journalEntry.journal_number)}
+                            onClick={() => onEdit(journalEntryId)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
@@ -86,18 +93,18 @@ const JournalEntryDetails: React.FC<any> = ({ journalEntry, isLoading, onBack, o
 
                 <div>
                     <div className="grid grid-cols-3 gap-6">
-                        <p>
-                            <p className={details.extraSmallUppercase}>JOURNAL No</p>
+                        <div>
+                            <a className={details.extraSmallUppercase}>JOURNAL No</a><br />
                             {formatJournalNumber()}{journalEntry.journal_number}
-                        </p>
+                        </div>
 
-                        <p>
-                            <p className={details.extraSmallUppercase}>Date</p>
+                        <div>
+                            <a className={details.extraSmallUppercase}>Date</a><br />
                             {formatDate(journalEntry.date)}
-                        </p>
+                        </div>
 
-                        <p>
-                            <p className={details.extraSmallUppercase}>Cancelled</p>
+                        <div>
+                            <a className={details.extraSmallUppercase}>Cancelled</a><br />
                             <p 
                                 className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                                             journalEntry.cancelled
@@ -106,11 +113,11 @@ const JournalEntryDetails: React.FC<any> = ({ journalEntry, isLoading, onBack, o
                             }`}>
                                 {journalEntry.cancelled ? 'Yes' : 'No'}
                             </p>
-                        </p>
+                        </div>
                     </div>
 
                     <div className="m-10">
-                        <p className={details.extraSmallUppercase}>Description</p>
+                        <a className={details.extraSmallUppercase}>Description</a><br />
                         {journalEntry.description}
                     </div>
 
@@ -179,10 +186,10 @@ const JournalEntryDetails: React.FC<any> = ({ journalEntry, isLoading, onBack, o
 
                 <hr className="my-6 border-gray-200" />
 
-                <p>
+                <div>
                     <p className={details.extraSmallUppercase}>Created By</p>
                     {journalEntry.created_by}
-                </p>
+                </div>
                 <hr className="my-6 border-gray-200" />
             </div>
         </div>

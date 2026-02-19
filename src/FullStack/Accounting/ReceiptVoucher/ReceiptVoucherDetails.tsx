@@ -38,6 +38,7 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const receiptVoucherId = receiptVoucher.reference_number;
 
 
     
@@ -91,7 +92,7 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={() => onEdit(receiptVoucher.reference_number)}
+                            onClick={() => onEdit(receiptVoucherId)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} 

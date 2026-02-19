@@ -174,7 +174,16 @@ function JournalEntryManagement() {
         setSelectedJournalEntryId(null);
     };
 
+
 // ------------------------------------------------------------------------------------
+
+    const handleBackToJournalEntryDetails = (journalEntryId: number) => {
+        setSelectedJournalEntryId(journalEntryId);
+        setView('details');
+    };
+
+// ------------------------------------------------------------------------------------
+
 
     const handleEditJournalEntryButton = () => {
         setView('edit');
@@ -208,7 +217,7 @@ function JournalEntryManagement() {
 
 
     // Sort handler
-    const handleSort = (key: keyof JournalEntryList) => {
+    const handleSort = (key: any) => {
         setSortConfig(current => ({
             key,
             direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'
@@ -452,7 +461,6 @@ function JournalEntryManagement() {
                 isLoading={isLoadingJournalEntry}
                 onBack={handleBackToJournalEntriesList}
                 onEdit={handleEditJournalEntryButton}
-                onCancel={handleBackToJournalEntriesList}
             />
             )}
 
@@ -461,7 +469,7 @@ function JournalEntryManagement() {
                 journalEntry={selectedJournalEntry}
                 onSubmit={handleUpdateJournalEntry}
                 isSubmitting={updateJournalEntryMutation.isPending}
-                onCancel={handleBackToJournalEntriesList}
+                onCancel={handleBackToJournalEntryDetails}
                 accounts={accounts}
             />
             )}

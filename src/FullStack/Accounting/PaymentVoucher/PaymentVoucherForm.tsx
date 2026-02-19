@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 
-import { PaymentVoucherInputs } from "../Constants/Types";
+import { PaymentVoucherFormProps, PaymentVoucherInputs } from "../Constants/Types";
 
 import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
 
@@ -43,8 +43,16 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const PaymentVoucherForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, suppliers, 
-    currencies, accounts, agents, projects }) => {
+const PaymentVoucherForm: React.FC<PaymentVoucherFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    suppliers, 
+    currencies,
+    accounts,
+    agents,
+    projects
+}) => {
 
         const { register, setValue, formState: { errors }, 
         handleSubmit, control, watch } = useForm<PaymentVoucherInputs>({

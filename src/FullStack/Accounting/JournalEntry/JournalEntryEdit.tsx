@@ -33,6 +33,7 @@ const JournalEntryEdit: React.FC<JournalHeaderProps> = ({
     onCancel,
     accounts
 }) => {
+    const journalEntryId = journalEntry?.journal_number;
                                     
     const onAccountSelect = useMemo(() => 
         accounts.map((account: ControlAccountInterface) => (
@@ -151,7 +152,6 @@ const JournalEntryEdit: React.FC<JournalHeaderProps> = ({
                             </thead>
                             <tbody className={tables.body}>
                                 {fields.length > 0 ? fields.map((field, index) => {
-
                                     const onAccountChange = journalEntryAccountHandler(accounts, setValue, index);
 
                                     return(
@@ -329,7 +329,7 @@ const JournalEntryEdit: React.FC<JournalHeaderProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(journalEntryId)}
                             className={buttons.secondary}
                         >
                             Cancel

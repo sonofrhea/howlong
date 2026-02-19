@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 
-import { ReceiptVoucherInputs } from "../Constants/Types";
+import { ReceiptVoucherFormProps, ReceiptVoucherInputs } from "../Constants/Types";
 
 
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
@@ -39,8 +39,16 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const ReceiptVoucherForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
-    customers, currencies, accounts, agents, projects }) => {
+const ReceiptVoucherForm: React.FC<ReceiptVoucherFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel, 
+    customers,
+    currencies,
+    accounts,
+    agents,
+    projects
+}) => {
 
         const { register, setValue, control, watch, 
             handleSubmit, formState: { errors } } = useForm<ReceiptVoucherInputs>({

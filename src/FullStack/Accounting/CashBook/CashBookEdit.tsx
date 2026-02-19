@@ -10,6 +10,8 @@ import JournalEntryModal from "../JournalEntry/JournalEntryModal";
 
 
 
+
+
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`
 };
@@ -26,6 +28,7 @@ const CashBookEdit: React.FC<CashBookProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const cashBookId = cashBook?.reference_number;
 
 
     const { register, formState: { errors }, setValue, control, 
@@ -272,7 +275,7 @@ const CashBookEdit: React.FC<CashBookProps> = ({
                 </button>
                 <button
                     type="button"
-                    onClick={onCancel}
+                    onClick={() => onCancel(cashBookId)}
                     className={buttons.secondary}
                 >
                     Cancel

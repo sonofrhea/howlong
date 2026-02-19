@@ -1,5 +1,5 @@
 import React from "react";
-import { PaymentVoucherList } from "../Constants/Types";
+import { PaymentVoucherList, PaymentVoucherTableProps } from "../Constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -14,9 +14,19 @@ const formatNumber = () => {
 
 
 
-const PaymentVoucherTable: React.FC<any> = ({ paymentVouchers, onPaymentVoucherClick, onEditPaymentVoucher,
-    onDeletePaymentVoucher, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
+    paymentVouchers,
+    onPaymentVoucherClick,
+    onEditPaymentVoucher,
+    onDeletePaymentVoucher,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
 }) => {
 
     // Sortable header component
@@ -120,7 +130,7 @@ const PaymentVoucherTable: React.FC<any> = ({ paymentVouchers, onPaymentVoucherC
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
                         {paymentVouchers.map((paymentVoucher: PaymentVoucherList) => {
-                            const paymentVoucherId = paymentVoucher.reference_number;
+                            const paymentVoucherId = paymentVoucher?.reference_number;
 
                             return (
                                 <tr key={paymentVoucher.reference_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 

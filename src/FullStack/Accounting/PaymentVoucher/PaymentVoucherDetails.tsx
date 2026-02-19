@@ -40,6 +40,7 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const paymentVoucherId = paymentVoucher?.reference_number;
 
 
     
@@ -93,7 +94,7 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={() => onEdit(paymentVoucher.reference_number)}
+                            onClick={() => onEdit(paymentVoucherId)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} 

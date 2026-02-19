@@ -1,5 +1,5 @@
 import React from "react";
-import { JournalEntryList } from "../Constants/Types";
+import { JournalEntryList, JournalEntryListProps } from "../Constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -15,9 +15,19 @@ const formatJournalNumber = () => {
 
 
 
-const JournalEntryTable: React.FC<any> = ({ journalEntries, onJournalEntryClick, onEditJournalEntry, 
-    onDeleteJournalEntry, sortConfig, onSort, currentPage, totalPages, 
-    totalItems, itemsPerPage, onPageChange, onItemsPerPageChange }) => {
+const JournalEntryTable: React.FC<JournalEntryListProps> = ({
+    journalEntries,
+    onJournalEntryClick,
+    onEditJournalEntry, 
+    onDeleteJournalEntry,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages, 
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange }) => {
 
 
         const SortableHeader = ({ label, sortKey }: {label:string, sortKey:string}) => {

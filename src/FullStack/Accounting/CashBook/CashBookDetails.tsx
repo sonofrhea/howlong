@@ -1,5 +1,9 @@
-import React from "react";
-import { spinningStyles } from "../Constants/Styles";
+import React, { useState } from "react";
+import { buttons, spinningStyles } from "../Constants/Styles";
+import { CashBookDetailsProps } from "../Constants/Types";
+import { SquarePen } from "lucide-react";
+
+import JournalEntryModal from "../JournalEntry/JournalEntryModal";
 
 
 const formatDate = (dateString: string) => {
@@ -12,7 +16,17 @@ const formatNumber = () => {
 }
 
 
-const CashBookDetails: React.FC<any> = ({ cashBook, isLoading, onBack, onEdit }) => {
+const CashBookDetails: React.FC<CashBookDetailsProps> = ({
+    cashBook,
+    isLoading,
+    onBack,
+    onEdit,
+    accounts,
+    onCreateJournalEntry,
+    isCreatingJournalEntry
+}) => {
+    const cashBookId = cashBook?.reference_number;
+    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
     if (isLoading) {
         return(
@@ -52,7 +66,7 @@ const CashBookDetails: React.FC<any> = ({ cashBook, isLoading, onBack, onEdit })
             <div className="max-w-9xl mx-auto px-6 py-10">
 
                 {/* <!-- Transaction Type & Date --> */}
-                <div >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
                     <div className="flex items-center gap-3 mb-8">
                         <span className="inline-flex items-center px-3 py-1.5 bg-emerald-100 text-emerald-800 text-sm font-semibold rounded-full">
                             {cashBook.transaction_type}
@@ -62,7 +76,25 @@ const CashBookDetails: React.FC<any> = ({ cashBook, isLoading, onBack, onEdit })
                             {formatDate(cashBook.date)}
                         </span>
                     </div>
+                    <div className="flex gap-3">
+                        <button 
+                            onClick={() => onEdit(cashBookId)}
+                            className={buttons.editButtonGreen}
+                        >
+                            <SquarePen size={20} strokeWidth={1.5} 
+                            className="cursor-pointer"/>
+                            Edit
+                        </button>
+
+                        <button
+                            onClick={() => setIsJournalEntryOpen(true)}
+                            className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                        >
+                            + Create Journal Entry
+                        </button>
+                    </div>
                 </div>
+                                    
 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
 
@@ -195,6 +227,14 @@ const CashBookDetails: React.FC<any> = ({ cashBook, isLoading, onBack, onEdit })
                     </div>
                 </div>
             </div>
+
+            <JournalEntryModal
+                isOpen={isJournalEntryOpen}
+                onClose={() => setIsJournalEntryOpen(false)}
+                onCreate={onCreateJournalEntry}
+                isSubmitting={isCreatingJournalEntry}
+                accounts={accounts}
+            />
         </div>
     );
 };

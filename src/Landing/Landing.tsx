@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import logo from "../assets/logo.svg";
 import logoWhite from "../assets/logoWhite.svg";
-import Ruler from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 
 import { ArrowRight } from "lucide-react";
@@ -680,7 +679,7 @@ export default function ConstructionERPLanding() {
                     .blue-box {
                         left: 10%;
                         right: 10%;
-                        font-size: 1.1vw;
+                        font-size: 1.06vw;
                         max-width: 4000px;
                         font-weight: 500;
                         font-family: 'Montserrat';
@@ -1126,14 +1125,16 @@ export default function ConstructionERPLanding() {
             <nav>
             <div className="header-logo">
                 <div className="logo-photo"> 
-                    <div className="flex items-center space-x-3">
-                        <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
-                        <div>
-                            <h1 className="logo-text-lower text-xl font-bold text-gray-900">Urusentra</h1>
+                    <a href='/'>
+                        <div className="flex items-center space-x-3">
+                            <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            <div>
+                                <h1 className="logo-text-lower text-xl font-bold text-gray-900">Urusentra</h1>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div className="nav-links">
@@ -1150,19 +1151,19 @@ export default function ConstructionERPLanding() {
                             <a href="#estimation">Customer Management</a>
                         </div>
                         <div className="dropdown-menu-item">
-                            <a href="#materials">Project Management</a>
+                            <a href="#estimation">Project Management</a>
                         </div>
                         <div className="dropdown-menu-item">
-                            <a href="#equipment">Accounting & Finance</a>
+                            <a href="#estimation">Accounting & Finance</a>
                         </div>
                             <div className="dropdown-menu-item">
-                        <a href="#quality">Sales Management</a>
+                        <a href="#estimation">Sales Management</a>
                         </div>
                         <div className="dropdown-menu-item">
-                            <a href="#analytics">Analytics & Reporting</a>
+                            <a href="#estimation">Analytics & Reporting</a>
                         </div>
                         <div className="dropdown-menu-item">
-                            <a href="#analytics">Suppliers Management</a>
+                            <a href="#estimation">Suppliers Management</a>
                         </div>
                     </div>
                 </div>
@@ -1175,16 +1176,16 @@ export default function ConstructionERPLanding() {
             </nav>
 
             <div className="headline">
-            Manage Easier.<br />
-            <span className='text-[#002c9c]'>Build Faster & Better.</span>
+            Manage Your SME.<br />
+            <span className='text-[#002c9c] text-5xl tracking-wide'>Find Suppliers Worldwide.</span>
             
             <p className='subheadline'>
-                URUSENTRA is an all-in-one ERP software and marketplace engineered specifically with building professionals in mind
+                URUSENTRA is an all-in-one company manager and marketplace engineered specifically with building professionals in mind.
             </p>
 
             <div className="cta-group-header">
                 <a href="#demo" className="cta-primary">Try It Out</a>
-                <a href="#features" className="cta-secondary">Learn More</a>
+                <a href="#estimation" className="cta-secondary">Learn More</a>
             </div>
             <div>
                 <button className="cta-marketplace" onClick={() => navigate("/marketplace")}>
@@ -1197,7 +1198,9 @@ export default function ConstructionERPLanding() {
 
 
             <div className="blue-box">
-                <span>Trusted by accountants. Designed for Small and Medium Businesses in the building industry to improve management and productivity</span>
+                <span>
+                    Cut costs and production time by finding suppliers with the best product and best prices worldwide and manage your business all in one place.
+                </span>
             </div>
         </section>
 
@@ -1207,14 +1210,30 @@ export default function ConstructionERPLanding() {
                 <span className="section-tag">Complete Solution</span>
                 <h2 className="section-title-1">
                     <p>Everything You Need To</p>
-                    <p>Manage Easier</p>
+                    <p>Deliver Faster</p>
                 </h2>
-                <p className="section-description">
-                    From estimation to completion, our comprehensive ERP system covers every aspect of your building business.
+                <p id="estimation" className="section-description">
+                    From estimation to material supply to faster completion, our comprehensive ERP system and marketplace covers every aspect of your building business.
                 </p>
             </div>
 
             <div className="feature-cards">
+
+            <div className="feature-card">
+                <div className="feature-icon">
+                    <svg width="42" height="42" viewBox="0 0 120 120">
+                        <rect x="25" y="20" width="70" height="90" rx="6" fill="#4A90E2"/>
+                        <rect x="35" y="10" width="50" height="20" rx="5" fill="#2D6FB8"/>
+                        <polyline points="40,55 55,70 85,40" fill="none" stroke="#FFFFFF" strokeWidth="8"/>
+                    </svg>
+
+                </div>
+                <h3 className="feature-title">SUPPLIER CONNECTION</h3>
+                <p className="feature-description">
+                    Connect with suppliers worldwide through listings in our marketplace and get to see available products and materials. Get instant restock of products by eliminating time and cost of production by getting to see hundreds of suppliers and their availability with the most competitive prices all in one place.
+                </p>
+            </div>
+
             <div className="feature-card">
                 <div className="feature-icon">
                     <svg width="42" height="24" viewBox="0 0 210 120" xmlns="http://www.w3.org/2000/svg">
@@ -1330,22 +1349,7 @@ export default function ConstructionERPLanding() {
                 </div>
                 <h3 className="feature-title">ACCOUNTING & FINANCE</h3>
                 <p className="feature-description">
-                    Generate all important financial accounting reports from records all used by accountants and bookkeepers. Get instant insights into company performance, profitability, and productivity. Make informed decisions.
-                </p>
-            </div>
-
-            <div className="feature-card">
-                <div className="feature-icon">
-                    <svg width="42" height="42" viewBox="0 0 120 120">
-                        <rect x="25" y="20" width="70" height="90" rx="6" fill="#4A90E2"/>
-                        <rect x="35" y="10" width="50" height="20" rx="5" fill="#2D6FB8"/>
-                        <polyline points="40,55 55,70 85,40" fill="none" stroke="#FFFFFF" strokeWidth="8"/>
-                    </svg>
-
-                </div>
-                <h3 className="feature-title">SUPPLIER RELATIONSHIP</h3>
-                <p className="feature-description">
-                    Connect with suppliers across country through listings and get to see available products and materials. Get instant restock of products by eliminating time looking for suppliers by getting to see hundreds of suppliers and their available products all in one place.
+                    Generate all important financial accounting reports and records all needed by accountants and bookkeepers. Get instant insights into company performance, profitability, and productivity. Make informed decisions.
                 </p>
             </div>
 
@@ -1364,117 +1368,122 @@ export default function ConstructionERPLanding() {
 
                     </svg>
                 </div>
-                <h3 className="feature-title">ANALYTICS & REPORTING</h3>
+                <h3 className="feature-title">ANALYTICS & CHARTS</h3>
                 <p className="feature-description">
-                Get instant insights into company performance, financial performance, project performance, profitability, and productivity. Make informed decisions.
+                    Get charted insights into company performance, financial performance, project performance, profitability, and productivity visually which helps make informed decisions.
                 </p>
             </div>
             </div>
         </section>
+        
 
-        <div className="bg-[#001a5e] border-y border-white/10 py-3 overflow-hidden sticky top-0 z-50">
-            <div className="animate-marquee whitespace-nowrap flex items-center">
-                {Array.from({length: 4}).map((_, i) => (
-                    <React.Fragment key={i}>
-                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-emerald-400">Steel Index / +1.2%</span>
-                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-yellow-500">Lumber / $540.00/mbf</span>
-                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-rose-500">Nails / -0.4%</span>
-                        <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-yellow-500">Wood / STABLE</span>
-                    </React.Fragment>
-                ))}
-            </div>
-        </div>
-
-        <section className="relative bg-[#002c9c] text-white py-32 overflow-hidden">
-            {/* Background Geometry - Stays behind everything */}
-            <div className="absolute inset-0 opacity-5 pointer-events-none">
-                <svg width="100%" height="100%">
-                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5"/>
-                    </pattern>
-                    <rect width="100%" height="100%" fill="url(#grid)" />
-                </svg>
-            </div>
-
-            <div className="absolute inset-0 pointer-events-none flex items-start overflow-hidden">
-                <div className="w-full opacity-50 select-none">
-                    <div className="animate-marquee whitespace-nowrap flex items-center">
-                        {Array.from({length: 4}).map((_, i) => (
-                            <span key={i} className="text-[5vw] font-black uppercase tracking-tighter text-white mx-12 italic">
-                                DISCOUNTED SUPPLIERS PRICES • 
-                            </span>
-                        ))}
-                    </div>
+        <a href='/marketplace'>
+            <div className="bg-[#001a5e] border-y border-white/10 py-3 overflow-hidden sticky top-0 z-50">
+                <div className="animate-marquee whitespace-nowrap flex items-center">
+                    {Array.from({length: 4}).map((_, i) => (
+                        <React.Fragment key={i}>
+                            <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-emerald-400">Steel Index / +1.2%</span>
+                            <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-yellow-500">Lumber / $540.00/mbf</span>
+                            <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-rose-500">Nails / -0.4%</span>
+                            <span className="mx-12 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-yellow-500">Wood / STABLE</span>
+                        </React.Fragment>
+                    ))}
                 </div>
             </div>
+        
+        
+            <section className="relative bg-[#002c9c] text-white py-32 overflow-hidden">
+                {/* Background Geometry - Stays behind everything */}
+                <div className="absolute inset-0 opacity-5 pointer-events-none">
+                    <svg width="100%" height="100%">
+                        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5"/>
+                        </pattern>
+                        <rect width="100%" height="100%" fill="url(#grid)" />
+                    </svg>
+                </div>
 
-            <div className="absolute inset-0 pointer-events-none flex items-end overflow-hidden">
-                <div className="w-full opacity-50 select-none">
-                    <div className="animate-marquee whitespace-nowrap flex items-center">
-                        {Array.from({length: 4}).map((_, i) => (
-                            <span key={i} 
-                                className="text-[5vw] font-black uppercase tracking-tighter  mx-12 italic text-transparent"
-                                style={{ WebkitTextStroke: '2px white' }}
-                            >
-                                FIND BUILDING SUPPLIERS • WORLDWIDE • 
-                            </span>
-                        ))}
+                <div className="absolute inset-0 pointer-events-none flex items-start overflow-hidden">
+                    <div className="w-full opacity-50 select-none">
+                        <div className="animate-marquee whitespace-nowrap flex items-center">
+                            {Array.from({length: 4}).map((_, i) => (
+                                <span key={i} className="text-[5vw] font-black uppercase tracking-tighter text-white mx-12 italic">
+                                    DISCOUNTED SUPPLIERS PRICES • 
+                                </span>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="absolute inset-0 pointer-events-none flex items-center overflow-hidden">
-                <div className="w-full opacity-50 select-none">
-                    <div className="animate-marquee whitespace-nowrap flex items-center gap-32">
-                        {Array.from({length: 4}).map((_, i) => (
-                            <span key={i} 
-                                className="text-[2vw] font-black tracking-tighter italic text-white">
-                                urusentra.com/marketplace <span className="gap-32 opacity-50">•</span>
-                            </span>
-                        ))}
+                <div className="absolute inset-0 pointer-events-none flex items-end overflow-hidden">
+                    <div className="w-full opacity-50 select-none">
+                        <div className="animate-marquee whitespace-nowrap flex items-center">
+                            {Array.from({length: 4}).map((_, i) => (
+                                <span key={i} 
+                                    className="text-[5vw] font-black uppercase tracking-tighter  mx-12 italic text-transparent"
+                                    style={{ WebkitTextStroke: '2px white' }}
+                                >
+                                    FIND BUILDING SUPPLIERS • WORLDWIDE • 
+                                </span>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            
+                <div className="absolute inset-0 pointer-events-none flex items-center overflow-hidden">
+                    <div className="w-full opacity-50 select-none">
+                        <div className="animate-marquee whitespace-nowrap flex items-center gap-32">
+                            {Array.from({length: 4}).map((_, i) => (
+                                <span key={i} 
+                                    className="text-[2vw] font-black tracking-tighter italic text-white">
+                                    urusentra.com/marketplace <span className="gap-32 opacity-50">•</span>
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
 
-            
+                
 
-            <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative">
-                <div className="space-y-48">
-                    <div id="estimation" className="group grid grid-cols-1 lg:grid-cols-12 gap-12 items-center scroll-mt-40">
-                        
-                        <div className="lg:col-span-5 relative flex justify-center">
-                            <div className="w-64 h-64 border-2 border-dashed border-white/20 rounded-full flex items-center justify-center animate-spin-slow">
-                                <div className="w-48 h-48 border border-emerald-400/50 rounded-full flex items-center justify-center">
-                                    <div className="w-4 h-4 bg-white animate-ping" />
+                
+
+                <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative">
+                    <div className="space-y-48">
+                        <div className="group grid grid-cols-1 lg:grid-cols-12 gap-12 items-center scroll-mt-40">
+                            
+                            <div className="lg:col-span-5 relative flex justify-center">
+                                <div className="w-64 h-64 border-2 border-dashed border-white/20 rounded-full flex items-center justify-center animate-spin-slow">
+                                    <div className="w-48 h-48 border border-emerald-400/50 rounded-full flex items-center justify-center">
+                                        <div className="w-4 h-4 bg-white animate-ping" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        
 
         {/* FULL WIDTH TICKER AT BOTTOM */}
-        <div id="suppliers" className="bg-emerald-400 py-6 overflow-hidden border-t-4 border-black">
-            <div className="animate-marquee whitespace-nowrap flex items-center font-black text-2xl text-[#002c9c] uppercase tracking-tighter">
-                {Array.from({length: 8}).map((_, i) => (
-                    <span key={i} className="mx-10 flex items-center gap-4">
-                        5000+ Verified Suppliers Connected <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
-                        CHINA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
-                        SOUTH AFRICA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
-                        INDONESIA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
-                        MALAYSIA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
-                    </span>
-                ))}
+            <div id="suppliers" className="bg-emerald-400 py-6 overflow-hidden border-t-4 border-black">
+                <div className="animate-marquee whitespace-nowrap flex items-center font-black text-2xl text-[#002c9c] uppercase tracking-tighter">
+                    {Array.from({length: 8}).map((_, i) => (
+                        <span key={i} className="mx-10 flex items-center gap-4">
+                            5000+ Verified Suppliers Connected <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
+                            CHINA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
+                            SOUTH AFRICA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
+                            INDONESIA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
+                            MALAYSIA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/> 
+                        </span>
+                    ))}
+                </div>
             </div>
-        </div>
+        </a>
         
         <section className="testimonials-section">
             <div className="section-header">
             <span className="section-tag">Client Success</span>
-            <h2 className="section-title">How does this work?</h2>
+            <h2 className="section-title">A building company's joy!</h2>
             <p className="section-description">
                 See how building companies are transforming their operations with our ERP platform.
             </p>
@@ -1525,7 +1534,7 @@ export default function ConstructionERPLanding() {
         {/* CTA SECTION */}
         <section id="demo" className="cta-section">
             <div className="section-header">
-            <h2 className="section-title">Ready to Transform Your SME?</h2>
+            <h2 className="section-title">Ready to Transform Your SME to a higher level?</h2>
             <p className="section-description">
                 Join hundreds of building companies already building smarter with our platform. <br />
                 Explore our platform with out 14-day trial today—no credit card required.
@@ -1589,4 +1598,4 @@ export default function ConstructionERPLanding() {
         </footer>
         </div>
     );
-}
+};

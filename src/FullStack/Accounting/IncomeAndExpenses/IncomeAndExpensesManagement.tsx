@@ -217,6 +217,13 @@ function IncomeAndExpensesManagement() {
         setView('list');
         setSelectedIncomeAndExpenseId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+    const handleBackToIncomeAndExpenseDetails = (incomeAndExpenseId: number) => {
+        setSelectedIncomeAndExpenseId(incomeAndExpenseId);
+        setView('details')
+    };
     // ------------------------------------------------------------------------------------
 
     const handleEditIncomeAndExpenseButton = () => {
@@ -517,7 +524,7 @@ function IncomeAndExpensesManagement() {
                 incomeAndExpense={selectedIncomeAndExpense}
                 onSubmit={handleUpdateIncomeAndExpense}
                 isSubmitting={updateIncomeAndExpenseMutation.isPending}
-                onCancel={handleBackToIncomeAndExpensesList}
+                onCancel={handleBackToIncomeAndExpenseDetails}
                 accounts={accounts}
                 currencies={currencies}
                 onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}

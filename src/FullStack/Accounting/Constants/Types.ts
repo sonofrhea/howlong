@@ -7,7 +7,7 @@ import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
 import { CASH_BOOK_OPTIONS, INCOME_EXPENSES_OPTIONS } from "./options";
 
-
+import { SortConfig } from "../../Suppliers/constants/Types";
 
 
 
@@ -42,6 +42,30 @@ export type JournalEntryList = {
     aggregate_debit: number;
     aggregate_credit: number;
 };
+
+export type JournalEntryDetails = {
+  journal_number: number,
+  date: string,
+  description: string,
+
+  journal_entries: Array<{
+    account: {
+      account_code: number,
+      account_name: string,
+      account_type: string
+    },
+    description: string,
+    net_debit: string,
+    net_credit: string,
+    cancelled: boolean
+  }>,
+
+  aggregate_debit: string,
+  aggregate_credit: string,
+  cancelled: boolean,
+  created_by: string
+};
+
 
 export type JournalHeaderInputs = {
     journal_number: number;
@@ -83,7 +107,7 @@ export type JournalHeaderProps = {
     journalEntry: JournalHeaderInputs;
     onSubmit: (data: JournalHeaderInputs) => void;
     isSubmitting: boolean;
-    onCancel?: () => void;
+    onCancel: (journalEntryId: number) => void;
     accounts: ControlAccountInterface[];
 };
 
@@ -92,6 +116,29 @@ export type JournalEntryFormProps = {
     isSubmitting: boolean;
     onCancel?: () => void;
     accounts: ControlAccountInterface[];
+};
+
+export type JournalEntryDetailsProps = {
+    journalEntry: JournalEntryDetails;
+    isLoading: boolean;
+    onBack?: () => void;
+    onEdit: (journalEntryId: number) => void;
+};
+
+
+export type JournalEntryListProps = {
+    journalEntries: JournalEntryList[];
+    onJournalEntryClick: (journalEntryId: number) => void;
+    onEditJournalEntry: (journalEntryId: number, journalEntry: JournalEntryList) => void;
+    onDeleteJournalEntry: (journalEntryId: number) => void;
+    sortConfig: SortConfig;
+    onSort: (key: string) => void;
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    onPageChange: (page: number) => void;
+    onItemsPerPageChange: (itemsPerPage: string) => void;
 };
 
 
@@ -173,7 +220,7 @@ export type IncomeAndExpensesProps = {
     incomeAndExpense: IncomeAndExpensesInputs;
     onSubmit: (data: IncomeAndExpensesInputs) => void;
     isSubmitting: boolean;
-    onCancel?: () => void;
+    onCancel: (incomeAndExpenseId: number) => void;
     currencies: CurrencyInterface[];
     accounts: ControlAccountInterface[];
     onCreateJournalEntry: (data: JournalHeaderInputs) => void;
@@ -188,7 +235,30 @@ export type IncomeAndExpensesDetailsProps = {
     accounts: ControlAccountInterface[];
     onCreateJournalEntry: (data: JournalHeaderInputs) => void;
     isCreatingJournalEntry: boolean;
-}
+};
+
+export type IncomeAndExpensesListProps = {
+    incomeAndExpenses: IncomeAndExpensesList[];
+    onIncomeAndExpenseClick: (incomeAndExpenseId: number) => void;
+    onEditIncomeAndExpense: (incomeAndExpenseId: number, journalEntry: IncomeAndExpensesList) => void;
+    onDeleteIncomeAndExpense: (incomeAndExpenseId: number) => void;
+    sortConfig: SortConfig;
+    onSort: (key: string) => void;
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    onPageChange: (page: number) => void;
+    onItemsPerPageChange: (itemsPerPage: string) => void;
+};
+
+export type IncomeAndExpensesFormProps = {
+    onSubmit: (data: IncomeAndExpensesInputs) => void;
+    isSubmitting: boolean;
+    onCancel?: () => void;
+    currencies: CurrencyInterface[];
+    accounts: ControlAccountInterface[];
+};
 
 
 // -------- END ----------- INCOME AND EXPENSES ----------------
@@ -291,7 +361,7 @@ export type PaymentVoucherProps = {
     paymentVoucher: PaymentVoucherInputs;
     onSubmit: (data: PaymentVoucherInputs) => void;
     isSubmitting: boolean;
-    onCancel?: () => void;
+    onCancel: (paymentVoucherId: number) => void;
     currencies: CurrencyInterface[];
     accounts: ControlAccountInterface[];
     suppliers: SupplierProfileResponse[];
@@ -311,6 +381,32 @@ export type PaymentVoucherDetailsProps = {
     isCreatingJournalEntry: boolean;
 };
 
+export type PaymentVoucherTableProps = {
+    paymentVouchers: PaymentVoucherList[];
+    onPaymentVoucherClick: (paymentVoucherId: number) => void;
+    onEditPaymentVoucher: (paymentVoucherId: number, paymentVoucher: PaymentVoucherList) => void;
+    onDeletePaymentVoucher: (paymentVoucherId: number) => void;
+    sortConfig: SortConfig;
+    onSort: (key: string) => void;
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    onPageChange: (page: number) => void;
+    onItemsPerPageChange: (itemsPerPage: string) => void;
+};
+
+
+export type PaymentVoucherFormProps = {
+    onSubmit: (data: PaymentVoucherInputs) => void;
+    isSubmitting: boolean;
+    onCancel?: () => void;
+    currencies: CurrencyInterface[];
+    accounts: ControlAccountInterface[];
+    suppliers: SupplierProfileResponse[];
+    agents: AgentInterface[];
+    projects: ProjectProfileResponse[];
+};
 
 
 // -------- END ----------- PAYMENT VOUCHER ----------------
@@ -440,6 +536,32 @@ export type ReceiptVoucherDetailsProps = {
     isCreatingJournalEntry: boolean;
 };
 
+export type ReceiptVoucherTableProps = {
+    receiptVouchers: ReceiptVoucherList[];
+    onReceiptVoucherClick: (receiptVoucherId: number) => void;
+    onEditReceiptVoucher: (receiptVoucherId: number, receiptVoucher: ReceiptVoucherList) => void;
+    onDeleteReceiptVoucher: (receiptVoucherId: number) => void;
+    sortConfig: SortConfig;
+    onSort: (key: string) => void;
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    onPageChange: (page: number) => void;
+    onItemsPerPageChange: (itemsPerPage: string) => void;
+};
+
+export type ReceiptVoucherFormProps = {
+    onSubmit: (data: ReceiptVoucherInputs) => void;
+    isSubmitting: boolean;
+    onCancel?: () => void;
+    currencies: CurrencyInterface[];
+    accounts: ControlAccountInterface[];
+    customers: CustomerCreateResponse[];
+    agents: AgentInterface[];
+    projects: ProjectProfileResponse[];
+};
+
 // -------- END ----------- RECEIPT VOUCHER ----------------
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -451,7 +573,7 @@ export type ReceiptVoucherDetailsProps = {
 // --------BEGIN-----------CASH BOOK----------------
 
 export type CashBookList = {
-    reference_number: string;
+    reference_number: number;
     date: string;
     payment_to_or_from: string;
     description: string;
@@ -488,7 +610,7 @@ export type CashBookDetails = {
         account_code?: number;
         account_name?: string;
         account_type?: string;
-    } | null;
+    };
     transaction_type: string;
     currency: string;
     net_debit: number;
@@ -518,7 +640,7 @@ export type CashBookProps = {
     cashBook: CashBookInputs;
     onSubmit: (data: CashBookInputs) => void;
     isSubmitting: boolean;
-    onCancel?: () => void;
+    onCancel: (cashBookId: number) => void;
     currencies: CurrencyInterface[];
     accounts: ControlAccountInterface[];
     agents: AgentInterface[];
@@ -527,11 +649,36 @@ export type CashBookProps = {
 };
 
 export type CashBookDetailsProps = {
-    paymentVoucher: CashBookDetails;
+    cashBook: CashBookDetails;
     isLoading: boolean;
     onBack?: () => void;
     onEdit: (cashBookId: number) => void;
     accounts: ControlAccountInterface[];
     onCreateJournalEntry: (data: JournalHeaderInputs) => void;
     isCreatingJournalEntry: boolean;
+};
+
+export type CashBookTableProps = {
+    cashBooks: CashBookList[];
+    onCashBookClick: (cashBookId: number) => void;
+    onEditCashBook: (cashBookId: number, cashBook: CashBookList) => void;
+    onDeleteCashBook: (cashBookId: number) => void;
+    sortConfig: SortConfig;
+    onSort: (key: string) => void;
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    onPageChange: (page: number) => void;
+    onItemsPerPageChange: (itemsPerPage: string) => void;
+};
+
+
+export type CashBookFormProps = {
+    onSubmit: (data: CashBookInputs) => void;
+    isSubmitting: boolean;
+    currencies: CurrencyInterface[];
+    accounts: ControlAccountInterface[];
+    agents: AgentInterface[];
+    onCancel?: () => void;
 };

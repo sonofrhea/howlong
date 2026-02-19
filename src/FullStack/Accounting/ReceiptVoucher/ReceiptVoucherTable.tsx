@@ -1,5 +1,5 @@
 import React from "react";
-import { ReceiptVoucherList } from "../Constants/Types";
+import { ReceiptVoucherList, ReceiptVoucherTableProps } from "../Constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -16,9 +16,19 @@ const formatNumber = () => {
 
 
 
-const ReceiptVoucherTable: React.FC<any> = ({ receiptVouchers, onReceiptVoucherClick, onEditReceiptVoucher,
-    onDeleteReceiptVoucher, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const ReceiptVoucherTable: React.FC<ReceiptVoucherTableProps> = ({
+    receiptVouchers,
+    onReceiptVoucherClick,
+    onEditReceiptVoucher,
+    onDeleteReceiptVoucher,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
 }) => {
 
     // Sortable header component
@@ -206,7 +216,7 @@ const ReceiptVoucherTable: React.FC<any> = ({ receiptVouchers, onReceiptVoucherC
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${receiptVoucher.reference_number} ?`)) {
                                                         onDeleteReceiptVoucher(receiptVoucherId);
                                                     }
                                                 }}

@@ -14,7 +14,7 @@ import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 import { fetchCustomers } from "../../Customers/Engines"
 
 
-import { CashBookInputs, EditCashBook } from "../Constants/Types";
+import { CashBookInputs, CashBookList, EditCashBook } from "../Constants/Types";
 import { spinningStyles } from "../Constants/Styles";
 
 
@@ -232,6 +232,13 @@ function CashBookManagement() {
         setView('list');
         setSelectedCashBookId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+    const handleBackToCashBooksDetails = (cashBookId: number) => {
+        setSelectedCashBookId(cashBookId);
+        setView('details');
+    };
     // ------------------------------------------------------------------------------------
 
     const handleEditCashBookButton = () => {
@@ -239,7 +246,7 @@ function CashBookManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredCashBooks = cashBooks.filter((cashBook: any) => {
+    const filteredCashBooks = cashBooks.filter((cashBook: CashBookList) => {
         const cashBookNumber = String(cashBook.reference_number)?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
         
@@ -449,7 +456,7 @@ function CashBookManagement() {
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                             </svg>
-                            New Cash Book
+                            Cash Book Entry
                         </button>
                     </div>
                 </div>
@@ -533,7 +540,7 @@ function CashBookManagement() {
                 cashBook={selectedCashBook}
                 onSubmit={handleUpdateCashBook}
                 isSubmitting={updateCashBookMutation.isPending}
-                onCancel={handleBackToCashBooksList}
+                onCancel={handleBackToCashBooksDetails}
                 currencies={currencies}
                 accounts={accounts}
                 agents={agents}

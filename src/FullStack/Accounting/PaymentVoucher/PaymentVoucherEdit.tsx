@@ -53,6 +53,7 @@ const PaymentVoucherEdit: React.FC<PaymentVoucherProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const paymentVoucherId = paymentVoucher?.reference_number;
 
     const { register, setValue, formState: { errors }, 
         reset, handleSubmit, control, watch } = useForm<PaymentVoucherInputs>({
@@ -414,7 +415,7 @@ const PaymentVoucherEdit: React.FC<PaymentVoucherProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(paymentVoucherId)}
                             className={buttons.secondary}
                         >
                             Cancel
