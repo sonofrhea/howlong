@@ -1,5 +1,5 @@
 import React from "react";
-import { ProductGroupList } from "../constants/Types";
+import { ProductGroupList, ProductGroupTableProps } from "../constants/Types";
 
 
 const formatDate = (dateString: any) => {
@@ -12,8 +12,19 @@ const formatDate = (dateString: any) => {
 
 
 
-const ProductGroupTable: React.FC<any> = ({ productGroups, onProductGroupClick, onEditProductGroup, onDeleteProductGroup,
-    sortConfig, onSort, currentPage, totalPages, totalItems, itemsPerPage, onPageChange, onItemsPerPageChange
+const ProductGroupTable: React.FC<ProductGroupTableProps> = ({
+    productGroups,
+    onProductGroupClick,
+    onEditProductGroup,
+    onDeleteProductGroup,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
 
@@ -219,7 +230,7 @@ const ProductGroupTable: React.FC<any> = ({ productGroups, onProductGroupClick, 
                                                 className="text-red-700 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-150"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${productGroup.group_code}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete SKG-${productGroup.group_code}?`)) {
                                                         onDeleteProductGroup(productGroupId);
                                                     }
                                                 }}

@@ -4,6 +4,7 @@ import { PRODUCTS_ICONS } from "./ModuleIcons";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { COSTING_METHOD_OPTIONS } from "./options";
+import { SortConfig } from "../../Suppliers/constants/Types";
 
 
 
@@ -45,7 +46,26 @@ export type ProductGroupList = {
   sales_return_code: number;
   purchase_return_code: number;
   balance_sheet_stock: number;
-}
+};
+
+
+export type ProductGroupDetails = {
+  group_code: number,
+  group_name: string,
+  description: string,
+  costing_method: string,
+  sales_code: number,
+  purchase_code: number,
+  cash_sales_code: number,
+  cash_purchase_code: number,
+  sales_return_code: number,
+  purchase_return_code: number,
+  balance_sheet_stock: number,
+  active: boolean,
+  created_by: string,
+  date_created: string
+};
+
 
 export type ProductGroupInputs = {
   group_code: number;
@@ -96,6 +116,29 @@ export type ProductGroupFormProps = {
   onCancel: (productGroupId: number) => void;
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
+};
+
+export type ProductGroupDetailsProps = {
+  productGroup: ProductGroupDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit : (productGroupId: number);
+};
+
+
+export type ProductGroupTableProps = {
+  productGroups: ProductGroupList[];
+  onProductGroupClick: (productGroupId: number) => void;
+  onEditProductGroup: (productGroupId: number, productGroup: ProductGroupList) => void;
+  onDeleteProductGroup: (productGroupId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
 };
 
 // -------- END ----------- PRODUCT GROUP INPUT ----------------

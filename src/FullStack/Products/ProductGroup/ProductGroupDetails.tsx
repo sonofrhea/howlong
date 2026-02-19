@@ -1,4 +1,5 @@
 import { buttons } from "../constants/Styles";
+import { ProductGroupDetailsProps } from "../constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -16,7 +17,13 @@ const formatDate = (dateString: string) => {
 
 
 
-const ProductGroupDetails: React.FC<any> = ({ productGroup, isLoading, onBack, onEdit }) => {
+const ProductGroupDetails: React.FC<ProductGroupDetailsProps> = ({
+    productGroup,
+    isLoading,
+    onBack,
+    onEdit
+}) => {
+    const productGroupId = productGroup?.group_code;
 
 
     if (isLoading) {
@@ -72,7 +79,7 @@ const ProductGroupDetails: React.FC<any> = ({ productGroup, isLoading, onBack, o
                         Active: {productGroup.active ? 'Yes' : 'No'}
                     </span>
                     <button 
-                        onClick={onEdit}
+                        onClick={() => onEdit(productGroupId)}
                         className={buttons.editButtonGreen}
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
