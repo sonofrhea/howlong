@@ -20,6 +20,7 @@ const ProductGroupEdit: React.FC<ProductGroupProps> = ({
     onCancel,
     accounts, agents
 }) => {
+    const productGroupId = productGroup?.group_code;
 
     const { register, handleSubmit, formState: { errors } } = useForm<ProductGroupInputs>({
         defaultValues: productGroup
@@ -90,8 +91,8 @@ const ProductGroupEdit: React.FC<ProductGroupProps> = ({
                             >
                                 <option value="">select...</option>
                                 {useMemo(() => COSTING_METHOD_OPTIONS.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
+                                    <option key={option} value={option}>
+                                        {option}
                                     </option>
                                 )), [COSTING_METHOD_OPTIONS])}
                             </select>
@@ -216,7 +217,7 @@ const ProductGroupEdit: React.FC<ProductGroupProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(productGroupId)}
                             className={buttons.secondary}
                         >
                             Cancel

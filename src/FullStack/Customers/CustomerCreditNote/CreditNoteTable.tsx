@@ -1,5 +1,5 @@
 import React from "react";
-import { CreditNoteList } from "../constants/Types";
+import { CreditNoteList, CreditNoteTableProps } from "../constants/Types";
 
 
 
@@ -15,9 +15,20 @@ const formatCreditNoteNumber = () => {
 
 
 
-const CreditNoteTable: React.FC<any> = ({ creditNotes, onCreditNoteClick, onEditCreditNote, 
-    onDeleteCreditNote, sortConfig, onSort, currentPage, totalPages, 
-    totalItems, itemsPerPage, onPageChange, onItemsPerPageChange }) => {
+const CreditNoteTable: React.FC<CreditNoteTableProps> = ({
+    creditNotes,
+    onCreditNoteClick,
+    onEditCreditNote, 
+    onDeleteCreditNote,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages, 
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange 
+}) => {
 
 
         const SortableHeader = ({ label, sortKey }: {label:string, sortKey:string}) => {
@@ -195,7 +206,7 @@ const CreditNoteTable: React.FC<any> = ({ creditNotes, onCreditNoteClick, onEdit
                                                     className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        if (window.confirm(`Are you sure you want to delete {formatCreditNoteNumber()}${creditNote.credit_note_number}?`)) {
+                                                        if (window.confirm(`Are you sure you want to delete ${formatCreditNoteNumber()}${creditNote.credit_note_number}?`)) {
                                                             onDeleteCreditNote(creditNoteId);
                                                         }
                                                     }}

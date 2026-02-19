@@ -16,7 +16,7 @@ import { fetchChartOfAccounts,  } from "../../ChartOfAccounts/Engines";
 import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 import { fetchCustomers } from "../../Customers/Engines"
 
-import { EditReceiptVoucher, ReceiptVoucherInputs } from "../Constants/Types";
+import { EditReceiptVoucher, ReceiptVoucherInputs, ReceiptVoucherList } from "../Constants/Types";
 import { spinningStyles } from "../Constants/Styles";
 
 
@@ -196,11 +196,23 @@ function ReceiptVoucherManagement() {
 
 
 
-    const handleUpdateReceiptVoucher = (receiptVoucherData: ReceiptVoucherInputs) => {
-        updateReceiptVoucherMutation.mutate({
-        reference_number: selectedReceiptVoucherId!,
-        receiptVoucherData: receiptVoucherData
-        });
+    const handleUpdateReceiptVoucher = async (receiptVoucherData: ReceiptVoucherInputs) => {
+        if (!receiptVoucherData.account_received_in?.account_code) {
+            delete receiptVoucherData.account_received_in;
+        }
+
+        const toastId = toast.loading('Updating receipt voucher...');
+        try {
+            await updateReceiptVoucherMutation.mutateAsync({
+                reference_number: selectedReceiptVoucherId!,
+                receiptVoucherData: receiptVoucherData
+            });
+            toast.success('Receipt Voucher successfully updated', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to update receipt voucher.');
+            console.error(error);
+        }
+    
     };
 
 
@@ -208,9 +220,17 @@ function ReceiptVoucherManagement() {
 
 
     const handleDeleteReceiptVoucher = async (receiptVoucherId: number) => {
-        if (window.confirm('Are you sure you want to delete this receipt voucher?')) {
-        deleteReceiptVoucherMutation.mutate(receiptVoucherId);
+        if (!window.confirm('Are you sure you want to delete this receipt voucher?')) return;
+        
+        const toastId = toast.loading('Deleting receipt voucher...');
+        try {
+            await deleteReceiptVoucherMutation.mutateAsync(receiptVoucherId);
+            toast.success('Receipt Voucher successfully deleted', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to delete receipt voucher.');
+            console.error(error);
         }
+        
     };
     // ------------------------------------------------------------------------------------
 
@@ -232,6 +252,14 @@ function ReceiptVoucherManagement() {
         setView('list');
         setSelectedReceiptVoucherId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+    const handleBackToReceiptVoucherDetails = (receiptVoucherId: number) => {
+        setSelectedReceiptVoucherId(receiptVoucherId);
+        setView('details')
+    };
+
     // ------------------------------------------------------------------------------------
 
     const handleEditReceiptVoucherButton = () => {
@@ -239,7 +267,7 @@ function ReceiptVoucherManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredReceiptVouchers = receiptVouchers.filter((receiptVoucher: any) => {
+    const filteredReceiptVouchers = receiptVouchers.filter((receiptVoucher: ReceiptVoucherList) => {
         const receiptNumber = String(receiptVoucher.reference_number)?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
         
@@ -534,7 +562,7 @@ function ReceiptVoucherManagement() {
                 receiptVoucher={selectedReceiptVoucher}
                 onSubmit={handleUpdateReceiptVoucher}
                 isSubmitting={updateReceiptVoucherMutation.isPending}
-                onCancel={handleBackToReceiptVouchersList}
+                onCancel={handleBackToReceiptVoucherDetails}
                 customers={customers}
                 currencies={currencies}
                 accounts={accounts}

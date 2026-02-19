@@ -2,6 +2,8 @@ import React, { useState, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from 'react-router-dom';
 
+import { toast } from "react-hot-toast";
+
 
 
 import { fetchJournalEntries, fetchJournalEntryById, 
@@ -127,28 +129,53 @@ function JournalEntryManagement() {
 
 
     const handleAddJournalEntry = async (journalEntryData: JournalHeaderInputs) => {
-        console.log("RAW FORM DATA:", journalEntryData)
+        //console.log("RAW FORM DATA:", journalEntryData)
 
-        createJournalEntryMutation.mutate(journalEntryData);
-    };
+        const toastId = toast.loading('Creating Journal entry...');
 
-
-
-
-    const handleUpdateJournalEntry = (journalEntryData: JournalHeaderInputs) => {
-        updateJournalEntryMutation.mutate({
-            journal_number: selectedJournalEntryId!,
-            journalEntryData: journalEntryData
-        });
-    };
-
-
-
-    const handleDeleteJournalEntry = (journalEntryId: number) => {
-        if (window.confirm('Are you sure you want to delete this journal entry?')) {
-            deleteJournalEntryMutation.mutate(journalEntryId);
+        try {
+            await createJournalEntryMutation.mutateAsync(journalEntryData);
+            toast.success('Journal entry successfully created', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to create Journal entry.');
+            console.error(error);
         }
-    }
+    };
+
+
+
+
+    const handleUpdateJournalEntry = async (journalEntryData: JournalHeaderInputs) => {
+
+        const toastId = toast.loading('Updating Journal entry...');
+
+        try {
+            await updateJournalEntryMutation.mutateAsync({
+                journal_number: selectedJournalEntryId!,
+                journalEntryData: journalEntryData
+            });
+            toast.success('Journal entry successfully updated', { id: toastId })
+        } catch (error) {
+            toast.error('Failed to update Journal entry.');
+            console.error(error);
+        }
+    };
+
+
+
+    const handleDeleteJournalEntry = async (journalEntryId: number) => {
+        if (!window.confirm('Are you sure you want to delete this journal entry?')) return;
+        
+        const toastId = toast.loading('Deleting Journal entry...');
+        try {
+            await deleteJournalEntryMutation.mutateAsync(journalEntryId);
+            toast.success('Journal entry successfully deleted', { id: toastId })
+        } catch (error) {
+            toast.error('Failed to delete Journal entry.');
+            console.error(error);
+        }
+        
+    };
 
 // ------------------------------------------------------------------------------------
 

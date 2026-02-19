@@ -21,6 +21,7 @@ const CustomerEdit: React.FC<CustomerProps> = ({
     onSubmit,
     isSubmitting,
     onCancel, currencies, banks }) => {
+        const customerId = customer?.customer_number;
 
 
 
@@ -390,7 +391,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(customerId)}
                             className={buttons.secondary}
                         >
                             Cancel

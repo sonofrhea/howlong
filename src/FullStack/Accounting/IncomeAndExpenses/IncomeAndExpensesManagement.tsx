@@ -181,11 +181,20 @@ function IncomeAndExpensesManagement() {
 
 
 
-    const handleUpdateIncomeAndExpense = (incomeAndExpensesData: IncomeAndExpensesInputs) => {
-        updateIncomeAndExpenseMutation.mutate({
-        reference_number: selectedIncomeAndExpenseId!,
-        incomeAndExpensesData: incomeAndExpensesData
-        });
+    const handleUpdateIncomeAndExpense = async (incomeAndExpensesData: IncomeAndExpensesInputs) => {
+
+        const toastId = toast.loading('Updating transaction...');
+        try {
+            await updateIncomeAndExpenseMutation.mutateAsync({
+                reference_number: selectedIncomeAndExpenseId!,
+                incomeAndExpensesData: incomeAndExpensesData
+            });
+            toast.success('Transaction successfully updated', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to update transaction');
+            console.error(error);
+        }
+        
     };
 
 
@@ -193,8 +202,15 @@ function IncomeAndExpensesManagement() {
 
 
     const handleDeleteIncomeAndExpense = async (incomeAndExpenseId: number) => {
-        if (window.confirm('Are you sure you want to delete this entry?')) {
-        deleteIncomeAndExpenseMutation.mutate(incomeAndExpenseId);
+        if (!window.confirm('Are you sure you want to delete this entry?')) return;
+        
+        const toastId = toast.loading('Deleting transaction...');
+        try {
+            await deleteIncomeAndExpenseMutation.mutateAsync(incomeAndExpenseId);
+            toast.success('Transaction successfully deleted', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to delete transaction');
+            console.error(error);
         }
     };
     // ------------------------------------------------------------------------------------

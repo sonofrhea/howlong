@@ -4,7 +4,7 @@ export const BOOLEAN_OPTIONS = [
 ] as const;
 
 export const COSTING_METHOD_OPTIONS = [
-    { value: 'Fixed Costing', label: 'Fixed Costing'},
-    { value: 'FIFO', label: 'FIFO' },
-    { value: 'Weighted Average', label: 'Weighted Average' }
+  'Fixed Costing',
+  'FIFO',
+  'Weighted Average'
 ] as const;

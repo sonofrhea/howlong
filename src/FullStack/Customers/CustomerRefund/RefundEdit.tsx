@@ -50,6 +50,7 @@ const RefundEdit: React.FC<CustomerRefundProps> = ({
   onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const refundId = refund?.refund_number;
 
 
     const { register, handleSubmit, watch, setValue, control,
@@ -390,7 +391,7 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(refundId)}
                             className={buttons.secondary}
                         >
                             Cancel

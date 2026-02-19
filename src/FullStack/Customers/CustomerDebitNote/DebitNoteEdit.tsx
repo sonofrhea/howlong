@@ -55,6 +55,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
     agents, onCreateJournalEntry, isCreatingJournalEntry }) => {
         
         const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+        const debitNoteId = debitNote?.debit_note_number;
 
 
     const { register, handleSubmit, watch, setValue, control,
@@ -421,7 +422,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(debitNoteId)}
                             className={buttons.secondary}
                         >
                             Cancel

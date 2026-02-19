@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import "../CustomerProfile/CustomerCss.css";
 import { useForm } from "react-hook-form";
 
-import { CustomerInputs } from "../constants/Types";
+import { CustomerFormProps, CustomerInputs } from "../constants/Types";
 
 import { CurrencyInterface } from "../../Core/constants/Types";
 import { BankInterface } from "../../Core/constants/Types";
@@ -25,8 +25,12 @@ import { controlAccountHandler, currencyHandler, customerControlAccountHandler }
 
 
 
-const CustomerForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, 
-    onCancel, currencies, banks }) => {
+const CustomerForm: React.FC<CustomerFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onBack, 
+    onCancel,
+    currencies, banks }) => {
 
         const { register, handleSubmit, setValue, 
             formState: { errors } } = useForm<CustomerInputs>({

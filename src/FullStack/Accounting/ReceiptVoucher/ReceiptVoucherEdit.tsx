@@ -51,6 +51,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry 
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const receiptVoucherId = receiptVoucher?.reference_number;
 
     const { register, setValue, control, watch, 
         reset, handleSubmit, formState: { errors } } = useForm<ReceiptVoucherInputs>({
@@ -444,7 +445,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(receiptVoucherId)}
                             className={buttons.secondary}
                         >
                             Cancel

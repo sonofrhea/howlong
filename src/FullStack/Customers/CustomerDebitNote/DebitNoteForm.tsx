@@ -3,7 +3,8 @@ import { useFieldArray, useForm } from "react-hook-form";
 import './debitnote.css';
 
 import { DebitNoteInputs, 
-    CustomerCreateResponse } from "../constants/Types";
+    CustomerCreateResponse, 
+    DebitNoteFormProps} from "../constants/Types";
 
 import { CurrencyInterface, AgentInterface } from "../../Core/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
@@ -40,8 +41,13 @@ const formatCustomerNumber = () => {
 
 
 
-const DebitNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onClick, onCancel,
-     customers, customerPayments, currencies, accounts, agents }) => {
+const DebitNoteForm: React.FC<DebitNoteFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onBack,
+    onCancel,
+    customers,
+    customerPayments, currencies, accounts, agents }) => {
 
 
         const { register, handleSubmit, watch, setValue, control, 

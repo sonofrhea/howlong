@@ -36,6 +36,7 @@ const CreditNoteEdit: React.FC<CreditNoteEditProps> = ({
   onCancel, customers, currencies, accounts, agents, customerPayments,
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const creditNoteId = creditNote?.credit_note_number;
 
 
     const { register, handleSubmit, watch,
@@ -371,7 +372,7 @@ const controlAccountChange = creditNoteAccountHandler(accounts, setValue);
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(creditNoteId)}
                             className={buttons.secondary}
                         >
                             Cancel

@@ -1,5 +1,5 @@
 import React from "react";
-import { CustomersList } from "../constants/Types";
+import { CustomersList, CustomerTableProps } from "../constants/Types";
 
 
 
@@ -13,7 +13,7 @@ const formatDate = (dateString: any) => {
 
 const formatNumber = () => {
         const currentYear = new Date().getFullYear();
-        return `${currentYear}-`;
+        return `CV-${currentYear}-`;
     };
 
 
@@ -35,9 +35,19 @@ const formatNumber = () => {
 
 
 
-const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustomer, onDeleteCustomer, 
-    sortConfig, onSort, currentPage, totalPages, 
-    totalItems, itemsPerPage, onPageChange, onItemsPerPageChange  }) => {
+const CustomerTable: React.FC<CustomerTableProps> = ({
+    customers,
+    onCustomerClick,
+    onEditCustomer,
+    onDeleteCustomer, 
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages, 
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange  }) => {
     
     // Sortable header component
         const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
@@ -179,7 +189,7 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
                                     {/* Customer Number */}
                                     <td className="px-2 py-2 text-center">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
-                                            CV-{formatNumber()}{customer.customer_number}
+                                            {formatNumber()}{customer.customer_number}
                                         </span>
                                     </td>
                                     
@@ -257,7 +267,7 @@ const CustomerTable: React.FC<any> = ({ customers, onCustomerClick, onEditCustom
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-150"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${customer.customer_name}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${customer.customer_name}?`)) {
                                                         onDeleteCustomer(customerId);
                                                     }
                                                 }}

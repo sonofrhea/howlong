@@ -33,7 +33,7 @@ const MarketplaceLoginModal = ({open, onClose }: LoginModalProps) => {
         try {
             await HandleMarketplaceLogin(data.email, data.password);
             toast.success('Login successful!', {id: toastId});
-            navigate(`/mainmarket`);
+            navigate(`/marketplace/home`);
         } catch (error: any) {
             let errorMessage = "";
             

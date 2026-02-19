@@ -39,7 +39,8 @@ const formatCreditNoteNumber = () => {
 
 
 
-const CreditNoteForm: React.FC<CreditNoteProps> = ({ onSubmit, isSubmitting, onCancel, customers, 
+const CreditNoteForm: React.FC<CreditNoteProps> = ({
+    onSubmit, isSubmitting, onCancel, customers, 
     currencies, accounts, agents, customerPayments }) => {
 
 

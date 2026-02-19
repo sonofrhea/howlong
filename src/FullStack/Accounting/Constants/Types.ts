@@ -516,7 +516,7 @@ export type ReceiptVoucherProps = {
     receiptVoucher: ReceiptVoucherInputs;
     onSubmit: (data: ReceiptVoucherInputs) => void;
     isSubmitting: boolean;
-    onCancel?: () => void;
+    onCancel: (receiptVoucherId: number) => void;
     currencies: CurrencyInterface[];
     accounts: ControlAccountInterface[];
     customers: CustomerCreateResponse[];

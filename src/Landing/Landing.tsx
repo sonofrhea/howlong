@@ -1199,7 +1199,7 @@ export default function ConstructionERPLanding() {
 
             <div className="blue-box">
                 <span>
-                    Cut costs and production time by finding suppliers with the best product and best prices worldwide and manage your business all in one place.
+                    Cut costs and production time by finding suppliers with the best product and best prices worldwide while managing your business all in one place.
                 </span>
             </div>
         </section>

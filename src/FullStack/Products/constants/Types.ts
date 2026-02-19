@@ -37,7 +37,7 @@ export type ProductGroupList = {
   group_code: number;
   group_name: string;
   description: string;
-  costing_method: typeof COSTING_METHOD_OPTIONS[number]['value'] | null;
+  costing_method: typeof COSTING_METHOD_OPTIONS[number];
   sales_code: number;
   purchase_code: number;
   cash_sales_code: number;
@@ -83,7 +83,17 @@ export type ProductGroupProps = {
   productGroup: ProductGroupInputs;
   onSubmit: (data: ProductGroupInputs) => void;
   isSubmitting: boolean;
-  onCancel?: () => void;
+  onCancel: (productGroupId: number) => void;
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+};
+
+
+export type ProductGroupFormProps = {
+  onSubmit: (data: ProductGroupInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel: (productGroupId: number) => void;
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
 };

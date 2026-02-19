@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 
-
+const MarketplaceUnderDevelopment = lazy(() => import('./Landing/MarketplaceUnderDevelopment'))
 
 const LoginForm = lazy(() => import('./Authentication/LoginForm'))
 const RegistrationPage = lazy(() => import('./Authentication/RegistrationForm'))
@@ -286,6 +286,13 @@ function App() {
             <Route path='marketplace-register' element={
               <Suspense fallback={<div></div>}>
                 <MarketplaceRegister />
+              </Suspense>
+            } />
+
+
+            <Route path='/marketplace/home' element={
+              <Suspense fallback={<div></div>}>
+                <MarketplaceUnderDevelopment />
               </Suspense>
             } />
             

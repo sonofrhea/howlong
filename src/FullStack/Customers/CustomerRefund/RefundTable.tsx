@@ -1,5 +1,5 @@
 import React from "react";
-import { CustomerRefundList } from "../constants/Types";
+import { CustomerRefundList, CustomerRefundTableProps } from "../constants/Types";
 
 
 
@@ -19,9 +19,19 @@ const formatRefundNumber = () => {
 
 
 
-const RefundTable: React.FC<any> = ({ refunds, onRefundClick, onEditRefund, 
-    onDeleteRefund, sortConfig, onSort, currentPage, totalPages, 
-    totalItems, itemsPerPage, onPageChange, onItemsPerPageChange
+const RefundTable: React.FC<CustomerRefundTableProps> = ({
+    refunds,
+    onRefundClick,
+    onEditRefund, 
+    onDeleteRefund,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages, 
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
 

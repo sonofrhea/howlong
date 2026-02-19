@@ -31,7 +31,7 @@ import CustomerEdit from "./CustomerEdit";
 
 
 
-import { CustomerInputs, CustomerCreateResponse } from "../constants/Types";
+import { CustomerInputs, CustomerCreateResponse, CustomersList } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
 import { toast } from "react-hot-toast";
 
@@ -187,16 +187,24 @@ function CustomerManagement() {
 
 
 
-  const handleUpdateCustomer = (customerData: CustomerInputs) => {
+  const handleUpdateCustomer = async (customerData: CustomerInputs) => {
 
     if (!customerData.preferred_currency?.currency_code) {
       delete customerData.preferred_currency;
     }
-    
-    updateCustomersMutation.mutate({
-      customer_number: selectedCustomerId!,
-      customerData: customerData
-    });
+
+    const toastId = toast.loading('Updating Customer...');
+  
+    try {
+      await updateCustomersMutation.mutateAsync({
+        customer_number: selectedCustomerId!,
+        customerData: customerData
+      });
+      toast.success('Customer successfully updated', { id: toastId });
+    } catch (error) {
+      toast.error('Failed to update customer', { id: toastId });
+      console.error(error);
+    }
   };
 
 
@@ -206,11 +214,13 @@ function CustomerManagement() {
   
 
   const handleDeleteCustomer = async (customerId: number) => {
+  
+    if (!window.confirm('Are you sure you want to delete this customer?')) return;
+
     const toastId = toast.loading('Deleting Customer...');
     try {
       await deleteCustomersMutation.mutateAsync(customerId);
       toast.success('Customer successfully deleted', { id: toastId });
-      // Optional: Do something after successful deletion
     } catch (error) {
       toast.error('Failed to delete customer', { id: toastId });
       console.error(error);
@@ -221,7 +231,7 @@ function CustomerManagement() {
 
 // ------------------------------------------------------------------------------------
   const handleCustomerClick = (customerId: number) => {
-    console.log('Customer ID being passed:', customerId);
+    //console.log('Customer ID being passed:', customerId);
     setSelectedCustomerId(customerId);
     setView('details');
   };
@@ -239,14 +249,22 @@ function CustomerManagement() {
   };
 
 // ------------------------------------------------------------------------------------
+  const handleBackToCustomerDetails = (customerId: number) => {
+    setSelectedCustomerId(customerId);
+    setView('details');
+  };
+
+// ------------------------------------------------------------------------------------
   const handleEditCustomerButton = () => {
     setView('edit');
   };
 
 // ------------------------------------------------------------------------------------
 
-  const filteredCustomers = customers.filter((customer: any) =>
-    customer.date_created?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCustomers = customers.filter((customer: CustomersList) =>
+    customer?.date_created?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    String(customer?.customer_number)?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer?.customer_name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // ------------------------------------------------------------------------------------
@@ -492,7 +510,7 @@ return (
                   onSubmit={handleAddCustomer} 
                   isSubmitting={createCustomersMutation.isPending}
                   onBack={handleBackToCustomersList}
-                  onCancel={() => setView('list')}
+                  onCancel={handleBackToCustomersList}
                   currencies={currencies}
                   banks={banks}
                 />
@@ -519,7 +537,7 @@ return (
               customer={selectedCustomer}
               onSubmit={handleUpdateCustomer}
               isSubmitting={updateCustomersMutation.isPending}
-              onCancel={() => setView('details')}
+              onCancel={handleBackToCustomerDetails}
               currencies={currencies}
               banks={banks}
             />

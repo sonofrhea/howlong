@@ -211,7 +211,7 @@ const deleteDebitNoteMutation = useMutation({
       const toastId = toast.loading('Creating Debit Note...');
       try {
         await createDebitNoteMutation.mutateAsync(debitNoteData);
-        toast.success('Credit Note created successfully!', { id: toastId });
+        toast.success('Debit Note successfully created!', { id: toastId });
       } catch (error) {
         toast.error('Failed to create Debit Note', { id: toastId });
         console.error(error);
@@ -222,6 +222,47 @@ const deleteDebitNoteMutation = useMutation({
     
 
     
+    const handleUpdateDebitNote = async (debitNoteData: DebitNoteInputs) => {
+      if (!debitNoteData.account?.account_code) {
+        delete debitNoteData.account;
+      }
+      if (debitNoteData.debit_note_details) {
+        debitNoteData.debit_note_details = debitNoteData.debit_note_details?.filter(item => 
+          item.date
+        );
+        if (debitNoteData.debit_note_details?.length === 0) {
+          delete debitNoteData.debit_note_details;
+        }
+      }
+
+      const toastId = toast.loading('Updating Debit Note...');
+      try {
+        await updateDebitNoteMutation.mutateAsync({
+          debit_note_number: selectedDebitNoteId!,
+          debitNoteData: debitNoteData
+        });
+        toast.success('Debit Note successfully updated!', { id: toastId });
+      } catch (error) {
+        toast.error('Failed to update Debit Note', { id: toastId });
+        console.error(error);
+      }
+  };
+
+
+
+
+  const handleDeleteDebitNote = async (debitNoteId: number) => {
+    if (!window.confirm('Are you sure you want to delete this customer?')) return;
+    
+    const toastId = toast.loading('Deleting Debit Note...');
+    try {
+      await deleteDebitNoteMutation.mutateAsync(debitNoteId);
+      toast.success('Debit Note successfully deleted!', { id: toastId });
+    } catch (error) {
+        toast.error('Failed to delete Debit Note', { id: toastId });
+        console.error(error);
+      }
+  };
 
 
     
@@ -234,23 +275,6 @@ const deleteDebitNoteMutation = useMutation({
   };
 
 
-
-  const handleUpdateDebitNote = (debitNoteData: DebitNoteInputs) => {
-    updateDebitNoteMutation.mutate({
-      debit_note_number: selectedDebitNoteId!,
-      debitNoteData: debitNoteData
-    });
-  };
-
-
-
-
-
-  const handleDeleteDebitNote = async (debitNoteId: number) => {
-    if (window.confirm('Are you sure you want to delete this customer?')) {
-      deleteDebitNoteMutation.mutate(debitNoteId);
-    }
-  };
 // ------------------------------------------------------------------------------------
 
 
@@ -259,6 +283,12 @@ const deleteDebitNoteMutation = useMutation({
     setView('details')
   };
 // ------------------------------------------------------------------------------------
+
+
+  const handleBackToDebitNoteDetails = (debitNoteId: number) => {
+    setSelectedDebitNoteId(debitNoteId);
+    setView('details')
+  };
 
 // ------------------------------------------------------------------------------------
 
@@ -341,7 +371,7 @@ const handlePageChange = (page: any) => {
 };
 
 // Items per page handler
-const handleItemsPerPageChange = (value: number) => {
+const handleItemsPerPageChange = (value: any) => {
   setItemsPerPage(Number(value));
   setCurrentPage(1); // Reset to first page
 };
@@ -573,7 +603,7 @@ const handleItemsPerPageChange = (value: number) => {
               onSubmit={handleUpdateDebitNote}
               isSubmitting={updateDebitNoteMutation.isPending}
               onBack={handleBackToDebitNotesList}
-              onCancel={handleBackToDebitNotesList}
+              onCancel={handleBackToDebitNoteDetails}
               customers={customers}
               currencies={currencies}
               accounts={accounts}

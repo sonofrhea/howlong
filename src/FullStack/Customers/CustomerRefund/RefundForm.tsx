@@ -6,7 +6,8 @@ import { CustomerRefundInputs,
     AllCustomerRefundInputs, DebitNoteCreateResponse,
     CustomerCreateResponse,
     CreditNoteCreateResponse,
-    creditNoteInterface
+    creditNoteInterface,
+    CustomerRefundFormProps
  } from "../constants/Types";
 
 import { REFUND_TYPE_OPTIONS } from "../constants/Options";
@@ -43,7 +44,11 @@ const formatCustomerNumber = () => {
 
 
 
-const RefundForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers, 
+const RefundForm: React.FC<CustomerRefundFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    customers, 
     currencies, accounts, agents, creditNotes }) => {
 
         const { register, handleSubmit, watch, setValue, control, 

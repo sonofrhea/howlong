@@ -33,7 +33,7 @@ const MarketplaceLogin = () => {
         try {
             await HandleMarketplaceLogin(data.email, data.password);
             toast.success('Login successful!', {id: toastId});
-            navigate(`/marketplace`);
+            navigate(`/marketplace/home`);
         } catch (error: any) {
             let errorMessage = "";
 

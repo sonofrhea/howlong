@@ -222,19 +222,47 @@ function RefundManagement() {
 
 
 
-    const handleUpdateRefund = (refundData: CustomerRefundInputs) => {
-        updateRefundMutation.mutate({
-        refund_number: selectedRefundId!,
-        refundData: refundData
-        });
+    const handleUpdateRefund = async (refundData: CustomerRefundInputs) => {
+        if (!refundData.payment_account?.account_code) {
+            delete refundData.payment_account;
+        }
+        if (refundData.related_customer_refund) {
+            refundData.related_customer_refund = refundData.related_customer_refund?.filter(item => 
+                item.date
+            );
+            if (refundData.related_customer_refund?.length === 0) {
+                delete refundData.related_customer_refund;
+            }
+        }
+        
+        const toastId = toast.loading('Updating Refund');
+        try {
+            await updateRefundMutation.mutateAsync({
+                refund_number: selectedRefundId!,
+                refundData: refundData
+            });
+            toast.success('Refund updated successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to update refund', { id: toastId });
+            console.error(error);
+        }
     };
 
 
 
 
 
-    const handleDeleteRefund = (refundId: number) => {
-        deleteRefundMutation.mutate(refundId);
+    const handleDeleteRefund = async (refundId: number) => {
+        if (!window.confirm('Are you sure you want to delete this refund?')) return;
+
+        const toastId = toast.loading('Deleting refund...')
+        try {
+            await deleteRefundMutation.mutateAsync(refundId);
+            toast.success('Refund successfully deleted!', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to delete refund', {id: toastId});
+            console.log(error);
+        }
     };
     // ------------------------------------------------------------------------------------
 
@@ -256,6 +284,13 @@ function RefundManagement() {
         setView('list');
         setSelectedRefundId(null);
     };
+    // ------------------------------------------------------------------------------------
+
+    const handleBackToRefundDetails = (refundId: number) => {
+        setSelectedRefundId(refundId);
+        setView('details')
+    };
+
     // ------------------------------------------------------------------------------------
 
     const handleEditRefundButton = () => {
@@ -561,7 +596,7 @@ function RefundManagement() {
                     onSubmit={handleUpdateRefund}
                     isSubmitting={updateRefundMutation.isPending}
                     onBack={handleBackToRefundsList}
-                    onCancel={handleBackToRefundsList}
+                    onCancel={handleBackToRefundDetails}
                     customers={customers}
                     currencies={currencies}
                     accounts={accounts}

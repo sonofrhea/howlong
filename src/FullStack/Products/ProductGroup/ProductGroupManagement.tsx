@@ -127,6 +127,7 @@ function ProductGroupManagement() {
     }
   });
 
+
 // ------------------------------------------------------------------------------------
                 // MUTATION USE
 
@@ -153,10 +154,12 @@ function ProductGroupManagement() {
 
   const handleAddProductGroup = async (productGroupData: ProductGroupInputs) => {
     //console.log("🎯 RAW FORM DATA:", productGroupData);
+
+
     const toastId = toast.loading('Creating Product Group...');
     try {
       await createProductGroupsMutation.mutateAsync(productGroupData);
-      toast.success('Product Group successfully created', {id: toastId});
+      toast.success('Product Group successfully created.', {id: toastId});
     } catch (error) {
       toast.error('Failed to create product group', { id: toastId });
       console.error(error);
@@ -170,11 +173,20 @@ function ProductGroupManagement() {
 
 
 
-  const handleUpdateProductGroup = (productGroupData: ProductGroupInputs) => {
-    updateProductGroupsMutation.mutate({
-      group_code: selectedProductGroupId!,
-      productGroupData: productGroupData
-    });
+  const handleUpdateProductGroup = async (productGroupData: ProductGroupInputs) => {
+
+    const toastId = toast.loading('Updating Product Group...');
+    try {
+      await updateProductGroupsMutation.mutateAsync({
+        group_code: selectedProductGroupId!,
+        productGroupData: productGroupData
+      });
+      toast.success('Product Group successfully updated.', {id: toastId});
+    } catch (error) {
+      toast.error('Failed to update product group', { id: toastId });
+      console.error(error);
+    }
+    
   };
 
 
@@ -185,8 +197,15 @@ function ProductGroupManagement() {
 
 
   const handleDeleteProductGroup = async (productGroupId: number) => {
-    if (window.confirm('Are you sure you want to delete this product group?')) {
-      deleteProductGroupsMutation.mutate(productGroupId);
+    if (!window.confirm('Are you sure you want to delete this product group?')) return;
+    
+    const toastId = toast.loading('Deleting Product Group...');
+    try {
+      await deleteProductGroupsMutation.mutateAsync(productGroupId);
+      toast.success('Product Group successfully deleted.', {id: toastId});
+    } catch (error) {
+      toast.error('Failed to delete product group', { id: toastId });
+      console.error(error);
     }
   };
 
@@ -206,6 +225,12 @@ function ProductGroupManagement() {
   const handleBackToProductGroupsList = () => {
     setView('list');
     setSelectedProductGroupId(null);
+  };
+
+// ------------------------------------------------------------------------------------
+  const handleBackToProductGroupDetails = (productGroupId: number) => {
+    setSelectedProductGroupId(productGroupId);
+    setView('details');
   };
 
 // ------------------------------------------------------------------------------------
@@ -460,7 +485,7 @@ return (
                   onSubmit={handleAddProductGroup} 
                   isSubmitting={createProductGroupsMutation.isPending} 
                   onBack={handleBackToProductGroupsList}
-                  onCancel={() => setView('list')}
+                  onCancel={handleBackToProductGroupsList}
                   accounts={accounts}
                   agents={agents}
                 />
@@ -487,7 +512,7 @@ return (
               productGroup={selectedProductGroup}
               onSubmit={handleUpdateProductGroup}
               isSubmitting={updateProductGroupsMutation.isPending}
-              onCancel={() => setView('details')}
+              onCancel={handleBackToProductGroupDetails}
               accounts={accounts}
               agents={agents}
             />

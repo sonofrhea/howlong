@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
-import { ProductGroupInputs } from "../constants/Types";
+import { ProductGroupFormProps, ProductGroupInputs } from "../constants/Types";
 
 import { BOOLEAN_OPTIONS,
     COSTING_METHOD_OPTIONS
@@ -13,8 +13,14 @@ import { forms } from "../constants/Styles";
 
 
 
-const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting, 
-    onBack, onCancel, accounts, agents }) => {
+const ProductGroupForm: React.FC<ProductGroupFormProps> = ({
+    onSubmit,
+    isSubmitting, 
+    onBack,
+    onCancel,
+    accounts,
+    agents
+}) => {
 
         const { register, handleSubmit, formState: { errors } } = useForm<ProductGroupInputs>({
             defaultValues: {
@@ -123,8 +129,8 @@ const ProductGroupForm: React.FC<any> = ({ onSubmit, isSubmitting,
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => COSTING_METHOD_OPTIONS.map(option => (
-                                        <option key={option.value} value={option.value}>
-                                            {option.label}
+                                        <option key={option} value={option}>
+                                            {option}
                                         </option>
                                     )), [COSTING_METHOD_OPTIONS])}
                                 </select>

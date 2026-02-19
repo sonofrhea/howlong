@@ -1,7 +1,7 @@
 import React from "react";
 
 
-import { DebitNoteTableInput } from "../constants/Types";
+import { DebitNoteTableInput, DebitNoteTableProps } from "../constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -23,8 +23,19 @@ const formatDebitNoteNumber = () => {
 
 
 
-const DebitNoteTable: React.FC<any> = ({ debitNotes, onDebitNoteClick, onEditDebitNote, onDeleteDebitNote, 
-    sortConfig, onSort, currentPage, totalPages, totalItems, itemsPerPage, onPageChange, onItemsPerPageChange
+const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
+    debitNotes,
+    onDebitNoteClick,
+    onEditDebitNote,
+    onDeleteDebitNote, 
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
     // Sortable header component
@@ -129,7 +140,7 @@ const DebitNoteTable: React.FC<any> = ({ debitNotes, onDebitNoteClick, onEditDeb
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
                         {debitNotes.map((debitNote: DebitNoteTableInput) => {
-                            const debitNoteId = debitNote.debit_note_number;
+                            const debitNoteId = debitNote?.debit_note_number;
 
                             return (
                                 <tr key={debitNote.debit_note_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
@@ -183,7 +194,7 @@ const DebitNoteTable: React.FC<any> = ({ debitNotes, onDebitNoteClick, onEditDeb
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    onEditDebitNote(debitNote.debit_note_number);
+                                                    onEditDebitNote(debitNoteId, debitNote);
                                                 }}
                                                 title="Edit Debit Note"
                                             >
@@ -195,7 +206,7 @@ const DebitNoteTable: React.FC<any> = ({ debitNotes, onDebitNoteClick, onEditDeb
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${debitNote.debit_note_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatDebitNoteNumber()}${debitNote.debit_note_number}?`)) {
                                                         onDeleteDebitNote(debitNoteId);
                                                     }
                                                 }}

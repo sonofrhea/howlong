@@ -14,6 +14,7 @@ import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
 import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
+import { SortConfig } from "../../Suppliers/constants/Types";
 
 
 
@@ -71,7 +72,60 @@ export type CustomersList = {
     status: string;
     date_created: string;
     remark: string | null;
-}
+};
+
+
+
+export type CustomerDetails = {
+  customer_number: number,
+  customer_name: string,
+  company_name: string,
+  address: string,
+  country: string,
+  post_code: string,
+  city: string,
+  state: string,
+  mobile_number: string,
+  home_number: string,
+  fax: string,
+  email: string,
+  id_type: string,
+  id_number: string,
+
+  preferred_currency: {
+    currency_code: string,
+    currency_name: string,
+    currency_symbol: string,
+    country: string,
+    buy: string,
+    sell: string
+  },
+
+  customer_bank_name: string,
+  customer_bank_account_number: string,
+  bank_account_type: string,
+  swift_code: string,
+
+  is_active: boolean,
+
+  gst_number: string,
+  tax_id_type: string,
+  tax_number: string,
+  tourism_number: string,
+  expiration_date: string,
+  service_tax_number: string,
+
+  status: string,
+  remark: string,
+
+  created_by: string,
+  date_created: string,
+  date_updated: string,
+  updated_by: string,
+
+  company: string
+};
+
 
 
 
@@ -178,10 +232,44 @@ export type CustomerProps = {
   customer: CustomerInputs;
   onSubmit: (data: CustomerInputs) => void;
   isSubmitting: boolean;
+  onCancel: (customerId: number) => void;
+  currencies: CurrencyInterface[];
+  banks: BankInterface[];
+};
+
+
+export type CustomerDetailsProps = {
+  customer: CustomerDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (customerId: number) => void;
+};
+
+
+export type CustomerFormProps = {
+  onSubmit: (data: CustomerInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
   onCancel?: () => void;
   currencies: CurrencyInterface[];
   banks: BankInterface[];
 };
+
+
+export type CustomerTableProps = {
+  customers: CustomersList[];
+  onCustomerClick: (customerId: number) => void;
+  onEditCustomer: (customerId: number, customer: CustomersList) => void;
+  onDeleteCustomer: (customerId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+}
 
 // -------- END ----------- CUSTOMER FORM INPUT ----------------
 /////////////////////////////////////////////////////////////////////////////////////
@@ -288,7 +376,7 @@ export type DebitNoteEditProps = {
   onSubmit: (data: DebitNoteInputs) => void;
   isSubmitting: boolean;
   onBack?: () => void;
-  onCancel?:  () => void;
+  onCancel: (debitNoteId: number) => void;
   customers: CustomerCreateResponse[];
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
@@ -308,6 +396,35 @@ export type DebitNoteDetailsProps = {
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
 };
+
+
+export type DebitNoteFormProps = {
+  onSubmit: (data: DebitNoteInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel: () => void;
+  customers: CustomerCreateResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  customerPayments: CustomerPaymentResponse[];
+};
+
+
+export type DebitNoteTableProps = {
+    debitNotes: DebitNoteTableInput[];
+    onDebitNoteClick: (debitNoteId: number) => void;
+    onEditDebitNote: (debitNoteId: number, debitNote: DebitNoteTableInput) => void;
+    onDeleteDebitNote: (debitNoteId: number) => void;
+    sortConfig: SortConfig;
+    onSort: (key: string) => void;
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    onPageChange: (page: number) => void;
+    onItemsPerPageChange: (itemsPerPage: string) => void;
+  };
 
 
 // -------- END ----------- CUSTOMER DEBIT NOTE INPUT ----------------
@@ -450,7 +567,7 @@ export type CreditNoteEditProps = {
   onSubmit: (data: CreditNoteInputs) => void;
   isSubmitting: boolean;
   onBack?: () => void;
-  onCancel?: () => void;
+  onCancel: (creditNoteId: number) => void;
   customers: CustomerCreateResponse[];
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
@@ -469,6 +586,22 @@ export type CreditNoteDetailsProps = {
   accounts: ControlAccountInterface[];
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
+};
+
+
+export type CreditNoteTableProps = {
+  creditNotes: CreditNoteList[];
+  onCreditNoteClick: (creditNoteId: number) => void;
+  onEditCreditNote: (creditNoteId: number, creditNote: CreditNoteList) => void;
+  onDeleteCreditNote: (creditNoteId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
 };
 
 
@@ -575,7 +708,7 @@ export type CustomerRefundProps = {
   onSubmit: (data: CustomerRefundInputs) => void;
   isSubmitting: boolean;
   onBack?: () => void;
-  onCancel?: () => void;
+  onCancel: (refundId: number) => void;
   customers: CustomerCreateResponse[];
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
@@ -585,7 +718,7 @@ export type CustomerRefundProps = {
   isCreatingJournalEntry: boolean;
 };
 
-export type CustomerRefundEditProps = {
+export type CustomerRefundDetailsProps = {
   refund: CustomerRefundDetails;
   isLoading: boolean;
   onBack?: () => void;
@@ -593,6 +726,35 @@ export type CustomerRefundEditProps = {
   accounts: ControlAccountInterface[];
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
+};
+
+
+export type CustomerRefundFormProps = {
+  onSubmit: (data: CustomerRefundInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  customers: CustomerCreateResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  creditNotes: CreditNoteCreateResponse[];
+};
+
+
+export type CustomerRefundTableProps = {
+  refunds: CustomerRefundList[];
+  onRefundClick: (refundId: number) => void;
+  onEditRefund: (refundId: number, refund: CustomerRefundList) => void;
+  onDeleteRefund: (refundId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
 };
 
 // -------- END ----------- CUSTOMER REFUND INPUT ----------------

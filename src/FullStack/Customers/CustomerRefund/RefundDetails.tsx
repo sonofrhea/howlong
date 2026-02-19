@@ -4,7 +4,7 @@ import { buttons, details, forms,
     labelStyles, 
     layout, tables, text } from "../constants/Styles";
 import { SquarePen } from "lucide-react";
-import { CustomerRefundEditProps } from "../constants/Types";
+import { CustomerRefundDetailsProps } from "../constants/Types";
 import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
@@ -41,7 +41,7 @@ const formatRefundNumber = () => {
 
 
 
-const RefundDetails: React.FC<CustomerRefundEditProps> = ({
+const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
     refund,
     isLoading,
     onBack,

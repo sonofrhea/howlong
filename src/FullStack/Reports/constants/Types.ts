@@ -2,7 +2,8 @@ import React, { useState } from "react";
 
 import { REPORTS_ICONS } from "./ModuleIcons";
 
-import { BALANCE_SHEET_CHOICES, CASH_FLOW_CHOICES, VALID_PERIOD_TYPES } from "./options";
+import { BALANCE_SHEET_CHOICES,
+    CASH_FLOW_CHOICES, VALID_PERIOD_TYPES } from "./options";
 
 export interface ReportsModulesInterface {
     id: keyof typeof REPORTS_ICONS;

@@ -202,13 +202,13 @@ function CreditNoteManagement() {
         delete creditNoteData.credit_note_lines;
       }
     }
-    console.log("🎯 RAW FORM DATA:", creditNoteData)
+    //console.log("🎯 RAW FORM DATA:", creditNoteData)
 
 
       const toastId = toast.loading('Creating Credit Note...');
       try {
         await createCreditNoteMutation.mutateAsync(creditNoteData);
-        toast.success('Credit Note created successfully!', { id: toastId });
+        toast.success('Credit Note successfully created!', { id: toastId });
       } catch (error) {
         toast.error('Failed to create Credit Note', { id: toastId });
         console.error(error);
@@ -221,21 +221,47 @@ function CreditNoteManagement() {
 
 
 
-  const handleUpdateCreditNote = (creditNoteData: CreditNoteInputs) => {
-    updateCreditNoteMutation.mutate({
-      credit_note_number: selectedCreditNoteId!,
-      creditNoteData: creditNoteData
-    });
+  const handleUpdateCreditNote = async (creditNoteData: CreditNoteInputs) => {
+    if (!creditNoteData.account?.account_code) {
+      delete creditNoteData.account;
+    }
+    if (creditNoteData.credit_note_lines) {
+      creditNoteData.credit_note_lines = creditNoteData.credit_note_lines?.filter(item => 
+        item.date
+      );
+      if (creditNoteData.credit_note_lines?.length === 0) {
+        delete creditNoteData.credit_note_lines;
+      }
+    }
+
+    const toastId = toast.loading('Updating Credit Note...');
+    try {
+      await updateCreditNoteMutation.mutateAsync({
+        credit_note_number: selectedCreditNoteId!,
+        creditNoteData: creditNoteData
+      });
+      toast.success('Credit Note successfully updated!', { id: toastId });
+    } catch (error) {
+        toast.error('Failed to update Credit Note', { id: toastId });
+        console.error(error);
+      }
   };
 
 
 
 
 
-  const handleDeleteCreditNote = (creditNoteId: number) => {
-    if (window.confirm('Are you sure you want to delete this credit note?')) {
-      deleteCreditNoteMutation.mutate(creditNoteId);
-    }
+  const handleDeleteCreditNote = async (creditNoteId: number) => {
+    if (!window.confirm('Are you sure you want to delete this credit note?')) return;
+    
+    const toastId = toast.loading('Deleting Credit Note...');
+    try {
+      await deleteCreditNoteMutation.mutateAsync(creditNoteId);
+      toast.success('Credit Note successfully deleted!', { id: toastId });
+    } catch (error) {
+        toast.error('Failed to delete Credit Note', { id: toastId });
+        console.error(error);
+      }
   };
 // ------------------------------------------------------------------------------------
 
@@ -257,6 +283,14 @@ function CreditNoteManagement() {
     setView('list');
     setSelectedCreditNoteId(null);
   };
+// ------------------------------------------------------------------------------------
+
+
+  const handleBackToCreditNoteDetails = (creditNoteId: number) => {
+    setSelectedCreditNoteId(creditNoteId);
+    setView('details')
+  };
+  
 // ------------------------------------------------------------------------------------
 
   const handleEditCreditNoteButton = () => {
@@ -563,7 +597,7 @@ const handleItemsPerPageChange = (value: any) => {
                 onSubmit={handleUpdateCreditNote}
                 isSubmitting={updateCreditNoteMutation.isPending}
                 onBack={handleBackToCreditNotesList}
-                onCancel={handleBackToCreditNotesList}
+                onCancel={handleBackToCreditNoteDetails}
                 customers={customers}
                 currencies={currencies}
                 accounts={accounts}
