@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
-import { ProductItemInputs, ProductGroupCreateResponse } from "../constants/Types";
+import { ProductItemInputs, ProductGroupCreateResponse, ProductItemFormProps } from "../constants/Types";
 
 import { BOOLEAN_OPTIONS } from "../constants/options";
 
@@ -19,10 +19,14 @@ import {CurrencyInterface} from "../../Core/constants/Types"
 
 
 
-const ProductItemForm: React.FC<any> = ({ onSubmit, onCancel, isSubmitting,
+const ProductItemForm: React.FC<ProductItemFormProps> = ({
+    onSubmit,
+    onCancel,
+    isSubmitting,
     currencies, accounts, agents, productGroups }) => {
 
-        const { register, handleSubmit, watch, setValue, control, formState: { errors } } = useForm<ProductItemInputs>({
+        const { register, handleSubmit, watch, setValue,
+            control, formState: { errors } } = useForm<ProductItemInputs>({
             defaultValues: {
                 active: true
             }
@@ -37,223 +41,255 @@ const ProductItemForm: React.FC<any> = ({ onSubmit, onCancel, isSubmitting,
 
         return(
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="bg-white rounded-xl shadow-2xl border border-gray-200">
-                    {/* Header */}
-                    <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                        <div className="flex items-center gap-4 flex-1">
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-xl overflow-hidden font-sans">
 
-                            <div className="flex gap-3">
-                                <span className="inline-flex text-black items-center rounded-full text-s ">Date created: 
-                                <input 
-                                    type="date"
-                                    {...register("date_created")}
-                                    className="ml-4 w-34 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
-                                    />
-                                </span>
-                                {errors.date_created && <p className="text-amber-600 text-sm">{errors.date_created?.message}</p>}
-                            </div>
+                {/* ── TOP HEADER BAR ── */}
+                <div className="bg-gray-50 border-b border-gray-100 px-8 py-4 flex items-center justify-between gap-6">
 
-                            <div className="absolute left-1/2 transform -translate-x-1/2">
-                            </div>
-                        </div>
-                        <div className="flex gap-3">
-                            <span className="inline-flex text-black items-center rounded-full text-s  ">Status:      
-                                <select 
-                                    {...register("active")}
-                                    className="ml-4 w-25 h-6 text-center bg-transparent cursor-pointer text-black rounded-lg focus:ring-2 focus:ring-green-300 bg-gray border border-gray-300"
-                                >
-                                    <option value="">select...</option>
-                                    {BOOLEAN_OPTIONS.map(option => (
-                                        <option key={String(option.value)} value={String(option.value)}>
-                                            {option.label}
-                                        </option>
-                                    ))}
-                                </select>
-                            </span>
-                        </div>
-                    </div>
+                  {/* Date Created */}
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-semibold tracking-widest text-gray-600 uppercase">Date Created</span>
+                    <input
+                      type="date"
+                      {...register("date_created")}
+                      className="h-8 px-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition cursor-pointer"
+                    />
+                    {errors.date_created && (
+                      <p className="text-amber-500 text-xs">{errors.date_created?.message}</p>
+                    )}
+                  </div>
 
-                    {/* Content */}
-                    <div className="p-6 space-y-6">
-                        {/* Key Information */}
-                        <fieldset className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
-
-                            <label className="text-sm text-gray-600 mb-1">Item Description:
-                            <input 
-                                {...register("item_description")} 
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                            />
-                            </label>
-
-                            <label className="text-sm text-gray-600 mb-1">Product Serial Number:
-                            <input 
-                                {...register("product_serial_number")} 
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                            />
-                            </label>
-
-                            <label className="text-sm text-gray-600 font-medium mb-1">Product Group:
-                                <select
-                                    {...register("product_group")}
-                                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <option value="">select...</option>
-                                    {useMemo(() => productGroups.map((productGroup: ProductGroupCreateResponse) => (
-                                        <option key={productGroup.group_code} value={productGroup.group_code}>
-                                            SKG-{productGroup.group_code} | Group name: {productGroup.group_name}
-                                        </option>
-                                    )), [productGroups])}
-                                </select>
-                            </label>
-
-                        </fieldset>
-
-                        {/* PRODUCT DETAILS */}
-                        <fieldset>
-                            
-                            <div className="bg-green-50 rounded-lg p-6 border border-green-200 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
-                                <legend>Item Information</legend>
-                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-black mb-1">Base Unit of Measure:</div>
-                                    <input 
-                                        {...register("base_unit_of_measure")}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-black mb-1">Reference Cost:</div>
-                                    <input 
-                                        {...register("reference_cost")}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                        type="number"
-                                        placeholder="0.00"
-                                        step="0.01" min="0" onBlur={(e) => {
-                                            if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                            }
-                                        }}
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-black mb-1">Reference Price:</div>
-                                    <input
-                                        {...register("reference_price")}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                        type="number"
-                                        placeholder="0.00"
-                                        step="0.01" min="0" onBlur={(e) => {
-                                            if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                            }
-                                        }}
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-black mb-1">Quantity Available:</div>
-                                    <input 
-                                        {...register("quantity_available")}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                        type="number"
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-black mb-1">Supplier Details:</div>
-                                    <textarea 
-                                        {...register("supplier_name")}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-black mb-1">Currency:</div>
-                                    <select
-                                        {...register("currency")}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
-                                    >
-                                        <option value="">select...</option>
-                                        {useMemo(() => currencies.map((currency: CurrencyInterface) => (
-                                            <option key={currency.currency_code} value={currency.currency_code}>
-                                                {currency.currency_code} - {currency.country}
-                                            </option>
-                                        )), [currencies])}
-                                    </select>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div className="text-sm text-black mb-1">Item Photo:</div>
-                                    <input
-                                        className="w-full text-black cursor-pointer rounded-lg border border-gray-300 px-3 py-2"
-                                        type="file"
-                                        onChange={e => {
-                                            const file = e.target.files?.[0] || null;
-                                            setValue('product_photo', file);
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <div className="bg-violet-50 rounded-lg p-6 border border-violet-200 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">Additional Photos</h3>
-                            {fields.map((field, index) => (
-                                <div key={field.id} className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
-
-                                    <div className="text-sm text-gray-600 font-medium mb-1">Photo:</div>
-                                    <input 
-                                        type="file"
-                                        onChange={e => {
-                                            const file = e.target.files?.[0] || null;
-                                            setValue(`additional_photos.${index}.additional_photo`, file);
-                                        }}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                    />
-
-                                    <div className="text-sm text-gray-600 font-medium mb-1">Photo Description:</div>
-                                    <input 
-                                        {...register(`additional_photos.${index}.description`)}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => remove(index)}
-                                    >
-                                        x Remove
-                                    </button>
-                                </div>
-                            ))}
-                            <button
-                                type="button"
-                                onClick={() => append({ 
-                                    additional_photo: null, 
-                                    description: "" 
-                                })}
-                            >
-                                + Add More
-                            </button>
-                        </div>
-
-                        {/* SUBMIT BUTTON */}
-                        <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-blue-700 font-medium disabled:opacity-50">
-                                {isSubmitting ? (
-                                    <span className="flex items-center gap-2">
-                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                        Creating Product...
-                                    </span>
-                                ) : (
-                                    'Create Product'
-                                )}
-                            </button>
-                        </div>
-                    </div>
+                  {/* Status */}
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-semibold tracking-widest text-gray-600 uppercase">Status</span>
+                    <select
+                      {...register("active")}
+                      className="h-8 px-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition cursor-pointer"
+                    >
+                      <option value="">Select…</option>
+                      {BOOLEAN_OPTIONS.map(option => (
+                        <option key={String(option.value)} value={String(option.value)}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
+
+                {/* ── BODY ── */}
+                <div className="px-8 py-8 space-y-8">
+
+                  <section className="space-y-4">
+                    <h2 className="text-xs font-semibold tracking-widest text-black uppercase border-b border-gray-100 pb-2">
+                      Product Identity
+                    </h2>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Item Description</label>
+                      <input
+                        {...register("item_description")}
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:bg-white transition"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Serial Number</label>
+                        <input
+                          {...register("product_serial_number")}
+                          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:bg-white transition"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Product Group</label>
+                        <select
+                          {...register("product_group")}
+                          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:bg-white transition cursor-pointer"
+                        >
+                          <option value="">Select…</option>
+                          {useMemo(() => productGroups.map((productGroup: ProductGroupCreateResponse) => (
+                            <option key={productGroup.group_code} value={productGroup.group_code}>
+                              SKG-{productGroup.group_code} | {productGroup.group_name}
+                            </option>
+                          )), [productGroups])}
+                        </select>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section>
+                    <h2 className="text-xs font-semibold tracking-widest text-black uppercase border-b border-gray-100 pb-2 mb-5">
+                      Item Information
+                    </h2>
+
+                    <fieldset className="rounded-2xl border border-emerald-100 bg-emerald-50/40 p-6 space-y-5">
+
+                      {/* Row: UOM + Quantity */}
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                        <div className="space-y-1">
+                          <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Base Unit of Measure</label>
+                          <input
+                            {...register("base_unit_of_measure")}
+                            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Quantity Available</label>
+                          <input
+                            {...register("quantity_available")}
+                            type="number"
+                            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Row: Cost + Price + Currency */}
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                        <div className="space-y-1">
+                          <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Reference Cost</label>
+                          <input
+                            {...register("reference_cost")}
+                            type="number"
+                            placeholder="0.00"
+                            step="0.01"
+                            min="0"
+                            onBlur={(e) => {
+                              if (e.target.value) e.target.value = parseFloat(e.target.value).toFixed(2);
+                            }}
+                            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Reference Price</label>
+                          <input
+                            {...register("reference_price")}
+                            type="number"
+                            placeholder="0.00"
+                            step="0.01"
+                            min="0"
+                            onBlur={(e) => {
+                              if (e.target.value) e.target.value = parseFloat(e.target.value).toFixed(2);
+                            }}
+                            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Currency</label>
+                          <select
+                            {...register("currency")}
+                            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition cursor-pointer"
+                          >
+                            <option value="">Select…</option>
+                            {useMemo(() => currencies.map((currency: CurrencyInterface) => (
+                              <option key={currency.currency_code} value={currency.currency_code}>
+                                {currency.currency_code} — {currency.country}
+                              </option>
+                            )), [currencies])}
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Supplier */}
+                      <div className="space-y-1">
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Supplier Details</label>
+                        <textarea
+                          {...register("supplier_name")}
+                          rows={3}
+                          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition resize-none"
+                        />
+                      </div>
+
+                      {/* Item Photo */}
+                      <div className="space-y-2">
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Item Photo</label>
+                        <input
+                          type="file"
+                          onChange={e => {
+                            const file = e.target.files?.[0] || null;
+                            setValue('product_photo', file);
+                          }}
+                          className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
+                        />
+                      </div>
+
+                    </fieldset>
+                  </section>
+
+                  <section>
+                    <h2 className="text-xs font-semibold tracking-widest text-black uppercase border-b border-gray-100 pb-2 mb-5">
+                      Additional Photos
+                    </h2>
+
+                    <div className="rounded-2xl border border-violet-100 bg-violet-50/40 p-6 space-y-6">
+
+                      {fields.map((field, index) => (
+                        <div key={field.id} className="bg-white rounded-xl border border-violet-100 p-5 space-y-4 shadow-sm">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-semibold text-violet-400 tracking-widest uppercase">
+                              Photo {index + 1}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => remove(index)}
+                              className="text-xs text-red-400 hover:text-red-600 font-medium transition px-2 py-1 rounded-lg hover:bg-red-50"
+                            >
+                              ✕ Remove
+                            </button>
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Photo</label>
+                            <input
+                              type="file"
+                              onChange={e => {
+                                const file = e.target.files?.[0] || null;
+                                setValue(`additional_photos.${index}.additional_photo`, file);
+                              }}
+                              className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-violet-100 file:text-violet-700 hover:file:bg-violet-200 cursor-pointer rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 transition"
+                            />
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Photo Description</label>
+                            <input
+                              {...register(`additional_photos.${index}.description`)}
+                              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:bg-white transition"
+                            />
+                          </div>
+                        </div>
+                      ))}
+
+                      <button
+                        type="button"
+                        onClick={() => append({ additional_photo: null, description: "" })}
+                        className="w-full py-3 rounded-xl border-2 border-dashed border-violet-200 text-sm font-medium text-violet-400 hover:border-violet-400 hover:text-violet-600 hover:bg-violet-50 transition"
+                      >
+                        + Add Photo
+                      </button>
+                    </div>
+                  </section>
+
+                  {/* ── FOOTER: Actions ── */}
+                  <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          Creating…
+                        </>
+                      ) : (
+                        'Create Product'
+                      )}
+                    </button>
+                  </div>
+
+                </div>
+              </div>
             </form>
         );
     };

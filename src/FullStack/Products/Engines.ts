@@ -76,7 +76,11 @@ export const createProductItem = async (productItemData: ProductItemInputs | For
 };
 
 export const putUpdateProductItem = async ({item_code, productItemData}: AllProductItemInputs) => {
-    const response = await apiClient.put(`/products/productitem/${item_code}/`, productItemData);
+    const response = await apiClient.put(`/products/productitem/${item_code}/`, productItemData, {
+        headers: {
+            "Content-Type": 'multipart/form-data',
+        },
+    });
     return response.data;
 };
 

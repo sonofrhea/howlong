@@ -122,7 +122,7 @@ export type ProductGroupDetailsProps = {
   productGroup: ProductGroupDetails;
   isLoading: boolean;
   onBack?: () => void;
-  onEdit : (productGroupId: number);
+  onEdit: (productGroupId: number) => void;
 };
 
 
@@ -166,12 +166,14 @@ export type ProductItemList = {
   active: boolean;
 }
 
+
+
 export type ProductItemInputs = {
   item_code: number;
   item_description: string;
   product_group: string;
   product_serial_number: number;
-  product_photo: File | null;
+  product_photo?: File | null;
   base_unit_of_measure: string;
   reference_cost: number;
   reference_price: number;
@@ -179,10 +181,10 @@ export type ProductItemInputs = {
   currency: string;
   supplier_name: number;
   active: boolean;
-  additional_photos: Array<{
-    additional_photo: File | null;
-    description: string;
-  }>;
+  additional_photos?: Array<{
+    additional_photo?: File | null;
+    description?: string | null;
+  }> | null;
   date_created: string;
 };
 
@@ -205,11 +207,38 @@ export type ProductItemProps = {
   productItem: ProductItemInputs;
   onSubmit: (data: ProductItemInputs) => void;
   isSubmitting: boolean;
+  onCancel: (productItemId: number) => void;
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  currencies: CurrencyInterface[];
+  productGroups: ProductGroupCreateResponse[];
+};
+
+
+export type ProductItemFormProps = {
+  onSubmit: (data: ProductItemInputs) => void;
+  isSubmitting: boolean;
   onCancel?: () => void;
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
   currencies: CurrencyInterface[];
   productGroups: ProductGroupCreateResponse[];
+};
+
+
+export type ProductItemTableProps = {
+  productItems: ProductItemList[];
+  onProductItemClick: (productItemId: number) => void;
+  onEditProductItem: (productItemId: number, productItem: ProductItemList) => void;
+  onDeleteProductItem: (productItemId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
 };
 
 // -------- END ----------- PRODUCT ITEM INPUT ----------------

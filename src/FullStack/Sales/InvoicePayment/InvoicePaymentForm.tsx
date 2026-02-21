@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
 
-import { InvoiceInterface, InvoicePaymentInputs } from "../Constants/Types";
+import { InvoiceInterface, InvoicePaymentFormProps, InvoicePaymentInputs } from "../Constants/Types";
 
 import { PAYMENT_TYPE_OPTIONS } from "../Constants/Options";
 
@@ -38,7 +38,10 @@ const formatPaymentNumber = () => {
 
 
 
-const InvoicePaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
+const InvoicePaymentForm: React.FC<InvoicePaymentFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel, 
     currencies, accounts, agents, invoices, customers }) => {
 
         const { register, handleSubmit, watch, setValue, control, 
@@ -279,8 +282,8 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                                                     >
                                                         <option value="">select...</option>
                                                         {PAYMENT_TYPE_OPTIONS.map(option => (
-                                                            <option key={option.value} value={option.value}>
-                                                                {option.label}
+                                                            <option key={option} value={option}>
+                                                                {option}
                                                             </option>
                                                         ))}
                                                     </select>

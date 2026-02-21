@@ -264,6 +264,16 @@ function InvoicePaymentManagement() {
     setView('list');
     setSelectedInvoicePaymentId(null);
   };
+
+
+  // ------------------------------------------------------------------------------------
+
+
+  const handleBackToInvoicePaymentDetails = (invoicePaymentId: number) => {
+    setSelectedInvoicePaymentId(invoicePaymentId);
+    setView('details')
+  };
+
 // ------------------------------------------------------------------------------------
 
   const handleEditInvoicePaymentButton = () => {
@@ -568,7 +578,7 @@ const handleItemsPerPageChange = (value: any) => {
               invoicePayment={selectedInvoicePayment}
               onSubmit={handleUpdateInvoicePayment}
               isSubmitting={updateInvoicePaymentMutation.isPending}
-              onCancel={handleBackToInvoicePaymentList}
+              onCancel={handleBackToInvoicePaymentDetails}
               currencies={currencies}
               accounts={accounts}
               agents={agents}

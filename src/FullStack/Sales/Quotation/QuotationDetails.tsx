@@ -50,7 +50,7 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
     });
 
 
-    const quotationId = quotation.quotation_number;
+    const quotationId = quotation?.quotation_number;
 
     
     if (isLoading) {

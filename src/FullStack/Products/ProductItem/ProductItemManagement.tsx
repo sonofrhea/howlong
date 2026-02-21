@@ -164,25 +164,22 @@ function ProductItemManagement() {
 
 
   const handleAddProductItem = async (productItemData: ProductItemInputs) => {
-    const newProductItemData = new FormData();
 
-    Object.entries(productItemData).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
-        if (value instanceof File) {
-          //console.log(File.name);
-          newProductItemData.append(key, value);
-        } else {
-          newProductItemData.append(key, String(value));
-        }
-      }
-    });
+    const cleanedData = {
+      ...productItemData,
+      additional_photos:
+        productItemData.additional_photos &&
+        productItemData.additional_photos?.length > 0
+          ? productItemData.additional_photos
+          : null
+    };
 
-    //console.log("🎯 RAW FORM DATA:", newProductItemData);
+    //console.log("🎯 RAW FORM DATA:", cleanedData);
     
     const toastId = toast.loading('Creating Product...');
     try {
-      await createProductItemMutation.mutateAsync(newProductItemData);
-      toast.success('Product created successfully!', { id: toastId });
+      await createProductItemMutation.mutateAsync(cleanedData);
+      toast.success('Product successfully created!', { id: toastId });
     } catch (error) {
       toast.error('Failed to create product', { id: toastId });
       console.error(error);
@@ -195,11 +192,43 @@ function ProductItemManagement() {
 
 
 
-  const handleUpdateProductItem = (productItemData: ProductItemInputs) => {
-    updateProductItemMutation.mutate({
-      item_code: selectedProductItemId!,
-      productItemData: productItemData
-    });
+  const handleUpdateProductItem = async (productItemData: ProductItemInputs) => {
+
+    const cleanedData = {
+      ...productItemData,
+      additional_photos:
+        productItemData.additional_photos &&
+        productItemData.additional_photos?.length > 0
+          ? productItemData.additional_photos
+          : null
+    };
+
+    if (typeof cleanedData.product_photo === "string") {
+      delete cleanedData.product_photo
+    }
+
+    if (cleanedData.additional_photos) {
+      cleanedData.additional_photos.forEach((photo, index) => {
+        if (typeof photo.additional_photo === "string") {
+          delete cleanedData.additional_photos![index].additional_photo;
+        }
+      });
+    }
+
+
+    //console.log("🎯 RAW FORM DATA:", cleanedData);
+    const toastId = toast.loading('Updating Product...');
+    
+    try {
+      await updateProductItemMutation.mutateAsync({
+        item_code: selectedProductItemId!,
+        productItemData: cleanedData
+      });
+      toast.success("Product successfully updated!", { id: toastId })
+    } catch (error) {
+      toast.error('Failed to update product', { id: toastId });
+      console.error(error);
+    }
   };
 
 
@@ -207,8 +236,15 @@ function ProductItemManagement() {
 
 
   const handleDeleteProductItem = async (productItemId: number) => {
-    if (window.confirm('Are you sure you want to delete this product item?')) {
-      deleteProductItemMutation.mutate(productItemId);
+    if (!window.confirm('Are you sure you want to delete this product item?')) return;
+    
+    const toastId = toast.loading('Deleting Product...');
+    try {
+      await deleteProductItemMutation.mutateAsync(productItemId);
+      toast.success("Product successfully deleted!', { id: toastId }");
+    } catch (error) {
+      toast.error('Failed to delete product', { id: toastId });
+      console.error(error);
     }
   };
 // ------------------------------------------------------------------------------------
@@ -231,6 +267,15 @@ function ProductItemManagement() {
     setView('list');
     setSelectedProductItemId(null);
   };
+
+// ------------------------------------------------------------------------------------
+
+
+  const handleBackToProductItemDetails = (productItemId: number) => {
+    setSelectedProductItemId(productItemId);
+    setView('details');
+  };
+
 // ------------------------------------------------------------------------------------
 
   const handleEditProductItemButton = () => {
@@ -504,7 +549,7 @@ const handleSort = (key: any) => {
               productItem={selectedProductItem}
               onSubmit={handleUpdateProductItem}
               isSubmitting={updateProductItemMutation.isPending}
-              onCancel={handleBackToProductItemsList}
+              onCancel={handleBackToProductItemDetails}
               currencies={currencies}
               accounts={accounts}
               agents={agents}

@@ -22,11 +22,11 @@ const ProductGroupForm: React.FC<ProductGroupFormProps> = ({
     agents
 }) => {
 
-        const { register, handleSubmit, formState: { errors } } = useForm<ProductGroupInputs>({
-            defaultValues: {
-                active: true
-            }
-        });
+    const { register, handleSubmit, formState: { errors } } = useForm<ProductGroupInputs>({
+        defaultValues: {
+            active: true
+        }
+    });
 
 
 

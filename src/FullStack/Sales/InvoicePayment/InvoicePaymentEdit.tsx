@@ -51,6 +51,7 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const invoicePaymentId = invoicePayment.invoice_payment_code;
 
 
     const { register, handleSubmit, watch, setValue, control, 
@@ -61,14 +62,32 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
 
 
     React.useEffect(() => {
-        reset(invoicePayment);
+        if (!invoicePayment) return;
+
+        const transformed = {
+            ...invoicePayment,
+            date_created: invoicePayment.date_created
+                ? new Date(invoicePayment.date_created).toISOString().split("T")[0]
+                : "",
+            related_invoice_payment: invoicePayment.related_invoice_payment
+                ? invoicePayment.related_invoice_payment?.map(child => ({
+                    ...child,
+                    payment_date: child.payment_date
+                        ? new Date(child.payment_date).toISOString().split("T")[0]
+                        : ""
+                })) : [],
+        };
+        reset(transformed);
     }, [invoicePayment, reset]);
 
 
     const { fields, append, remove } = useFieldArray({
-            name: "related_invoice_payment",
-            control
-        });
+        name: "related_invoice_payment",
+        control
+    });
+
+
+
 
 
     
@@ -129,10 +148,9 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                         <p className={forms.label}>Date</p>
                         <input 
                             type="date"
-                            {...register("date_created", {required: "Date is required"})}
+                            {...register("date_created")}
                             className={forms.input.date}
                         />
-                        {errors.date_created && <p className="text-amber-600 text-sm">{errors.date_created?.message}</p>}
                     </div>
 
                     <div>
@@ -296,8 +314,8 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                                                 >
                                                     <option value="">select...</option>
                                                     {PAYMENT_TYPE_OPTIONS.map(option => (
-                                                        <option key={option.value} value={option.value}>
-                                                            {option.label}
+                                                        <option key={option} value={option}>
+                                                            {option}
                                                         </option>
                                                     ))}
                                                 </select>
@@ -435,7 +453,7 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                         <button
                             type="button"
                             className={buttons.secondary}
-                            onClick={onCancel}
+                            onClick={() => onCancel(invoicePaymentId)}
                         >
                             Cancel
                         </button>

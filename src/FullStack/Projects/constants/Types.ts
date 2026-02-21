@@ -76,11 +76,11 @@ export interface ProjectProfileInputs {
   date: string;
   project_name: string;
   project_description: string;
-  project_type: typeof PROJECT_TYPE_OPTIONS[number]['value'] | null;
-  status: typeof PROJECT_STATUS_OPTIONS[number]['value'] | null;
+  project_type: typeof PROJECT_TYPE_OPTIONS[number]| null;
+  status: typeof PROJECT_STATUS_OPTIONS[number] | null;
 
   address: string;
-  country: typeof COUNTRY_OPTIONS[number]['value'] | null;
+  country: typeof COUNTRY_OPTIONS[number] | null;
   city: string;
   state: string;
   zip_code: string;
@@ -101,7 +101,7 @@ export interface ProjectProfileInputs {
   phases?: Array<{
     phase_description?: string;
     start_date?: string;
-    current_phase?: typeof PROJECT_PHASE_OPTIONS[number]['value'] | null;
+    current_phase?: typeof PROJECT_PHASE_OPTIONS[number] | null;
     end_date?: string;
   }> | null; 
   created_by: string;
@@ -273,8 +273,8 @@ export type JobCostLedgerInputs = {
     } | null;
     description: string | null;
     supplier: string | null;
-    cost_type: typeof COST_TYPE_CHOICES_OPTIONS,
-    status: typeof JOB_COST_LINES_STATUS_OPTIONS,
+    cost_type: typeof COST_TYPE_CHOICES_OPTIONS[number] | null;
+    status: typeof JOB_COST_LINES_STATUS_OPTIONS[number] | null;
     cost: number | null;
     tax: number | null;
   }> | null;

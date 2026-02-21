@@ -1,8 +1,8 @@
 import React from "react";
-import { ProductItemList } from "../constants/Types";
+import { ProductItemList, ProductItemTableProps } from "../constants/Types";
 
 
-const formatDate = (dateString: any) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 }; 
 
@@ -12,8 +12,19 @@ const formatCurrency = () => {
 
 
 
-const ProductItemTable: React.FC<any> = ({ productItems, onProductItemClick, onEditProductItem, onDeleteProductItem,
-    sortConfig, onSort, currentPage, totalPages, totalItems, itemsPerPage, onPageChange, onItemsPerPageChange
+const ProductItemTable: React.FC<ProductItemTableProps> = ({
+    productItems,
+    onProductItemClick,
+    onEditProductItem,
+    onDeleteProductItem,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
 
@@ -213,7 +224,7 @@ const ProductItemTable: React.FC<any> = ({ productItems, onProductItemClick, onE
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${productItem.item_code}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete SKU-${productItem.item_code}?`)) {
                                                         onDeleteProductItem(productItemId);
                                                     }
                                                 }}

@@ -430,7 +430,7 @@ export type InvoicePaymentInputs = {
   cancelled: boolean;
   related_invoice_payment?: Array<{
     payment_date?: string | null;
-    payment_type?: typeof PAYMENT_TYPE_OPTIONS[number]['value'] | null;
+    payment_type?: typeof PAYMENT_TYPE_OPTIONS[number];
     //payment_amount: number;
     tax_inclusive?: boolean | null;
     tax_amount?: number | null;
@@ -469,7 +469,7 @@ export type InvoicePaymentDetails = {
     tax_amount?: number | null;
     payment_amount?: number | null;
     cancelled?: boolean;
-    payment_type?: typeof PAYMENT_TYPE_OPTIONS[number]['value'] | null;
+    payment_type?: typeof PAYMENT_TYPE_OPTIONS[number] | null;
 }> | null;
   outstanding_amount: number | null;
   payment_receipt: File;
@@ -505,7 +505,7 @@ export type InvoicePaymentProps = {
   invoicePayment: InvoicePaymentInputs;
   onSubmit: (data: InvoicePaymentInputs) => void;
   isSubmitting: boolean;
-  onCancel?: () => void;
+  onCancel: (invoicePaymentId: number) => void;
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
@@ -538,4 +538,16 @@ export type InvoicePaymentTableProps = {
   onPageChange: (page: number) => void;
   onItemsPerPageChange: (itemsPerPage: string) => void;
   sortConfig: SortConfig;
+};
+
+
+export type InvoicePaymentFormProps = {
+  onSubmit: (data: InvoicePaymentInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  invoices: InvoiceCreateResponse[];
+  customers: CustomerCreateResponse[];
 };
