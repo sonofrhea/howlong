@@ -44,25 +44,25 @@ export type JournalEntryList = {
 };
 
 export type JournalEntryDetails = {
-  journal_number: number,
-  date: string,
-  description: string,
+  journal_number: number;
+  date: string;
+  description: string;
 
   journal_entries: Array<{
     account: {
-      account_code: number,
-      account_name: string,
+      account_code: number;
+      account_name: string;
       account_type: string
-    },
-    description: string,
-    net_debit: string,
-    net_credit: string,
+    };
+    description: string;
+    net_debit: string;
+    net_credit: string;
     cancelled: boolean
-  }>,
+  }>;
 
-  aggregate_debit: string,
-  aggregate_credit: string,
-  cancelled: boolean,
+  aggregate_debit: string;
+  aggregate_credit: string;
+  cancelled: boolean;
   created_by: string
 };
 
@@ -75,12 +75,12 @@ export type JournalHeaderInputs = {
         account: {
             account_code: number;
             account_name: string;
-            account_type: string; 
+            account_type: string;
         };
         description: string;
         net_debit: number;
         net_credit: number;
-        cancelled: boolean; 
+        cancelled: boolean;
     }>;
     aggregate_debit: number;
     aggregate_credit: number;

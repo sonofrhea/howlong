@@ -1,5 +1,5 @@
 import React from "react";
-import { JobCostLedgerList } from "../constants/Types";
+import { JobCostLedgerList, JobCostLedgerListProps } from "../constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -20,9 +20,19 @@ const formatNumber = () => {
 
 
 
-const JobCostLedgerTable: React.FC<any> = ({ jobCostLedgers, onJobCostLedgerClick, onEditJobCostLedger,
-    onDeleteJobCostLedger, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const JobCostLedgerTable: React.FC<JobCostLedgerListProps> = ({
+    jobCostLedgers,
+    onJobCostLedgerClick,
+    onEditJobCostLedger,
+    onDeleteJobCostLedger,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
     // Sortable header component
@@ -209,7 +219,7 @@ const JobCostLedgerTable: React.FC<any> = ({ jobCostLedgers, onJobCostLedgerClic
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${jobCostLedger.job_cost_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete JOB-0-${jobCostLedger.job_cost_number}?`)) {
                                                         onDeleteJobCostLedger(jobCostLedgerId);
                                                     }
                                                 }}

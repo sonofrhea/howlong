@@ -1,6 +1,7 @@
 import React from "react";
 import { buttons, details, forms, labelStyles, layout, tables, text } from "../constants/styles";
 import { SquarePen } from "lucide-react";
+import { CompanyPurchaseInvoiceDetailsProps } from "../constants/Types";
 
 
 
@@ -14,9 +15,19 @@ const formatNumber = () => {
 };
 
 
+const formatSupplierNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `SUP-${currentYear}-`;
+};
 
-const CompanyPurchaseInvoiceDetails: React.FC<any> = ({ companyPurchaseInvoice, isLoading, onBack, onEdit }) => {
 
+const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps> = ({
+    companyPurchaseInvoice,
+    isLoading,
+    onBack,
+    onEdit
+}) => {
+    const companyPurchaseInvoiceId = companyPurchaseInvoice?.purchase_invoice_number;
 
 
     if (isLoading) {
@@ -68,7 +79,7 @@ const CompanyPurchaseInvoiceDetails: React.FC<any> = ({ companyPurchaseInvoice, 
 
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={() => onEdit(companyPurchaseInvoiceId)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
@@ -93,7 +104,7 @@ const CompanyPurchaseInvoiceDetails: React.FC<any> = ({ companyPurchaseInvoice, 
                         
                         <p className={labelStyles}>
                             <p className={details.extraSmallUppercase}>Supplier</p>
-                            {companyPurchaseInvoice.supplier || 'N/A'} | {companyPurchaseInvoice.supplier_name || 'N/A'}
+                            {formatSupplierNumber()}{companyPurchaseInvoice.supplier || 'N/A'} | {companyPurchaseInvoice.supplier_name || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
@@ -166,7 +177,7 @@ const CompanyPurchaseInvoiceDetails: React.FC<any> = ({ companyPurchaseInvoice, 
 
                                         <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
-                                            <div className="font-medium text-gray-800">{companyPurchaseInvoice.tax_amount || '0'}%</div>
+                                            <div className="font-medium text-gray-800">{companyPurchaseInvoice.tax || '0'}%</div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">

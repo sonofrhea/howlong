@@ -6,7 +6,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { PURCHASE_ORDER_STATUS } from "../constants/options";
 import { forms, buttons, layout, tables, text, utils } from "../constants/styles";
 
-import { CompanyPurchaseOrderInputs } from "../constants/Types";
+import { CompanyPurchaseOrderFormProps, CompanyPurchaseOrderInputs } from "../constants/Types";
 import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
 
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
@@ -46,8 +46,15 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const CompanyPurchaseOrderForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
-    accounts, agents, supplierProfiles, purchaseInvoices }) => {
+const CompanyPurchaseOrderForm: React.FC<CompanyPurchaseOrderFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel, 
+    accounts,
+    agents,
+    supplierProfiles,
+    purchaseInvoices,
+ }) => {
 
 
         const { register, handleSubmit, watch, setValue, 
@@ -177,7 +184,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                     placeholder="0.00"
                                     step="0.01" min="0.00" onBlur={(e) => {
                                         if (e.target.value) {
-                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                            e.target.value = decimalPlaces(Number(e.target.value));
                                         }
                                     }}
                                 />
@@ -191,8 +198,8 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => PURCHASE_ORDER_STATUS.map(option => (
-                                        <option key={option.value} value={option.value} >
-                                            {option.label}
+                                        <option key={option} value={option} >
+                                            {option}
                                         </option>
                                     )), [agents])}
                                 </select>
@@ -279,6 +286,19 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                     <tbody className={tables.body}>
                                         {fields.map((field, index) => {
 
+                                            let total_paid = Number(watch(`related_purchase.${index}.total_paid`)) || 0.00;
+                                            let tax_amt = Number(watch(`related_purchase.${index}.tax_amount`)) || 0.00;
+                                            let tax_inclusive = watch(`related_purchase.${index}.tax_inclusive`) || false;
+
+                                            let tax_rate = tax_amt / 100;
+
+                                            if (!tax_inclusive) {
+                                                tax_amt = Number(0.00);
+                                            }
+
+                                            const sub_total = total_paid + (total_paid * tax_rate);
+
+
                                             return(
                                                 <tr key={field.id} className={tables.row}>
                                                     <td className={tables.cell}> 
@@ -297,7 +317,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                                             placeholder="0.00"
                                                             step="0.01" min="0.00" onBlur={(e) => {
                                                                 if (e.target.value) {
-                                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                                 }
                                                             }}
                                                         />
@@ -318,7 +338,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                                             placeholder="0.00"
                                                             step="0.01" min="0.00" onBlur={(e) => {
                                                                 if (e.target.value) {
-                                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                                 }
                                                             }}
                                                         />
@@ -332,10 +352,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                                     </td>
 
                                                     <td className={tables.autoCalculate}>
-                                                        {decimalPlaces(
-                                                            Number(watch(`related_purchase.${index}.total_paid`) || 0.00) *
-                                                            (1 + (Number(watch(`related_purchase.${index}.tax_amount`) / 100))|| 0.00)
-                                                        )}
+                                                        {decimalPlaces(sub_total)}
                                                     </td>
 
                                                     <td>

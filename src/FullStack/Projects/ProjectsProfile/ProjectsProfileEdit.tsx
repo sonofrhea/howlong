@@ -34,11 +34,12 @@ const ProjectsProfileEdit: React.FC<ProjectProfileProps> = ({
     onCancel,
     customers, agents
 }) => {
+    const projectId = project?.project_code;
 
     const phasesOptions = useMemo(() => 
             PROJECT_PHASE_OPTIONS.map(option => (
-                <option key={option.value} value={option.value}>
-                    {option.value}
+                <option key={option} value={option}>
+                    {option}
                 </option>
             )), [PROJECT_PHASE_OPTIONS])
 
@@ -47,6 +48,26 @@ const ProjectsProfileEdit: React.FC<ProjectProfileProps> = ({
         control, setValue, formState: {errors } } = useForm<ProjectProfileInputs>({
             defaultValues: project
         });
+
+
+    
+    React.useEffect(() => {
+        if (!project) return;
+
+        const updated = {
+            ...project,
+            date: project.date
+                ? new Date(project.date).toISOString().split("T")[0]
+                : "",
+        };
+        reset(updated);
+    }, [project, reset]);
+
+
+
+
+
+
         
         
     const { fields, append, remove } = useFieldArray({
@@ -89,8 +110,8 @@ const ProjectsProfileEdit: React.FC<ProjectProfileProps> = ({
                             >
                                 <option value="">select type...</option>
                                 {useMemo(() => PROJECT_TYPE_OPTIONS.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
+                                    <option key={option} value={option}>
+                                        {option}
                                     </option>
                                 )), [PROJECT_TYPE_OPTIONS])}
                             </select>
@@ -105,8 +126,8 @@ const ProjectsProfileEdit: React.FC<ProjectProfileProps> = ({
                             >
                                 <option value="">Select status...</option>
                                 {useMemo(() => PROJECT_STATUS_OPTIONS.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
+                                    <option key={option} value={option}>
+                                        {option}
                                     </option>
                                 )), [PROJECT_STATUS_OPTIONS])}
                             </select>
@@ -231,8 +252,8 @@ const ProjectsProfileEdit: React.FC<ProjectProfileProps> = ({
                             >
                                 <option value="">Select Country...</option>
                                 {useMemo(() => COUNTRY_OPTIONS.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
+                                    <option key={option} value={option}>
+                                        {option}
                                     </option>
                                 )), [COUNTRY_OPTIONS])}
                             </select>
@@ -249,13 +270,12 @@ const ProjectsProfileEdit: React.FC<ProjectProfileProps> = ({
                             <label>Project Budget <span className="required">*</span></label>
                             <input 
                                 {...register("project_budget")}
-                                name="project_budget"
                                 type="number"
                                 title="enter budget..."
                                 placeholder="0.00"
                                 step="0.01" min="0.00" onBlur={(e) => {
                                     if (e.target.value) {
-                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        e.target.value = decimalPlaces(Number(e.target.value));
                                     }
                                 }}
                             />
@@ -266,13 +286,13 @@ const ProjectsProfileEdit: React.FC<ProjectProfileProps> = ({
                             <label>Actual Cost <span>*</span></label>
                             <input 
                                 {...register("actual_cost")}
-                                name="actual_cost"
                                 type="number"
                                 title="enter budget..."
                                 placeholder="0.00"
-                                step="0.01" min="0.00" onBlur={(e) => {
+                                step="0.01" min="0.00"
+                                onBlur={(e) => {
                                     if (e.target.value) {
-                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        e.target.value = decimalPlaces(Number(e.target.value));
                                     }
                                 }}
                             />
@@ -436,7 +456,7 @@ const ProjectsProfileEdit: React.FC<ProjectProfileProps> = ({
                     </button>
                     <button
                         type="button"
-                        onClick={onCancel}
+                        onClick={() => onCancel(projectId)}
                         className={buttons.secondary}
                     >
                         Cancel

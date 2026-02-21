@@ -3,7 +3,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import '../constants/ProjectProfile.css'
 
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
-import { ProjectProfileInputs } from "../constants/Types";
+import { ProjectProfileFormProps, ProjectProfileInputs } from "../constants/Types";
 import { PROJECT_STATUS_OPTIONS, 
     PROJECT_TYPE_OPTIONS,
 COUNTRY_OPTIONS, 
@@ -42,16 +42,22 @@ const formatNumber = () => {
 
 
 
-const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers, agents }) => {
+const ProjectsProfileForm: React.FC<ProjectProfileFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    customers,
+    agents }) => {
 
     const phasesOptions = useMemo(() => 
         PROJECT_PHASE_OPTIONS.map(option => (
-            <option key={option.value} value={option.value}>
-                {option.value}
+            <option key={option} value={option}>
+                {option}
             </option>
         )), [PROJECT_PHASE_OPTIONS])
 
-    const { register, handleSubmit, watch, control, setValue, formState: {errors } } = useForm<ProjectProfileInputs>({
+    const { register, handleSubmit, watch, control,
+        setValue, formState: {errors } } = useForm<ProjectProfileInputs>({
         defaultValues: {
             project_type: 'Residential' as any,
             status: 'Planned' as any,
@@ -114,8 +120,8 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                 >
                                     <option value="">select type...</option>
                                     {useMemo(() => PROJECT_TYPE_OPTIONS.map(option => (
-                                        <option key={option.value} value={option.value}>
-                                            {option.label}
+                                        <option key={option} value={option}>
+                                            {option}
                                         </option>
                                     )), [PROJECT_TYPE_OPTIONS])}
                                 </select>
@@ -130,8 +136,8 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                 >
                                     <option value="">Select status...</option>
                                     {useMemo(() => PROJECT_STATUS_OPTIONS.map(option => (
-                                        <option key={option.value} value={option.value}>
-                                            {option.label}
+                                        <option key={option} value={option}>
+                                            {option}
                                         </option>
                                     )), [PROJECT_STATUS_OPTIONS])}
                                 </select>
@@ -256,8 +262,8 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                 >
                                     <option value="">Select Country...</option>
                                     {useMemo(() => COUNTRY_OPTIONS.map(option => (
-                                        <option key={option.value} value={option.value}>
-                                            {option.label}
+                                        <option key={option} value={option}>
+                                            {option}
                                         </option>
                                     )), [COUNTRY_OPTIONS])}
                                 </select>
@@ -280,7 +286,7 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                     placeholder="0.00"
                                     step="0.01" min="0.00" onBlur={(e) => {
                                         if (e.target.value) {
-                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                            e.target.value = decimalPlaces(Number(e.target.value));
                                         }
                                     }}
                                 />
@@ -297,7 +303,7 @@ const ProjectsProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
                                     placeholder="0.00"
                                     step="0.01" min="0.00" onBlur={(e) => {
                                         if (e.target.value) {
-                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                            e.target.value = decimalPlaces(Number(e.target.value));
                                         }
                                     }}
                                 />

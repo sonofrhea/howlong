@@ -108,7 +108,7 @@ function ProjectsProfileManagement() {
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating project:', error.response?.data || error.message || error);
+            console.error('Error creating project:', error.response?.data || error.message || error);
         }
     });
 
@@ -121,12 +121,12 @@ function ProjectsProfileManagement() {
     const updateProjectMutation = useMutation({
         mutationFn: updateProject,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['projects'] });
-        queryClient.invalidateQueries({ queryKey: ['project', selectedProjectId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['projects'] });
+            queryClient.invalidateQueries({ queryKey: ['project', selectedProjectId]});
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating project:', error.response?.data || error.message);
+            console.error('Error updating project:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -165,13 +165,21 @@ function ProjectsProfileManagement() {
 
 
     const handleAddProject = async (projectData: ProjectProfileInputs) => {
-        if (projectData.phases?.length === 0) {
-            delete projectData.phases;
-        }
-        //console.log("🎯 RAW FORM DATA:", projectData)
+
+        const cleanedData = {
+            ...projectData,
+            phases:
+                projectData.phases && projectData.phases?.length > 0
+                    ? projectData.phases
+                    : undefined
+        };
+
+        
+        //console.log("🎯 RAW FORM DATA:", cleanedData)
+
         const toastId = toast.loading('Creating Project...');
         try {
-            await createProjectMutation.mutateAsync(projectData);
+            await createProjectMutation.mutateAsync(cleanedData);
             toast.success('Project successfully created', {id: toastId});
         } catch (error) {
             toast.error('Failed to create project', { id: toastId });
@@ -183,11 +191,27 @@ function ProjectsProfileManagement() {
 
 
 
-    const handleUpdateProject = (projectData: ProjectProfileInputs) => {
-        updateProjectMutation.mutate({
-        project_code: selectedProjectId!,
-        projectData: projectData
-        });
+    const handleUpdateProject = async (projectData: ProjectProfileInputs) => {
+
+        const cleanedData = {
+            ...projectData,
+            phases:
+                projectData.phases && projectData.phases?.length > 0
+                    ? projectData.phases
+                    : undefined
+        };
+
+        const toastId = toast.loading('Updating Project...');
+        try {
+            await updateProjectMutation.mutateAsync({
+                project_code: selectedProjectId!,
+                projectData: cleanedData
+            });
+            toast.success('Project successfully updated', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to updated project', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -195,8 +219,15 @@ function ProjectsProfileManagement() {
 
 
     const handleDeleteProject = async (projectId: number) => {
-        if (window.confirm('Are you sure you want to delete this Project?')) {
-        deleteProjectMutation.mutate(projectId);
+        if (!window.confirm('Are you sure you want to delete this Project?')) return;
+
+        const toastId = toast.loading('Deleting Project...');
+        try {
+            await deleteProjectMutation.mutateAsync(projectId);
+            toast.success('Project successfully deleted', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to delete project', { id: toastId });
+            console.error(error);
         }
     };
     // ------------------------------------------------------------------------------------
@@ -219,6 +250,14 @@ function ProjectsProfileManagement() {
         setView('list');
         setSelectedProjectId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+    const handleBackToProjectDetails = (projectId: number) => {
+        setSelectedProjectId(projectId);
+        setView('details')
+    };
+
     // ------------------------------------------------------------------------------------
 
     const handleEditProjectButton = () => {
@@ -496,7 +535,7 @@ function ProjectsProfileManagement() {
                 project={selectedProject}
                 onSubmit={handleUpdateProject}
                 isSubmitting={updateProjectMutation.isPending}
-                onCancel={handleBackToProjectsList}
+                onCancel={handleBackToProjectDetails}
                 customers={customers}
                 agents={agents}
             />

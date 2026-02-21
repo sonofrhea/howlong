@@ -43,6 +43,7 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const CompanyPurchaseOrderId = companyPurchaseOrder?.purchase_order_number;
 
     
     if (isLoading) {
@@ -93,7 +94,7 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
 
                     <div className="flex gap-3">
                         <button 
-                            onClick={() => onEdit(companyPurchaseOrder.purchase_order_number)}
+                            onClick={() => onEdit(CompanyPurchaseOrderId)}
                             
                             className={buttons.editButtonGreen}
                         >

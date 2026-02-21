@@ -1,5 +1,5 @@
 import React from "react";
-import { BillofquantitiesList } from "../constants/Types";
+import { BillOfquantitiesList, BillOfQuantitiesTableProps } from "../constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -8,7 +8,7 @@ const formatDate = (dateString: string) => {
 
 const formatNumber = () => {
     const currentYear = new Date().getFullYear();
-    return `${currentYear}-`;
+    return `BOQ-${currentYear}-`;
 };
 
 const formatProjectNumber = () => {
@@ -30,9 +30,19 @@ const formatProjectNumber = () => {
 
 
 
-const BillOfQuantitiesTable: React.FC<any> = ({ billOfQuantities, onBillOfQuantityClick, onEditBillOfQuantity,
-    onDeleteBillOfQuantity, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const BillOfQuantitiesTable: React.FC<BillOfQuantitiesTableProps> = ({
+    billOfQuantities,
+    onBillOfQuantityClick,
+    onEditBillOfQuantity,
+    onDeleteBillOfQuantity,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
     // Sortable header component
@@ -133,7 +143,7 @@ const BillOfQuantitiesTable: React.FC<any> = ({ billOfQuantities, onBillOfQuanti
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {billOfQuantities.map((billOfQuantity: BillofquantitiesList) => {
+                        {billOfQuantities.map((billOfQuantity: BillOfquantitiesList) => {
                             const billOfQuantityId = billOfQuantity.boq_number;
 
                             return (
@@ -142,7 +152,7 @@ const BillOfQuantitiesTable: React.FC<any> = ({ billOfQuantities, onBillOfQuanti
                                     {/* BOQ Number */}
                                     <td className="px-2 py-2">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            BOQ-{formatNumber()}{billOfQuantity.boq_number}
+                                            {formatNumber()}{billOfQuantity.boq_number}
                                         </span>
                                     </td>
 
@@ -207,7 +217,7 @@ const BillOfQuantitiesTable: React.FC<any> = ({ billOfQuantities, onBillOfQuanti
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${billOfQuantity.boq_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${billOfQuantity.boq_number}?`)) {
                                                         onDeleteBillOfQuantity(billOfQuantityId);
                                                     }
                                                 }}

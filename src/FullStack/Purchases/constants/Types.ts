@@ -5,7 +5,7 @@ import { PURCHASES_ICONS } from "./ModuleIcons";
 import { PURCHASE_INVOICE_STATUS, PURCHASE_ORDER_STATUS } from "./options";
 import { AgentInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
-import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
+import { SortConfig, SupplierProfileResponse } from "../../Suppliers/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
 
@@ -38,6 +38,52 @@ export interface PurchaseModulesInterface {
 
 // -------- BEGIN ----------- COMPANY PURCHASE INVOICE INPUT ----------------
 
+export type CompanyPurchaseInvoiceList = {
+  purchase_invoice_number: number;
+  date: string;
+  supplier_name: string;
+  address: string;
+  description: string;
+  status: string;
+  net_total: string;
+  cancelled: boolean;
+};
+
+
+export type CompanyPurchaseInvoiceDetails = {
+  purchase_invoice_number: number;
+  date: string;
+  supplier: number;
+  supplier_name: string;
+  address: string;
+  description: string;
+  status: string;
+
+  gross_total: string;
+  tax_inclusive: boolean;
+  tax: string;
+  net_total: string;
+
+  agent: string;
+  cancelled: boolean;
+
+  related_invoice: Array<{
+    product_item_name: string | null;
+    description: string;
+    quantity: string;
+    base_unit_of_measure: string;
+    price: string;
+    total: string;
+    tax_inclusive: boolean;
+    tax: string;
+    sub_total: string;
+    cancelled: boolean;
+  }>;
+
+  created_by: string;
+  company: string;
+};
+
 export type CompanyPurchaseInvoiceInputs = {
   purchase_invoice_number: number;
   date: string;
@@ -45,7 +91,7 @@ export type CompanyPurchaseInvoiceInputs = {
   supplier_name: string;
   address: string;
   description: string;
-  status: typeof PURCHASE_INVOICE_STATUS[number]['value'] | null;
+  status: typeof PURCHASE_INVOICE_STATUS[number] | null;
   agent: string;
   related_invoice?: Array <{
     product_item?: string | null;
@@ -79,6 +125,40 @@ export type EditCompanyPurchaseInvoiceInputs = {
 
 export type CompanyPurchaseInvoiceProps = {
   companyPurchaseInvoice: CompanyPurchaseInvoiceInputs;
+  onSubmit: (data: CompanyPurchaseInvoiceInputs) => void;
+  isSubmitting: boolean;
+  onCancel: (companyPurchaseInvoiceId: number) => void;
+  agents: AgentInterface[];
+  products: ProductItemCreateResponse[];
+  suppliers: SupplierProfileResponse[];
+};
+
+
+export type CompanyPurchaseInvoiceTableProps = {
+  companyPurchaseInvoices: CompanyPurchaseInvoiceList[];
+  onCompanyPurchaseInvoiceClick: (companyPurchaseInvoiceId: number) => void;
+  onEditCompanyPurchaseInvoice: (companyPurchaseInvoiceId: number, companyPurchaseInvoice: CompanyPurchaseInvoiceList) => void;
+  onDeleteCompanyPurchaseInvoice: (companyPurchaseInvoiceId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+};
+
+
+export type CompanyPurchaseInvoiceDetailsProps = {
+  companyPurchaseInvoice: CompanyPurchaseInvoiceDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (companyPurchaseInvoiceId: number) => void;
+};
+
+
+export type CompanyPurchaseInvoiceFormProps = {
   onSubmit: (data: CompanyPurchaseInvoiceInputs) => void;
   isSubmitting: boolean;
   onCancel?: () => void;
@@ -116,9 +196,9 @@ export type CompanyPurchaseOrderInputs = {
   supplier: string;
   supplier_name: string;
   account? : {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
+    account_code: number | null;
+    account_name: string;
+    account_type: string;
   } | null;
   address: string;
   related_invoice: string;
@@ -126,14 +206,14 @@ export type CompanyPurchaseOrderInputs = {
   invoice_total: number;
   description: string;
   payment_receipt: File | null;
-  related_purchase: Array <{
+  related_purchase?: Array <{
     payment_date: string;
     total_paid: number;
     tax_inclusive: boolean;
     tax_amount: number;
     cancelled: boolean;
-  }>
-  status: typeof PURCHASE_ORDER_STATUS[number]['value'] | null;
+  }> | null;
+  status: typeof PURCHASE_ORDER_STATUS[number] | null;
   agent: string;
   cancelled: boolean;
   tax_inclusive: boolean;
@@ -194,7 +274,7 @@ export type CompanyPurchaseOrderProps = {
   companyPurchaseOrder: CompanyPurchaseOrderInputs;
   onSubmit: (data: CompanyPurchaseOrderInputs) => void;
   isSubmitting: boolean;
-  onCancel?: () => void;
+  onCancel: (CompanyPurchaseOrderId: number) => void;
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
   supplierProfiles: SupplierProfileResponse[];
@@ -212,6 +292,34 @@ export type CompanyPurchaseOrderDetailsProps = {
   accounts: ControlAccountInterface[];
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
+};
+
+
+export type CompanyPurchaseOrderFormProps = {
+  onSubmit: (data: CompanyPurchaseOrderInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  supplierProfiles: SupplierProfileResponse[];
+  purchaseInvoices: CompanyPurchaseInvoiceResponse[];
+};
+
+
+
+export type CompanyPurchaseOrderTableProps = {
+  companyPurchaseOrders: CompanyPurchaseOrderList[];
+  onCompanyPurchaseOrderClick: (CompanyPurchaseOrderId: number) => void;
+  onEditCompanyPurchaseOrder: (CompanyPurchaseOrderId: number, companyPurchaseOrder: CompanyPurchaseOrderList) => void;
+  onDeleteCompanyPurchaseOrder: (CompanyPurchaseOrderId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
 };
 
 

@@ -120,12 +120,12 @@ function JobCostLedgerManagement() {
     const createJobCostLedgerMutation = useMutation({
         mutationFn: createJobCostLedger,
         onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ['jobCostLedgers']});
-        setSelectedJobCostLedgerId(data.job_cost_number);
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['jobCostLedgers']});
+            setSelectedJobCostLedgerId(data.job_cost_number);
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating jobCostLedger:', error.response?.data || error.message || error);
+            console.error('Error creating jobCostLedger:', error.response?.data || error.message || error);
         }
     });
 
@@ -138,12 +138,12 @@ function JobCostLedgerManagement() {
     const updateJobCostLedgerMutation = useMutation({
         mutationFn: updateJobCostLedger,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['jobCostLedgers'] });
-        queryClient.invalidateQueries({ queryKey: ['jobCostLedger', selectedJobCostLedgerId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['jobCostLedgers'] });
+            queryClient.invalidateQueries({ queryKey: ['jobCostLedger', selectedJobCostLedgerId]});
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating jobCostLedger:', error.response?.data || error.message);
+            console.error('Error updating jobCostLedger:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ function JobCostLedgerManagement() {
     const deleteJobCostLedgerMutation = useMutation({
         mutationFn: deleteJobCostLedger,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['jobCostLedgers'] });
+            queryClient.invalidateQueries({ queryKey: ['jobCostLedgers'] });
         }
     });
 
@@ -183,14 +183,18 @@ function JobCostLedgerManagement() {
 
     const handleAddJobCostLedger = async (jobCostLedgerData: JobCostLedgerInputs) => {
 
-        if (jobCostLedgerData.job_cost_ledger?.length === 0) {
-            delete jobCostLedgerData.job_cost_ledger
-        }
+        const cleanedData = {
+            ...jobCostLedgerData,
+            job_cost_ledger:
+                jobCostLedgerData.job_cost_ledger && jobCostLedgerData.job_cost_ledger?.length > 0
+                    ? jobCostLedgerData.job_cost_ledger
+                    : undefined
+        };
 
         //console.log("RAW FORM DATA: ", jobCostLedgerData);
         const toastId = toast.loading('Creating Job Cost Ledger...');
         try {
-            await createJobCostLedgerMutation.mutateAsync(jobCostLedgerData);
+            await createJobCostLedgerMutation.mutateAsync(cleanedData);
             toast.success('Job Cost Ledger successfully created', {id: toastId});
         } catch (error) {
             toast.error('Failed to create job cost ledger', { id: toastId });
@@ -202,11 +206,25 @@ function JobCostLedgerManagement() {
 
 
 
-    const handleUpdateJobCostLedger = (jobCostLedgerData: JobCostLedgerInputs) => {
-        updateJobCostLedgerMutation.mutate({
-        job_cost_number: selectedJobCostLedgerId!,
-        jobCostLedgerData: jobCostLedgerData
-        });
+    const handleUpdateJobCostLedger = async (jobCostLedgerData: JobCostLedgerInputs) => {
+
+        const cleanedData = {
+            ...jobCostLedgerData,
+            job_cost_ledger:
+                jobCostLedgerData.job_cost_ledger && jobCostLedgerData.job_cost_ledger?.length > 0
+                    ? jobCostLedgerData.job_cost_ledger
+                    : undefined
+        };
+        const toastId = toast.loading('Updating Job Cost Ledger...');
+        try {
+            await updateJobCostLedgerMutation.mutateAsync({
+                job_cost_number: selectedJobCostLedgerId!,
+                jobCostLedgerData: cleanedData
+            });
+        } catch (error) {
+            toast.error('Failed to update job cost ledger', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -214,8 +232,14 @@ function JobCostLedgerManagement() {
 
 
     const handleDeleteJobCostLedger = async (jobCostLedgerId: number) => {
-        if (window.confirm('Are you sure you want to delete this Job cost ledger?')) {
-        deleteJobCostLedgerMutation.mutate(jobCostLedgerId);
+        if (!window.confirm('Are you sure you want to delete this Job cost ledger?')) return;
+
+        const toastId = toast.loading('Updating Job Cost Ledger...');
+        try {
+            await deleteJobCostLedgerMutation.mutateAsync(jobCostLedgerId);
+        } catch (error) {
+            toast.error('Failed to delete job cost ledger', { id: toastId });
+            console.error(error);
         }
     };
     // ------------------------------------------------------------------------------------
@@ -238,6 +262,15 @@ function JobCostLedgerManagement() {
         setView('list');
         setSelectedJobCostLedgerId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+
+    const handleBackToJobCostLedgerDetails = (jobCostLedgerId: number) => {
+        setSelectedJobCostLedgerId(jobCostLedgerId);
+        setView('details')
+    };
+
     // ------------------------------------------------------------------------------------
 
     const handleEditJobCostLedgerButton = () => {
@@ -516,7 +549,7 @@ function JobCostLedgerManagement() {
                     jobCostLedger={selectedJobCostLedger}
                     onSubmit={handleUpdateJobCostLedger}
                     isSubmitting={updateJobCostLedgerMutation.isPending}
-                    onCancel={handleBackToJobCostLedgersList}
+                    onCancel={handleBackToJobCostLedgerDetails}
                     suppliers={suppliers}
                     jobCostCodes={jobCostCodes}
                     billOfQuantities={billOfQuantities}

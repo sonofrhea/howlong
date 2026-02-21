@@ -1,5 +1,5 @@
 import React from "react";
-import { CompanyPurchaseOrderList } from "../constants/Types";
+import { CompanyPurchaseOrderList, CompanyPurchaseOrderTableProps } from "../constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -14,9 +14,19 @@ const formatNumber = () => {
 
 
 
-const CompanyPurchaseOrderTable: React.FC<any> = ({ companyPurchaseOrders, onCompanyPurchaseOrderClick, onEditCompanyPurchaseOrder,
-    onDeleteCompanyPurchaseOrder, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
+    companyPurchaseOrders,
+    onCompanyPurchaseOrderClick,
+    onEditCompanyPurchaseOrder,
+    onDeleteCompanyPurchaseOrder,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
     // Sortable header component
@@ -200,7 +210,7 @@ const CompanyPurchaseOrderTable: React.FC<any> = ({ companyPurchaseOrders, onCom
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    onEditCompanyPurchaseOrder(companyPurchaseOrdersId, companyPurchaseOrders);
+                                                    onEditCompanyPurchaseOrder(companyPurchaseOrdersId, companyPurchaseOrder);
                                                 }}
                                                 title="Edit Purchase Order"
                                             >
@@ -212,7 +222,7 @@ const CompanyPurchaseOrderTable: React.FC<any> = ({ companyPurchaseOrders, onCom
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${companyPurchaseOrder.purchase_order_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${companyPurchaseOrder.purchase_order_number}?`)) {
                                                         onDeleteCompanyPurchaseOrder(companyPurchaseOrdersId);
                                                     }
                                                 }}

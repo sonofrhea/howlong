@@ -62,6 +62,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const CompanyPurchaseOrderId = companyPurchaseOrder?.purchase_order_number;
 
 
 
@@ -72,7 +73,23 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
 
 
     React.useEffect(() => {
-        reset(companyPurchaseOrder);
+        if (!companyPurchaseOrder) return;
+
+        const updated = {
+            ...companyPurchaseOrder,
+            date: companyPurchaseOrder.date
+                ? new Date(companyPurchaseOrder.date).toISOString().split('T')[0]
+                : "",
+            payment_date: companyPurchaseOrder.related_purchase
+                ? companyPurchaseOrder.related_purchase?.map(child => ({
+                    ...child,
+                    payment_date: child.payment_date
+                        ? new Date(child.payment_date).toISOString().split("T")[0]
+                        : "",
+                })) : [],
+        };
+
+        reset(updated);
     }, [companyPurchaseOrder, reset]);
     
     
@@ -193,7 +210,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
                                 if (e.target.value) {
-                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    e.target.value = decimalPlaces(Number(e.target.value));
                                 }
                             }}
                         />
@@ -207,8 +224,8 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                         >
                             <option value="">select...</option>
                             {useMemo(() => PURCHASE_ORDER_STATUS.map(option => (
-                                <option key={option.value} value={option.value} >
-                                    {option.label}
+                                <option key={option} value={option} >
+                                    {option}
                                 </option>
                             )), [agents])}
                         </select>
@@ -295,6 +312,18 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => {
 
+                                    let total_paid = Number(watch(`related_purchase.${index}.total_paid`)) || 0.00;
+                                    let tax_amt = Number(watch(`related_purchase.${index}.tax_amount`)) || 0.00;
+                                    let tax_inclusive = watch(`related_purchase.${index}.tax_inclusive`) || false;
+
+                                    let tax_rate = tax_amt / 100;
+
+                                    if (!tax_inclusive) {
+                                        tax_amt = Number(0.00);
+                                    }
+
+                                    const sub_total = total_paid + (total_paid * tax_rate);
+
                                     return(
                                         <tr key={field.id} className={tables.row}>
                                             <td className={tables.cell}> 
@@ -313,7 +342,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 />
@@ -334,7 +363,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 />
@@ -348,10 +377,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                             </td>
 
                                             <td className={tables.autoCalculate}>
-                                                {decimalPlaces(
-                                                    Number(watch(`related_purchase.${index}.total_paid`) || 0.00) *
-                                                    (1 + (Number(watch(`related_purchase.${index}.tax_amount`) / 100))|| 0.00)
-                                                )}
+                                                {decimalPlaces(sub_total)}
                                             </td>
 
                                             <td>
@@ -410,7 +436,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                         
@@ -448,7 +474,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(CompanyPurchaseOrderId)}
                             className={buttons.secondary}
                         >
                             Cancel

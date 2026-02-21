@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import '../constants/BOQ.css';
 import { useFieldArray, useForm } from "react-hook-form";
-import { BillOfQuantitiesInputs, ProjectProfileResponse } from '../constants/Types';
+import { BillOfQuantitiesFormProps, BillOfQuantitiesInputs, ProjectProfileResponse } from '../constants/Types';
 import { billofQuantitiesProjectName } from '../../handlers';
 import { ProductItemCreateResponse } from '../../Products/constants/Types';
 import { buttons, forms, layout, tables, utils } from '../constants/Styles';
@@ -35,8 +35,13 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const BillOfQuantitiesForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
-    agents, projects, products }) => {
+const BillOfQuantitiesForm: React.FC<BillOfQuantitiesFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel, 
+    agents,
+    projects,
+    products }) => {
 
         const productItem = useMemo(() => 
         products.map((product: ProductItemCreateResponse) => (
@@ -199,7 +204,7 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
                                         />
@@ -215,14 +220,14 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
                                         />
                                     </div>
                                 </div>
 
-                                <div className="form-grid mt-[20px]">
+                                <div className="form-grid mt-5">
                                     <div className="form-group">
                                         <label>Estimated Amount</label>
                                         <p className="helper-text">Auto-calculated</p><br/>
@@ -256,7 +261,7 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                 <div className="totals-section border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
                     <div>
                         <h1 className="text-2xl mb-6">Contingency</h1>
-                    <div className="form-grid mb-[30px]">
+                    <div className="form-grid mb-7.5">
                         <div className="form-group">
                             <label>Contingency Rate (%)</label>
                             <input 
@@ -268,7 +273,7 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                                 placeholder="0.00"
                                 step="0.01" min="0.00" onBlur={(e) => {
                                     if (e.target.value) {
-                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        e.target.value = decimalPlaces(Number(e.target.value));
                                     }
                                 }}
                             />

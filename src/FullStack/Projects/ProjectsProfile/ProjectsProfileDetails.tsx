@@ -2,6 +2,7 @@ import React from "react";
 import '../constants/ProjectDetails.css';
 import { Building, Calendar1, Clock, NotepadText, SquarePen } from "lucide-react";
 import { buttons } from "../constants/Styles";
+import { ProjectProfileDetailsProps } from "../constants/Types";
 
 
 
@@ -31,7 +32,12 @@ const formatDate = (dateString: string) => {
 
 
 
-const ProjectsProfileDetails: React.FC<any> = ({ project, isLoading, onBack, onEdit }) => {
+const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
+    project,
+    isLoading,
+    onBack,
+    onEdit }) => {
+        const customerId = project?.project_code;
 
 
     if (isLoading) {
@@ -69,7 +75,7 @@ const ProjectsProfileDetails: React.FC<any> = ({ project, isLoading, onBack, onE
                 <div className="flex items-center gap-4 flex-1">
                     <div>
                         
-                        <div className="flex items-center gap-[8px] mb-10 my-[8px_0px]">
+                        <div className="flex items-center gap-2 mb-10 my-[8px_0px]">
                             <span className="badge badge-success">
                                 ● {project.status || 'N/A'}
                             </span>
@@ -83,7 +89,7 @@ const ProjectsProfileDetails: React.FC<any> = ({ project, isLoading, onBack, onE
                                 <NotepadText />{formatNumber()}{project.project_code}
                             </span>
                             <span className="meta-item">
-                                <Building />{project.client_details || 'N/A'}
+                                <Building />{project.client_details_name || 'N/A'}
                             </span>
                             <span className="meta-item">
                                 <Calendar1 />{project.start_date || 'N/A'} → {project.actual_end_date || 'N/A'}
@@ -96,7 +102,7 @@ const ProjectsProfileDetails: React.FC<any> = ({ project, isLoading, onBack, onE
                 </div>
                 <div className="flex gap-3">
                     <button 
-                        onClick={onEdit}
+                        onClick={() => onEdit(customerId)}
                         className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />

@@ -5,7 +5,8 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { BillOfQuantitiesResponse, 
     JobCostLedgerInputs, 
     ProjectProfileResponse,
-JobCostCodesInterface } from "../constants/Types";
+JobCostCodesInterface, 
+JobCostLedgerFormProps} from "../constants/Types";
 
 import { jobCostBoqHandler, 
     jobcostcodesHandler, 
@@ -41,8 +42,15 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const JobCostLedgerForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, suppliers, 
-    jobCostCodes, billOfQuantities, agents, projects }) => {
+const JobCostLedgerForm: React.FC<JobCostLedgerFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    suppliers, 
+    jobCostCodes,
+    billOfQuantities,
+    agents,
+    projects }) => {
 
         const costCode = useMemo(() => 
             jobCostCodes.map((code: JobCostCodesInterface) => (
@@ -60,15 +68,15 @@ const JobCostLedgerForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, su
         
         const costTypeSelect = useMemo(() => 
             COST_TYPE_CHOICES_OPTIONS.map(option => (
-                <option key={option.value} value={option.value}>
-                    {option.label}
+                <option key={option} value={option}>
+                    {option}
                 </option>
         )), [COST_TYPE_CHOICES_OPTIONS])
         
         const statusLineSelect = useMemo(() => 
             JOB_COST_LINES_STATUS_OPTIONS.map(option => (
-                <option key={option.value} value={option.value}>
-                    {option.label}
+                <option key={option} value={option}>
+                    {option}
                 </option>
         )), [JOB_COST_LINES_STATUS_OPTIONS])
 
@@ -187,8 +195,8 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                             >
                                 <option value="">Select status...</option>
                                 {useMemo(() => JOB_COST_LEDGER_STATUS_OPTIONS.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
+                                    <option key={option} value={option}>
+                                        {option}
                                     </option>
                                 )), [JOB_COST_LEDGER_STATUS_OPTIONS])}
                             </select>
@@ -337,7 +345,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}
                                                     />
@@ -354,7 +362,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}
                                                     />

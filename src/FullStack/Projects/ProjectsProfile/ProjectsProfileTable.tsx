@@ -1,5 +1,5 @@
 import React from "react";
-import { ProjectsProfileList } from "../constants/Types";
+import { ProjectProfileTableProps, ProjectsProfileList } from "../constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -20,9 +20,19 @@ const formatNumber = () => {
 
 
 
-const ProjectsProfileTable: React.FC<any> = ({ projectsProfiles, onProjectClick, onEditProjectsProfile,
-    onDeleteProjectsProfile, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
+    projectsProfiles,
+    onProjectClick,
+    onEditProjectsProfile,
+    onDeleteProjectsProfile,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
     // Sortable header component

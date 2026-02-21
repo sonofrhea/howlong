@@ -50,19 +50,19 @@ export type ProductGroupList = {
 
 
 export type ProductGroupDetails = {
-  group_code: number,
-  group_name: string,
-  description: string,
-  costing_method: string,
-  sales_code: number,
-  purchase_code: number,
-  cash_sales_code: number,
-  cash_purchase_code: number,
-  sales_return_code: number,
-  purchase_return_code: number,
-  balance_sheet_stock: number,
-  active: boolean,
-  created_by: string,
+  group_code: number;
+  group_name: string;
+  description: string;
+  costing_method: string;
+  sales_code: number;
+  purchase_code: number;
+  cash_sales_code: number;
+  cash_purchase_code: number;
+  sales_return_code: number;
+  purchase_return_code: number;
+  balance_sheet_stock: number;
+  active: boolean;
+  created_by: string;
   date_created: string
 };
 

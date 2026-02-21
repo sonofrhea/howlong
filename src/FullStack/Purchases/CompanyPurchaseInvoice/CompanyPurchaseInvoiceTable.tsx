@@ -1,7 +1,8 @@
 import React from "react";
+import { CompanyPurchaseInvoiceList, CompanyPurchaseInvoiceTableProps } from "../constants/Types";
 
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
@@ -11,13 +12,28 @@ const formatNumber = () => {
 };
 
 
-const CompanyPurchaseInvoiceTable = ({ companyPurchaseInvoices, onCompanyPurchaseInvoiceClick, onEditCompanyPurchaseInvoice,
-    onDeleteCompanyPurchaseInvoice, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+
+
+
+
+
+const CompanyPurchaseInvoiceTable: React.FC<CompanyPurchaseInvoiceTableProps> = ({
+    companyPurchaseInvoices,
+    onCompanyPurchaseInvoiceClick,
+    onEditCompanyPurchaseInvoice,
+    onDeleteCompanyPurchaseInvoice,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
     // Sortable header component
-    const SortableHeader = ({ label, sortKey }) => {
+    const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
         const isAsc = sortConfig.direction === 'asc';
 
@@ -88,14 +104,14 @@ const CompanyPurchaseInvoiceTable = ({ companyPurchaseInvoices, onCompanyPurchas
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/5 text-center" />
-                        <col className="w-1/5 text-center" />
-                        <col className="w-1/5 text-center" />
-                        <col className="w-1/5 text-center" />
-                         <col className="w-1/5 text-center" />
-                        <col className="w-1/5 text-center" />
-                        <col className="w-1/5 text-center" />
-                        <col className="w-1/5 text-center" />
+                        <col className="w-1/8 text-center" />
+                        <col className="w-1/8 text-center" />
+                        <col className="w-1/8 text-center" />
+                        <col className="w-1/8 text-center" />
+                        <col className="w-1/8 text-center" />
+                        <col className="w-1/8 text-center" />
+                        <col className="w-1/8 text-center" />
+                        <col className="w-[7%] text-center" />
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
@@ -105,14 +121,16 @@ const CompanyPurchaseInvoiceTable = ({ companyPurchaseInvoices, onCompanyPurchas
                             <SortableHeader label="Address" sortKey="address" />
                             <SortableHeader label="Description" sortKey="description" />
                             <SortableHeader label="Status" sortKey="status" />
-                            <SortableHeader label="Created By" sortKey="created_by" />
+                            <SortableHeader label="Net Total" sortKey="net_total" />
+                            <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {companyPurchaseInvoices.map((companyPurchaseInvoice) => {
+                        {companyPurchaseInvoices.map((companyPurchaseInvoice: CompanyPurchaseInvoiceList) => {
+
                             const companyPurchaseInvoiceId = companyPurchaseInvoice.purchase_invoice_number;
 
                             return (
@@ -120,46 +138,57 @@ const CompanyPurchaseInvoiceTable = ({ companyPurchaseInvoices, onCompanyPurchas
                                 onClick={() => onCompanyPurchaseInvoiceClick(companyPurchaseInvoiceId)}>
                                     {/* Purchase Invoice Number */}
                                     <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" title={companyPurchaseInvoice.purchase_invoice_number}>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
                                             {formatNumber()}{companyPurchaseInvoice.purchase_invoice_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" title={formatDate(companyPurchaseInvoice.date)}>
+                                    <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-gray-900 truncate">
                                             {formatDate(companyPurchaseInvoice.date)}
                                         </div>
                                     </td>
 
                                     {/* Supplier */}
-                                    <td className="px-2 py-2 truncate" title={companyPurchaseInvoice.supplier}>
-                                        <div className="text-sm text-gray-900 truncate">{companyPurchaseInvoice.supplier}</div>
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {companyPurchaseInvoice.supplier_name}
+                                        </div>
                                     </td>
 
                                     {/* Address */}
-                                    <td className="px-2 py-2 truncate" title={companyPurchaseInvoice.address}>
-                                        <div className="text-sm text-gray-900 truncate">{companyPurchaseInvoice.address}</div>
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {companyPurchaseInvoice.address}
+                                        </div>
                                     </td>
 
                                     {/* Description */}
-                                    <td className="px-2 py-2 truncate" title={companyPurchaseInvoice.description}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
                                             {companyPurchaseInvoice.description}
                                         </div>
                                     </td>
                                     
                                     {/* Status */}
-                                    <td className="px-2 py-2 truncate" title={companyPurchaseInvoice.status}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
                                             {companyPurchaseInvoice.status}
                                         </div>
                                     </td>
 
                                     {/* Created By */}
-                                    <td className="px-2 py-2 truncate" title={companyPurchaseInvoice.created_by}>
+                                    <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-gray-900 truncate">
-                                            {companyPurchaseInvoice.created_by}
+                                            {companyPurchaseInvoice.net_total}
+                                        </div>
+                                    </td>
+
+                                    {/* Created By */}
+                                    <td className="px-2 py-2 truncate" >
+                                        <div className="text-sm text-gray-900 truncate">
+                                            {companyPurchaseInvoice.cancelled}
                                         </div>
                                     </td>
 
@@ -182,7 +211,7 @@ const CompanyPurchaseInvoiceTable = ({ companyPurchaseInvoices, onCompanyPurchas
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${companyPurchaseInvoice.purchase_invoice_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${companyPurchaseInvoice.purchase_invoice_number}?`)) {
                                                         onDeleteCompanyPurchaseInvoice(companyPurchaseInvoiceId);
                                                     }
                                                 }}

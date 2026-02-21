@@ -3,6 +3,7 @@ import '../constants/BOQDetails.css';
 import { buttons, forms, tables } from "../constants/Styles";
 import { SquarePen } from "lucide-react";
 import { billofQuantitiesProjectName } from "../../handlers";
+import { BillOfQuantitiesDetailsProps } from "../constants/Types";
 
 const formatNumber = () => {
     const currentYear = new Date().getFullYear();
@@ -29,7 +30,13 @@ const formatDate = (dateString: string) => {
 
 
 
-const BillOfQuantitiesDetails: React.FC<any> = ({ billOfQuantity, isLoading, onBack, onEdit }) => {
+const BillOfQuantitiesDetails: React.FC<BillOfQuantitiesDetailsProps> = ({
+    billOfQuantity,
+    isLoading,
+    onBack,
+    onEdit
+}) => {
+    const billOfQuantityId = billOfQuantity?.boq_number;
 
 
     if (isLoading) {
@@ -99,7 +106,7 @@ const BillOfQuantitiesDetails: React.FC<any> = ({ billOfQuantity, isLoading, onB
                 </div>
                 <div className="flex gap-3">
                     <button 
-                        onClick={onEdit}
+                        onClick={() => onEdit(billOfQuantityId)}
                         className={buttons.editButtonGreen}
                     >
                         <SquarePen size={20} strokeWidth={1.5} />
@@ -132,7 +139,7 @@ const BillOfQuantitiesDetails: React.FC<any> = ({ billOfQuantity, isLoading, onB
                                 </tr>
                             </thead>
                             <tbody className={tables.body}>
-                                {billOfQuantity.boq.map((line: any, index: any) => (
+                                {billOfQuantity.boq.map((line, index) => (
                                     <tr key={index} className={tables.row}>
                                         <td>SKU-{line.product_item || 'N/A'} | {line.product_item_name || 'N/A'}</td>
                                         <td>{line.additional_item || '--'}</td>

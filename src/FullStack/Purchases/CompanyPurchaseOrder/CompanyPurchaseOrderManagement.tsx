@@ -20,6 +20,7 @@ import { management, spinningStyles } from "../constants/styles";
 
 
 import { CompanyPurchaseOrderInputs, 
+    CompanyPurchaseOrderList, 
     CompanyPurchaseOrderResponse, EditCompanyPurchaseOrderInputs } from "../constants/Types";
 
 
@@ -148,9 +149,9 @@ function CompanyPurchaseOrderManagement() {
     const updateCompanyPurchaseOrderMutation = useMutation({
         mutationFn: updateCompanyPurchaseOrder,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['CompanyPurchaseOrders'] });
-        queryClient.invalidateQueries({ queryKey: ['companyPurchaseOrder', selectedCompanyPurchaseOrderId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['CompanyPurchaseOrders'] });
+            queryClient.invalidateQueries({ queryKey: ['companyPurchaseOrder', selectedCompanyPurchaseOrderId]});
+            setView('details');
         },
         onError: (error: any) => {
         console.error('Error updating company purchase order:', error.response?.data || error.message);
@@ -162,7 +163,7 @@ function CompanyPurchaseOrderManagement() {
     const deleteCompanyPurchaseOrderMutation = useMutation({
         mutationFn: deleteCompanyPurchaseOrder,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['CompanyPurchaseOrders'] });
+            queryClient.invalidateQueries({ queryKey: ['CompanyPurchaseOrders'] });
         }
     });
 
@@ -192,23 +193,24 @@ function CompanyPurchaseOrderManagement() {
 
 
     const handleAddCompanyPurchaseOrder = async (companyPurchaseOrderData: CompanyPurchaseOrderInputs) => {
-        const newCompanyPurchaseOrderData = new FormData();
 
-        Object.entries(companyPurchaseOrderData).forEach(([key, value]) => {
-            if (value !== null && value !== undefined) {
-                if (value instanceof File) {
-                    newCompanyPurchaseOrderData.append(key, value);
-                } else {
-                    newCompanyPurchaseOrderData.append(key, String(value));
-                }
-            }
-        });
+        const cleanedData = {
+            ...companyPurchaseOrderData,
 
-        //console.log("🎯 RAW FORM DATA:", newCompanyPurchaseOrderData)
+            account: companyPurchaseOrderData.account ?? undefined,
+
+            related_purchase: companyPurchaseOrderData.related_purchase &&
+                companyPurchaseOrderData.related_purchase?.length > 0
+                    ? companyPurchaseOrderData.related_purchase
+                    : undefined,
+        };
+        
+
+        //console.log("🎯 RAW FORM DATA:", cleanedData)
 
         const toastId = toast.loading('Creating Purchase Order...');
         try {
-            await createCompanyPurchaseOrderMutation.mutateAsync(newCompanyPurchaseOrderData);
+            await createCompanyPurchaseOrderMutation.mutateAsync(cleanedData);
             toast.success('Purchase Order Created', { id: toastId });
         } catch (error) {
             toast.error('Failed to create purchase order', { id: toastId });
@@ -220,11 +222,30 @@ function CompanyPurchaseOrderManagement() {
 
 
 
-    const handleUpdateCompanyPurchaseOrder = (companyPurchaseOrderData: CompanyPurchaseOrderInputs) => {
-        updateCompanyPurchaseOrderMutation.mutate({
-        purchase_order_number: selectedCompanyPurchaseOrderId!,
-        companyPurchaseOrderData: companyPurchaseOrderData
-        });
+    const handleUpdateCompanyPurchaseOrder = async (companyPurchaseOrderData: CompanyPurchaseOrderInputs) => {
+
+        const cleanedData = {
+            ...companyPurchaseOrderData,
+
+            account: companyPurchaseOrderData.account ?? undefined,
+
+            related_purchase: companyPurchaseOrderData.related_purchase &&
+                companyPurchaseOrderData.related_purchase?.length > 0
+                    ? companyPurchaseOrderData.related_purchase
+                    : undefined,
+        };
+
+        const toastId = toast.loading('Updating Purchase Order...');
+        try {
+            await updateCompanyPurchaseOrderMutation.mutateAsync({
+                purchase_order_number: selectedCompanyPurchaseOrderId!,
+                companyPurchaseOrderData: cleanedData
+            });
+            toast.success('Purchase Order Updated', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to update purchase order', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -232,10 +253,18 @@ function CompanyPurchaseOrderManagement() {
 
 
     const handleDeleteCompanyPurchaseOrder = async (CompanyPurchaseOrderId: number) => {
-        if (window.confirm('Are you sure you want to delete this purchase order?')) {
-        deleteCompanyPurchaseOrderMutation.mutate(CompanyPurchaseOrderId);
+        if (!window.confirm('Are you sure you want to delete this purchase order?')) return;
+        
+        const toastId = toast.loading('Deleting Purchase Order...');
+        try {
+            await deleteCompanyPurchaseOrderMutation.mutateAsync(CompanyPurchaseOrderId);
+            toast.success('Purchase Order Deleted', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to delete purchase order', { id: toastId });
+            console.error(error);
         }
     };
+
     // ------------------------------------------------------------------------------------
 
 
@@ -243,6 +272,7 @@ function CompanyPurchaseOrderManagement() {
         setSelectedCompanyPurchaseOrderId(CompanyPurchaseOrderId);
         setView('details')
     };
+
     // ------------------------------------------------------------------------------------
 
 
@@ -250,12 +280,23 @@ function CompanyPurchaseOrderManagement() {
         setSelectedCompanyPurchaseOrderId(CompanyPurchaseOrderId);
         setView('edit');
     };
+
+
     // ------------------------------------------------------------------------------------
 
     const handleBackToCompanyPurchaseOrdersList = () => {
         setView('list');
         setSelectedCompanyPurchaseOrderId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+
+    const handleBackToCompanyPurchaseOrderDetails = (CompanyPurchaseOrderId: number) => {
+        setSelectedCompanyPurchaseOrderId(CompanyPurchaseOrderId);
+        setView('details')
+    };
+
     // ------------------------------------------------------------------------------------
 
     const handleEditCompanyPurchaseOrderButton = () => {
@@ -263,7 +304,7 @@ function CompanyPurchaseOrderManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredCompanyPurchaseOrders = CompanyPurchaseOrders.filter((companyPurchaseOrder: any) => {
+    const filteredCompanyPurchaseOrders = CompanyPurchaseOrders.filter((companyPurchaseOrder: CompanyPurchaseOrderList) => {
     const purchaseOrderNumber = String(companyPurchaseOrder.purchase_order_number)?.toLowerCase() || '';
     const search = searchTerm.toLowerCase();
     
@@ -552,7 +593,7 @@ function CompanyPurchaseOrderManagement() {
                     companyPurchaseOrder={selectedCompanyPurchaseOrder}
                     onSubmit={handleUpdateCompanyPurchaseOrder}
                     isSubmitting={updateCompanyPurchaseOrderMutation.isPending}
-                    onCancel={handleBackToCompanyPurchaseOrdersList}
+                    onCancel={handleBackToCompanyPurchaseOrderDetails}
                     accounts={accounts}
                     agents={agents}
                     supplierProfiles={supplierProfiles}

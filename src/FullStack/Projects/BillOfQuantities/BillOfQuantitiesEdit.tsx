@@ -30,6 +30,7 @@ const BillOfQuantitiesEdit: React.FC<BillOfQuantitiesProps> = ({
     onCancel,
     agents, projects, products
 }) => {
+    const billOfQuantityId = billOfQuantity?.boq_number;
 
     const productItem = useMemo(() => 
     products.map((product: ProductItemCreateResponse) => (
@@ -44,7 +45,15 @@ const BillOfQuantitiesEdit: React.FC<BillOfQuantitiesProps> = ({
         });
     
     React.useEffect(() => {
-        reset(billOfQuantity);
+        if (!billOfQuantity) return;
+
+        const updated = {
+            date: billOfQuantity.date
+                ? new Date(billOfQuantity.date).toISOString().split('T')[0]
+                : "",
+        }
+
+        reset(updated);
     }, [billOfQuantity, reset]);
     
     const { fields, append, remove } = useFieldArray({
@@ -189,7 +198,7 @@ const BillOfQuantitiesEdit: React.FC<BillOfQuantitiesProps> = ({
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                     />
@@ -205,14 +214,14 @@ const BillOfQuantitiesEdit: React.FC<BillOfQuantitiesProps> = ({
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                     />
                                 </div>
                             </div>
 
-                            <div className="form-grid mt-[20px]">
+                            <div className="form-grid mt-5">
                                 <div className="form-group">
                                     <label>Estimated Amount</label>
                                     <p className="helper-text">Auto-calculated</p><br/>
@@ -246,7 +255,7 @@ const BillOfQuantitiesEdit: React.FC<BillOfQuantitiesProps> = ({
             <div className="totals-section border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
                 <div>
                     <h1 className="text-2xl mb-6">Contingency</h1>
-                <div className="form-grid mb-[30px]">
+                <div className="form-grid mb-7.5">
                     <div className="form-group">
                         <label>Contingency Rate (%)</label>
                         <input 
@@ -258,7 +267,7 @@ const BillOfQuantitiesEdit: React.FC<BillOfQuantitiesProps> = ({
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
                                 if (e.target.value) {
-                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    e.target.value = decimalPlaces(Number(e.target.value));
                                 }
                             }}
                         />
@@ -284,7 +293,7 @@ const BillOfQuantitiesEdit: React.FC<BillOfQuantitiesProps> = ({
                 </button>
                 <button
                     type="button"
-                    onClick={onCancel}
+                    onClick={() => onCancel(billOfQuantityId)}
                     className={buttons.secondary}
                 >
                     Cancel

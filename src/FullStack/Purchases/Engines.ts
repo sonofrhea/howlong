@@ -72,7 +72,11 @@ export const createCompanyPurchaseOrder = async (companyPurchaseOrderData: Compa
 
 export const updateCompanyPurchaseOrder = async (
   { purchase_order_number, companyPurchaseOrderData }: AllCompanyPurchaseOrderInputs) => {
-  const response = await apiClient.put(`/purchases/companypurchaseorder/${purchase_order_number}/`, companyPurchaseOrderData);
+  const response = await apiClient.put(`/purchases/companypurchaseorder/${purchase_order_number}/`, companyPurchaseOrderData, {
+    headers: {
+      "Content-Type": 'multipart/form-data',
+    },
+  });
   return response.data;
 };
 

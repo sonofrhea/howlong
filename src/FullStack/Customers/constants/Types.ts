@@ -77,51 +77,51 @@ export type CustomersList = {
 
 
 export type CustomerDetails = {
-  customer_number: number,
-  customer_name: string,
-  company_name: string,
-  address: string,
-  country: string,
-  post_code: string,
-  city: string,
-  state: string,
-  mobile_number: string,
-  home_number: string,
-  fax: string,
-  email: string,
-  id_type: string,
-  id_number: string,
+  customer_number: number;
+  customer_name: string;
+  company_name: string;
+  address: string;
+  country: string;
+  post_code: string;
+  city: string;
+  state: string;
+  mobile_number: string;
+  home_number: string;
+  fax: string;
+  email: string;
+  id_type: string;
+  id_number: string;
 
   preferred_currency: {
-    currency_code: string,
-    currency_name: string,
-    currency_symbol: string,
-    country: string,
-    buy: string,
+    currency_code: string;
+    currency_name: string;
+    currency_symbol: string;
+    country: string;
+    buy: string;
     sell: string
-  },
+  };
 
-  customer_bank_name: string,
-  customer_bank_account_number: string,
-  bank_account_type: string,
-  swift_code: string,
+  customer_bank_name: string;
+  customer_bank_account_number: string;
+  bank_account_type: string;
+  swift_code: string;
 
-  is_active: boolean,
+  is_active: boolean;
 
-  gst_number: string,
-  tax_id_type: string,
-  tax_number: string,
-  tourism_number: string,
-  expiration_date: string,
-  service_tax_number: string,
+  gst_number: string;
+  tax_id_type: string;
+  tax_number: string;
+  tourism_number: string;
+  expiration_date: string;
+  service_tax_number: string;
 
-  status: string,
-  remark: string,
+  status: string;
+  remark: string;
 
-  created_by: string,
-  date_created: string,
-  date_updated: string,
-  updated_by: string,
+  created_by: string;
+  date_created: string;
+  date_updated: string;
+  updated_by: string;
 
   company: string
 };

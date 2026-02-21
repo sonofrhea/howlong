@@ -171,7 +171,7 @@ function ProductItemManagement() {
         productItemData.additional_photos &&
         productItemData.additional_photos?.length > 0
           ? productItemData.additional_photos
-          : null
+          : undefined
     };
 
     //console.log("🎯 RAW FORM DATA:", cleanedData);
@@ -200,7 +200,7 @@ function ProductItemManagement() {
         productItemData.additional_photos &&
         productItemData.additional_photos?.length > 0
           ? productItemData.additional_photos
-          : null
+          : undefined
     };
 
     if (typeof cleanedData.product_photo === "string") {

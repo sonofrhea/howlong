@@ -1,6 +1,7 @@
 import React from "react";
 import { buttons, tables } from "../constants/Styles";
 import { BadgeCent, SquarePen } from "lucide-react";
+import { JobCostLedgerDetailsProps } from "../constants/Types";
 
 
 const formatNumber = () => {
@@ -52,7 +53,12 @@ function getStatusClasses(status: string) {
 
 
 
-const JobCostLedgerDetails: React.FC<any> = ({ jobCostLedger, isLoading, onBack, onEdit }) => {
+const JobCostLedgerDetails: React.FC<JobCostLedgerDetailsProps> = ({
+    jobCostLedger,
+    isLoading,
+    onBack,
+    onEdit }) => {
+    const jobCostLedgerId = jobCostLedger?.job_cost_number;
 
 
     if (isLoading) {
@@ -105,7 +111,7 @@ const JobCostLedgerDetails: React.FC<any> = ({ jobCostLedger, isLoading, onBack,
                 </div>
                 <div className="flex gap-3">
                     <button 
-                        onClick={onEdit}
+                        onClick={() => onEdit(jobCostLedgerId)}
                         className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
@@ -263,14 +269,14 @@ const JobCostLedgerDetails: React.FC<any> = ({ jobCostLedger, isLoading, onBack,
                             <thead>
                                 <tr className="bg-slate-700 text-white">
                                     <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider">#</th>
-                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-[120px]">Cost Code</th>
-                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-[200px]">Description</th>
-                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-[150px]">Supplier</th>
-                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-[120px]">Cost Type</th>
-                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-[100px]">Status</th>
-                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-[130px]">Cost</th>
-                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-[100px]">Tax (%)</th>
-                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-[130px]">Total Cost</th>
+                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-30">Cost Code</th>
+                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-50">Description</th>
+                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-37.5">Supplier</th>
+                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-30">Cost Type</th>
+                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-25">Status</th>
+                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-32.5">Cost</th>
+                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-25">Tax (%)</th>
+                                    <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider min-w-32.5">Total Cost</th>
                                 </tr>
                             </thead>
                             

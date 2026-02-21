@@ -45,6 +45,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
     onCancel, 
     agents, products, suppliers
 }) => {
+    const companyPurchaseInvoiceId = companyPurchaseInvoice?.purchase_invoice_number;
 
     const productOption = useMemo(() => products.map((product: ProductItemCreateResponse) => (
         <option key={product.item_code} value={product.item_code}>
@@ -60,7 +61,15 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
 
     
     React.useEffect(() => {
-        reset(companyPurchaseInvoice)
+        if (!companyPurchaseInvoice) return;
+
+        const updated = {
+            ...companyPurchaseInvoice,
+            date: companyPurchaseInvoice.date
+                ? new Date(companyPurchaseInvoice.date).toISOString().split("T")[0]
+                : "",
+        }
+        reset(updated)
     }, [companyPurchaseInvoice, reset]);
 
 
@@ -144,8 +153,8 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                         >
                             <option value="">select...</option>
                             {useMemo(() => PURCHASE_INVOICE_STATUS.map(option => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
+                                <option key={option} value={option}>
+                                    {option}
                                 </option>
                             )), [PURCHASE_INVOICE_STATUS])}
                         </select>
@@ -270,7 +279,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 />
@@ -298,7 +307,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 />
@@ -374,7 +383,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                         
@@ -403,7 +412,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                             )}
                         </button>
                         <button
-                            onClick={onCancel}
+                            onClick={() => onCancel(companyPurchaseInvoiceId)}
                             type="button"
                             className={buttons.secondary}
                         >

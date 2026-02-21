@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
-import { ProductItemInputs, ProductGroupCreateResponse, ProductItemProps } from "../constants/Types";
+import { ProductItemInputs,
+    ProductGroupCreateResponse, ProductItemProps } from "../constants/Types";
 
 import { BOOLEAN_OPTIONS } from "../constants/options";
 
@@ -245,6 +246,7 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
                             <p className="text-xs text-gray-600">Replace existing photo</p>
                             <input
                             type="file"
+                            placeholder="upload product photo"
                             onChange={e => {
                                 const file = e.target.files?.[0] || null;
                                 setValue('product_photo', file);
@@ -266,6 +268,7 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
                     <div className="rounded-2xl border border-violet-100 bg-violet-50/40 p-6 space-y-6">
 
                     {fields.map((field, index) => {
+                        
                         const existing = typeof productItem.additional_photos?.[index]?.additional_photo === "string" && (
                         <div className="rounded-xl border border-gray-200 bg-white p-2 shadow-sm inline-block">
                             <img
@@ -297,6 +300,7 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
                                 <p className="text-xs text-gray-600 flex-4">Replace photo</p>
                                 <input
                                 type="file"
+                                placeholder="upload product photo"
                                 onChange={e => {
                                     const file = e.target.files?.[0] || null;
                                     setValue(`additional_photos.${index}.additional_photo`, file);

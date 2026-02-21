@@ -8,7 +8,7 @@ import { COST_TYPE_CHOICES_OPTIONS, COUNTRY_OPTIONS,
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
 import { AgentInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
-import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
+import { SortConfig, SupplierProfileResponse } from "../../Suppliers/constants/Types";
 
 
 
@@ -69,7 +69,53 @@ export type ProjectsProfileList = {
   estimated_end_date: string;
   client_details: string;
   status: string;
-}
+};
+
+
+export type ProjectsProfileDetails = {
+  project_code: number;
+  date: string;
+  project_name: string;
+  project_description: string;
+  project_type: string;
+  status: string;
+  address: string;
+  country: string;
+  city: string;
+  state: string;
+  zip_code: string;
+
+  start_date: string;
+  estimated_end_date: string;
+  actual_end_date: string;
+
+  duration: string;
+  days_elapsed: string;
+  project_budget: string;
+  actual_cost: string;
+  variance: string;
+
+  final_budget: string;
+
+  project_manager: string;
+  superintendent: string;
+  client_details_name: string;
+
+  phases: Array<{
+    phase_description: string;
+    start_date: string;
+    current_phase: string;
+    end_date: string | null;
+  }>;
+
+  created_by: string;
+  date_created: string;
+  updated_by: number;
+  date_updated: string;
+  version: number;
+  company: string;
+};
+
 
 export interface ProjectProfileInputs {
   project_code: number;
@@ -127,9 +173,42 @@ export type ProjectProfileProps = {
   project: ProjectProfileInputs;
   onSubmit: (data: ProjectProfileInputs) => void;
   isSubmitting: boolean;
+  onCancel: (projectId: number) => void;
+  customers: CustomerCreateResponse[];
+  agents: AgentInterface[];
+};
+
+
+export type ProjectProfileDetailsProps = {
+  project: ProjectsProfileDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (customerId: number) => void;
+};
+
+
+export type ProjectProfileFormProps = {
+  onSubmit: (data: ProjectProfileInputs) => void;
+  isSubmitting: boolean;
   onCancel?: () => void;
   customers: CustomerCreateResponse[];
   agents: AgentInterface[];
+};
+
+
+export type ProjectProfileTableProps = {
+  projectsProfiles: ProjectsProfileList[];
+  onProjectClick: (projectId: number) => void;
+  onEditProjectsProfile: (projectId: number, project: ProjectsProfileList) => void;
+  onDeleteProjectsProfile: (projectId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
 };
 
 
@@ -179,7 +258,7 @@ export interface ProjectDocumentsResponse {
 // -------- BEGIN ----------- BILL OF QUANTITIES INPUT --------------------------------------
 
 
-export type BillofquantitiesList = {
+export type BillOfquantitiesList = {
   boq_number: number;
   date: string;
   project: string;
@@ -187,7 +266,34 @@ export type BillofquantitiesList = {
   boq_description: string;
   contingency_rate: number;
   net_estimation: number;
-}
+};
+
+
+export type BillOfQuantitiesDetails = {
+  boq_number: number;
+  date: string;
+  project: number;
+  project_name: string;
+  status: string;
+  boq_description: string;
+
+  boq: Array<{
+    product_item: number;
+    product_item_name: string | null;
+    additional_item: string;
+    unit_of_measurement: string;
+    quantity: string;
+    rate_per_unit: string;
+    estimated_amount: string;
+  }>;
+
+  gross_estimation: string;
+  contingency_rate: string;
+  net_estimation: string;
+
+  company: string;
+};
+
 
 export type BillOfQuantitiesInputs = {
   boq_number: number;
@@ -228,11 +334,46 @@ export type BillOfQuantitiesProps = {
   billOfQuantity: BillOfQuantitiesInputs;
   onSubmit: (data: BillOfQuantitiesInputs) => void;
   isSubmitting: boolean;
-  onCancel?: () => void;
+  onCancel: (billOfQuantityId: number) => void;
   agents: AgentInterface[];
   projects: ProjectProfileResponse[];
   products: ProductItemCreateResponse[];
 };
+
+
+export type BillOfQuantitiesTableProps = {
+  billOfQuantities: BillOfquantitiesList[];
+  onBillOfQuantityClick: (billOfQuantityId: number) => void;
+  onEditBillOfQuantity: (billOfQuantityId: number, billOfQuantity: BillOfquantitiesList) => void;
+  onDeleteBillOfQuantity: (billOfQuantityId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+};
+
+
+
+export type BillOfQuantitiesDetailsProps = {
+  billOfQuantity: BillOfQuantitiesDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (billOfQuantityId: number) => void;
+};
+
+
+export type BillOfQuantitiesFormProps = {
+  onSubmit: (data: BillOfQuantitiesInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  projects: ProjectProfileResponse[];
+  products: ProductItemCreateResponse[];
+}; 
 
 
 // -------- END ----------- BILL OF QUANTITIES INPUT ------------------------------------------
@@ -258,9 +399,50 @@ export type JobCostLedgerList = {
 };
 
 
+export type JobCostLedgerDetails = {
+  job_cost_number: number;
+  project: number;
+  project_name: string;
+  project_budget: string;
+
+  date: string;
+  description: string;
+  status: string;
+
+  job_cost_ledger: Array<{
+    cost_code: {
+      job_cost_code: number;
+      job_cost_description: string;
+    };
+    supplier: string;
+    description: string;
+    cost_type: string;
+    status: string;
+    cost: string;
+    tax: string;
+    total_cost: string;
+  }>;
+
+  boq_estimation: number;
+  boq_estimated_amount: string;
+  total_actual_cost: string;
+
+  created_by: string;
+  net_variance: string;
+
+  date_created: string;
+  date_updated: string;
+  updated_by: string;
+
+  company: string;
+};
+
+
+
 export type JobCostLedgerInputs = {
   job_cost_number: number;
   project: string;
+  project_name: string | null;
   date: string;
   description: string;
   status: typeof JOB_COST_LEDGER_STATUS_OPTIONS;
@@ -303,12 +485,49 @@ export type JobCostLedgerProps = {
   jobCostLedger: JobCostLedgerInputs;
   onSubmit: (data: JobCostLedgerInputs) => void;
   isSubmitting: boolean;
-  onCancel?: () => void;
+  onCancel: (jobCostLedgerId: number) => void;
   suppliers: SupplierProfileResponse[];
   jobCostCodes: JobCostCodesInterface[];
   billOfQuantities: BillOfQuantitiesResponse[];
   agents: AgentInterface[];
   projects: ProjectProfileInputs[];
+};
+
+
+
+export type JobCostLedgerDetailsProps = {
+  jobCostLedger: JobCostLedgerDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (jobCostLedgerId: number) => void;
+};
+
+
+export type JobCostLedgerFormProps = {
+  onSubmit: (data: JobCostLedgerInputs) => void;
+  isSubmitting: boolean;
+  onCancel: (jobCostLedgerId: number) => void;
+  suppliers: SupplierProfileResponse[];
+  jobCostCodes: JobCostCodesInterface[];
+  billOfQuantities: BillOfQuantitiesResponse[];
+  agents: AgentInterface[];
+  projects: ProjectProfileInputs[];
+};
+
+
+export type JobCostLedgerListProps = {
+  jobCostLedgers: JobCostLedgerList[];
+  onJobCostLedgerClick: (jobCostLedgerId: number) => void;
+  onEditJobCostLedger: (jobCostLedgerId: number, jobCostLedger: JobCostLedgerList) => void;
+  onDeleteJobCostLedger: (jobCostLedgerId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
 };
 
 

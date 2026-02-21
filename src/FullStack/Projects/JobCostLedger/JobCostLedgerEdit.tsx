@@ -15,7 +15,7 @@ import { COST_TYPE_CHOICES_OPTIONS, JOB_COST_LEDGER_STATUS_OPTIONS, JOB_COST_LIN
 
  } from "../constants/Options";
 import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
-import { buttons, utils } from "../constants/Styles";
+import { buttons, forms, utils } from "../constants/Styles";
 
 
 const formatProjectNumber = () => {
@@ -51,6 +51,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
     onCancel,
     suppliers, jobCostCodes, billOfQuantities, agents, projects
 }) => {
+    const jobCostLedgerId = jobCostLedger?.job_cost_number;
 
     const costCode = useMemo(() => 
         jobCostCodes.map((code: JobCostCodesInterface) => (
@@ -68,15 +69,15 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
     
     const costTypeSelect = useMemo(() => 
         COST_TYPE_CHOICES_OPTIONS.map(option => (
-            <option key={option.value} value={option.value}>
-                {option.label}
+            <option key={option} value={option}>
+                {option}
             </option>
     )), [COST_TYPE_CHOICES_OPTIONS])
     
     const statusLineSelect = useMemo(() => 
         JOB_COST_LINES_STATUS_OPTIONS.map(option => (
-            <option key={option.value} value={option.value}>
-                {option.label}
+            <option key={option} value={option}>
+                {option}
             </option>
     )), [JOB_COST_LINES_STATUS_OPTIONS])
 
@@ -86,7 +87,18 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
         });
     
     React.useEffect(() => {
-        reset(jobCostLedger);
+
+        const updated = {
+            ...jobCostLedger,
+            date: jobCostLedger.date
+                ? new Date(jobCostLedger.date).toISOString().split("T")[0]
+                : "",
+            date_created: jobCostLedger.date_created
+                ? new Date(jobCostLedger.date_created).toISOString().split("T")[0]
+                : "",
+        };
+
+        reset(updated);
     }, [jobCostLedger, reset]);
             
     const { fields, append, remove } = useFieldArray({
@@ -142,6 +154,31 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                 </option>
                             )), [projects])}
                         </select>
+
+                        <div className="flex flex-col">
+                            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+                                Project Name
+                            </span>
+                            <input 
+                                className="text-base font-medium text-slate-900"
+                                {...register('project_name')}
+                            />
+                            {formatProjectNumber()}
+                        </div>
+                        
+                        <div>
+                            <p className={forms.label}>Related Project Budget</p>
+                            <input 
+                                {...register("project_budget")}
+                                className={forms.input.number}
+                                placeholder="0.00"
+                                step="0.01" min="0.00" onBlur={(e) => {
+                                    if (e.target.value) {
+                                        e.target.value = decimalPlaces(Number(e.target.value));
+                                    }
+                                }}
+                            />
+                        </div>
                     </div>
 
                     <div className="md:col-span-2">
@@ -160,6 +197,21 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                 </option>
                             )), [billOfQuantities])}
                         </select>
+                        
+                        <div>
+                            <p className={forms.label}>BOQ Estimation Amount</p>
+                            <input 
+                                {...register("boq_estimated_amount")}
+                                className={forms.input.number}
+                                placeholder="0.00"
+                                step="0.01" min="0.00" onBlur={(e) => {
+                                    if (e.target.value) {
+                                        e.target.value = decimalPlaces(Number(e.target.value));
+                                    }
+                                }}
+                            />
+                        </div>
+
                     </div>
 
                     <div>
@@ -184,8 +236,8 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                         >
                             <option value="">Select status...</option>
                             {useMemo(() => JOB_COST_LEDGER_STATUS_OPTIONS.map(option => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
+                                <option key={option} value={option}>
+                                    {option}
                                 </option>
                             )), [JOB_COST_LEDGER_STATUS_OPTIONS])}
                         </select>
@@ -334,7 +386,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 />
@@ -351,7 +403,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 />
@@ -406,7 +458,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                 </button>
                 <button
                     type="button"
-                    onClick={onCancel}
+                    onClick={() => onCancel(jobCostLedgerId)}
                     className={buttons.secondary}
                 >
                     Cancel
