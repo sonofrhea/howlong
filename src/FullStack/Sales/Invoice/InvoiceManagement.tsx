@@ -24,7 +24,8 @@ import InvoiceEdit from "./InvoiceEdit";
 
 
 import { InvoiceInputs, InvoiceCreateResponse, 
-    EditInvoiceInputs } from "../Constants/Types";
+    EditInvoiceInputs, 
+    InvoiceList} from "../Constants/Types";
 import { spinningStyles } from "../Constants/Styles";
 import { toast } from "react-hot-toast";
 
@@ -195,13 +196,21 @@ function InvoiceManagement() {
 
 
     const handleAddInvoice = async (invoiceData: InvoiceInputs) => {
-        if (invoiceData.related_invoice?.length === 0) {
-            delete invoiceData.related_invoice;
-        } 
+
+        const cleanedData = {
+            ...invoiceData,
+            related_invoice:
+                invoiceData.related_invoice &&
+                invoiceData.related_invoice?.length > 0
+                    ? invoiceData.related_invoice
+                    : undefined,
+        };
+        
+
         //console.log("🎯 RAW FORM DATA:", invoiceData);
         const toastId = toast.loading('Creating Invoice...');
         try {
-            await createInvoiceMutation.mutateAsync(invoiceData);
+            await createInvoiceMutation.mutateAsync(cleanedData);
             toast.success('Invoice successfully created', {id: toastId});
         } catch (error) {
             toast.error('Failed to create invoice', { id: toastId });
@@ -213,11 +222,28 @@ function InvoiceManagement() {
 
 // -------------------------UPDATE-----------------------------------------------------------
 
-    const handleUpdateInvoice = (invoiceData: InvoiceInputs) => {
-        updateInvoiceMutation.mutate({
-        invoice_number: selectedInvoiceId!,
-        invoiceData: invoiceData
-        });
+    const handleUpdateInvoice = async (invoiceData: InvoiceInputs) => {
+
+        const cleanedData = {
+            ...invoiceData,
+            related_invoice:
+                invoiceData.related_invoice &&
+                invoiceData.related_invoice?.length > 0
+                    ? invoiceData.related_invoice
+                    : undefined,
+        };
+
+        const toastId = toast.loading('Updating Invoice...');
+        try {
+            await updateInvoiceMutation.mutateAsync({
+                invoice_number: selectedInvoiceId!,
+                invoiceData: cleanedData
+            });
+            toast.success('Invoice successfully updated', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to update invoice', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -225,8 +251,15 @@ function InvoiceManagement() {
 
 
     const handleDeleteInvoice = async (invoiceId: number) => {
-        if (window.confirm('Are you sure you want to delete this customer?')) {
-        deleteInvoiceMutation.mutate(invoiceId);
+        if (!window.confirm('Are you sure you want to delete this customer?')) return;
+        
+        const toastId = toast.loading('Deleting Invoice...');
+        try {
+            await deleteInvoiceMutation.mutateAsync(invoiceId);
+            toast.success('Invoice successfully deleted', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to delete invoice', { id: toastId });
+            console.error(error);
         }
     };
     // --------------------------CLICK----------------------------------------------------------
@@ -249,6 +282,14 @@ function InvoiceManagement() {
         setView('list');
         setSelectedInvoiceId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+
+    const handleBackToInvoiceDetails = (invoiceId: number) => {
+        setSelectedInvoiceId(invoiceId);
+        setView('details')
+    };
     // ------------------------------------------------------------------------------------
 
     const handleEditInvoiceButton = () => {
@@ -256,12 +297,12 @@ function InvoiceManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredInvoices = invoices.filter((invoice: any) => {
+    const filteredInvoices = invoices.filter((invoice: InvoiceList) => {
         const invoiceNumber = String(invoice.invoice_number)?.toLowerCase() || '';
-        const customerName = invoice.customer?.customer_name?.toLowerCase() || '';
+        const customerName = invoice.customer?.toLowerCase() || '';
         const invoiceDate = invoice.invoice_date?.toLowerCase() || '';
         const invoiceDueDate = invoice.invoice_due_date?.toLowerCase() || '';
-        const agentName = invoice.agent?.username?.toLowerCase() || '';
+        const agentName = invoice.agent?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
         
         return invoiceDate.includes(search) || customerName.includes(search) || invoiceDueDate.includes(search) || agentName.includes(search) || invoiceNumber.includes(search);
@@ -533,7 +574,7 @@ function InvoiceManagement() {
                 invoice={selectedInvoice}
                 onSubmit={handleUpdateInvoice}
                 isSubmitting={updateInvoiceMutation.isPending}
-                onCancel={handleBackToInvoicesList}
+                onCancel={handleBackToInvoiceDetails}
                 customers={customers}
                 currencies={currencies}
                 agents={agents}

@@ -191,23 +191,23 @@ function CreditNoteManagement() {
 
 
   const handleAddCreditNote = async (creditNoteData: CreditNoteInputs) => {
-    if (!creditNoteData.account?.account_code) {
-      delete creditNoteData.account;
-    }
-    if (creditNoteData.credit_note_lines) {
-      creditNoteData.credit_note_lines = creditNoteData.credit_note_lines?.filter(item => 
-        item.date
-      );
-      if (creditNoteData.credit_note_lines?.length === 0) {
-        delete creditNoteData.credit_note_lines;
-      }
-    }
-    //console.log("🎯 RAW FORM DATA:", creditNoteData)
+
+    const cleanedData = {
+      ...creditNoteData,
+      account: creditNoteData.account ?? undefined,
+      credit_note_lines:
+        creditNoteData.credit_note_lines &&
+        creditNoteData.credit_note_lines?.length > 0
+          ? creditNoteData.credit_note_lines
+          : undefined
+    };
+    
+    //console.log("🎯 RAW FORM DATA:", cleanedData)
 
 
       const toastId = toast.loading('Creating Credit Note...');
       try {
-        await createCreditNoteMutation.mutateAsync(creditNoteData);
+        await createCreditNoteMutation.mutateAsync(cleanedData);
         toast.success('Credit Note successfully created!', { id: toastId });
       } catch (error) {
         toast.error('Failed to create Credit Note', { id: toastId });
@@ -222,23 +222,22 @@ function CreditNoteManagement() {
 
 
   const handleUpdateCreditNote = async (creditNoteData: CreditNoteInputs) => {
-    if (!creditNoteData.account?.account_code) {
-      delete creditNoteData.account;
-    }
-    if (creditNoteData.credit_note_lines) {
-      creditNoteData.credit_note_lines = creditNoteData.credit_note_lines?.filter(item => 
-        item.date
-      );
-      if (creditNoteData.credit_note_lines?.length === 0) {
-        delete creditNoteData.credit_note_lines;
-      }
-    }
+
+    const cleanedData = {
+      ...creditNoteData,
+      account: creditNoteData.account ?? undefined,
+      credit_note_lines:
+        creditNoteData.credit_note_lines &&
+        creditNoteData.credit_note_lines?.length > 0
+          ? creditNoteData.credit_note_lines
+          : undefined
+    };
 
     const toastId = toast.loading('Updating Credit Note...');
     try {
       await updateCreditNoteMutation.mutateAsync({
         credit_note_number: selectedCreditNoteId!,
-        creditNoteData: creditNoteData
+        creditNoteData: cleanedData
       });
       toast.success('Credit Note successfully updated!', { id: toastId });
     } catch (error) {

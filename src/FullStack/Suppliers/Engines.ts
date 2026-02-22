@@ -45,7 +45,7 @@ export const updateSupplierCategory = async ({category_id, supplierCategoryData}
 };
 
 export const deleteSupplierCategory = async (category_id: number) => {
-    apiClient.delete(`suppliers/suppliercategories/${category_id}/`);
+    await apiClient.delete(`suppliers/suppliercategories/${category_id}/`);
     return true;
 };
 
@@ -81,7 +81,7 @@ export const updateSupplierProfile = async ({supplier_code, supplierProfileData}
 };
 
 export const deleteSupplierProfile = async (supplier_code: number) => {
-    apiClient.delete(`/suppliers/supplierprofiles/${supplier_code}/`);
+    await apiClient.delete(`/suppliers/supplierprofiles/${supplier_code}/`);
     return true;
 };
 
@@ -112,7 +112,7 @@ export const updateSupplierInvoice = async ({invoice_number, supplierInvoiceData
 };
 
 export const deleteSupplierInvoice = async (invoice_number: number) => {
-    apiClient.delete(`/suppliers/supplierinvoices/${invoice_number}/`);
+    await apiClient.delete(`/suppliers/supplierinvoices/${invoice_number}/`);
     return true;
 };
 
@@ -144,7 +144,7 @@ export const updateSupplierPayment = async ({payment_code, supplierPaymentData}:
 };
 
 export const deleteSupplierPayment = async (payment_code: number) => {
-    apiClient.delete(`/suppliers/supplierpayments/${payment_code}/`);
+    await apiClient.delete(`/suppliers/supplierpayments/${payment_code}/`);
     return true;
 };
 
@@ -175,7 +175,7 @@ export const updateSupplierCreditNote = async ({credit_note_number, supplierCred
 };
 
 export const deleteSupplierCreditNote = async (credit_note_number: number) => {
-    apiClient.delete(`/suppliers/suppliercreditnotes/${credit_note_number}/`);
+    await apiClient.delete(`/suppliers/suppliercreditnotes/${credit_note_number}/`);
     return true;
 };
 
@@ -207,7 +207,7 @@ export const updateSupplierDebitNote = async ({debit_note_number, supplierDebitN
 };
 
 export const deleteSupplierDebitNote = async (debit_note_number: number) => {
-    apiClient.delete(`/suppliers/supplierdebitnotes/${debit_note_number}/`);
+    await apiClient.delete(`/suppliers/supplierdebitnotes/${debit_note_number}/`);
     return true;
 };
 

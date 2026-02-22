@@ -5,7 +5,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { PAYMENT_TYPE_OPTIONS } from "../constants/options";
 
 
-import { SupplierProfileResponse, SupplierPaymentInputs, SupplierPaymentProps } from "../constants/Types";
+import { SupplierProfileResponse, SupplierPaymentInputs, SupplierPaymentProps, SupplierPaymentFormProps } from "../constants/Types";
 
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { SupplierInvoiceResponse } from "../constants/Types";
@@ -54,8 +54,13 @@ const formatInvoiceNumber = () => {
 
 
 
-const SupplierPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, currencies, 
-    accounts, agents, supplierInvoices, supplierProfiles }) => {
+const SupplierPaymentForm: React.FC<SupplierPaymentFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    currencies, 
+    accounts, agents, supplierInvoices, supplierProfiles
+}) => {
 
 
         const { register, handleSubmit, watch, setValue, control,
@@ -216,7 +221,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                 placeholder="0.00"
                                 step="0.01" min="0.00" onBlur={(e) => {
                                     if (e.target.value) {
-                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        e.target.value = decimalPlaces(Number(e.target.value));
                                     }
                                 }} 
                             />
@@ -269,86 +274,89 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                 </thead>
 
                                 <tbody className={tables.body}>
-                                    {fields.map((field, index) => (
-                                        <tr key={field.id} className={tables.row}>
+                                    {fields.map((field, index) => {
 
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    type="date"
-                                                    {...register(`related_payment.${index}.payment_date`)}
-                                                    className={forms.select.full}
-                                                />
-                                            </td>
+                                        return(
+                                            <tr key={field.id} className={tables.row}>
 
-                                            <td className={tables.cell}>
-                                                <select
-                                                    {...register(`related_payment.${index}.payment_type`)}
-                                                    className={forms.select.small}
-                                                >
-                                                    <option value="">select...</option>
-                                                    {PAYMENT_TYPE_OPTIONS.map(option => (
-                                                        <option key={option.value} value={option.value}>
-                                                            {option.label}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </td>
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        type="date"
+                                                        {...register(`related_payment.${index}.payment_date`)}
+                                                        className={forms.select.full}
+                                                    />
+                                                </td>
 
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_payment.${index}.payment_amount`)}
-                                                    type="number"
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}
-                                                    className={forms.input.number}
-                                                />
-                                            </td>
+                                                <td className={tables.cell}>
+                                                    <select
+                                                        {...register(`related_payment.${index}.payment_type`)}
+                                                        className={forms.select.small}
+                                                    >
+                                                        <option value="">select...</option>
+                                                        {PAYMENT_TYPE_OPTIONS.map(option => (
+                                                            <option key={option} value={option}>
+                                                                {option}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </td>
 
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_payment.${index}.additional_payment`)}
-                                                    type="number"
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                        }
-                                                    }}
-                                                    className={forms.input.number}
-                                                />
-                                            </td>
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_payment.${index}.payment_amount`)}
+                                                        type="number"
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
+                                                            }
+                                                        }}
+                                                        className={forms.input.number}
+                                                    />
+                                                </td>
 
-                                            <td className={tables.cell}>
-                                                <input 
-                                                    {...register(`related_payment.${index}.cancelled`)}
-                                                    type="checkbox"
-                                                    className={forms.input.base}
-                                                />
-                                            </td>
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_payment.${index}.additional_payment`)}
+                                                        type="number"
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
+                                                            }
+                                                        }}
+                                                        className={forms.input.number}
+                                                    />
+                                                </td>
 
-                                            <td className={tables.autoCalculate}>
-                                                {decimalPlaces(
-                                                    Number(watch(`related_payment.${index}.payment_amount`) || 0.00) +
-                                                    Number(watch(`related_payment.${index}.additional_payment`) || 0.00)
-                                                )}
-                                                
-                                            </td>
-                                                                                        
-                                            <td>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => remove(index)}
-                                                >
-                                                    <Trash2 size={16}
-                                                    className="text-black cursor-pointer" />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                <td className={tables.cell}>
+                                                    <input 
+                                                        {...register(`related_payment.${index}.cancelled`)}
+                                                        type="checkbox"
+                                                        className={forms.input.base}
+                                                    />
+                                                </td>
+
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(
+                                                        Number(watch(`related_payment.${index}.payment_amount`) || 0.00) +
+                                                        Number(watch(`related_payment.${index}.additional_payment`) || 0.00)
+                                                    )}
+                                                    
+                                                </td>
+                                                                                            
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => remove(index)}
+                                                    >
+                                                        <Trash2 size={16}
+                                                        className="text-black cursor-pointer" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                     <tr>
                                         <td className={tables.headerCell}>
                                             <button
@@ -393,7 +401,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
                                         

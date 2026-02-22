@@ -48,6 +48,7 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const supplierPaymentId = supplierPayment?.payment_code;
 
 
     if (isLoading) {
@@ -96,7 +97,7 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
 
                     <div className="flex gap-3">
                         <button 
-                            onClick={() => onEdit(supplierPayment.payment_code)}
+                            onClick={() => onEdit(supplierPaymentId)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />

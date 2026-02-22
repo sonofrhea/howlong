@@ -83,9 +83,9 @@ function SupplierCategoryManagement() {
     const createSupplierCategoryMutation = useMutation({
         mutationFn: createSupplierCategory,
         onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ['supplierCategories']});
-        setSelectedSupplierCategoryId(data.category_id);
-        setView('list');
+            queryClient.invalidateQueries({ queryKey: ['supplierCategories']});
+            setSelectedSupplierCategoryId(data.category_id);
+            setView('list');
         },
         onError: (error: any) => {
         console.error('Error creating supplierCategory:', error.response?.data || error.message || error);
@@ -101,9 +101,9 @@ function SupplierCategoryManagement() {
     const updateSupplierCategoryMutation = useMutation({
         mutationFn: updateSupplierCategory,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierCategories'] });
-        queryClient.invalidateQueries({ queryKey: ['supplierCategory', selectedSupplierCategoryId]});
-        setView('list');
+            queryClient.invalidateQueries({ queryKey: ['supplierCategories'] });
+            queryClient.invalidateQueries({ queryKey: ['supplierCategory', selectedSupplierCategoryId]});
+            setView('list');
         },
         onError: (error: any) => {
         console.error('Error updating supplier category:', error.response?.data || error.message);
@@ -144,6 +144,7 @@ function SupplierCategoryManagement() {
 
 
     const handleAddSupplierCategory = async (supplierCategoryData: SupplierCategoryInputs) => {
+
         //console.log("🎯 RAW FORM DATA:", supplierCategoryData);
         const toastId = toast.loading('Creating Supplier Category...');
         try {
@@ -161,11 +162,20 @@ function SupplierCategoryManagement() {
 
 
 
-    const handleUpdateSupplierCategory = (supplierCategoryData: SupplierCategoryInputs) => {
-        updateSupplierCategoryMutation.mutate({
-        category_id: selectedSupplierCategoryId!,
-        supplierCategoryData: supplierCategoryData
-        });
+    const handleUpdateSupplierCategory = async (supplierCategoryData: SupplierCategoryInputs) => {
+
+        const toastId = toast.loading('Updating Supplier Category...');
+        try {
+            await updateSupplierCategoryMutation.mutateAsync({
+                category_id: selectedSupplierCategoryId!,
+                supplierCategoryData: supplierCategoryData
+            });
+            toast.success('Supplier Category successfully updated!', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to update supplier category', { id: toastId });
+            console.error(error);
+        }
+        
     };
 
 
@@ -173,9 +183,16 @@ function SupplierCategoryManagement() {
 
 
     const handleDeleteSupplierCategory = async (supplierCategoryId: number) => {
-        if (window.confirm('Are you sure you want to delete this category?')) {
-        deleteSupplierCategoryMutation.mutate(supplierCategoryId);
-        setView('list');
+        if (!window.confirm('Are you sure you want to delete this category?')) return;
+        
+        const toastId = toast.loading('Deleting Supplier Category...');
+        try {
+            await deleteSupplierCategoryMutation.mutateAsync(supplierCategoryId);
+            toast.success('Supplier Category successfully deleted!', {id: toastId});
+            setView('list');
+        } catch (error) {
+            toast.error('Failed to delete supplier category', { id: toastId });
+            console.error(error);
         }
     };
     // ------------------------------------------------------------------------------------
@@ -183,7 +200,7 @@ function SupplierCategoryManagement() {
 
     const handleSupplierCategoryClick = (supplierCategoryId: number) => {
         setSelectedSupplierCategoryId(supplierCategoryId);
-        setView('edit')
+        setView('details')
     };
     // ------------------------------------------------------------------------------------
 
@@ -197,6 +214,14 @@ function SupplierCategoryManagement() {
     const handleBackToSupplierCategoriesList = () => {
         setView('list');
         setSelectedSupplierCategoryId(null);
+    };
+
+    // ------------------------------------------------------------------------------------
+
+
+    const handleBackToSupplierCategoryDetails = (supplierCategoryId: number) => {
+        setSelectedSupplierCategoryId(supplierCategoryId);
+        setView('details')
     };
     // ------------------------------------------------------------------------------------
 
@@ -471,7 +496,7 @@ function SupplierCategoryManagement() {
                 onSubmit={handleUpdateSupplierCategory}
                 isSubmitting={updateSupplierCategoryMutation.isPending}
                 onBack={handleBackToSupplierCategoriesList}
-                onCancel={handleBackToSupplierCategoriesList}
+                onCancel={handleBackToSupplierCategoryDetails}
                 agents={agents}
                 />
             )}

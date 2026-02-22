@@ -46,6 +46,7 @@ const SupplierInvoiceEdit: React.FC<SupplierInvoiceProps> = ({
     onCancel,
     currencies, accounts, agents, supplierProfiles, productItems
 }) => {
+    const supplierInvoiceId = supplierInvoice.invoice_number;
                                         
     const productOptions = useMemo(() => 
         productItems.map((product: ProductItemCreateResponse) => (
@@ -61,7 +62,15 @@ const SupplierInvoiceEdit: React.FC<SupplierInvoiceProps> = ({
         });
 
     React.useEffect(() => {
-        reset(supplierInvoice);
+
+        const updated = {
+            ...supplierInvoice,
+            invoice_date: supplierInvoice.invoice_date
+                ? new Date(supplierInvoice.invoice_date).toISOString().split("T")[0]
+                : "",
+        };
+
+        reset(updated);
     }, [supplierInvoice, reset]);
                 
     const { fields, append, remove } = useFieldArray({
@@ -98,6 +107,16 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                 <hr className="my-6 border-gray-200" />
 
                 <div className={layout.formSectionCol3}>
+                    <div>
+                        <p className={forms.secondLevelLabel}>Invoice Date</p>
+                        <input 
+                            type="date"
+                            {...register("invoice_date", {required: "Date is required"})}
+                            className={forms.input.date}
+                        />
+                        {errors.invoice_due_date && <p className="text-amber-600 text-sm">{errors.invoice_due_date?.message}</p>}
+                    </div>
+
                     <div>
                         <p className={forms.secondLevelLabel}>Invoice Due Date</p>
                         <input 
@@ -289,7 +308,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
                                             />
@@ -317,7 +336,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
                                             />
@@ -392,7 +411,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
                                         
@@ -431,7 +450,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(supplierInvoiceId)}
                             className={buttons.secondary}
                         >
                             Cancel

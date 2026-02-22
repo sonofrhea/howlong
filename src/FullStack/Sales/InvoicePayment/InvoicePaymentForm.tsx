@@ -181,7 +181,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                                 placeholder="0.00"
                                 step="0.01" min="0.00" onBlur={(e) => {
                                     if (e.target.value) {
-                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        e.target.value = decimalPlaces(Number(e.target.value));
                                     }
                                 }}
                             />
@@ -297,7 +297,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}                                                
                                                     />
@@ -318,7 +318,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}                                                
                                                     />
@@ -393,7 +393,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                                                 className={forms.input.smallNumber}
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
                                             />

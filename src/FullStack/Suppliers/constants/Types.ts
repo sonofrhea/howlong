@@ -68,7 +68,7 @@ export type SupplierCategoryProps = {
   onSubmit: (data: SupplierCategoryInputs) => void;
   isSubmitting: boolean;
   onBack?: () => void;
-  onCancel?: () => void;
+  onCancel: (supplierCategoryId: number) => void;
   agents: AgentInterface[];
 };
 
@@ -85,6 +85,15 @@ export type SupplierCategoryTableProps = {
   onPageChange: (page: number) => void;
   onItemsPerPageChange: (itemsPerPage: string) => void;
   sortConfig: SortConfig;
+};
+
+
+export type SupplierCategoryFormProps = { 
+  onSubmit: (data: SupplierCategoryInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  agents: AgentInterface[];
 };
 
 
@@ -105,13 +114,66 @@ export type SupplierProfileList = {
   supplier_code: number;
   supplier_name: string;
   company_name: string;
+  industry_code: string;
   category: string;
   city: string;
   registration_number: number;
   status: string;
   remark: string;
   is_active: boolean;
-}
+};
+
+
+export type SupplierProfileDetails = {
+  supplier_code: number;
+  supplier_name: string;
+  company_name: string;
+  category: string;
+  industry_code: string | null;
+
+  preferred_currency: {
+    currency_code: string;
+    currency_name: string;
+    currency_symbol: string;
+    country: string;
+    buy: string;
+    sell: string;
+  };
+
+  address: string;
+  country: string;
+  post_code: string;
+  city: string;
+  state: string;
+
+  mobile_number: string;
+  home_number: string;
+  fax: string;
+  email: string;
+
+  account_open_date: string;
+  registration_number: string;
+  status: string;
+
+  gst_number: string;
+  tax_id_type: string;
+  brn_number: string;
+  tax_number: string;
+  tourism_number: string;
+  expiration_date: string;
+  service_tax_number: string;
+
+  supplier_bank_name: string;
+  remark: string;
+  supplier_bank_account_number: string;
+  bank_account_type: string;
+
+  is_active: boolean;
+
+  created_by: string;
+  date_created: string;
+  company: string;
+};
 
 export type SupplierProfileInputs = {
   supplier_code: number;
@@ -127,7 +189,7 @@ export type SupplierProfileInputs = {
     sell: number | null;
   };
   address: string;
-  country: typeof COUNTRY_OPTIONS[number]['value'] | null;
+  country: typeof COUNTRY_OPTIONS[number] | null;
   post_code: string;
   city: string;
   state: string;
@@ -137,9 +199,9 @@ export type SupplierProfileInputs = {
   email: string;
   account_open_date: string;
   registration_number: number;
-  status: typeof STATUS_CHOICES[number]['value'] | null;
+  status: typeof STATUS_CHOICES[number] | null;
   gst_number: number;
-  tax_id_type: typeof TAX_ID_CHOICES[number]['value'] | null;
+  tax_id_type: typeof TAX_ID_CHOICES[number] | null;
   brn_number: number;
   tax_number: number;
   tourism_number: number;
@@ -148,7 +210,7 @@ export type SupplierProfileInputs = {
   supplier_bank_name: string;
   remark: string;
   supplier_bank_account_number: number;
-  bank_account_type: typeof BANK_TYPE_CHOICES[number]['value'] | null;
+  bank_account_type: typeof BANK_TYPE_CHOICES[number] | null;
   is_active: boolean;
   created_by: string;
   date_created: string;
@@ -173,7 +235,7 @@ export type SupplierProfileProps = {
   supplierProfile: SupplierProfileInputs;
   onSubmit: (data: SupplierProfileInputs) => void;
   isSubmitting: boolean;
-  onCancel?: () => void;
+  onCancel: (supplierProfileId: number) => void;
   agents: AgentInterface[];
   supplierCategories: SupplierCategoryResponse[];
   banks: BankInterface[];
@@ -194,6 +256,25 @@ export type SupplierProfileTableProps = {
   onPageChange: (page: number) => void;
   onItemsPerPageChange: (itemsPerPage: string) => void;
   sortConfig: SortConfig;
+};
+
+
+export type SupplierProfileFormProps = {
+  onSubmit: (data: SupplierProfileInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  supplierCategories: SupplierCategoryResponse[];
+  banks: BankInterface[];
+  currencies: CurrencyInterface[];
+};
+
+
+export type SupplierDetailsProps = {
+  supplierProfile: SupplierProfileDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (supplierProfileId: number) => void;
 };
 
 // -------- END ----------- SUPPLIER PROFILE INPUT ----------------
@@ -323,7 +404,7 @@ export type SupplierPaymentProps = {
   onSubmit: (data: SupplierPaymentInputs) => void;
   isSubmitting: boolean;
   onBack?: () => void;
-  onCancel?: () => void;
+  onCancel: (supplierPaymentId: number) => void;
   agents: AgentInterface[];
   supplierInvoices: SupplierInvoiceResponse[];
   supplierProfiles: SupplierProfileResponse[];
@@ -356,6 +437,19 @@ export type SupplierPaymentTableProps = {
   onPageChange: (page: number) => void;
   onItemsPerPageChange: (itemsPerPage: string) => void;
   sortConfig: SortConfig;
+};
+
+
+export type SupplierPaymentFormProps = {
+  onSubmit: (data: SupplierPaymentInputs) => void;
+  isSubmitting: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+  supplierInvoices: SupplierInvoiceResponse[];
+  supplierProfiles: SupplierProfileResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
 };
 
 
@@ -501,7 +595,7 @@ export type SupplierInvoiceProps = {
   onSubmit: (data: SupplierInvoiceInputs) => void;
   isSubmitting: boolean;
   onBack?: () => void;
-  onCancel?: () => void;
+  onCancel: (supplierInvoiceId: number) => void;
   agents: AgentInterface[];
   productItems: ProductItemCreateResponse[];
   supplierProfiles: SupplierProfileResponse[];
@@ -633,8 +727,6 @@ export type SupplierDebitNoteFormProps = {
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
   SupplierInvoices: SupplierInvoiceResponse[];
-  onCreateJournalEntry: (data: JournalHeaderInputs) => void;
-  isCreatingJournalEntry: boolean;
 };
 
 export type SupplierDebitNoteProps = {
@@ -642,7 +734,7 @@ export type SupplierDebitNoteProps = {
   onSubmit: (data: SupplierDebitNoteInputs) => void;
   isSubmitting: boolean;
   onBack?: () => void;
-  onCancel?: () => void;
+  onCancel: (supplierDebitNoteId: number) => void;
   agents: AgentInterface[];
   productItems: ProductItemCreateResponse[];
   SupplierProfiles: SupplierProfileResponse[];
@@ -778,11 +870,11 @@ export type EditSupplierCreditNoteInputs = {
   supplierCreditNoteData: SupplierCreditNoteInputs;
 }
 
-export type SupplierCreditNoteFormProps = {
+export type SupplierCreditNoteEditProps = {
   supplierCreditNote: SupplierCreditNoteInputs;
   onSubmit: (data: SupplierCreditNoteInputs) => void;
   isSubmitting: boolean;
-  onCancel: () => void;
+  onCancel: (supplierCreditNoteId: number) => void;
   supplierInvoices: SupplierInvoiceResponse[];
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
@@ -802,6 +894,36 @@ export type SupplierCreditNoteDetailsProps = {
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
 };
+
+
+export type SupplierCreditNoteTableProps = {
+  supplierCreditNotes: SupplierCreditNoteList[];
+  onSupplierCreditNoteClick: (supplierCreditNoteId: number) => void;
+  onEditSupplierCreditNote: (supplierCreditNoteId: number, supplierCreditNote: SupplierCreditNoteList) => void;
+  onDeleteSupplierCreditNote: (supplierCreditNoteId: number) => void;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+  sortConfig: SortConfig;
+};
+
+
+export type SupplierCreditNoteFormProps = {
+  onSubmit: (data: SupplierCreditNoteInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  supplierInvoices: SupplierInvoiceResponse[];
+  currencies: CurrencyInterface[];
+  accounts: ControlAccountInterface[];
+  agents: AgentInterface[];
+  supplierProfiles: SupplierProfileResponse[];
+  productItems: ProductItemCreateResponse[];
+};
+
 
   // -------- END ----------- SUPPLIER CREDIT NOTE INPUT ----------------
 

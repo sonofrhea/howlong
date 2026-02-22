@@ -24,8 +24,10 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
     supplierInvoice,
     isLoading,
     onBack,
-    onEdit }) => {
-    const supplierInvoiceId = supplierInvoice.invoice_number;
+    onEdit 
+}) => {
+
+    const supplierInvoiceId = supplierInvoice?.invoice_number;
 
 
     if (isLoading) {

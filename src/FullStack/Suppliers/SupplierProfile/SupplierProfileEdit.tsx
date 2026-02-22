@@ -27,6 +27,7 @@ const SupplierProfileEdit: React.FC<SupplierProfileProps> = ({
     onCancel, 
     supplierCategories, currencies, agents, banks
 }) => {
+    const supplierProfileId = supplierProfile.supplier_code;
 
 
     const { register, handleSubmit, setValue, 
@@ -35,7 +36,16 @@ const SupplierProfileEdit: React.FC<SupplierProfileProps> = ({
         });
 
     React.useEffect(() => {
-        reset(supplierProfile);
+
+        const updated = {
+            ...supplierProfile,
+            date_created:
+                supplierProfile.date_created
+                    ? new Date(supplierProfile.date_created).toISOString().split("T")[0]
+                    : "",
+        };
+
+        reset(updated);
     }, [supplierProfile, reset]);
 
 
@@ -77,8 +87,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                             >
                                 <option value="">select...</option>
                                 {useMemo(() => STATUS_CHOICES.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
+                                    <option key={option} value={option}>
+                                        {option}
                                     </option>
                                 )), [STATUS_CHOICES])}
                                 
@@ -253,8 +263,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => COUNTRY_OPTIONS.map(country => (
-                                        <option key={country.value} value={country.value}>
-                                            {country.label}
+                                        <option key={country} value={country}>
+                                            {country}
                                         </option>
                                     )), [COUNTRY_OPTIONS])}
                                 </select>
@@ -305,8 +315,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                     >
                                     <option value="">select...</option>
                                     {useMemo(() => BANK_TYPE_CHOICES.map(option => (
-                                        <option key={option.value} value={option.value} >
-                                            {option.label}
+                                        <option key={option} value={option} >
+                                            {option}
                                         </option>
                                     )), [BANK_TYPE_CHOICES])}
                                 </select>
@@ -343,8 +353,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => TAX_ID_CHOICES.map(tax => (
-                                        <option key={tax.value} value={tax.value} >
-                                            {tax.label}
+                                        <option key={tax} value={tax} >
+                                            {tax}
                                         </option>
                                     )), [TAX_ID_CHOICES])}
                                 </select>
@@ -409,7 +419,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(supplierProfileId)}
                             className={buttons.secondary}
                         >
                             Cancel

@@ -58,6 +58,7 @@ const SupplierPaymentEdit: React.FC<SupplierPaymentProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const supplierPaymentId = supplierPayment?.payment_code;
 
 
     const { register, handleSubmit, watch, setValue, control,
@@ -67,7 +68,16 @@ const SupplierPaymentEdit: React.FC<SupplierPaymentProps> = ({
 
     
     React.useEffect(() => {
-        reset(supplierPayment);
+
+        const updated = {
+            ...supplierPayment,
+            date_created:
+                supplierPayment.date_created
+                    ? new Date(supplierPayment.date_created).toISOString().split("T")[0]
+                    : "",
+        };
+        
+        reset(updated);
     }, [supplierPayment, reset]);
         
         
@@ -200,7 +210,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
                                 if (e.target.value) {
-                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    e.target.value = decimalPlaces(Number(e.target.value));
                                 }
                             }} 
                         />
@@ -273,8 +283,8 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                             >
                                                 <option value="">select...</option>
                                                 {PAYMENT_TYPE_OPTIONS.map(option => (
-                                                    <option key={option.value} value={option.value}>
-                                                        {option.label}
+                                                    <option key={option} value={option}>
+                                                        {option}
                                                     </option>
                                                 ))}
                                             </select>
@@ -287,7 +297,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
                                                 className={forms.input.number}
@@ -301,7 +311,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
                                                 className={forms.input.number}
@@ -380,7 +390,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                     
@@ -420,7 +430,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(supplierPaymentId)}
                             className={buttons.secondary}
                         >
                             Cancel

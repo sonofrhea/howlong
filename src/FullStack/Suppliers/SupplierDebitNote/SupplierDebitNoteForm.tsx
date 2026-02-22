@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from "react";
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 
 
-import { forms, buttons, layout, tables, text, utils, 
-    management, listTable } from "../constants/Styles";
+import { forms, buttons, layout, tables, text, utils, } from "../constants/Styles";
 
 
 import { Trash2 } from 'lucide-react';
@@ -53,9 +52,7 @@ const SupplierDebitNoteForm: React.FC<SupplierDebitNoteFormProps> = ({
     onCancel,
     currencies, 
     accounts, agents, SupplierInvoices, SupplierProfiles, productItems,
-    onCreateJournalEntry, isCreatingJournalEntry
 }) => {
-    const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
     
         const productOptions = useMemo(() => 
             productItems.map((product: ProductItemCreateResponse) => (
@@ -184,7 +181,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     placeholder="0.00"
                                     step="0.01" min="0.00" onBlur={(e) => {
                                         if (e.target.value) {
-                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                            e.target.value = decimalPlaces(Number(e.target.value));
                                         }
                                     }}
                                 />
@@ -301,7 +298,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                                             placeholder="0.00"
                                                             step="0.01" min="0.00" onBlur={(e) => {
                                                                 if (e.target.value) {
-                                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                                 }
                                                             }}
                                                         />
@@ -322,7 +319,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                                             placeholder="0.00"
                                                             step="0.01" min="0.00" onBlur={(e) => {
                                                                 if (e.target.value) {
-                                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                                 }
                                                             }}
                                                         />
@@ -401,7 +398,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
                                             

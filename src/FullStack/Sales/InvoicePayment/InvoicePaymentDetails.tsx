@@ -50,6 +50,7 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
     accounts, onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const invoicePaymentId = invoicePayment?.invoice_payment_code
 
 
     if (isLoading) {
@@ -113,7 +114,7 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                     
                     <div className="flex gap-3">
                         <button 
-                            onClick={() => onEdit(invoicePayment.invoice_payment_code)}
+                            onClick={() => onEdit(invoicePaymentId)}
                             
                             className="bg-white border cursor-pointer border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                         >
@@ -199,14 +200,14 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                                     </thead>
 
                                     <tbody className={tables.body}>
-                                        {invoicePayment.related_invoice_payment.map((line: any, index: any) => (
-                                            <tr key={line} className={tables.row}>
+                                        {invoicePayment.related_invoice_payment.map((line, index) => (
+                                            <tr key={index} className={tables.row}>
                                                 <td className={tables.cell}>{formatDate(line.payment_date)}</td>
-                                                <td className={tables.cell}>{line.payment_type}</td>
-                                                <td className={tables.cell}>{line.total}</td>
+                                                <td className={tables.cell}>{line.payment_type || '--'}</td>
+                                                <td className={tables.cell}>{line.total || '--'}</td>
                                                 <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>{line.tax_amount}%</td>
-                                                <td className={tables.cell}>{line.payment_amount}</td>
+                                                <td className={tables.cell}>{line.tax_amount || '--'}%</td>
+                                                <td className={tables.cell}>{line.payment_amount || '--'}</td>
                                                 <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                             </tr>
                                         ))}

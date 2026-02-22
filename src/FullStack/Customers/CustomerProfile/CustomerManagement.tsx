@@ -165,14 +165,17 @@ function CustomerManagement() {
 
   const handleAddCustomer = async (customerData: CustomerInputs) => {
 
-    if (!customerData.preferred_currency?.currency_code) {
-      delete customerData.preferred_currency;
-    }
+    const cleanedData = {
+      ...customerData,
+      preferred_currency: customerData.preferred_currency ?? undefined
+    };
 
-    //console.log("🎯 RAW FORM DATA:", customerData);
+
+
+    //console.log("🎯 RAW FORM DATA:", cleanedData);
     const toastId = toast.loading('Creating Customer...');
     try {
-      await createCustomersMutation.mutateAsync(customerData);
+      await createCustomersMutation.mutateAsync(cleanedData);
       toast.success('Customer successfully created', {id: toastId});
     } catch (error) {
       toast.error('Failed to create customer', { id: toastId });
@@ -189,16 +192,17 @@ function CustomerManagement() {
 
   const handleUpdateCustomer = async (customerData: CustomerInputs) => {
 
-    if (!customerData.preferred_currency?.currency_code) {
-      delete customerData.preferred_currency;
-    }
+    const cleanedData = {
+      ...customerData,
+      preferred_currency: customerData.preferred_currency ?? undefined
+    };
 
     const toastId = toast.loading('Updating Customer...');
   
     try {
       await updateCustomersMutation.mutateAsync({
         customer_number: selectedCustomerId!,
-        customerData: customerData
+        customerData: cleanedData
       });
       toast.success('Customer successfully updated', { id: toastId });
     } catch (error) {

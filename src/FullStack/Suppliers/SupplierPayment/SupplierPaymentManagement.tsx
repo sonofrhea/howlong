@@ -16,7 +16,7 @@ import { fetchCurrencies, fetchAgents } from "../../Core/Engines";
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines";
 
 import { EditSupplierPayment
-    , SupplierPaymentInputs, SupplierPaymentResponse } from "../constants/Types";
+    , SupplierPaymentInputs, SupplierPaymentList, SupplierPaymentResponse } from "../constants/Types";
  
 import { fetchSupplierInvoices, fetchSupplierProfiles } from "../Engines";
 
@@ -188,23 +188,22 @@ function SupplierPaymentManagement() {
 
 
     const handleAddSupplierPayment = async (supplierPaymentData: SupplierPaymentInputs) => {
-        if (!supplierPaymentData.account_code?.account_code) {
-            delete supplierPaymentData.account_code;
-        }
-        if (supplierPaymentData.related_payment) {
-            supplierPaymentData.related_payment = supplierPaymentData.related_payment?.filter(
-                item => item.payment_date
-            );
-            if (supplierPaymentData.related_payment?.length === 0) {
-                delete supplierPaymentData.related_payment;
-            }
-            }
-        //console.log("🎯 RAW FORM DATA:", supplierPaymentData);
 
+        const cleanedData = {
+            ...supplierPaymentData,
+            account_code: supplierPaymentData.account_code ?? undefined,
+            related_payment:
+                supplierPaymentData.related_payment &&
+                supplierPaymentData.related_payment?.length > 0
+                    ? supplierPaymentData.related_payment
+                    : undefined,
+        };
+        
+        //console.log("🎯 RAW FORM DATA:", supplierPaymentData);
         const toastId = toast.loading('Creating Supplier Payment...');
         try {
-            await createSupplierPaymentMutation.mutateAsync(supplierPaymentData);
-            toast.success('Supplier Payment created successfully!', { id: toastId });
+            await createSupplierPaymentMutation.mutateAsync(cleanedData);
+            toast.success('Supplier Payment successfully created!', { id: toastId });
         } catch (error) {
             toast.error('Failed to create Supplier Payment', { id: toastId });
             console.error(error);
@@ -215,11 +214,29 @@ function SupplierPaymentManagement() {
 
 
 
-    const handleUpdateSupplierPayment = (supplierPaymentData: SupplierPaymentInputs) => {
-        updateSupplierPaymentMutation.mutate({
-        payment_code: selectedSupplierPaymentId!,
-        supplierPaymentData: supplierPaymentData
-        });
+    const handleUpdateSupplierPayment = async (supplierPaymentData: SupplierPaymentInputs) => {
+
+        const cleanedData = {
+            ...supplierPaymentData,
+            account_code: supplierPaymentData.account_code ?? undefined,
+            related_payment:
+                supplierPaymentData.related_payment &&
+                supplierPaymentData.related_payment?.length > 0
+                    ? supplierPaymentData.related_payment
+                    : undefined,
+        };
+
+        const toastId = toast.loading('Updating Supplier Payment...');
+        try {
+            await updateSupplierPaymentMutation.mutateAsync({
+                payment_code: selectedSupplierPaymentId!,
+                supplierPaymentData: cleanedData
+            });
+            toast.success('Supplier Payment successfully updated!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to update Supplier Payment', { id: toastId });
+            console.error(error);
+        }  
     };
 
 
@@ -227,8 +244,15 @@ function SupplierPaymentManagement() {
 
 
     const handleDeleteSupplierPayment = async (supplierPaymentId: number) => {
-        if (window.confirm('Are you sure you want to delete this supplier payment?')) {
-        deleteSupplierPaymentMutation.mutate(supplierPaymentId);
+        if (!window.confirm('Are you sure you want to delete this supplier payment?')) return;
+        
+        const toastId = toast.loading('Deleting Supplier Payment...');
+        try {
+            await deleteSupplierPaymentMutation.mutateAsync(supplierPaymentId);
+            toast.success('Supplier Payment successfully deleted!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to delete Supplier Payment', { id: toastId });
+            console.error(error);
         }
     };
     // ------------------------------------------------------------------------------------
@@ -252,6 +276,16 @@ function SupplierPaymentManagement() {
         setView('list');
         setSelectedSupplierPaymentId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+
+    const handleBackToSupplierPaymentDetails = (supplierPaymentId: number) => {
+        setSelectedSupplierPaymentId(supplierPaymentId);
+        setView('details')
+    };
+
+
     // ------------------------------------------------------------------------------------
 
     const handleEditSupplierPaymentButton = () => {
@@ -260,13 +294,13 @@ function SupplierPaymentManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredSupplierPayments = supplierPayments.filter((supplierPayment: any) => {
+    const filteredSupplierPayments = supplierPayments.filter((supplierPayment: SupplierPaymentList) => {
         const paymentNumber = String(supplierPayment.payment_code)?.toLowerCase() || '';
-        const supplierName = supplierPayment.supplier?.supplier_name?.toLowerCase() || '';
-        const agentName = supplierPayment.agent?.username?.toLowerCase() || '';
+        const supplierName = supplierPayment.supplier?.toLowerCase() || '';
+        const createdBy = supplierPayment.created_by?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
         
-        return paymentNumber.includes(search) || agentName.includes(search) || supplierName.includes(search);
+        return paymentNumber.includes(search) || createdBy.includes(search) || supplierName.includes(search);
     });
 
     // ------------------------------------------------------------------------------------
@@ -550,7 +584,7 @@ function SupplierPaymentManagement() {
                 supplierPayment={selectedSupplierPayment}
                 onSubmit={handleUpdateSupplierPayment}
                 isSubmitting={updateSupplierPaymentMutation.isPending}
-                onCancel={handleBackToSupplierPaymentsList}
+                onCancel={handleBackToSupplierPaymentDetails}
                 currencies={currencies}
                 accounts={accounts}
                 agents={agents}

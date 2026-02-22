@@ -46,8 +46,12 @@ export const updateQuotation = async ({ quotation_number, quotationData }: AllQu
 }
 
 export const deleteQuotation = async (quotation_number: number) => {
-    apiClient.delete(`/sales/quotation/${quotation_number}/`);
-    return true;
+    try {
+        await apiClient.delete(`/sales/quotation/${quotation_number}/`);
+        return true;
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 
@@ -92,7 +96,7 @@ export const updateInvoice = async ({ invoice_number, invoiceData }: AllInvoiceI
 }
 
 export const deleteInvoice = async (invoice_number: number) => {
-    apiClient.delete(`/sales/invoice/${invoice_number}/`);
+    await apiClient.delete(`/sales/invoice/${invoice_number}/`);
     return true;
 };
 
@@ -133,7 +137,7 @@ export const updateInvoicePayment = async (
 }
 
 export const deleteInvoicePayment = async (invoice_payment_code: number) => {
-    apiClient.delete(`/sales/invoicepayment/${invoice_payment_code}/`);
+    await apiClient.delete(`/sales/invoicepayment/${invoice_payment_code}/`);
     return true;
 }
 
@@ -170,6 +174,6 @@ export const updateCustomerPayment = async ({ payment_number, customerPaymentDat
 }
 
 export const deleteCustomerPayment = async (payment_number: number) => {
-    apiClient.delete(`/sales/customerpayment/${payment_number}/`);
+    await apiClient.delete(`/sales/customerpayment/${payment_number}/`);
     return true;
 };

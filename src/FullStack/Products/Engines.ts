@@ -46,7 +46,7 @@ export const patchUpdateProductGroup = async ({group_code, productGroupData}: Al
 };
 
 export const deleteProductGroup = async (group_code: number) => {
-    apiClient.delete(`/products/productgroup/${group_code}/`);
+    await apiClient.delete(`/products/productgroup/${group_code}/`);
     return true;
 };
 
@@ -90,7 +90,7 @@ export const patchUpdateProductItem = async ({item_code, productItemData}: AllPr
 };
 
 export const deleteProductItem = async (item_code: number) => {
-    apiClient.delete(`/products/productitem/${item_code}/`);
+    await apiClient.delete(`/products/productitem/${item_code}/`);
     return true;
 };
 

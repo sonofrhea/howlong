@@ -145,7 +145,7 @@ function CashBookManagement() {
     const deleteCashBookMutation = useMutation({
         mutationFn: deleteCashBook,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['cashBooks'] });
+            queryClient.invalidateQueries({ queryKey: ['cashBooks'] });
         }
     });
 
@@ -175,16 +175,19 @@ function CashBookManagement() {
 
 
     const handleAddCashBook = async (cashBookData: CashBookInputs) => {
-        if (!cashBookData.account?.account_code) {
-            delete cashBookData.account;
-        }
 
-        //console.log("RAW FORM DATA: ", cashBookData);
+        const cleanedData = {
+            ...cashBookData,
+            account: cashBookData.account ?? undefined
+        };
+        
+
+        //console.log("RAW FORM DATA: ", cleanedData);
 
         const toastId = toast.loading('Creating cash book...');
 
         try {
-            await createCashBookMutation.mutateAsync(cashBookData);
+            await createCashBookMutation.mutateAsync(cleanedData);
             toast.success('Cash Book successfully created', { id: toastId });
         } catch (error) {
             toast.error('Failed to create cash book.');
@@ -197,16 +200,18 @@ function CashBookManagement() {
 
 
     const handleUpdateCashBook = async (cashBookData: CashBookInputs) => {
-        if (!cashBookData.account?.account_code) {
-            delete cashBookData.account;
-        }
+
+        const cleanedData = {
+            ...cashBookData,
+            account: cashBookData.account ?? undefined
+        };
 
         const toastId = toast.loading('Updating cash book... ');
 
         try {
             await updateCashBookMutation.mutateAsync({
                 reference_number: selectedCashBookId!,
-                cashBookData: cashBookData
+                cashBookData: cleanedData
             });
             toast.success('Cash Book successfully updated', { id: toastId });
         } catch (error) {

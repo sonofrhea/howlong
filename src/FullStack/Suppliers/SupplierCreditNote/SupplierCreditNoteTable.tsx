@@ -1,5 +1,5 @@
 import React from "react";
-import { SupplierCreditNoteList } from "../constants/Types";
+import { SupplierCreditNoteList, SupplierCreditNoteTableProps } from "../constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -25,9 +25,19 @@ const formatSupplierInvoiceNumber = () => {
 
 
 
-const SupplierCreditNoteTable: React.FC<any> = ({ supplierCreditNotes, onSupplierCreditNoteClick, onEditSupplierCreditNote,
-    onDeleteSupplierCreditNote, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const SupplierCreditNoteTable: React.FC<SupplierCreditNoteTableProps> = ({
+    supplierCreditNotes,
+    onSupplierCreditNoteClick,
+    onEditSupplierCreditNote,
+    onDeleteSupplierCreditNote,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
 }) => {
 
     // Sortable header component
@@ -195,7 +205,7 @@ const SupplierCreditNoteTable: React.FC<any> = ({ supplierCreditNotes, onSupplie
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${supplierCreditNote.credit_note_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${supplierCreditNote.credit_note_number}?`)) {
                                                         onDeleteSupplierCreditNote(supplierCreditNoteId);
                                                     }
                                                 }}

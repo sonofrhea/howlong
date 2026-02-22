@@ -168,16 +168,22 @@ function SupplierInvoiceManagement() {
 
 
     const handleAddSupplierInvoice = async (supplierInvoiceData: SupplierInvoiceInputs) => {
-        if (!supplierInvoiceData.purchase_account?.account_code) {
-            delete supplierInvoiceData.purchase_account;
-        }
-        if (supplierInvoiceData.related_invoice?.length === 0) {
-            delete supplierInvoiceData.related_invoice;
-        }
-        //console.log("🎯 RAW FORM DATA:", supplierInvoiceData)
+
+        const cleanedData = {
+            ...supplierInvoiceData,
+            purchase_account: supplierInvoiceData.purchase_account ?? undefined,
+            related_invoice:
+                supplierInvoiceData.related_invoice &&
+                supplierInvoiceData.related_invoice?.length > 0
+                    ? supplierInvoiceData.related_invoice
+                    : undefined,
+        };
+
+        
+        //console.log("🎯 RAW FORM DATA:", cleanedData)
         const toastId = toast.loading('Creating Supplier Invoice...');
         try {
-            await createSupplierInvoiceMutation.mutateAsync(supplierInvoiceData);
+            await createSupplierInvoiceMutation.mutateAsync(cleanedData);
             toast.success('Supplier Invoice successfully created', {id: toastId});
         } catch (error) {
             toast.error('Failed to create supplier invoice', { id: toastId });
@@ -189,11 +195,29 @@ function SupplierInvoiceManagement() {
 
 
 
-    const handleUpdateSupplierInvoice = (supplierInvoiceData: SupplierInvoiceInputs) => {
-        updateSupplierInvoiceMutation.mutate({
-        invoice_number: selectedSupplierInvoiceId!,
-        supplierInvoiceData: supplierInvoiceData
-        });
+    const handleUpdateSupplierInvoice = async (supplierInvoiceData: SupplierInvoiceInputs) => {
+
+        const cleanedData = {
+            ...supplierInvoiceData,
+            purchase_account: supplierInvoiceData.purchase_account ?? undefined,
+            related_invoice:
+                supplierInvoiceData.related_invoice &&
+                supplierInvoiceData.related_invoice?.length > 0
+                    ? supplierInvoiceData.related_invoice
+                    : undefined,
+        };
+
+        const toastId = toast.loading('Updating Supplier Invoice...');
+        try {
+            await updateSupplierInvoiceMutation.mutateAsync({
+                invoice_number: selectedSupplierInvoiceId!,
+                supplierInvoiceData: cleanedData
+            });
+            toast.success('Supplier Invoice successfully updated', {id: toastId})
+        } catch (error) {
+            toast.error('Failed to update supplier invoice', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -201,8 +225,15 @@ function SupplierInvoiceManagement() {
 
 
     const handleDeleteSupplierInvoice = async (supplierInvoiceId: number) => {
-        if (window.confirm('Are you sure you want to delete this supplier invoice?')) {
-        deleteSupplierInvoiceMutation.mutate(supplierInvoiceId);
+        if (!window.confirm('Are you sure you want to delete this supplier invoice?')) return;
+
+        const toastId = toast.loading('Deleting Supplier Invoice...');
+        try {
+            await deleteSupplierInvoiceMutation.mutateAsync(supplierInvoiceId);
+            toast.success('Supplier Invoice successfully deleted', {id: toastId})
+        } catch (error) {
+            toast.error('Failed to delete supplier invoice', { id: toastId });
+            console.error(error);
         }
     };
     // ------------------------------------------------------------------------------------
@@ -225,6 +256,15 @@ function SupplierInvoiceManagement() {
         setView('list');
         setSelectedSupplierInvoiceId(null);
     };
+
+// ------------------------------------------------------------------------------------
+
+
+    const handleBackToSupplierInvoiceDetails = (supplierInvoiceId: number) => {
+        setSelectedSupplierInvoiceId(supplierInvoiceId);
+        setView('details')
+    };
+
     // ------------------------------------------------------------------------------------
 
     const handleEditSupplierInvoiceButton = () => {
@@ -506,7 +546,7 @@ function SupplierInvoiceManagement() {
                 supplierInvoice={selectedSupplierInvoice}
                 onSubmit={handleUpdateSupplierInvoice}
                 isSubmitting={updateSupplierInvoiceMutation.isPending}
-                onCancel={handleBackToSupplierInvoicesList}
+                onCancel={handleBackToSupplierInvoiceDetails}
                 currencies={currencies}
                 accounts={accounts}
                 agents={agents}

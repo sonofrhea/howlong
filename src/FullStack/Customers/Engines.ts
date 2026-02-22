@@ -32,37 +32,60 @@ export const paginatedCustomers = async (page: number, pageSize: number) => {
 };
 
 export const fetchCustomers = async () => {
-  const response = await apiClient.get('/customers/customerprofile/');
-  return response.data;
+  try {
+    const response = await apiClient.get('/customers/customerprofile/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const fetchCustomerById = async (customer_number: number) => {
-  const response = await apiClient.get(`/customers/customerprofile/${customer_number}/`);
-  return response.data;
+  try {
+    const response = await apiClient.get(`/customers/customerprofile/${customer_number}/`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  
 };
 
 export const createCustomer = async (customerData: CustomerInputs | FormData) => {
-  const response = await apiClient.post('/customers/customerprofile/', customerData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-  return response.data;
+  try {
+    const response = await apiClient.post('/customers/customerprofile/', customerData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const updateCustomer = async ({ customer_number, customerData }: AllCustomerInputs) => {
-  const response = await apiClient.put(`/customers/customerprofile/${customer_number}/`, customerData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-  return response.data;
+  try {
+    const response = await apiClient.put(`/customers/customerprofile/${customer_number}/`, customerData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const deleteCustomer = async (customer_number: number) => {
-  await apiClient.delete(`/customers/customerprofile/${customer_number}/`);
-  return true;
+  try {
+    await apiClient.delete(`/customers/customerprofile/${customer_number}/`);
+    return true;
+  } catch (error) {
+    console.error(error);
+  }
 };
+
+
 
 
 
@@ -71,28 +94,48 @@ export const deleteCustomer = async (customer_number: number) => {
 // DEBIT NOTE - AXIOS
 
 export const fetchDebitNotes = async () => {
-  const response = await apiClient.get('/customers/customerdebitnote/');
-  return response.data;
+  try {
+    const response = await apiClient.get('/customers/customerdebitnote/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const fetchDebitNoteById = async (debit_note_number: number) => {
-  const response = await apiClient.get(`/customers/customerdebitnote/${debit_note_number}/`);
-  return response.data;
+  try {
+    const response = await apiClient.get(`/customers/customerdebitnote/${debit_note_number}/`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const createDebitNote = async (debitNoteData: DebitNoteInputs) => {
-  const response = await apiClient.post('/customers/customerdebitnote/', debitNoteData);
-  return response.data;
+  try {
+    const response = await apiClient.post('/customers/customerdebitnote/', debitNoteData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const updateDebitNote = async ({ debit_note_number, debitNoteData }: AllDebitNoteInputs) => {
-  const response = await apiClient.put(`/customers/customerdebitnote/${debit_note_number}/`, debitNoteData);
-  return response.data;
+  try {
+    const response = await apiClient.put(`/customers/customerdebitnote/${debit_note_number}/`, debitNoteData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const deleteDebitNote = async (debit_note_number: number) => {
-  await apiClient.delete(`/customers/customerdebitnote/${debit_note_number}/`);
-  return true;
+  try {
+    await apiClient.delete(`/customers/customerdebitnote/${debit_note_number}/`);
+    return true;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 
@@ -101,28 +144,48 @@ export const deleteDebitNote = async (debit_note_number: number) => {
 //  CUSTOMER CREDIT NOTE - AXIOS
 
 export const fetchCreditNotes = async () => {
-  const response = await apiClient.get('/customers/customercreditnote/');
-  return response.data;
+  try {
+    const response = await apiClient.get('/customers/customercreditnote/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const fetchCreditNoteById = async (credit_note_number: number) => {
-  const response = await apiClient.get(`/customers/customercreditnote/${credit_note_number}/`);
-  return response.data;
+  try {
+    const response = await apiClient.get(`/customers/customercreditnote/${credit_note_number}/`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const createCreditNote = async (creditNoteData: CreditNoteInputs) => {
-  const response = await apiClient.post('/customers/customercreditnote/', creditNoteData);
-  return response.data;
+  try {
+    const response = await apiClient.post('/customers/customercreditnote/', creditNoteData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const updateCreditNote = async ({ credit_note_number, creditNoteData }: AllCreditNoteInputs) => {
-  const response = await apiClient.put(`/customers/customercreditnote/${credit_note_number}/`, creditNoteData);
-  return response.data;
+  try {
+    const response = await apiClient.put(`/customers/customercreditnote/${credit_note_number}/`, creditNoteData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const deleteCreditNote = async (credit_note_number: number) => {
-  await apiClient.delete(`/customers/customercreditnote/${credit_note_number}/`);
-  return true;
+  try {
+    await apiClient.delete(`/customers/customercreditnote/${credit_note_number}/`);
+    return true;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 
@@ -135,32 +198,49 @@ export const deleteCreditNote = async (credit_note_number: number) => {
 // CUSTOMER REFUND - AXIOS
 
 export const fetchRefunds = async () => {
-  const response = await apiClient.get('/customers/customerrefund/');
-  return response.data;
+  try {
+    const response = await apiClient.get('/customers/customerrefund/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const fetchRefundById = async (refund_number: number) => {
-  const response = await apiClient.get(`/customers/customerrefund/${refund_number}/`);
-  return response.data;
+  try {
+    const response = await apiClient.get(`/customers/customerrefund/${refund_number}/`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const createRefund = async (refundData: CustomerRefundInputs) => {
-  const response = await apiClient.post('/customers/customerrefund/', refundData);
-  return response.data;
+  try {
+    const response = await apiClient.post('/customers/customerrefund/', refundData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const updateRefund = async ({ refund_number, refundData }: AllCustomerRefundInputs) => {
-  const response = await apiClient.put(`/customers/customerrefund/${refund_number}/`, refundData);
-  return response.data;
+  try {
+    const response = await apiClient.put(`/customers/customerrefund/${refund_number}/`, refundData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const deleteRefund = async (refund_number: number) => {
-  await apiClient.delete(`/customers/customerrefund/${refund_number}/`);
-  return true;
+  try {
+    await apiClient.delete(`/customers/customerrefund/${refund_number}/`);
+    return true;
+  } catch (error) {
+    console.error(error);
+  }
 };
-
-
-
 
 
 // ---------------------------------------------------------------------------

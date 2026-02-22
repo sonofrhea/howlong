@@ -177,14 +177,18 @@ function ReceiptVoucherManagement() {
 
 
     const handleAddReceiptVoucher = async (receiptVoucherData: ReceiptVoucherInputs) => {
-        if (!receiptVoucherData.account_received_in?.account_code) {
-            delete receiptVoucherData.account_received_in;
-        }
 
-        //console.log("RAW FORM DATA: ", receiptVoucherData);
+        const cleanedData = {
+            ...receiptVoucherData,
+            account_received_in: receiptVoucherData.account_received_in ?? undefined
+        };
+
+    
+
+        //console.log("RAW FORM DATA: ", cleanedData);
         const toastId = toast.loading('Creating receipt voucher...');
         try {
-            await createReceiptVoucherMutation.mutateAsync(receiptVoucherData);
+            await createReceiptVoucherMutation.mutateAsync(cleanedData);
             toast.success('Receipt Voucher successfully created', { id: toastId });
         } catch (error) {
             toast.error('Failed to create receipt voucher.');
@@ -197,15 +201,17 @@ function ReceiptVoucherManagement() {
 
 
     const handleUpdateReceiptVoucher = async (receiptVoucherData: ReceiptVoucherInputs) => {
-        if (!receiptVoucherData.account_received_in?.account_code) {
-            delete receiptVoucherData.account_received_in;
-        }
+
+        const cleanedData = {
+            ...receiptVoucherData,
+            account_received_in: receiptVoucherData.account_received_in ?? undefined
+        };
 
         const toastId = toast.loading('Updating receipt voucher...');
         try {
             await updateReceiptVoucherMutation.mutateAsync({
                 reference_number: selectedReceiptVoucherId!,
-                receiptVoucherData: receiptVoucherData
+                receiptVoucherData: cleanedData
             });
             toast.success('Receipt Voucher successfully updated', { id: toastId });
         } catch (error) {

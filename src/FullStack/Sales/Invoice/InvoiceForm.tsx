@@ -3,7 +3,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { CustomerCreateResponse } from "../../Customers/constants/Types"
-import { InvoiceInputs } from "../Constants/Types";
+import { InvoiceFormProps, InvoiceInputs } from "../Constants/Types";
 import { CurrencyInterface, AgentInterface } from "../../Core/constants/Types"
 import { ProductItemCreateResponse } from "../../Products/constants/Types"
 
@@ -32,8 +32,13 @@ const formatProjectNumber = () => {
 
 
 
-const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customers, 
-    currencies, agents, projects, productItems }) => {
+const InvoiceForm: React.FC<InvoiceFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    customers, 
+    currencies, agents, projects, productItems
+}) => {
 
         
 
@@ -275,7 +280,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}  
                                                     />
@@ -295,7 +300,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}
                                                         className={forms.input.number}
@@ -325,7 +330,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}
                                                         className={forms.input.number}
@@ -404,7 +409,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
                                         />
@@ -428,7 +433,7 @@ const InvoiceForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, customer
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
                                         

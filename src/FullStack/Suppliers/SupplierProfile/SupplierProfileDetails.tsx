@@ -1,5 +1,6 @@
 import React from "react";
 import { details } from "../../Core/constants/Styles";
+import { SupplierDetailsProps } from "../constants/Types";
 
 
 
@@ -25,7 +26,13 @@ const formatSupplierNumber = () => {
 
 
 
-const SupplierProfileDetails: React.FC<any> = ({ supplierProfile, isLoading, onBack, onEdit }) => {
+const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
+    supplierProfile,
+    isLoading,
+    onBack,
+    onEdit
+}) => {
+    const supplierProfileId = supplierProfile?.supplier_code;
 
     if (isLoading) {
         return (
@@ -85,7 +92,7 @@ const SupplierProfileDetails: React.FC<any> = ({ supplierProfile, isLoading, onB
                         {supplierProfile?.status || "N/A"}
                     </span>
                     <button 
-                        onClick={onEdit}
+                        onClick={() => onEdit(supplierProfileId)}
                         className="text-black  px-4 py-2 rounded-lg bg-white border cursor-pointer border-gray-200 hover:border-yellow-300 hover:bg-yellow-50  hover:shadow-2xl flex items-center gap-2"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

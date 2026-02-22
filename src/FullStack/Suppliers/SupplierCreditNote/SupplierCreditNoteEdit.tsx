@@ -1,6 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { SupplierCreditNoteFormProps, SupplierCreditNoteInputs, SupplierInvoiceResponse, SupplierProfileResponse } from "../constants/Types";
+import { SupplierCreditNoteEditProps,
+    SupplierCreditNoteInputs,
+    SupplierInvoiceResponse,
+    SupplierProfileResponse } from "../constants/Types";
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../constants/Styles";
 import { Trash2 } from "lucide-react";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
@@ -45,7 +48,7 @@ const formatNumber = () => {
 
 
 
-const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
+const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteEditProps> = ({
     supplierCreditNote,
     onSubmit,
     isSubmitting,
@@ -54,6 +57,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry 
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const supplierCreditNoteId = supplierCreditNote.credit_note_number;
                                     
     const productOptions = useMemo(() => 
         productItems.map((product: ProductItemCreateResponse) => (
@@ -70,7 +74,15 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
 
 
     React.useEffect(() => {
-        reset(supplierCreditNote);
+
+        const updated = {
+            ...supplierCreditNote,
+            date: supplierCreditNote.date
+                ? new Date(supplierCreditNote.date).toISOString().split("T")[0]
+                : "",
+        };
+
+        reset(updated);
     }, [supplierCreditNote, reset]);
 
 
@@ -185,7 +197,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
                                 if (e.target.value) {
-                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    e.target.value = decimalPlaces(Number(e.target.value));
                                 }
                             }}
                         />
@@ -309,7 +321,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
                                             />
@@ -330,7 +342,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
                                             />
@@ -405,7 +417,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                     
@@ -443,7 +455,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteFormProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(supplierCreditNoteId)}
                             className={buttons.secondary}
                         >
                             Cancel

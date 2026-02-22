@@ -9,6 +9,7 @@ import { Trash2 } from "lucide-react";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
+import { data } from "react-router";
 
 
 
@@ -43,6 +44,7 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const supplierDebitNoteId = supplierDebitNote?.debit_note_number;
 
     const productOptions = useMemo(() => 
         productItems.map((product: ProductItemCreateResponse) => (
@@ -59,7 +61,16 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
 
 
     React.useEffect(() => {
-        reset(supplierDebitNote);
+
+        const updated = {
+            ...supplierDebitNote,
+            date:
+                supplierDebitNote.date
+                    ? new Date(supplierDebitNote.date).toISOString().split("T")[0]
+                    : "",
+        };
+
+        reset(updated);
     }, [supplierDebitNote, reset]);
     
 
@@ -173,7 +184,7 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
                                 if (e.target.value) {
-                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    e.target.value = decimalPlaces(Number(e.target.value));
                                 }
                             }}
                         />
@@ -291,7 +302,7 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 />
@@ -312,7 +323,7 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 />
@@ -391,7 +402,7 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                     
@@ -429,7 +440,7 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(supplierDebitNoteId)}
                             className={buttons.secondary}
                         >
                             Cancel

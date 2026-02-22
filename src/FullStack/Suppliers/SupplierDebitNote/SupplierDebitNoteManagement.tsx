@@ -20,6 +20,7 @@ import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 
 import { EditSupplierDebitNoteInputs, SupplierDebitNoteInputs, 
+    SupplierDebitNoteList, 
     SupplierDebitNoteResponse } from "../constants/Types";
 
 import { fetchProductItems } from "../../Products/Engines";
@@ -200,15 +201,19 @@ function SupplierDebitNoteManagement() {
 
 
     const handleAddSupplierDebitNote = async (supplierDebitNoteData: SupplierDebitNoteInputs) => {
-        if (!supplierDebitNoteData.account?.account_code) {
-            delete supplierDebitNoteData.account;
+
+        const cleanedData = {
+            ...supplierDebitNoteData,
+            account: supplierDebitNoteData.account ?? undefined,
         }
+        
+
         //console.log("🎯 RAW FORM DATA:", supplierDebitNoteData)
 
         const toastId = toast.loading('Creating Supplier Debit Note...');
         try {
-            await createSupplierDebitNoteMutation.mutateAsync(supplierDebitNoteData);
-            toast.success('Supplier Debit Note created successfully!', { id: toastId });
+            await createSupplierDebitNoteMutation.mutateAsync(cleanedData);
+            toast.success('Supplier Debit Note successfully created!', { id: toastId });
         } catch (error) {
             toast.error('Failed to create Supplier Debit Note', { id: toastId });
             console.error(error);
@@ -219,11 +224,24 @@ function SupplierDebitNoteManagement() {
 
 
 
-    const handleUpdateSupplierDebitNote = (supplierDebitNoteData: SupplierDebitNoteInputs) => {
-        updateSupplierDebitNoteMutation.mutate({
-        debit_note_number: selectedSupplierDebitNoteId!,
-        supplierDebitNoteData: supplierDebitNoteData
-        });
+    const handleUpdateSupplierDebitNote = async (supplierDebitNoteData: SupplierDebitNoteInputs) => {
+
+        const cleanedData = {
+            ...supplierDebitNoteData,
+            account: supplierDebitNoteData.account ?? undefined,
+        }
+
+        const toastId = toast.loading('Updating Supplier Debit Note...');
+        try {
+            await updateSupplierDebitNoteMutation.mutateAsync({
+                debit_note_number: selectedSupplierDebitNoteId!,
+                supplierDebitNoteData: cleanedData
+            });
+            toast.success('Supplier Debit Note successfully updated!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to update Supplier Debit Note', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -231,8 +249,15 @@ function SupplierDebitNoteManagement() {
     
 
     const handleDeleteSupplierDebitNote = async (supplierDebitNoteId: number) => {
-        if (window.confirm('Are you sure you want to delete this debit note?')) {
-        deleteSupplierDebitNoteMutation.mutate(supplierDebitNoteId);
+        if (!window.confirm('Are you sure you want to delete this debit note?')) return;
+        
+        const toastId = toast.loading('Deleting Supplier Debit Note...');
+        try {
+            await deleteSupplierDebitNoteMutation.mutateAsync(supplierDebitNoteId);
+            toast.success('Supplier Debit Note successfully deleted!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to delete Supplier Debit Note', { id: toastId });
+            console.error(error);
         }
     };
     // ------------------------------------------------------------------------------------
@@ -253,6 +278,13 @@ function SupplierDebitNoteManagement() {
         setView('list');
         setSelectedSupplierDebitNoteId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+    const handleBackToSupplierDebitNoteDetails = (supplierDebitNoteId: number) => {
+        setSelectedSupplierDebitNoteId(supplierDebitNoteId);
+        setView('details')
+    };
     // ------------------------------------------------------------------------------------
 
     const handleEditSupplierDebitNoteButton = () => {
@@ -260,12 +292,11 @@ function SupplierDebitNoteManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredSupplierDebitNotes = supplierDebitNotes.filter((supplierDebitNote: any) => {
+    const filteredSupplierDebitNotes = supplierDebitNotes.filter((supplierDebitNote: SupplierDebitNoteList) => {
         const debitNoteNumber = String(supplierDebitNote.debit_note_number)?.toLowerCase() || '';
-        const agentName = supplierDebitNote.agent?.username?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
         
-        return debitNoteNumber.includes(search) || agentName.includes(search);
+        return debitNoteNumber.includes(search);
     });
 
     // ------------------------------------------------------------------------------------
@@ -549,7 +580,7 @@ function SupplierDebitNoteManagement() {
                 supplierDebitNote={selectedSupplierDebitNote}
                 onSubmit={handleUpdateSupplierDebitNote}
                 isSubmitting={updateSupplierDebitNoteMutation.isPending}
-                onCancel={handleBackToSupplierDebitNotesList}
+                onCancel={handleBackToSupplierDebitNoteDetails}
                 currencies={currencies}
                 accounts={accounts}
                 agents={agents}

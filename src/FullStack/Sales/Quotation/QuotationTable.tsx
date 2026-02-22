@@ -28,9 +28,19 @@ const formatNumber = () => {
 
 
 
-const QuotationTable: React.FC<QuotationListProps> = ({ quotations, onQuotationClick, onEditQuotation,
-    onDeleteQuotation, sortConfig, onSort, currentPage, totalPages, totalItems,
-    itemsPerPage, onPageChange, onItemsPerPageChange
+const QuotationTable: React.FC<QuotationListProps> = ({
+    quotations,
+    onQuotationClick,
+    onEditQuotation,
+    onDeleteQuotation,
+    sortConfig,
+    onSort,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+    onItemsPerPageChange
  }) => {
 
     // Sortable header component
@@ -205,7 +215,7 @@ const QuotationTable: React.FC<QuotationListProps> = ({ quotations, onQuotationC
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    onEditQuotation(quotation.quotation_number, quotation);
+                                                    onEditQuotation(quotationId, quotation);
                                                 }}
                                                 title="Edit Quotation"
                                             >
@@ -218,7 +228,7 @@ const QuotationTable: React.FC<QuotationListProps> = ({ quotations, onQuotationC
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (window.confirm(`Are you sure you want to delete ${formatNumber()}${quotation.quotation_number}?`)) {
-                                                        onDeleteQuotation(quotation.quotation_number);
+                                                        onDeleteQuotation(quotationId);
                                                     }
                                                 }}
                                                 title="Delete Quotation"

@@ -42,6 +42,7 @@ const SupplierCreditNoteDetails: React.FC<SupplierCreditNoteDetailsProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const supplierCreditNoteId = supplierCreditNote?.credit_note_number;
 
 
     
@@ -93,7 +94,7 @@ const SupplierCreditNoteDetails: React.FC<SupplierCreditNoteDetailsProps> = ({
                     </div>
                     <div className="flex gap-3">
                         <button 
-                            onClick={() => onEdit(supplierCreditNote.credit_note_number)}
+                            onClick={() => onEdit(supplierCreditNoteId)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />

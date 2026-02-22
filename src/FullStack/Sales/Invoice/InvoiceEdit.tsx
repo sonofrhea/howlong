@@ -44,6 +44,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
     onCancel,
     customers, currencies, agents, projects, productItems 
 }) => {
+    const invoiceId = invoice?.invoice_number;
 
 
 
@@ -285,7 +286,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}  
                                                 />
@@ -305,7 +306,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                     className={forms.input.number}
@@ -335,7 +336,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                     className={forms.input.number}
@@ -414,7 +415,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                     />
@@ -438,7 +439,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                     
@@ -467,7 +468,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(invoiceId)}
                             className={buttons.secondary}
                         >
                             Cancel

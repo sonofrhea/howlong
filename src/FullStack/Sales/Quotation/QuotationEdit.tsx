@@ -42,6 +42,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
     onSendQuotation,
     customers, currencies, agents, productItems
 }) => {
+    const quotationId = quotation?.quotation_number;
 
     const productOptions = useMemo(() => 
         productItems.map((product: ProductItemCreateResponse) => (
@@ -253,7 +254,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }} 
                                                 />
@@ -272,7 +273,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 />
@@ -314,7 +315,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 />
@@ -391,7 +392,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                         
@@ -407,7 +408,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                     />
@@ -444,7 +445,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(quotationId)}
                             className={buttons.secondary}
                         >
                             Cancel

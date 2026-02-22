@@ -147,7 +147,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
                         {invoices.map((invoice: InvoiceList) => {
                             const invoiceId = invoice.invoice_number;
-                            console.log(invoices);
+                            //console.log(invoices);
 
                             return (
                                 <tr key={invoice.invoice_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
@@ -237,7 +237,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${invoice.invoice_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${invoice.invoice_number}?`)) {
                                                         onDeleteInvoice(invoiceId);
                                                     }
                                                 }}

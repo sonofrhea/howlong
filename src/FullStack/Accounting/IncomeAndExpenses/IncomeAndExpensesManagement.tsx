@@ -103,9 +103,9 @@ function IncomeAndExpensesManagement() {
     const createIncomeAndExpenseMutation = useMutation({
         mutationFn: createIncomeAndExpense,
         onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses']});
-        setSelectedIncomeAndExpenseId(data.reference_number);
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses']});
+            setSelectedIncomeAndExpenseId(data.reference_number);
+            setView('details');
         },
         onError: (error: any) => {
         console.error('Error creating incomeAndExpense:', error.response?.data || error.message || error);
@@ -121,9 +121,9 @@ function IncomeAndExpensesManagement() {
     const updateIncomeAndExpenseMutation = useMutation({
         mutationFn: updateIncomeAndExpense,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses'] });
-        queryClient.invalidateQueries({ queryKey: ['incomeAndExpense', selectedIncomeAndExpenseId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses'] });
+            queryClient.invalidateQueries({ queryKey: ['incomeAndExpense', selectedIncomeAndExpenseId]});
+            setView('details');
         },
         onError: (error: any) => {
         console.error('Error updating income and expenses:', error.response?.data || error.message);
@@ -135,7 +135,7 @@ function IncomeAndExpensesManagement() {
     const deleteIncomeAndExpenseMutation = useMutation({
         mutationFn: deleteIncomeAndExpense,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses'] });
+            queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses'] });
         }
     });
 

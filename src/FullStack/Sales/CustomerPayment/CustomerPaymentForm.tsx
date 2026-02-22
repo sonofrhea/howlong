@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import { CurrencyInterface, AgentInterface} from "../../Core/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
-import { CustomerPaymentInputs, InvoicePaymentInterface } from "../Constants/Types";
+import { CustomerPaymentFormProps, CustomerPaymentInputs, InvoicePaymentInterface } from "../Constants/Types";
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
@@ -47,8 +47,13 @@ const formatProjectNumber = () => {
 
 
 
-const CustomerPaymentForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, currencies, 
-    accounts, agents, customers, invoicePayments, projects }) => {
+const CustomerPaymentForm: React.FC<CustomerPaymentFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    currencies, 
+    accounts, agents, customers, invoicePayments, projects
+}) => {
 
         const { register, handleSubmit, watch, setValue, control, 
             formState: { errors } } = useForm<CustomerPaymentInputs>({
@@ -189,7 +194,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                 placeholder="0.00"
                                 step="0.01" min="0.00" onBlur={(e) => {
                                     if (e.target.value) {
-                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        e.target.value = decimalPlaces(Number(e.target.value));
                                     }
                                 }}
                             />
@@ -205,7 +210,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                 placeholder="0.00"
                                 step="0.01" min="0.00" onBlur={(e) => {
                                     if (e.target.value) {
-                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        e.target.value = decimalPlaces(Number(e.target.value));
                                     }
                                 }}
                             />
@@ -293,7 +298,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }} 
                                             />
@@ -315,7 +320,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }} 
                                             />
@@ -330,7 +335,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }} 
                                             />

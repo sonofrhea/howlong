@@ -16,8 +16,8 @@ import {fetchCurrencies, fetchAgents } from "../../Core/Engines";
 
 import { fetchCustomers } from "../../Customers/Engines"
 
-import { CustomerPaymentInputs, CustomerPaymentResponse,
-    EditCustomerPaymentInputs
+import { CustomerPaymentInputs, CustomerPaymentList, CustomerPaymentResponse,
+    EditCustomerPaymentInputs,
  } from "../Constants/Types";
 
 import { fetchProjects } from "../../Projects/Engines";
@@ -206,15 +206,19 @@ function CustomerPaymentManagement() {
 
 
     const handleAddCustomerPayment = async (customerPaymentData: CustomerPaymentInputs) => {
-        if (!customerPaymentData.account_received_in?.account_code) {
-            delete customerPaymentData.account_received_in;
+
+        const cleanedData = {
+            ...customerPaymentData,
+            account_received_in:
+                customerPaymentData.account_received_in ?? undefined,
         }
+        
         
         //console.log("🎯 RAW FORM DATA:", customerPaymentData);
 
         const toastId = toast.loading('Creating Payment...');
         try {
-            await createCustomerPaymentMutation.mutateAsync(customerPaymentData);
+            await createCustomerPaymentMutation.mutateAsync(cleanedData);
             toast.success('Payment created successfully!', { id: toastId });
         } catch (error) {
             toast.error('Failed to create Payment', { id: toastId });
@@ -228,11 +232,26 @@ function CustomerPaymentManagement() {
 
 
 
-    const handleUpdateCustomerPayment = (customerPaymentData: CustomerPaymentInputs) => {
-    updateCustomerPaymentMutation.mutate({
-        payment_number: selectedCustomerPaymentId!,
-        customerPaymentData: customerPaymentData
-    });
+    const handleUpdateCustomerPayment = async (customerPaymentData: CustomerPaymentInputs) => {
+
+        const cleanedData = {
+            ...customerPaymentData,
+            account_received_in:
+                customerPaymentData.account_received_in ?? undefined,
+        };
+
+        const toastId = toast.loading('Updating Payment...');
+        try {
+            await updateCustomerPaymentMutation.mutateAsync({
+                payment_number: selectedCustomerPaymentId!,
+                customerPaymentData: cleanedData
+            });
+            toast.success('Payment updated successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to update Payment', { id: toastId });
+            console.error(error);
+        }
+    
     };
 
 
@@ -240,38 +259,55 @@ function CustomerPaymentManagement() {
 
 
     const handleDeleteCustomerPayment = async (customerPaymentId: number) => {
-    if (window.confirm('Are you sure you want to delete this customer payment record?')) {
-        deleteCustomerPaymentMutation.mutate(customerPaymentId);
-    }
+        if (!window.confirm('Are you sure you want to delete this customer payment record?')) return;
+        
+        const toastId = toast.loading('Deleting Payment...');
+        try {
+            await deleteCustomerPaymentMutation.mutateAsync(customerPaymentId);
+            toast.success('Payment deleted successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to delete Payment', { id: toastId });
+            console.error(error);
+        }
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleCustomerPaymentClick = (customerPaymentId: number) => {
-    setSelectedCustomerPaymentId(customerPaymentId);
-    setView('details')
+        setSelectedCustomerPaymentId(customerPaymentId);
+        setView('details')
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditCustomerPayment = (customerPaymentId: number) => {
-    setSelectedCustomerPaymentId(customerPaymentId);
-    setView('edit');
+        setSelectedCustomerPaymentId(customerPaymentId);
+        setView('edit');
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToCustomerPaymentsList = () => {
-    setView('list');
-    setSelectedCustomerPaymentId(null);
+        setView('list');
+        setSelectedCustomerPaymentId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+
+    const handleBackToCustomerPaymentDetails = (customerPaymentId: number) => {
+        setSelectedCustomerPaymentId(customerPaymentId);
+        setView('details')
+    };
+
+
     // ------------------------------------------------------------------------------------
 
     const handleEditCustomerPaymentButton = () => {
-    setView('edit');
+        setView('edit');
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredCustomerPayments = customerPayments.filter((customerPayment: any) => {
+    const filteredCustomerPayments = customerPayments.filter((customerPayment: CustomerPaymentList) => {
         const paymentNumber = String(customerPayment.payment_number)?.toLowerCase() || '';
         const customerName = customerPayment.customer?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
@@ -569,7 +605,7 @@ function CustomerPaymentManagement() {
                 customerPayment={selectedCustomerPayment}
                 onSubmit={handleUpdateCustomerPayment}
                 isSubmitting={updateCustomerPaymentMutation.isPending}
-                onCancel={handleBackToCustomerPaymentsList}
+                onCancel={handleBackToCustomerPaymentDetails}
                 currencies={currencies}
                 accounts={accounts}
                 agents={agents}

@@ -14,9 +14,9 @@ const formatPaymentNumber = () => {
 
 
 function formatCustomerNumber(): React.ReactNode {
-        const currentYear = new Date().getFullYear();
-        return `CV-${currentYear}-`;
-    };
+    const currentYear = new Date().getFullYear();
+    return `CV-${currentYear}-`;
+};
 
 function formatInvoiceNumber(): React.ReactNode {
     const currentYear = new Date().getFullYear();
@@ -238,7 +238,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    onEditInvoicePayment(invoicePayment.invoice_payment_code, invoicePayment);
+                                                    onEditInvoicePayment(invoicePaymentId, invoicePayment);
                                                 }}
                                                 title="Edit Invoice Payment Record"
                                             >
@@ -251,7 +251,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (window.confirm(`Are you sure you want to delete PAY-${invoicePayment.invoice_payment_code}?`)) {
-                                                        onDeleteInvoicePayment(invoicePayment.invoice_payment_code);
+                                                        onDeleteInvoicePayment(invoicePaymentId);
                                                     }
                                                 }}
                                                 title="Delete Invoice Payment Record"

@@ -179,14 +179,17 @@ function PaymentVoucherManagement() {
 
 
     const handleAddPaymentVoucher = async (paymentVoucherData: PaymentVoucherInputs) => {
-        if (!paymentVoucherData.account_paid_by?.account_code) {
-            delete paymentVoucherData.account_paid_by;
-        }
-        //console.log("RAW FORM DATA: ", paymentVoucherData);
+        
+        const cleanedData = {
+            ...paymentVoucherData,
+            account_paid_by: paymentVoucherData.account_paid_by ?? undefined
+        };
+        
+        //console.log("RAW FORM DATA: ", cleanedData);
 
         const toastId = toast.loading('Creating payment voucher...');
         try {
-            await createPaymentVoucherMutation.mutateAsync(paymentVoucherData);
+            await createPaymentVoucherMutation.mutateAsync(cleanedData);
             toast.success('Payment Voucher successfully created', { id: toastId });
         } catch (error) {
             toast.error('Failed to create payment voucher.');
@@ -199,15 +202,17 @@ function PaymentVoucherManagement() {
 
 
     const handleUpdatePaymentVoucher = async (paymentVoucherData: PaymentVoucherInputs) => {
-        if (!paymentVoucherData.account_paid_by?.account_code) {
-            delete paymentVoucherData.account_paid_by;
-        }
+        
+        const cleanedData = {
+            ...paymentVoucherData,
+            account_paid_by: paymentVoucherData.account_paid_by ?? undefined
+        };
 
         const toastId = toast.loading('Updating payment voucher...');
         try {
             await updatePaymentVoucherMutation.mutateAsync({
                 reference_number: selectedPaymentVoucherId!,
-                paymentVoucherData: paymentVoucherData
+                paymentVoucherData: cleanedData
             });
             toast.success('Payment Voucher successfully updated', { id: toastId });
         } catch (error) {

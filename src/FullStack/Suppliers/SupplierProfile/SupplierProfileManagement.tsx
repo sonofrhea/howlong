@@ -105,9 +105,9 @@ function SupplierProfileManagement() {
     const createSupplierProfileMutation = useMutation({
         mutationFn: createSupplierProfile,
         onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ['supplierProfiles']});
-        setSelectedSupplierProfileId(data.supplier_code);
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['supplierProfiles']});
+            setSelectedSupplierProfileId(data.supplier_code);
+            setView('details');
         },
         onError: (error: any) => {
         console.error('Error creating supplier profile:', error.response?.data || error.message || error);
@@ -123,9 +123,9 @@ function SupplierProfileManagement() {
     const updateSupplierProfileMutation = useMutation({
         mutationFn: updateSupplierProfile,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierProfiles'] });
-        queryClient.invalidateQueries({ queryKey: ['supplierProfile', selectedSupplierProfileId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['supplierProfiles'] });
+            queryClient.invalidateQueries({ queryKey: ['supplierProfile', selectedSupplierProfileId]});
+            setView('details');
         },
         onError: (error: any) => {
         console.error('Error updating supplier profile:', error.response?.data || error.message);
@@ -167,22 +167,18 @@ function SupplierProfileManagement() {
 
 
     const handleAddSupplierProfile = async (supplierProfileData: SupplierProfileInputs) => {
-        const newSupplierProfileData = new FormData();
 
-        Object.entries(supplierProfileData).forEach(([key, value]) => {
-            if (value !== null && value !== undefined) {
-                if (value instanceof File) {
-                    newSupplierProfileData.append(key, value);
-                } else {
-                    newSupplierProfileData.append(key, String(value));
-                }
-            }
-        });
-        //console.log("🎯 RAW FORM DATA:", newSupplierProfileData);
+        const cleanedData = {
+            ...supplierProfileData,
+            preferred_currency:
+                supplierProfileData.preferred_currency ?? undefined,
+        };
+        
+        //console.log("🎯 RAW FORM DATA:", cleanedData);
 
         const toastId = toast.loading('Creating Supplier Profile...');
         try {
-            await createSupplierProfileMutation.mutateAsync(newSupplierProfileData);
+            await createSupplierProfileMutation.mutateAsync(cleanedData);
             toast.success('Supplier Profile created successfully!', { id: toastId });
         } catch (error) {
             toast.error('Failed to create Supplier Debit Note', { id: toastId });
@@ -194,11 +190,26 @@ function SupplierProfileManagement() {
 
 
 
-    const handleUpdateSupplierProfile = (supplierProfileData: SupplierProfileInputs) => {
-        updateSupplierProfileMutation.mutate({
-        supplier_code: selectedSupplierProfileId!,
-        supplierProfileData: supplierProfileData
-        });
+    const handleUpdateSupplierProfile = async (supplierProfileData: SupplierProfileInputs) => {
+
+        const cleanedData = {
+            ...supplierProfileData,
+            preferred_currency:
+                supplierProfileData.preferred_currency ?? undefined,
+        };
+
+        const toastId = toast.loading('Updating Supplier Profile...');
+        try {
+            await updateSupplierProfileMutation.mutateAsync({
+                supplier_code: selectedSupplierProfileId!,
+                supplierProfileData: cleanedData
+            });
+            toast.success('Supplier Profile updated successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to update Supplier Debit Note', { id: toastId });
+            console.error(error);
+        }
+        
     };
 
 
@@ -206,8 +217,15 @@ function SupplierProfileManagement() {
 
 
     const handleDeleteSupplierProfile = async (supplierProfileId: number) => {
-        if (window.confirm('Are you sure you want to delete this supplier profile?')) {
-        deleteSupplierProfileMutation.mutate(supplierProfileId);
+        if (!window.confirm('Are you sure you want to delete this supplier profile?')) return;
+        
+        const toastId = toast.loading('Deleting Supplier Profile...');
+        try {
+            await deleteSupplierProfileMutation.mutateAsync(supplierProfileId);
+            toast.success('Supplier Profile deleted successfully!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to delete Supplier Debit Note', { id: toastId });
+            console.error(error);
         }
     };
     // ------------------------------------------------------------------------------------
@@ -230,6 +248,15 @@ function SupplierProfileManagement() {
         setView('list');
         setSelectedSupplierProfileId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+
+    const handleBackToSupplierProfileDetails = (supplierProfileId: number) => {
+        setSelectedSupplierProfileId(supplierProfileId);
+        setView('details')
+    };
+
     // ------------------------------------------------------------------------------------
 
     const handleEditSupplierProfileButton = () => {
@@ -510,7 +537,7 @@ function SupplierProfileManagement() {
                 supplierProfile={selectedSupplierProfile}
                 onSubmit={handleUpdateSupplierProfile}
                 isSubmitting={updateSupplierProfileMutation.isPending}
-                onCancel={handleBackToSupplierProfilesList}
+                onCancel={handleBackToSupplierProfileDetails}
                 supplierCategories={supplierCategories}
                 currencies={currencies}
                 agents={agents}

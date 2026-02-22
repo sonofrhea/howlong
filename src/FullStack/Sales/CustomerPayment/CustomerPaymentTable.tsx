@@ -124,7 +124,7 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
                         {customerPayments.map((customerPayment: CustomerPaymentList) => {
-                            const customerPaymentId = customerPayment.payment_number
+                            const customerPaymentId = customerPayment.payment_number;
 
                             return (
                                 <tr key={customerPayment.payment_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
@@ -217,7 +217,7 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${customerPayment.payment_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete POST-${customerPayment.payment_number}?`)) {
                                                         onDeleteCustomerPayment(customerPaymentId);
                                                     }
                                                 }}

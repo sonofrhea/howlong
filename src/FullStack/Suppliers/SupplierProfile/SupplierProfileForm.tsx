@@ -11,15 +11,20 @@ import { COUNTRY_OPTIONS, STATUS_CHOICES,
     TAX_ID_CHOICES, BANK_TYPE_CHOICES } from "../constants/options"
 
 import { currencyHandler } from "../../handlers";
-import { SupplierCategoryResponse, SupplierProfileInputs } from "../constants/Types";
+import { SupplierCategoryResponse, SupplierProfileFormProps, SupplierProfileInputs } from "../constants/Types";
 
 
 
 
 
 
-const SupplierProfileForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, 
-    supplierCategories, currencies, agents, banks }) => {
+const SupplierProfileForm: React.FC<SupplierProfileFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel, 
+    supplierCategories,
+    currencies, agents, banks
+}) => {
 
         const { register, handleSubmit, setValue, 
             formState: { errors } } = useForm<SupplierProfileInputs>({
@@ -73,8 +78,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                             >
                                 <option value="">select...</option>
                                 {useMemo(() => STATUS_CHOICES.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
+                                    <option key={option} value={option}>
+                                        {option}
                                     </option>
                                 )), [STATUS_CHOICES])}
                                 
@@ -249,8 +254,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => COUNTRY_OPTIONS.map(country => (
-                                        <option key={country.value} value={country.value}>
-                                            {country.label}
+                                        <option key={country} value={country}>
+                                            {country}
                                         </option>
                                     )), [COUNTRY_OPTIONS])}
                                 </select>
@@ -301,8 +306,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                     >
                                     <option value="">select...</option>
                                     {useMemo(() => BANK_TYPE_CHOICES.map(option => (
-                                        <option key={option.value} value={option.value} >
-                                            {option.label}
+                                        <option key={option} value={option} >
+                                            {option}
                                         </option>
                                     )), [BANK_TYPE_CHOICES])}
                                 </select>
@@ -339,8 +344,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => TAX_ID_CHOICES.map(tax => (
-                                        <option key={tax.value} value={tax.value} >
-                                            {tax.label}
+                                        <option key={tax} value={tax} >
+                                            {tax}
                                         </option>
                                     )), [TAX_ID_CHOICES])}
                                 </select>

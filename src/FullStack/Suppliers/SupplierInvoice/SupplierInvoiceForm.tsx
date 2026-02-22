@@ -116,6 +116,16 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
 
                         <div className={layout.formSectionCol3}>
                             <div>
+                                <p className={forms.secondLevelLabel}>Invoice Date</p>
+                                <input 
+                                    type="date"
+                                    {...register("invoice_date", {required: "Date is required"})}
+                                    className={forms.input.date}
+                                />
+                                {errors.invoice_due_date && <p className="text-amber-600 text-sm">{errors.invoice_due_date?.message}</p>}
+                            </div>
+
+                            <div>
                                 <p className={forms.secondLevelLabel}>Invoice Due Date</p>
                                 <input 
                                     type="date"
@@ -306,7 +316,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}
                                                     />
@@ -334,7 +344,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}
                                                     />
@@ -409,7 +419,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
                                                 

@@ -194,22 +194,22 @@ function RefundManagement() {
 
 
     const handleAddRefund = async (refundData: CustomerRefundInputs) => {
-        if (!refundData.payment_account?.account_code) {
-            delete refundData.payment_account;
-        }
-        if (refundData.related_customer_refund) {
-            refundData.related_customer_refund = refundData.related_customer_refund?.filter(item => 
-                item.date
-            );
-            if (refundData.related_customer_refund?.length === 0) {
-                delete refundData.related_customer_refund;
-            }
-        }
-        //console.log("🎯 RAW FORM DATA:", refundData)
+
+        const cleanedData = {
+            ...refundData,
+            payment_account: refundData.payment_account ?? undefined,
+            related_customer_refund:
+                refundData.related_customer_refund &&
+                refundData.related_customer_refund?.length > 0
+                    ? refundData.related_customer_refund
+                    : undefined
+        };
+        
+        //console.log("🎯 RAW FORM DATA:", cleanedData)
 
         const toastId = toast.loading('Creating Refund...');
         try {
-            await createRefundMutation.mutateAsync(refundData);
+            await createRefundMutation.mutateAsync(cleanedData);
             toast.success('Refund created successfully!', { id: toastId });
         } catch (error) {
             toast.error('Failed to create refund', { id: toastId });
@@ -223,23 +223,22 @@ function RefundManagement() {
 
 
     const handleUpdateRefund = async (refundData: CustomerRefundInputs) => {
-        if (!refundData.payment_account?.account_code) {
-            delete refundData.payment_account;
-        }
-        if (refundData.related_customer_refund) {
-            refundData.related_customer_refund = refundData.related_customer_refund?.filter(item => 
-                item.date
-            );
-            if (refundData.related_customer_refund?.length === 0) {
-                delete refundData.related_customer_refund;
-            }
-        }
+
+        const cleanedData = {
+            ...refundData,
+            payment_account: refundData.payment_account ?? undefined,
+            related_customer_refund:
+                refundData.related_customer_refund &&
+                refundData.related_customer_refund?.length > 0
+                    ? refundData.related_customer_refund
+                    : undefined
+        };
         
         const toastId = toast.loading('Updating Refund');
         try {
             await updateRefundMutation.mutateAsync({
                 refund_number: selectedRefundId!,
-                refundData: refundData
+                refundData: cleanedData
             });
             toast.success('Refund updated successfully!', { id: toastId });
         } catch (error) {
@@ -262,6 +261,7 @@ function RefundManagement() {
         } catch (error) {
             toast.error('Failed to delete refund', {id: toastId});
             console.log(error);
+            
         }
     };
     // ------------------------------------------------------------------------------------

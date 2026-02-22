@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 
-import { SupplierCategoryInputs } from "../constants/Types";
+import { SupplierCategoryFormProps, SupplierCategoryInputs } from "../constants/Types";
 
 import { AgentInterface } from "../../Core/constants/Types";
 
@@ -11,7 +11,12 @@ import { AgentInterface } from "../../Core/constants/Types";
 
 
 
-const SuppliersCategoryForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, agents}) => {
+const SuppliersCategoryForm: React.FC<SupplierCategoryFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    agents
+}) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<SupplierCategoryInputs>({});
 

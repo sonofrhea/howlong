@@ -16,7 +16,8 @@ import { fetchCustomers } from "../../Customers/Engines";
 
 import { InvoicePaymentInputs,
   EditInvoicePaymentInputs,
-  InvoicePaymentResponse
+  InvoicePaymentResponse,
+  InvoicePaymentList
  } from "../Constants/Types";
 
 
@@ -200,25 +201,26 @@ function InvoicePaymentManagement() {
 
 
   const handleAddInvoicePayment = async (invoicePaymentData: InvoicePaymentInputs) => {
-    if (!invoicePaymentData.account_received_in?.account_code) {
-      delete invoicePaymentData.account_received_in;
-    }
-    if (invoicePaymentData.related_invoice_payment) {
-      invoicePaymentData.related_invoice_payment = invoicePaymentData.related_invoice_payment?.filter(item =>
-        item.payment_date
-      );
-      if (invoicePaymentData.related_invoice_payment?.length === 0) {
-        delete invoicePaymentData.related_invoice_payment;
-    }
-    }
-    //console.log("RAW FORM DATA:", invoicePaymentData);
+
+    const cleanedData = {
+      ...invoicePaymentData,
+      account_received_in: invoicePaymentData.account_received_in ?? undefined,
+      related_invoice_payment:
+        invoicePaymentData.related_invoice_payment &&
+        invoicePaymentData.related_invoice_payment?.length > 0
+          ? invoicePaymentData.related_invoice_payment
+          : undefined,
+    };
+    
+
+    //console.log("RAW FORM DATA:", cleanedData);
 
     const toastId = toast.loading('Creating Invoice Payment...');
     try {
-      await createInvoicePaymentMutation.mutateAsync(invoicePaymentData);
+      await createInvoicePaymentMutation.mutateAsync(cleanedData);
       toast.success('Invoice Payment Successful!', { id: toastId });
     } catch (error) {
-        toast.error('Failed to Invoice Payment', { id: toastId });
+        toast.error('Failed to create Invoice Payment', { id: toastId });
         console.error(error);
     }
     
@@ -228,11 +230,29 @@ function InvoicePaymentManagement() {
 
 
 
-  const handleUpdateInvoicePayment = (invoicePaymentData: InvoicePaymentInputs) => {
-    updateInvoicePaymentMutation.mutate({
-      invoice_payment_code: selectedInvoicePaymentId!,
-      invoicePaymentData: invoicePaymentData
-    });
+  const handleUpdateInvoicePayment = async (invoicePaymentData: InvoicePaymentInputs) => {
+
+    const cleanedData = {
+      ...invoicePaymentData,
+      account_received_in: invoicePaymentData.account_received_in ?? undefined,
+      related_invoice_payment:
+        invoicePaymentData.related_invoice_payment &&
+        invoicePaymentData.related_invoice_payment?.length > 0
+          ? invoicePaymentData.related_invoice_payment
+          : undefined,
+    };
+
+    const toastId = toast.loading('Updating Invoice Payment...');
+    try {
+      await updateInvoicePaymentMutation.mutateAsync({
+        invoice_payment_code: selectedInvoicePaymentId!,
+        invoicePaymentData: cleanedData
+      });
+      toast.success('Invoice Payment Successfully updated!', { id: toastId });
+    } catch (error) {
+      toast.error('Failed to update Invoice Payment', { id: toastId });
+      console.error(error);
+    }
   };
 
 
@@ -240,8 +260,15 @@ function InvoicePaymentManagement() {
 
 
   const handleDeleteInvoicePayment = async (invoicePaymentId: number) => {
-    if (window.confirm('Are you sure you want to delete this invoice payment?')) {
-      deleteInvoicePaymentMutation.mutate(invoicePaymentId);
+    if (!window.confirm('Are you sure you want to delete this invoice payment?')) return;
+    
+    const toastId = toast.loading('Deleting Invoice Payment...');
+    try {
+      await deleteInvoicePaymentMutation.mutateAsync(invoicePaymentId);
+      toast.success('Invoice Payment Successfully deleted!', { id: toastId });
+    } catch (error) {
+      toast.error('Failed to delete Invoice Payment', { id: toastId });
+      console.error(error);
     }
   };
 // ------------------------------------------------------------------------------------
@@ -265,8 +292,7 @@ function InvoicePaymentManagement() {
     setSelectedInvoicePaymentId(null);
   };
 
-
-  // ------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
 
 
   const handleBackToInvoicePaymentDetails = (invoicePaymentId: number) => {
@@ -281,7 +307,7 @@ function InvoicePaymentManagement() {
   };
 // ------------------------------------------------------------------------------------
 
-  const filteredInvoicePayments = invoicePayment.filter((invoicePayment: any) => {
+  const filteredInvoicePayments = invoicePayment.filter((invoicePayment: InvoicePaymentList) => {
     const invoicePaymentNumber = String(invoicePayment.invoice_payment_code)?.toLowerCase() || '';
     const invoicePaymentDate = invoicePayment.date_created?.toLowerCase() || '';
     const search = searchTerm.toLowerCase();

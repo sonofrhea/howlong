@@ -50,7 +50,7 @@ export const updateProject = async ({project_code, projectData}: AllProjectProfi
 };
 
 export const deleteProject = async (project_code: number) => {
-    apiClient.delete(`/projects/project/${project_code}/`);
+    await apiClient.delete(`/projects/project/${project_code}/`);
     return true;
 };
 
@@ -81,7 +81,7 @@ export const updateProjectDocument = async ({document_number, projectDocumentDat
 };
 
 export const deleteProjectDocument = async (document_number: number) => {
-    apiClient.delete(`/projects/projectdocuments/${document_number}/`);
+    await apiClient.delete(`/projects/projectdocuments/${document_number}/`);
     return true;
 };
 
@@ -111,7 +111,7 @@ export const updateBillOfQuantity = async ({boq_number, billOfQuantitiesData}: A
 };
 
 export const deleteBillOfQuantity = async (boq_number: number) => {
-    apiClient.delete(`/projects/billofquantities/${boq_number}/`);
+    await apiClient.delete(`/projects/billofquantities/${boq_number}/`);
     return true;
 };
 
@@ -141,7 +141,7 @@ export const updateJobCostLedger = async ({job_cost_number, jobCostLedgerData}: 
 };
 
 export const deleteJobCostLedger = async (job_cost_number: number) => {
-    apiClient.delete(`/projects/jobcostledger/${job_cost_number}/`);
+    await apiClient.delete(`/projects/jobcostledger/${job_cost_number}/`);
     return true;
 };
 

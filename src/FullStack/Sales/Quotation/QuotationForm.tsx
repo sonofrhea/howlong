@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
-import { QuotationInputs } from "../Constants/Types";
+import { QuotationFormProps, QuotationInputs } from "../Constants/Types";
 
 import { AgentInterface,CurrencyInterface } from "../../Core/constants/Types"
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
@@ -28,8 +28,15 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel, customers,
-    currencies, agents, productItems }) => {
+const QuotationForm: React.FC<QuotationFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    customers,
+    currencies,
+    agents,
+    productItems
+}) => {
 
         const productOptions = useMemo(() => 
             productItems.map((product: ProductItemCreateResponse) => (
@@ -98,7 +105,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                     {...register("valid_until", {required: "Date is required"})}
                                                     className={forms.input.date}
                                                 />
-                                                {errors?.valid_until && <p className="text-amber-600 text-sm">{errors?.valid_until?.message}</p>}
+                                                {errors?.valid_until && <p className="text-amber-800 text-sm">{errors?.valid_until?.message}</p>}
                                             </span>
                                         </div>
                                     </div>
@@ -251,7 +258,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }} 
                                                     />
@@ -270,7 +277,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}
                                                     />
@@ -312,7 +319,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}
                                                     />
@@ -389,7 +396,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
                                             
@@ -405,7 +412,7 @@ const QuotationForm: React.FC<any> = ({ onSubmit, isSubmitting, onBack, onCancel
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
                                         />

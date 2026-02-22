@@ -143,12 +143,12 @@ function QuotationManagement() {
     const updateQuotationMutation = useMutation({
         mutationFn: updateQuotation,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['quotations'] });
-        queryClient.invalidateQueries({ queryKey: ['quotation', selectedQuotationId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['quotations'] });
+            queryClient.invalidateQueries({ queryKey: ['quotation', selectedQuotationId]});
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating quotation:', error.response?.data || error.message);
+            console.error('Error updating quotation:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -157,7 +157,9 @@ function QuotationManagement() {
     const deleteQuotationMutation = useMutation({
         mutationFn: deleteQuotation,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['quotations'] });
+            console.log("Delete successful, invalidating queries");
+            console.log("Delete successful, invalidating queries");
+            queryClient.invalidateQueries({ queryKey: ['quotations'] });
         }
     });
 
@@ -187,13 +189,21 @@ function QuotationManagement() {
 
 
     const handleAddQuotation = async (quotationData: QuotationInputs) => {
-        if (quotationData.related_quotation?.length === 0) {
-            delete quotationData.related_quotation;
-        }
-        console.log("🎯 RAW FORM DATA:", quotationData);
+
+        const cleanedData = {
+            ...quotationData,
+            related_quotation:
+                quotationData.related_quotation &&
+                quotationData.related_quotation?.length > 0
+                    ? quotationData.related_quotation
+                    : undefined
+        };
+
+        
+        //console.log("🎯 RAW FORM DATA:", cleanedData);
         const toastId = toast.loading('Creating Quotation...');
         try {
-            await createQuotationMutation.mutateAsync(quotationData);
+            await createQuotationMutation.mutateAsync(cleanedData);
             toast.success('Quotation successfully created', {id: toastId});
         } catch (error) {
             toast.error('Failed to create quotation', { id: toastId });
@@ -224,11 +234,28 @@ function QuotationManagement() {
 
 // ------------------------------------------------------------------------------------
 
-    const handleUpdateQuotation = (quotationData: QuotationInputs) => {
-        updateQuotationMutation.mutate({
-        quotation_number: selectedQuotationId!,
-        quotationData: quotationData
-        });
+    const handleUpdateQuotation = async (quotationData: QuotationInputs) => {
+
+        const cleanedData = {
+            ...quotationData,
+            related_quotation:
+                quotationData.related_quotation &&
+                quotationData.related_quotation?.length > 0
+                    ? quotationData.related_quotation
+                    : undefined
+        };
+        
+        const toastId = toast.loading('Updating Quotation...');
+        try {
+            await updateQuotationMutation.mutateAsync({
+                    quotation_number: selectedQuotationId!,
+                    quotationData: cleanedData
+                });
+            toast.success('Quotation successfully updated', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to update quotation', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -236,8 +263,15 @@ function QuotationManagement() {
 // ------------------------------------------------------------------------------------
 
     const handleDeleteQuotation = async (quotationId: number) => {
-        if (window.confirm('Are you sure you want to delete this customer?')) {
-        deleteQuotationMutation.mutate(quotationId);
+        if (!window.confirm('Are you sure you want to delete this customer?')) return;
+        
+        const toastId = toast.loading('Deleting Quotation...');
+        try {
+            await deleteQuotationMutation.mutateAsync(quotationId);
+            toast.success('Quotation successfully deleted', {id: toastId});
+        } catch (error) {
+            toast.error('Failed to delete quotation', { id: toastId });
+            console.log(error);
         }
     };
     // ------------------------------------------------------------------------------------
@@ -267,6 +301,13 @@ function QuotationManagement() {
         setView('edit');
     };
 
+    // ------------------------------------------------------------------------------------
+
+
+    const handleBackToQuotationDetails = (quotationId: number) => {
+        setSelectedQuotationId(quotationId);
+        setView('details')
+    };
 
 
     // ------------------------------------------------------------------------------------
@@ -533,7 +574,6 @@ function QuotationManagement() {
                     <QuotationForm 
                     onSubmit={handleAddQuotation} 
                     isSubmitting={createQuotationMutation.isPending}
-                    onBack={handleBackToQuotationsList} 
                     onCancel={handleBackToQuotationsList}
                     customers={customers}
                     currencies={currencies}
@@ -564,7 +604,7 @@ function QuotationManagement() {
                 quotation={selectedQuotation}
                 onSubmit={handleUpdateQuotation}
                 isSubmitting={updateQuotationMutation.isPending}
-                onCancel={handleBackToQuotationsList}
+                onCancel={handleBackToQuotationDetails}
                 customers={customers}
                 currencies={currencies}
                 agents={agents}

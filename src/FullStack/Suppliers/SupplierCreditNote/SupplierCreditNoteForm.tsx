@@ -45,8 +45,13 @@ const decimalPlaces = (amount: number) => {
 
 
 
-const SupplierCreditNoteForm: React.FC<any> = ({ onSubmit, isSubmitting, onCancel, supplierInvoices, 
-    currencies, accounts, agents, supplierProfiles, productItems }) => {
+const SupplierCreditNoteForm: React.FC<SupplierCreditNoteFormProps> = ({
+    onSubmit,
+    isSubmitting,
+    onCancel,
+    supplierInvoices, 
+    currencies, accounts, agents, supplierProfiles, productItems
+}) => {
                                                                             
         const productOptions = useMemo(() => 
             productItems.map((product: ProductItemCreateResponse) => (
@@ -179,7 +184,7 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                     placeholder="0.00"
                                     step="0.01" min="0.00" onBlur={(e) => {
                                         if (e.target.value) {
-                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                            e.target.value = decimalPlaces(Number(e.target.value));
                                         }
                                     }}
                                 />
@@ -303,7 +308,7 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}
                                                     />
@@ -324,7 +329,7 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
                                                             if (e.target.value) {
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
                                                             }
                                                         }}
                                                     />
@@ -399,7 +404,7 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
                                             

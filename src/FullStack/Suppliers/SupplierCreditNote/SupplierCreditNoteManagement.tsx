@@ -21,6 +21,7 @@ import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines";
 
 import { EditSupplierCreditNoteInputs,
      SupplierCreditNoteInputs,
+      SupplierCreditNoteList,
       SupplierCreditNoteResponse } from "../constants/Types";
 
 
@@ -148,9 +149,9 @@ function SupplierCreditNoteManagement() {
     const updateSupplierCreditNoteMutation = useMutation({
         mutationFn: updateSupplierCreditNote,
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierCreditNotes'] });
-        queryClient.invalidateQueries({ queryKey: ['supplierCreditNote', selectedSupplierCreditNoteId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['supplierCreditNotes'] });
+            queryClient.invalidateQueries({ queryKey: ['supplierCreditNote', selectedSupplierCreditNoteId]});
+            setView('details');
         },
         onError: (error: any) => {
         console.error('Error updating supplierCreditNote:', error.response?.data || error.message);
@@ -192,18 +193,22 @@ function SupplierCreditNoteManagement() {
 
 
     const handleAddSupplierCreditNote = async (supplierCreditNoteData: SupplierCreditNoteInputs) => {
-        if (!supplierCreditNoteData.account?.account_code) {
-            delete supplierCreditNoteData.account;
+
+        const cleanedData = {
+            ...supplierCreditNoteData,
+            account: supplierCreditNoteData.account ?? undefined,
         }
-        //console.log("🎯 RAW FORM DATA:", supplierCreditNoteData)
+        
+
+        //console.log("🎯 RAW FORM DATA:", cleanedData)
 
         const toastId = toast.loading('Creating Supplier Credit Note...')
 
         try {
-            await createSupplierCreditNoteMutation.mutateAsync(supplierCreditNoteData);
-            toast.success('Supplier Credit Note created successfully!', { id: toastId });
+            await createSupplierCreditNoteMutation.mutateAsync(cleanedData);
+            toast.success('Supplier Credit Note successfully created!', { id: toastId });
         } catch (error) {
-            toast.error('Failed to create Supplier Debit Note', { id: toastId });
+            toast.error('Failed to create Supplier Credit Note', { id: toastId });
             console.error(error);
         }
     };
@@ -212,11 +217,24 @@ function SupplierCreditNoteManagement() {
 
 
 
-    const handleUpdateSupplierCreditNote = (supplierCreditNoteData: SupplierCreditNoteInputs) => {
-        updateSupplierCreditNoteMutation.mutate({
-        credit_note_number: selectedSupplierCreditNoteId!,
-        supplierCreditNoteData: supplierCreditNoteData
-        });
+    const handleUpdateSupplierCreditNote = async (supplierCreditNoteData: SupplierCreditNoteInputs) => {
+
+        const cleanedData = {
+            ...supplierCreditNoteData,
+            account: supplierCreditNoteData.account ?? undefined,
+        }
+
+        const toastId = toast.loading('Updating Supplier Credit Note...')
+        try {
+            await updateSupplierCreditNoteMutation.mutateAsync({
+                credit_note_number: selectedSupplierCreditNoteId!,
+                supplierCreditNoteData: cleanedData
+            });
+            toast.success('Supplier Credit Note successfully updated!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to update Supplier Credit Note', { id: toastId });
+            console.error(error);
+        }
     };
 
 
@@ -224,8 +242,15 @@ function SupplierCreditNoteManagement() {
 
 
     const handleDeleteSupplierCreditNote = async (supplierCreditNoteId: number) => {
-        if (window.confirm('Are you sure you want to delete this credit note?')) {
-        deleteSupplierCreditNoteMutation.mutate(supplierCreditNoteId);
+        if (!window.confirm('Are you sure you want to delete this credit note?')) return;
+        
+        const toastId = toast.loading('Deleting Supplier Credit Note...')
+        try {
+            await deleteSupplierCreditNoteMutation.mutateAsync(supplierCreditNoteId);
+            toast.success('Supplier Credit Note successfully deleted!', { id: toastId });
+        } catch (error) {
+            toast.error('Failed to delete Supplier Credit Note', { id: toastId });
+            console.error(error);
         }
     };
     // ------------------------------------------------------------------------------------
@@ -248,6 +273,14 @@ function SupplierCreditNoteManagement() {
         setView('list');
         setSelectedSupplierCreditNoteId(null);
     };
+
+    // ------------------------------------------------------------------------------------
+
+
+    const handleBackToSupplierCreditNoteDetails = (supplierCreditNoteId: number) => {
+        setSelectedSupplierCreditNoteId(supplierCreditNoteId);
+        setView('details')
+    };
     // ------------------------------------------------------------------------------------
 
     const handleEditSupplierCreditNoteButton = () => {
@@ -255,7 +288,7 @@ function SupplierCreditNoteManagement() {
     };
     // ------------------------------------------------------------------------------------
 
-    const filteredSupplierCreditNotes = supplierCreditNotes.filter((supplierCreditNote: any) => {
+    const filteredSupplierCreditNotes = supplierCreditNotes.filter((supplierCreditNote: SupplierCreditNoteList) => {
         const creditNoteNumber = String(supplierCreditNote.credit_note_number)?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
         
@@ -548,7 +581,7 @@ function SupplierCreditNoteManagement() {
                 supplierCreditNote={selectedSupplierCreditNote}
                 onSubmit={handleUpdateSupplierCreditNote}
                 isSubmitting={updateSupplierCreditNoteMutation.isPending}
-                onCancel={handleBackToSupplierCreditNotesList}
+                onCancel={handleBackToSupplierCreditNoteDetails}
                 supplierInvoices={supplierInvoices}
                 currencies={currencies}
                 accounts={accounts}

@@ -196,21 +196,21 @@ const deleteDebitNoteMutation = useMutation({
 
 
   const handleAddDebitNote = async (debitNoteData: DebitNoteInputs) => {
-    if (!debitNoteData.account?.account_code) {
-      delete debitNoteData.account;
-    }
-    if (debitNoteData.debit_note_details) {
-      debitNoteData.debit_note_details = debitNoteData.debit_note_details?.filter(item => 
-        item.date
-      );
-      if (debitNoteData.debit_note_details?.length === 0) {
-        delete debitNoteData.debit_note_details;
-      }
-    }
-    //console.log("🎯 RAW FORM DATA:", debitNoteData);
+
+    const cleanedData = {
+      ...debitNoteData,
+      account: debitNoteData.account ?? undefined,
+      debit_note_details:
+        debitNoteData.debit_note_details &&
+        debitNoteData.debit_note_details?.length > 0
+          ? debitNoteData.debit_note_details
+          : undefined
+    };
+    
+    //console.log("🎯 RAW FORM DATA:", cleanedData);
       const toastId = toast.loading('Creating Debit Note...');
       try {
-        await createDebitNoteMutation.mutateAsync(debitNoteData);
+        await createDebitNoteMutation.mutateAsync(cleanedData);
         toast.success('Debit Note successfully created!', { id: toastId });
       } catch (error) {
         toast.error('Failed to create Debit Note', { id: toastId });
@@ -223,23 +223,22 @@ const deleteDebitNoteMutation = useMutation({
 
     
     const handleUpdateDebitNote = async (debitNoteData: DebitNoteInputs) => {
-      if (!debitNoteData.account?.account_code) {
-        delete debitNoteData.account;
-      }
-      if (debitNoteData.debit_note_details) {
-        debitNoteData.debit_note_details = debitNoteData.debit_note_details?.filter(item => 
-          item.date
-        );
-        if (debitNoteData.debit_note_details?.length === 0) {
-          delete debitNoteData.debit_note_details;
-        }
-      }
+
+    const cleanedData = {
+      ...debitNoteData,
+      account: debitNoteData.account ?? undefined,
+      debit_note_details:
+        debitNoteData.debit_note_details &&
+        debitNoteData.debit_note_details?.length > 0
+          ? debitNoteData.debit_note_details
+          : undefined
+    };
 
       const toastId = toast.loading('Updating Debit Note...');
       try {
         await updateDebitNoteMutation.mutateAsync({
           debit_note_number: selectedDebitNoteId!,
-          debitNoteData: debitNoteData
+          debitNoteData: cleanedData
         });
         toast.success('Debit Note successfully updated!', { id: toastId });
       } catch (error) {

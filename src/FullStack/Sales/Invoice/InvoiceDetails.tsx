@@ -1,6 +1,7 @@
 import React from "react";
 import { buttons, details, forms, labelStyles, layout, tables, text } from "../Constants/Styles";
 import { SquarePen } from "lucide-react";
+import { InvoiceDetailsProps } from "../Constants/Types";
 
 
 const formatNumber = () => {
@@ -33,8 +34,13 @@ const formatCustomerNumber = () => {
 
 
 
-const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) => {
-
+const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
+    invoice,
+    isLoading,
+    onBack,
+    onEdit
+}) => {
+    const invoiceId = invoice?.invoice_number;
 
     if (isLoading) {
         return (
@@ -84,7 +90,7 @@ const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) =
 
                     <div className="flex gap-3">
                         <button 
-                            onClick={onEdit}
+                            onClick={() => onEdit(invoiceId)}
                             className={buttons.editButtonGreen}
                         >
                             <SquarePen size={20} strokeWidth={1.5} />
@@ -165,11 +171,11 @@ const InvoiceDetails: React.FC<any> = ({ invoice, isLoading, onBack, onEdit }) =
                                         {invoice.related_invoice.map((line: any, index: any) => (
                                             <tr key={index}>
                                                 <td className={tables.cell}>SKU-{line.item}</td>
-                                                <td className={tables.cell}>{line.description}</td>
-                                                <td className={tables.cell}>{line.quantity}</td>
-                                                <td className={tables.cell}>{line.unit_of_measure}</td>
-                                                <td className={tables.cell}>{line.price_per_unit}</td>
-                                                <td className={tables.cell}>{line.sub_total}</td>
+                                                <td className={tables.cell}>{line.description || '--'}</td>
+                                                <td className={tables.cell}>{line.quantity || '--'}</td>
+                                                <td className={tables.cell}>{line.unit_of_measure || '--'}</td>
+                                                <td className={tables.cell}>{line.price_per_unit || '--'}</td>
+                                                <td className={tables.cell}>{line.sub_total || '--'}</td>
                                                 <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                             </tr>
                                         ))}

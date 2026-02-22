@@ -53,6 +53,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    const customerPaymentId = customerPayment?.payment_number;
 
 
     const { register, handleSubmit, watch, setValue, control, 
@@ -62,7 +63,15 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
 
     
     React.useEffect(() => {
-        reset(customerPayment);
+
+        const updated = {
+            ...customerPayment,
+            date: customerPayment.date
+                ? new Date(customerPayment.date).toISOString().split("T")[0]
+                : "",
+        }
+
+        reset(updated);
     }, [customerPayment, reset]);
 
 
@@ -212,7 +221,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
                                 if (e.target.value) {
-                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    e.target.value = decimalPlaces(Number(e.target.value));
                                 }
                             }}
                         />
@@ -228,7 +237,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
                                 if (e.target.value) {
-                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    e.target.value = decimalPlaces(Number(e.target.value));
                                 }
                             }}
                         />
@@ -316,7 +325,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }} 
                                         />
@@ -338,7 +347,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }} 
                                         />
@@ -353,7 +362,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }} 
                                         />
@@ -382,7 +391,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                         </button>
                         <button
                             type="button"
-                            onClick={onCancel}
+                            onClick={() => onCancel(customerPaymentId)}
                             className={buttons.secondary}
                         >
                             Cancel
