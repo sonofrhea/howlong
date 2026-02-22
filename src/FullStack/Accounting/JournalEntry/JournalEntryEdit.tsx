@@ -48,7 +48,16 @@ const JournalEntryEdit: React.FC<JournalHeaderProps> = ({
         });
 
     React.useEffect(() => {
-        reset(journalEntry);
+        if (!journalEntry) return;
+
+        const updated = {
+            ...journalEntry,
+            date: journalEntry.date
+                ? new Date(journalEntry.date).toISOString().split("T")[0]
+                : "",
+        }
+        
+        reset(updated);
     }, [journalEntry, reset]);
 
 

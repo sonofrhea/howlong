@@ -155,7 +155,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                         "w-1/9 text-center",
                         "w-1/9 text-center",
                         "w-1/9 text-center",
-                        'w-[9%] text-center',
+                        'w-[7%] text-center',
                     ].map((line, index) => (
                         <col key={index} className={line} />
                     ))}
@@ -170,7 +170,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                             <SortableHeader label="currency" sortKey="preferred_currency" />
                             <SortableHeader label="Status" sortKey="status" />
                             <SortableHeader label="Date" sortKey="date_created" />
-                            <SortableHeader label="Remark" sortKey="remark" />
+                            <SortableHeader label="Country" sortKey="country" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
                             </th>
@@ -243,9 +243,9 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                                         <div className="text-sm text-black truncate">{formatDate(customer.date_created)}</div>
                                     </td>
                                     
-                                    {/* Remark */}
+                                    {/* Country */}
                                     <td className="px-2 py-2 text-center truncate" >
-                                        <div className="text-sm text-black truncate">{customer?.remark || '--'}</div>
+                                        <div className="text-sm text-black truncate">{customer?.country || '--'}</div>
                                     </td>
                                     
                                     {/* Actions */}

@@ -56,7 +56,11 @@ const Register = () => {
             let errorMessage2 = "";
 
             if (error.code === "ECONNABORTED") {
-                errorMessage = "Request timed out. Please try again. System will wake in 20seconds.";
+                errorMessage = "Request timed out. Please try again. System will wake in 10seconds.";
+            }
+
+            else if (error.response?.data?.detail === "Invalid token.") {
+                errorMessage = "Invalid Token."
             }
 
             else if (error.response?.data?.detail?.[0]) {

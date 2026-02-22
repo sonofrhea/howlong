@@ -59,7 +59,15 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
         });
 
     React.useEffect(() => {
-        reset(receiptVoucher);
+        if (!receiptVoucher) return;
+
+        const updated = {
+            ...receiptVoucher,
+            date: receiptVoucher.date
+                ? new Date(receiptVoucher.date).toISOString().split("T")[0]
+                : "",
+        }
+        reset(updated);
     }, [receiptVoucher, reset]);
 
 

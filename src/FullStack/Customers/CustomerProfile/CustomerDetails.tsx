@@ -13,10 +13,14 @@ const formatDate = (dateString: any) => {
 };
 
 const formatNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `CV-${currentYear}-`;
-    };
+    const currentYear = new Date().getFullYear();
+    return `CV-${currentYear}-`;
+};
 
+
+const formatUpdateDate = (dateString: any) => {
+    return new Date(dateString).toLocaleString();
+};
 
 
 
@@ -352,7 +356,7 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
             <div className="grid lg:grid-cols-5">
                 <p className={labelStyles}>
                     <p className={details.extraSmallUppercase}>Date Updated</p>
-                    {formatDate(customer?.date_updated) || "N/A"}
+                    {formatUpdateDate(customer?.date_updated) || "N/A"}
                 </p>
                         
                 <p className={labelStyles}>

@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { DebitNoteInputs, DebitNoteEditProps, CustomerCreateResponse } from "../constants/Types";
-import { supplierDebitNoteAccountHandler } from "../../handlers";
+import { debitNoteRelatedPaymentHandler,
+     supplierDebitNoteAccountHandler } from "../../handlers";
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../constants/Styles";
 import { Trash2 } from "lucide-react";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
@@ -77,7 +78,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
     
     const controlAccountChange = supplierDebitNoteAccountHandler(accounts, setValue);
 
-
+    const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue);
 
 
 
@@ -94,7 +95,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <div className={forms.body}>
+            <div className={`${forms.body}`}>
                 <div className={layout.header}>
                     <div className={layout.tag}>
                     
@@ -136,7 +137,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                         <p className={forms.label}>Bill To...</p>
                         <select
                             {...register("customer")}
-                            className={forms.select.partial}
+                            className={`cursor-pointer ${forms.select.partial}`}
                         >
                             <option value="">select...</option>
                             {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
@@ -184,6 +185,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                         <select
                             {...register("related_payment")}
                             className={forms.select.partial}
+                            onChange={relatedPayment}
                         >
                             <option value="">select...</option>
                             {useMemo(() => customerPayments.map((payment: CustomerPaymentResponse) => (
@@ -193,18 +195,18 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                             )), [customerPayments])}
                         </select>
                     </div>
-
+                    
                     <div>
                         <p className={forms.label}>Paid Amount</p>
                         <input 
                             {...register("paid_amount")}
                             type="number"
-                            title="enter paid amount..."
-                            className={forms.select.partial}
+                            readOnly
+                            className={forms.input.midNumber}
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
                                 if (e.target.value) {
-                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    e.target.value = decimalPlaces(Number(e.target.value));
                                 }
                             }}
                         />

@@ -1,7 +1,8 @@
 import React from "react"
 import { ControlAccountInterface } from "./ChartOfAccounts/Interfaces"
 import { CurrencyInterface } from "./Core/constants/Types"
-import { InvoiceInterface, InvoicePaymentInterface } from "./Sales/Constants/Types"
+import { CustomerPaymentResponse,
+  InvoiceInterface, InvoicePaymentInterface } from "./Sales/Constants/Types"
 import { SupplierInvoiceResponse } from "./Suppliers/constants/Types"
 import { CompanyPurchaseInvoiceResponse } from "./Purchases/constants/Types"
 import { BillOfQuantitiesResponse, ProjectProfileResponse } from "./Projects/constants/Types"
@@ -362,4 +363,19 @@ export const creditNoteAccountHandler = (accounts: ControlAccountInterface[], se
       setValue("account.account_type", selectedAccount.account_type)
     }
   }
-}
+};
+
+
+
+
+export const debitNoteRelatedPaymentHandler = (customerPayments: CustomerPaymentResponse[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedPaymentNumber = Number(e.target.value)
+    const selectedPayment = customerPayments.find(a => a.payment_number === selectedPaymentNumber)
+    console.log("✅ Found Payment:");
+
+    if (selectedPayment) {
+      setValue("paid_amount", selectedPayment.paid_amount)
+    }
+  }
+};

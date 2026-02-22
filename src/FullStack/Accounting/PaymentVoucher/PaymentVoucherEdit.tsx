@@ -61,7 +61,15 @@ const PaymentVoucherEdit: React.FC<PaymentVoucherProps> = ({
         });
 
     React.useEffect(() => {
-        reset(paymentVoucher);
+        if (!paymentVoucher) return;
+
+        const updated = {
+            ...paymentVoucher,
+            date: paymentVoucher.date
+                ? new Date(paymentVoucher.date).toISOString().split("T")[0]
+                : "",
+        }
+        reset(updated);
     }, [paymentVoucher, reset]);
 
 

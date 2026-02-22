@@ -105,16 +105,6 @@ const currencyChange = currencyHandler(currencies, setValue);
                                     />
                                 </div>
 
-                                <div>
-                                    <div className="text-sm text-black  font-medium mb-1">Date created</div>
-                                    <input 
-                                        type="date" 
-                                        {...register("date_created", {required: "Date is required"})}
-                                        className="w-full text-black rounded-lg  cursor-pointer border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
-                                    />
-                                    {errors.date_created && <p className="text-amber-600 text-sm">{errors.date_created?.message}</p>}
-                                </div>
-
                                 <div >
                                     <div className="text-sm text-black font-medium mb-1">ID Type</div>
                                     <select 

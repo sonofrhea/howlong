@@ -57,7 +57,7 @@ function DebitNoteManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDebitNoteId, setSelectedDebitNoteId] = useState<number | null>(null);
 // ------------------------------------------------------------------------------------
-  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'desc' });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 // ------------------------------------------------------------------------------------
@@ -351,7 +351,7 @@ function DebitNoteManagement() {
 const handleSort = (key: any) => {
   setSortConfig(current => ({
     key,
-    direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'
+    direction: current.key === key && current.direction === 'desc' ? 'asc' : 'desc'
   }));
 };
 

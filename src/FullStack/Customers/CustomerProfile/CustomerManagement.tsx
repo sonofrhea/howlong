@@ -426,25 +426,41 @@ return (
 
             {view === 'list' && (
               <div className="flex items-center gap-6 justify-between">
+
                 <div className="flex items-center gap-4">
+
                   <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">{customers.length}</div>
                     <div className="text-sm text-gray-500">Total Customers</div>
                   </div>
+
                   <div className="w-px h-8 bg-gray-200"></div>
+
                   <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">
                       {customers.filter((c: any) => c.status === 'Active').length}
                     </div>
                     <div className="text-sm text-gray-500">Active</div>
                   </div>
+
                   <div className="w-px h-8 bg-gray-200"></div>
+
                   <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">
                       {new Set(customers.map((c: any) => c.currency?.currency_code)).size}
                     </div>
                     <div className="text-sm text-gray-500">Currencies</div>
                   </div>
+
+                  <div className="w-px h-8 bg-gray-200"></div>
+
+                  <div className="text-center">
+                    <div className="text-2xl font-light text-gray-900">
+                      {new Set(customers.map((c: any) => c.country)).size}
+                    </div>
+                    <div className="text-sm text-gray-500">Countries</div>
+                  </div>
+
                 </div>
                 <div className="flex gap-4">
                   <div className="relative">

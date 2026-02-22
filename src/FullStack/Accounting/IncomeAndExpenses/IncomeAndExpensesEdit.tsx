@@ -32,7 +32,15 @@ const IncomeAndExpensesEdit: React.FC<IncomeAndExpensesProps> = ({
         });
             
     React.useEffect(() => {
-        reset(incomeAndExpense);
+        if (!incomeAndExpense) return;
+
+        const updated = {
+            ...incomeAndExpense,
+            date: incomeAndExpense.date
+                ? new Date(incomeAndExpense.date).toISOString().split("T")[0]
+                : "",
+        }
+        reset(updated);
     }, [incomeAndExpense, reset]);
 
     const onAccountChange = incomeExpensesAccountHandler(accounts, setValue)

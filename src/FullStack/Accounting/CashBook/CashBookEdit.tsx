@@ -37,7 +37,15 @@ const CashBookEdit: React.FC<CashBookProps> = ({
     });
     
     React.useEffect(() => {
-        reset(cashBook);
+        if (!cashBook) return;
+
+        const updated = {
+            ...cashBook,
+            date: cashBook.date
+                ? new Date(cashBook.date).toISOString().split("T")[0]
+                : "",
+        }
+        reset(updated);
     }, [cashBook, reset]);
     
     const onAccountChange = cashBookAccountHandler(accounts, setValue);

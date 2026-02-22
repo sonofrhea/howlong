@@ -41,7 +41,7 @@ const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
     // Sortable header component
     const SortableHeader = ({ label, sortKey }: {label: string, sortKey: string}) => {
         const isSorted = sortConfig.key === sortKey;
-        const isAsc = sortConfig.direction === 'asc';
+        const isDesc = sortConfig.direction === 'desc';
 
         return (
             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-200 transition-colors"  
@@ -52,7 +52,7 @@ const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
                     {label}
                     {isSorted && (
                         <span className="text-black">
-                            {isAsc ? '↑' : '↓'}
+                            {isDesc ? '↓' : '↑'}
                         </span>
                     )}
                 </div>

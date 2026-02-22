@@ -28,6 +28,9 @@ const formatCustomerNumber = () => {
 };
 
 
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
 
 
 
@@ -169,7 +172,7 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
 
                         <div className="p-6">
                             <div className="overflow-x-auto">
-                                <table className={forms.body}>
+                                <table className={`cursor-pointer ${forms.body}`}>
                                     <thead className={tables.header}>
                                         <tr>
                                             <th className={tables.headerCell}>Date</th>
@@ -233,11 +236,23 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                 </div>
 
                 <hr className="my-6 border-gray-200" />
+                
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Created By</p>
+                        {debitNote.created_by || 'N/A'}
+                    </p>
 
-                <p className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Created By</p>
-                    {debitNote.created_by || 'N/A'}
-                </p>
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Updated By</p>
+                        {debitNote.updated_by || 'N/A'}
+                    </p>
+
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Date Updated</p>
+                        {formatUpdatedDate(debitNote.date_updated) || 'N/A'}
+                    </p>
+                </div>
                 <hr className="my-6 border-gray-200" />
                 
             </div>

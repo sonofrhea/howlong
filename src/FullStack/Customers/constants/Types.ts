@@ -71,7 +71,7 @@ export type CustomersList = {
     preferred_currency: string | null;
     status: string;
     date_created: string;
-    remark: string | null;
+    country: string | null;
 };
 
 
@@ -367,6 +367,8 @@ export type DebitNoteDetails = {
   cancelled: boolean;
   agent: string;
   created_by: string;
+  updated_by: string;
+  date_updated: string;
   currency: string;
 };
 

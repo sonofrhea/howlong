@@ -14,7 +14,9 @@ import { forms, buttons, layout, tables, text, utils } from "../constants/Styles
 
 import { Trash2 } from "lucide-react";
 
-import { supplierDebitNoteAccountHandler } from "../../handlers";
+import { supplierDebitNoteAccountHandler,
+    debitNoteRelatedPaymentHandler
+ } from "../../handlers";
 
 
 //const formatDebitNoteNumber = () => {
@@ -78,6 +80,7 @@ const DebitNoteForm: React.FC<DebitNoteFormProps> = ({
 
 
 const controlAccountChange = supplierDebitNoteAccountHandler(accounts, setValue);
+const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue);
 
 
 
@@ -178,6 +181,7 @@ const controlAccountChange = supplierDebitNoteAccountHandler(accounts, setValue)
                         <select
                             {...register("related_payment")}
                             className={forms.select.partial}
+                            onChange={relatedPayment}
                         >
                             <option value="">select...</option>
                             {useMemo(() => customerPayments.map((payment: CustomerPaymentResponse) => (
@@ -193,12 +197,12 @@ const controlAccountChange = supplierDebitNoteAccountHandler(accounts, setValue)
                         <input 
                             {...register("paid_amount")}
                             type="number"
-                            title="enter paid amount..."
-                            className={forms.select.partial}
+                            readOnly
+                            className={forms.input.midNumber}
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
                                 if (e.target.value) {
-                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                    e.target.value = decimalPlaces(Number(e.target.value));
                                 }
                             }}
                         />

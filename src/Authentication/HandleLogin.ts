@@ -15,9 +15,10 @@ export const HandleLogin = async (email: string, password: any) => {
    localStorage.setItem('Token', response.data.token);
    return response?.data; 
  } catch (error: any) {
-      //console.log("ERROR TYPE:", error.constructor.name);
-      //console.log("ERROR KEYS:", Object.keys(error));
-      //console.log("FULL ERROR OBJECT:", error);
+      console.log("ERROR TYPE:", error.constructor.name);
+      console.log("ERROR KEYS:", Object.keys(error));
+      console.log("FULL ERROR OBJECT:", error);
+      console.log("FULL ERROR:", error.response?.data?.detail);
       throw error; 
  }
 };

@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import { CustomerInputs, CustomerProps } from "../constants/Types";
 import { controlAccountHandler, currencyHandler } from "../../handlers";
 import { BankInterface, CurrencyInterface } from "../../Core/constants/Types";
-import { BANK_TYPE_CHOICES, COUNTRY_OPTIONS, ID_TYPE_CHOICES, STATUS_CHOICES, TAX_ID_CHOICES } from "../constants/Options";
+import { BANK_TYPE_CHOICES, COUNTRY_OPTIONS,
+    ID_TYPE_CHOICES, STATUS_CHOICES, TAX_ID_CHOICES } from "../constants/Options";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { buttons } from "../constants/Styles";
 
@@ -80,15 +81,6 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 <input 
                                     className="w-full text-black rounded-lg border border-gray-300 px-3 py-2" 
                                     {...register("customer_name")} 
-                                />
-                            </div>
-
-                            <div>
-                                <div className="text-sm text-black  font-medium mb-1">Date created</div>
-                                <input 
-                                    type="date" 
-                                    {...register("date_created")}
-                                    className="w-full text-black rounded-lg  cursor-pointer border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>
 

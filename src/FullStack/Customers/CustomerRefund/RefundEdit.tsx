@@ -65,7 +65,19 @@ const RefundEdit: React.FC<CustomerRefundProps> = ({
     });
         
     React.useEffect(() => {
-        reset(refund);
+        if (!refund) return;
+
+        const updated = {
+            ...refund,
+            related_customer_refund: refund.related_customer_refund
+                ? refund.related_customer_refund?.map(child => ({
+                    ...child,
+                    date: child.date
+                        ? new Date(child.date).toISOString().split("T")[0]
+                        : "",
+                })) : [],
+        };
+        reset(updated);
     }, [refund, reset]);
 
 

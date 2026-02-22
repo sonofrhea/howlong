@@ -59,7 +59,11 @@ const Login = () => {
             let errorMessage = "";
 
             if (error.code === "ECONNABORTED") {
-                errorMessage = "Network timed out, Please try again. System will wake in 20seconds.";
+                errorMessage = "Network timed out, Please try again. System will wake in 10seconds.";
+            }
+
+            else if (error.response?.data?.detail === "Invalid token.") {
+                errorMessage = "Invalid Token."
             }
 
             else if (error.response?.data?.detail?.[0]) {

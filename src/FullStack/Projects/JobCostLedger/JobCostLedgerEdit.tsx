@@ -93,9 +93,6 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
             date: jobCostLedger.date
                 ? new Date(jobCostLedger.date).toISOString().split("T")[0]
                 : "",
-            date_created: jobCostLedger.date_created
-                ? new Date(jobCostLedger.date_created).toISOString().split("T")[0]
-                : "",
         };
 
         reset(updated);
