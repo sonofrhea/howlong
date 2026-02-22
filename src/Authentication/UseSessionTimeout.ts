@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 
 
 
-const IDLE_TIMEOUT_MS = 50 * 10 * 1000;
+const IDLE_TIMEOUT_MS = 50 * 60 * 1000;
 const PROMPT_DURATION_MS = 60 * 1000;
 
 export const useSessionTimeout = () =>{

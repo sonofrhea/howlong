@@ -119,13 +119,21 @@ function JobCostLedgerManagement() {
 
     const createJobCostLedgerMutation = useMutation({
         mutationFn: createJobCostLedger,
+        onMutate: () => {
+            toast.loading('Creating Job Cost Ledger...', { id: "Create Job Cost Ledger" });
+        },
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['jobCostLedgers']});
+            queryClient.invalidateQueries({ queryKey: ['jobCostLedgers'] });
             setSelectedJobCostLedgerId(data.job_cost_number);
+            toast.success('Job Cost Ledger Created', { id: "Create Job Cost Ledger" });
             setView('details');
         },
         onError: (error: any) => {
-            console.error('Error creating jobCostLedger:', error.response?.data || error.message || error);
+            toast.error('Failed to create job cost ledger', { id: "Create Job Cost Ledger" });
+            console.error(
+                'Error creating job cost ledger:',
+                error.response?.data || error.message || error
+            );
         }
     });
 
@@ -137,13 +145,23 @@ function JobCostLedgerManagement() {
 
     const updateJobCostLedgerMutation = useMutation({
         mutationFn: updateJobCostLedger,
+        onMutate: () => {
+            toast.loading('Updating Job Cost Ledger...', { id: "Update Job Cost Ledger" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['jobCostLedgers'] });
-            queryClient.invalidateQueries({ queryKey: ['jobCostLedger', selectedJobCostLedgerId]});
+            queryClient.invalidateQueries({
+                queryKey: ['jobCostLedger', selectedJobCostLedgerId]
+            });
+            toast.success('Job Cost Ledger Updated', { id: "Update Job Cost Ledger" });
             setView('details');
         },
         onError: (error: any) => {
-            console.error('Error updating jobCostLedger:', error.response?.data || error.message);
+            toast.error('Failed to update job cost ledger', { id: "Update Job Cost Ledger" });
+            console.error(
+                'Error updating job cost ledger:',
+                error.response?.data || error.message
+            );
         }
     });
     // ------------------------------------------------------------------------------------
@@ -151,8 +169,19 @@ function JobCostLedgerManagement() {
 
     const deleteJobCostLedgerMutation = useMutation({
         mutationFn: deleteJobCostLedger,
+        onMutate: () => {
+            toast.loading('Deleting Job Cost Ledger...', { id: "Delete Job Cost Ledger" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['jobCostLedgers'] });
+            toast.success('Job Cost Ledger Deleted', { id: "Delete Job Cost Ledger" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete job cost ledger', { id: "Delete Job Cost Ledger" });
+            console.error(
+                'Error deleting job cost ledger:',
+                error.response?.data || error.message
+            );
         }
     });
 
@@ -192,14 +221,7 @@ function JobCostLedgerManagement() {
         };
 
         //console.log("RAW FORM DATA: ", jobCostLedgerData);
-        const toastId = toast.loading('Creating Job Cost Ledger...');
-        try {
-            await createJobCostLedgerMutation.mutateAsync(cleanedData);
-            toast.success('Job Cost Ledger successfully created', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to create job cost ledger', { id: toastId });
-            console.error(error);
-        }
+        await createJobCostLedgerMutation.mutateAsync(cleanedData);
     };
 
 
@@ -215,16 +237,11 @@ function JobCostLedgerManagement() {
                     ? jobCostLedgerData.job_cost_ledger
                     : undefined
         };
-        const toastId = toast.loading('Updating Job Cost Ledger...');
-        try {
-            await updateJobCostLedgerMutation.mutateAsync({
-                job_cost_number: selectedJobCostLedgerId!,
-                jobCostLedgerData: cleanedData
-            });
-        } catch (error) {
-            toast.error('Failed to update job cost ledger', { id: toastId });
-            console.error(error);
-        }
+        
+        await updateJobCostLedgerMutation.mutateAsync({
+            job_cost_number: selectedJobCostLedgerId!,
+            jobCostLedgerData: cleanedData
+        });
     };
 
 
@@ -234,13 +251,7 @@ function JobCostLedgerManagement() {
     const handleDeleteJobCostLedger = async (jobCostLedgerId: number) => {
         if (!window.confirm('Are you sure you want to delete this Job cost ledger?')) return;
 
-        const toastId = toast.loading('Updating Job Cost Ledger...');
-        try {
-            await deleteJobCostLedgerMutation.mutateAsync(jobCostLedgerId);
-        } catch (error) {
-            toast.error('Failed to delete job cost ledger', { id: toastId });
-            console.error(error);
-        }
+        await deleteJobCostLedgerMutation.mutateAsync(jobCostLedgerId);
     };
     // ------------------------------------------------------------------------------------
 

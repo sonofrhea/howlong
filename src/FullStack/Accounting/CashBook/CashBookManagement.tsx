@@ -112,13 +112,21 @@ function CashBookManagement() {
 
     const createCashBookMutation = useMutation({
         mutationFn: createCashBook,
+        onMutate: () => {
+            toast.loading('Creating Cash Book...', { id: "Create Cash Book" });
+        },
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['cashBooks']});
+            queryClient.invalidateQueries({ queryKey: ['cashBooks'] });
             setSelectedCashBookId(data.reference_number);
+            toast.success('Cash Book Created', { id: "Create Cash Book" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating cashBook:', error.response?.data || error.message || error);
+            toast.error('Failed to create Cash Book', { id: "Create Cash Book" });
+            console.error(
+                'Error creating cash book:',
+                error.response?.data || error.message || error
+            );
         }
     });
 
@@ -130,22 +138,44 @@ function CashBookManagement() {
 
     const updateCashBookMutation = useMutation({
         mutationFn: updateCashBook,
+        onMutate: () => {
+            toast.loading('Updating Cash Book...', { id: "Update Cash Book" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cashBooks'] });
-            queryClient.invalidateQueries({ queryKey: ['cashBook', selectedCashBookId]});
+            queryClient.invalidateQueries({
+                queryKey: ['cashBook', selectedCashBookId]
+            });
+            toast.success('Cash Book Updated', { id: "Update Cash Book" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating cash book:', error.response?.data || error.message);
+            toast.error('Failed to update Cash Book', { id: "Update Cash Book" });
+            console.error(
+                'Error updating cash book:',
+                error.response?.data || error.message
+            );
         }
     });
+
     // ------------------------------------------------------------------------------------
                 // DELETE
 
     const deleteCashBookMutation = useMutation({
         mutationFn: deleteCashBook,
+        onMutate: () => {
+            toast.loading('Deleting Cash Book...', { id: "Delete Cash Book" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cashBooks'] });
+            toast.success('Cash Book Deleted', { id: "Delete Cash Book" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete Cash Book', { id: "Delete Cash Book" });
+            console.error(
+                'Error deleting cash book:',
+                error.response?.data || error.message
+            );
         }
     });
 
@@ -184,15 +214,7 @@ function CashBookManagement() {
 
         //console.log("RAW FORM DATA: ", cleanedData);
 
-        const toastId = toast.loading('Creating cash book...');
-
-        try {
-            await createCashBookMutation.mutateAsync(cleanedData);
-            toast.success('Cash Book successfully created', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create cash book.');
-            console.error(error);
-        }
+        await createCashBookMutation.mutateAsync(cleanedData);
     };
 
 
@@ -206,18 +228,11 @@ function CashBookManagement() {
             account: cashBookData.account ?? undefined
         };
 
-        const toastId = toast.loading('Updating cash book... ');
-
-        try {
-            await updateCashBookMutation.mutateAsync({
-                reference_number: selectedCashBookId!,
-                cashBookData: cleanedData
-            });
-            toast.success('Cash Book successfully updated', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to update cash book.');
-            console.error(error);
-        }
+        
+        await updateCashBookMutation.mutateAsync({
+            reference_number: selectedCashBookId!,
+            cashBookData: cleanedData
+        });
     };
 
 
@@ -227,15 +242,7 @@ function CashBookManagement() {
     const handleDeleteCashBook = async (cashBookId: number) => {
         if (!window.confirm('Are you sure you want to delete this cash book?')) return;
 
-        const toastId = toast.loading('Deleting CashBook...');
-        try {
-            await deleteCashBookMutation.mutateAsync(cashBookId);
-            toast.success('CashBook successfully deleted', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to delete cashbook', { id: toastId });
-            console.error(error);
-        }
-        
+        await deleteCashBookMutation.mutateAsync(cashBookId);
     };
     // ------------------------------------------------------------------------------------
 

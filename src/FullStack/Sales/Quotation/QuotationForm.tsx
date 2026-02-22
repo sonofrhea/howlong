@@ -170,7 +170,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
                         </div>
                     </div>
                         <div>
-                            <p className={forms.label}>Additional Details...</p>
+                            <p className={forms.label}>Customer additional Details...</p>
                             <textarea 
                                 rows={4}
                                 {...register("customer_details")}

@@ -108,13 +108,21 @@ function BillOfQuantitiesManagement() {
 
     const createBillOfQuantityMutation = useMutation({
         mutationFn: createBillOfQuantity,
+        onMutate: () => {
+            toast.loading('Creating Bill Of Quantity...', { id: "Create Bill Of Quantity" });
+        },
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['billOfQuantities']});
+            queryClient.invalidateQueries({ queryKey: ['billOfQuantities'] });
             setSelectedBillOfQuantityId(data.boq_number);
+            toast.success('Bill Of Quantity Created', { id: "Create Bill Of Quantity" });
             setView('details');
         },
         onError: (error: any) => {
-            console.error('Error creating bill of quantity:', error.response?.data || error.message || error);
+            toast.error('Failed to create bill of quantity', { id: "Create Bill Of Quantity" });
+            console.error(
+                'Error creating bill of quantity:',
+                error.response?.data || error.message || error
+            );
         }
     });
 
@@ -126,22 +134,44 @@ function BillOfQuantitiesManagement() {
 
     const updateBillOfQuantityMutation = useMutation({
         mutationFn: updateBillOfQuantity,
+        onMutate: () => {
+            toast.loading('Updating Bill Of Quantity...', { id: "Update Bill Of Quantity" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['billOfQuantities'] });
-            queryClient.invalidateQueries({ queryKey: ['billOfQuantity', selectedBillOfQuantityId]});
+            queryClient.invalidateQueries({
+                queryKey: ['billOfQuantity', selectedBillOfQuantityId]
+            });
+            toast.success('Bill Of Quantity Updated', { id: "Update Bill Of Quantity" });
             setView('details');
         },
         onError: (error: any) => {
-            console.error('Error updating billOfQuantity:', error.response?.data || error.message);
+            toast.error('Failed to update bill of quantity', { id: "Update Bill Of Quantity" });
+            console.error(
+                'Error updating bill of quantity:',
+                error.response?.data || error.message
+            );
         }
     });
+
     // ------------------------------------------------------------------------------------
                 // DELETE
 
     const deleteBillOfQuantityMutation = useMutation({
         mutationFn: deleteBillOfQuantity,
+        onMutate: () => {
+            toast.loading('Deleting Bill Of Quantity...', { id: "Delete Bill Of Quantity" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['billOfQuantities'] });
+            toast.success('Bill Of Quantity Deleted', { id: "Delete Bill Of Quantity" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete bill of quantity', { id: "Delete Bill Of Quantity" });
+            console.error(
+                'Error deleting bill of quantity:',
+                error.response?.data || error.message
+            );
         }
     });
 
@@ -181,14 +211,7 @@ function BillOfQuantitiesManagement() {
         };
         
         //console.log("🎯 RAW FORM DATA:", cleanedData)
-        const toastId = toast.loading('Creating Bill Of Quantities...');
-        try {
-            await createBillOfQuantityMutation.mutateAsync(cleanedData);
-            toast.success('Bill Of Quantities successfully created', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to create bill of quantities', { id: toastId });
-            console.error(error);
-        }
+        await createBillOfQuantityMutation.mutateAsync(cleanedData);
     };
 
 
@@ -205,18 +228,11 @@ function BillOfQuantitiesManagement() {
                     : undefined
         };
 
-        const toastId = toast.loading('Updating Bill Of Quantities...');
-        try {
-            await updateBillOfQuantityMutation.mutateAsync({
-                boq_number: selectedBillOfQuantityId!,
-                billOfQuantitiesData: cleanedData
-            });
-            toast.success('Bill Of Quantities successfully updated', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to update bill of quantities', { id: toastId });
-            console.error(error);
-        }
         
+        await updateBillOfQuantityMutation.mutateAsync({
+            boq_number: selectedBillOfQuantityId!,
+            billOfQuantitiesData: cleanedData
+        });
     };
 
 
@@ -226,14 +242,7 @@ function BillOfQuantitiesManagement() {
     const handleDeleteBillOfQuantity = async (billOfQuantityId: number) => {
         if (!window.confirm('Are you sure you want to delete this Bill Of Quantities?')) return;
 
-        const toastId = toast.loading('Deleting Bill Of Quantities...');
-        try {
-            await deleteBillOfQuantityMutation.mutateAsync(billOfQuantityId);
-            toast.success('Bill Of Quantities successfully deleted', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to delete bill of quantities', { id: toastId });
-            console.error(error);
-        }
+        await deleteBillOfQuantityMutation.mutateAsync(billOfQuantityId);
     };
     // ------------------------------------------------------------------------------------
 

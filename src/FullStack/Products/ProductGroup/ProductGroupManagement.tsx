@@ -86,17 +86,26 @@ function ProductGroupManagement() {
 
 
       // CREATIONS - POST
+
   const createProductGroupsMutation = useMutation({
-    mutationFn: createProductGroup,
-    onSuccess: (data: ProductGroupCreateResponse) => {
-      const newProductGroupId = data.group_code;
-      queryClient.invalidateQueries({ queryKey: ['productGroups'] });
-      setSelectedProductGroupId(newProductGroupId);
-      setView('details');
-    },
-    onError: (error: any) => {
-      console.error('Error updating product group.', error.response?.data || error.message);
-    }
+      mutationFn: createProductGroup,
+      onMutate: () => {
+          toast.loading('Creating Product Group...', { id: "Create Product Group" });
+      },
+      onSuccess: (data: ProductGroupCreateResponse) => {
+          const newProductGroupId = data.group_code;
+          queryClient.invalidateQueries({ queryKey: ['productGroups'] });
+          setSelectedProductGroupId(newProductGroupId);
+          toast.success('Product Group Created', { id: "Create Product Group" });
+          setView('details');
+      },
+      onError: (error: any) => {
+          toast.error('Failed to create product group', { id: "Create Product Group" });
+          console.error(
+              'Error creating product group:',
+              error.response?.data || error.message || error
+          );
+      }
   });
 
 
@@ -106,25 +115,46 @@ function ProductGroupManagement() {
     // UPDATES - PUT
 
   const updateProductGroupsMutation = useMutation({
-    mutationFn: patchUpdateProductGroup,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['productGroups'] });
-      queryClient.invalidateQueries({ queryKey: ['productGroup', selectedProductGroupId] });
-      setView('details');
-    },
-    onError: (error: any) => {
-      console.error('Error updating product group.', error.response?.data || error.message);
-    }
+      mutationFn: patchUpdateProductGroup,
+      onMutate: () => {
+          toast.loading('Updating Product Group...', { id: "Update Product Group" });
+      },
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['productGroups'] });
+          queryClient.invalidateQueries({
+              queryKey: ['productGroup', selectedProductGroupId]
+          });
+          toast.success('Product Group Updated', { id: "Update Product Group" });
+          setView('details');
+      },
+      onError: (error: any) => {
+          toast.error('Failed to update product group', { id: "Update Product Group" });
+          console.error(
+              'Error updating product group:',
+              error.response?.data || error.message
+          );
+      }
   });
 
 // ------------------------------------------------------------------------------------
               // DELETE
 
   const deleteProductGroupsMutation = useMutation({
-    mutationFn: deleteProductGroup,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['productGroups'] });
-    }
+      mutationFn: deleteProductGroup,
+      onMutate: () => {
+          toast.loading('Deleting Product Group...', { id: "Delete Product Group" });
+      },
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['productGroups'] });
+          toast.success('Product Group Deleted', { id: "Delete Product Group" });
+      },
+      onError: (error: any) => {
+          toast.error('Failed to delete product group', { id: "Delete Product Group" });
+          console.error(
+              'Error deleting product group:',
+              error.response?.data || error.message
+          );
+      }
   });
 
 
@@ -157,13 +187,7 @@ function ProductGroupManagement() {
 
 
     const toastId = toast.loading('Creating Product Group...');
-    try {
-      await createProductGroupsMutation.mutateAsync(productGroupData);
-      toast.success('Product Group successfully created.', {id: toastId});
-    } catch (error) {
-      toast.error('Failed to create product group', { id: toastId });
-      console.error(error);
-    }
+    await createProductGroupsMutation.mutateAsync(productGroupData);
   };
 
 
@@ -175,18 +199,10 @@ function ProductGroupManagement() {
 
   const handleUpdateProductGroup = async (productGroupData: ProductGroupInputs) => {
 
-    const toastId = toast.loading('Updating Product Group...');
-    try {
-      await updateProductGroupsMutation.mutateAsync({
-        group_code: selectedProductGroupId!,
-        productGroupData: productGroupData
-      });
-      toast.success('Product Group successfully updated.', {id: toastId});
-    } catch (error) {
-      toast.error('Failed to update product group', { id: toastId });
-      console.error(error);
-    }
-    
+    await updateProductGroupsMutation.mutateAsync({
+      group_code: selectedProductGroupId!,
+      productGroupData: productGroupData
+    });
   };
 
 
@@ -199,14 +215,7 @@ function ProductGroupManagement() {
   const handleDeleteProductGroup = async (productGroupId: number) => {
     if (!window.confirm('Are you sure you want to delete this product group?')) return;
     
-    const toastId = toast.loading('Deleting Product Group...');
-    try {
-      await deleteProductGroupsMutation.mutateAsync(productGroupId);
-      toast.success('Product Group successfully deleted.', {id: toastId});
-    } catch (error) {
-      toast.error('Failed to delete product group', { id: toastId });
-      console.error(error);
-    }
+    await deleteProductGroupsMutation.mutateAsync(productGroupId);
   };
 
 // ------------------------------------------------------------------------------------

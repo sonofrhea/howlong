@@ -97,7 +97,9 @@ export type QuotationDetails = {
   net_total: number;
   created_by: string;
   date_created: string;
-}
+  date_updated: string;
+  updated_by: string;
+};
 
 export type QuotationCreateResponse = {
   quotation_number: number;
@@ -566,6 +568,7 @@ export type InvoicePaymentDetails = {
   agent: string;
   created_by: string;
   date_created: string;
+  date_updated: string;
 };
 
 

@@ -129,13 +129,21 @@ function RefundManagement() {
 
     const createRefundMutation = useMutation({
         mutationFn: createRefund,
+        onMutate: () => {
+            toast.loading('Creating Refund...', { id: "Create Refund" });
+        },
         onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ['refunds']});
-        setSelectedRefundId(data.refund_number);
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['refunds'] });
+            setSelectedRefundId(data.refund_number);
+            toast.success('Refund Created', { id: "Create Refund" });
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating refund:', error.response?.data || error.message || error);
+            toast.error('Failed to create refund', { id: "Create Refund" });
+            console.error(
+                'Error creating refund:',
+                error.response?.data || error.message || error
+            );
         }
     });
 
@@ -147,13 +155,23 @@ function RefundManagement() {
 
     const updateRefundMutation = useMutation({
         mutationFn: updateRefund,
+        onMutate: () => {
+            toast.loading('Updating Refund...', { id: "Update Refund" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['refunds'] });
-        queryClient.invalidateQueries({ queryKey: ['refund', selectedRefundId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['refunds'] });
+            queryClient.invalidateQueries({
+                queryKey: ['refund', selectedRefundId]
+            });
+            toast.success('Refund Updated', { id: "Update Refund" });
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating refund:', error.response?.data || error.message);
+            toast.error('Failed to update refund', { id: "Update Refund" });
+            console.error(
+                'Error updating refund:',
+                error.response?.data || error.message
+            );
         }
     });
     // ------------------------------------------------------------------------------------
@@ -161,10 +179,19 @@ function RefundManagement() {
 
     const deleteRefundMutation = useMutation({
         mutationFn: deleteRefund,
+        onMutate: () => {
+            toast.loading('Deleting Refund...', { id: "Delete Refund" });
+        },
         onSuccess: () => {
-            console.info("Delete successful, invalidating queries");
-            console.log("Delete successful, invalidating queries");
             queryClient.invalidateQueries({ queryKey: ['refunds'] });
+            toast.success('Refund Deleted', { id: "Delete Refund" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete refund', { id: "Delete Refund" });
+            console.error(
+                'Error deleting refund:',
+                error.response?.data || error.message
+            );
         }
     });
 
@@ -207,15 +234,7 @@ function RefundManagement() {
         
         //console.log("🎯 RAW FORM DATA:", cleanedData)
 
-        const toastId = toast.loading('Creating Refund...');
-        try {
-            await createRefundMutation.mutateAsync(cleanedData);
-            toast.success('Refund created successfully!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create refund', { id: toastId });
-            console.error(error);
-        }
-        
+        await createRefundMutation.mutateAsync(cleanedData);
     };
 
 
@@ -234,17 +253,11 @@ function RefundManagement() {
                     : undefined
         };
         
-        const toastId = toast.loading('Updating Refund');
-        try {
-            await updateRefundMutation.mutateAsync({
-                refund_number: selectedRefundId!,
-                refundData: cleanedData
-            });
-            toast.success('Refund updated successfully!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to update refund', { id: toastId });
-            console.error(error);
-        }
+        
+        await updateRefundMutation.mutateAsync({
+            refund_number: selectedRefundId!,
+            refundData: cleanedData
+        });
     };
 
 
@@ -254,15 +267,7 @@ function RefundManagement() {
     const handleDeleteRefund = async (refundId: number) => {
         if (!window.confirm('Are you sure you want to delete this refund?')) return;
 
-        const toastId = toast.loading('Deleting refund...')
-        try {
-            await deleteRefundMutation.mutateAsync(refundId);
-            toast.success('Refund successfully deleted!', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to delete refund', {id: toastId});
-            console.log(error);
-            
-        }
+        await deleteRefundMutation.mutateAsync(refundId);
     };
     // ------------------------------------------------------------------------------------
 

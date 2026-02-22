@@ -127,13 +127,21 @@ function CreditNoteManagement() {
 
   const createCreditNoteMutation = useMutation({
     mutationFn: createCreditNote,
+    onMutate: () => {
+        toast.loading('Creating Credit Note...', { id: "Create Credit Note" });
+    },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['creditNotes']});
-      setSelectedCreditNoteId(data.credit_note_number);
-      setView('details');
+        queryClient.invalidateQueries({ queryKey: ['creditNotes'] });
+        setSelectedCreditNoteId(data.credit_note_number);
+        toast.success('Credit Note Created', { id: "Create Credit Note" });
+        setView('details');
     },
     onError: (error: any) => {
-      console.error('Error creating credit note:', error.response?.data || error.message || error);
+        toast.error('Failed to create credit note', { id: "Create Credit Note" });
+        console.error(
+            'Error creating credit note:',
+            error.response?.data || error.message || error
+        );
     }
   });
 
@@ -145,23 +153,44 @@ function CreditNoteManagement() {
 
   const updateCreditNoteMutation = useMutation({
     mutationFn: updateCreditNote,
+    onMutate: () => {
+        toast.loading('Updating Credit Note...', { id: "Update Credit Note" });
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['creditNotes'] });
-      queryClient.invalidateQueries({ queryKey: ['creditNote', selectedCreditNoteId]});
-      setView('details');
+        queryClient.invalidateQueries({ queryKey: ['creditNotes'] });
+        queryClient.invalidateQueries({
+            queryKey: ['creditNote', selectedCreditNoteId]
+        });
+        toast.success('Credit Note Updated', { id: "Update Credit Note" });
+        setView('details');
     },
     onError: (error: any) => {
-      console.error('Error updating credit note:', error.response?.data || error.message);
+        toast.error('Failed to update credit note', { id: "Update Credit Note" });
+        console.error(
+            'Error updating credit note:',
+            error.response?.data || error.message
+        );
     }
   });
+
 // ------------------------------------------------------------------------------------
               // DELETE
 
   const deleteCreditNoteMutation = useMutation({
     mutationFn: deleteCreditNote,
+    onMutate: () => {
+        toast.loading('Deleting Credit Note...', { id: "Delete Credit Note" });
+    },
     onSuccess: () => {
-      console.log("Delete successful, invalidating queries");
-      queryClient.invalidateQueries({ queryKey: ['creditNotes'] });
+        queryClient.invalidateQueries({ queryKey: ['creditNotes'] });
+        toast.success('Credit Note Deleted', { id: "Delete Credit Note" });
+    },
+    onError: (error: any) => {
+        toast.error('Failed to delete credit note', { id: "Delete Credit Note" });
+        console.error(
+            'Error deleting credit note:',
+            error.response?.data || error.message
+        );
     }
   });
 
@@ -205,14 +234,7 @@ function CreditNoteManagement() {
     //console.log("🎯 RAW FORM DATA:", cleanedData)
 
 
-      const toastId = toast.loading('Creating Credit Note...');
-      try {
-        await createCreditNoteMutation.mutateAsync(cleanedData);
-        toast.success('Credit Note successfully created!', { id: toastId });
-      } catch (error) {
-        toast.error('Failed to create Credit Note', { id: toastId });
-        console.error(error);
-      }
+      await createCreditNoteMutation.mutateAsync(cleanedData);
     };
 
 
@@ -233,17 +255,10 @@ function CreditNoteManagement() {
           : undefined
     };
 
-    const toastId = toast.loading('Updating Credit Note...');
-    try {
-      await updateCreditNoteMutation.mutateAsync({
-        credit_note_number: selectedCreditNoteId!,
-        creditNoteData: cleanedData
-      });
-      toast.success('Credit Note successfully updated!', { id: toastId });
-    } catch (error) {
-        toast.error('Failed to update Credit Note', { id: toastId });
-        console.error(error);
-      }
+    await updateCreditNoteMutation.mutateAsync({
+      credit_note_number: selectedCreditNoteId!,
+      creditNoteData: cleanedData
+    });
   };
 
 
@@ -253,14 +268,7 @@ function CreditNoteManagement() {
   const handleDeleteCreditNote = async (creditNoteId: number) => {
     if (!window.confirm('Are you sure you want to delete this credit note?')) return;
     
-    const toastId = toast.loading('Deleting Credit Note...');
-    try {
-      await deleteCreditNoteMutation.mutateAsync(creditNoteId);
-      toast.success('Credit Note successfully deleted!', { id: toastId });
-    } catch (error) {
-        toast.error('Failed to delete Credit Note', { id: toastId });
-        console.error(error);
-      }
+    await deleteCreditNoteMutation.mutateAsync(creditNoteId);
   };
 // ------------------------------------------------------------------------------------
 

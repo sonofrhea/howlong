@@ -130,13 +130,18 @@ function CompanyPurchaseOrderManagement() {
 
     const createCompanyPurchaseOrderMutation = useMutation({
         mutationFn: createCompanyPurchaseOrder,
+        onMutate: () => {
+            toast.loading('Creating Purchase Order...', { id: "Create Purchase Order" });
+        },
         onSuccess: (data: CompanyPurchaseOrderResponse) => {
             queryClient.invalidateQueries({ queryKey: ['CompanyPurchaseOrders']});
             setSelectedCompanyPurchaseOrderId(data.purchase_order_number);
+            toast.success('Purchase Order Created', { id: "Create Purchase Order" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating company purchase order:', error.response?.data || error.message || error);
+            toast.error('Failed to create purchase order', { id: "Create Purchase Order" });
+            console.error('Error creating company purchase order:', error.response?.data || error.message || error);
         }
     });
 
@@ -148,13 +153,18 @@ function CompanyPurchaseOrderManagement() {
 
     const updateCompanyPurchaseOrderMutation = useMutation({
         mutationFn: updateCompanyPurchaseOrder,
+        onMutate: () => {
+            toast.loading('Updating Purchase Order...', { id: "Update Purchase Order" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['CompanyPurchaseOrders'] });
             queryClient.invalidateQueries({ queryKey: ['companyPurchaseOrder', selectedCompanyPurchaseOrderId]});
+            toast.success('Purchase Order Updated', { id: "Update Purchase Order" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating company purchase order:', error.response?.data || error.message);
+            toast.error('Failed to update purchase order', { id: "Update Purchase Order" });
+            console.error('Error updating company purchase order:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -162,8 +172,16 @@ function CompanyPurchaseOrderManagement() {
 
     const deleteCompanyPurchaseOrderMutation = useMutation({
         mutationFn: deleteCompanyPurchaseOrder,
+        onMutate: () => {
+            toast.loading('Deleting Purchase Order...', { id: "Delete Purchase Order" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['CompanyPurchaseOrders'] });
+            toast.success('Purchase Order Deleted', { id: "Delete Purchase Order" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete purchase order', { id: "Delete Purchase Order" });
+            console.error('Error updating company purchase order:', error.response?.data || error.message);
         }
     });
 
@@ -208,14 +226,7 @@ function CompanyPurchaseOrderManagement() {
 
         //console.log("🎯 RAW FORM DATA:", cleanedData)
 
-        const toastId = toast.loading('Creating Purchase Order...');
-        try {
-            await createCompanyPurchaseOrderMutation.mutateAsync(cleanedData);
-            toast.success('Purchase Order Created', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create purchase order', { id: toastId });
-            console.error(error);
-        }
+        await createCompanyPurchaseOrderMutation.mutateAsync(cleanedData);
     };
 
 
@@ -235,17 +246,11 @@ function CompanyPurchaseOrderManagement() {
                     : undefined,
         };
 
-        const toastId = toast.loading('Updating Purchase Order...');
-        try {
-            await updateCompanyPurchaseOrderMutation.mutateAsync({
-                purchase_order_number: selectedCompanyPurchaseOrderId!,
-                companyPurchaseOrderData: cleanedData
-            });
-            toast.success('Purchase Order Updated', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to update purchase order', { id: toastId });
-            console.error(error);
-        }
+        
+        await updateCompanyPurchaseOrderMutation.mutateAsync({
+            purchase_order_number: selectedCompanyPurchaseOrderId!,
+            companyPurchaseOrderData: cleanedData
+        });
     };
 
 
@@ -255,14 +260,7 @@ function CompanyPurchaseOrderManagement() {
     const handleDeleteCompanyPurchaseOrder = async (CompanyPurchaseOrderId: number) => {
         if (!window.confirm('Are you sure you want to delete this purchase order?')) return;
         
-        const toastId = toast.loading('Deleting Purchase Order...');
-        try {
-            await deleteCompanyPurchaseOrderMutation.mutateAsync(CompanyPurchaseOrderId);
-            toast.success('Purchase Order Deleted', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to delete purchase order', { id: toastId });
-            console.error(error);
-        }
+        await deleteCompanyPurchaseOrderMutation.mutateAsync(CompanyPurchaseOrderId);
     };
 
     // ------------------------------------------------------------------------------------

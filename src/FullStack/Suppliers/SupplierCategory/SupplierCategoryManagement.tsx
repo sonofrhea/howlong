@@ -82,13 +82,18 @@ function SupplierCategoryManagement() {
 
     const createSupplierCategoryMutation = useMutation({
         mutationFn: createSupplierCategory,
+        onMutate: () => {
+            toast.loading('Creating Supplier Category...', { id: "Create Supplier category" });
+        },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['supplierCategories']});
             setSelectedSupplierCategoryId(data.category_id);
+            toast.success('Supplier Category successfully created!', { id: "Create Supplier category" });
             setView('list');
         },
         onError: (error: any) => {
-        console.error('Error creating supplierCategory:', error.response?.data || error.message || error);
+            toast.error('Failed to create supplier category', { id: "Create Supplier category" });
+            console.error('Error creating supplierCategory:', error.response?.data || error.message || error);
         }
     });
 
@@ -100,13 +105,18 @@ function SupplierCategoryManagement() {
 
     const updateSupplierCategoryMutation = useMutation({
         mutationFn: updateSupplierCategory,
+        onMutate: () => {
+            toast.success('Updating Supplier Category!', { id: "Update Supplier category" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['supplierCategories'] });
             queryClient.invalidateQueries({ queryKey: ['supplierCategory', selectedSupplierCategoryId]});
+            toast.error('Supplier Category successfully updated', { id: "Update Supplier category" });
             setView('list');
         },
         onError: (error: any) => {
-        console.error('Error updating supplier category:', error.response?.data || error.message);
+            toast.error('Failed to update supplier category', { id: "Update Supplier category" });
+            console.error('Error updating supplier category:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -114,9 +124,17 @@ function SupplierCategoryManagement() {
 
     const deleteSupplierCategoryMutation = useMutation({
         mutationFn: deleteSupplierCategory,
+        onMutate: () => {
+            toast.success('Deleting Supplier Category!', { id: "Delete Supplier category" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierCategories'] });
-        setView('list');
+            queryClient.invalidateQueries({ queryKey: ['supplierCategories'] });
+            toast.success('Supplier Category successfully deleted!', { id: "Delete Supplier category" });
+            setView('list');
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete supplier category', { id: "Delete Supplier category" });
+            console.error('Error updating supplier category:', error.response?.data || error.message);
         }
     });
 
@@ -149,9 +167,9 @@ function SupplierCategoryManagement() {
         const toastId = toast.loading('Creating Supplier Category...');
         try {
             await createSupplierCategoryMutation.mutateAsync(supplierCategoryData);
-            toast.success('Supplier Category successfully created!', {id: toastId});
+            
         } catch (error) {
-            toast.error('Failed to create supplier category', { id: toastId });
+            
             console.error(error);
         }
     };
@@ -164,17 +182,10 @@ function SupplierCategoryManagement() {
 
     const handleUpdateSupplierCategory = async (supplierCategoryData: SupplierCategoryInputs) => {
 
-        const toastId = toast.loading('Updating Supplier Category...');
-        try {
-            await updateSupplierCategoryMutation.mutateAsync({
-                category_id: selectedSupplierCategoryId!,
-                supplierCategoryData: supplierCategoryData
-            });
-            toast.success('Supplier Category successfully updated!', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to update supplier category', { id: toastId });
-            console.error(error);
-        }
+        await updateSupplierCategoryMutation.mutateAsync({
+            category_id: selectedSupplierCategoryId!,
+            supplierCategoryData: supplierCategoryData
+        });
         
     };
 
@@ -185,15 +196,7 @@ function SupplierCategoryManagement() {
     const handleDeleteSupplierCategory = async (supplierCategoryId: number) => {
         if (!window.confirm('Are you sure you want to delete this category?')) return;
         
-        const toastId = toast.loading('Deleting Supplier Category...');
-        try {
-            await deleteSupplierCategoryMutation.mutateAsync(supplierCategoryId);
-            toast.success('Supplier Category successfully deleted!', {id: toastId});
-            setView('list');
-        } catch (error) {
-            toast.error('Failed to delete supplier category', { id: toastId });
-            console.error(error);
-        }
+        await deleteSupplierCategoryMutation.mutateAsync(supplierCategoryId);
     };
     // ------------------------------------------------------------------------------------
 

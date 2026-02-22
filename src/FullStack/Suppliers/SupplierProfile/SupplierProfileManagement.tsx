@@ -104,13 +104,18 @@ function SupplierProfileManagement() {
 
     const createSupplierProfileMutation = useMutation({
         mutationFn: createSupplierProfile,
+        onMutate: () => {
+            toast.loading('Creating Supplier Profile...', { id: 'Create Supplier profile' });
+        },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['supplierProfiles']});
             setSelectedSupplierProfileId(data.supplier_code);
+            toast.success('Supplier Profile successfully created!', { id: 'Create Supplier profile' });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating supplier profile:', error.response?.data || error.message || error);
+            toast.error('Failed to create Supplier Debit Note', { id: 'Create Supplier profile'});
+            console.error('Error creating supplier profile:', error.response?.data || error.message || error);
         }
     });
 
@@ -122,13 +127,18 @@ function SupplierProfileManagement() {
 
     const updateSupplierProfileMutation = useMutation({
         mutationFn: updateSupplierProfile,
+        onMutate: () => {
+            toast.loading('Updating Supplier Profile...', { id: 'Update Supplier profile' });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['supplierProfiles'] });
             queryClient.invalidateQueries({ queryKey: ['supplierProfile', selectedSupplierProfileId]});
+            toast.success('Supplier Profile successfully updated!', { id: 'Update Supplier profile' });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating supplier profile:', error.response?.data || error.message);
+            toast.error('Failed to update Supplier Debit Note', { id: 'Update Supplier profile'});
+            console.error('Error updating supplier profile:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -136,8 +146,16 @@ function SupplierProfileManagement() {
 
     const deleteSupplierProfileMutation = useMutation({
         mutationFn: deleteSupplierProfile,
+        onMutate: () => {
+            toast.loading('Deleting Supplier Profile...', { id: 'Delete Supplier profile' });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierProfiles'] });
+            queryClient.invalidateQueries({ queryKey: ['supplierProfiles'] });
+            toast.success('Supplier Profile deleted successfully!', { id: 'Delete Supplier profile' });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete Supplier Debit Note', { id: 'Update Supplier profile'});
+            console.error('Error deleting supplier profile:', error.response?.data || error.message);
         }
     });
 
@@ -176,14 +194,7 @@ function SupplierProfileManagement() {
         
         //console.log("🎯 RAW FORM DATA:", cleanedData);
 
-        const toastId = toast.loading('Creating Supplier Profile...');
-        try {
-            await createSupplierProfileMutation.mutateAsync(cleanedData);
-            toast.success('Supplier Profile created successfully!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create Supplier Debit Note', { id: toastId });
-            console.error(error);
-        }
+        await createSupplierProfileMutation.mutateAsync(cleanedData);
     };
 
 
@@ -198,18 +209,10 @@ function SupplierProfileManagement() {
                 supplierProfileData.preferred_currency ?? undefined,
         };
 
-        const toastId = toast.loading('Updating Supplier Profile...');
-        try {
-            await updateSupplierProfileMutation.mutateAsync({
-                supplier_code: selectedSupplierProfileId!,
-                supplierProfileData: cleanedData
-            });
-            toast.success('Supplier Profile updated successfully!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to update Supplier Debit Note', { id: toastId });
-            console.error(error);
-        }
-        
+        await updateSupplierProfileMutation.mutateAsync({
+            supplier_code: selectedSupplierProfileId!,
+            supplierProfileData: cleanedData
+        });
     };
 
 
@@ -219,14 +222,7 @@ function SupplierProfileManagement() {
     const handleDeleteSupplierProfile = async (supplierProfileId: number) => {
         if (!window.confirm('Are you sure you want to delete this supplier profile?')) return;
         
-        const toastId = toast.loading('Deleting Supplier Profile...');
-        try {
-            await deleteSupplierProfileMutation.mutateAsync(supplierProfileId);
-            toast.success('Supplier Profile deleted successfully!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to delete Supplier Debit Note', { id: toastId });
-            console.error(error);
-        }
+        await deleteSupplierProfileMutation.mutateAsync(supplierProfileId);
     };
     // ------------------------------------------------------------------------------------
 

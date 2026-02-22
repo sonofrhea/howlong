@@ -123,14 +123,19 @@ function QuotationManagement() {
 
     const createQuotationMutation = useMutation({
         mutationFn: createQuotation,
+        onMutate: () => {
+            toast.loading('Creating Quotation...', { id: "Create quotation" });
+        },
         onSuccess: (data: QuotationCreateResponse) => {
             const newQuotationId = data.quotation_number;
             queryClient.invalidateQueries({ queryKey: ['quotations']});
             setSelectedQuotationId(newQuotationId);
+            toast.success('Quotation successfully created', { id: "Create quotation" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating quotation:', error.response?.data || error.message || error);
+            toast.error('Failed to create quotation', { id: "Create quotation" });
+            console.error('Error creating quotation:', error.response?.data || error.message || error);
         }
     });
 
@@ -142,12 +147,17 @@ function QuotationManagement() {
 
     const updateQuotationMutation = useMutation({
         mutationFn: updateQuotation,
+        onMutate: () => {
+            toast.loading('Updating Quotation...', { id: "Update quotation" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['quotations'] });
             queryClient.invalidateQueries({ queryKey: ['quotation', selectedQuotationId]});
+            toast.success('Quotation successfully updated', { id: "Update quotation" });
             setView('details');
         },
         onError: (error: any) => {
+            toast.error('Failed to update quotation', { id: "Update quotation" });
             console.error('Error updating quotation:', error.response?.data || error.message);
         }
     });
@@ -156,10 +166,17 @@ function QuotationManagement() {
 
     const deleteQuotationMutation = useMutation({
         mutationFn: deleteQuotation,
+        onMutate: () => {
+            toast.loading('Deleting Quotation...', { id: "Delete quotation" });
+        },
         onSuccess: () => {
             console.log("Delete successful, invalidating queries");
-            console.log("Delete successful, invalidating queries");
             queryClient.invalidateQueries({ queryKey: ['quotations'] });
+            toast.success('Quotation successfully deleted', { id: "Delete quotation" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete quotation', { id: "Delete quotation" });
+            console.error('Error updating quotation:', error.response?.data || error.message);
         }
     });
 
@@ -201,14 +218,8 @@ function QuotationManagement() {
 
         
         //console.log("🎯 RAW FORM DATA:", cleanedData);
-        const toastId = toast.loading('Creating Quotation...');
-        try {
-            await createQuotationMutation.mutateAsync(cleanedData);
-            toast.success('Quotation successfully created', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to create quotation', { id: toastId });
-            console.error(error);
-        } 
+
+        await createQuotationMutation.mutateAsync(cleanedData); 
     };
 
         
@@ -245,17 +256,10 @@ function QuotationManagement() {
                     : undefined
         };
         
-        const toastId = toast.loading('Updating Quotation...');
-        try {
-            await updateQuotationMutation.mutateAsync({
-                    quotation_number: selectedQuotationId!,
-                    quotationData: cleanedData
-                });
-            toast.success('Quotation successfully updated', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to update quotation', { id: toastId });
-            console.error(error);
-        }
+        await updateQuotationMutation.mutateAsync({
+                quotation_number: selectedQuotationId!,
+                quotationData: cleanedData
+            });
     };
 
 
@@ -265,14 +269,7 @@ function QuotationManagement() {
     const handleDeleteQuotation = async (quotationId: number) => {
         if (!window.confirm('Are you sure you want to delete this customer?')) return;
         
-        const toastId = toast.loading('Deleting Quotation...');
-        try {
-            await deleteQuotationMutation.mutateAsync(quotationId);
-            toast.success('Quotation successfully deleted', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to delete quotation', { id: toastId });
-            console.log(error);
-        }
+        await deleteQuotationMutation.mutateAsync(quotationId);
     };
     // ------------------------------------------------------------------------------------
 
@@ -320,9 +317,9 @@ function QuotationManagement() {
         const toastId = toast.loading('Sending Quotation...');
         try {
             await sendQuotation(selectedQuotation.quotation_number);
-            toast.success('Quotation successfully sent.', {id: toastId});
+            toast.success('Quotation successfully sent.', { id: "Create quotation" });
         } catch (error) {
-            toast.error('Failed to send quotation', { id: toastId });
+            toast.error('Failed to send quotation', { id: "Create quotation" });
             console.error(error);
         }
     }

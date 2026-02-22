@@ -112,14 +112,22 @@ function CompanyPurchaseInvoiceManagement() {
 
     const createCompanyPurchaseInvoiceMutation = useMutation({
         mutationFn: createCompanyPurchaseInvoice,
+        onMutate: () => {
+            toast.loading('Creating Purchase Invoice...', { id: "Create Purchase Invoice" });
+        },
         onSuccess: (data: CompanyPurchaseInvoiceResponse) => {
-            const newCompanyPurchaseInvoice = data.purchase_invoice_number
-            queryClient.invalidateQueries({ queryKey: ['companyPurchaseInvoices']});
+            const newCompanyPurchaseInvoice = data.purchase_invoice_number;
+            queryClient.invalidateQueries({ queryKey: ['companyPurchaseInvoices'] });
             setSelectedCompanyPurchaseInvoiceId(newCompanyPurchaseInvoice);
+            toast.success('Purchase Invoice Created', { id: "Create Purchase Invoice" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating companyPurchaseInvoice:', error.response?.data || error.message || error);
+            toast.error('Failed to create purchase invoice', { id: "Create Purchase Invoice" });
+            console.error(
+                'Error creating company purchase invoice:',
+                error.response?.data || error.message || error
+            );
         }
     });
 
@@ -131,13 +139,23 @@ function CompanyPurchaseInvoiceManagement() {
 
     const updateCompanyPurchaseInvoiceMutation = useMutation({
         mutationFn: updateCompanyPurchaseInvoice,
+        onMutate: () => {
+            toast.loading('Updating Purchase Invoice...', { id: "Update Purchase Invoice" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['companyPurchaseInvoices'] });
-            queryClient.invalidateQueries({ queryKey: ['companyPurchaseInvoice', selectedCompanyPurchaseInvoiceId]});
+            queryClient.invalidateQueries({
+                queryKey: ['companyPurchaseInvoice', selectedCompanyPurchaseInvoiceId]
+            });
+            toast.success('Purchase Invoice Updated', { id: "Update Purchase Invoice" })
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating companyPurchaseInvoice:', error.response?.data || error.message);
+            toast.error('Failed to update purchase invoice', { id: "Update Purchase Invoice" });
+            console.error(
+                'Error updating company purchase invoice:',
+                error.response?.data || error.message
+            );
         }
     });
     // ------------------------------------------------------------------------------------
@@ -145,8 +163,19 @@ function CompanyPurchaseInvoiceManagement() {
 
     const deleteCompanyPurchaseInvoiceMutation = useMutation({
         mutationFn: deleteCompanyPurchaseInvoice,
+        onMutate: () => {
+            toast.loading('Deleting Purchase Invoice...', { id: "Delete Purchase Invoice" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['companyPurchaseInvoices'] });
+            toast.success('Purchase Invoice Deleted', { id: "Delete Purchase Invoice" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete purchase invoice', { id: "Delete Purchase Invoice" });
+            console.error(
+                'Error deleting company purchase invoice:',
+                error.response?.data || error.message
+            );
         }
     });
 
@@ -188,14 +217,7 @@ function CompanyPurchaseInvoiceManagement() {
 
 
         //console.log("🎯 RAW FORM DATA:", cleanedData)
-        const toastId = toast.loading('Creating Purchase Invoice...');
-        try {
-            await createCompanyPurchaseInvoiceMutation.mutateAsync(cleanedData);
-            toast.success('Purchase Invoice successfully created', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to create purchase invoice', { id: toastId });
-            console.error(error);
-        }
+        await createCompanyPurchaseInvoiceMutation.mutateAsync(cleanedData);
     };
 
 
@@ -213,17 +235,11 @@ function CompanyPurchaseInvoiceManagement() {
                     : undefined
         };
 
-        const toastId = toast.loading('Updating Purchase Invoice...');
-        try {
-            await updateCompanyPurchaseInvoiceMutation.mutateAsync({
-                purchase_invoice_number: selectedCompanyPurchaseInvoiceId!,
-                companyPurchaseInvoiceData: cleanedData
-            });
-            toast.success('Purchase Invoice successfully updated', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to update purchase invoice', { id: toastId });
-            console.error(error);
-        }
+        
+        await updateCompanyPurchaseInvoiceMutation.mutateAsync({
+            purchase_invoice_number: selectedCompanyPurchaseInvoiceId!,
+            companyPurchaseInvoiceData: cleanedData
+        });
     };
 
 
@@ -233,14 +249,7 @@ function CompanyPurchaseInvoiceManagement() {
     const handleDeleteCompanyPurchaseInvoice = async (companyPurchaseInvoiceId: number) => {
         if (!window.confirm('Are you sure you want to delete this Purchase Invoice?')) return;
         
-        const toastId = toast.loading('Deleting Purchase Invoice...');
-        try {
-            await deleteCompanyPurchaseInvoiceMutation.mutateAsync(companyPurchaseInvoiceId);
-            toast.success('Purchase Invoice successfully deleted', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to delete purchase invoice', { id: toastId });
-            console.error(error);
-        }
+        await deleteCompanyPurchaseInvoiceMutation.mutateAsync(companyPurchaseInvoiceId);
     };
     // ------------------------------------------------------------------------------------
 

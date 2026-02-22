@@ -116,13 +116,18 @@ function PaymentVoucherManagement() {
 
     const createPaymentVoucherMutation = useMutation({
         mutationFn: createPaymentVoucher,
+        onMutate: () => {
+            toast.loading('Creating payment voucher...', { id: 'Create Payment Voucher' });
+        },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['paymentVouchers']});
             setSelectedPaymentVoucherId(data.reference_number);
+            toast.success('Payment Voucher successfully created', { id: 'Create Payment Voucher' });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating payment voucher:', error.response?.data || error.message || error);
+            toast.error('Failed to create payment voucher.', { id: 'Create Payment Voucher' });
+            console.error('Error creating payment voucher:', error.response?.data || error.message || error);
         }
     });
 
@@ -134,13 +139,19 @@ function PaymentVoucherManagement() {
 
     const updatePaymentVoucherMutation = useMutation({
         mutationFn: updatePaymentVoucher,
+        onMutate: () => {
+            toast.loading('Updating payment voucher...', { id: 'Update Payment Voucher' });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['paymentVouchers'] });
             queryClient.invalidateQueries({ queryKey: ['paymentVoucher', selectedPaymentVoucherId]});
+
+            toast.success('Payment Voucher successfully updated', { id: 'Update Payment Voucher' });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating payment voucher:', error.response?.data || error.message);
+            toast.error('Failed to update payment voucher.', { id: 'Update Payment Voucher' });
+            console.error('Error updating payment voucher:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -148,8 +159,16 @@ function PaymentVoucherManagement() {
 
     const deletePaymentVoucherMutation = useMutation({
         mutationFn: deletePaymentVoucher,
+        onMutate: () => {
+            toast.loading('Deleting Payment Voucher...', { id: 'Delete Payment Voucher' });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['paymentVouchers'] });
+            queryClient.invalidateQueries({ queryKey: ['paymentVouchers'] });
+            toast.success('Payment Voucher successfully deleted', { id: 'Delete Payment Voucher' });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete payment voucher.', { id: 'Delete Payment Voucher' });
+            console.error('Error deleting payment voucher:', error.response?.data || error.message);
         }
     });
 
@@ -187,14 +206,8 @@ function PaymentVoucherManagement() {
         
         //console.log("RAW FORM DATA: ", cleanedData);
 
-        const toastId = toast.loading('Creating payment voucher...');
-        try {
-            await createPaymentVoucherMutation.mutateAsync(cleanedData);
-            toast.success('Payment Voucher successfully created', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create payment voucher.');
-            console.error(error);
-        }
+        await createPaymentVoucherMutation.mutateAsync(cleanedData);
+
     };
 
 
@@ -208,17 +221,10 @@ function PaymentVoucherManagement() {
             account_paid_by: paymentVoucherData.account_paid_by ?? undefined
         };
 
-        const toastId = toast.loading('Updating payment voucher...');
-        try {
-            await updatePaymentVoucherMutation.mutateAsync({
-                reference_number: selectedPaymentVoucherId!,
-                paymentVoucherData: cleanedData
-            });
-            toast.success('Payment Voucher successfully updated', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to update payment voucher.');
-            console.error(error);
-        }
+        await updatePaymentVoucherMutation.mutateAsync({
+            reference_number: selectedPaymentVoucherId!,
+            paymentVoucherData: cleanedData
+        });
     };
 
 
@@ -228,14 +234,7 @@ function PaymentVoucherManagement() {
     const handleDeletePaymentVoucher = async (paymentVoucherId: number) => {
         if (!window.confirm('Are you sure you want to delete this voucher?')) return;
 
-        const toastId = toast.loading('Deleting Payment Voucher...');
-        try {
-            await deletePaymentVoucherMutation.mutateAsync(paymentVoucherId);
-            toast.success('Payment Voucher successfully deleted', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to delete payment voucher.');
-            console.error(error);
-        }
+        await deletePaymentVoucherMutation.mutateAsync(paymentVoucherId);
     };
     // ------------------------------------------------------------------------------------
 
@@ -286,14 +285,17 @@ function PaymentVoucherManagement() {
 
     const createJournalEntryMutation = useMutation({
         mutationFn: createJournalEntry,
+        onMutate: () => {
+            toast.loading("Creating Journal entry", { id: 'Create Journal Entry' });
+        },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['journalEntries']});
 
-            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            toast.success(`Journal Entry #${data.journal_number} created successfully!`, { id: 'Create Journal Entry' });
             setIsJournalEntryOpen(false);
         },
         onError: (error: any) => {
-          toast.error('Failed to create Journal Entry.');
+          toast.error('Failed to create Journal Entry.', { id: 'Create Journal Entry' });
           console.error('Error creating journal entry:', error.response?.data || error.message || error);
         }
     });

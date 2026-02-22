@@ -137,14 +137,19 @@ function SupplierDebitNoteManagement() {
 
     const createSupplierDebitNoteMutation = useMutation({
         mutationFn: createSupplierDebitNote,
+        onMutate: () => {
+            toast.loading('Creating Supplier Debit Note...', { id: "Create Supplier Debit Note"});
+        },
         onSuccess: (data: SupplierDebitNoteResponse) => {
             const newSupplierDebitNote = data.debit_note_number
             queryClient.invalidateQueries({ queryKey: ['supplierDebitNotes']});
             setSelectedSupplierDebitNoteId(newSupplierDebitNote);
+            toast.success('Supplier Debit Note successfully created!', { id: "Create Supplier Debit Note"});
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating supplierDebitNote:', error.response?.data || error.message || error);
+            toast.error('Failed to create Supplier Debit Note', { id: "Create Supplier Debit Note"});
+            console.error('Error creating supplierDebitNote:', error.response?.data || error.message || error);
         }
     });
 
@@ -156,13 +161,18 @@ function SupplierDebitNoteManagement() {
 
     const updateSupplierDebitNoteMutation = useMutation({
         mutationFn: updateSupplierDebitNote,
+        onMutate: () => {
+            toast.loading('Updating Supplier Debit Note...', { id: "Update Supplier Debit Note"});
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierDebitNotes'] });
-        queryClient.invalidateQueries({ queryKey: ['supplierDebitNote', selectedSupplierDebitNoteId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['supplierDebitNotes'] });
+            queryClient.invalidateQueries({ queryKey: ['supplierDebitNote', selectedSupplierDebitNoteId]});
+            toast.success('Supplier Debit Note successfully updated!', { id: "Update Supplier Debit Note"});
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating supplier debit note:', error.response?.data || error.message);
+            toast.error('Failed to update Supplier Debit Note', { id: "Update Supplier Debit Note"});
+            console.error('Error updating supplier debit note:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -170,8 +180,16 @@ function SupplierDebitNoteManagement() {
 
     const deleteSupplierDebitNoteMutation = useMutation({
         mutationFn: deleteSupplierDebitNote,
+        onMutate: () => {
+            toast.loading('Deleting Supplier Debit Note...', { id: "Delete Supplier Debit Note"});
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierDebitNotes'] });
+            queryClient.invalidateQueries({ queryKey: ['supplierDebitNotes'] });
+            toast.success('Supplier Debit Note successfully deleted!', { id: "Delete Supplier Debit Note"});
+        },
+        onError: (error: any) => {
+            toast.error('Failed to update Supplier Debit Note', { id: "Delete Supplier Debit Note"});
+            console.error('Error updating supplier debit note:', error.response?.data || error.message);
         }
     });
 
@@ -208,16 +226,9 @@ function SupplierDebitNoteManagement() {
         }
         
 
-        //console.log("🎯 RAW FORM DATA:", supplierDebitNoteData)
+        //console.log("🎯 RAW FORM DATA:", cleanedData)
 
-        const toastId = toast.loading('Creating Supplier Debit Note...');
-        try {
-            await createSupplierDebitNoteMutation.mutateAsync(cleanedData);
-            toast.success('Supplier Debit Note successfully created!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create Supplier Debit Note', { id: toastId });
-            console.error(error);
-        }
+        await createSupplierDebitNoteMutation.mutateAsync(cleanedData);
     };
 
 
@@ -231,17 +242,10 @@ function SupplierDebitNoteManagement() {
             account: supplierDebitNoteData.account ?? undefined,
         }
 
-        const toastId = toast.loading('Updating Supplier Debit Note...');
-        try {
-            await updateSupplierDebitNoteMutation.mutateAsync({
-                debit_note_number: selectedSupplierDebitNoteId!,
-                supplierDebitNoteData: cleanedData
-            });
-            toast.success('Supplier Debit Note successfully updated!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to update Supplier Debit Note', { id: toastId });
-            console.error(error);
-        }
+        await updateSupplierDebitNoteMutation.mutateAsync({
+            debit_note_number: selectedSupplierDebitNoteId!,
+            supplierDebitNoteData: cleanedData
+        });
     };
 
 
@@ -251,14 +255,8 @@ function SupplierDebitNoteManagement() {
     const handleDeleteSupplierDebitNote = async (supplierDebitNoteId: number) => {
         if (!window.confirm('Are you sure you want to delete this debit note?')) return;
         
-        const toastId = toast.loading('Deleting Supplier Debit Note...');
-        try {
-            await deleteSupplierDebitNoteMutation.mutateAsync(supplierDebitNoteId);
-            toast.success('Supplier Debit Note successfully deleted!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to delete Supplier Debit Note', { id: toastId });
-            console.error(error);
-        }
+        await deleteSupplierDebitNoteMutation.mutateAsync(supplierDebitNoteId);
+    
     };
     // ------------------------------------------------------------------------------------
 

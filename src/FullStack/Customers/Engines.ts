@@ -78,8 +78,8 @@ export const updateCustomer = async ({ customer_number, customerData }: AllCusto
 
 export const deleteCustomer = async (customer_number: number) => {
   try {
-    await apiClient.delete(`/customers/customerprofile/${customer_number}/`);
-    return true;
+    const response = await apiClient.delete(`/customers/customerprofile/${customer_number}/`);
+    return response.status;
   } catch (error) {
     console.error(error);
   }
@@ -131,8 +131,8 @@ export const updateDebitNote = async ({ debit_note_number, debitNoteData }: AllD
 
 export const deleteDebitNote = async (debit_note_number: number) => {
   try {
-    await apiClient.delete(`/customers/customerdebitnote/${debit_note_number}/`);
-    return true;
+    const response = await apiClient.delete(`/customers/customerdebitnote/${debit_note_number}/`);
+    return response.status;
   } catch (error) {
     console.error(error);
   }
@@ -181,8 +181,8 @@ export const updateCreditNote = async ({ credit_note_number, creditNoteData }: A
 
 export const deleteCreditNote = async (credit_note_number: number) => {
   try {
-    await apiClient.delete(`/customers/customercreditnote/${credit_note_number}/`);
-    return true;
+    const response = await apiClient.delete(`/customers/customercreditnote/${credit_note_number}/`);
+    return response.status;
   } catch (error) {
     console.error(error);
   }
@@ -235,8 +235,8 @@ export const updateRefund = async ({ refund_number, refundData }: AllCustomerRef
 
 export const deleteRefund = async (refund_number: number) => {
   try {
-    await apiClient.delete(`/customers/customerrefund/${refund_number}/`);
-    return true;
+    const response = await apiClient.delete(`/customers/customerrefund/${refund_number}/`);
+    return response.status;
   } catch (error) {
     console.error(error);
   }

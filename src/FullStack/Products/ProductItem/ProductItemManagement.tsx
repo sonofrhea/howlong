@@ -99,16 +99,24 @@ function ProductItemManagement() {
       // CREATIONS - POST
 
   const createProductItemMutation = useMutation({
-    mutationFn: createProductItem,
-    onSuccess: (data: ProductItemCreateResponse) => {
-      const newProductItemId = data.item_code;
-      queryClient.invalidateQueries({ queryKey: ['productItems']});
-      setSelectedProductItemId(newProductItemId);
-      setView('details');
-    },
-    onError: (error: any) => {
-      console.error('Error creating product item:', error.response?.data || error.message || error);
-    }
+      mutationFn: createProductItem,
+      onMutate: () => {
+          toast.loading('Creating Product Item...', { id: "Create Product Item" });
+      },
+      onSuccess: (data: ProductItemCreateResponse) => {
+          const newProductItemId = data.item_code;
+          queryClient.invalidateQueries({ queryKey: ['productItems'] });
+          setSelectedProductItemId(newProductItemId);
+          toast.success('Product Item Created', { id: "Create Product Item" });
+          setView('details');
+      },
+      onError: (error: any) => {
+          toast.error('Failed to create product item', { id: "Create Product Item" });
+          console.error(
+              'Error creating product item:',
+              error.response?.data || error.message || error
+          );
+      }
   });
 
 
@@ -118,24 +126,46 @@ function ProductItemManagement() {
     // UPDATES - PUT
 
   const updateProductItemMutation = useMutation({
-    mutationFn: putUpdateProductItem,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['productItems'] });
-      queryClient.invalidateQueries({ queryKey: ['productItem', selectedProductItemId]});
-      setView('details');
-    },
-    onError: (error: any) => {
-      console.error('Error updating product item:', error.response?.data || error.message);
-    }
+      mutationFn: putUpdateProductItem,
+      onMutate: () => {
+          toast.loading('Updating Product Item...', { id: "Update Product Item" });
+      },
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['productItems'] });
+          queryClient.invalidateQueries({
+              queryKey: ['productItem', selectedProductItemId]
+          });
+          toast.success('Product Item Updated', { id: "Update Product Item" });
+          setView('details');
+      },
+      onError: (error: any) => {
+          toast.error('Failed to update product item', { id: "Update Product Item" });
+          console.error(
+              'Error updating product item:',
+              error.response?.data || error.message
+          );
+      }
   });
+
 // ------------------------------------------------------------------------------------
               // DELETE
 
   const deleteProductItemMutation = useMutation({
-    mutationFn: deleteProductItem,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['productItems'] });
-    }
+      mutationFn: deleteProductItem,
+      onMutate: () => {
+          toast.loading('Deleting Product Item...', { id: "Delete Product Item" });
+      },
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['productItems'] });
+          toast.success('Product Item Deleted', { id: "Delete Product Item" });
+      },
+      onError: (error: any) => {
+          toast.error('Failed to delete product item', { id: "Delete Product Item" });
+          console.error(
+              'Error deleting product item:',
+              error.response?.data || error.message
+          );
+      }
   });
 
 // ------------------------------------------------------------------------------------
@@ -176,15 +206,7 @@ function ProductItemManagement() {
 
     //console.log("🎯 RAW FORM DATA:", cleanedData);
     
-    const toastId = toast.loading('Creating Product...');
-    try {
-      await createProductItemMutation.mutateAsync(cleanedData);
-      toast.success('Product successfully created!', { id: toastId });
-    } catch (error) {
-      toast.error('Failed to create product', { id: toastId });
-      console.error(error);
-    }
-
+    await createProductItemMutation.mutateAsync(cleanedData);
   };
 
     
@@ -217,18 +239,12 @@ function ProductItemManagement() {
 
 
     //console.log("🎯 RAW FORM DATA:", cleanedData);
-    const toastId = toast.loading('Updating Product...');
     
-    try {
-      await updateProductItemMutation.mutateAsync({
-        item_code: selectedProductItemId!,
-        productItemData: cleanedData
-      });
-      toast.success("Product successfully updated!", { id: toastId })
-    } catch (error) {
-      toast.error('Failed to update product', { id: toastId });
-      console.error(error);
-    }
+    await updateProductItemMutation.mutateAsync({
+      item_code: selectedProductItemId!,
+      productItemData: cleanedData
+    });
+      
   };
 
 
@@ -238,14 +254,7 @@ function ProductItemManagement() {
   const handleDeleteProductItem = async (productItemId: number) => {
     if (!window.confirm('Are you sure you want to delete this product item?')) return;
     
-    const toastId = toast.loading('Deleting Product...');
-    try {
-      await deleteProductItemMutation.mutateAsync(productItemId);
-      toast.success("Product successfully deleted!', { id: toastId }");
-    } catch (error) {
-      toast.error('Failed to delete product', { id: toastId });
-      console.error(error);
-    }
+    await deleteProductItemMutation.mutateAsync(productItemId);
   };
 // ------------------------------------------------------------------------------------
 

@@ -18,32 +18,54 @@ import { AllCompanyPurchaseInvoiceInputs, AllCompanyPurchaseOrderInputs,
 // PURCHASE INVOICE -  AXIOS
 
 export const fetchCompanyPurchaseInvoices = async () => {
-  const response = await apiClient.get('/purchases/companypurchaseinvoice/');
-  return response.data;
+  try {
+    const response = await apiClient.get('/purchases/companypurchaseinvoice/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const fetchCompanyPurchaseInvoiceById = async (purchase_invoice_number: number) => {
-  const response = await apiClient.get(`/purchases/companypurchaseinvoice/${purchase_invoice_number}/`);
-  return response.data;
+  try {
+    const response = await apiClient.get(`/purchases/companypurchaseinvoice/${purchase_invoice_number}/`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const createCompanyPurchaseInvoice = async (companyPurchaseInvoiceData: CompanyPurchaseInvoiceInputs) => {
-  const response = await apiClient.post('/purchases/companypurchaseinvoice/', companyPurchaseInvoiceData);
-  return response.data;
+  try {
+    const response = await apiClient.post('/purchases/companypurchaseinvoice/', companyPurchaseInvoiceData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const updateCompanyPurchaseInvoice = async ({ 
-    purchase_invoice_number, companyPurchaseInvoiceData 
+export const updateCompanyPurchaseInvoice = async ({
+  purchase_invoice_number,
+  companyPurchaseInvoiceData
 }: AllCompanyPurchaseInvoiceInputs) => {
-  const response = await apiClient.put(
-    `/purchases/companypurchaseinvoice/${purchase_invoice_number}/`, companyPurchaseInvoiceData
-);
-  return response.data;
+  try {
+    const response = await apiClient.put(
+      `/purchases/companypurchaseinvoice/${purchase_invoice_number}/`,
+      companyPurchaseInvoiceData
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const deleteCompanyPurchaseInvoice = async (purchase_invoice_number: number) => {
-  await apiClient.delete(`/purchases/companypurchaseinvoice/${purchase_invoice_number}/`);
-  return true;
+  try {
+    const response = await apiClient.delete(`/purchases/companypurchaseinvoice/${purchase_invoice_number}/`);
+    return response.status;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 
@@ -52,35 +74,57 @@ export const deleteCompanyPurchaseInvoice = async (purchase_invoice_number: numb
 // PURCHASE ORDER - AXIOS
 
 export const fetchCompanyPurchaseOrders = async () => {
-  const response = await apiClient.get('/purchases/companypurchaseorder/');
-  return response.data;
+  try {
+    const response = await apiClient.get('/purchases/companypurchaseorder/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const fetchCompanyPurchaseOrderById = async (purchase_order_number: number) => {
-  const response = await apiClient.get(`/purchases/companypurchaseorder/${purchase_order_number}/`);
-  return response.data;
+  try {
+    const response = await apiClient.get(`/purchases/companypurchaseorder/${purchase_order_number}/`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const createCompanyPurchaseOrder = async (companyPurchaseOrderData: CompanyPurchaseOrderInputs | FormData) => {
-  const response = await apiClient.post('/purchases/companypurchaseorder/', companyPurchaseOrderData, {
-    headers: {
-      "Content-Type": 'multipart/form-data',
-    },
-  });
-  return response.data;
+  try {
+    const response = await apiClient.post('/purchases/companypurchaseorder/', companyPurchaseOrderData, {
+      headers: {
+        "Content-Type": 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const updateCompanyPurchaseOrder = async (
-  { purchase_order_number, companyPurchaseOrderData }: AllCompanyPurchaseOrderInputs) => {
-  const response = await apiClient.put(`/purchases/companypurchaseorder/${purchase_order_number}/`, companyPurchaseOrderData, {
-    headers: {
-      "Content-Type": 'multipart/form-data',
-    },
-  });
-  return response.data;
+export const updateCompanyPurchaseOrder = async ({
+  purchase_order_number,
+  companyPurchaseOrderData
+}: AllCompanyPurchaseOrderInputs) => {
+  try {
+    const response = await apiClient.put(`/purchases/companypurchaseorder/${purchase_order_number}/`, companyPurchaseOrderData, {
+      headers: {
+        "Content-Type": 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const deleteCompanyPurchaseOrder = async (purchase_order_number: number) => {
-  await apiClient.delete(`/purchases/companypurchaseorder/${purchase_order_number}/`);
-  return true;
+  try {
+    const response = await apiClient.delete(`/purchases/companypurchaseorder/${purchase_order_number}/`);
+    return response.status;
+  } catch (error) {
+    console.error(error);
+  }
 };

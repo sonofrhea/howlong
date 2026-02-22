@@ -122,13 +122,21 @@ function DebitNoteManagement() {
 
   const createDebitNoteMutation = useMutation({
     mutationFn: createDebitNote,
+    onMutate: () => {
+        toast.loading('Creating Debit Note...', { id: "Create Debit Note" });
+    },
     onSuccess: (data: DebitNoteCreateResponse) => {
-      queryClient.invalidateQueries({ queryKey: ['debitNotes']});
-      setSelectedDebitNoteId(data.debit_note_number);
-      setView('details');
+        queryClient.invalidateQueries({ queryKey: ['debitNotes'] });
+        setSelectedDebitNoteId(data.debit_note_number);
+        toast.success('Debit Note Created', { id: "Create Debit Note" });
+        setView('details');
     },
     onError: (error: any) => {
-      console.error('Error creating debit note:', error.response?.data || error.message || error);
+        toast.error('Failed to create debit note', { id: "Create Debit Note" });
+        console.error(
+            'Error creating debit note:',
+            error.response?.data || error.message || error
+        );
     }
   });
 
@@ -140,35 +148,46 @@ function DebitNoteManagement() {
 
   const updateDebitNoteMutation = useMutation({
     mutationFn: updateDebitNote,
+    onMutate: () => {
+        toast.loading('Updating Debit Note...', { id: "Update Debit Note" });
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['debitNotes'] });
-      queryClient.invalidateQueries({ queryKey: ['debitNote', selectedDebitNoteId]});
-      setView('details');
+        queryClient.invalidateQueries({ queryKey: ['debitNotes'] });
+        queryClient.invalidateQueries({
+            queryKey: ['debitNote', selectedDebitNoteId]
+        });
+        toast.success('Debit Note Updated', { id: "Update Debit Note" });
+        setView('details');
     },
     onError: (error: any) => {
-      console.error('Error updating debit note:', error.response?.data || error.message);
+        toast.error('Failed to update debit note', { id: "Update Debit Note" });
+        console.error(
+            'Error updating debit note:',
+            error.response?.data || error.message
+        );
     }
   });
 // ------------------------------------------------------------------------------------
               // DELETE
 
-const deleteDebitNoteMutation = useMutation({
-  mutationFn: deleteDebitNote,
-  onMutate: async (debitNoteId) => {
-    await queryClient.cancelQueries({ queryKey: ['debitNotes'] });
-    const previous = queryClient.getQueryData(['debitNotes']);
-    queryClient.setQueryData(['debitNotes'], (old: any[]) =>
-      old?.filter(d => d.debit_note_number !== debitNoteId) ?? []
-    );
-    return { previous };
-  },
-  onError: (err, debitNoteId, context) => {
-    queryClient.setQueryData(['debitNotes'], context?.previous);
-  },
-  onSettled: () => {
-    queryClient.invalidateQueries({ queryKey: ['debitNotes'] });
-  },
-});
+  const deleteDebitNoteMutation = useMutation({
+    mutationFn: deleteDebitNote,
+    onMutate: () => {
+        toast.loading('Deleting Debit Note...', { id: "Delete Debit Note" });
+    },
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['debitNotes'] });
+
+        toast.success('Debit Note Deleted', { id: "Delete Debit Note" });
+    },
+    onError: (error: any) => {
+        toast.error('Failed to delete debit note', { id: "Delete Debit Note" });
+        console.error(
+            'Error deleting debit note:',
+            error.response?.data || error.message
+        );
+    }
+  });
 
 // ------------------------------------------------------------------------------------
                 // MUTATION USE
@@ -208,15 +227,7 @@ const deleteDebitNoteMutation = useMutation({
     };
     
     //console.log("🎯 RAW FORM DATA:", cleanedData);
-      const toastId = toast.loading('Creating Debit Note...');
-      try {
-        await createDebitNoteMutation.mutateAsync(cleanedData);
-        toast.success('Debit Note successfully created!', { id: toastId });
-      } catch (error) {
-        toast.error('Failed to create Debit Note', { id: toastId });
-        console.error(error);
-      }
-    
+      await createDebitNoteMutation.mutateAsync(cleanedData);
     };
 
     
@@ -234,17 +245,11 @@ const deleteDebitNoteMutation = useMutation({
           : undefined
     };
 
-      const toastId = toast.loading('Updating Debit Note...');
-      try {
-        await updateDebitNoteMutation.mutateAsync({
-          debit_note_number: selectedDebitNoteId!,
-          debitNoteData: cleanedData
-        });
-        toast.success('Debit Note successfully updated!', { id: toastId });
-      } catch (error) {
-        toast.error('Failed to update Debit Note', { id: toastId });
-        console.error(error);
-      }
+    
+      await updateDebitNoteMutation.mutateAsync({
+        debit_note_number: selectedDebitNoteId!,
+        debitNoteData: cleanedData
+      });
   };
 
 
@@ -253,14 +258,7 @@ const deleteDebitNoteMutation = useMutation({
   const handleDeleteDebitNote = async (debitNoteId: number) => {
     if (!window.confirm('Are you sure you want to delete this customer?')) return;
     
-    const toastId = toast.loading('Deleting Debit Note...');
-    try {
-      await deleteDebitNoteMutation.mutateAsync(debitNoteId);
-      toast.success('Debit Note successfully deleted!', { id: toastId });
-    } catch (error) {
-        toast.error('Failed to delete Debit Note', { id: toastId });
-        console.error(error);
-      }
+    await deleteDebitNoteMutation.mutateAsync(debitNoteId);
   };
 
 

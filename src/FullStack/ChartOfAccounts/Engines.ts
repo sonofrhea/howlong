@@ -19,6 +19,10 @@ apiClient.interceptors.request.use(config => {
 
 
 export const fetchChartOfAccounts = async () => {
-  const response = await apiClient.get('/chartofaccounts/chartofaccounts/');
-  return response.data;
+  try {
+    const response = await apiClient.get('/chartofaccounts/chartofaccounts/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };

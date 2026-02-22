@@ -18,6 +18,10 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
 };
 
+const formatDateTime = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
+
 const productItem = () => {
     return `SKU-`;
 };
@@ -81,7 +85,7 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
     }
 
     return (
-        <div className="w-full bg-white shadow-2xl border-gray-200 shadow-gray-700 rounded-xl">
+        <div className="w-full bg-white shadow-2xl p-9 border-gray-200 shadow-gray-700 rounded-xl">
             <div className={forms.body}>
                 <div className={layout.header}>
                     <div className={layout.tag}>
@@ -140,23 +144,27 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                 <hr className="my-6 border-gray-200" />
 
                 <div className="grid grid-cols-3 gap-6">
-                    <div className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Customer Details</p>
-                        {quotation.customer_name}
-                        <br />
-                        <p className="text-gray-500">
+                    <div className={`${labelStyles} p-9`}>
+                        <a className={details.extraSmallUppercase}>Customer Details</a><br />
+                        <p>{quotation.customer_name}</p>
+
+                        <p className="text-gray-500 max-w-sm">
                             {quotation.customer_details}
                         </p>
                     </div>
 
-                    <div className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Project description</p>
-                        {quotation.project_description}
+                    <div className={`${labelStyles} p-9`}>
+                        <a className={details.extraSmallUppercase}>Project description</a><br />
+                        <p className="text-gray-500 max-w-sm">
+                            {quotation.project_description}
+                        </p>
                     </div>
 
-                    <div className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Prepared by</p>
-                        {quotation.agent}
+                    <div className={`${labelStyles} p-9`}>
+                        <a className={details.extraSmallUppercase}>Prepared by</a><br />
+                        <p className="text-gray-500 max-w-sm">
+                            {quotation.agent}
+                        </p>
                     </div>
                 </div>
 
@@ -237,11 +245,26 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
 
             <hr className="my-6 border-gray-200" />
 
+            
+            <div className="grid lg:grid-cols-5">
+                <div className={labelStyles}>
+                    <p className={details.extraSmallUppercase}>Created by</p>
+                    {quotation.created_by}
+                </div>
 
-            <div className={labelStyles}>
-                <p className={details.extraSmallUppercase}>Created by</p>
-                {quotation.created_by}
+
+                <div className={labelStyles}>
+                    <p className={details.extraSmallUppercase}>Date Updated</p>
+                    {formatDateTime(quotation.date_updated)}
+                </div>
+
+
+                <div className={labelStyles}>
+                    <p className={details.extraSmallUppercase}>Updated by</p>
+                    {quotation.updated_by}
+                </div>
             </div>
+
             <hr className="my-6 border-gray-200" />
             <div style={{ display: "none" }}>
                 <PrintQuotation

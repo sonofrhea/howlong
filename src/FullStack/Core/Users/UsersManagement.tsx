@@ -1,4 +1,4 @@
-import { React, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import apiClient from '../../../BaseEngine';
 
@@ -13,13 +13,19 @@ const UsersManagement = () => {
     const [loading, setLoading] = useState(true);
 
 
-    const GetData = () => {
-        apiClient.get(`core/users/`).then((res) => {
-            setMyData(res.data)
-            console.log(res.data)
-            setLoading(false)
-        })
-    }
+    const GetData = async () => {
+        try {
+            const response = await apiClient.get(`core/users/`);
+
+            setMyData(response.data);
+            //console.log(response.data);
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         GetData();

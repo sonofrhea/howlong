@@ -104,14 +104,19 @@ function SupplierInvoiceManagement() {
 
     const createSupplierInvoiceMutation = useMutation({
         mutationFn: createSupplierInvoice,
+        onMutate: () => {
+            toast.loading('Creating Supplier Invoice...', { id: "Create Supplier invoice" });
+        },
         onSuccess: (data: SupplierInvoiceResponse) => {
             const newSupplierInvoice = data.invoice_number
             queryClient.invalidateQueries({ queryKey: ['supplierInvoices']});
             setSelectedSupplierInvoiceId(newSupplierInvoice);
+            toast.success('Supplier Invoice successfully created', { id: "Create Supplier invoice" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating supplier invoice:', error.response?.data || error.message || error);
+            toast.error('Failed to create supplier invoice', { id: "Create Supplier invoice" });
+            console.error('Error creating supplier invoice:', error.response?.data || error.message || error);
         }
     });
 
@@ -123,13 +128,18 @@ function SupplierInvoiceManagement() {
 
     const updateSupplierInvoiceMutation = useMutation({
         mutationFn: updateSupplierInvoice,
+        onMutate: () => {
+            toast.loading('Updating Supplier Invoice...', { id: "Update Supplier invoice" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierInvoices'] });
-        queryClient.invalidateQueries({ queryKey: ['supplierInvoice', selectedSupplierInvoiceId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['supplierInvoices'] });
+            queryClient.invalidateQueries({ queryKey: ['supplierInvoice', selectedSupplierInvoiceId]});
+            toast.success('Supplier Invoice successfully updated', { id: "Update Supplier invoice" })
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating supplier invoice:', error.response?.data || error.message);
+            toast.error('Failed to update supplier invoice', { id: "Update Supplier invoice" });
+            console.error('Error updating supplier invoice:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -137,8 +147,16 @@ function SupplierInvoiceManagement() {
 
     const deleteSupplierInvoiceMutation = useMutation({
         mutationFn: deleteSupplierInvoice,
+        onMutate: () => {
+            toast.loading('Deleting Supplier Invoice...', { id: "Delete Supplier invoice" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierInvoices'] });
+            queryClient.invalidateQueries({ queryKey: ['supplierInvoices'] });
+            toast.success('Supplier Invoice successfully deleted', { id: "Delete Supplier invoice" })
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete supplier invoice', { id: "Delete Supplier invoice" });
+            console.error('Error updating supplier invoice:', error.response?.data || error.message);
         }
     });
 
@@ -181,14 +199,8 @@ function SupplierInvoiceManagement() {
 
         
         //console.log("🎯 RAW FORM DATA:", cleanedData)
-        const toastId = toast.loading('Creating Supplier Invoice...');
-        try {
-            await createSupplierInvoiceMutation.mutateAsync(cleanedData);
-            toast.success('Supplier Invoice successfully created', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to create supplier invoice', { id: toastId });
-            console.error(error);
-        }
+        
+        await createSupplierInvoiceMutation.mutateAsync(cleanedData);
     };
 
 
@@ -207,17 +219,10 @@ function SupplierInvoiceManagement() {
                     : undefined,
         };
 
-        const toastId = toast.loading('Updating Supplier Invoice...');
-        try {
-            await updateSupplierInvoiceMutation.mutateAsync({
-                invoice_number: selectedSupplierInvoiceId!,
-                supplierInvoiceData: cleanedData
-            });
-            toast.success('Supplier Invoice successfully updated', {id: toastId})
-        } catch (error) {
-            toast.error('Failed to update supplier invoice', { id: toastId });
-            console.error(error);
-        }
+        await updateSupplierInvoiceMutation.mutateAsync({
+            invoice_number: selectedSupplierInvoiceId!,
+            supplierInvoiceData: cleanedData
+        });
     };
 
 
@@ -227,14 +232,7 @@ function SupplierInvoiceManagement() {
     const handleDeleteSupplierInvoice = async (supplierInvoiceId: number) => {
         if (!window.confirm('Are you sure you want to delete this supplier invoice?')) return;
 
-        const toastId = toast.loading('Deleting Supplier Invoice...');
-        try {
-            await deleteSupplierInvoiceMutation.mutateAsync(supplierInvoiceId);
-            toast.success('Supplier Invoice successfully deleted', {id: toastId})
-        } catch (error) {
-            toast.error('Failed to delete supplier invoice', { id: toastId });
-            console.error(error);
-        }
+        await deleteSupplierInvoiceMutation.mutateAsync(supplierInvoiceId);
     };
     // ------------------------------------------------------------------------------------
 

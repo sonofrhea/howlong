@@ -101,14 +101,22 @@ function ProjectsProfileManagement() {
 
     const createProjectMutation = useMutation({
         mutationFn: createProject,
+        onMutate: () => {
+            toast.loading('Creating Project...', { id: "Create Project" });
+        },
         onSuccess: (data: ProjectProfileResponse) => {
             const newProject = data.project_code;
-            queryClient.invalidateQueries({ queryKey: ['projects']});
+            queryClient.invalidateQueries({ queryKey: ['projects'] });
             setSelectedProjectId(newProject);
+            toast.success('Project Created', { id: "Create Project" });
             setView('details');
         },
         onError: (error: any) => {
-            console.error('Error creating project:', error.response?.data || error.message || error);
+            toast.error('Failed to create project', { id: "Create Project" });
+            console.error(
+                'Error creating project:',
+                error.response?.data || error.message || error
+            );
         }
     });
 
@@ -120,13 +128,23 @@ function ProjectsProfileManagement() {
 
     const updateProjectMutation = useMutation({
         mutationFn: updateProject,
+        onMutate: () => {
+            toast.loading('Updating Project...', { id: "Update Project" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['projects'] });
-            queryClient.invalidateQueries({ queryKey: ['project', selectedProjectId]});
+            queryClient.invalidateQueries({
+                queryKey: ['project', selectedProjectId]
+            });
+            toast.success('Project Updated', { id: "Update Project" });
             setView('details');
         },
         onError: (error: any) => {
-            console.error('Error updating project:', error.response?.data || error.message);
+            toast.error('Failed to update project', { id: "Update Project" });
+            console.error(
+                'Error updating project:',
+                error.response?.data || error.message
+            );
         }
     });
     // ------------------------------------------------------------------------------------
@@ -134,8 +152,19 @@ function ProjectsProfileManagement() {
 
     const deleteProjectMutation = useMutation({
         mutationFn: deleteProject,
+        onMutate: () => {
+            toast.loading('Deleting Project...', { id: "Delete Project" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['projects'] });
+            queryClient.invalidateQueries({ queryKey: ['projects'] });
+            toast.success('Project Deleted', { id: "Delete Project" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete project', { id: "Delete Project" });
+            console.error(
+                'Error deleting project:',
+                error.response?.data || error.message
+            );
         }
     });
 
@@ -177,14 +206,7 @@ function ProjectsProfileManagement() {
         
         //console.log("🎯 RAW FORM DATA:", cleanedData)
 
-        const toastId = toast.loading('Creating Project...');
-        try {
-            await createProjectMutation.mutateAsync(cleanedData);
-            toast.success('Project successfully created', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to create project', { id: toastId });
-            console.error(error);
-        }
+        await createProjectMutation.mutateAsync(cleanedData);
     };
 
 
@@ -201,17 +223,11 @@ function ProjectsProfileManagement() {
                     : undefined
         };
 
-        const toastId = toast.loading('Updating Project...');
-        try {
-            await updateProjectMutation.mutateAsync({
-                project_code: selectedProjectId!,
-                projectData: cleanedData
-            });
-            toast.success('Project successfully updated', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to updated project', { id: toastId });
-            console.error(error);
-        }
+        
+        await updateProjectMutation.mutateAsync({
+            project_code: selectedProjectId!,
+            projectData: cleanedData
+        });
     };
 
 

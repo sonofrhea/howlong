@@ -114,13 +114,21 @@ function ReceiptVoucherManagement() {
 
     const createReceiptVoucherMutation = useMutation({
         mutationFn: createReceiptVoucher,
+        onMutate: () => {
+            toast.loading('Creating Receipt Voucher...', { id: "Create Receipt Voucher" });
+        },
         onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ['receiptVouchers']});
-        setSelectedReceiptVoucherId(data.reference_number);
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['receiptVouchers'] });
+            setSelectedReceiptVoucherId(data.reference_number);
+            toast.success('Receipt Voucher Created', { id: "Create Receipt Voucher" });
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating receipt voucher:', error.response?.data || error.message || error);
+            toast.error('Failed to create receipt voucher', { id: "Create Receipt Voucher" });
+            console.error(
+                'Error creating receipt voucher:',
+                error.response?.data || error.message || error
+            );
         }
     });
 
@@ -132,22 +140,44 @@ function ReceiptVoucherManagement() {
 
     const updateReceiptVoucherMutation = useMutation({
         mutationFn: updateReceiptVoucher,
+        onMutate: () => {
+            toast.loading('Updating Receipt Voucher...', { id: "Update Receipt Voucher" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['receiptVouchers'] });
-        queryClient.invalidateQueries({ queryKey: ['receiptVoucher', selectedReceiptVoucherId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['receiptVouchers'] });
+            queryClient.invalidateQueries({
+                queryKey: ['receiptVoucher', selectedReceiptVoucherId]
+            });
+            toast.success('Receipt Voucher Updated', { id: "Update Receipt Voucher" });
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating receipt voucher:', error.response?.data || error.message);
+            toast.error('Failed to update receipt voucher', { id: "Update Receipt Voucher" });
+            console.error(
+                'Error updating receipt voucher:',
+                error.response?.data || error.message
+            );
         }
     });
+
     // ------------------------------------------------------------------------------------
                 // DELETE
 
     const deleteReceiptVoucherMutation = useMutation({
         mutationFn: deleteReceiptVoucher,
+        onMutate: () => {
+            toast.loading('Deleting Receipt Voucher...', { id: "Delete Receipt Voucher" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['receiptVouchers'] });
+            queryClient.invalidateQueries({ queryKey: ['receiptVouchers'] });
+            toast.success('Receipt Voucher Deleted', { id: "Delete Receipt Voucher" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete receipt voucher', { id: "Delete Receipt Voucher" });
+            console.error(
+                'Error deleting receipt voucher:',
+                error.response?.data || error.message
+            );
         }
     });
 
@@ -186,14 +216,7 @@ function ReceiptVoucherManagement() {
     
 
         //console.log("RAW FORM DATA: ", cleanedData);
-        const toastId = toast.loading('Creating receipt voucher...');
-        try {
-            await createReceiptVoucherMutation.mutateAsync(cleanedData);
-            toast.success('Receipt Voucher successfully created', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create receipt voucher.');
-            console.error(error);
-        }
+        await createReceiptVoucherMutation.mutateAsync(cleanedData);
     };
 
 
@@ -207,18 +230,11 @@ function ReceiptVoucherManagement() {
             account_received_in: receiptVoucherData.account_received_in ?? undefined
         };
 
-        const toastId = toast.loading('Updating receipt voucher...');
-        try {
-            await updateReceiptVoucherMutation.mutateAsync({
-                reference_number: selectedReceiptVoucherId!,
-                receiptVoucherData: cleanedData
-            });
-            toast.success('Receipt Voucher successfully updated', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to update receipt voucher.');
-            console.error(error);
-        }
-    
+        
+        await updateReceiptVoucherMutation.mutateAsync({
+            reference_number: selectedReceiptVoucherId!,
+            receiptVoucherData: cleanedData
+        });
     };
 
 
@@ -228,15 +244,7 @@ function ReceiptVoucherManagement() {
     const handleDeleteReceiptVoucher = async (receiptVoucherId: number) => {
         if (!window.confirm('Are you sure you want to delete this receipt voucher?')) return;
         
-        const toastId = toast.loading('Deleting receipt voucher...');
-        try {
-            await deleteReceiptVoucherMutation.mutateAsync(receiptVoucherId);
-            toast.success('Receipt Voucher successfully deleted', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to delete receipt voucher.');
-            console.error(error);
-        }
-        
+        await deleteReceiptVoucherMutation.mutateAsync(receiptVoucherId);
     };
     // ------------------------------------------------------------------------------------
 

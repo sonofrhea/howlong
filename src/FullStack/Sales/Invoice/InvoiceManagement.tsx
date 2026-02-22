@@ -132,14 +132,19 @@ function InvoiceManagement() {
 
     const createInvoiceMutation = useMutation({
         mutationFn: createInvoice,
+        onMutate: () => {
+            toast.loading('Creating Invoice...', { id: "Create Invoice" });
+        },
         onSuccess: (data: InvoiceCreateResponse) => {
             const newInvoiceId = data.invoice_number
             queryClient.invalidateQueries({ queryKey: ['invoices']});
             setSelectedInvoiceId(newInvoiceId);
+            toast.success('Invoice successfully created', { id: "Create Invoice" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating invoice:', error.response?.data || error.message || error);
+            toast.error('Failed to create invoice', { id: "Create Invoice" });
+            console.error('Error creating invoice:', error.response?.data || error.message || error);
         }
     });
 
@@ -151,13 +156,18 @@ function InvoiceManagement() {
 
     const updateInvoiceMutation = useMutation({
         mutationFn: updateInvoice,
+        onMutate: () => {
+            toast.loading('Updating Invoice...', { id: "Update Invoice" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['invoices'] });
-        queryClient.invalidateQueries({ queryKey: ['invoice', selectedInvoiceId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['invoices'] });
+            queryClient.invalidateQueries({ queryKey: ['invoice', selectedInvoiceId]});
+            toast.success('Invoice successfully updated', { id: "Update Invoice" });
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating invoice:', error.response?.data || error.message);
+            toast.error('Failed to update invoice', { id: "Update Invoice" });
+            console.error('Error updating invoice:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -165,8 +175,16 @@ function InvoiceManagement() {
 
     const deleteInvoiceMutation = useMutation({
         mutationFn: deleteInvoice,
+        onMutate: () => {
+            toast.loading('Deleting Invoice...', { id: "Delete Invoice" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['invoices'] });
+            queryClient.invalidateQueries({ queryKey: ['invoices'] });
+            toast.success('Invoice successfully deleted', { id: "Delete Invoice" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete invoice', { id: "Delete Invoice" });
+            console.error('Error updating invoice:', error.response?.data || error.message);
         }
     });
 
@@ -208,14 +226,7 @@ function InvoiceManagement() {
         
 
         //console.log("🎯 RAW FORM DATA:", invoiceData);
-        const toastId = toast.loading('Creating Invoice...');
-        try {
-            await createInvoiceMutation.mutateAsync(cleanedData);
-            toast.success('Invoice successfully created', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to create invoice', { id: toastId });
-            console.error(error);
-        }
+        await createInvoiceMutation.mutateAsync(cleanedData);
     };
 
 
@@ -233,17 +244,10 @@ function InvoiceManagement() {
                     : undefined,
         };
 
-        const toastId = toast.loading('Updating Invoice...');
-        try {
-            await updateInvoiceMutation.mutateAsync({
-                invoice_number: selectedInvoiceId!,
-                invoiceData: cleanedData
-            });
-            toast.success('Invoice successfully updated', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to update invoice', { id: toastId });
-            console.error(error);
-        }
+        await updateInvoiceMutation.mutateAsync({
+            invoice_number: selectedInvoiceId!,
+            invoiceData: cleanedData
+        });
     };
 
 
@@ -253,14 +257,7 @@ function InvoiceManagement() {
     const handleDeleteInvoice = async (invoiceId: number) => {
         if (!window.confirm('Are you sure you want to delete this customer?')) return;
         
-        const toastId = toast.loading('Deleting Invoice...');
-        try {
-            await deleteInvoiceMutation.mutateAsync(invoiceId);
-            toast.success('Invoice successfully deleted', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to delete invoice', { id: toastId });
-            console.error(error);
-        }
+        await deleteInvoiceMutation.mutateAsync(invoiceId);
     };
     // --------------------------CLICK----------------------------------------------------------
 

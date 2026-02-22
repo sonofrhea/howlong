@@ -22,6 +22,7 @@ import ProjectDocumentsDetails from "./ProjectDocumentsDetails";
 //import ProjectDocumentsForm from "./ProjectDocumentsForm";
 import ProjectDocumentsTable from "./ProjectDocumentsTable";
 import { fetchInvoices } from "../../Sales/Engines";
+import {toast} from "react-hot-toast";
 //import ProjectDocumentsEdit from "./ProjectDocumentsEdit";
 
 
@@ -92,13 +93,18 @@ function ProjectDocumentsManagement() {
 
     const createProjectDocumentMutation = useMutation({
         mutationFn: createProjectDocument,
+        onMutate: () => {
+            toast.loading('Creating Project Document...', { id: "Create Project Document" });
+        },
         onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ['projectDocuments']});
-        setSelectedProjectDocumentId(data.document_number);
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['projectDocuments']});
+            setSelectedProjectDocumentId(data.document_number);
+            toast.success('Project Document Created', { id: "Create Project Document" });
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating projectDocument:', error.response?.data || error.message || error);
+            toast.error('Failed to create project document', { id: "Create Project Document" });
+            console.error('Error creating projectDocument:', error.response?.data || error.message || error);
         }
     });
 
@@ -110,13 +116,23 @@ function ProjectDocumentsManagement() {
 
     const updateProjectDocumentMutation = useMutation({
         mutationFn: updateProjectDocument,
+        onMutate: () => {
+            toast.loading('Updating Project Document...', { id: "Update Project Document" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['projectDocuments'] });
-        queryClient.invalidateQueries({ queryKey: ['projectDocument', selectedProjectDocumentId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['projectDocuments'] });
+            queryClient.invalidateQueries({
+                queryKey: ['projectDocument', selectedProjectDocumentId]
+            });
+            toast.success('Project Document Updated', { id: "Update Project Document" });
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating projectDocument:', error.response?.data || error.message);
+            toast.error('Failed to update project document', { id: "Update Project Document" });
+            console.error(
+                'Error updating project document:',
+                error.response?.data || error.message
+            );
         }
     });
     // ------------------------------------------------------------------------------------
@@ -124,8 +140,20 @@ function ProjectDocumentsManagement() {
 
     const deleteProjectDocumentMutation = useMutation({
         mutationFn: deleteProjectDocument,
+        onMutate: () => {
+            toast.loading('Deleting Project Document...', { id: "Delete Project Document" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['projectDocuments'] });
+            queryClient.invalidateQueries({ queryKey: ['projectDocuments'] });
+
+            toast.success('Project Document Deleted', { id: "Delete Project Document" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete project document', { id: "Delete Project Document" });
+            console.error(
+                'Error deleting project document:',
+                error.response?.data || error.message
+            );
         }
     });
 

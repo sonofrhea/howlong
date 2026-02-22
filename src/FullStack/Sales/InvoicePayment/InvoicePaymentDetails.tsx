@@ -256,11 +256,18 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                 </div>
 
                 <hr className="my-6 border-gray-200" />
-                        
-                <p className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Created By</p>
-                    {invoicePayment?.created_by || 'N/A'}
-                </p>
+                
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Created By</p>
+                        {invoicePayment?.created_by || 'N/A'}
+                    </p>
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Updated By</p>
+                        {invoicePayment?.date_updated || 'N/A'}
+                    </p>
+                </div>
+
                 <hr className="my-6 border-gray-200" />
             </div>
             <JournalEntryModal

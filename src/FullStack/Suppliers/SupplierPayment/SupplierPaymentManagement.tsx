@@ -124,14 +124,19 @@ function SupplierPaymentManagement() {
 
     const createSupplierPaymentMutation = useMutation({
         mutationFn: createSupplierPayment,
+        onMutate: () => {
+            toast.loading('Creating Supplier Payment...', { id: "Create Supplier payment" });
+        },
         onSuccess: (data: SupplierPaymentResponse) => {
             const newSupplierPayment = data.payment_code
             queryClient.invalidateQueries({ queryKey: ['supplierPayments']});
             setSelectedSupplierPaymentId(newSupplierPayment);
+            toast.success('Supplier Payment successfully created!', { id: "Create Supplier payment" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating supplier payment:', error.response?.data || error.message || error);
+            toast.error('Failed to create Supplier Payment', { id: "Create Supplier payment" });
+            console.error('Error creating supplier payment:', error.response?.data || error.message || error);
         }
     });
 
@@ -143,13 +148,18 @@ function SupplierPaymentManagement() {
 
     const updateSupplierPaymentMutation = useMutation({
         mutationFn: updateSupplierPayment,
+        onMutate: () => {
+            toast.loading('Updating Supplier Payment...', { id: "Update Supplier payment" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierPayments'] });
-        queryClient.invalidateQueries({ queryKey: ['supplierPayment', selectedSupplierPaymentId]});
-        setView('details');
+            queryClient.invalidateQueries({ queryKey: ['supplierPayments'] });
+            queryClient.invalidateQueries({ queryKey: ['supplierPayment', selectedSupplierPaymentId]});
+            toast.success('Supplier Payment successfully updated!', { id: "Update Supplier payment" });
+            setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating supplier payment:', error.response?.data || error.message);
+            toast.error('Failed to update Supplier Payment', { id: "Update Supplier payment" });
+            console.error('Error updating supplier payment:', error.response?.data || error.message);
         }
     });
     // ------------------------------------------------------------------------------------
@@ -157,8 +167,16 @@ function SupplierPaymentManagement() {
 
     const deleteSupplierPaymentMutation = useMutation({
         mutationFn: deleteSupplierPayment,
+        onMutate: () => {
+            toast.loading('Deleting Supplier Payment...', { id: "Delete Supplier payment" });
+        },
         onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['supplierPayments'] });
+            queryClient.invalidateQueries({ queryKey: ['supplierPayments'] });
+            toast.success('Supplier Payment successfully deleted!', { id: "Delete Supplier payment" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete Supplier Payment', { id: "Delete Supplier payment" });
+            console.error('Error updating supplier payment:', error.response?.data || error.message);
         }
     });
 
@@ -200,14 +218,7 @@ function SupplierPaymentManagement() {
         };
         
         //console.log("🎯 RAW FORM DATA:", supplierPaymentData);
-        const toastId = toast.loading('Creating Supplier Payment...');
-        try {
-            await createSupplierPaymentMutation.mutateAsync(cleanedData);
-            toast.success('Supplier Payment successfully created!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create Supplier Payment', { id: toastId });
-            console.error(error);
-        }
+        await createSupplierPaymentMutation.mutateAsync(cleanedData);
     };
 
 
@@ -232,9 +243,9 @@ function SupplierPaymentManagement() {
                 payment_code: selectedSupplierPaymentId!,
                 supplierPaymentData: cleanedData
             });
-            toast.success('Supplier Payment successfully updated!', { id: toastId });
+            
         } catch (error) {
-            toast.error('Failed to update Supplier Payment', { id: toastId });
+            
             console.error(error);
         }  
     };
@@ -246,14 +257,7 @@ function SupplierPaymentManagement() {
     const handleDeleteSupplierPayment = async (supplierPaymentId: number) => {
         if (!window.confirm('Are you sure you want to delete this supplier payment?')) return;
         
-        const toastId = toast.loading('Deleting Supplier Payment...');
-        try {
-            await deleteSupplierPaymentMutation.mutateAsync(supplierPaymentId);
-            toast.success('Supplier Payment successfully deleted!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to delete Supplier Payment', { id: toastId });
-            console.error(error);
-        }
+        await deleteSupplierPaymentMutation.mutateAsync(supplierPaymentId);
     };
     // ------------------------------------------------------------------------------------
 

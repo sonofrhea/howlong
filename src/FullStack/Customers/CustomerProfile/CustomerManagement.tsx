@@ -99,16 +99,24 @@ function CustomerManagement() {
 
       // CREATIONS - POST
   const createCustomersMutation = useMutation({
-    mutationFn: createCustomer,
-    onSuccess: (data: CustomerCreateResponse) => {
-      const newCustomerId = data.customer_number;
-      queryClient.invalidateQueries({ queryKey: ['customers'] });
-      setSelectedCustomerId(newCustomerId);
-      setView('details');
-    },
-    onError: (error: any) => {
-      console.error('Error updating customer profile.', error.response?.data || error.message);
-    }
+      mutationFn: createCustomer,
+      onMutate: () => {
+          toast.loading('Creating Customer...', { id: "Create Customer" });
+      },
+      onSuccess: (data: CustomerCreateResponse) => {
+          const newCustomerId = data.customer_number;
+          queryClient.invalidateQueries({ queryKey: ['customers'] });
+          setSelectedCustomerId(newCustomerId);
+          toast.success('Customer Created', { id: "Create Customer" });
+          setView('details');
+      },
+      onError: (error: any) => {
+          toast.error('Failed to create customer', { id: "Create Customer" });
+          console.error(
+              'Error creating customer profile:',
+              error.response?.data || error.message || error
+          );
+      }
   });
 
 
@@ -118,25 +126,46 @@ function CustomerManagement() {
     // UPDATES - PUT
 
   const updateCustomersMutation = useMutation({
-    mutationFn: updateCustomer,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['customers'] });
-      queryClient.invalidateQueries({ queryKey: ['customer', selectedCustomerId] });
-      setView('details');
-    },
-    onError: (error: any) => {
-      console.error('Error updating customer profile.', error.response?.data || error.message);
-    }
+      mutationFn: updateCustomer,
+      onMutate: () => {
+          toast.loading('Updating Customer...', { id: "Update Customer" });
+      },
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['customers'] });
+          queryClient.invalidateQueries({
+              queryKey: ['customer', selectedCustomerId]
+          });
+          toast.success('Customer Updated', { id: "Update Customer" });
+          setView('details');
+      },
+      onError: (error: any) => {
+          toast.error('Failed to update customer', { id: "Update Customer" });
+          console.error(
+              'Error updating customer profile:',
+              error.response?.data || error.message
+          );
+      }
   });
 
 // ------------------------------------------------------------------------------------
               // DELETE
 
   const deleteCustomersMutation = useMutation({
-    mutationFn: deleteCustomer,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['customers'] });
-    }
+      mutationFn: deleteCustomer,
+      onMutate: () => {
+          toast.loading('Deleting Customer...', { id: "Delete Customer" });
+      },
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['customers'] });
+          toast.success('Customer Deleted', { id: "Delete Customer" });
+      },
+      onError: (error: any) => {
+          toast.error('Failed to delete customer', { id: "Delete Customer" });
+          console.error(
+              'Error deleting customer:',
+              error.response?.data || error.message
+          );
+      }
   });
 
 // ------------------------------------------------------------------------------------
@@ -173,14 +202,7 @@ function CustomerManagement() {
 
 
     //console.log("🎯 RAW FORM DATA:", cleanedData);
-    const toastId = toast.loading('Creating Customer...');
-    try {
-      await createCustomersMutation.mutateAsync(cleanedData);
-      toast.success('Customer successfully created', {id: toastId});
-    } catch (error) {
-      toast.error('Failed to create customer', { id: toastId });
-      console.error(error);
-    }
+    await createCustomersMutation.mutateAsync(cleanedData);
   };
 
 
@@ -197,18 +219,11 @@ function CustomerManagement() {
       preferred_currency: customerData.preferred_currency ?? undefined
     };
 
-    const toastId = toast.loading('Updating Customer...');
-  
-    try {
-      await updateCustomersMutation.mutateAsync({
-        customer_number: selectedCustomerId!,
-        customerData: cleanedData
-      });
-      toast.success('Customer successfully updated', { id: toastId });
-    } catch (error) {
-      toast.error('Failed to update customer', { id: toastId });
-      console.error(error);
-    }
+    
+    await updateCustomersMutation.mutateAsync({
+      customer_number: selectedCustomerId!,
+      customerData: cleanedData
+    });
   };
 
 
@@ -221,14 +236,7 @@ function CustomerManagement() {
   
     if (!window.confirm('Are you sure you want to delete this customer?')) return;
 
-    const toastId = toast.loading('Deleting Customer...');
-    try {
-      await deleteCustomersMutation.mutateAsync(customerId);
-      toast.success('Customer successfully deleted', { id: toastId });
-    } catch (error) {
-      toast.error('Failed to delete customer', { id: toastId });
-      console.error(error);
-    }
+    await deleteCustomersMutation.mutateAsync(customerId);
   };
 
 

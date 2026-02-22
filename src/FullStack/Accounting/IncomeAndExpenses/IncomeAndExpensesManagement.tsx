@@ -102,13 +102,22 @@ function IncomeAndExpensesManagement() {
 
     const createIncomeAndExpenseMutation = useMutation({
         mutationFn: createIncomeAndExpense,
+        onMutate: () => {
+            toast.loading('Creating Income & Expense...', { id: "Create Income & Expense" });
+        },
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses']});
+            queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses'] });
+
             setSelectedIncomeAndExpenseId(data.reference_number);
+            toast.success('Income & Expense Created', { id: "Create Income & Expense" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error creating incomeAndExpense:', error.response?.data || error.message || error);
+            toast.error('Failed to create Income & Expense', { id: "Create Income & Expense" });
+            console.error(
+                'Error creating income and expense:',
+                error.response?.data || error.message || error
+            );
         }
     });
 
@@ -120,22 +129,44 @@ function IncomeAndExpensesManagement() {
 
     const updateIncomeAndExpenseMutation = useMutation({
         mutationFn: updateIncomeAndExpense,
+        onMutate: () => {
+            toast.loading('Updating Income & Expense...', { id: "Update Income & Expense" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses'] });
-            queryClient.invalidateQueries({ queryKey: ['incomeAndExpense', selectedIncomeAndExpenseId]});
+            queryClient.invalidateQueries({
+                queryKey: ['incomeAndExpense', selectedIncomeAndExpenseId]
+            });
+            toast.success('Income & Expense Updated', { id: "Update Income & Expense" });
             setView('details');
         },
         onError: (error: any) => {
-        console.error('Error updating income and expenses:', error.response?.data || error.message);
+            toast.error('Failed to update Income & Expense', { id: "Update Income & Expense" });
+            console.error(
+                'Error updating income and expenses:',
+                error.response?.data || error.message
+            );
         }
     });
+
     // ------------------------------------------------------------------------------------
                 // DELETE
 
     const deleteIncomeAndExpenseMutation = useMutation({
         mutationFn: deleteIncomeAndExpense,
+        onMutate: () => {
+            toast.loading('Deleting Income & Expense...', { id: "Delete Income & Expense" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses'] });
+            toast.success('Income & Expense Deleted', { id: "Delete Income & Expense" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete Income & Expense', { id: "Delete Income & Expense" });
+            console.error(
+                'Error deleting income and expense:',
+                error.response?.data || error.message
+            );
         }
     });
 
@@ -167,14 +198,7 @@ function IncomeAndExpensesManagement() {
     const handleAddIncomeAndExpense = async (incomeAndExpensesData: IncomeAndExpensesInputs) => {
         //console.log("RAW FORM DATA: ", incomeAndExpensesData);
       
-        const toastId = toast.loading('Creating transaction...');
-        try {
-            await createIncomeAndExpenseMutation.mutateAsync(incomeAndExpensesData);
-            toast.success('Transaction successfully created', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create transaction');
-            console.error(error);
-        }
+        await createIncomeAndExpenseMutation.mutateAsync(incomeAndExpensesData);
     };
 
 
@@ -183,18 +207,11 @@ function IncomeAndExpensesManagement() {
 
     const handleUpdateIncomeAndExpense = async (incomeAndExpensesData: IncomeAndExpensesInputs) => {
 
-        const toastId = toast.loading('Updating transaction...');
-        try {
-            await updateIncomeAndExpenseMutation.mutateAsync({
-                reference_number: selectedIncomeAndExpenseId!,
-                incomeAndExpensesData: incomeAndExpensesData
-            });
-            toast.success('Transaction successfully updated', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to update transaction');
-            console.error(error);
-        }
         
+        await updateIncomeAndExpenseMutation.mutateAsync({
+            reference_number: selectedIncomeAndExpenseId!,
+            incomeAndExpensesData: incomeAndExpensesData
+        });
     };
 
 
@@ -204,14 +221,7 @@ function IncomeAndExpensesManagement() {
     const handleDeleteIncomeAndExpense = async (incomeAndExpenseId: number) => {
         if (!window.confirm('Are you sure you want to delete this entry?')) return;
         
-        const toastId = toast.loading('Deleting transaction...');
-        try {
-            await deleteIncomeAndExpenseMutation.mutateAsync(incomeAndExpenseId);
-            toast.success('Transaction successfully deleted', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to delete transaction');
-            console.error(error);
-        }
+        await deleteIncomeAndExpenseMutation.mutateAsync(incomeAndExpenseId);
     };
     // ------------------------------------------------------------------------------------
 

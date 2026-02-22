@@ -142,13 +142,18 @@ function CustomerPaymentManagement() {
 
     const createCustomerPaymentMutation = useMutation({
         mutationFn: createCustomerPayment,
+        onMutate: () => {
+            toast.loading('Creating Payment...', { id: "Create Payment" });
+        },
         onSuccess: (data: CustomerPaymentResponse) => {
             const newCustomerPayment = data.payment_number;
             queryClient.invalidateQueries({ queryKey: ['customerPayments']});
             setSelectedCustomerPaymentId(newCustomerPayment);
+            toast.success('Payment created successfully!', { id: "Create Payment" });
             setView('details');
     },
     onError: (error: any) => {
+        toast.error('Failed to create Payment', { id: "Create Payment" });
         console.error('Error creating customer payment:', error.response?.data || error.message || error);
     }
     });
@@ -161,12 +166,17 @@ function CustomerPaymentManagement() {
 
     const updateCustomerPaymentMutation = useMutation({
     mutationFn: updateCustomerPayment,
+    onMutate: () => {
+        toast.loading('Updating Payment...', { id: "Update Payment" });
+    },
     onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['customerPayments'] });
         queryClient.invalidateQueries({ queryKey: ['customerPayment', selectedCustomerPaymentId]});
+        toast.success('Payment updated successfully!', { id: "Update Payment" });
         setView('details');
     },
     onError: (error: any) => {
+        toast.error('Failed to update Payment', { id: "Update Payment" });
         console.error('Error updating customer payment:', error.response?.data || error.message);
     }
     });
@@ -175,8 +185,16 @@ function CustomerPaymentManagement() {
 
     const deleteCustomerPaymentMutation = useMutation({
     mutationFn: deleteCustomerPayment,
+    onMutate: () => {
+        toast.loading('Deleting Payment...', { id: "Delete Payment" });
+    },
     onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['customerPayments'] });
+        toast.success('Payment deleted successfully!', { id: "Delete Payment" });
+    },
+    onError: (error: any) => {
+        toast.error('Failed to delete Payment', { id: "Delete Payment" });
+        console.error('Error updating customer payment:', error.response?.data || error.message);
     }
     });
 
@@ -216,16 +234,7 @@ function CustomerPaymentManagement() {
         
         //console.log("🎯 RAW FORM DATA:", customerPaymentData);
 
-        const toastId = toast.loading('Creating Payment...');
-        try {
-            await createCustomerPaymentMutation.mutateAsync(cleanedData);
-            toast.success('Payment created successfully!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create Payment', { id: toastId });
-            console.error(error);
-        }
-
-        
+        await createCustomerPaymentMutation.mutateAsync(cleanedData);
     };
 
 
@@ -240,18 +249,10 @@ function CustomerPaymentManagement() {
                 customerPaymentData.account_received_in ?? undefined,
         };
 
-        const toastId = toast.loading('Updating Payment...');
-        try {
-            await updateCustomerPaymentMutation.mutateAsync({
-                payment_number: selectedCustomerPaymentId!,
-                customerPaymentData: cleanedData
-            });
-            toast.success('Payment updated successfully!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to update Payment', { id: toastId });
-            console.error(error);
-        }
-    
+        await updateCustomerPaymentMutation.mutateAsync({
+            payment_number: selectedCustomerPaymentId!,
+            customerPaymentData: cleanedData
+        });
     };
 
 
@@ -261,14 +262,7 @@ function CustomerPaymentManagement() {
     const handleDeleteCustomerPayment = async (customerPaymentId: number) => {
         if (!window.confirm('Are you sure you want to delete this customer payment record?')) return;
         
-        const toastId = toast.loading('Deleting Payment...');
-        try {
-            await deleteCustomerPaymentMutation.mutateAsync(customerPaymentId);
-            toast.success('Payment deleted successfully!', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to delete Payment', { id: toastId });
-            console.error(error);
-        }
+        await deleteCustomerPaymentMutation.mutateAsync(customerPaymentId);
     };
     // ------------------------------------------------------------------------------------
 

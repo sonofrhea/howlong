@@ -84,13 +84,21 @@ function JournalEntryManagement() {
     
     const createJournalEntryMutation = useMutation({
         mutationFn: createJournalEntry,
+        onMutate: () => {
+            toast.loading('Creating Journal Entry...', { id: "Create Journal Entry" });
+        },
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['journalEntries']});
+            queryClient.invalidateQueries({ queryKey: ['journalEntries'] });
             setSelectedJournalEntryId(data.journal_number);
+            toast.success('Journal Entry Created', { id: "Create Journal Entry" });
             setView('details');
         },
         onError: (error: any) => {
-            console.error('Error creating journal entry:', error.response?.data || error.message || error);
+            toast.error('Failed to create journal entry', { id: "Create Journal Entry" });
+            console.error(
+                'Error creating journal entry:',
+                error.response?.data || error.message || error
+            );
         }
     });
 
@@ -100,13 +108,23 @@ function JournalEntryManagement() {
 
     const updateJournalEntryMutation = useMutation({
         mutationFn: updateJournalEntry,
+        onMutate: () => {
+            toast.loading('Updating Journal Entry...', { id: "Update Journal Entry" });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['journalEntries'] });
-            queryClient.invalidateQueries({ queryKey: ['journalEntry', selectedJournalEntryId]});
+            queryClient.invalidateQueries({
+                queryKey: ['journalEntry', selectedJournalEntryId]
+            });
+            toast.success('Journal Entry Updated', { id: "Update Journal Entry" });
             setView('details');
         },
         onError: (error: any) => {
-            console.error('Error updating journal entry:',  error.response?.data || error.message);
+            toast.error('Failed to update journal entry', { id: "Update Journal Entry" });
+            console.error(
+                'Error updating journal entry:',
+                error.response?.data || error.message
+            );
         }
     });
 
@@ -117,10 +135,19 @@ function JournalEntryManagement() {
     
     const deleteJournalEntryMutation = useMutation({
         mutationFn: deleteJournalEntry,
+        onMutate: () => {
+            toast.loading('Deleting Journal Entry...', { id: "Delete Journal Entry" });
+        },
         onSuccess: () => {
-            console.info("Delete successful, invalidating queries");
-            console.log("Delete successful, invalidating queries");
             queryClient.invalidateQueries({ queryKey: ['journalEntries'] });
+            toast.success('Journal Entry Deleted', { id: "Delete Journal Entry" });
+        },
+        onError: (error: any) => {
+            toast.error('Failed to delete journal entry', { id: "Delete Journal Entry" });
+            console.error(
+                'Error deleting journal entry:',
+                error.response?.data || error.message
+            );
         }
     });
 
@@ -131,15 +158,7 @@ function JournalEntryManagement() {
     const handleAddJournalEntry = async (journalEntryData: JournalHeaderInputs) => {
         //console.log("RAW FORM DATA:", journalEntryData)
 
-        const toastId = toast.loading('Creating Journal entry...');
-
-        try {
-            await createJournalEntryMutation.mutateAsync(journalEntryData);
-            toast.success('Journal entry successfully created', { id: toastId });
-        } catch (error) {
-            toast.error('Failed to create Journal entry.');
-            console.error(error);
-        }
+        await createJournalEntryMutation.mutateAsync(journalEntryData);
     };
 
 
@@ -147,18 +166,11 @@ function JournalEntryManagement() {
 
     const handleUpdateJournalEntry = async (journalEntryData: JournalHeaderInputs) => {
 
-        const toastId = toast.loading('Updating Journal entry...');
-
-        try {
-            await updateJournalEntryMutation.mutateAsync({
-                journal_number: selectedJournalEntryId!,
-                journalEntryData: journalEntryData
-            });
-            toast.success('Journal entry successfully updated', { id: toastId })
-        } catch (error) {
-            toast.error('Failed to update Journal entry.');
-            console.error(error);
-        }
+        
+        await updateJournalEntryMutation.mutateAsync({
+            journal_number: selectedJournalEntryId!,
+            journalEntryData: journalEntryData
+        });
     };
 
 
@@ -166,15 +178,7 @@ function JournalEntryManagement() {
     const handleDeleteJournalEntry = async (journalEntryId: number) => {
         if (!window.confirm('Are you sure you want to delete this journal entry?')) return;
         
-        const toastId = toast.loading('Deleting Journal entry...');
-        try {
-            await deleteJournalEntryMutation.mutateAsync(journalEntryId);
-            toast.success('Journal entry successfully deleted', { id: toastId })
-        } catch (error) {
-            toast.error('Failed to delete Journal entry.');
-            console.error(error);
-        }
-        
+        await deleteJournalEntryMutation.mutateAsync(journalEntryId);
     };
 
 // ------------------------------------------------------------------------------------
