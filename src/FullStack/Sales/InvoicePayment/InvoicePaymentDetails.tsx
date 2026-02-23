@@ -11,7 +11,7 @@ const formatPaymentNumber = () => {
 };
 
 const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 };
 
 function formatInvoiceNumber(): React.ReactNode {
@@ -20,9 +20,9 @@ function formatInvoiceNumber(): React.ReactNode {
 };
 
 function formatCustomerNumber(): React.ReactNode {
-        const currentYear = new Date().getFullYear();
-        return `CV-${currentYear}-`;
-    };
+    const currentYear = new Date().getFullYear();
+    return `CV-${currentYear}-`;
+};
 
 import { buttons,  
     layout, tables, text } from "../Constants/Styles";
@@ -31,6 +31,16 @@ import { details, forms,
 import { SquarePen } from "lucide-react";
 import { InvoicePaymentDetailsProps } from "../Constants/Types";
 import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
+
+
+const formatUpdateDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString().split("T")[0];
+};
+
+
+
+
+
 
 
 
@@ -264,7 +274,7 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                     </p>
                     <p className={labelStyles}>
                         <p className={details.extraSmallUppercase}>Updated By</p>
-                        {invoicePayment?.date_updated || 'N/A'}
+                        {formatUpdateDate(invoicePayment?.date_updated) || 'N/A'}
                     </p>
                 </div>
 

@@ -11,7 +11,7 @@ const formatNumber = () => {
 };
 
 const formatDate = (dateString: any) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 };
 
 const formatSupplierNumber = () => {

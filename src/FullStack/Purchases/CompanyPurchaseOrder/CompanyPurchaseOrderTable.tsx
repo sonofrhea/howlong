@@ -3,7 +3,7 @@ import { CompanyPurchaseOrderList, CompanyPurchaseOrderTableProps } from "../con
 
 
 const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 };
 
 

@@ -3,7 +3,7 @@ import { BillOfquantitiesList, BillOfQuantitiesTableProps } from "../constants/T
 
 
 const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 };
 
 const formatNumber = () => {

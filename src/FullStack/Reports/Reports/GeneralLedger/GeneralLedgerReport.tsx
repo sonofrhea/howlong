@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 
 const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 };
 
 const getBalanceBracket = (opening_balance: number) => {

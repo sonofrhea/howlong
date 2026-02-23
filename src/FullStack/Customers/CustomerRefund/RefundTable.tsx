@@ -4,7 +4,7 @@ import { CustomerRefundList, CustomerRefundTableProps } from "../constants/Types
 
 
 const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 };
 
 

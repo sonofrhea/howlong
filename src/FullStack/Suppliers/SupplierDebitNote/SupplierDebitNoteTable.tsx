@@ -4,7 +4,7 @@ import { forms, buttons, layout, tables, text, utils, listTable } from "../const
 import { SupplierDebitNoteList, SupplierDebitNoteTableProps } from "../constants/Types";
 
 const formatDate = (dateString: any) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 };
 
 const formatNumber = () => {

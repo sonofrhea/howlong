@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import logo from "../assets/logo.svg";
-import logoWhite from "../assets/logoWhite.svg";
 import { useNavigate } from 'react-router-dom';
 
 import { ArrowRight } from "lucide-react";
@@ -186,9 +184,9 @@ export default function ConstructionERPLanding() {
                     }
 
                     .cta-primary:hover {
-                    background: #0052a3;
-                    transform: translateY(-3px);
-                    box-shadow: 0 8px 25px rgba(0,102,204,0.35);
+                        background: #0052a3;
+                        transform: translateY(-3px);
+                        box-shadow: 0 8px 25px rgba(0,102,204,0.35);
                     }
 
                     .cta-marketplace {
@@ -210,8 +208,8 @@ export default function ConstructionERPLanding() {
                     }
 
                     .cta-marketplace:hover {
-                        background-color: #ff7a3c;
-                        transform: translateY(-2px);
+                        background-color: #ea580c;
+                        box-shadow: 0 8px 25px rgba(135, 48, 1);
                     }
 
                     .arrow-icon {
@@ -245,9 +243,9 @@ export default function ConstructionERPLanding() {
                     }
 
                     .cta-secondary:hover {
-                    border-color: blue;
-                    color: blue;
-                    background: rgba(0,102,204,0.05);
+                        border-color: blue;
+                        color: blue;
+                        background: rgba(0,102,204,0.05);
                     }
 
                     .logo-photo {
@@ -731,22 +729,22 @@ export default function ConstructionERPLanding() {
                     }
 
                     .cta-section .cta-secondary {
-                    background: transparent;
-                    color: var(--text-white);
-                    border-color: white;
+                        background: transparent;
+                        color: var(--text-white);
+                        border-color: white;
                     }
 
                     .cta-section .cta-secondary:hover {
-                    transform: translateY(-10px) scale(1.02) !important;
-                    border-color: var(--text-white);
-                    background: rgba(255,255,255,0.1);
-                    color: var(--text-white);
+                        transform: translateY(-10px) scale(1.02) !important;
+                        border-color: var(--text-white);
+                        background: rgba(255,255,255,0.1);
+                        color: var(--text-white);
                     }
 
                     .cta-section .cta-secondary:hover {
-                    background: transparent;
-                    color: var(--text-white);
-                    border-color: rgba(255,255,255,0.3);
+                        background: transparent;
+                        color: var(--text-white);
+                        border-color: rgba(255,255,255,0.3);
                     }
 
 
@@ -873,7 +871,7 @@ export default function ConstructionERPLanding() {
                     .cta-group-header .cta-secondary {
                         background: transparent;
                         color: var(--text-black);
-                        padding: 18px 40px;
+                        padding: 16px 40px;
                         border-radius: 8px;
                         font-weight: 600;
                         font-size: 16px;
@@ -888,6 +886,7 @@ export default function ConstructionERPLanding() {
                         border-color: var(--blue-primary);
                         color: var(--blue-primary);
                         background: rgba(0,102,204,0.05);
+                        box-shadow: 0 8px 25px rgba(0,102,204,0.35);
                     }
 
 
@@ -1189,7 +1188,7 @@ export default function ConstructionERPLanding() {
             </div>
             <div>
                 <button className="cta-marketplace" onClick={() => navigate("/marketplace")}>
-                    Enter Marketplace
+                    Enter Suppliers Marketplace
                     <ArrowRight className="ml-2 arrow-icon" />
                 </button>
             </div>
@@ -1257,7 +1256,7 @@ export default function ConstructionERPLanding() {
                 </div>
                 <h3 className="feature-title">JOB COST & BOQ ESTIMATION</h3>
                 <p className="feature-description">
-                Create accurate estimates, material costs, and labor rates quickly with bill of quantities and calculate actual cost with Job cost ledger. Keep track of project variance accurately.
+                    Create accurate estimates, material costs, and labor rates quickly with bill of quantities and calculate actual cost with Job cost ledger. Keep track of project variance accurately.
                 </p>
             </div>
 

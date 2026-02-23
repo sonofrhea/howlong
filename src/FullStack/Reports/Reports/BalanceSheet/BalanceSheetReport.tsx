@@ -41,7 +41,7 @@ const BalanceSheetReport: React.FC<{ balanceSheet: BalanceSheetResponse[],
             <div className="px-4 py-2 bg-linear-to-r ">
                 <div className="flex items-center justify-between">
                     <h3 className="text-s font-semibold text-gray-800">
-                        Statement Of Financial position As At... {new Date().toLocaleDateString()}
+                        Statement Of Financial position As At... {new Date().toISOString().split("T")[0]}
                     </h3>
                     <div className="flex items-center gap-4">
                     </div>

@@ -13,7 +13,7 @@ import { CreditNoteDetailsProps } from "../constants/Types";
 
 
 const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 };
 
 
@@ -29,6 +29,16 @@ const formatCustomerNumber = () => {
     const currentYear = new Date().getFullYear();
     return `CV-${currentYear}-`;
 };
+
+
+
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
+
+
+
+
 
 
 
@@ -234,11 +244,24 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                 </div>
 
                 <hr className="my-6 border-gray-200" />
+                
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Created By</p>
+                        {creditNote.created_by || 'N/A'}
+                    </p>
 
-                <p className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Created by</p>
-                    {creditNote.created_by || 'N/A'}
-                </p>
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Updated By</p>
+                        {creditNote.updated_by || 'N/A'}
+                    </p>
+
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Date Updated</p>
+                        {formatUpdatedDate(creditNote.date_updated) || 'N/A'}
+                    </p>
+                </div>
+
                 <hr className="my-6 border-gray-200" />
             </div>
             <JournalEntryModal

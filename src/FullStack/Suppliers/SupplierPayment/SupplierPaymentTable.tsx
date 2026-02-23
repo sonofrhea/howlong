@@ -3,7 +3,7 @@ import { SupplierPaymentList, SupplierPaymentTableProps } from "../constants/Typ
 
 
 const formatDate = (dateString: any) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 };
 
 const formatNumber = () => {

@@ -9,20 +9,20 @@ import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 };
 
 
 const formatCreditNoteNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `CN-${currentYear}-`;
+    const currentYear = new Date().getFullYear();
+    return `CN-${currentYear}-`;
 };
 
 
 
 const formatCustomerNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `CV-${currentYear}-`;
+    const currentYear = new Date().getFullYear();
+    return `CV-${currentYear}-`;
 };
 
 const formatRefundNumber = () => {
@@ -31,6 +31,9 @@ const formatRefundNumber = () => {
 };
 
 
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
 
 
 
@@ -122,43 +125,43 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Refund No.</p>
+                            <a className={details.extraSmallUppercase}>Refund No.</a><br />
                             {formatRefundNumber()}{refund.refund_number}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Date</p>
+                            <a className={details.extraSmallUppercase}>Date</a><br />
                             {formatDate(refund.date)}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Account</p>
+                            <a className={details.extraSmallUppercase}>Account</a><br />
                             {refund.payment_account?.account_code || 'N/A'} ({refund.payment_account?.account_name || 'N/A'})
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Pay To...</p>
+                            <a className={details.extraSmallUppercase}>Pay To...</a><br />
                             {formatCustomerNumber()}{refund.pay_to} | {refund.pay_to_name || 'N/A'}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Related Credit Note</p>
+                            <a className={details.extraSmallUppercase}>Related Credit Note</a><br />
                             {formatCreditNoteNumber()}{refund.related_credit_note || 'N/A'} | Outstanding: 
                             {refund.related_credit_note_outstanding || 'N/A'}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Expected Refund</p>
+                            <a className={details.extraSmallUppercase}>Expected Refund</a><br />
                             {refund.expected_refund}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Currency</p>
+                            <a className={details.extraSmallUppercase}>Currency</a><br />
                             {refund.currency || 'N/A'}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Agent</p>
+                            <a className={details.extraSmallUppercase}>Agent</a><br />
                             {refund.agent || 'N/A'}
                         </p>
                     </div>
@@ -231,11 +234,24 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
                 </div>
 
                 <hr className="my-6 border-gray-200" />
+                                
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Created By</p>
+                        {refund.created_by || 'N/A'}
+                    </p>
 
-                <p className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Created by</p>
-                    {refund.created_by || 'N/A'}
-                </p>
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Updated By</p>
+                        {refund.updated_by || 'N/A'}
+                    </p>
+
+                    <p className={labelStyles}>
+                        <p className={details.extraSmallUppercase}>Date Updated</p>
+                        {formatUpdatedDate(refund.date_updated) || 'N/A'}
+                    </p>
+                </div>
+
                 <hr className="my-6 border-gray-200" />
             </div>
             <JournalEntryModal

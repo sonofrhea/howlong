@@ -10,7 +10,7 @@ import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
 
 
-import { creditNoteAccountHandler } from "../../handlers";
+import { creditNoteAccountHandler, debitNoteRelatedPaymentHandler } from "../../handlers";
 
 
 const decimalPlaces = (amount: number) => {
@@ -70,7 +70,8 @@ const CreditNoteForm: React.FC<CreditNoteProps> = ({
 
 
 
-const controlAccountChange = creditNoteAccountHandler(accounts, setValue);
+    const controlAccountChange = creditNoteAccountHandler(accounts, setValue);
+    const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue);
 
 
 
@@ -170,6 +171,7 @@ const controlAccountChange = creditNoteAccountHandler(accounts, setValue);
                             <select
                                 {...register("related_payment")}
                                 className={forms.select.partial}
+                                onChange={relatedPayment}
                             >
                                 <option value="">select...</option>
                                 {useMemo(() =>customerPayments.map((payment: CustomerPaymentResponse) => (
@@ -179,18 +181,18 @@ const controlAccountChange = creditNoteAccountHandler(accounts, setValue);
                                 )), [customerPayments])}
                             </select>
                         </div>
-    
+                        
                         <div>
                             <p className={forms.label}>Paid Amount</p>
                             <input 
                                 {...register("paid_amount")}
                                 type="number"
-                                title="enter paid amount..."
-                                className={forms.select.partial}
+                                readOnly
+                                className={forms.input.midNumber}
                                 placeholder="0.00"
                                 step="0.01" min="0.00" onBlur={(e) => {
                                     if (e.target.value) {
-                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        e.target.value = decimalPlaces(Number(e.target.value));
                                     }
                                 }}
                             />

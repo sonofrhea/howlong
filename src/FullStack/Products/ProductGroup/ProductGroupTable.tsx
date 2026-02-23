@@ -3,7 +3,7 @@ import { ProductGroupList, ProductGroupTableProps } from "../constants/Types";
 
 
 const formatDate = (dateString: any) => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toISOString().split("T")[0];
 }; 
 
 

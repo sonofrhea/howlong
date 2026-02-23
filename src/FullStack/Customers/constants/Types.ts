@@ -479,6 +479,8 @@ export type CreditNoteDetails = {
   cancelled: boolean;
   agent: string;
   created_by: string;
+  updated_by: string;
+  date_updated: string;
   currency: string;
 };
 
@@ -688,6 +690,8 @@ export type CustomerRefundDetails = {
   agent: string;
   currency: string;
   created_by: string;
+  updated_by: string;
+  date_updated: string;
 };
 
 
