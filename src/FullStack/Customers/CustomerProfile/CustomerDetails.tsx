@@ -355,12 +355,12 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
 
             <div className="grid lg:grid-cols-5">
                 <p className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Date Updated</p>
+                    <a className={details.extraSmallUppercase}>Date Updated</a><br />
                     {formatUpdateDate(customer?.date_updated) || "N/A"}
                 </p>
                         
                 <p className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Updated By</p>
+                    <a className={details.extraSmallUppercase}>Updated By</a><br />
                     {customer?.updated_by || "N/A"}
                 </p>
             </div>

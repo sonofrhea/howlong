@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 import { CustomerInputs, CustomerProps } from "../constants/Types";
-import { controlAccountHandler, currencyHandler } from "../../handlers";
+import { currencyHandler } from "../../handlers";
 import { BankInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { BANK_TYPE_CHOICES, COUNTRY_OPTIONS,
     ID_TYPE_CHOICES, STATUS_CHOICES, TAX_ID_CHOICES } from "../constants/Options";
@@ -60,8 +60,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                             >
                                 <option value="">select...</option>
                                 {useMemo(() => STATUS_CHOICES.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
+                                    <option key={option} value={option}>
+                                        {option}
                                     </option>
                                 )), [STATUS_CHOICES])}
                                 
@@ -92,8 +92,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => ID_TYPE_CHOICES.map(id_type => (
-                                        <option key={id_type.value} value={id_type.value}>
-                                            {id_type.label}
+                                        <option key={id_type} value={id_type}>
+                                            {id_type}
                                         </option>
                                     )), [ID_TYPE_CHOICES])}
                                 </select>
@@ -190,8 +190,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => COUNTRY_OPTIONS.map(country => (
-                                        <option key={country.value} value={country.value}>
-                                            {country.label}
+                                        <option key={country} value={country}>
+                                            {country}
                                         </option>
                                     )), [COUNTRY_OPTIONS])}
                                 </select>
@@ -271,8 +271,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                     >
                                     <option value="">select...</option>
                                     {useMemo(() => BANK_TYPE_CHOICES.map(option => (
-                                        <option key={option.value} value={option.value} >
-                                            {option.label}
+                                        <option key={option} value={option} >
+                                            {option}
                                         </option>
                                     )), [BANK_TYPE_CHOICES])}
                                 </select>
@@ -325,8 +325,8 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => TAX_ID_CHOICES.map(tax => (
-                                        <option key={tax.value} value={tax.value} >
-                                            {tax.label}
+                                        <option key={tax} value={tax} >
+                                            {tax}
                                         </option>
                                     )), [TAX_ID_CHOICES])}
                                 </select>

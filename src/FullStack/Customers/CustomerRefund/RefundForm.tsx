@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
 
+
 import { CustomerRefundInputs,
     AllCustomerRefundInputs, DebitNoteCreateResponse,
     CustomerCreateResponse,
@@ -18,7 +19,7 @@ import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { forms, buttons, layout, tables, text, utils } from "../constants/Styles";
 
 import { Trash2 } from "lucide-react";
-import { RefundAccountHandler } from "../../handlers";
+import { RefundAccountHandler, refundRelatedcreditNoteHandler } from "../../handlers";
 
 
 
@@ -76,6 +77,7 @@ const RefundForm: React.FC<CustomerRefundFormProps> = ({
 
 
 const controlAccountChange = RefundAccountHandler(accounts, setValue);
+const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
 
 
 
@@ -159,12 +161,13 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                             <p className={forms.label}>Related Credit Note</p>
                             <select
                                 {...register("related_credit_note")}
-                                className={forms.select.partial}
+                                className={forms.select.partial2}
+                                onChange={creditNoteChange}
                             >
                                 <option value="">select...</option>
                                 {useMemo(() => creditNotes.map((creditNotes: CreditNoteCreateResponse) => (
                                     <option key={creditNotes.credit_note_number} value={creditNotes.credit_note_number}>
-                                        {formatCreditNoteNumber()}{creditNotes.credit_note_number} | Outstanding: {creditNotes.credit_note_outstanding || '--'}
+                                        {formatCreditNoteNumber()}{creditNotes?.credit_note_number} | Outstanding: {creditNotes?.credit_note_outstanding}
                                     </option>
                                 )), [creditNotes])}
                             </select>
@@ -180,7 +183,7 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                                 placeholder="0.00"
                                 step="0.01" min="0.00" onBlur={(e) => {
                                     if (e.target.value) {
-                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                        e.target.value = decimalPlaces(Number(e.target.value));
                                     }
                                 }}
                             />
@@ -264,7 +267,7 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }} 
                                                 />
@@ -279,7 +282,7 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                                                     defaultValue="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
-                                                            e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }} 
                                                 />
@@ -292,8 +295,8 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                                                 >
                                                     <option value="">select...</option>
                                                     {REFUND_TYPE_OPTIONS.map(option => (
-                                                        <option key={option.value} value={option.value}>
-                                                            {option.label}
+                                                        <option key={option} value={option}>
+                                                            {option}
                                                         </option>
                                                     ))}
                                                 </select>
@@ -370,7 +373,7 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
                                             

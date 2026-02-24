@@ -97,7 +97,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                                     
                 <div className={layout.formSectionCol3}>
                     <div>
-                        <p className={forms.label}>Due Date</p>
+                        <a className={forms.label}>Due Date</a><br />
                         <input 
                             type="date"
                             {...register("invoice_due_date", {required: "Due date is required"})}
@@ -107,7 +107,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     </div>
                 
                     <div>
-                        <p className={forms.label}>Customer</p>
+                        <a className={forms.label}>Customer</a><br />
                         <select
                             {...register("customer")}
                             className={forms.select.partial}
@@ -122,7 +122,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Customer Details</p>
+                        <a className={forms.label}>Customer Extra Details</a><br />
                             <input 
                                 type="text"
                                 {...register("customer_details")}
@@ -131,7 +131,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Description</p>
+                        <a className={forms.label}>Description</a><br />
                             <input 
                                 type="text"
                                 {...register("description")}
@@ -140,7 +140,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Prepared By</p>
+                        <a className={forms.label}>Prepared By</a><br />
                         <select
                             {...register("agent")}
                             className={forms.select.partial}
@@ -159,7 +159,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
 
                 <div className={layout.formSectionCol3}>
                     <div >
-                        <p className={forms.label}>Project</p>
+                        <a className={forms.label}>Related Project</a><br />
                         <select
                             {...register("project")}
                             className={forms.select.partial}
@@ -175,7 +175,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     
                     
                     <div>
-                        <p className={forms.label}>Currency...</p>
+                        <a className={forms.label}>Currency...</a><br />
                         <select
                             {...register("currency")}
                             className={forms.select.partial}
@@ -190,8 +190,9 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Cancelled</p>
+                        <a className={forms.label}>Cancelled</a><br />
                         <input 
+                            className="mt-4 hover:cursor-pointer"
                             type="checkbox"
                             {...register("cancelled")}
                         />
@@ -204,16 +205,16 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                         <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                             <colgroup>
                                 {[
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
+                                    'w-1/11 text-center',
+                                    'w-1/11 text-center',
+                                    'w-1/11 text-center',
+                                    'w-[8%] text-center',
+                                    'w-1/11 text-center',
+                                    'w-1/11 text-center',
+                                    'w-[5%] text-center',
+                                    'w-1/11 text-center',
+                                    'w-1/11 text-center',
+                                    'w-[5%] text-center',
                                     'w-[5%] text-center',
                                 ].map((line, index) => (
                                     <col key={index} className={line} />
@@ -264,7 +265,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                             <td>
                                                 <select
                                                     {...register(`related_invoice.${index}.item`)}
-                                                    className={forms.select.small}
+                                                    className={forms.select.full}
                                                 >
                                                     <option value="">select...</option>
                                                     {productOptions}

@@ -22,10 +22,24 @@ const ProductGroupEdit: React.FC<ProductGroupProps> = ({
 }) => {
     const productGroupId = productGroup?.group_code;
 
-    const { register, handleSubmit, formState: { errors } } = useForm<ProductGroupInputs>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<ProductGroupInputs>({
         defaultValues: productGroup
     });
 
+
+    
+    React.useEffect(() => {
+        if (!productGroup) return;
+
+        const updated = {
+            ...productGroup,
+            date_created: productGroup.date_created
+                ? new Date(productGroup.date_created).toISOString().split("T")[0]
+                : "",
+        };
+        
+        reset(updated)
+    }, [productGroup, reset]);
     
 
 

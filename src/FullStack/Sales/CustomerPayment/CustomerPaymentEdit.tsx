@@ -196,7 +196,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Payment</p>
+                        <p className={forms.label}>Related Invoice Payment</p>
                         <select
                             {...register("related_payment")}
                             onChange={invoicePaymentChange}
@@ -212,7 +212,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Payment Total</p>
+                        <p className={forms.label}>Related Invoice Payment Total</p>
                         <input 
                             {...register("related_payment_paid_amount")}
                             type="number"
@@ -228,7 +228,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Payment Outstanding</p>
+                        <p className={forms.label}>Related Invoice Payment Outstanding</p>
                         <input 
                             {...register("related_payment_outstanding")}
                             type="number"

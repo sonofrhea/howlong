@@ -7,6 +7,7 @@ import { SupplierInvoiceResponse } from "./Suppliers/constants/Types"
 import { CompanyPurchaseInvoiceResponse } from "./Purchases/constants/Types"
 import { BillOfQuantitiesResponse, ProjectProfileResponse } from "./Projects/constants/Types"
 import { JobCostCodesInterface } from "./Projects/constants/Types"
+import { CreditNoteCreateResponse } from "./Customers/constants/Types"
 
 
 
@@ -80,9 +81,11 @@ export const invoiceHandler = (invoices: InvoiceInterface[], setValue: any) => {
 
 
 
+
 export const currencyHandler = (currencies: CurrencyInterface[], setValue: any) => {
     return (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedCurrency = currencies.find(c => c.currency_code)
+      const selectedCurrencyCode = e.target.value;
+        const selectedCurrency = currencies.find(a => a.currency_code === selectedCurrencyCode)
         console.log("✅ Found Currency:", selectedCurrency);
 
         if (selectedCurrency) {
@@ -93,7 +96,7 @@ export const currencyHandler = (currencies: CurrencyInterface[], setValue: any) 
             setValue("preferred_currency.sell", selectedCurrency.sell);
         }
     }
-}
+};
 
 
 export const purchaseAccountHandler = (accounts: ControlAccountInterface[], setValue: any) => {
@@ -376,6 +379,23 @@ export const debitNoteRelatedPaymentHandler = (customerPayments: CustomerPayment
 
     if (selectedPayment) {
       setValue("paid_amount", selectedPayment.paid_amount)
+    }
+  }
+};
+
+
+
+
+
+
+export const refundRelatedcreditNoteHandler = (creditNotes: CreditNoteCreateResponse[], setValue: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCreditNote = Number(e.target.value)
+    const selectedNote = creditNotes.find(a => a.credit_note_number === selectedCreditNote)
+    console.log("✅ Found related note:", selectedNote);
+
+    if (selectedNote) {
+      setValue("expected_refund", selectedNote?.credit_note_outstanding)
     }
   }
 };

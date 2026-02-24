@@ -392,7 +392,8 @@ export type CustomerPaymentDetails = {
   payment_number: number;
   date: string;
   customer_name: number;
-  project_name: number;
+  project: number;
+  project_name: string;
   account_received_in?: {
     account_code: number | null;
     account_name: number | null;

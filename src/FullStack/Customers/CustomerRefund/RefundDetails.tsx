@@ -237,17 +237,17 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
                                 
                 <div className="grid lg:grid-cols-5">
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Created By</p>
+                        <a className={details.extraSmallUppercase}>Created By</a><br />
                         {refund.created_by || 'N/A'}
                     </p>
 
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Updated By</p>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
                         {refund.updated_by || 'N/A'}
                     </p>
 
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Date Updated</p>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
                         {formatUpdatedDate(refund.date_updated) || 'N/A'}
                     </p>
                 </div>

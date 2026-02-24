@@ -53,7 +53,7 @@ export const createSupplierCategory = async (supplierCategoryData: SupplierCateg
 
 export const updateSupplierCategory = async ({ category_id, supplierCategoryData }: allSupplierCategoryInputs) => {
   try {
-    const response = await apiClient.patch(`suppliers/suppliercategories/${category_id}/`, supplierCategoryData);
+    const response = await apiClient.put(`suppliers/suppliercategories/${category_id}/`, supplierCategoryData);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -263,7 +263,7 @@ export const createSupplierCreditNote = async (supplierCreditNoteData: SupplierC
 
 export const updateSupplierCreditNote = async ({ credit_note_number, supplierCreditNoteData }: allSupplierCreditNoteInputs) => {
   try {
-    const response = await apiClient.patch(`/suppliers/suppliercreditnotes/${credit_note_number}/`, supplierCreditNoteData);
+    const response = await apiClient.put(`/suppliers/suppliercreditnotes/${credit_note_number}/`, supplierCreditNoteData);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -315,7 +315,7 @@ export const createSupplierDebitNote = async (supplierDebitNoteData: SupplierDeb
 
 export const updateSupplierDebitNote = async ({ debit_note_number, supplierDebitNoteData }: allSupplierDebitNoteInputs) => {
   try {
-    const response = await apiClient.patch(`/suppliers/supplierdebitnotes/${debit_note_number}/`, supplierDebitNoteData);
+    const response = await apiClient.put(`/suppliers/supplierdebitnotes/${debit_note_number}/`, supplierDebitNoteData);
     return response.data;
   } catch (error) {
     console.error(error);

@@ -106,48 +106,53 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Quotation No.</p>
+                            <a className={details.extraSmallUppercase}>Quotation No.</a><br />
                             {formatNumber()}{invoice.invoice_number}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Invoice Date</p>
+                            <a className={details.extraSmallUppercase}>Invoice Date</a><br />
                             {formatDate(invoice.invoice_date)}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Invoice Due Date</p>
+                            <a className={details.extraSmallUppercase}>Invoice Due Date</a><br />
                             {invoice.invoice_due_date}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Customer</p>
+                            <a className={details.extraSmallUppercase}>Customer</a><br />
                             {formatCustomerNumber()}{invoice.customer || 'N/A'} | {invoice.customer_name || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Customer Extra Details</p>
+                            <a className={details.extraSmallUppercase}>Customer Extra Details</a><br />
                             {invoice.customer_details || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Description</p>
+                            <a className={details.extraSmallUppercase}>Description</a><br />
                             {invoice.description || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Currency</p>
+                            <a className={details.extraSmallUppercase}>Currency</a><br />
                             {invoice.currency || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Cancelled</p>
+                            <a className={details.extraSmallUppercase}>Cancelled</a><br />
                             {invoice.cancelled ? 'Yes' : 'No'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Agent</p>
+                            <a className={details.extraSmallUppercase}>Agent</a><br />
                             {invoice.agent}
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <a className={details.extraSmallUppercase}>Related Project</a><br />
+                            {invoice.project_name}
                         </p>
                     </div>
 

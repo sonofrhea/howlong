@@ -250,7 +250,7 @@ function RefundManagement() {
                 refundData.related_customer_refund &&
                 refundData.related_customer_refund?.length > 0
                     ? refundData.related_customer_refund
-                    : undefined
+                    : undefined,
         };
         
         
@@ -481,14 +481,14 @@ function RefundManagement() {
                     <div className="flex items-center gap-6 justify-between">
                     <div className="flex items-center gap-4">
                         <div className="text-center">
-                        <div className="text-2xl font-light text-gray-900">{refunds.length}</div>
-                        <div className="text-sm text-gray-500">Total Notes</div>
+                            <div className="text-2xl font-light text-gray-900">{refunds.length}</div>
+                            <div className="text-sm text-gray-500">Total Refunds</div>
                         </div>
                         <div className="w-px h-8 bg-gray-200"></div>
                         <div className="text-center">
-                        <div className="text-2xl font-light text-gray-900">
-                            {new Set(refunds.map((c: any) => c.currency?.currency_code)).size}
-                        </div>
+                            <div className="text-2xl font-light text-gray-900">
+                                {new Set(refunds.map((c: any) => c.currency).filter(Boolean)).size}
+                            </div>
                         <div className="text-sm text-gray-500">Currencies</div>
                         </div>
                     </div>

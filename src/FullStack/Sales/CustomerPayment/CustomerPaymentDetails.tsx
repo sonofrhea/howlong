@@ -14,6 +14,25 @@ const formatDate = (dateString: string) => {
 };
 
 
+const formatProjectNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `PZN-${currentYear}-`;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
     customerPayment,
     isLoading,
@@ -110,7 +129,7 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                         <p className="text-sm font-medium text-gray-700">{customerPayment.customer_name || 'N/A'}</p>
 
                         <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Project</p>
-                        <p className="text-sm font-medium text-gray-700">{customerPayment.project_name || 'N/A'}</p>
+                        <p className="text-sm font-medium text-gray-700">{formatProjectNumber()}{customerPayment.project} | {customerPayment.project_name || 'N/A'}</p>
 
                         <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Completed</p>
                         <p className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
@@ -177,19 +196,19 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                             </div>
 
                             <div className="flex justify-between text-sm text-gray-600 mt-2">
-                            <span>Related Payment Paid Amount</span>
+                            <span>Payment Total</span>
                             <span className="font-semibold text-gray-800">RM {customerPayment.related_payment_paid_amount || 'N/A'}</span>
                             </div>
 
                             <hr className="my-4 border-blue-200" />
 
                             <div className="border-t border-dashed border-blue-300 mt-3 pt-3 flex justify-between items-center">
-                            <span>Related Payment Outstanding</span>
+                            <span>Full Invoices outstanding</span>
                             <span className="font-semibold text-gray-800">RM {customerPayment.related_payment_outstanding || 'N/A'}</span>
                             </div>
 
                             <div className="border-t border-dashed border-blue-300 mt-3 pt-3 flex justify-between items-center">
-                            <span>Outstanding</span>
+                            <span>Remaining Outstanding</span>
                             <span className="font-semibold text-gray-800">RM {customerPayment.outstanding || 'N/A'}</span>
                             </div>
                         </div>

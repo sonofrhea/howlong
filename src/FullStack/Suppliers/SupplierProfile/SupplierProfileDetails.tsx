@@ -1,6 +1,7 @@
 import React from "react";
 import { details } from "../../Core/constants/Styles";
 import { SupplierDetailsProps } from "../constants/Types";
+import { labelStyles } from "../constants/Styles";
 
 
 
@@ -11,11 +12,14 @@ const formatDate = (dateString: string) => {
 };
 
 const formatSupplierNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `SUP-${currentYear}-`;
-    };
+    const currentYear = new Date().getFullYear();
+    return `SUP-${currentYear}-`;
+};
 
 
+const formatUpdateDate = (dateString: any) => {
+    return new Date(dateString).toLocaleString();
+};
 
 
 
@@ -127,7 +131,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                         <h4 className="text-sm text-purple-900 font-medium">Category</h4>
 
                         <div className="text-lg font-bold text-black">
-                            {supplierProfile?.category || 'N/A'}
+                            {supplierProfile?.category_name || 'N/A'}
                         </div>
                     </div>
 
@@ -361,10 +365,17 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                 
                 <hr className="my-6 border-gray-200" />
                 
-                <p>
-                    <p className={details.extraSmallUppercase}>Created by</p>
-                    {formatDate(supplierProfile.date_created) || 'N/A'}
-                </p>
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                        {formatUpdateDate(supplierProfile?.date_updated) || "N/A"}
+                    </p>
+                            
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
+                        {supplierProfile?.updated_by || "N/A"}
+                    </p>
+                </div>
                 <hr className="my-6 border-gray-200" />
             </div>
         </div>

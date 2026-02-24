@@ -144,7 +144,7 @@ export type CustomerInputs = {
   home_number: string | null;
   fax: string;
   email: string;
-  id_type: typeof ID_TYPE_CHOICES[number]['value'] | null;
+  id_type: typeof ID_TYPE_CHOICES[number] | null;
   id_number: string;
   preferred_currency?: {
     currency_code?: string | null;
@@ -155,7 +155,7 @@ export type CustomerInputs = {
     sell?: number | null;
   } | null;
   gst_number: string | null;
-  tax_id_type: typeof TAX_ID_CHOICES[number]['value'] | null;
+  tax_id_type: typeof TAX_ID_CHOICES[number] | null;
   tax_number: string | null;
   tourism_number: string | null;
   expiration_date: string | null;
@@ -163,10 +163,10 @@ export type CustomerInputs = {
   taxpayers_qr_code?: File | null;
   customer_bank_name: string | null;
   customer_bank_account_number: number | null;
-  bank_account_type: typeof BANK_TYPE_CHOICES[number]['value'] | null;
+  bank_account_type: typeof BANK_TYPE_CHOICES[number] | null;
   swift_code: string | null;
   is_active: boolean;
-  status: typeof STATUS_CHOICES[number]['value'] | null;
+  status: typeof STATUS_CHOICES[number] | null;
   remark: string | null;
   created_by: string;
   date_created: string;
@@ -188,28 +188,28 @@ export type CustomerEdit = {
   home_number: string;
   fax: string;
   email: string;
-  id_type: typeof ID_TYPE_CHOICES[number]['value'] | null;
+  id_type: typeof ID_TYPE_CHOICES[number] | null;
   id_number: string;
-  preferred_currency?: {
-    currency_code?: string | null;
-    currency_name?: string | null;
-    currency_symbol?: string | null;
-    country?: string | null;
-    buy?: number | null;
-    sell?: number | null;
+  preferred_currency: {
+    currency_code: string | null;
+    currency_name: string | null;
+    currency_symbol: string | null;
+    country: string | null;
+    buy: number | null;
+    sell: number | null;
   } | null;
   customer_bank_name: string;
   customer_bank_account_number: string;
-  bank_account_type: typeof BANK_TYPE_CHOICES[number]['value'] | null;
+  bank_account_type: typeof BANK_TYPE_CHOICES[number] | null;
   swift_code: string;
   is_active: boolean;
   gst_number: string;
-  tax_id_type: typeof TAX_ID_CHOICES[number]['value'] | null;
+  tax_id_type: typeof TAX_ID_CHOICES[number] | null;
   tax_number: string;
   tourism_number: string;
   expiration_date: string;
   service_tax_number: string;
-  status: typeof STATUS_CHOICES[number]['value'] | null;
+  status: typeof STATUS_CHOICES[number] | null;
   remark: string;
 }
 
@@ -447,6 +447,7 @@ export type CreditNoteList = {
   currency: string;
   cancelled: boolean;
   agent: string;
+  credit_note_outstanding: number;
 };
 
 export type CreditNoteDetails = {
@@ -542,7 +543,7 @@ export type CreditNoteCreateResponse = {
   credit_note_number: number;
   credit_note_outstanding: number;
   aggregate_total: number;
-}
+};
 
 export type AllCreditNoteInputs = {
     credit_note_number: number;
@@ -638,8 +639,8 @@ export type CustomerRefundInputs = {
   date: string;
   pay_to: string | null;
   pay_to_name: string | null;
-  related_credit_note: string;
-  related_credit_note_outstanding: number | null;
+  related_credit_note: number;
+  related_credit_note_outstanding: number;
   payment_account?: {
     account_code?: number | null;
     account_name?: string | null;
@@ -650,7 +651,7 @@ export type CustomerRefundInputs = {
     date?: string | null;
     refund_amount?: number | null;
     additional_charges?: number | null;
-    payment_type?: typeof REFUND_TYPE_OPTIONS[number]['value'] | null;
+    payment_type?: typeof REFUND_TYPE_OPTIONS[number] | null;
     cancelled?: boolean | null;
   }> | null;
   tax_inclusive: boolean;
@@ -682,7 +683,7 @@ export type CustomerRefundDetails = {
     additional_charges: number | null;
     total_amount: number | null;
     cancelled: boolean;
-    payment_type?: typeof REFUND_TYPE_OPTIONS[number]['value'] | null;
+    payment_type?: typeof REFUND_TYPE_OPTIONS[number] | null;
   }> | null;
   net_refunded: number;
   outstanding: number;

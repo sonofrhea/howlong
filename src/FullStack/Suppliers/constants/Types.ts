@@ -50,7 +50,7 @@ export type SupplierCategoryInputs = {
 
 export type SupplierCategoryResponse = {
   category_id: number;
-  category: string;
+  category: number;
 }
 
 export type allSupplierCategoryInputs = {
@@ -115,7 +115,7 @@ export type SupplierProfileList = {
   supplier_name: string;
   company_name: string;
   industry_code: string;
-  category: string;
+  category_name: string;
   city: string;
   registration_number: number;
   status: string;
@@ -128,7 +128,7 @@ export type SupplierProfileDetails = {
   supplier_code: number;
   supplier_name: string;
   company_name: string;
-  category: string;
+  category_name: string;
   industry_code: string | null;
 
   preferred_currency: {
@@ -172,6 +172,8 @@ export type SupplierProfileDetails = {
 
   created_by: string;
   date_created: string;
+  updated_by: string;
+  date_updated: string;
   company: string;
 };
 
@@ -179,7 +181,7 @@ export type SupplierProfileInputs = {
   supplier_code: number;
   supplier_name: string;
   company_name: string;
-  category: string;
+  category: number;
   preferred_currency: {
     currency_code: string | null;
     currency_name: string | null;

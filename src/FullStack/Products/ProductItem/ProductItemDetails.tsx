@@ -98,34 +98,34 @@ const ProductItemDetails: React.FC<any> = ({ productItem, isLoading, onBack, onE
                 <div className="lg:col-span-2 flex flex-col gap-4">
 
                     {/* Title card */}
-                    <div className="bg-white rounded-2xl border border-gray-200 px-7 py-6 shadow-sm">
-                    <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-1">Product Item</p>
-                    <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-3">
-                        SKU-{productItem.item_code}
-                    </h1>
-                    <p className="text-sm text-gray-500 leading-relaxed">
-                        {productItem.item_description || <span className="italic text-gray-300">No description provided.</span>}
-                    </p>
+                    <div className="bg-blue-50 rounded-2xl text-center border border-blue-200 hover:border-blue-400 hover:shadow-2xl hover:cursor-pointer p-6 px-7 py-6 shadow-sm">
+                        <a className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-1">Product Item</a>
+                        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-3">
+                            SKU-{productItem.item_code}
+                        </h1>
+                        <a className="text-sm text-gray-500 leading-relaxed">
+                            {productItem.item_description || <span className="italic text-gray-300">No description provided.</span>}
+                        </a>
                     </div>
 
                     {/* 4 stat tiles */}
                     <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white rounded-xl border border-gray-200 px-5 py-4 shadow-sm">
-                        <a className="text-xs font-bold tracking-widest text-indigo-900 uppercase mb-1">Product Group</a>
-                        <p className="text-sm font-bold text-gray-800">SKG-{productItem.product_group}</p>
-                    </div>
-                    <div className="bg-white rounded-xl border border-gray-200 px-5 py-4 shadow-sm">
-                        <a className="text-xs font-bold tracking-widest text-amber-900 uppercase mb-1">Supplier</a>
-                        <p className="text-sm font-bold text-gray-800 truncate">{productItem.supplier_name || '—'}</p>
-                    </div>
-                    <div className="bg-white rounded-xl border border-gray-200 px-5 py-4 shadow-sm">
-                        <a className="text-xs font-bold tracking-widest text-emerald-900 uppercase mb-1">Date Created</a>
-                        <p className="text-sm font-bold text-gray-800">{formatDate(productItem.date_created)}</p>
-                    </div>
-                    <div className="bg-white rounded-xl border border-gray-200 px-5 py-4 shadow-sm">
-                        <a className="text-xs font-bold tracking-widest text-pink-900 uppercase mb-1">Created By</a>
-                        <p className="text-sm font-bold text-gray-800 truncate">{productItem.created_by || '—'}</p>
-                    </div>
+                        <div className="bg-violet-50 rounded-xl border border-violet-200 hover:border-violet-300 hover:shadow-2xl hover:cursor-pointer px-5 py-4 shadow-sm">
+                            <a className="text-xs font-bold tracking-widest text-indigo-900 uppercase mb-1">Product Group</a>
+                            <p className="text-sm font-bold text-gray-800">SKG-{productItem.product_group}</p>
+                        </div>
+                        <div className="bg-green-50 rounded-xl border text-center border-green-200 hover:border-green-300 hover:shadow-2xl hover:cursor-pointer px-5 py-4 shadow-sm">
+                            <a className="text-xs font-bold tracking-widest text-amber-900 uppercase mb-1">Supplier</a>
+                            <p className="text-sm font-bold text-gray-800 truncate">{productItem.supplier_name || '—'}</p>
+                        </div>
+                        <div className="bg-blue-50 rounded-xl border text-center border-blue-200 hover:border-blue-300 hover:shadow-2xl hover:cursor-pointer px-5 py-4 shadow-sm">
+                            <a className="text-xs font-bold tracking-widest text-emerald-900 uppercase mb-1">Date Created</a>
+                            <p className="text-sm font-bold text-gray-800">{formatDate(productItem.date_created)}</p>
+                        </div>
+                        <div className="bg-yellow-50 rounded-xl border border-yellow-200 hover:border-yellow-300 hover:shadow-2xl hover:cursor-pointer px-5 py-4 shadow-sm">
+                            <a className="text-xs font-bold tracking-widest text-pink-900 uppercase mb-1">Created By</a>
+                            <p className="text-sm font-bold text-gray-800 truncate">{productItem.created_by || '—'}</p>
+                        </div>
                     </div>
 
                 </div>

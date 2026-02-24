@@ -135,7 +135,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 >
                                     <option value="">select...</option>
                                     {useMemo(() => supplierCategories.map((category: SupplierCategoryResponse) => (
-                                        <option key={category.category} value={category.category}>
+                                        <option key={category.category_id} value={category.category_id}>
                                             CAT-00{category.category_id} | {category.category}
                                         </option>
                                     )), ['supplierCategories'])}
@@ -174,10 +174,9 @@ const currencyChange = currencyHandler(currencies, setValue);
                                 <div className="text-sm text-black  font-medium mb-1">Account open date</div>
                                 <input 
                                     type="date" 
-                                    {...register("account_open_date", {required: "Open Date is required"})}
+                                    {...register("account_open_date")}
                                     className="w-full text-black rounded-lg  cursor-pointer border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                 />
-                                {errors.account_open_date && <p className="text-amber-600 text-sm">{errors.account_open_date?.message}</p>}
                             </div>
 
                             <div>

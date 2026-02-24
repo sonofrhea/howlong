@@ -34,6 +34,8 @@ import CustomerEdit from "./CustomerEdit";
 import { CustomerInputs, CustomerCreateResponse, CustomersList } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
 import { toast } from "react-hot-toast";
+import { CurrencyInterface } from "../../Core/constants/Types";
+import { COUNTRY_OPTIONS } from "../constants/Options";
 
 
 
@@ -196,7 +198,8 @@ function CustomerManagement() {
 
     const cleanedData = {
       ...customerData,
-      preferred_currency: customerData.preferred_currency ?? undefined
+      preferred_currency:
+        customerData.preferred_currency ?? undefined
     };
 
 
@@ -276,7 +279,13 @@ function CustomerManagement() {
   const filteredCustomers = customers.filter((customer: CustomersList) =>
     customer?.date_created?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     String(customer?.customer_number)?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer?.customer_name?.toLowerCase().includes(searchTerm.toLowerCase())
+    customer?.customer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer.city?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer.country?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    String(customer?.mobile_number)?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer.status?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer.state?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer.preferred_currency?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // ------------------------------------------------------------------------------------
@@ -447,7 +456,7 @@ return (
 
                   <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">
-                      {new Set(customers.map((c: any) => c.currency?.currency_code)).size}
+                      {new Set(customers.map((c: any) => c.preferred_currency).filter(Boolean)).size}
                     </div>
                     <div className="text-sm text-gray-500">Currencies</div>
                   </div>
@@ -456,7 +465,7 @@ return (
 
                   <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">
-                      {new Set(customers.map((c: any) => c.country)).size}
+                      {new Set(customers.map((c: any) => c.country).filter(Boolean)).size}
                     </div>
                     <div className="text-sm text-gray-500">Countries</div>
                   </div>

@@ -6,6 +6,29 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
+const formatProjectNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `PZN-${currentYear}-`;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
     customerPayments,
@@ -153,7 +176,7 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
                                     {/* Project */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-black truncate">
-                                            {customerPayment.project}
+                                            {formatProjectNumber()}{customerPayment.project}
                                         </div>
                                     </td>
 
@@ -167,7 +190,7 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
                                     {/* Outstanding */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-black truncate">
-                                            RM {customerPayment.outstanding}
+                                            {customerPayment.outstanding}
                                         </div>
                                     </td>
 

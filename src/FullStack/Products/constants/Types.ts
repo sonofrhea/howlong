@@ -63,7 +63,7 @@ export type ProductGroupDetails = {
   balance_sheet_stock: number;
   active: boolean;
   created_by: string;
-  date_created: string
+  date_created: string;
 };
 
 
@@ -80,7 +80,7 @@ export type ProductGroupInputs = {
   purchase_return_code: number;
   balance_sheet_stock: number;
   active: boolean;
-  date_created: number;
+  date_created: string;
 };
 
 export type ProductGroupCreateResponse = {

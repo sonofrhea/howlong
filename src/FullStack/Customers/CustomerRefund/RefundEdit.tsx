@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { CreditNoteCreateResponse, CustomerCreateResponse,
     CustomerRefundInputs, CustomerRefundProps } from "../constants/Types";
-import { RefundAccountHandler } from "../../handlers";
+import { RefundAccountHandler, refundRelatedcreditNoteHandler } from "../../handlers";
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../constants/Styles";
 import { REFUND_TYPE_OPTIONS } from "../constants/Options";
 import { Trash2 } from "lucide-react";
@@ -83,6 +83,8 @@ const RefundEdit: React.FC<CustomerRefundProps> = ({
 
 
 const controlAccountChange = RefundAccountHandler(accounts, setValue);
+const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
+//console.log("ALL CREDIT NOTES", creditNotes)
 
 
 
@@ -165,11 +167,12 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                         <select
                             {...register("related_credit_note")}
                             className={forms.select.partial}
+                            onChange={creditNoteChange}
                         >
                             <option value="">select...</option>
                             {useMemo(() => creditNotes.map((creditNotes: CreditNoteCreateResponse) => (
                                 <option key={creditNotes.credit_note_number} value={creditNotes.credit_note_number}>
-                                    {formatCreditNoteNumber()}{creditNotes.credit_note_number} | Outstanding: {creditNotes.credit_note_outstanding || '--'}
+                                    {formatCreditNoteNumber()}{creditNotes.credit_note_number} | Outstanding: {creditNotes?.credit_note_outstanding || '--'}
                                 </option>
                             )), [creditNotes])}
                         </select>
@@ -180,7 +183,8 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                         <input 
                             {...register("expected_refund")}
                             type="number"
-                            title="enter expected amount..."
+                            readOnly
+                            title="credit note outstanding..."
                             className={forms.select.partial}
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
@@ -256,9 +260,10 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                                         <td>
                                             <input 
                                                 type="date"
-                                                {...register(`related_customer_refund.${index}.date`)}
+                                                {...register(`related_customer_refund.${index}.date`, {required: "Date is required"})}
                                                 className={forms.select.full}
                                             />
+                                            {errors.related_customer_refund?.[index]?.date && <p className="text-amber-600 text-sm">{errors.related_customer_refund?.[index]?.date?.message}</p>}
                                         </td>
 
                                         <td className={text.numbers}>
@@ -284,7 +289,7 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                                                 defaultValue="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }} 
                                             />
@@ -297,8 +302,8 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                                             >
                                                 <option value="">select...</option>
                                                 {REFUND_TYPE_OPTIONS.map(option => (
-                                                    <option key={option.value} value={option.value}>
-                                                        {option.label}
+                                                    <option key={option} value={option}>
+                                                        {option}
                                                     </option>
                                                 ))}
                                             </select>
@@ -375,7 +380,7 @@ const controlAccountChange = RefundAccountHandler(accounts, setValue);
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                         
