@@ -540,7 +540,7 @@ export type SupplierInvoiceInputs = {
   agent: string;
   product: string;
   related_invoice?: Array <{
-    item_name?: string | null;
+    item?: number | null;
     description?: string | null;
     quantity?: number | null;
     unit_of_measure?: string | null;

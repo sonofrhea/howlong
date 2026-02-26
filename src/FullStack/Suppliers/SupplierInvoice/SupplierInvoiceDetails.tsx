@@ -68,7 +68,7 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
                         <div className="text-center space-y-6 px-6 py-3 gap-4">
                             <div className={layout.badge}>
                                 <p className={text.badgeLarge}>
-                                    INVOICE DETAILS
+                                    SUPPLIER INVOICE DETAILS
                                 </p>
                                 <p className={labelStyles}>
                                     {formatNumber()}{supplierInvoice.invoice_number}

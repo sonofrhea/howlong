@@ -134,10 +134,8 @@ function CustomerManagement() {
       },
       onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['customers'] });
-          queryClient.invalidateQueries({
-              queryKey: ['customer', selectedCustomerId]
-          });
-          toast.success('Customer Updated', { id: "Update Customer" });
+          queryClient.invalidateQueries({ queryKey: ['customer', selectedCustomerId]});
+          toast.success('Customer successfully Updated', { id: "Update Customer" });
           setView('details');
       },
       onError: (error: any) => {
@@ -219,14 +217,17 @@ function CustomerManagement() {
 
     const cleanedData = {
       ...customerData,
-      preferred_currency: customerData.preferred_currency ?? undefined
+      preferred_currency:
+        customerData.preferred_currency ?? undefined
     };
 
-    
-    await updateCustomersMutation.mutateAsync({
-      customer_number: selectedCustomerId!,
-      customerData: cleanedData
-    });
+  //console.log("✅ Sending payload:", cleanedData);
+
+  await updateCustomersMutation.mutateAsync({
+    customer_number: selectedCustomerId!,
+    customerData: cleanedData
+  });
+    //console.log("🎯 SECOND RAW FORM DATA:", updateCustomersMutation);
   };
 
 

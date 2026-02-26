@@ -219,10 +219,12 @@ function SupplierInvoiceManagement() {
                     : undefined,
         };
 
+        console.log("🎯 RAW FORM DATA:", cleanedData)
         await updateSupplierInvoiceMutation.mutateAsync({
             invoice_number: selectedSupplierInvoiceId!,
             supplierInvoiceData: cleanedData
         });
+        console.log("🎯 SECOND RAW FORM DATA:", updateSupplierInvoiceMutation)
     };
 
 
@@ -436,9 +438,9 @@ function SupplierInvoiceManagement() {
                     <div className="w-px h-8 bg-gray-200"></div>
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                        {new Set(supplierInvoices.map((c: any) => c.currency?.currency_code)).size}
+                        {new Set(supplierInvoices.map((c: any) => c.cancelled).filter(Boolean)).size}
                         </div>
-                        <div className="text-sm text-gray-500">Currencies</div>
+                        <div className="text-sm text-gray-500">Cancelled</div>
                     </div>
                     </div>
                     <div className="flex gap-4">

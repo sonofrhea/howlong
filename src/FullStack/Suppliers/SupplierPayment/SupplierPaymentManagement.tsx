@@ -103,7 +103,6 @@ function SupplierPaymentManagement() {
         queryKey: ['supplierPayments'],
         queryFn: fetchSupplierPayments
     });
-    console.log(supplierPayments);
 
 
 
@@ -217,7 +216,7 @@ function SupplierPaymentManagement() {
                     : undefined,
         };
         
-        //console.log("🎯 RAW FORM DATA:", supplierPaymentData);
+        console.log("🎯 RAW FORM DATA:", cleanedData);
         await createSupplierPaymentMutation.mutateAsync(cleanedData);
     };
 
@@ -236,19 +235,13 @@ function SupplierPaymentManagement() {
                     ? supplierPaymentData.related_payment
                     : undefined,
         };
-
-        const toastId = toast.loading('Updating Supplier Payment...');
-        try {
-            await updateSupplierPaymentMutation.mutateAsync({
-                payment_code: selectedSupplierPaymentId!,
-                supplierPaymentData: cleanedData
-            });
-            
-        } catch (error) {
-            
-            console.error(error);
-        }  
-    };
+        
+        console.log("🎯 RAW FORM DATA:", cleanedData);
+        await updateSupplierPaymentMutation.mutateAsync({
+            payment_code: selectedSupplierPaymentId!,
+            supplierPaymentData: cleanedData
+        });
+};
 
 
 

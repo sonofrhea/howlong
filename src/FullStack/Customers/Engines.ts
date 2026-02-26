@@ -50,13 +50,9 @@ export const fetchCustomerById = async (customer_number: number) => {
   
 };
 
-export const createCustomer = async (customerData: CustomerInputs | FormData) => {
+export const createCustomer = async (customerData: CustomerInputs) => {
   try {
-    const response = await apiClient.post('/customers/customerprofile/', customerData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await apiClient.post('/customers/customerprofile/', customerData);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -65,11 +61,7 @@ export const createCustomer = async (customerData: CustomerInputs | FormData) =>
 
 export const updateCustomer = async ({ customer_number, customerData }: AllCustomerInputs) => {
   try {
-    const response = await apiClient.put(`/customers/customerprofile/${customer_number}/`, customerData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await apiClient.put(`/customers/customerprofile/${customer_number}/`, customerData);
     return response.data;
   } catch (error) {
     console.error(error);

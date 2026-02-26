@@ -65,7 +65,7 @@ export default function SessionTimeoutModal({
                 <div className="px-8 pt-10 pb-4 text-center">
                     <a className="text-2xl font-bold text-gray-900 leading-tight">Session Timeout</a><br /><br />
                     <a className="text-gray-500 mt-3 text-lg text-center">
-                        You've been idle for more than 50mins. <br/>
+                        You've been idle for 50mins. <br/>
                         <span className="text-sm">Please validate to resume your session.</span>
                     </a>
                 </div>

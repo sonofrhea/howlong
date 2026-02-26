@@ -15,6 +15,15 @@ export const useSessionTimeout = () =>{
     const navigate = useNavigate();
     const [showPrompt, setShowPrompt] = useState(false);
     const [countdown, setCountdown] = useState(PROMPT_DURATION_MS / 1000);
+    const [redirect, setRedirect] = useState(false);
+
+
+    useEffect(() => {
+        if (redirect) {
+            navigate("/login?reason=idle_timeout");
+            setRedirect(false);
+        }
+    }, [redirect, navigate])
 
 
     const { activate } = useIdleTimer({
@@ -23,7 +32,7 @@ export const useSessionTimeout = () =>{
         promptBeforeIdle: PROMPT_DURATION_MS,
         onIdle: () => {
             localStorage.removeItem('Token');
-            navigate('/login?reason=idle_timeout');
+            setRedirect(true);
         },
         onPrompt: () => setShowPrompt(true),
         onActive: () => {
@@ -42,7 +51,7 @@ export const useSessionTimeout = () =>{
             setCountdown(prev => {
                 if (prev <= 1) {
                     localStorage.removeItem('Token');
-                    navigate('/login?reason=idle_timeout');
+                    setRedirect(true);
                     return 0;
                 }
                 return prev - 1;
@@ -50,7 +59,7 @@ export const useSessionTimeout = () =>{
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [showPrompt, navigate]);
+    }, [showPrompt]);
 
     const handleStayLoggedInValidation = async () => {
         setShowPrompt(false);
