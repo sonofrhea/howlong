@@ -114,16 +114,16 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                 <table className="w-full rounded-lg shadow-sm border border-gray-200 table-fixed divide-y divide-gray-400 divide-dotted">
                     <colgroup>
                     {[
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-[9%] text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-[6%] text-center",
+                        "w-[6%] text-center",
+                        "w-1/10 text-center",
+                        "w-[7%] text-center",
                     ].map((line, index) => (
                         <col key={index} className={line} />
                     ))}

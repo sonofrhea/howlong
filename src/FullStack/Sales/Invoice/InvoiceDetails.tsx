@@ -26,6 +26,9 @@ const formatUpdateDate = (dateString: string) => {
 };
 
 
+const formatDateTime = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
 
 
 
@@ -142,7 +145,12 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                         
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Cancelled</a><br />
-                            {invoice.cancelled ? 'Yes' : 'No'}
+                            <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                    invoice.cancelled
+                                        ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                                }`}>
+                                    {invoice.cancelled ? 'Yes' : 'No'}
+                            </span>
                         </p>
                         
                         <p className={labelStyles}>
@@ -175,7 +183,7 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                                     </thead>
 
                                     <tbody className={tables.body}>
-                                        {invoice.related_invoice.map((line: any, index: any) => (
+                                        {invoice.related_invoice.map((line, index) => (
                                             <tr key={index}>
                                                 <td className={tables.cell}>SKU-{line.item}</td>
                                                 <td className={tables.cell}>{line.description || '--'}</td>
@@ -199,17 +207,26 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                                         <div className="font-medium text-gray-800">{invoice.gross_total || 'N/A'}</div>
                                     </div>
 
+                                    <hr className="my-2 border-blue-200" />
+
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Discount %</div>
-                                        <div className="font-medium text-gray-800">{invoice.discount_amount || 'N/A'}%</div>
+                                        <div className="font-medium text-gray-800">({invoice.discount_amount || 'N/A'})%</div>
                                     </div>
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Total after discount</div>
+                                        <div className="font-medium text-gray-800">{invoice.after_discount_totals || 'N/A'}</div>
+                                    </div>
+
+                                    <hr className="my-2 border-blue-200" />
 
                                     <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                         <div>Tax %</div>
                                         <div className="font-medium text-gray-800">{invoice.tax_amount || 'N/A'}%</div>
                                     </div>
 
-                                    <hr className="my-4 border-blue-200" />
+                                    <hr className="my-2 border-blue-200" />
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Net Total</div>
@@ -222,13 +239,30 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                         </div>
                     )}
                 </div>
-
+                
                 <hr className="my-6 border-gray-200" />
-                        
-                <p className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Created By</p>
-                    {invoice.created_by}
-                </p>
+    
+                
+                <div className="grid lg:grid-cols-5">
+                    
+                    <div className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Created by</a><br />
+                        {invoice.created_by}
+                    </div>
+    
+    
+                    <div className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                        {formatDateTime(invoice.date_updated)}
+                    </div>
+    
+    
+                    <div className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Updated by</a><br />
+                        {invoice.updated_by}
+                    </div>
+                </div>
+    
                 <hr className="my-6 border-gray-200" />
             </div>
         </div>

@@ -90,6 +90,7 @@ export type QuotationDetails = {
   }> | null;
   discount: boolean;
   discount_amount: number;
+  after_discount_totals: number;
   tax_inclusive: boolean;
   tax_amount: number;
   cancelled: boolean;
@@ -210,32 +211,33 @@ export type InvoiceDetails = {
     item: number;
     item_name: string;
     description: string;
-    quantity: string;
+    quantity: number;
     unit_of_measure: string;
-    price_per_unit: string;
-    total: string;
+    price_per_unit: number;
+    total: number;
     tax_inclusive: boolean;
-    tax_amount: string;
+    tax_amount: number;
     sub_total: string;
     cancelled: boolean;
   }>;
 
   currency: string;
   tax_inclusive: boolean;
-  tax_amount: string;
+  tax_amount: number;
 
   agent: string;
   project_name: string;
 
   discount: boolean;
-  discount_amount: string;
-
+  discount_amount: number;
+  after_discount_totals: number;
   cancelled: boolean;
 
   gross_total: string;
   net_total: string;
-
+  updated_by: string;
   created_by: string;
+  date_updated: string;
 };
 
 export type InvoiceInputs = {

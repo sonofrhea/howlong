@@ -126,59 +126,60 @@ const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p>
-                            <p className={details.extraSmallUppercase}>Debit Note No</p>
+                            <a className={details.extraSmallUppercase}>Debit Note No</a><br />
                             {formatNumber()}{supplierDebitNote.debit_note_number}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Date</p>
+                            <a className={details.extraSmallUppercase}>Date</a><br />
                             {formatDate(supplierDebitNote.date)}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Account</p>
+                            <a className={details.extraSmallUppercase}>Account</a><br />
                             {supplierDebitNote.account?.account_code || 'N/A'} - ({supplierDebitNote.account?.account_name || 'N/A'})
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Reference Supplier</p>
+                            <a className={details.extraSmallUppercase}>Reference Supplier</a><br />
                             {formatSupplierNumber()}{supplierDebitNote.supplier || 'N/A'} | {supplierDebitNote.supplier_name || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Reference Invoice</p>
+                            <a className={details.extraSmallUppercase}>Reference Invoice</a><br />
                             {formatSupplierInvoiceNumber()}{supplierDebitNote.related_invoice || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Reference Invoice Total</p>
+                            <a className={details.extraSmallUppercase}>Reference Invoice Total</a><br />
                             {supplierDebitNote.related_invoice_total || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Currency</p>
+                            <a className={details.extraSmallUppercase}>Currency</a><br />
                             {supplierDebitNote.currency || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Agent</p>
+                            <a className={details.extraSmallUppercase}>Agent</a><br />
                             {supplierDebitNote.agent || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Description</p>
+                            <a className={details.extraSmallUppercase}>Description</a><br />
                             {supplierDebitNote.description || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={`inline-flex items-center px-0.1 py-0.1 rounded ${
+                            <a className={details.extraSmallUppercase}>Cancelled</a><br />
+                            <p className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                                 supplierDebitNote.cancelled
                                 ? 'bg-red-100 text-red-800'
                                 : 'bg-green-100 text-green-800'
                             }`}>
-                                Cancelled
+                                {supplierDebitNote.cancelled ? 'Yes' : 'No'}
                             </p>
-                            {supplierDebitNote.cancelled ? 'Yes' : 'No'}
+                            
                         </p>
 
                     </div>

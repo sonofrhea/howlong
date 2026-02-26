@@ -471,9 +471,9 @@ function SupplierPaymentManagement() {
                     <div className="w-px h-8 bg-gray-200"></div>
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                        {new Set(supplierPayments.map((c: any) => c.currency?.currency_code)).size}
+                        {new Set(supplierPayments.map((c: any) => c.cancelled?.length).filter(Boolean)).size}
                         </div>
-                        <div className="text-sm text-gray-500">Currencies</div>
+                        <div className="text-sm text-gray-500">Cancelled</div>
                     </div>
                     </div>
                     <div className="flex gap-4">
@@ -495,7 +495,8 @@ function SupplierPaymentManagement() {
                             onClick={() => setView('form')}
                             className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
-                           ++ New Supplier Payment
+                           <Plus size={16}/>
+                           New Supplier Payment
                         </button>
                     </div>
                 </div>

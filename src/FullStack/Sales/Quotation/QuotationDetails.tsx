@@ -217,17 +217,26 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                                         </div>
                                     </div>
 
+                                    <hr className="my-2 border-blue-200" />
+
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Discount %</div>
                                         <div className={labelStyles}>({quotation.discount_amount})%</div>
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Amount after discount</div>
+                                        <div className={labelStyles}>{quotation.after_discount_totals}</div>
+                                    </div>
+
+                                    <hr className="my-2 border-blue-200" />
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Tax %</div>
                                         <div className={labelStyles}>{quotation.tax_amount} %</div>
                                     </div>
 
-                                    <hr className="my-4 border-blue-200" />
+                                    <hr className="my-2 border-blue-200" />
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div className="text-sm text-gray-500">Net Total</div>
@@ -242,25 +251,25 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                     </div>
                 )}
             </div>
-
+                            
             <hr className="my-6 border-gray-200" />
 
             
             <div className="grid lg:grid-cols-5">
                 <div className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Created by</p>
+                    <a className={details.extraSmallUppercase}>Created by</a><br />
                     {quotation.created_by}
                 </div>
 
 
                 <div className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Date Updated</p>
+                    <a className={details.extraSmallUppercase}>Date Updated</a><br />
                     {formatDateTime(quotation.date_updated)}
                 </div>
 
 
                 <div className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Updated by</p>
+                    <a className={details.extraSmallUppercase}>Updated by</a><br />
                     {quotation.updated_by}
                 </div>
             </div>

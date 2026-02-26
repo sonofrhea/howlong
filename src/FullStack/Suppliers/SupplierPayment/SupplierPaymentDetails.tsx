@@ -150,11 +150,6 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                             <p className={details.extraSmallUppercase}>Currency</p>
                             {supplierPayment.currency || 'N/A'}
                         </p>
-
-                        <p>
-                            <p className={details.extraSmallUppercase}>Agent</p>
-                            {supplierPayment.agent || 'N/A'}
-                        </p>
                     </div>
 
                     <hr className="my-6 border-gray-200" />
@@ -196,19 +191,19 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                                 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
                                     <div>Gross Paid</div>
-                                    <div className="font-medium text-gray-800">{supplierPayment.gross_paid || 'N/A'}</div>
+                                    <div className="font-medium text-gray-800">{supplierPayment.aggregate_total || 'N/A'}</div>
                                 </div>
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                     <div>Tax %</div>
-                                    <div className="font-medium text-gray-800">{supplierPayment.tax_amount || 'N/A'}%</div>
+                                    <div className="font-medium text-gray-800">({supplierPayment.tax_amount || 'N/A'})%</div>
                                 </div>
 
                                 <hr className="my-4 border-blue-200" />
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
-                                    <div>Net Total</div>
-                                    <div className="font-medium text-gray-800">{supplierPayment.aggregate_total || 'N/A'}</div>
+                                    <div>Net Paid</div>
+                                    <div className="font-medium text-gray-800">{supplierPayment.net_paid || 'N/A'}</div>
                                 </div>
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">

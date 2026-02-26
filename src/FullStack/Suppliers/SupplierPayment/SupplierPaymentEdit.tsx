@@ -206,6 +206,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                         <input 
                             {...register("invoice_amount")}
                             type="number"
+                            readOnly
                             className={forms.input.midNumber}
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {
@@ -214,21 +215,6 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                 }
                             }} 
                         />
-                    </div>
-                    
-                    <div>
-                        <p className={forms.label}>Agent</p>
-                        <select
-                            {...register("agent")}
-                            className={forms.select.partial}
-                        >
-                            <option value="">select...</option>
-                            {useMemo(() => agents.map((agent: AgentInterface) => (
-                                <option key={agent.email} value={agent.email}>
-                                    {agent.name} | {agent.email}
-                                </option>
-                            )), [agents])}
-                        </select>
                     </div>
                 </div>
 

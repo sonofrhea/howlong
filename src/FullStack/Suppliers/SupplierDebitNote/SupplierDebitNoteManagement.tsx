@@ -469,9 +469,9 @@ function SupplierDebitNoteManagement() {
                     <div className="w-px h-8 bg-gray-200"></div>
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                        {new Set(supplierDebitNotes.map((c: any) => c.currency?.currency_code)).size}
+                        {new Set(supplierDebitNotes.map((c: any) => c.cancelled?.length).filter(Boolean)).size}
                         </div>
-                        <div className="text-sm text-gray-500">Currencies</div>
+                        <div className="text-sm text-gray-500">Cancelled</div>
                     </div>
                     </div>
                     <div className="flex gap-4">
