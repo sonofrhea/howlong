@@ -243,7 +243,6 @@ function InvoiceManagement() {
                     ? invoiceData.related_invoice
                     : undefined,
         };
-
         await updateInvoiceMutation.mutateAsync({
             invoice_number: selectedInvoiceId!,
             invoiceData: cleanedData
@@ -461,9 +460,16 @@ function InvoiceManagement() {
                     <div className="w-px h-8 bg-gray-200"></div>
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                        {new Set(invoices.map((c: any) => c.currency?.currency_code)).size}
+                        {new Set(invoices.map((c: any) => c.currency).filter(Boolean)).size}
                         </div>
                         <div className="text-sm text-gray-500">Currencies</div>
+                    </div>
+                    <div className="w-px h-8 bg-gray-200"></div>
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-gray-900">
+                        {invoices.filter((c: InvoiceList) => c.cancelled).length}
+                        </div>
+                        <div className="text-sm text-gray-500">Cancelled</div>
                     </div>
                     </div>
                     <div className="flex gap-4">

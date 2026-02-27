@@ -107,13 +107,11 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                 <div className={forms.label}>
                                     <div>
                                         <strong >Cancelled:  </strong>
-                                        <span>
-                                            <input 
-                                                type="checkbox"
-                                                {...register("cancelled")}
-                                                className="text-black cursor-pointer"
-                                            />
-                                        </span>
+                                        <input 
+                                            type="checkbox"
+                                            {...register("cancelled")}
+                                            className="text-black cursor-pointer"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -349,15 +347,15 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                         <button
                                             type="button"
                                             onClick={() => append({ 
-                                                item: "", 
-                                                description: "",
-                                                quantity: 0, 
-                                                unit_of_measure: "", 
-                                                price_per_unit: 0.00, 
-                                                currency: "",
-                                                tax_inclusive: false,
-                                                tax_amount: 0.00,
-                                                cancelled: false 
+                                                    item: "", 
+                                                    description: "",
+                                                    quantity: 0, 
+                                                    unit_of_measure: "", 
+                                                    price_per_unit: 0.00, 
+                                                    currency: "",
+                                                    tax_inclusive: false,
+                                                    tax_amount: 0.00,
+                                                    cancelled: false 
                                                 })}
                                             className="min-w-full divide-y divide-gray-100"
                                         >
@@ -411,15 +409,6 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                                 e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
-                                    />
-                                </div>
-                                        
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Cancelled? </div>
-                                    <input 
-                                        type="checkbox"
-                                        {...register("cancelled")}
-                                        className="text-black cursor-pointer"
                                     />
                                 </div>
                             </div>

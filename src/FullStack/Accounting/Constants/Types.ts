@@ -158,6 +158,7 @@ export type IncomeAndExpensesList = {
     category: string;
     description: string;
     currency: string;
+    cancelled: boolean;
     net_debit: number;
     net_credit: number;
     running_balance: number;
@@ -171,7 +172,7 @@ export type IncomeAndExpensesInputs = {
         account_name: string;
         account_type: string;
     };
-    category: typeof INCOME_EXPENSES_OPTIONS[number]['value'] | null;
+    category: typeof INCOME_EXPENSES_OPTIONS[number] | null;
     description: string;
     currency: string;
     gross_debit: number;
@@ -594,7 +595,7 @@ export type CashBookInputs = {
         account_name?: string;
         account_type?: string;
     } | null;
-    transaction_type: typeof CASH_BOOK_OPTIONS[number]['value'] | null;
+    transaction_type: typeof CASH_BOOK_OPTIONS[number] | null;
     currency: string;
     net_debit: number;
     net_credit: number;

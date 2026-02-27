@@ -128,7 +128,7 @@ const MarketplaceRegister = () => {
                 <header className="border-b border-stone-200 bg-white sticky top-0 z-50">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between h-16">
-                            <a className="flex items-center space-x-3" href="/marketplace-signin">
+                            <a className="flex items-center space-x-3" href="/marketplace-login">
                                 <svg className="w-9 h-9 text-orange-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                 </svg>

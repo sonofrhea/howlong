@@ -57,7 +57,7 @@ export type QuotationInputs = {
     unit_of_measure?: string | null;
     price_per_unit?: number | null;
     currency?: string | null;
-    cancelled?: boolean | null;
+    cancelled?: boolean;
     tax_inclusive?: boolean | null;
     tax_amount?: number | null;
   }> | null;

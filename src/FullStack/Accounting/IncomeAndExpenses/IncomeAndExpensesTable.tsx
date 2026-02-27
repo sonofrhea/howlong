@@ -106,20 +106,23 @@ const IncomeAndExpensesTable: React.FC<IncomeAndExpensesListProps> = ({
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
                     {[
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
                         "w-[7%] text-center",
-                    ]}
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center font-bold",
+                        "w-[7%] text-center",
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
-                            <SortableHeader label="Reference #" sortKey="reference_number" />
                             <SortableHeader label="Date" sortKey="date" />
+                            <SortableHeader label="Reference #" sortKey="reference_number" />
                             <SortableHeader label="Category" sortKey="category" />
                             <SortableHeader label="Description" sortKey="description" />
                             <SortableHeader label="Currency" sortKey="currency" />
@@ -138,18 +141,19 @@ const IncomeAndExpensesTable: React.FC<IncomeAndExpensesListProps> = ({
                             return (
                                 <tr key={incomeAndExpense.reference_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onIncomeAndExpenseClick(incomeAndExpenseId)}>
-                                    {/* Reference Number */}
-                                    <td className="px-2 py-2">
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            {formatNumber()}{incomeAndExpense.reference_number}
-                                        </span>
-                                    </td>
 
                                     {/* Date */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
                                             {formatDate(incomeAndExpense.date)}
                                         </div>
+                                    </td>
+
+                                    {/* Reference Number */}
+                                    <td className="px-2 py-2">
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
+                                            {formatNumber()}{incomeAndExpense.reference_number}
+                                        </span>
                                     </td>
 
                                     {/* Category */}
@@ -189,7 +193,7 @@ const IncomeAndExpensesTable: React.FC<IncomeAndExpensesListProps> = ({
 
                                     {/* Running Balance */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm text-black truncate font-bold">
                                             {incomeAndExpense.running_balance}
                                         </div>
                                     </td>

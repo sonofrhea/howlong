@@ -18,7 +18,8 @@ import { fetchCustomers } from "../../Customers/Engines"
 
 
 import { IncomeAndExpensesInputs, AllIncomeAndExpenses, 
-    EditIncomeAndExpenses } from "../Constants/Types";
+    EditIncomeAndExpenses, 
+    IncomeAndExpensesList} from "../Constants/Types";
 
 
 import { spinningStyles } from "../Constants/Styles";
@@ -36,6 +37,10 @@ interface SortConfig {
   direction: 'asc' | 'desc';
 }
 
+
+const decimalPlaces = (amount: number) => {
+    return `${amount.toFixed(2)}`;
+};
 
 
 
@@ -440,9 +445,30 @@ function IncomeAndExpensesManagement() {
                     <div className="w-px h-8 bg-gray-200"></div>
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                        {new Set(incomeAndExpenses.map((c: any) => c.currency?.currency_code)).size}
+                        {incomeAndExpenses.filter((row: IncomeAndExpensesInputs) => row.category === "INCOME").length}
                         </div>
-                        <div className="text-sm text-gray-500">Currencies</div>
+                        <div className="text-sm text-gray-500">Income</div>
+                    </div>
+                    <div className="w-px h-8 bg-gray-200"></div>
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-gray-900">
+                        {incomeAndExpenses.filter((row: IncomeAndExpensesInputs) => row.category === "EXPENSES").length}
+                        </div>
+                        <div className="text-sm text-gray-500">Expenses</div>
+                    </div>
+                    <div className="w-px h-8 bg-gray-200"></div>
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-gray-900">
+                        {decimalPlaces(incomeAndExpenses.reduce((sum: number, row: IncomeAndExpensesList) => sum + Number(row.net_debit ?? 0.00), 0.00))}
+                        </div>
+                        <div className="text-sm text-gray-500">Total Income</div>
+                    </div>
+                    <div className="w-px h-8 bg-gray-200"></div>
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-gray-900">
+                        {decimalPlaces(incomeAndExpenses.reduce((sum: number, row: IncomeAndExpensesList) => sum + Number(row.net_credit ?? 0),0))}
+                        </div>
+                        <div className="text-sm text-gray-500">Total Expenses</div>
                     </div>
                     </div>
                     <div className="flex gap-4">

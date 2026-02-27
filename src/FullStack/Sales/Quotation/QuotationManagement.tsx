@@ -20,7 +20,8 @@ import QuotationEdit from "./QuotationEdit";
 
 
 import { QuotationInputs, QuotationCreateResponse, 
-    EditQuotationInputs } from "../Constants/Types";
+    EditQuotationInputs, 
+    QuotationList} from "../Constants/Types";
 
 
 import { fetchProductItems } from "../../Products/Engines";
@@ -218,7 +219,6 @@ function QuotationManagement() {
 
         
         //console.log("🎯 RAW FORM DATA:", cleanedData);
-
         await createQuotationMutation.mutateAsync(cleanedData); 
     };
 
@@ -490,7 +490,7 @@ function QuotationManagement() {
                         <div className="w-px h-8 bg-gray-200"></div>
                         <div className="text-center">
                             <div className="text-2xl font-light text-gray-900">
-                            {new Set(quotations.map((c: any) => c.cancelled).filter(Boolean)).size}
+                            {quotations.filter((q: QuotationList) => q.cancelled).length}
                             </div>
                             <div className="text-sm text-gray-500">Cancelled</div>
                         </div>

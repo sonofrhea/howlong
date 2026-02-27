@@ -487,9 +487,9 @@ const handleItemsPerPageChange = (value: any) => {
                   <div className="w-px h-8 bg-gray-200"></div>
                   <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">
-                      {new Set(invoicePayment.map((c: any) => c.currency?.currency_code)).size}
+                      {invoicePayment.filter((c: InvoicePaymentList) => c.cancelled).length}
                     </div>
-                    <div className="text-sm text-gray-500">Currencies</div>
+                    <div className="text-sm text-gray-500">Cancelled</div>
                   </div>
                 </div>
                 <div className="flex gap-4">

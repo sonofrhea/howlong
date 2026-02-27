@@ -109,7 +109,7 @@ const MarketplaceLogin = () => {
                             </div>
                             
                             <div className="flex items-center space-x-6">
-                                <a href="/marketplace-signin" className="text-sm text-gray-600 hover:text-orange-600 font-medium hidden sm:block">Market Homepage</a>
+                                <a href="/marketplace" className="text-sm text-gray-600 hover:text-orange-600 font-medium hidden sm:block">Market Homepage</a>
                                 <a href="#" className="text-sm text-gray-600 hover:text-orange-600 font-medium hidden sm:block">Help Center</a>
                                 <a href="#" className="text-sm text-gray-600 hover:text-orange-600 font-medium">Contact Support</a>
                             </div>

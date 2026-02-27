@@ -20,6 +20,19 @@ const formatJournalNumber = () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 const JournalEntryDetails: React.FC<JournalEntryDetailsProps> = ({
     journalEntry,
     isLoading,

@@ -1183,12 +1183,14 @@ export default function ConstructionERPLanding() {
             </p>
 
             <div className="cta-group-header">
-                <a href="#demo" className="cta-primary">Try It Out</a>
+                <a href="#demo" className="cta-primary">
+                    Try It Out 
+                </a>
                 <a href="#estimation" className="cta-secondary">Learn More</a>
             </div>
             <div>
                 <button className="cta-marketplace" onClick={() => navigate("/marketplace")}>
-                    Enter Suppliers Marketplace
+                    Marketplace For Suppliers
                     <ArrowRight className="ml-2 arrow-icon" />
                 </button>
             </div>

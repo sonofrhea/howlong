@@ -34,6 +34,9 @@ interface SortConfig {
 
 
 
+const decimalPlaces = (amount: number) => {
+    return `${amount.toFixed(2)}`;
+};
 
 
 
@@ -461,9 +464,8 @@ function CashBookManagement() {
                     <div className="w-px h-8 bg-gray-200"></div>
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                        {new Set(cashBooks.map((c: any) => c.currency?.currency_code)).size}
+                        {}
                         </div>
-                        <div className="text-sm text-gray-500">Currencies</div>
                     </div>
                     </div>
                     <div className="flex gap-4">
