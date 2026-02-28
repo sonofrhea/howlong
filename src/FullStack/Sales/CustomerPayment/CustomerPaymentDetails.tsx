@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { labelStyles, layout, text } from "../Constants/Styles";
+import { buttons, details, labelStyles, layout, text } from "../Constants/Styles";
 import { CustomerPaymentDetailsProps } from "../Constants/Types";
 import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
+import { SquarePen } from "lucide-react";
 
 
 const formatNumber = () => {
@@ -19,7 +20,9 @@ const formatProjectNumber = () => {
     return `PZN-${currentYear}-`;
 };
 
-
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
 
 
 
@@ -92,11 +95,10 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                     <div className="flex gap-3">
                         <button 
                             onClick={() => onEdit(customerPaymentId)}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                            className={buttons.editButtonGreen}
                         >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
+                            <SquarePen size={20} strokeWidth={1.5} 
+                            className="cursor-pointer"/>
                             Edit
                         </button>
                     <button
@@ -112,26 +114,26 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
 
                 <div className="grid grid-cols-3 gap-6">
                     <div>
-                        <p className="text-center tracking-widest text-xs font-semibold uppercase">Payment No</p>
-                        <p className="text-sm font-medium text-gray-700">POST-{customerPayment.payment_number}</p>
+                        <a className="text-center tracking-widest text-xs font-semibold uppercase">Payment No</a><br />
+                        <p className="text-sm font-medium mb-4 text-gray-700">POST-{customerPayment.payment_number}</p>
 
-                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Posted Date</p>
-                        <p className="text-sm font-medium text-gray-700">{formatDate(customerPayment.date)}</p>
+                        <a className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Posted Date</a><br />
+                        <p className="text-sm font-medium mb-4 text-gray-700">{formatDate(customerPayment.date)}</p>
 
-                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Account received in</p>
+                        <a className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Account received in</a><br />
                         <p className="text-sm font-medium text-gray-700">
                             {customerPayment.account_received_in?.account_code || 'N/A'} ({customerPayment.account_received_in?.account_name || 'N/A'})
                         </p>
                     </div>
 
                     <div>
-                        <p className="text-center tracking-widest text-xs font-semibold uppercase ">Customer</p>
-                        <p className="text-sm font-medium text-gray-700">{customerPayment.customer_name || 'N/A'}</p>
+                        <a className="text-center tracking-widest text-xs font-semibold uppercase ">Customer</a><br />
+                        <p className="text-sm font-medium mb-4 text-gray-700">{customerPayment.customer_name || 'N/A'}</p>
 
-                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Project</p>
-                        <p className="text-sm font-medium text-gray-700">{formatProjectNumber()}{customerPayment.project} | {customerPayment.project_name || 'N/A'}</p>
+                        <a className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Project</a><br />
+                        <p className="text-sm font-medium mb-4 text-gray-700">{formatProjectNumber()}{customerPayment.project} | {customerPayment.project_name || 'N/A'}</p>
 
-                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Completed</p>
+                        <a className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Completed</a><br />
                         <p className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                             customerPayment.completed ? 
                             'bg-green-100 text-green-900 drop-shadow-md shadow-inner border-collapse border-green-200' : 
@@ -142,13 +144,13 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                     </div>
 
                     <div>
-                        <p className="text-center tracking-widest text-xs font-semibold uppercase">Agent</p>
-                        <p className="text-sm font-medium text-gray-700">{customerPayment.agent}</p>
+                        <a className="text-center tracking-widest text-xs font-semibold uppercase">Agent</a><br />
+                        <p className="text-sm font-medium mb-4 text-gray-700">{customerPayment.agent}</p>
 
-                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Currency</p>
-                        <p className="text-sm font-medium text-gray-700">{customerPayment.currency || 'N/A'}</p>
+                        <a className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Currency</a><br />
+                        <p className="text-sm font-medium mb-4 text-gray-700">{customerPayment.currency || 'N/A'}</p>
 
-                        <p className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Cancelled</p>
+                        <a className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Cancelled</a><br />
                         <p className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                             customerPayment.cancelled ? 
                             'bg-red-100 text-red-900 drop-shadow-md shadow-inner border-collapse border-red-200' :
@@ -176,8 +178,8 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                             <td className="px-4 py-3 text-gray-700">{customerPayment.description || 'N/A'}</td>
                             <td className={`px-4 py-3 text-gray-700 ${
                                 customerPayment.cancelled ? 
-                                ' text-red-700' : 
-                                ' text-green-700 '}
+                                ' text-red-700 bg-red-100' : 
+                                ' text-green-700 bg-green-100'}
                                 `}>
                                 {customerPayment.cancelled ? 'Yes' : 'No'}
                             </td>
@@ -216,10 +218,24 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                 </div>
 
                 <hr className="my-6 border-gray-200" />
-
-                <div>
-                    <p className="text-sm font-semibold text-gray-500">Created By: {customerPayment.created_by}</p>
+                                                        
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Created by</a><br />
+                        {customerPayment.created_by || 'N/A'}
+                    </p>
+    
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
+                        {customerPayment.updated_by || 'N/A'}
+                    </p>
+    
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                        {formatUpdatedDate(customerPayment.date_updated) || 'N/A'}
+                    </p>
                 </div>
+
                 <hr className="my-6 border-gray-200" />
             </div>
             <JournalEntryModal

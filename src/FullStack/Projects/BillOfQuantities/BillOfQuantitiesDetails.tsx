@@ -4,6 +4,8 @@ import { buttons, forms, tables } from "../constants/Styles";
 import { SquarePen } from "lucide-react";
 import { billofQuantitiesProjectName } from "../../handlers";
 import { BillOfQuantitiesDetailsProps } from "../constants/Types";
+import { labelStyles } from "../../Accounting/Constants/Styles";
+import { details } from "../../Customers/constants/Styles";
 
 const formatNumber = () => {
     const currentYear = new Date().getFullYear();
@@ -14,6 +16,12 @@ const formatNumber = () => {
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
+};
+
+
+
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
 };
 
 
@@ -178,6 +186,27 @@ const BillOfQuantitiesDetails: React.FC<BillOfQuantitiesDetailsProps> = ({
                     </div>
                 </div>
             </div>
+            
+                            <hr className="my-6 border-gray-200" />
+                                                                                    
+                            <div className="grid lg:grid-cols-5">
+                                <p className={labelStyles}>
+                                    <a className={details.extraSmallUppercase}>Created by</a><br />
+                                    {billOfQuantity.created_by || 'N/A'}
+                                </p>
+            
+                                <p className={labelStyles}>
+                                    <a className={details.extraSmallUppercase}>Updated By</a><br />
+                                    {billOfQuantity.updated_by || 'N/A'}
+                                </p>
+            
+                                <p className={labelStyles}>
+                                    <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                                    {formatUpdatedDate(billOfQuantity.date_updated) || 'N/A'}
+                                </p>
+                            </div>
+            
+                            <hr className="my-6 border-gray-200" />
         </div>
     );
 };

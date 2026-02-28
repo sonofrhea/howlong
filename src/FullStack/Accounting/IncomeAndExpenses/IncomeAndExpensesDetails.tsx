@@ -15,6 +15,18 @@ const formatNumber = () => {
     return `IE-${currentYear}-00`
 }
 
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
+
+
+
+
+
+
+
+
+
 
 const IncomeAndExpensesDetails: React.FC<IncomeAndExpensesDetailsProps> = ({
     incomeAndExpense,
@@ -231,11 +243,24 @@ const IncomeAndExpensesDetails: React.FC<IncomeAndExpensesDetailsProps> = ({
                 </div>
 
                 <hr className="my-6 border-gray-200" />
+                                                                        
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Created by</a><br />
+                        {incomeAndExpense.created_by || 'N/A'}
+                    </p>
 
-                <p>
-                    <p className={details.extraSmallUppercase}>Created By</p>
-                    {incomeAndExpense.created_by}
-                </p>
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
+                        {incomeAndExpense.updated_by || 'N/A'}
+                    </p>
+
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                        {formatUpdatedDate(incomeAndExpense.date_updated) || 'N/A'}
+                    </p>
+                </div>
+
                 <hr className="my-6 border-gray-200" />
             </div>
                 <JournalEntryModal

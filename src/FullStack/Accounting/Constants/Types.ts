@@ -203,7 +203,7 @@ export type IncomeAndExpensesDetails = {
     net_debit: number;
     net_credit: number;
     running_balance: number;
-    created_by: number;
+    created_by: string;
     date_created: string;
     date_updated: string;
     updated_by: string;
@@ -631,6 +631,10 @@ export type CashBookDetails = {
     running_balance: number;
     remark: string;
     recorded_by: string;
+    date_recorded: string;
+    date_created: string;
+    date_updated: string;
+    updated_by: string;
 };
 
 

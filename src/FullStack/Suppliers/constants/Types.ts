@@ -671,14 +671,14 @@ export type SupplierDebitNoteInputs = {
   currency: string;
   related_invoice: string;
   related_invoice_total: string;
-  related_debit_note: Array <{
-    debit_note_item: string;
-    description: string;
-    amount: number;
+  related_debit_note?: Array <{
+    debit_note_item?: string;
+    description?: string;
+    amount?: number;
     tax_inclusive: boolean;
-    tax_amount: number;
+    tax_amount?: number;
     cancelled: boolean;
-  }>
+  }> | null;
   agent: string;
   tax_inclusive: boolean;
   tax_amount: number;

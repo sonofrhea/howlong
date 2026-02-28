@@ -411,6 +411,8 @@ export type CustomerPaymentDetails = {
   cancelled: boolean;
   agent: string;
   created_by: string;
+  date_updated: string;
+  updated_by: string;
 };
 
 export type CustomerPaymentResponse = {
@@ -572,6 +574,7 @@ export type InvoicePaymentDetails = {
   created_by: string;
   date_created: string;
   date_updated: string;
+  updated_by: string;
 };
 
 

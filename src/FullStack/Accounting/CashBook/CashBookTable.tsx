@@ -102,17 +102,19 @@ const CashBookTable: React.FC<CashBookTableProps> = ({
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
                         {[
-                            'w-1/9 text-center',
-                            'w-1/9 text-center',
-                            'w-1/9 text-center',
-                            'w-1/9 text-center',
-                            'w-1/9 text-center',
-                            'w-1/9 text-center',
-                            'w-1/9 text-center',
-                            'w-1/9 text-center',
-                            'w-1/9 text-center',
+                            'w-1/10 text-center',
+                            'w-1/10 text-center',
+                            'w-1/10 text-center',
+                            'w-1/10 text-center',
+                            'w-1/10 text-center',
+                            'w-1/10 text-center',
+                            'w-1/10 text-center',
+                            'w-1/10 text-center',
+                            'w-1/10 text-center',
                             'w-[7%] text-center',
-                        ]}
+                        ].map((line, index) => (
+                            <col key={index} className={line} />
+                        ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>

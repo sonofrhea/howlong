@@ -408,15 +408,6 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                                     
                                     />
                                 </div>
-
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Cancelled?</div>
-                                    <input 
-                                    {...register("cancelled")}
-                                    type="checkbox"
-                                    className="ml-2 forced-colors:bg-green-300"
-                                    />
-                                </div>
                             </div>
                         </div>
                     </div>

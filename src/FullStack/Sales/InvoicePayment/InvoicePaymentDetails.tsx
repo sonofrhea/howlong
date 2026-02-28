@@ -145,47 +145,47 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Invoice Payment No.</p>
+                            <a className={details.extraSmallUppercase}>Invoice Payment No.</a><br />
                             {formatPaymentNumber()}{invoicePayment.invoice_payment_code}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Date</p>
+                            <a className={details.extraSmallUppercase}>Date</a><br />
                             {formatDate(invoicePayment.date_created)}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Paid By</p>
+                            <a className={details.extraSmallUppercase}>Paid By</a><br />
                             {formatCustomerNumber()}{invoicePayment.paid_by || 'N/A'} | {invoicePayment.paid_by_name || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Related Invoice</p>
+                            <a className={details.extraSmallUppercase}>Related Invoice</a><br />
                             {formatInvoiceNumber()}{invoicePayment.related_invoice || 'N/A'} | Total: {invoicePayment.related_invoice_details}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Related Invoice Total</p>
+                            <a className={details.extraSmallUppercase}>Related Invoice Total</a><br />
                             {invoicePayment.related_invoice_total || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Currency</p>
+                            <a className={details.extraSmallUppercase}>Currency</a><br />
                             {invoicePayment?.currency || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Account received in</p>
+                            <a className={details.extraSmallUppercase}>Account received in</a><br />
                             {invoicePayment.account_received_in?.account_code || 'N/A'} ({invoicePayment.account_received_in?.account_name || 'N/A'}) - {invoicePayment.account_received_in?.account_type || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Cancelled</p>
+                            <a className={details.extraSmallUppercase}>Cancelled</a><br />
                             {invoicePayment.cancelled ? 'Yes' : 'No'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Agent</p>
+                            <a className={details.extraSmallUppercase}>Agent</a><br />
                             {invoicePayment?.agent || 'N/A'}
                         </p>
                     </div>
@@ -269,12 +269,16 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                 
                 <div className="grid lg:grid-cols-5">
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Created By</p>
+                        <a className={details.extraSmallUppercase}>Created By</a><br />
                         {invoicePayment?.created_by || 'N/A'}
                     </p>
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Updated By</p>
+                        <a className={details.extraSmallUppercase}>Date updated</a><br />
                         {formatUpdateDate(invoicePayment?.date_updated) || 'N/A'}
+                    </p>
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
+                        {invoicePayment?.updated_by || 'N/A'}
                     </p>
                 </div>
 

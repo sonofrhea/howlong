@@ -215,6 +215,12 @@ function SupplierCreditNoteManagement() {
         const cleanedData = {
             ...supplierCreditNoteData,
             account: supplierCreditNoteData.account ?? undefined,
+
+            related_credit_note:
+                supplierCreditNoteData.related_credit_note &&
+                supplierCreditNoteData.related_credit_note?.length > 0
+                    ? supplierCreditNoteData.related_credit_note
+                    : undefined
         }
         
 
@@ -232,6 +238,12 @@ function SupplierCreditNoteManagement() {
         const cleanedData = {
             ...supplierCreditNoteData,
             account: supplierCreditNoteData.account ?? undefined,
+
+            related_credit_note:
+                supplierCreditNoteData.related_credit_note &&
+                supplierCreditNoteData.related_credit_note?.length > 0
+                    ? supplierCreditNoteData.related_credit_note
+                    : undefined
         }
 
         await updateSupplierCreditNoteMutation.mutateAsync({

@@ -27,6 +27,14 @@ const formatSupplierNumber = () => {
     return `SUP-${currentYear}-`;
 };
 
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
+
+
+
+
+
 
 
 
@@ -114,53 +122,58 @@ const SupplierCreditNoteDetails: React.FC<SupplierCreditNoteDetailsProps> = ({
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p>
-                            <p className={details.extraSmallUppercase}>Credit Note No</p>
+                            <a className={details.extraSmallUppercase}>Credit Note No</a><br />
                             {formatNumber()}{supplierCreditNote.credit_note_number}
                         </p>
                                                 
                         <p>
-                            <p className={details.extraSmallUppercase}>Date</p>
+                            <a className={details.extraSmallUppercase}>Date</a><br />
                             {formatDate(supplierCreditNote.date)}
                         </p>
                                                 
                         <p>
-                            <p className={details.extraSmallUppercase}>Account</p>
+                            <a className={details.extraSmallUppercase}>Account</a><br />
                             {supplierCreditNote.account?.account_code || 'N/A'} - ({supplierCreditNote.account?.account_name || 'N/A'})
                         </p>
                                                 
                         <p>
-                            <p className={details.extraSmallUppercase}>Reference Supplier</p>
+                            <a className={details.extraSmallUppercase}>Reference Supplier</a><br />
                             {formatSupplierNumber()}{supplierCreditNote.supplier || 'N/A'} | {supplierCreditNote.supplier_name || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Reference Invoice</p>
+                            <a className={details.extraSmallUppercase}>Reference Invoice</a><br />
                             {formatSupplierInvoiceNumber()}{supplierCreditNote.related_invoice || 'N/A'}
                         </p>
                                                 
                         <p>
-                            <p className={details.extraSmallUppercase}>Reference Invoice Total</p>
+                            <a className={details.extraSmallUppercase}>Reference Invoice Total</a><br />
                             {supplierCreditNote.related_invoice_total || 'N/A'}
                         </p>
                                                 
                         <p>
-                            <p className={details.extraSmallUppercase}>Currency</p>
+                            <a className={details.extraSmallUppercase}>Currency</a><br />
                             {supplierCreditNote.currency || 'N/A'}
                         </p>
                                                 
                         <p>
-                            <p className={details.extraSmallUppercase}>Agent</p>
+                            <a className={details.extraSmallUppercase}>Agent</a><br />
                             {supplierCreditNote.agent || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Description</p>
+                            <a className={details.extraSmallUppercase}>Description</a><br />
                             {supplierCreditNote.description || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Cancelled</p>
-                            {supplierCreditNote.cancelled ? 'Yes' : 'No'}
+                            <a className={details.extraSmallUppercase}>Cancelled</a><br />
+                            <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                supplierCreditNote.cancelled
+                                    ? 'bg-red-100 text-red-800'
+                                    : 'bg-green-100 text-green-800'
+                                        
+                            }`}>{supplierCreditNote.cancelled ? 'Yes' : 'No'}</div>
                         </p>
                     </div>
                     {/* LINES */}
@@ -200,39 +213,29 @@ const SupplierCreditNoteDetails: React.FC<SupplierCreditNoteDetailsProps> = ({
                             <div className="w-full sm:w-1/2 lg:w-1/3">
                                 <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
-                                <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
-                                    <div>Tax %</div>
-                                    <div className="font-medium text-gray-800">{supplierCreditNote.tax_amount || '--'}%</div>
-                                </div>
+                                    <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                        <div>Gross Paid</div>
+                                        <div className="font-medium text-gray-800">{supplierCreditNote.gross_total || '--'}</div>
+                                    </div>
 
-                                <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
-                                    <div>Gross Paid</div>
-                                    <div className="font-medium text-gray-800">{supplierCreditNote.gross_total || '--'}</div>
-                                </div>
+                                    <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                        <div>Tax %</div>
+                                        <div className="font-medium text-gray-800">+{supplierCreditNote.tax_amount || '--'}%</div>
+                                    </div>
 
-                                <hr className="my-2 border-blue-200" />
-                                
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Net Paid</div>
-                                    <div className="font-medium text-gray-800">{supplierCreditNote.net_total || '--'}</div>
-                                </div>
+                                    <hr className="my-2 border-blue-200" />
+                                    
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Net Paid</div>
+                                        <div className="font-medium text-gray-800">{supplierCreditNote.net_total || '--'}</div>
+                                    </div>
 
-                                <hr className="my-2 border-blue-200" />
-                                
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Outstanding</div>
-                                    <div className="font-medium text-gray-800">{supplierCreditNote.outstanding || '--'}</div>
-                                </div>
-
-                                <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
-                                    <div>Cancelled</div>
-                                    <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
-                                            supplierCreditNote.cancelled
-                                                ? 'bg-red-100 text-red-800'
-                                                : 'bg-green-100 text-green-800'
-                                                 
-                                        }`}>{supplierCreditNote.cancelled ? 'Yes' : 'No'}</div>
-                                </div>
+                                    <hr className="my-2 border-blue-200" />
+                                    
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Outstanding</div>
+                                        <div className="font-medium text-gray-800">{supplierCreditNote.outstanding || '--'}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -241,11 +244,24 @@ const SupplierCreditNoteDetails: React.FC<SupplierCreditNoteDetailsProps> = ({
                 </div>
 
                 <hr className="my-6 border-gray-200" />
-                                                
-                <p>
-                    <p className={details.extraSmallUppercase}>Created by</p>
-                    {supplierCreditNote.created_by || 'N/A'}
-                </p>
+                                                        
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Created by</a><br />
+                        {supplierCreditNote.created_by || 'N/A'}
+                    </p>
+    
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
+                        {supplierCreditNote.updated_by || 'N/A'}
+                    </p>
+    
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                        {formatUpdatedDate(supplierCreditNote.date_updated) || 'N/A'}
+                    </p>
+                </div>
+
                 <hr className="my-6 border-gray-200" />
             </div>
             <JournalEntryModal

@@ -25,6 +25,11 @@ const formatInvoiceNumber = () => {
     return `INV-${currentYear}-`;
 };
 
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
+
+
 
 
 
@@ -117,37 +122,37 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p>
-                            <p className={details.extraSmallUppercase}>Payment No</p>
+                            <a className={details.extraSmallUppercase}>Payment No</a><br />
                             {formatNumber()}{supplierPayment.payment_code || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Posted Date</p>
+                            <a className={details.extraSmallUppercase}>Posted Date</a><br />
                             {formatDate(supplierPayment.date_created) || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Account paid by</p>
+                            <a className={details.extraSmallUppercase}>Account paid by</a><br />
                             {supplierPayment.account_code?.account_code || 'N/A'} - ({supplierPayment.account_code?.account_name || 'N/A'})
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Payment To</p>
+                            <a className={details.extraSmallUppercase}>Payment To</a><br />
                             {formatSupplierNumber()}{supplierPayment.supplier} | {supplierPayment.supplier_name || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Related Invoice</p>
+                            <a className={details.extraSmallUppercase}>Related Invoice</a><br />
                             {formatInvoiceNumber()}{supplierPayment.related_invoice || 'N/A'} | Total: {supplierPayment.invoice_amount || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Related Invoice Amount</p>
+                            <a className={details.extraSmallUppercase}>Related Invoice Amount</a><br />
                             {supplierPayment.invoice_amount || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Currency</p>
+                            <a className={details.extraSmallUppercase}>Currency</a><br />
                             {supplierPayment.currency || 'N/A'}
                         </p>
                     </div>
@@ -229,11 +234,24 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
             </div>
 
             <hr className="my-6 border-gray-200" />
+                                                    
+            <div className="grid lg:grid-cols-5">
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Created by</a><br />
+                    {supplierPayment.created_by || 'N/A'}
+                </p>
 
-            <p>
-                <p className={details.extraSmallUppercase}>Created By</p>
-                {supplierPayment.created_by || 'N/A'}
-            </p>
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Updated By</a><br />
+                    {supplierPayment.updated_by || 'N/A'}
+                </p>
+
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                    {formatUpdatedDate(supplierPayment.date_updated) || 'N/A'}
+                </p>
+            </div>
+
             <hr className="my-6 border-gray-200" />
         </div>
             <JournalEntryModal

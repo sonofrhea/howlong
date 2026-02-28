@@ -15,6 +15,9 @@ const formatNumber = () => {
     return `CASH-${currentYear}-`
 }
 
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
 
 
 
@@ -210,6 +213,16 @@ const CashBookDetails: React.FC<CashBookDetailsProps> = ({
                     {/* <!-- Sidebar --> */}
                     <div className="space-y-4">
 
+                            {/* <!-- Reference Number --> */}
+                        <div className="bg-white border border-neutral-200 rounded-xl p-6">
+                            <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">
+                                Reference Number
+                            </h3>
+                            <strong className="text-2xl font-mono font-semibold text-neutral-900">
+                                {formatNumber()}{cashBook.reference_number}
+                            </strong>
+                        </div>
+
                         {/* <!-- Recorded By Card --> */}
                         <div className="bg-white border border-neutral-200 rounded-xl p-4">
                             <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-4">
@@ -224,15 +237,45 @@ const CashBookDetails: React.FC<CashBookDetailsProps> = ({
                             </div>
                         </div>
 
-                        {/* <!-- Reference Number --> */}
-                        <div className="bg-white border border-neutral-200 rounded-xl p-6">
-                            <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">
-                                Reference Number
+                        <div className="bg-white border border-neutral-200 rounded-xl p-4">
+                            <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-4">
+                                Date Recorded
                             </h3>
-                            <p className="text-2xl font-mono font-semibold text-neutral-900">
-                                {formatNumber()}{cashBook.reference_number}
-                            </p>
+                            <div className="items-center">
+                                <div >
+                                    <p className="text-center font-medium text-neutral-900">
+                                        {formatDate(cashBook.date_recorded)}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
+
+                        <div className="bg-white border border-neutral-200 rounded-xl p-4">
+                            <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-4">
+                                Date updated
+                            </h3>
+                            <div className="items-center">
+                                <div >
+                                    <p className="text-center font-medium text-neutral-900">
+                                        {formatUpdatedDate(cashBook.date_updated)}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white border border-neutral-200 rounded-xl p-4">
+                            <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-4">
+                                Date updated
+                            </h3>
+                            <div className="items-center">
+                                <div >
+                                    <p className="text-center font-medium text-neutral-900">
+                                        {cashBook.updated_by}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

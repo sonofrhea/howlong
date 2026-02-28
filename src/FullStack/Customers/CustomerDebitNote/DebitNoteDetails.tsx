@@ -126,42 +126,42 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Debit Note No.</p>
+                            <a className={details.extraSmallUppercase}>Debit Note No.</a><br />
                             {formatDebitNoteNumber()}{debitNote.debit_note_number}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Date</p>
+                            <a className={details.extraSmallUppercase}>Date</a><br />
                             {debitNote.date}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Account</p>
+                            <a className={details.extraSmallUppercase}>Account</a><br />
                             {debitNote.account?.account_code || 'N/A'} ({debitNote.account?.account_name || 'N/A'})
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Bill To...</p>
+                            <a className={details.extraSmallUppercase}>Bill To...</a><br />
                             {formatCustomerNumber()}{debitNote.customer} | {debitNote.customer_name || 'N/A'}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Related Payment</p>
+                            <a className={details.extraSmallUppercase}>Related Payment</a><br />
                             POST-{debitNote.related_payment} | Paid Amount: {debitNote.related_payment_amount}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Paid Amount</p>
+                            <a className={details.extraSmallUppercase}>Paid Amount</a><br />
                             {debitNote.paid_amount}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Currency</p>
+                            <a className={details.extraSmallUppercase}>Currency</a><br />
                             {debitNote.currency || 'N/A'}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Agent</p>
+                            <a className={details.extraSmallUppercase}>Agent</a><br />
                             {debitNote.agent || 'N/A'}
                         </p>
                     </div>
@@ -239,17 +239,17 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                 
                 <div className="grid lg:grid-cols-5">
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Created By</p>
+                        <a className={details.extraSmallUppercase}>Created By</a><br />
                         {debitNote.created_by || 'N/A'}
                     </p>
 
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Updated By</p>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
                         {debitNote.updated_by || 'N/A'}
                     </p>
 
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Date Updated</p>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
                         {formatUpdatedDate(debitNote.date_updated) || 'N/A'}
                     </p>
                 </div>

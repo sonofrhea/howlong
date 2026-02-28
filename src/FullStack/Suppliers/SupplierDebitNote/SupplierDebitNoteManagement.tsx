@@ -223,6 +223,12 @@ function SupplierDebitNoteManagement() {
         const cleanedData = {
             ...supplierDebitNoteData,
             account: supplierDebitNoteData.account ?? undefined,
+
+            related_debit_note:
+                supplierDebitNoteData.related_debit_note &&
+                supplierDebitNoteData.related_debit_note?.length > 0
+                    ? supplierDebitNoteData.related_debit_note
+                    : undefined
         }
         
 
@@ -240,6 +246,12 @@ function SupplierDebitNoteManagement() {
         const cleanedData = {
             ...supplierDebitNoteData,
             account: supplierDebitNoteData.account ?? undefined,
+
+            related_debit_note:
+                supplierDebitNoteData.related_debit_note &&
+                supplierDebitNoteData.related_debit_note?.length > 0
+                    ? supplierDebitNoteData.related_debit_note
+                    : undefined
         }
 
         await updateSupplierDebitNoteMutation.mutateAsync({

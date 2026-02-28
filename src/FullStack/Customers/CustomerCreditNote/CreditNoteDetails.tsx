@@ -134,42 +134,42 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Debit Note No.</p>
+                            <a className={details.extraSmallUppercase}>Debit Note No.</a><br />
                             {formatCreditNoteNumber()}{creditNote.credit_note_number}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Date</p>
+                            <a className={details.extraSmallUppercase}>Date</a><br />
                             {creditNote.date}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Account</p>
+                            <a className={details.extraSmallUppercase}>Account</a><br />
                             {creditNote.account?.account_code || 'N/A'} ({creditNote.account?.account_name || 'N/A'})
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Bill To...</p>
+                            <a className={details.extraSmallUppercase}>Bill To...</a><br />
                             {formatCustomerNumber()}{creditNote.customer || 'N/A'} | {creditNote.customer_name || 'N/A'}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Related Payment</p>
+                            <a className={details.extraSmallUppercase}>Related Payment</a><br />
                             POST-{creditNote.related_payment} | Paid Amount: {creditNote.related_payment_amount}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Paid Amount</p>
+                            <a className={details.extraSmallUppercase}>Paid Amount</a><br />
                             {creditNote.paid_amount}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Currency</p>
+                            <a className={details.extraSmallUppercase}>Currency</a><br />
                             {creditNote.currency || 'N/A'}
                         </p>
 
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Agent</p>
+                            <a className={details.extraSmallUppercase}>Agent</a><br />
                             {creditNote.agent || 'N/A'}
                         </p>
                     </div>
@@ -219,7 +219,7 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
 
                                         <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
-                                            <div className="font-medium text-black">{creditNote.tax_amount}%</div>
+                                            <div className="font-medium text-black">+{creditNote.tax_amount}%</div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">

@@ -298,6 +298,11 @@ export type BillOfQuantitiesDetails = {
   contingency_rate: string;
   net_estimation: string;
 
+  created_by: string;
+  date_created: string;
+  updated_by: string;
+  date_updated: string;
+
   company: string;
 };
 

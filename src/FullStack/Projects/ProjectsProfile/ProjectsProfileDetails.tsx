@@ -71,6 +71,8 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
         );
     }
 
+    console.log("SELECTED PROJECT", project)
+
 
     return (
         <div className="bg-white rounded-lg shadow-sm">
