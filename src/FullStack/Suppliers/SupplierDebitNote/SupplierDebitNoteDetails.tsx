@@ -35,6 +35,18 @@ const formatSupplierNumber = () => {
 
 
 
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
+
+
+
+
+
+
+
+
+
 
 
 
