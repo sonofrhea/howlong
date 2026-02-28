@@ -104,14 +104,19 @@ const CompanyPurchaseInvoiceTable: React.FC<CompanyPurchaseInvoiceTableProps> = 
             <div className="w-full">
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
-                        <col className="w-1/8 text-center" />
-                        <col className="w-1/8 text-center" />
-                        <col className="w-1/8 text-center" />
-                        <col className="w-1/8 text-center" />
-                        <col className="w-1/8 text-center" />
-                        <col className="w-1/8 text-center" />
-                        <col className="w-1/8 text-center" />
-                        <col className="w-[7%] text-center" />
+                    {[
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-[7%] text-center",
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
@@ -173,7 +178,13 @@ const CompanyPurchaseInvoiceTable: React.FC<CompanyPurchaseInvoiceTableProps> = 
                                     
                                     {/* Status */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                            companyPurchaseInvoice.status === 'Active' ? 'bg-green-100 text-green-800 border border-green-200' :
+                                            companyPurchaseInvoice.status === 'Suspended' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' :
+                                            companyPurchaseInvoice.status === 'Inactive' ? 'bg-red-100 text-red-800 border border-red-200' :
+                                            companyPurchaseInvoice.status === 'Pending' ? 'bg-blue-100 text-blue-800 border border-blue-200' :
+                                            'N/A'
+                                        }`}>
                                             {companyPurchaseInvoice.status}
                                         </div>
                                     </td>
@@ -187,8 +198,13 @@ const CompanyPurchaseInvoiceTable: React.FC<CompanyPurchaseInvoiceTableProps> = 
 
                                     {/* Created By */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
-                                            {companyPurchaseInvoice.cancelled}
+                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                            companyPurchaseInvoice.cancelled
+                                                ? 'bg-red-100 text-red-800'
+                                                : 'bg-green-100 text-green-800'
+                                                 
+                                        }`}>
+                                            {companyPurchaseInvoice.cancelled ? 'Yes' : 'No'}
                                         </div>
                                     </td>
 

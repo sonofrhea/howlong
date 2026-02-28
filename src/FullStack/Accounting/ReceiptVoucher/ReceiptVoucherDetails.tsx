@@ -25,6 +25,24 @@ const formatCustomerNumber = () => {
     return `CV-${currentYear}-`;
 };
 
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -38,7 +56,7 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
     onCreateJournalEntry, isCreatingJournalEntry
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
-    const receiptVoucherId = receiptVoucher.reference_number;
+    const receiptVoucherId = receiptVoucher?.reference_number;
 
 
     
@@ -99,13 +117,13 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                             className="cursor-pointer" />
                             Edit
                         </button>
+                        <button
+                            onClick={() => setIsJournalEntryOpen(true)}
+                            className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                        >
+                            + Create Journal Entry
+                        </button>
                     </div>
-                    <button
-                        onClick={() => setIsJournalEntryOpen(true)}
-                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
-                    >
-                        + Create Journal Entry
-                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -113,53 +131,53 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p>
-                            <p className={details.extraSmallUppercase}>Reference Number</p>
+                            <a className={details.extraSmallUppercase}>Reference Number</a><br />
                             {formatNumber()}{receiptVoucher.reference_number}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Date</p>
+                            <a className={details.extraSmallUppercase}>Date</a><br />
                             {formatDate(receiptVoucher.date)}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Cancelled</p>
-                            <p className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                            <a className={details.extraSmallUppercase}>Cancelled</a><br />
+                            <span className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
                                 receiptVoucher.cancelled
                                     ? 'bg-red-100 text-red-800 border border-red-200'
                                     : 'bg-green-100 text-green-800 border border-green-200'
                             }`}>
                                 {receiptVoucher.cancelled ? 'Yes' : 'No'}
-                            </p>
+                            </span>
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Received From</p>
+                            <a className={details.extraSmallUppercase}>Received From</a><br />
                             {formatCustomerNumber()}{receiptVoucher.received_from || 'N/A'} - {receiptVoucher.received_from_name || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Account Received In</p>
+                            <a className={details.extraSmallUppercase}>Account Received In</a><br />
                             {receiptVoucher.account_received_in?.account_code || 'N/A'} - {receiptVoucher.account_received_in?.account_name || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Related Project</p>
+                            <a className={details.extraSmallUppercase}>Related Project</a><br />
                             {formatProjectNumber()}{receiptVoucher.project || 'N/A'} | {receiptVoucher.project_name || 'N/A'}
                         </p>
                         
                         <p>
-                            <p className={details.extraSmallUppercase}>Currency</p>
+                            <a className={details.extraSmallUppercase}>Currency</a><br />
                             {receiptVoucher.currency || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Description</p>
+                            <a className={details.extraSmallUppercase}>Description</a><br />
                             {receiptVoucher.description || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Agent</p>
+                            <a className={details.extraSmallUppercase}>Agent</a><br />
                             {receiptVoucher.agent || 'N/A'}
                         </p>
                     </div>
@@ -265,11 +283,24 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
             />
 
             <hr className="my-6 border-gray-200" />
+                            
+            <div className="grid lg:grid-cols-5">
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Created by</a><br />
+                    {receiptVoucher.created_by || 'N/A'}
+                </p>
+
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Updated By</a><br />
+                    {receiptVoucher.updated_by || 'N/A'}
+                </p>
+
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                    {formatUpdatedDate(receiptVoucher.date_updated) || 'N/A'}
+                </p>
+            </div>
             
-            <p>
-                <p className={details.extraSmallUppercase}>Created by</p>
-                {receiptVoucher.created_by || 'N/A'}
-            </p>
             <hr className="my-6 border-gray-200" />
         </div>
     );

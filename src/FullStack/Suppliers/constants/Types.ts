@@ -500,43 +500,45 @@ export type SupplierInvoiceList = {
 
 
 export type SupplierInvoiceDetails = {
-  invoice_number: number,
-  invoice_date: string,
-  invoice_due_date: string,
-  currency: string,
+  invoice_number: number;
+  invoice_date: string;
+  invoice_due_date: string;
+  currency: string
 
   purchase_account: {
-    account_code: number,
-    account_name: string,
-    account_type: string
+    account_code: number;
+    account_name: string;
+    account_type: string;
   },
 
-  supplier_name: string,
-  supplier_details: string,
+  supplier_name: string;
+  supplier_details: string;
 
   related_invoice: Array<{
-    item: number,
-    item_name: string | null,
-    description: string,
-    quantity: string,
-    unit_of_measure: string,
-    price_per_unit: string,
-    total: string,
-    tax_amount: string,
-    sub_total: string,
-    cancelled: boolean
+    item: number;
+    item_name: string | null;
+    description: string;
+    quantity: string;
+    unit_of_measure: string;
+    price_per_unit: string;
+    total: string;
+    tax_amount: string;
+    sub_total: string;
+    cancelled: boolean;
   }>,
 
-  gross_total: string,
-  tax_inclusive: boolean,
-  tax_amount: string,
-  cancelled: boolean,
-  aggregate_total: string,
+  gross_total: string;
+  tax_inclusive: boolean;
+  tax_amount: string
+  cancelled: boolean;
+  aggregate_total: string;
 
-  agent: string,
-  product: string,
-  created_by: string,
-  date_created: string
+  agent: string;
+  product: string;
+  created_by: string
+  date_created: string;
+  date_updated: string;
+  updated_by: string;
 };
 
 
@@ -716,6 +718,8 @@ export type SupplierDebitNoteDetails = {
   cancelled: boolean;
   net_total: number;
   date_created: string;
+  date_updated: string;
+  updated_by: string;
 };
 
 
@@ -874,6 +878,8 @@ export type SupplierCreditNoteDetails = {
   created_by: string;
   currency: string;
   date_created: string;
+  date_updated: string;
+  updated_by: string;
 };
 
 export type SupplierCreditNoteResponse = {

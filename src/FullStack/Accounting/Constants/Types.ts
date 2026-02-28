@@ -64,6 +64,9 @@ export type JournalEntryDetails = {
   aggregate_credit: string;
   cancelled: boolean;
   created_by: string
+  date_created: string;
+  date_updated: string;
+  updated_by: string;
 };
 
 
@@ -201,6 +204,9 @@ export type IncomeAndExpensesDetails = {
     net_credit: number;
     running_balance: number;
     created_by: number;
+    date_created: string;
+    date_updated: string;
+    updated_by: string;
 };
 
 export type IncomeAndExpensesResponse = {
@@ -341,6 +347,9 @@ export type PaymentVoucherDetails = {
     currency: string;
     agent: string;
     created_by: string;
+    date_created: string;
+    date_updated: string;
+    updated_by: string;
 };
 
 export type PaymentVoucherResponse = {
@@ -495,6 +504,9 @@ export type ReceiptVoucherDetails = {
     currency: string;
     agent: string;
     created_by: string;
+    date_created: string;
+    date_updated: string;
+    updated_by: string;
 };
 
 

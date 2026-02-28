@@ -9,7 +9,8 @@ import { fetchProjects, fetchProjectById, createProject,
 
 import { ProjectProfileInputs, AllProjectProfileInputs,
     EditProjectProfileInputs,
-    ProjectProfileResponse
+    ProjectProfileResponse,
+    ProjectsProfileList
  } from "../constants/Types"
 
 import { fetchCustomers } from "../../Customers/Engines"
@@ -124,6 +125,7 @@ function ProjectsProfileManagement() {
 
 
 
+
         // UPDATES - PUT
 
     const updateProjectMutation = useMutation({
@@ -199,7 +201,10 @@ function ProjectsProfileManagement() {
             ...projectData,
             phases:
                 projectData.phases && projectData.phases?.length > 0
-                    ? projectData.phases
+                    ? projectData.phases.map(phase => ({
+                        ...phase,
+                        end_date: phase.end_date ? phase.end_date : undefined
+                    }))
                     : undefined
         };
 
@@ -219,7 +224,10 @@ function ProjectsProfileManagement() {
             ...projectData,
             phases:
                 projectData.phases && projectData.phases?.length > 0
-                    ? projectData.phases
+                    ? projectData.phases.map(phase => ({
+                        ...phase,
+                        end_date: phase.end_date ? phase.end_date : undefined
+                    }))
                     : undefined
         };
 
@@ -438,16 +446,53 @@ function ProjectsProfileManagement() {
                 <div className="flex items-center gap-6 justify-between">
                 <div className="flex items-center gap-4">
                     <div className="text-center">
-                    <div className="text-2xl font-light text-gray-900">{projects.length}</div>
-                    <div className="text-sm text-gray-500">Total Projects</div>
+                        <div className="text-2xl font-light text-gray-900">
+                            {projects.length}
+                        </div>
+                        <div className="text-sm text-gray-500">Total Projects</div>
                     </div>
+
                     <div className="w-px h-8 bg-gray-200"></div>
+
                     <div className="text-center">
-                    <div className="text-2xl font-light text-gray-900">
-                        {new Set(projects.map((c: any) => c.status)).size}
+                        <div className="text-2xl font-light text-green-500">
+                            {projects.filter((row: ProjectProfileInputs) => row.status === "Completed").length}
+                        </div>
+                        <div className="text-sm text-green-500">Completed projects</div>
                     </div>
-                    <div className="text-sm text-gray-500">--</div>
+
+                    <div className="w-px h-8 bg-gray-200"></div>
+
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-gray-900">
+                            {projects.filter((row: ProjectProfileInputs) => row.status === "Active Construction").length}
+                        </div>
+                        <div className="text-sm text-gray-500">Active</div>
                     </div>
+
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-yellow-600">
+                            {projects.flatMap((project: ProjectsProfileList) => project.phases).filter((phase: any) => phase.current_phase === "Delayed").length}
+                        </div>
+                        <div className="text-sm text-yellow-600">Delayed</div>
+                    </div>
+
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-blue-600">
+                            {projects.flatMap((project: ProjectsProfileList) => project.phases).filter((phase: any) => phase.current_phase === "In Progress").length}
+                        </div>
+                        <div className="text-sm text-blue-600">In progress</div>
+                    </div>
+
+                    <div className="w-px h-8 bg-gray-200"></div>
+
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-gray-900">
+                            {projects.filter((row: ProjectProfileInputs) => row.status === "On Hold").length}
+                        </div>
+                        <div className="text-sm text-gray-500">On Hold</div>
+                    </div>
+
                 </div>
                 <div className="flex gap-4">
                     <div className="relative">
@@ -482,7 +527,7 @@ function ProjectsProfileManagement() {
             {view === 'list' && (
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
                 <ProjectsProfileTable 
-                projectsProfiles={paginatedProjectsProfiles}
+                projects={paginatedProjectsProfiles}
                 onProjectClick={handleProjectClick}
                 onEditProjectsProfile={handleEditProject}
                 onDeleteProjectsProfile={handleDeleteProject}

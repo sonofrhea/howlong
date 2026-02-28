@@ -114,10 +114,10 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                         </div>
 
                         <hr className="my-6 border-gray-200" />
-
+                        
                         <div className={layout.formSectionCol3}>
                             <div>
-                                <p className={forms.label}>Date</p>
+                                <a className={forms.label}>Date</a><br />
                                 <input 
                                     type="date"
                                     {...register("date", {required: "Date is required"})}
@@ -127,7 +127,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                             </div>
                             
                             <div>
-                                <p className={forms.label}>Related Supplier</p>
+                                <a className={forms.label}>Related Supplier</a><br />
                                 <select
                                     {...register("supplier")}
                                     className={forms.select.partial}
@@ -140,9 +140,9 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                     )), [supplierProfiles])}
                                 </select>
                             </div>
-
+        
                             <div>
-                                <p className={forms.label}>Purchase Account</p>
+                                <a className={forms.label}>Purchase Account</a><br />
                                 <select
                                     {...register("account.account_code")}
                                     className={forms.select.partial}
@@ -155,13 +155,13 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                         </option>
                                     )), [accounts])}
                                 </select>
-
+        
                                 <input type="hidden" {...register("account.account_name")} />
                                 <input type="hidden" {...register("account.account_type")} />
                             </div>
-
+        
                             <div>
-                                <p className={forms.label}>Related Invoice</p>
+                                <a className={forms.label}>Related Invoice</a><br />
                                 <select
                                     {...register("related_invoice")}
                                     className={forms.select.partial}
@@ -175,9 +175,9 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                     )), [purchaseInvoices])}
                                 </select>
                             </div>
-
+        
                             <div>
-                                <p className={forms.label}>Related Invoice Total</p>
+                                <a className={forms.label}>Related Invoice Total</a><br />
                                 <input 
                                     {...register("invoice_total")}
                                     className={forms.input.midNumber}
@@ -189,9 +189,9 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                     }}
                                 />
                             </div>
-
+        
                             <div>
-                                <p className={forms.label}>Status</p>
+                                <a className={forms.label}>Status</a><br />
                                 <select
                                     {...register("status")}
                                     className={forms.select.partial}
@@ -204,9 +204,9 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                     )), [agents])}
                                 </select>
                             </div>
-
+        
                             <div>
-                                <p className={forms.label}>Agent</p>
+                                <a className={forms.label}>Agent</a><br />
                                 <select
                                     {...register("agent")}
                                     className={forms.select.partial}
@@ -218,6 +218,15 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                         </option>
                                     )), [agents])}
                                 </select>
+                            </div>
+        
+                            <div>
+                                <a className={forms.label}>Cancelled</a><br />
+                                <input 
+                                {...register("cancelled")}
+                                type="checkbox"
+                                className="mt-3 forced-colors:bg-green-300"
+                                />
                             </div>
                         </div>
 
@@ -236,20 +245,6 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                 {...register("description")}
                                 className={forms.description}
                                 rows={2}
-                            />
-                        </div>
-
-                        <div>
-                            <p className={forms.label}>Payment receipt</p>
-                            <input 
-                                type="file"
-                                className="w-[40%] text-black cursor-pointer rounded-lg border border-gray-300 px-3 py-2"
-                                placeholder="upload payment receipt"
-                                title="upload payment receipt..."
-                                onChange={e => {
-                                    const file = e.target.files?.[0] || null;
-                                    setValue('payment_receipt', file);
-                                }}
                             />
                         </div>
 
@@ -411,7 +406,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
                                                 

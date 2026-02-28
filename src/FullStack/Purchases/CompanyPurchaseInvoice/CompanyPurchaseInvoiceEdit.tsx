@@ -28,7 +28,7 @@ const formatSupplierNumber = () => {
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`;
 };
 
 
@@ -213,10 +213,10 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                                     <th className={tables.headerCell}>Base UOM</th>
                                     <th className={tables.headerCell}>Price</th>
                                     <th className={tables.headerCell}>Gross Total</th>
-                                    <th className={tables.headerCell}>Tax Inclusive</th>
-                                    <th className={tables.headerCell}>Tax %</th>
-                                        <th className={tables.headerCell}>Cancelled</th>
+                                    <th className={tables.headerCell}>SST Inclusive</th>
+                                    <th className={tables.headerCell}>SST %</th>
                                     <th className={tables.headerCell}>SubTotal</th>
+                                    <th className={tables.headerCell}>Cancelled</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -270,7 +270,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                                                     className={tables.text}
                                                 />
                                             </td>
-
+                                            
                                             <td className={text.numbers}>
                                                 <input 
                                                     {...register(`related_invoice.${index}.price`)}
@@ -281,7 +281,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                                                         if (e.target.value) {
                                                             e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
-                                                    }}
+                                                    }}                                                
                                                 />
                                             </td>
 

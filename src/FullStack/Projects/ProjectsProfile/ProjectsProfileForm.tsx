@@ -406,7 +406,7 @@ const ProjectsProfileForm: React.FC<ProjectProfileFormProps> = ({
                                             <label>End Date <span className="required">*</span></label>
                                             <input
                                                 type="date"
-                                                {...register(`phases.${index}.end_date`)}
+                                                {...register(`phases.${index}.end_date` || null)}
                                                 className="w-full text-black rounded-lg cursor-pointer border border-gray-300 px-3 py-2"
                                             />
                                         </div>

@@ -19,6 +19,9 @@ const formatJournalNumber = () => {
 
 
 
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
 
 
 
@@ -198,11 +201,24 @@ const JournalEntryDetails: React.FC<JournalEntryDetailsProps> = ({
                 </div>
 
                 <hr className="my-6 border-gray-200" />
+                                                        
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Created by</a><br />
+                        {journalEntry.created_by || 'N/A'}
+                    </p>
 
-                <div>
-                    <p className={details.extraSmallUppercase}>Created By</p>
-                    {journalEntry.created_by}
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
+                        {journalEntry.updated_by || 'N/A'}
+                    </p>
+
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                        {formatUpdatedDate(journalEntry.date_updated) || 'N/A'}
+                    </p>
                 </div>
+
                 <hr className="my-6 border-gray-200" />
             </div>
         </div>

@@ -108,14 +108,14 @@ const JobCostLedgerTable: React.FC<JobCostLedgerListProps> = ({
                 <table className="w-full table-auto divide-y divide-gray-200">
                     <colgroup>
                     {[
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
                         "w-[7%] text-center",
                     ]}
                     </colgroup>
@@ -125,7 +125,7 @@ const JobCostLedgerTable: React.FC<JobCostLedgerListProps> = ({
                             <SortableHeader label="Date" sortKey="date" />
                             <SortableHeader label="Project" sortKey="project" />
                             <SortableHeader label="Description" sortKey="description" />
-                            <SortableHeader label="ESTIMATED AMOUNT" sortKey="boq_estimated_amount" />
+                            <SortableHeader label="Estimated amount" sortKey="boq_estimated_amount" />
                             <SortableHeader label="Actual cost" sortKey="total_actual_cost" />
                             <SortableHeader label="Variance" sortKey="net_variance" />
                             <SortableHeader label="status" sortKey="status" />
@@ -193,7 +193,7 @@ const JobCostLedgerTable: React.FC<JobCostLedgerListProps> = ({
                                         <div className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
                                             jobCostLedger.status === 'Active' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 
                                             jobCostLedger.status === 'Completed' ? 'bg-green-100 text-green-600 border border-green-200' :
-                                            jobCostLedger.status === 'Suspended' ? 'bg-red-50 text-red-700 border border-red-200' :
+                                            jobCostLedger.status === 'On Hold' ? 'bg-red-50 text-red-700 border border-red-200' :
                                             'bg-gray-50 text-gray-600 border border-gray-200'
                                             }`}>
                                             {jobCostLedger.status}

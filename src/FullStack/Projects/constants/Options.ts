@@ -38,6 +38,7 @@ export const DOCUMENT_TYPE_OPTIONS = [
 export const BILL_OF_QUANTITIES_OPTIONS = [
     'Draft',
     'Tender',
+    'Approved',
     'Contract',
     'Revision',
 ] as const;

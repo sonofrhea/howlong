@@ -19,7 +19,8 @@ import { fetchSupplierProfiles } from "../../Suppliers/Engines";
 import { management, spinningStyles } from "../constants/styles";
 
 import { CompanyPurchaseInvoiceInputs, CompanyPurchaseInvoiceResponse,
-     EditCompanyPurchaseInvoiceInputs, AllCompanyPurchaseInvoiceInputs } from "../constants/Types";
+     EditCompanyPurchaseInvoiceInputs, AllCompanyPurchaseInvoiceInputs, 
+     CompanyPurchaseInvoiceList} from "../constants/Types";
 
 
 import CompanyPurchaseInvoiceDetails from "./CompanyPurchaseInvoiceDetails";
@@ -448,12 +449,41 @@ function CompanyPurchaseInvoiceManagement() {
                         <div className="text-2xl font-light text-gray-900">{companyPurchaseInvoices.length}</div>
                         <div className="text-sm text-gray-500">Total Purchase Invoices</div>
                         </div>
+
                         <div className="w-px h-8 bg-gray-200"></div>
+
                         <div className="text-center">
-                        <div className="text-2xl font-light text-gray-900">
-                            {new Set(companyPurchaseInvoices.map((c: any) => c.suppliers?.supplier_code)).size}
+                            <div className="text-2xl font-light text-gray-900">
+                                {companyPurchaseInvoices.filter((invoice: CompanyPurchaseInvoiceList) => invoice.supplier_name).length}
+                            </div>
+                            <div className="text-sm text-gray-500">Suppliers</div>
                         </div>
-                        <div className="text-sm text-gray-500">Suppliers</div>
+                        
+                        <div className="w-px h-8 bg-gray-200"></div>
+
+                        <div className="text-center">
+                            <div className="text-2xl font-light text-green-800">
+                                {companyPurchaseInvoices.filter((invoice: CompanyPurchaseInvoiceList) => invoice.status === "Active").length}
+                            </div>
+                            <div className="text-sm text-green-800">Active</div>
+                        </div>
+                        
+                        <div className="w-px h-8 bg-gray-200"></div>
+
+                        <div className="text-center">
+                            <div className="text-2xl font-light text-yellow-600">
+                                {companyPurchaseInvoices.filter((invoice: CompanyPurchaseInvoiceList) => invoice.status === "Inactive").length}
+                            </div>
+                            <div className="text-sm text-yellow-600">Inactive</div>
+                        </div>
+                        
+                        <div className="w-px h-8 bg-gray-200"></div>
+
+                        <div className="text-center">
+                            <div className="text-2xl font-light text-red-800">
+                                {companyPurchaseInvoices.filter((invoice: CompanyPurchaseInvoiceList) => invoice.cancelled).length}
+                            </div>
+                            <div className="text-sm text-red-800">Cancelled</div>
                         </div>
                     </div>
                     <div className="flex gap-4">

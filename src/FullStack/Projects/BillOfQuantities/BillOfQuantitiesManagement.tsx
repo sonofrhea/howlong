@@ -435,12 +435,32 @@ function BillOfQuantitiesManagement() {
                         <div className="text-2xl font-light text-gray-900">{billOfQuantities.length}</div>
                         <div className="text-sm text-gray-500">Total Bill Of Quantities</div>
                         </div>
+
                         <div className="w-px h-8 bg-gray-200"></div>
+
                         <div className="text-center">
-                        <div className="text-2xl font-light text-gray-900">
-                            {new Set(billOfQuantities.map((c: any) => c.currency?.currency_code)).size}
+                            <div className="text-2xl font-light text-gray-900">
+                                {billOfQuantities.filter((c: BillOfquantitiesList) => c.status === "Draft").length}
+                            </div>
+                            <div className="text-sm text-gray-500">Drafts</div>
                         </div>
-                        <div className="text-sm text-gray-500">Currencies</div>
+                        
+                        <div className="w-px h-8 bg-gray-200"></div>
+
+                        <div className="text-center">
+                            <div className="text-2xl font-light text-gray-900">
+                                {billOfQuantities.filter((c: BillOfquantitiesList) => c.status === "Tender").length}
+                            </div>
+                            <div className="text-sm text-gray-500">Tenders</div>
+                        </div>
+                        
+                        <div className="w-px h-8 bg-gray-200"></div>
+
+                        <div className="text-center">
+                            <div className="text-2xl font-light text-red-800">
+                                {billOfQuantities.filter((c: BillOfquantitiesList) => c.status === "Revision").length}
+                            </div>
+                            <div className="text-sm text-red-800">Revisions</div>
                         </div>
                     </div>
                         <div className="flex gap-4">

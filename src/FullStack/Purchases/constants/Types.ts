@@ -75,12 +75,14 @@ export type CompanyPurchaseInvoiceDetails = {
     price: string;
     total: string;
     tax_inclusive: boolean;
-    tax: string;
-    sub_total: string;
+    tax: number;
+    sub_total: number;
     cancelled: boolean;
   }>;
 
   created_by: string;
+  date_updated: string;
+  updated_by: string;
   company: string;
 };
 
@@ -184,6 +186,7 @@ export type CompanyPurchaseOrderList = {
   date: string;
   supplier_name: string;
   invoice_total: number;
+  related_invoice_total: number;
   net_total_paid: number;
   outstanding_amount: number;
   status: string;
@@ -205,7 +208,6 @@ export type CompanyPurchaseOrderInputs = {
   related_invoice_total: number;
   invoice_total: number;
   description: string;
-  payment_receipt: File | null;
   related_purchase?: Array <{
     payment_date: string;
     total_paid: number;
@@ -233,8 +235,8 @@ export type CompanyPurchaseOrderDetails = {
   address: string;
   related_invoice: string;
   description: string;
-  payment_receipt: File;
   invoice_total: number;
+  related_invoice_total: number;
   gross_paid: number;
   tax_inclusive: boolean;
   tax_amount: number;
@@ -252,6 +254,9 @@ export type CompanyPurchaseOrderDetails = {
   status: string;
   agent: string;
   created_by: string;
+  date_updated: string;
+  updated_by: string;
+  date_created: string;
 };
 
 

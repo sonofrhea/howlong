@@ -13,7 +13,8 @@ import { fetchAgents } from "../../Core/Engines"
 import { fetchSupplierProfiles } from "../../Suppliers/Engines";
 
 import { AllJobCostLedgerInputs, EditJobCostLedger, 
-    JobCostLedgerInputs } from "../constants/Types";
+    JobCostLedgerInputs, 
+    JobCostLedgerList} from "../constants/Types";
 
 import { spinningStyles } from "../constants/Styles";
 
@@ -447,12 +448,32 @@ function JobCostLedgerManagement() {
                             <div className="text-2xl font-light text-gray-900">{jobCostLedgers.length}</div>
                             <div className="text-sm text-gray-500">Total Job Cost Ledgers</div>
                             </div>
+
                             <div className="w-px h-8 bg-gray-200"></div>
+
                             <div className="text-center">
-                            <div className="text-2xl font-light text-gray-900">
-                                {new Set(jobCostLedgers.map((c: any) => c.currency?.currency_code)).size}
+                                <div className="text-2xl font-light text-gray-900">
+                                    {jobCostLedgers.filter((job: JobCostLedgerList) => job.status === "Active").length}
+                                </div>
+                                <div className="text-sm text-gray-500">Active Ledgers</div>
                             </div>
-                            <div className="text-sm text-gray-500">Currencies</div>
+                            
+                            <div className="w-px h-8 bg-gray-200"></div>
+
+                            <div className="text-center">
+                                <div className="text-2xl font-light text-green-900">
+                                    {jobCostLedgers.filter((job: JobCostLedgerList) => job.status === "Completed").length}
+                                </div>
+                                <div className="text-sm text-green-900">Completed</div>
+                            </div>
+                            
+                            <div className="w-px h-8 bg-gray-200"></div>
+
+                            <div className="text-center">
+                                <div className="text-2xl font-light text-red-900">
+                                    {jobCostLedgers.filter((job: JobCostLedgerList) => job.status === "On Hold").length}
+                                </div>
+                                <div className="text-sm text-red-900">On Hold</div>
                             </div>
                         </div>
                         <div className="flex gap-4">

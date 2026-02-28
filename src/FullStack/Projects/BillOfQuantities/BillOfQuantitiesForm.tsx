@@ -5,6 +5,7 @@ import { BillOfQuantitiesFormProps, BillOfQuantitiesInputs, ProjectProfileRespon
 import { billofQuantitiesProjectName } from '../../handlers';
 import { ProductItemCreateResponse } from '../../Products/constants/Types';
 import { buttons, forms, layout, tables, utils } from '../constants/Styles';
+import { BILL_OF_QUANTITIES_OPTIONS } from '../constants/Options';
 
 
 
@@ -92,6 +93,26 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                 {/*<!-- Project Details Section -->*/}
 
                 <div className="totals-section border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+                    <div className="px-6 py-4 mb-3 flex items-center justify-between  rounded-t-xl">
+                        <div className="flex items-center gap-4 flex-1">
+                            <div className="absolute left-1/2 transform -translate-x-1/2">
+                            </div>
+                        </div>
+                        <div>
+                            <label>Status</label>
+                            <select 
+                                {...register("status")}
+                                className={forms.select.full}
+                            >
+                                <option value="">Select status...</option>
+                                {useMemo(() => BILL_OF_QUANTITIES_OPTIONS.map(option => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                )), [BILL_OF_QUANTITIES_OPTIONS])}
+                            </select>
+                        </div>
+                    </div>
                     <h1 className="text-2xl mb-6">Project Details</h1>
                     <div className={layout.formSectionCol2}>
                         <div className="form-group">

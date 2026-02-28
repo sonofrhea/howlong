@@ -73,23 +73,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
 
 
     React.useEffect(() => {
-        if (!companyPurchaseOrder) return;
-
-        const updated = {
-            ...companyPurchaseOrder,
-            date: companyPurchaseOrder.date
-                ? new Date(companyPurchaseOrder.date).toISOString().split('T')[0]
-                : "",
-            payment_date: companyPurchaseOrder.related_purchase
-                ? companyPurchaseOrder.related_purchase?.map(child => ({
-                    ...child,
-                    payment_date: child.payment_date
-                        ? new Date(child.payment_date).toISOString().split("T")[0]
-                        : "",
-                })) : [],
-        };
-
-        reset(updated);
+        reset(companyPurchaseOrder);
     }, [companyPurchaseOrder, reset]);
     
     
@@ -143,7 +127,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
 
                 <div className={layout.formSectionCol3}>
                     <div>
-                        <p className={forms.label}>Date</p>
+                        <a className={forms.label}>Date</a><br />
                         <input 
                             type="date"
                             {...register("date", {required: "Date is required"})}
@@ -153,7 +137,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Related Supplier</p>
+                        <a className={forms.label}>Related Supplier</a><br />
                         <select
                             {...register("supplier")}
                             className={forms.select.partial}
@@ -168,7 +152,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Purchase Account</p>
+                        <a className={forms.label}>Purchase Account</a><br />
                         <select
                             {...register("account.account_code")}
                             className={forms.select.partial}
@@ -187,7 +171,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Invoice</p>
+                        <a className={forms.label}>Related Invoice</a><br />
                         <select
                             {...register("related_invoice")}
                             className={forms.select.partial}
@@ -203,7 +187,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Invoice Total</p>
+                        <a className={forms.label}>Related Invoice Total</a><br />
                         <input 
                             {...register("invoice_total")}
                             className={forms.input.midNumber}
@@ -217,7 +201,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Status</p>
+                        <a className={forms.label}>Status</a><br />
                         <select
                             {...register("status")}
                             className={forms.select.partial}
@@ -232,7 +216,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Agent</p>
+                        <a className={forms.label}>Agent</a><br />
                         <select
                             {...register("agent")}
                             className={forms.select.partial}
@@ -244,6 +228,15 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                 </option>
                             )), [agents])}
                         </select>
+                    </div>
+
+                    <div>
+                        <a className={forms.label}>Cancelled</a><br />
+                        <input 
+                        {...register("cancelled")}
+                        type="checkbox"
+                        className="mt-3 forced-colors:bg-green-300"
+                        />
                     </div>
                 </div>
 
@@ -265,20 +258,6 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                     />
                 </div>
 
-                <div>
-                    <p className={forms.label}>Payment receipt</p>
-                    <input 
-                        type="file"
-                        className="w-[40%] text-black cursor-pointer rounded-lg border border-gray-300 px-3 py-2"
-                        placeholder="upload payment receipt"
-                        title="upload payment receipt..."
-                        onChange={(e) => {
-                            const file = e.target.files?.[0] || null;
-                            setValue('payment_receipt', file);
-                        }}
-                    />
-                </div>
-
                 <hr className="my-6 border-gray-200" />
 
                 <div className="p-6">
@@ -286,12 +265,12 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                         <table className={tables.base}>
                             <colgroup>
                                 {[
-                                    'w-1/6 text-center',
-                                    'w-1/6 text-center',
-                                    'w-1/6 text-center',
-                                    'w-1/6 text-center',
-                                    'w-1/6 text-center',
-                                    'w-1/6 text-center',
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
+                                    'w-1/7 text-center',
                                     'w-[7%] text-center',
                                 ].map((line, index) => (
                                     <col key={index} className={line} />
@@ -440,15 +419,6 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                             }
                                         }}
                                         
-                                    />
-                                </div>
-
-                                <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Cancelled?</div>
-                                    <input 
-                                    {...register("cancelled")}
-                                    type="checkbox"
-                                    className="ml-2 forced-colors:bg-green-300"
                                     />
                                 </div>
                             </div>

@@ -256,11 +256,25 @@ const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
                 </div>
 
                 <hr className="my-6 border-gray-200" />
+                                                        
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Created by</a><br />
+                        {supplierDebitNote.created_by || 'N/A'}
+                    </p>
+    
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
+                        {supplierDebitNote.updated_by || 'N/A'}
+                    </p>
+    
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                        {formatUpdatedDate(supplierDebitNote.date_updated) || 'N/A'}
+                    </p>
+                </div>
                         
-                <p>
-                    <p className={details.extraSmallUppercase}>Created by</p>
-                    {supplierDebitNote.created_by || 'N/A'}
-                </p>
+             
                 <hr className="my-6 border-gray-200" />
             </div>
             <JournalEntryModal

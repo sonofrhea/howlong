@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { PROJECTS_ICONS } from "./ModuleIcons";
-import { COST_TYPE_CHOICES_OPTIONS, COUNTRY_OPTIONS, 
+import { BILL_OF_QUANTITIES_OPTIONS, COST_TYPE_CHOICES_OPTIONS, COUNTRY_OPTIONS, 
   JOB_COST_LEDGER_STATUS_OPTIONS, 
   JOB_COST_LINES_STATUS_OPTIONS, PROJECT_PHASE_OPTIONS,
    PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from "./Options";
@@ -64,10 +64,16 @@ export type ProjectsProfileList = {
   date: string;
   project_name: string;
   project_type: string;
+  client_details: string;
+    phases?: Array<{
+    phase_description?: string;
+    start_date?: string;
+    current_phase?: typeof PROJECT_PHASE_OPTIONS[number] | null;
+    end_date?: string;
+  }> | null;
   city: string;
   start_date: string;
   estimated_end_date: string;
-  client_details: string;
   status: string;
 };
 
@@ -99,7 +105,7 @@ export type ProjectsProfileDetails = {
 
   project_manager: string;
   superintendent: string;
-  client_details_name: string;
+  project_client_name: string;
 
   phases: Array<{
     phase_description: string;
@@ -110,14 +116,14 @@ export type ProjectsProfileDetails = {
 
   created_by: string;
   date_created: string;
-  updated_by: number;
+  updated_by: string;
   date_updated: string;
   version: number;
   company: string;
 };
 
 
-export interface ProjectProfileInputs {
+export type ProjectProfileInputs = {
   project_code: number;
   date: string;
   project_name: string;
@@ -148,7 +154,7 @@ export interface ProjectProfileInputs {
     phase_description?: string;
     start_date?: string;
     current_phase?: typeof PROJECT_PHASE_OPTIONS[number] | null;
-    end_date?: string;
+    end_date?: string | null;
   }> | null; 
   created_by: string;
 };
@@ -197,7 +203,7 @@ export type ProjectProfileFormProps = {
 
 
 export type ProjectProfileTableProps = {
-  projectsProfiles: ProjectsProfileList[];
+  projects: ProjectsProfileList[];
   onProjectClick: (projectId: number) => void;
   onEditProjectsProfile: (projectId: number, project: ProjectsProfileList) => void;
   onDeleteProjectsProfile: (projectId: number) => void;
@@ -263,6 +269,7 @@ export type BillOfquantitiesList = {
   date: string;
   project: string;
   project_name: string;
+  status: string;
   boq_description: string;
   contingency_rate: number;
   net_estimation: number;
@@ -300,6 +307,7 @@ export type BillOfQuantitiesInputs = {
   date: string;
   project: string;
   project_name: string;
+  status: typeof BILL_OF_QUANTITIES_OPTIONS[number];
   boq_description: string;
   boq?: Array <{
     product_item: string | null;
@@ -445,7 +453,7 @@ export type JobCostLedgerInputs = {
   project_name: string | null;
   date: string;
   description: string;
-  status: typeof JOB_COST_LEDGER_STATUS_OPTIONS;
+  status: typeof JOB_COST_LEDGER_STATUS_OPTIONS[number] | null;
   boq_estimation: string | null;
   boq_estimated_amount: number | null;
   job_cost_ledger?: Array<{

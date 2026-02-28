@@ -141,7 +141,9 @@ function CompanyPurchaseOrderManagement() {
         },
         onError: (error: any) => {
             toast.error('Failed to create purchase order', { id: "Create Purchase Order" });
-            console.error('Error creating company purchase order:', error.response?.data || error.message || error);
+            console.error(
+                'Error creating company purchase order:', error.response?.data || error.message || error
+            );
         }
     });
 
@@ -164,7 +166,9 @@ function CompanyPurchaseOrderManagement() {
         },
         onError: (error: any) => {
             toast.error('Failed to update purchase order', { id: "Update Purchase Order" });
-            console.error('Error updating company purchase order:', error.response?.data || error.message);
+            console.error(
+                'Error updating company purchase order:', error.response?.data || error.message
+            );
         }
     });
     // ------------------------------------------------------------------------------------
@@ -481,12 +485,32 @@ function CompanyPurchaseOrderManagement() {
                         <div className="text-2xl font-light text-gray-900">{CompanyPurchaseOrders.length}</div>
                         <div className="text-sm text-gray-500">Total Notes</div>
                         </div>
+
                         <div className="w-px h-8 bg-gray-200"></div>
+
                         <div className="text-center">
-                        <div className="text-2xl font-light text-gray-900">
-                            {new Set(CompanyPurchaseOrders.map((c: any) => c.currency?.currency_code)).size}
+                            <div className="text-2xl font-light text-green-900">
+                                {CompanyPurchaseOrders.filter((p: CompanyPurchaseOrderList) => p.status === "Paid").length}
+                            </div>
+                            <div className="text-sm text-green-600">Paid Orders</div>
                         </div>
-                        <div className="text-sm text-gray-500">Currencies</div>
+
+                        <div className="w-px h-8 bg-gray-200"></div>
+
+                        <div className="text-center">
+                            <div className="text-2xl font-light text-yellow-600">
+                                {CompanyPurchaseOrders.filter((p: CompanyPurchaseOrderList) => p.status === "Partial").length}
+                            </div>
+                            <div className="text-sm text-yellow-600">Partial Paid</div>
+                        </div>
+
+                        <div className="w-px h-8 bg-gray-200"></div>
+
+                        <div className="text-center">
+                            <div className="text-2xl font-light text-red-900">
+                                {CompanyPurchaseOrders.filter((p: CompanyPurchaseOrderList) => p.status === "Unpaid").length}
+                            </div>
+                            <div className="text-sm text-red-500">Unpaid Orders</div>
                         </div>
                     </div>
                     <div className="flex gap-4">

@@ -93,11 +93,7 @@ export const fetchCompanyPurchaseOrderById = async (purchase_order_number: numbe
 
 export const createCompanyPurchaseOrder = async (companyPurchaseOrderData: CompanyPurchaseOrderInputs | FormData) => {
   try {
-    const response = await apiClient.post('/purchases/companypurchaseorder/', companyPurchaseOrderData, {
-      headers: {
-        "Content-Type": 'multipart/form-data',
-      },
-    });
+    const response = await apiClient.post('/purchases/companypurchaseorder/', companyPurchaseOrderData);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -109,11 +105,7 @@ export const updateCompanyPurchaseOrder = async ({
   companyPurchaseOrderData
 }: AllCompanyPurchaseOrderInputs) => {
   try {
-    const response = await apiClient.put(`/purchases/companypurchaseorder/${purchase_order_number}/`, companyPurchaseOrderData, {
-      headers: {
-        "Content-Type": 'multipart/form-data',
-      },
-    });
+    const response = await apiClient.put(`/purchases/companypurchaseorder/${purchase_order_number}/`, companyPurchaseOrderData);
     return response.data;
   } catch (error) {
     console.error(error);

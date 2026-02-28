@@ -296,7 +296,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}                                                
                                             />
@@ -387,7 +387,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                                         defaultValue={0.00}
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                         

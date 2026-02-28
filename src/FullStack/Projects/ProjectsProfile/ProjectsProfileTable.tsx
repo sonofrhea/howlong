@@ -21,7 +21,7 @@ const formatNumber = () => {
 
 
 const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
-    projectsProfiles,
+    projects,
     onProjectClick,
     onEditProjectsProfile,
     onDeleteProjectsProfile,
@@ -55,7 +55,7 @@ const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
     };
 
 
-    if (projectsProfiles.length === 0) {
+    if (projects.length === 0) {
         return (
             <div className="text-center py-12">
                 <div className="flex items-center justify-between p-4 bg-gray-50 border-b">
@@ -108,17 +108,19 @@ const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
                     {[
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-[7%] text-center",
-                    ]}
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-[5%] text-center",
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
@@ -128,7 +130,7 @@ const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
                             <SortableHeader label="Project Type" sortKey="project_type" />
                             <SortableHeader label="Location" sortKey="city" />
                             <SortableHeader label="Start Date" sortKey="start_date" />
-                            <SortableHeader label="Estimated End Date" sortKey="estimated_end_date" />
+                            <SortableHeader label="Est. End Date" sortKey="estimated_end_date" />
                             <SortableHeader label="Client Details" sortKey="client_details" />
                             <SortableHeader label="Status" sortKey="status" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
@@ -137,7 +139,7 @@ const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
-                        {projectsProfiles.map((projectsProfile: ProjectsProfileList) => {
+                        {projects.map((projectsProfile: ProjectsProfileList) => {
                             const projectsProfileId = projectsProfile.project_code;
 
                             return (

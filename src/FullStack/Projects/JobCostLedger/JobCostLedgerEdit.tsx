@@ -81,6 +81,11 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
             </option>
     )), [JOB_COST_LINES_STATUS_OPTIONS])
 
+
+
+
+
+
     const { register, handleSubmit, watch, control, setValue, 
         reset, formState: { errors }} = useForm<JobCostLedgerInputs>({
             defaultValues: jobCostLedger
@@ -151,31 +156,6 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                 </option>
                             )), [projects])}
                         </select>
-
-                        <div className="flex flex-col">
-                            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
-                                Project Name
-                            </span>
-                            <input 
-                                className="text-base font-medium text-slate-900"
-                                {...register('project_name')}
-                            />
-                            {formatProjectNumber()}
-                        </div>
-                        
-                        <div>
-                            <p className={forms.label}>Related Project Budget</p>
-                            <input 
-                                {...register("project_budget")}
-                                className={forms.input.number}
-                                placeholder="0.00"
-                                step="0.01" min="0.00" onBlur={(e) => {
-                                    if (e.target.value) {
-                                        e.target.value = decimalPlaces(Number(e.target.value));
-                                    }
-                                }}
-                            />
-                        </div>
                     </div>
 
                     <div className="md:col-span-2">
@@ -194,21 +174,6 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                 </option>
                             )), [billOfQuantities])}
                         </select>
-                        
-                        <div>
-                            <p className={forms.label}>BOQ Estimation Amount</p>
-                            <input 
-                                {...register("boq_estimated_amount")}
-                                className={forms.input.number}
-                                placeholder="0.00"
-                                step="0.01" min="0.00" onBlur={(e) => {
-                                    if (e.target.value) {
-                                        e.target.value = decimalPlaces(Number(e.target.value));
-                                    }
-                                }}
-                            />
-                        </div>
-
                     </div>
 
                     <div>
@@ -252,7 +217,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                     </div>
                 </div>
             </div>
-            
+                            
             <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6 md:p-8 mb-6">
                 <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
                     <div>
@@ -280,7 +245,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                     </button>
                 </div>
                 {fields.length > 0 ? fields.map((field, index) => {
-                    
+
                     const onJobCostCodeChange = jobcostcodesHandler(jobCostCodes, setValue, index);
                     
                     return(
@@ -368,6 +333,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                     Description
                                                 </label>
                                                 <input 
+                                                    className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-vertical"
                                                     {...register(`job_cost_ledger.${index}.description`)}
                                                 />
                                             </div>

@@ -28,6 +28,20 @@ const formatProjectNumber = () => {
     return `PZN-${currentYear}-0`;
 };
 
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -101,13 +115,13 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
                             className="cursor-pointer"/>
                             Edit
                         </button>
+                        <button
+                            onClick={() => setIsJournalEntryOpen(true)}
+                            className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                        >
+                            + Create Journal Entry
+                        </button>
                     </div>
-                    <button
-                        onClick={() => setIsJournalEntryOpen(true)}
-                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
-                    >
-                        + Create Journal Entry
-                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -115,53 +129,53 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p>
-                            <p className={details.extraSmallUppercase}>Reference Number</p>
+                            <a className={details.extraSmallUppercase}>Reference Number</a><br />
                             {formatNumber()}{paymentVoucher.reference_number}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Date</p>
+                            <a className={details.extraSmallUppercase}>Date</a><br />
                             {formatDate(paymentVoucher.date)}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Cancelled</p>
-                            <p className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                            <a className={details.extraSmallUppercase}>Cancelled</a><br />
+                            <span className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
                                 paymentVoucher.cancelled
                                     ? 'bg-red-100 text-red-800 border border-red-200'
                                     : 'bg-green-100 text-green-800 border border-green-200'
                             }`}>
                                 {paymentVoucher.cancelled ? 'Yes' : 'No'}
-                            </p>
+                            </span>
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Payment To</p>
+                            <a className={details.extraSmallUppercase}>Payment To</a><br />
                             {formatSupplierNumber()}{paymentVoucher.payment_to || 'N/A'} - {paymentVoucher.payment_to_name || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Account Paid By</p>
+                            <a className={details.extraSmallUppercase}>Account Paid By</a><br />
                             {paymentVoucher.account_paid_by?.account_code || 'N/A'} - ({paymentVoucher.account_paid_by?.account_name || 'N/A'})
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Related Project</p>
+                            <a className={details.extraSmallUppercase}>Related Project</a><br />
                             {formatProjectNumber()}{paymentVoucher.project || 'N/A'} | {paymentVoucher.project_name || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Currency</p>
+                            <a className={details.extraSmallUppercase}>Currency</a><br />
                             {paymentVoucher.currency || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Description</p>
+                            <a className={details.extraSmallUppercase}>Description</a><br />
                             {paymentVoucher.description || 'N/A'}
                         </p>
 
                         <p>
-                            <p className={details.extraSmallUppercase}>Agent</p>
+                            <a className={details.extraSmallUppercase}>Agent</a><br />
                             {paymentVoucher.agent || 'N/A'}
                         </p>
                     </div>
@@ -234,7 +248,7 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
                                             </div>
                                         </div>
 
-                                        <hr className="my-4 border-blue-200" />
+                                        <hr className="my-2 border-blue-200" />
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total</div>
@@ -258,11 +272,25 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
             />
 
             <hr className="my-6 border-gray-200" />
+                                        
+            <div className="grid lg:grid-cols-5">
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Created by</a><br />
+                    {paymentVoucher.created_by || 'N/A'}
+                </p>
 
-            <p>
-                <p className={details.extraSmallUppercase}>Created by</p>
-                {paymentVoucher.created_by || 'N/A'}
-            </p>
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Updated By</a><br />
+                    {paymentVoucher.updated_by || 'N/A'}
+                </p>
+
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                    {formatUpdatedDate(paymentVoucher.date_updated) || 'N/A'}
+                </p>
+            </div>
+
+            
             <hr className="my-6 border-gray-200" />
         </div>
     );

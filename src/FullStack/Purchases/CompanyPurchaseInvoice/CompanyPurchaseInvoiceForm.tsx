@@ -206,8 +206,8 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
                                         <th className={tables.headerCell}>Gross Total</th>
                                         <th className={tables.headerCell}>Tax Inclusive</th>
                                         <th className={tables.headerCell}>Tax %</th>
-                                            <th className={tables.headerCell}>Cancelled</th>
                                         <th className={tables.headerCell}>SubTotal</th>
+                                        <th className={tables.headerCell}>Cancelled</th>
                                         <th></th>
                                     </tr>
                                 </thead>

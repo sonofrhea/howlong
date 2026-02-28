@@ -3,6 +3,7 @@ import '../constants/ProjectDetails.css';
 import { Building, Calendar1, Clock, NotepadText, SquarePen } from "lucide-react";
 import { buttons } from "../constants/Styles";
 import { ProjectProfileDetailsProps } from "../constants/Types";
+import { details } from "../../Customers/constants/Styles";
 
 
 
@@ -16,7 +17,9 @@ const formatDate = (dateString: string) => {
 };
 
 
-
+const formatUpdateDate = (dateString: any) => {
+    return new Date(dateString).toLocaleString();
+};
 
 
 
@@ -89,7 +92,7 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                                 <NotepadText />{formatNumber()}{project.project_code}
                             </span>
                             <span className="meta-item">
-                                <Building />{project.client_details_name || 'N/A'}
+                                <Building />{project.project_client_name || 'N/A'}
                             </span>
                             <span className="meta-item">
                                 <Calendar1 />{project.start_date || 'N/A'} → {project.actual_end_date || 'N/A'}
@@ -265,14 +268,39 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                             {project.phases.map((line: any, index: any) => (
                                 <div key={index} className="card">
                                     <div key={index} className="section-title">Project Phases Log</div>
-                                    <div className="phase-item completed">
-                                        <span>
-                                            {line.current_phase}
-                                        </span>
-                                    </div>
 
-                                    <div>
-                                        
+                                    <div className="group relative bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:border-indigo-300 transition-all duration-300">
+
+                                        <div className="flex items-center justify-between mb-4">
+                                            <span className="flex items-center text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em]">
+                                                <span className="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>
+                                                Phase {index + 1}
+                                            </span>
+                                            
+                                            <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border ${
+                                                line.current_phase === 'Not Started' ? 'bg-gray-100 text-gray-500 border-gray-200' :
+                                                line.current_phase === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                                                line.current_phase === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                                                line.current_phase === 'Delayed' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                                                'bg-gray-100 text-gray-600 border-gray-200'
+                                                }`}>
+                                                {line.current_phase}
+                                            </span>
+                                        </div>
+
+                                        <h3 className="text-gray-900 font-bold text-xl mb-6 leading-tight">{line.phase_description}</h3>
+
+                                        <div className="flex items-center gap-14 border-t border-gray-100 pt-5">
+                                            <div className="flex flex-col">
+                                                <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Start Date</span>
+                                                <span className="font-mono text-sm text-gray-700 font-semibold">{line.start_date}</span>
+                                            </div>
+                                            <div className="w-px h-8 bg-gray-200 mx-4"></div>
+                                            <div className="flex flex-col">
+                                                <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">End Date</span>
+                                                <span className="font-mono text-sm text-gray-700 font-semibold">{line.end_date}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -284,12 +312,27 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
 
             {/*<!-- Footer -->*/}
             <div className="footer">
-                <div>Created by 
-                    <strong>{project.created_by}</strong>
-                </div>
-                <div>
-                    Last Updated: 
-                    <strong> {formatDate(project.date_updated)}</strong> • Version <strong>{project.version}</strong>
+                <div className="grid lg:grid-cols-5">
+
+                    <div>
+                        <a className={details.extraSmallUppercase}>Date Created</a><br /> 
+                        <strong> {formatDate(project.date_created)}</strong>
+                    </div>
+
+                    <div>
+                        <a className={details.extraSmallUppercase}>Created by</a><br /> 
+                        <strong>{project.created_by}</strong>
+                    </div>
+
+                    <div>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br /> 
+                        <strong> {formatUpdateDate(project.date_updated)}</strong>
+                    </div>
+
+                    <div>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br /> 
+                        <strong> {project.updated_by}</strong>
+                    </div>
                 </div>
             </div>
         </div>

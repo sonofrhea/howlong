@@ -3,6 +3,7 @@ import { buttons, labelStyles, layout,
     spinningStyles, tables, text } from "../constants/Styles";
 import { SquarePen } from "lucide-react";
 import { SupplierInvoiceDetailsProps } from "../constants/Types";
+import { details } from "../../Customers/constants/Styles";
 
 
 const formatNumber = () => {
@@ -13,6 +14,15 @@ const formatNumber = () => {
 const formatDate = (dateString: any) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
+
+const formatUpdatedDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
+
+
+
+
+
 
 
 
@@ -91,35 +101,37 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
 
                 <div className="grid grid-cols-3 gap-6">
                     <div>
-                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Invoice No</p>
-                        <p className="text-sm font-medium text-black">{formatNumber()}{supplierInvoice.invoice_number}</p>
+                        <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Invoice No</a><br />
+                        <p className="text-sm mb-4 font-medium text-black">{formatNumber()}{supplierInvoice.invoice_number}</p>
 
-                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Date Issued</p>
-                        <p className="text-sm font-medium text-black">{formatDate(supplierInvoice.invoice_date)}</p>
+                        <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-5">Date Issued</a><br />
+                        <p className="text-sm mb-4 font-medium text-black">{formatDate(supplierInvoice.invoice_date)}</p>
 
-                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Payment Account</p>
+                        <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Payment Account</a><br />
                         <p className="text-sm font-medium text-black">{supplierInvoice.purchase_account?.account_code || 'N/A'} - ({supplierInvoice.purchase_account?.account_name || 'N/A'})</p>
                     </div>
 
                     <div>
-                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Supplier</p>
-                        <p className="text-sm font-medium text-black">{supplierInvoice.supplier_name || 'N/A'}</p>
+                        <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">
+                            Supplier
+                        </a><br />
+                        <p className="text-sm font-medium mb-4 text-black">{supplierInvoice.supplier_name || 'N/A'}</p>
                         
-                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Supplier Extra Details</p>
-                        <p className="text-sm font-medium text-black">{supplierInvoice.supplier_details || 'N/A'}</p>
+                        <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Supplier Extra Details</a><br />
+                        <p className="text-sm font-medium mb-4 text-black">{supplierInvoice.supplier_details || 'N/A'}</p>
 
-                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Product</p>
+                        <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Product</a><br />
                         <p className="text-sm font-medium text-black">{supplierInvoice.product || 'N/A'}</p>
                     </div>
 
                     <div>
-                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Currency</p>
-                        <p className="text-sm font-medium text-black">{supplierInvoice.currency || 'N/A'}</p>
+                        <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Currency</a><br />
+                        <p className="text-sm font-medium mb-4 text-black">{supplierInvoice.currency || 'N/A'}</p>
 
-                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Invoice Due Date</p>
-                        <p className="text-sm font-medium text-black">{supplierInvoice.invoice_due_date}</p>
+                        <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Invoice Due Date</a><br />
+                        <p className="text-sm font-medium mb-4 text-black">{supplierInvoice.invoice_due_date}</p>
 
-                        <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Agent</p>
+                        <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Agent</a><br />
                         <p className="text-sm font-medium text-black">{supplierInvoice.agent || 'N/A'}</p>
                     </div>
                 </div>
@@ -197,9 +209,23 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
             </div>
 
             <hr className="my-6 border-gray-200" />
+                                                    
+            <div className="grid lg:grid-cols-5">
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Created by</a><br />
+                    {supplierInvoice.created_by || 'N/A'}
+                </p>
 
-            <p className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Created by</p>
-            <p className="text-sm font-medium text-black">{supplierInvoice.created_by || 'N/A'}</p>
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Updated By</a><br />
+                    {supplierInvoice.updated_by || 'N/A'}
+                </p>
+
+                <p className={labelStyles}>
+                    <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                    {formatUpdatedDate(supplierInvoice.date_updated) || 'N/A'}
+                </p>
+            </div>
             <hr className="my-6 border-gray-200" />
         </div>
     );

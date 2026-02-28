@@ -27,7 +27,9 @@ const formatPurchaseInvoiceNumber = () => {
 };
 
 
-
+const formatUpdateDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+};
 
 
 
@@ -101,12 +103,12 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                             <SquarePen size={20} strokeWidth={1.5} />
                             Edit
                         </button>
-                    <button
-                        onClick={() => setIsJournalEntryOpen(true)}
-                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
-                    >
-                        + Create Journal Entry
-                    </button>
+                        <button
+                            onClick={() => setIsJournalEntryOpen(true)}
+                            className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
+                        >
+                            + Create Journal Entry
+                        </button>
                     </div>
                 </div>
 
@@ -115,43 +117,63 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Debit Note No.</p>
+                            <a className={details.extraSmallUppercase}>Debit Note No.</a><br />
                             {formatNumber()}{companyPurchaseOrder.purchase_order_number}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Date</p>
-                            {formatDate(companyPurchaseOrder.date)}
+                            <a className={details.extraSmallUppercase}>Date</a><br />
+                            {companyPurchaseOrder.date}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Account</p>
+                            <a className={details.extraSmallUppercase}>Account</a><br />
                             {companyPurchaseOrder.account?.account_code || 'N/A'} ({companyPurchaseOrder.account?.account_name || 'N/A'})
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Supplier</p>
+                            <a className={details.extraSmallUppercase}>Supplier</a><br />
                             {formatSupplierNumber()}{companyPurchaseOrder.supplier} | {companyPurchaseOrder.supplier_name}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Related Purchase Invoice</p>
+                            <a className={details.extraSmallUppercase}>Related Purchase Invoice</a><br />
                             {formatPurchaseInvoiceNumber()}{companyPurchaseOrder.related_invoice} | Total: {companyPurchaseOrder.invoice_total}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Related Invoice Total</p>
+                            <a className={details.extraSmallUppercase}>Related Invoice Total</a><br />
                             {companyPurchaseOrder.invoice_total}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Description</p>
+                            <a className={details.extraSmallUppercase}>Description</a><br />
                             {companyPurchaseOrder.description}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Status</p>
-                            {companyPurchaseOrder.status}
+                            <a className={details.extraSmallUppercase}>Status</a><br />
+                            <span 
+                                className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                                companyPurchaseOrder.status === 'Paid' ? 'bg-green-50 text-green-700 border border-green-200' : 
+                                companyPurchaseOrder.status === 'Partial' ? 'bg-yellow-100 text-yellow-600 border border-yellow-200' :
+                                companyPurchaseOrder.status === 'Unpaid' ? 'bg-red-50 text-red-700 border border-red-200' :
+                                'bg-gray-50 text-gray-600 border border-gray-200'
+                                }`}
+                            >
+                                {companyPurchaseOrder.status}
+                            </span>
+                        </p>
+                        
+                        <p className={labelStyles}>
+                            <a className={details.extraSmallUppercase}>Cancelled</a><br />
+                            <span className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                                companyPurchaseOrder.cancelled
+                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                    : 'bg-green-100 text-green-800 border border-green-200'
+                            }`}>
+                                {companyPurchaseOrder.cancelled ? 'Yes' : 'No'}
+                            </span>
                         </p>
 
                     </div>
@@ -175,9 +197,9 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                                         </tr>
                                     </thead>
                                     <tbody className={tables.body}>
-                                        {companyPurchaseOrder.related_purchase.map((line: any, index: any) => (
+                                        {companyPurchaseOrder.related_purchase.map((line, index) => (
                                             <tr key={index} className={tables.row}>
-                                                <td className={tables.cell}>{formatDate(line.payment_date)}</td>
+                                                <td className={tables.cell}>{line.payment_date}</td>
                                                 <td className={tables.cell}>{line.total_paid}</td>
                                                 <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
                                                 <td className={tables.cell}>{line.tax_amount}</td>
@@ -201,7 +223,7 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
 
                                         <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
-                                            <div className="font-medium text-black">{companyPurchaseOrder.tax_amount}%</div>
+                                            <div className="font-medium text-black">+{companyPurchaseOrder.tax_amount}%</div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
@@ -210,6 +232,8 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                                                 {companyPurchaseOrder.net_total_paid}
                                             </div>
                                         </div>
+
+                                        <hr className="my-2 border-blue-200" />
                                         
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Outstanding:</div>
@@ -227,31 +251,27 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                 
                 <hr className="my-6 border-gray-200" />
                 
-                <p className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Created By</p>
-                    {companyPurchaseOrder.created_by || 'N/A'}
-                </p>
-
-                <hr className="my-6 border-gray-200" />
-                
-                <p className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Payment receipt</p>
-                    {companyPurchaseOrder.payment_receipt ? (
-                        <div>
-                        <p>📄 {companyPurchaseOrder.payment_receipt.name}</p>
-                        <p>Size: {(companyPurchaseOrder.payment_receipt.size / 1024).toFixed(2)} KB</p>
-                        <a
-                            href={URL.createObjectURL(companyPurchaseOrder.payment_receipt)}
-                            download={companyPurchaseOrder.payment_receipt.name}
-                            className="text-blue-500 underline"
-                        >
-                            Download Receipt
-                        </a>
-                        </div>
-                    ) : (
-                        'N/A'
-                    )}
-                </p>
+                <div className="grid lg:grid-cols-5">
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Created By</a><br />
+                        {companyPurchaseOrder.created_by || 'N/A'}
+                    </p>
+                    
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Date Created</a><br />
+                        {formatDate(companyPurchaseOrder.date_created) || 'N/A'}
+                    </p>
+                    
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
+                        {companyPurchaseOrder.updated_by || 'N/A'}
+                    </p>
+                    
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                        {formatUpdateDate(companyPurchaseOrder.date_updated) || 'N/A'}
+                    </p>
+                </div>
 
                 <hr className="my-6 border-gray-200" />
 

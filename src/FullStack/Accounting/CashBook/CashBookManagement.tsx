@@ -458,14 +458,28 @@ function CashBookManagement() {
                 <div className="flex items-center gap-6 justify-between">
                     <div className="flex items-center gap-4">
                     <div className="text-center">
-                        <div className="text-2xl font-light text-gray-900">{cashBooks.length}</div>
+                        <div className="text-2xl font-light text-gray-900">
+                            {cashBooks.length}
+                        </div>
                         <div className="text-sm text-gray-500">Total Cash Books</div>
                     </div>
+
                     <div className="w-px h-8 bg-gray-200"></div>
+
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
-                        {}
+                        {decimalPlaces(cashBooks.reduce((sum: number, row: CashBookList) => sum + Number(row.net_debit ?? 0.00), 0.00))}
                         </div>
+                        <div className="text-sm text-gray-500">Total Cash Debit</div>
+                    </div>
+
+                    <div className="w-px h-8 bg-gray-200"></div>
+
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-gray-900">
+                            {decimalPlaces(cashBooks.reduce((sum: number, row: CashBookList) => sum + Number(row.net_credit ?? 0.00), 0.00))}
+                        </div>
+                        <div className="text-sm text-gray-500">Total Cash Credit</div>
                     </div>
                     </div>
                     <div className="flex gap-4">

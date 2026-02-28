@@ -244,20 +244,20 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                 </div>
 
                 <hr className="my-6 border-gray-200" />
-                
+                                                        
                 <div className="grid lg:grid-cols-5">
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Created By</p>
+                        <a className={details.extraSmallUppercase}>Created by</a><br />
                         {creditNote.created_by || 'N/A'}
                     </p>
-
+    
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Updated By</p>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
                         {creditNote.updated_by || 'N/A'}
                     </p>
-
+    
                     <p className={labelStyles}>
-                        <p className={details.extraSmallUppercase}>Date Updated</p>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
                         {formatUpdatedDate(creditNote.date_updated) || 'N/A'}
                     </p>
                 </div>

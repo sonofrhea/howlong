@@ -56,7 +56,7 @@ const CashBookTable: React.FC<CashBookTableProps> = ({
                     <div className="flex items-center gap-2">
                     <span className="text-sm text-gray-600">Show</span>
                     <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)}
-                        className="border border-gray-300 rounded px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500">
+                        className="border border-gray-300 rounded px-3 py-1 focus:cursor-pointer text-sm focus:ring-2 focus:ring-blue-500">
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -195,7 +195,7 @@ const CashBookTable: React.FC<CashBookTableProps> = ({
 
                                     {/* Running Balance */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm text-black truncate font-bold">
                                             {cashBook.running_balance}
                                         </div>
                                     </td>
@@ -245,7 +245,7 @@ const CashBookTable: React.FC<CashBookTableProps> = ({
                         Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} cash books
                     </div>
                     <div className="flex items-center gap-2">
-                        <button className="px-3 py-1 border border-gray-300 rounded text-xs hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        <button className="px-3 py-1 border border-gray-300 rounded text-xs hover:bg-gray-100 hover:border-yellow-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={() => onPageChange(currentPage - 1)}
                             disabled={currentPage === 1}>
                                 Previous
@@ -254,7 +254,7 @@ const CashBookTable: React.FC<CashBookTableProps> = ({
                             Page {currentPage} of {totalPages}
                         </span>
                         <button 
-                            className="px-3 py-1 border border-gray-300 rounded text-xs hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-3 py-1 border border-gray-300 rounded text-xs hover:bg-gray-100 hover:border-purple-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={() => onPageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}>
                                 Next

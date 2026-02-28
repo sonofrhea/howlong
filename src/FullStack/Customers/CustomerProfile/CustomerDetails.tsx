@@ -8,7 +8,7 @@ import { CustomerDetailsProps } from "../constants/Types";
 
 
 
-const formatDate = (dateString: any) => {
+const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
@@ -18,7 +18,7 @@ const formatNumber = () => {
 };
 
 
-const formatUpdateDate = (dateString: any) => {
+const formatUpdateDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
 };
 

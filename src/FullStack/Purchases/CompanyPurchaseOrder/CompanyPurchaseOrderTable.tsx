@@ -102,14 +102,14 @@ const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
                     {[
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
-                        "w-1/8 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-1/9 text-center",
+                        "w-[7%] text-center",
                         "w-[7%] text-center",
                     ].map((line, index) => (
                         <col key={index} className={line} />
@@ -119,8 +119,8 @@ const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
                         <tr>
                             <SortableHeader label="Purchase Order #" sortKey="purchase_order_number" />
                             <SortableHeader label="Date" sortKey="date" />
-                            <SortableHeader label="Invoice total" sortKey="supplier_name" />
-                            <SortableHeader label="Invoice total" sortKey="invoice_total" />
+                            <SortableHeader label="Supplier Name" sortKey="supplier" />
+                            <SortableHeader label="Related Invoice total" sortKey="related_invoice_total" />
                             <SortableHeader label="Net Total paid" sortKey="net_total_paid" />
                             <SortableHeader label="Outstanding" sortKey="outstanding_amount" />
                             <SortableHeader label="Status" sortKey="status" />
@@ -154,7 +154,7 @@ const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
                                     {/* Supplier */}
                                     <td className="px-2 py-2 truncate">
                                         <div className="text-sm text-black truncate">
-                                            {companyPurchaseOrder.supplier_name || '--'}
+                                            {companyPurchaseOrder?.supplier_name || '--'}
                                         </div>
                                     </td>
 
@@ -181,7 +181,7 @@ const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
 
                                     {/* Status */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                        <div className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
                                             companyPurchaseOrder.status === 'Paid' ? 'bg-green-100 text-green-800' :
                                             companyPurchaseOrder.status === 'Partial' ? 'bg-yellow-100 text-yellow-800' :
                                             companyPurchaseOrder.status === 'Unpaid' ? 'bg-red-100 text-red-800' :
@@ -199,7 +199,7 @@ const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
                                                 : 'bg-green-100 text-green-800'
                                                  
                                         }`}>
-                                            {companyPurchaseOrder.cancelled || '--'}
+                                            {companyPurchaseOrder.cancelled ? 'Yes' : 'No'}
                                         </div>
                                     </td>
 

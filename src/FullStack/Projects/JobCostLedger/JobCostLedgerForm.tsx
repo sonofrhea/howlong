@@ -330,6 +330,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                         Description
                                                     </label>
                                                     <input 
+                                                        className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-vertical"
                                                         {...register(`job_cost_ledger.${index}.description`)}
                                                     />
                                                 </div>

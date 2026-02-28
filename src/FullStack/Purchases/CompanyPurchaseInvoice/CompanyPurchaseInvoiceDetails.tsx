@@ -20,6 +20,21 @@ const formatSupplierNumber = () => {
     return `SUP-${currentYear}-`;
 };
 
+const formatUpdateDate = (dateString: any) => {
+    return new Date(dateString).toLocaleString();
+};
+
+
+
+
+
+
+
+
+
+
+
+
 
 const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps> = ({
     companyPurchaseInvoice,
@@ -93,34 +108,43 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                 <div>
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Refund No.</p>
+                            <a className={details.extraSmallUppercase}>Refund No.</a><br />
                             {formatNumber()}{companyPurchaseInvoice.purchase_invoice_number}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Date</p>
+                            <a className={details.extraSmallUppercase}>Date</a><br />
                             {formatDate(companyPurchaseInvoice.date)}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Supplier</p>
+                            <a className={details.extraSmallUppercase}>Supplier</a><br />
                             {formatSupplierNumber()}{companyPurchaseInvoice.supplier || 'N/A'} | {companyPurchaseInvoice.supplier_name || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Address</p>
+                            <a className={details.extraSmallUppercase}>Address</a><br />
                             {companyPurchaseInvoice.address || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Description</p>
+                            <a className={details.extraSmallUppercase}>Description</a><br />
                             {companyPurchaseInvoice.description || 'N/A'}
                         </p>
                         
-                        <p className={labelStyles}>
-                            <p className={details.extraSmallUppercase}>Status</p>
-                            {companyPurchaseInvoice.status || 'N/A'}
-                        </p>
+                        <div className={labelStyles}>
+                            <a className={details.extraSmallUppercase}>Status</a><br />
+                            
+                            <p className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                companyPurchaseInvoice.status === 'Active' ? 'bg-green-100 text-green-800 border border-green-200' :
+                                companyPurchaseInvoice.status === 'Suspended' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' :
+                                companyPurchaseInvoice.status === 'Inactive' ? 'bg-red-100 text-red-800 border border-red-200' :
+                                companyPurchaseInvoice.status === 'Pending' ? 'bg-blue-100 text-blue-800 border border-blue-200' :
+                                'N/A'
+                            }`}>
+                                {companyPurchaseInvoice.status}
+                            </p>
+                        </div>
                     </div>
                     
                     <hr className="my-6 border-gray-200" />
@@ -139,8 +163,8 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                                         <th className={tables.headerCell}>Base UOM</th>
                                         <th className={tables.headerCell}>Price</th>
                                         <th className={tables.headerCell}>Amount</th>
-                                        <th className={tables.headerCell}>Tax Inclusive</th>
-                                        <th className={tables.headerCell}>Tax %</th>
+                                        <th className={tables.headerCell}>SST Inclusive</th>
+                                        <th className={tables.headerCell}>SST %</th>
                                         <th className={tables.headerCell}>SubTotal</th>
                                         <th className={tables.headerCell}>Cancelled</th>
                                     </tr>
@@ -150,7 +174,7 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                                     {companyPurchaseInvoice.related_invoice.map((line: any, index: any) => (
 
                                         <tr key={index} className={tables.row}>
-                                            <td className={tables.cell}>{line.product_item || 'N/A'} | {line.product_item_name || 'N/A'}</td>
+                                            <td className={tables.cell}>SKU-{line.product_item || 'N/A'} | {line.product_item_name || 'N/A'}</td>
                                             <td className={tables.cell}>{line.description || 'N/A'}</td>
                                             <td className={tables.cell}>{line.quantity || 'N/A'}</td>
                                             <td className={tables.cell}>{line.base_unit_of_measure || 'N/A'}</td>
@@ -201,11 +225,25 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                 </div>
                 
                 <hr className="my-6 border-gray-200" />
+                
+                <div className="grid lg:grid-cols-5">
+                            
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Created By</a><br />
+                        {companyPurchaseInvoice?.created_by || "N/A"}
+                    </p>
 
-                <p className={labelStyles}>
-                    <p className={details.extraSmallUppercase}>Created by</p>
-                    {companyPurchaseInvoice.created_by || 'N/A'}
-                </p>
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Date Updated</a><br />
+                        {formatUpdateDate(companyPurchaseInvoice?.date_updated) || "N/A"}
+                    </p>
+                            
+                    <p className={labelStyles}>
+                        <a className={details.extraSmallUppercase}>Updated By</a><br />
+                        {companyPurchaseInvoice?.updated_by || "N/A"}
+                    </p>
+                </div>
+
                 <hr className="my-6 border-gray-200" />
             </div>
         </div>
