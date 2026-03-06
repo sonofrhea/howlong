@@ -133,7 +133,7 @@ const ProductItemTable: React.FC<ProductItemTableProps> = ({
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 text-center">
                         {productItems.map((productItem: ProductItemList) => {
-                            const productItemId = productItem.item_code;
+                            const productItemId = productItem?.item_code;
 
                             return (
                                 <tr key={productItem.item_code} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 

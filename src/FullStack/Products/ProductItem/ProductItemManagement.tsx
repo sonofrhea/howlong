@@ -17,7 +17,8 @@ import ProductItemTable from "./ProductItemTable";
 import ProductItemEdit from "./ProductItemEdit";
 
 import { ProductItemInputs, ProductItemCreateResponse,
-  EditProductItemInputs
+  EditProductItemInputs,
+  ProductItemList
  } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
 import { toast } from "react-hot-toast";
@@ -203,48 +204,100 @@ function ProductItemManagement() {
           ? productItemData.additional_photos
           : undefined
     };
+    
 
     //console.log("🎯 RAW FORM DATA:", cleanedData);
     
     await createProductItemMutation.mutateAsync(cleanedData);
   };
 
+
+
+
+
+
+    //const formData = new FormData();
+
+    //if (cleanedData.additional_photos) {
+    //  for (let i = 0; i < cleanedData.additional_photos.length; i ++) {
+    //    const item = cleanedData.additional_photos[i]
+//
+    //    const file = typeof item.additional_photo === "string"
+    //      ? await urlToFile(item.additional_photo, `photo${i}.jpg`)
+    //      : item.additional_photo
+//
+    //    if (file) formData.append(`additional_photo${i}`, file);
+//
+    //    formData.append(`description${i}`, item.description ?? "");
+    //  }
+    //}
+
+
+
+
+
     
 
-
+  const urlToFile = async (url: string, filename: string) => {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    return new File([blob], filename, { type: blob.type });
+  }
 
 
   const handleUpdateProductItem = async (productItemData: ProductItemInputs) => {
+    const formData = new FormData();
 
-    const cleanedData = {
-      ...productItemData,
-      additional_photos:
-        productItemData.additional_photos &&
-        productItemData.additional_photos?.length > 0
-          ? productItemData.additional_photos
-          : undefined
-    };
+    // Basic fields
+    Object.entries(productItemData).forEach(([key, value]) => {
+      if (
+        key === 'product_photo' ||
+        key === 'additional_photos' ||
+        value === undefined ||
+        value === null
+      ) return;
 
-    if (typeof cleanedData.product_photo === "string") {
-      delete cleanedData.product_photo
+      formData.append(key, String(value));
+    });
+
+    // Main photo
+    if (productItemData.product_photo instanceof File) {
+      formData.append('product_photo', productItemData.product_photo);
     }
 
-    if (cleanedData.additional_photos) {
-      cleanedData.additional_photos.forEach((photo, index) => {
-        if (typeof photo.additional_photo === "string") {
-          delete cleanedData.additional_photos![index].additional_photo;
+    // Send ALL photo metadata (IDs and descriptions)
+    formData.append('additional_photos', JSON.stringify(
+      productItemData.additional_photos?.map(p => ({
+        id: p.id,
+        description: p.description
+      }))
+    ));
+
+    // Handle files: REPLACEMENTS vs NEW
+    productItemData.additional_photos?.forEach((photo) => {
+      if (photo.additional_photo instanceof File) {
+        if (photo.id) {
+          // EXISTING photo with new file = REPLACEMENT
+          formData.append(`photo_file_${photo.id}`, photo.additional_photo);
+          formData.append('replacement_photo_ids', String(photo.id));
+          // DO NOT append to 'additional_photo'!
+        } else {
+          // NEW photo (no id) = CREATE
+          formData.append('additional_photo', photo.additional_photo);
+          formData.append('description', photo.description ?? '');
         }
-      });
+      }
+    });
+
+    console.log('WHAT FRONTEND CLAIMS TO SEND:', [...formData.keys()]);
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value instanceof File ? ` (${value.name})` : value);
     }
 
-
-    //console.log("🎯 RAW FORM DATA:", cleanedData);
-    
     await updateProductItemMutation.mutateAsync({
       item_code: selectedProductItemId!,
-      productItemData: cleanedData
+      productItemData: formData,
     });
-      
   };
 
 
@@ -447,13 +500,24 @@ const handleSort = (key: any) => {
 
             {view === 'list' && (
               <div className="flex items-center gap-6 justify-between">
+
                 <div className="flex items-center gap-4">
+
                   <div className="text-center">
                     <div className="text-2xl font-light text-gray-900">{productItems.length}</div>
                     <div className="text-sm text-gray-500">Total Products</div>
                   </div>
                   <div className="w-px h-8 bg-gray-200"></div>
+
+                  <div className="text-center">
+                    <div className="text-2xl font-light text-green-700">
+                      {productItems.filter((p: ProductItemList) => p.active).length}
+                      </div>
+                    <div className="text-sm text-green-700">Active Products</div>
+                  </div>
+
                 </div>
+
                 <div className="flex gap-4">
                   <div className="relative">
                     <input

@@ -40,7 +40,7 @@ const ProductItemForm: React.FC<ProductItemFormProps> = ({
 
 
         return(
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} >
               <div className="bg-white rounded-2xl border border-gray-200 shadow-xl overflow-hidden font-sans">
 
                 {/* ── TOP HEADER BAR ── */}
@@ -206,7 +206,7 @@ const ProductItemForm: React.FC<ProductItemFormProps> = ({
                         <input
                           type="file"
                           onChange={e => {
-                            const file = e.target.files?.[0] || null;
+                            const file = e.target.files?.[0] || undefined;
                             setValue('product_photo', file);
                           }}
                           className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
@@ -243,7 +243,7 @@ const ProductItemForm: React.FC<ProductItemFormProps> = ({
                             <input
                               type="file"
                               onChange={e => {
-                                const file = e.target.files?.[0] || null;
+                                const file = e.target.files?.[0] || undefined;
                                 setValue(`additional_photos.${index}.additional_photo`, file);
                               }}
                               className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-violet-100 file:text-violet-700 hover:file:bg-violet-200 cursor-pointer rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 transition"
@@ -262,7 +262,11 @@ const ProductItemForm: React.FC<ProductItemFormProps> = ({
 
                       <button
                         type="button"
-                        onClick={() => append({ additional_photo: null, description: "" })}
+                        onClick={() => append({
+                          id: 0,
+                          additional_photo: undefined,
+                          description: ""
+                        })}
                         className="w-full py-3 rounded-xl border-2 border-dashed border-violet-200 text-sm font-medium text-violet-400 hover:border-violet-400 hover:text-violet-600 hover:bg-violet-50 transition"
                       >
                         + Add Photo

@@ -126,7 +126,11 @@ export const putUpdateProductItem = async ({ item_code, productItemData }: AllPr
 
 export const patchUpdateProductItem = async ({ item_code, productItemData }: AllProductItemInputs) => {
   try {
-    const response = await apiClient.patch(`/products/productitem/${item_code}/`, productItemData);
+    const response = await apiClient.patch(`/products/productitem/${item_code}/`, productItemData, {
+      headers: {
+        "Content-Type": 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);

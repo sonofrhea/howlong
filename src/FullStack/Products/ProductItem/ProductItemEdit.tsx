@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 import { ProductItemInputs,
@@ -47,7 +47,8 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
             date_created: productItem.date_created
                 ? new Date(productItem.date_created).toISOString().split("T")[0]
                 : "",
-        };
+            additional_photos: productItem.additional_photos ?? []
+            };
 
         reset(updated);
     }, [productItem, reset]);
@@ -59,6 +60,11 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
         name: "additional_photos",
         control
     });
+
+
+    
+
+    
 
 
         
@@ -248,7 +254,7 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
                             type="file"
                             placeholder="upload product photo"
                             onChange={e => {
-                                const file = e.target.files?.[0] || null;
+                                const file = e.target.files?.[0] || undefined;
                                 setValue('product_photo', file);
                             }}
                             className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
@@ -269,10 +275,10 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
 
                     {fields.map((field, index) => {
                         
-                        const existing = typeof productItem.additional_photos?.[index]?.additional_photo === "string" && (
+                        const existing = typeof field.additional_photo === "string" && (
                         <div className="rounded-xl border border-gray-200 bg-white p-2 shadow-sm inline-block">
                             <img
-                            src={productItem.additional_photos![index].additional_photo}
+                            src={field.additional_photo}
                             className="w-24 h-24 object-contain rounded-lg"
                             alt="Existing"
                             />
@@ -302,7 +308,7 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
                                 type="file"
                                 placeholder="upload product photo"
                                 onChange={e => {
-                                    const file = e.target.files?.[0] || null;
+                                    const file = e.target.files?.[0] || undefined;
                                     setValue(`additional_photos.${index}.additional_photo`, file);
                                 }}
                                 className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-violet-100 file:text-violet-700 hover:file:bg-violet-200 cursor-pointer rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 transition"
@@ -323,7 +329,11 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
 
                     <button
                         type="button"
-                        onClick={() => append({ additional_photo: null, description: "" })}
+                        onClick={() => append({
+                            id: 0,
+                            additional_photo: undefined,
+                            description: ""
+                        })}
                         className="w-full py-3 rounded-xl border-2 border-dashed border-violet-200 text-sm font-medium text-violet-400 hover:border-violet-400 hover:text-violet-600 hover:bg-violet-50 transition"
                     >
                         + Add Photo

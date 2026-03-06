@@ -164,7 +164,40 @@ export type ProductItemList = {
   currency: string;
   supplier_name: number;
   active: boolean;
-}
+};
+
+
+
+
+export type ProductDetails = {
+  item_code: number;
+  item_description: string;
+  product_group: number;
+  product_group_name: string;
+  product_serial_number: string;
+  product_photo: string | undefined;
+  base_unit_of_measure: string;
+
+  reference_cost: string;
+  reference_price: string;
+  quantity_available: string;
+
+  supplier_name: string;
+  currency: number;
+
+  active: boolean;
+
+  additional_photos: Array<{
+    additional_photo: string | undefined;
+    description: string | null;
+  }>;
+
+  created_by: number;
+  date_created: string;
+  date_updated: string;
+  updated_by: number;
+  company: number;
+};
 
 
 
@@ -172,21 +205,24 @@ export type ProductItemInputs = {
   item_code: number;
   item_description: string;
   product_group: string;
-  product_serial_number: number;
-  product_photo?: File | null;
+  product_serial_number: string;
+  product_photo?: File;
   base_unit_of_measure: string;
-  reference_cost: number;
-  reference_price: number;
-  quantity_available: number;
+  reference_cost: string;
+  reference_price: string;
+  quantity_available: string;
   currency: string;
-  supplier_name: number;
+  supplier_name: string;
   active: boolean;
   additional_photos?: Array<{
-    additional_photo?: File | null;
-    description?: string | null;
-  }> | null;
+    id: number;
+    additional_photo?: File;
+    description?: string;
+  }>;
   date_created: string;
 };
+
+
 
 export type ProductItemCreateResponse = {
   item_code: number;
@@ -195,7 +231,7 @@ export type ProductItemCreateResponse = {
 
 export type AllProductItemInputs = {
   item_code: number;
-  productItemData: ProductItemInputs;
+  productItemData: ProductItemInputs | FormData;
 }
 
 export type EditProductItemInputs = {
@@ -239,6 +275,14 @@ export type ProductItemTableProps = {
   itemsPerPage: number;
   onPageChange: (page: number) => void;
   onItemsPerPageChange: (itemsPerPage: string) => void;
+};
+
+
+export type ProductDetailsProps = {
+  productItem: ProductDetails;
+  isLoading: Boolean;
+  onBack?: () => void;
+  onEdit: (productItemId: number) => void;
 };
 
 // -------- END ----------- PRODUCT ITEM INPUT ----------------

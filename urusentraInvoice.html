@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice INVURUS-0013</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --a4-width: 210mm;
+            --a4-height: 297mm;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+            body {
+                margin: 0;
+                padding: 0 !important;
+                background-color: white;
+            }
+            .no-print { display: none; }
+            .invoice-card {
+                width: var(--a4-width);
+                height: var(--a4-height);
+                box-shadow: none !important;
+                border: none !important;
+                border-radius: 0 !important;
+            }
+        }
+
+        .invoice-card {
+            width: var(--a4-width);
+            min-height: var(--a4-height);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans antialiased p-4 md:p-12">
+
+    <!-- Invoice Container -->
+    <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-lg overflow-hidden invoice-card">
+        
+        <!-- Header Section -->
+        <div class="p-8 border-b border-gray-100 flex flex-col md:flex-row justify-between items-start">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <!-- Custom SVG Logo -->
+                    <svg class="w-10 h-10 text-orange-800" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    <span class="text-2xl font-bold tracking-tight text-gray-900">Urusentra.com</span>
+                </div>
+                <div class="text-sm text-gray-500 leading-relaxed">
+                    <p>Lot 163 Jalan perak,</p>
+                    <p>Kuala lumpur, 50450</p>
+                    <p>Kuala Lumpur, Malaysia</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 md:mt-0 text-right">
+                <h1 class="text-3xl font-light text-gray-400 uppercase tracking-widest mb-4">Invoice</h1>
+                <div class="space-y-1 text-sm">
+                    <p><span class="text-gray-400">Invoice number:</span> <span class="font-semibold">INVURUS-0013</span></p>
+                    <p><span class="text-gray-400">Date issued:</span> <span class="font-semibold">Mar 5, 2026</span></p>
+                    <p><span class="text-gray-400">Date due:</span> <span class="font-semibold text-orange-700">Apr 4, 2026</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Billing Info -->
+        <div class="px-8 py-6 grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-50/50">
+            <div>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Bill To</h2>
+                <div class="text-gray-800">
+                    <p class="font-bold text-lg">Asyikin Seth</p>
+                </div>
+            </div>
+            <div class="md:text-right">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Service Period</h2>
+                <p class="text-gray-800 font-medium">Mar 5, 2026 – Aug 5, 2026</p>
+                <p class="text-xs text-gray-500 mt-1">(6 Months Subscription)</p>
+            </div>
+        </div>
+
+        <!-- Line Items Table -->
+        <div class="px-8 py-6">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="border-b-2 border-gray-100 text-xs font-bold uppercase tracking-wider text-gray-400">
+                        <th class="py-4 px-2">Description</th>
+                        <th class="py-4 px-2 text-center">Qty</th>
+                        <th class="py-4 px-2 text-right">Unit Price</th>
+                        <th class="py-4 px-2 text-right">Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700 divide-y divide-gray-50">
+                    <tr>
+                        <td class="py-6 px-2">
+                            <p class="font-semibold text-gray-900">Urusentra Enterprise Plan</p>
+                            <p class="text-sm text-gray-500">6 Months Prepaid (Mar 5, 2026 - Aug 5, 2026)</p>
+                        </td>
+                        <td class="py-6 px-2 text-center">1</td>
+                        <td class="py-6 px-2 text-right">RM1,145.34</td>
+                        <td class="py-6 px-2 text-right font-medium">RM1,145.34</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totals Section -->
+        <div class="px-8 py-8 border-t border-gray-100 flex justify-end">
+            <div class="w-full md:w-64 space-y-3">
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">Subtotal</span>
+                    <span class="text-gray-900 font-medium">RM1,145.34</span>
+                </div>
+                <div class="flex justify-between text-sm text-green-600 font-medium italic">
+                    <span>Discount (30% Off)</span>
+                    <span>-RM343.60</span>
+                </div>
+                <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                    <span class="text-lg font-bold text-gray-900">Amount Due</span>
+                    <span class="text-2xl font-black text-orange-800 leading-none">RM801.74</span>
+                </div>
+                <p class="text-[10px] text-right text-gray-400 uppercase tracking-tighter">Payment to be made into bank account at request.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="p-8 bg-gray-900 text-white text-center md:text-left flex flex-col md:flex-row justify-between items-center">
+            <p class="text-sm opacity-70">Thank you for choosing Urusentra.</p>
+            <div class="mt-4 md:mt-0 flex gap-4 no-print">
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

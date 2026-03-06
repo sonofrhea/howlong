@@ -1,4 +1,5 @@
 import { buttons } from "../constants/Styles";
+import { ProductDetailsProps } from "../constants/Types";
 
 
 const formatDate = (dateString: string) => {
@@ -6,7 +7,13 @@ const formatDate = (dateString: string) => {
 };
 
 
-const ProductItemDetails: React.FC<any> = ({ productItem, isLoading, onBack, onEdit }) => {
+const ProductItemDetails: React.FC<ProductDetailsProps> = ({
+    productItem,
+    isLoading,
+    onBack,
+    onEdit
+}) => {
+    const productItemId = productItem?.item_code;
 
 
     if (isLoading) {
@@ -67,7 +74,7 @@ const ProductItemDetails: React.FC<any> = ({ productItem, isLoading, onBack, onE
                     <span className={`w-1.5 h-1.5 rounded-full ${productItem.active ? 'bg-emerald-500' : 'bg-red-500'}`} />
                     {productItem.active ? 'Active' : 'Inactive'}
                 </span>
-                <button onClick={onEdit} className={buttons.editButtonGreen}>
+                <button onClick={() => onEdit(productItemId)} className={buttons.editButtonGreen}>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>

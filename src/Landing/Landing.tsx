@@ -696,8 +696,8 @@ export default function ConstructionERPLanding() {
                     }
 
                     .cta-nav {
-                    background: #ff6b35;
-                    color: #ffffff;
+                    background: #0052a3;;
+                    color: #f8fbff !important;
                     padding: 12px 28px;
                     border-radius: 6px;
                     font-weight: 700;
@@ -891,8 +891,6 @@ export default function ConstructionERPLanding() {
 
 
                     .cta-nav:hover {
-                        color: #f8fbff !important;
-                        background: #0052a3;
                         transform: translateY(-3px);
                         box-shadow: 0 8px 25px rgba(0,102,204,0.35);
                     }
@@ -1166,9 +1164,9 @@ export default function ConstructionERPLanding() {
                         </div>
                     </div>
                 </div>
-                <a href="#solutions">Solutions</a>
+                <a href="#estimation">Solutions</a>
                 <a href="/pricing">Pricing</a>
-                <a href="#resources">Resources</a>
+                <a href="#estimation">Resources</a>
                 <a href="/login">Login</a>
                 <a href="/pricing" className="cta-nav">Try It Out</a>
             </div>
@@ -1179,18 +1177,18 @@ export default function ConstructionERPLanding() {
             <span className='text-[#002c9c] text-5xl tracking-wide'>Find Suppliers Worldwide.</span>
             
             <p className='subheadline'>
-                URUSENTRA is an all-in-one company manager and marketplace engineered specifically with building professionals in mind.
+                URUSENTRA is an all-in-one company manager with inbuilt marketplace engineered specifically with building professionals in mind.
             </p>
 
             <div className="cta-group-header">
                 <a href="#demo" className="cta-primary">
-                    Try It Out 
+                    Try Out ERP 
                 </a>
                 <a href="#estimation" className="cta-secondary">Learn More</a>
             </div>
             <div>
                 <button className="cta-marketplace" onClick={() => navigate("/marketplace")}>
-                    Marketplace For Suppliers
+                    Try Out Marketplace
                     <ArrowRight className="ml-2 arrow-icon" />
                 </button>
             </div>
@@ -1199,9 +1197,9 @@ export default function ConstructionERPLanding() {
 
 
             <div className="blue-box">
-                <span>
+                <a>
                     Cut costs and production time by finding suppliers with the best product and best prices worldwide while managing your business all in one place.
-                </span>
+                </a>
             </div>
         </section>
 
@@ -1568,7 +1566,7 @@ export default function ConstructionERPLanding() {
                 <div className="footer-column">
                     <h4>Product</h4>
                     <ul>
-                    <li><a href="#">Features</a></li>
+                    <li><a href="#estimation">Features</a></li>
                     <li><a href="/pricing">Pricing</a></li>
                     <li><a href="#">Mobile App</a></li>
                     </ul>
