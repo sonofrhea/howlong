@@ -20,7 +20,7 @@ export default function ConstructionERPLanding() {
 
     
     return (
-        <div className="app">
+        <div className="min-w-full">
             <style>
                 {`
                     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
@@ -272,7 +272,6 @@ export default function ConstructionERPLanding() {
                     }
 
 
-
                     .headline {
                     position: relative;
                     top: 25vh;
@@ -358,12 +357,6 @@ export default function ConstructionERPLanding() {
                     z-index: 4;
                     }
 
-                    .blue-box {
-                    }
-
-                    .blue-box span {
-                    display: block;
-                    }
 
                     .section-tag {
                     font-size: 18px;
@@ -1019,7 +1012,7 @@ export default function ConstructionERPLanding() {
             <div className="grid-lines"></div>
 
             {/* CONSTRUCTION SKETCH */}
-            <div className="sketch" aria-hidden="true" style={{ width: '1900px' }}>
+            <div className="sketch" aria-hidden="true" style={{ width: '100%' }}>
                 <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 1200 3200" xmlns="http://www.w3.org/2000/svg">
                     <style>{`
                         /* 10 SECOND TOTAL DURATION */
@@ -1193,10 +1186,8 @@ export default function ConstructionERPLanding() {
                 </button>
             </div>
             </div>
-            
 
-
-            <div className="blue-box">
+            <div className="mt-100! bg-[#e5f2ff] w-fit! mx-auto! text-center! p-6 px-8! py-2! rounded-lg shadow">
                 <a>
                     Cut costs and production time by finding suppliers with the best product and best prices worldwide while managing your business all in one place.
                 </a>

@@ -60,8 +60,10 @@ export const invoicePaymentHandler = (invoicePayments: InvoicePaymentInterface[]
     console.log("✅ Found Payment:", selectedPayment);
 
     if (selectedPayment) {
-      setValue("related_payment_paid_amount", selectedPayment.net_aggregate_paid)
+      setValue("related_payment_paid_amount", selectedPayment.related_invoice_total)
       setValue("related_payment_outstanding", selectedPayment.outstanding_amount)
+      setValue("outstanding", selectedPayment.outstanding_amount)
+      setValue("paid_amount", selectedPayment.net_aggregate_paid)
     }
   }
 }
@@ -378,7 +380,7 @@ export const debitNoteRelatedPaymentHandler = (customerPayments: CustomerPayment
     console.log("✅ Found Payment:");
 
     if (selectedPayment) {
-      setValue("paid_amount", selectedPayment.paid_amount)
+      setValue("initial_paid_amount", selectedPayment.paid_amount)
     }
   }
 };

@@ -97,6 +97,7 @@ export type ProjectsProfileDetails = {
 
   duration: string;
   days_elapsed: string;
+  early_completion: boolean;
   project_budget: string;
   actual_cost: string;
   variance: string;

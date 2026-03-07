@@ -164,8 +164,13 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                             </div>
 
                             <div className="info-item">
-                                <div className="info-label">Est. Completion</div>
+                                <div className="info-label">Estimated Completion date</div>
                                 <div className="info-value">{project.estimated_end_date || 'N/A'}</div>
+                            </div>
+
+                            <div className="info-item">
+                                <div className="info-label">Actual Completion date</div>
+                                <div className="info-value">{project.actual_end_date || 'N/A'}</div>
                             </div>
 
                             <div className="info-item">
@@ -176,6 +181,18 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                             <div className="info-item">
                                 <div className="info-label">Days Elapsed</div>
                                 <div className="info-value">{project.days_elapsed || 'N/A'} days</div>
+                            </div>
+
+                            <div className="info-item">
+                                <div className="info-label">Early Completion</div>
+                                
+                                <div className={`info-value px-4 py-3 text-gray-700 ${
+                                    project.days_elapsed ? 
+                                    ' bg-green-50 text-green-700 border border-green-200 w-fit! mx-auto! text-center! p-2 px-3! py-1! text-xs! shadow'
+                                    : ' bg-red-50 text-red-700 border border-red-200 w-fit! mx-auto! text-center! p-2 px-3! py-1! text-xs shadow'}`}
+                                >
+                                {project.days_elapsed ? "Yes": "No"}
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -14,7 +14,7 @@ import { controlAccountHandler, invoicePaymentHandler } from "../../handlers";
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`;
 };
 
 
@@ -61,7 +61,7 @@ const CustomerPaymentForm: React.FC<CustomerPaymentFormProps> = ({
                     paid_amount: 0.00,
                     additional_bank_charges: 0.00,
                     outstanding: 0.00,
-                    completed: true,
+                    completed: false,
                     cancelled: false
                 }
             });
@@ -294,6 +294,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                             <input 
                                                 {...register("paid_amount")}
                                                 type="number"
+                                                readOnly
                                                 className={forms.input.number}
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
@@ -331,6 +332,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                             <input 
                                                 {...register("outstanding")}
                                                 type="number"
+                                                readOnly
                                                 className={forms.input.number}
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {

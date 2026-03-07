@@ -58,9 +58,10 @@ const DebitNoteForm: React.FC<DebitNoteFormProps> = ({
             customer: "",
             currency: "",
             agent: "",
+            amount_owed: 0.00,
             tax_amount: 0.00,
             cancelled: false,
-            paid_amount: 0.00,
+            initial_paid_amount: 0.00,
             debit_note_details: [
                 {
                     amount: 0.00,
@@ -193,11 +194,26 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                     </div>
 
                     <div>
-                        <p className={forms.label}>Paid Amount</p>
+                        <p className={forms.label}>Previously Paid Amount</p>
                         <input 
-                            {...register("paid_amount")}
+                            {...register("initial_paid_amount")}
                             type="number"
                             readOnly
+                            className={forms.input.midNumber}
+                            placeholder="0.00"
+                            step="0.01" min="0.00" onBlur={(e) => {
+                                if (e.target.value) {
+                                    e.target.value = decimalPlaces(Number(e.target.value));
+                                }
+                            }}
+                        />
+                    </div>
+
+                    <div>
+                        <p className={forms.label}>Extra Amount Owed</p>
+                        <input 
+                            {...register("amount_owed")}
+                            type="number"
                             className={forms.input.midNumber}
                             placeholder="0.00"
                             step="0.01" min="0.00" onBlur={(e) => {

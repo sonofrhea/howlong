@@ -407,6 +407,7 @@ export type CustomerPaymentDetails = {
   related_payment_paid_amount: number;
   outstanding: number;
   related_payment_outstanding: number;
+  outstanding_paid: number;
   completed: boolean;
   cancelled: boolean;
   agent: string;
@@ -596,6 +597,7 @@ export type InvoicePaymentInterface = {
   invoice_payment_code: number;
   net_aggregate_paid: number;
   outstanding_amount: number;
+  related_invoice_total: number;
 };
 
 export type InvoicePaymentProps = {

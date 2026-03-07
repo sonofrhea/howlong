@@ -158,7 +158,12 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                             }
                             `}>
                             {customerPayment.cancelled ? 'Yes' : 'No'}
-                        </p>  
+                        </p>
+                    </div>
+
+                    <div>
+                        <a className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Total invoices Outstanding</a><br />
+                        <p className="text-sm font-medium mb-4 text-gray-700">{customerPayment.related_payment_outstanding || 'N/A'}</p>
                     </div>
                 </div>
 
@@ -183,7 +188,7 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                                 `}>
                                 {customerPayment.cancelled ? 'Yes' : 'No'}
                             </td>
-                            <td className="px-4 py-3 text-center font-medium text-gray-800">RM {customerPayment.paid_amount}</td>
+                            <td className="px-4 py-3 text-center font-medium text-gray-800">{customerPayment.paid_amount}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -193,25 +198,22 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                     <div className="w-full sm:w-1/2 lg:w-1/3">
                         <div className="bg-gray-100 p-8 rounded-lg drop-shadow-md shadow-lg">
                             <div className="flex justify-between text-sm text-gray-600 mt-2">
-                            <span>Amount Posted</span>
-                            <span className="font-semibold text-gray-800">RM {customerPayment.paid_amount || 'N/A'}</span>
-                            </div>
-
-                            <div className="flex justify-between text-sm text-gray-600 mt-2">
-                            <span>Payment Total</span>
-                            <span className="font-semibold text-gray-800">RM {customerPayment.related_payment_paid_amount || 'N/A'}</span>
+                                <span>Net Initial posted</span>
+                                <span className="font-semibold text-gray-800">{customerPayment.paid_amount || 'N/A'}</span>
                             </div>
 
                             <hr className="my-4 border-blue-200" />
 
-                            <div className="border-t border-dashed border-blue-300 mt-3 pt-3 flex justify-between items-center">
-                            <span>Full Invoices outstanding</span>
-                            <span className="font-semibold text-gray-800">RM {customerPayment.related_payment_outstanding || 'N/A'}</span>
+                            <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                <span>Remaining Outstanding</span>
+                                <span className="font-semibold text-gray-800">{customerPayment.outstanding || 'N/A'}</span>
                             </div>
 
-                            <div className="border-t border-dashed border-blue-300 mt-3 pt-3 flex justify-between items-center">
-                            <span>Remaining Outstanding</span>
-                            <span className="font-semibold text-gray-800">RM {customerPayment.outstanding || 'N/A'}</span>
+                            <hr className="my-4 border-blue-200" />
+
+                            <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                <span>Outstanding amount paid</span>
+                                <span className="font-semibold text-gray-800">{customerPayment.outstanding_paid || 'N/A'}</span>
                             </div>
                         </div>
                     </div>

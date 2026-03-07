@@ -306,7 +306,8 @@ export type DebitNoteInputs = {
     account_name?: string | null;
     account_type?: string | null;
   } | null;
-  paid_amount: number;
+  initial_paid_amount: number;
+  amount_owed: number;
   debit_note_details?: Array<{
     date?: string | null;
     description?: string | null;
@@ -317,6 +318,7 @@ export type DebitNoteInputs = {
   }> | null;
   tax_inclusive: boolean;
   tax_amount: number | 0.00;
+  net_total: number | 0.00;
   agent: string;
   currency: string | null;
   cancelled: boolean;
@@ -349,10 +351,12 @@ export type DebitNoteDetails = {
   } | null;
   related_payment: number;
   related_payment_amount: number;
-  paid_amount: number;
+  initial_paid_amount: number;
+  amount_owed: number;
   gross_total: number;
   tax_inclusive: boolean;
   tax_amount: number;
+  net_total: number;
   debit_note_details?: Array<{
     date?: string | null;
     description?: string | null;

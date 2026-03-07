@@ -16,7 +16,7 @@ import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`;
 };
 
 
@@ -205,7 +205,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => invoicePayments.map((invoicePayment: InvoicePaymentInterface) => (
                                 <option key={invoicePayment.invoice_payment_code} value={invoicePayment.invoice_payment_code}>
-                                    {formatPaymentNumber()}{invoicePayment.invoice_payment_code} | Total: {invoicePayment.net_aggregate_paid}
+                                    {formatPaymentNumber()}{invoicePayment.invoice_payment_code} | Total: {invoicePayment.related_invoice_total}
                                 </option>
                             )), [invoicePayments])}
                         </select>
@@ -248,6 +248,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                         <input 
                             {...register("cancelled")}
                             type="checkbox"
+                            defaultValue="false"
                         />
                     </div>
                     
@@ -321,6 +322,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                                         <input 
                                             {...register("paid_amount")}
                                             type="number"
+                                            readOnly
                                             className={forms.input.number}
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
@@ -358,6 +360,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                                         <input 
                                             {...register("outstanding")}
                                             type="number"
+                                            readOnly
                                             className={forms.input.number}
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {

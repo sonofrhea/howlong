@@ -147,12 +147,17 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
 
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Related Payment</a><br />
-                            POST-{debitNote.related_payment} | Paid Amount: {debitNote.related_payment_amount}
+                            POST-{debitNote.related_payment} | {debitNote.related_payment_amount}
                         </p>
 
                         <p className={labelStyles}>
-                            <a className={details.extraSmallUppercase}>Paid Amount</a><br />
-                            {debitNote.paid_amount}
+                            <a className={details.extraSmallUppercase}>Previously Paid Amount</a><br />
+                            {debitNote.initial_paid_amount}
+                        </p>
+
+                        <p className={labelStyles}>
+                            <a className={details.extraSmallUppercase}>Extra Amount Owed</a><br />
+                            {debitNote.amount_owed}
                         </p>
 
                         <p className={labelStyles}>
@@ -211,18 +216,27 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
-                                            <div className="font-medium text-black">{debitNote.tax_amount}%</div>
+                                            <div className="font-medium text-black">({debitNote.tax_amount})%</div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Net Total:</div>
+                                            <div>Net Total</div>
+                                            <div className="font-medium text-black">{debitNote.net_total}</div>
+                                        </div>
+
+                                        <hr className="my-2 border-blue-200" />
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Total customer payment:</div>
                                             <div className="font-medium text-black">
                                                 {debitNote.aggregate_total}
                                             </div>
                                         </div>
+
+                                        <hr className="my-2 border-blue-200" />
                                         
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Outstanding:</div>
+                                            <div>Outstanding Owed:</div>
                                             <div className="font-medium text-black">
                                                 {debitNote.debit_note_outstanding}
                                             </div>
