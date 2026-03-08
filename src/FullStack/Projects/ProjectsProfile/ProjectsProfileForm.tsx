@@ -65,13 +65,12 @@ const ProjectsProfileForm: React.FC<ProjectProfileFormProps> = ({
             actual_cost: 0.00,
             variance: 0.00,
             estimated_end_date: new Date().toISOString().split('T')[0],
-            actual_end_date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
 
             phases: [
                 {
                     current_phase: 'Not Started' as any,
                     start_date: new Date().toISOString().split('T')[0],
-                    end_date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    end_date: new Date().toISOString().split('T')[0],
                 }
             ]
         },

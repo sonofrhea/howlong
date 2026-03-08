@@ -48,6 +48,7 @@ h1 {
     color: var(--muted);
     font-size: 14px;
     display: flex;
+    columns: 4;
     gap: 16px;
     flex-wrap: wrap;
     margin-top: 8px;
@@ -209,6 +210,9 @@ h1 {
     color: var(--text);
     font-weight: 500;
 }
+.text-early { color: #20903a; }
+.text-late { color: #dc3545; }
+.text-ontime { color: #007bff; }
 
 .team-member {
     display: flex;

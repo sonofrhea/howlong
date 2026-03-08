@@ -46,7 +46,7 @@ export const buttons = {
   secondary: "px-6 py-3 bg-amber-900 cursor-pointer text-white rounded drop-shadow-md shadow-xl hover:bg-black font-medium disabled:opacity-50",
   add: "text-blue-600 hover:text-blue-800 font-medium text-sm w-full",
   addLine: "min-w-full text-black cursor-pointer divide-y divide-gray-100 border-x-gray-100 border-y-gray-100",
-  editButtonGreen: "bg-white border cursor-pointer border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
+  editButtonGreen: "bg-white border cursor-pointer border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 hover:shadow-xl! text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
 };
 
 

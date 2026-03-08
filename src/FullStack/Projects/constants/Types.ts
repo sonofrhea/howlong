@@ -93,10 +93,10 @@ export type ProjectsProfileDetails = {
 
   start_date: string;
   estimated_end_date: string;
-  actual_end_date: string;
+  actual_end_date: string | null;
 
-  duration: string;
-  days_elapsed: string;
+  duration: number;
+  days_elapsed: number;
   early_completion: boolean;
   project_budget: string;
   actual_cost: string;
@@ -140,7 +140,7 @@ export type ProjectProfileInputs = {
 
   start_date: string;
   estimated_end_date: string;
-  actual_end_date: string;
+  actual_end_date: string | null;
   duration: number;
   
   project_budget: number;

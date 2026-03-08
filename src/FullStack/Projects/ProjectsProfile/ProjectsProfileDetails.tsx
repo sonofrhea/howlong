@@ -42,6 +42,8 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
     onEdit }) => {
         const customerId = project?.project_code;
 
+        const isEarly = project?.early_completion;
+        const days = Math.abs(project?.days_elapsed);
 
     if (isLoading) {
         return (
@@ -71,286 +73,300 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
         );
     }
 
-    console.log("SELECTED PROJECT", project)
+    //console.log("SELECTED PROJECT", project)
 
 
     return (
-        <div className="bg-white rounded-lg shadow-sm">
-            <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                <div className="flex items-center gap-4 flex-1">
-                    <div>
-                        
-                        <div className="flex items-center gap-2 mb-10 my-[8px_0px]">
-                            <span className="badge badge-success">
-                                ● {project.status || 'N/A'}
-                            </span>
-                            <span className="badge badge-info">
-                                {project.project_type || 'N/A'}
-                            </span>
-                            <h1>{project.project_name}</h1>
-                        </div>
-                        <div className="meta">
-                            <span className="meta-item">
-                                <NotepadText />{formatNumber()}{project.project_code}
-                            </span>
-                            <span className="meta-item">
-                                <Building />{project.project_client_name || 'N/A'}
-                            </span>
-                            <span className="meta-item">
-                                <Calendar1 />{project.start_date || 'N/A'} → {project.actual_end_date || 'N/A'}
-                            </span>
-                            <span className="meta-item">
-                                <Clock />Duration: {project.duration || 'N/A'} day(s)
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex gap-3">
-                    <button 
-                        onClick={() => onEdit(customerId)}
-                        className={buttons.editButtonGreen}
-                        >
-                            <SquarePen size={20} strokeWidth={1.5} />
-                            Edit
-                    </button>
-                </div>
-            </div>
-
-            {/*<!-- Financial Stats -->*/}
-            <div className="stats-grid">
-                <div className="card stat-card">
-                    <div className="stat-label">Budget</div>
-                    <div className="stat-value">{project.project_budget || 'N/A'}</div>
-                    <div className="stat-desc">Total allocated</div>
-                </div>
-
-                <div className="card stat-card">
-                    <div className="stat-label">Actual cost</div>
-                    <div className="stat-value">{project.actual_cost || 'N/A'}</div>
-                    <div className="stat-desc">Spent to date</div>
-                </div>
-
-                <div className="card stat-card">
-                    <div className="stat-label">Variance</div>
-                    <div className="stat-value">{project.variance || 'N/A'}</div>
-                    <div className="stat-desc">{project.final_budget}</div>
-                </div>
-            </div>
-
-            {/*<!-- Main Content -->*/}
-            <div className="main-grid">
-
-                {/*Left Column*/}
-                <div className="space-y">
-
-
-                    {/*<!-- Project Information -->*/}
-                    <div className="card">
-                        <div className="section-title">Project Information</div>
-                        <div className="info-grid">
-                            <div className="info-item">
-                                <div className="info-label">Project Type</div>
-                                <div className="info-value">{project.project_type || 'N/A'}</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">Status</div>
-                                <div className="info-value">{project.status || 'N/A'}</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">Start Date</div>
-                                <div className="info-value">{project.start_date || 'N/A'}</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">Estimated Completion date</div>
-                                <div className="info-value">{project.estimated_end_date || 'N/A'}</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">Actual Completion date</div>
-                                <div className="info-value">{project.actual_end_date || 'N/A'}</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">Duration</div>
-                                <div className="info-value">{project.duration || 'N/A'} day(s)</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">Days Elapsed</div>
-                                <div className="info-value">{project.days_elapsed || 'N/A'} days</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">Early Completion</div>
+        <div className="min-h-screen bg-slate-50 p-4 md:p-8">
+            <div className="mx-auto max-w-7xl bg-white rounded-xl shadow-sm border border-slate-200 min-w-full">
+                <div className="bg-gray-50! rounded-lg m-4 shadow-sm border border-slate-200">
+                    <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <div className="flex items-center gap-4 flex-1">
+                            <div>
                                 
-                                <div className={`info-value px-4 py-3 text-gray-700 ${
-                                    project.days_elapsed ? 
-                                    ' bg-green-50 text-green-700 border border-green-200 w-fit! mx-auto! text-center! p-2 px-3! py-1! text-xs! shadow'
-                                    : ' bg-red-50 text-red-700 border border-red-200 w-fit! mx-auto! text-center! p-2 px-3! py-1! text-xs shadow'}`}
-                                >
-                                {project.days_elapsed ? "Yes": "No"}
+                                <div className="flex items-center gap-2 mb-10 my-[8px_0px] hover:cursor-pointer">
+                                    <span className="badge badge-success">
+                                        ● {project.status || 'N/A'}
+                                    </span>
+                                    <span className="badge badge-info">
+                                        {project.project_type || 'N/A'}
+                                    </span>
+                                    <h1>{project.project_name}</h1>
+                                </div>
+                                <div className="meta hover:cursor-pointer">
+                                    <span className="meta-item">
+                                        <NotepadText />{formatNumber()}{project.project_code}
+                                    </span>
+                                    <span className="meta-item">
+                                        <Building />{project.project_client_name || 'N/A'}
+                                    </span>
+                                    <span className="meta-item">
+                                        <Calendar1 />{project.start_date || 'N/A'} → {project.actual_end_date || 'Ongoing...'}
+                                    </span>
+                                    <span className="meta-item">
+                                        <Clock />Duration: {project.duration || 'N/A'} day(s)
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    {/*<!-- Location -->*/}
-                    <div className="card">
-                        <div className="section-title">Location Details</div>
-                        <div className="info-grid">
-                            <div className="info-item col-span-full">
-                                <div className="info-label">Address</div>
-                                <div className="info-value">{project.address || 'N/A'}</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">City</div>
-                                <div className="info-value">{project.city || 'N/A'}</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">State</div>
-                                <div className="info-value">{project.state || 'N/A'}</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">Zip Code</div>
-                                <div className="info-value">{project.zip_code || 'N/A'}</div>
-                            </div>
-
-                            <div className="info-item">
-                                <div className="info-label">Country</div>
-                                <div className="info-value">{project.country || 'N/A'}</div>
-                            </div>
+                        <div className="flex gap-3">
+                            <button 
+                                onClick={() => onEdit(customerId)}
+                                className={buttons.editButtonGreen}
+                                >
+                                    <SquarePen size={20} strokeWidth={1.5} />
+                                    Edit
+                            </button>
                         </div>
                     </div>
 
-                    {/*<!-- Description -->*/}
-                    <div className="card">
-                        <div className="section-title">Project Description</div>
-                        <p className="description-text">
-                            {project.project_description || 'N/A'}
-                        </p>
-                    </div>
-                </div>
-
-
-                {/*<!-- Right Column -->*/}
-                <div className="space-y">
-
-                    {/*<!-- Team -->*/}
-                    <div className="card">
-                        <div className="section-title">Project Team</div>
-                        <div className="team-member">
-                            <div className="member-info">
-                                <div className="member-name">{project.project_manager || 'N/A'}</div>
-                                <div className="member-role">Project Manager</div>
-                            </div>
+                    {/*<!-- Financial Stats -->*/}
+                    <div className="stats-grid m-4">
+                        <div className="card stat-card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                            <div className="stat-label">Budget</div>
+                            <div className="stat-value">{project.project_budget || 'N/A'}</div>
+                            <div className="stat-desc">Total allocated</div>
                         </div>
-                        <div className="team-member">
-                            <div className="member-info">
-                                <div className="member-name">{project.superintendent || 'N/A'}</div>
-                                <div className="member-role">Superintendent</div>
-                            </div>
+
+                        <div className="card stat-card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                            <div className="stat-label">Actual cost</div>
+                            <div className="stat-value">{project.actual_cost || 'N/A'}</div>
+                            <div className="stat-desc">Spent to date</div>
+                        </div>
+
+                        <div className="card stat-card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                            <div className="stat-label">Variance</div>
+                            <div className="stat-value">{project.variance || 'N/A'}</div>
+                            <div className="stat-desc">{project.final_budget}</div>
                         </div>
                     </div>
 
+                    {/*<!-- Main Content -->*/}
+                    <div className="main-grid m-4">
 
-                    {/*<!-- Timeline -->*/}
-                    <div className="card">
-                        <div className="section-title">Project Timeline</div>
-                        <div className="timeline-item">
-                            <div className="timeline-marker active"></div>
-                            <div className="timeline-content">
-                                <div className="timeline-title">Project Start</div>
-                                <div className="timeline-date">{project.start_date || 'N/A'}</div>
-                                <div className="timeline-desc">Kickoff & site preparation</div>
-                            </div>
-                        </div>
-                        <div className="timeline-item">
-                            <div className="timeline-marker pending"></div>
-                            <div className="timeline-content">
-                                <div className="timeline-title">Est. Completion</div>
-                                <div className="timeline-date">{project.estimated_end_date || 'N/A'}</div>
-                                <div className="timeline-desc">Project completion</div>
-                            </div>
-                        </div>
-                    </div>
+                        {/*Left Column*/}
+                        <div className="space-y">
 
-                    {/*!-- Phases -->*/}
-                    {project.phases && project.phases.length > 0 && (
-                        <div>
-                            {project.phases.map((line: any, index: any) => (
-                                <div key={index} className="card">
-                                    <div key={index} className="section-title">Project Phases Log</div>
 
-                                    <div className="group relative bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:border-indigo-300 transition-all duration-300">
+                            {/*<!-- Project Information -->*/}
+                            <div className="card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                                <div className="section-title">Project Information</div>
+                                <div className="info-grid">
+                                    <div className="info-item">
+                                        <div className="info-label">Project Type</div>
+                                        <div className="info-value">{project.project_type || 'N/A'}</div>
+                                    </div>
 
-                                        <div className="flex items-center justify-between mb-4">
-                                            <span className="flex items-center text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em]">
-                                                <span className="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>
-                                                Phase {index + 1}
+                                    <div className="info-item">
+                                        <div className="info-label">Status</div>
+                                        <div className="info-value">{project.status || 'N/A'}</div>
+                                    </div>
+
+                                    <div className="info-item">
+                                        <div className="info-label">Start Date</div>
+                                        <div className="info-value">{project.start_date || 'N/A'}</div>
+                                    </div>
+
+                                    <div className="info-item">
+                                        <div className="info-label">Estimated Completion date</div>
+                                        <div className="info-value">{project.estimated_end_date || 'N/A'}</div>
+                                    </div>
+
+                                    <div className="info-item">
+                                        <div className="info-label">Actual Completion date</div>
+                                        <div className="info-value">{project.actual_end_date || 'Ongoing...'}</div>
+                                    </div>
+
+                                    <div className="info-item">
+                                        <div className="info-label">Duration</div>
+                                        <div className="info-value">{project.duration || '--'} day(s)</div>
+                                    </div>
+
+                                    <div className="info-item">
+                                        <div className="info-label">Days Elapsed</div>
+                                        {days == 0 ? (
+                                            <span className="info-value text-ontime">On schedule</span>
+                                        ) : isEarly ? (
+                                            <span className="info-value text-early">
+                                                {days} {days === 1 ? 'day' : 'days'} early
                                             </span>
-                                            
-                                            <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border ${
-                                                line.current_phase === 'Not Started' ? 'bg-gray-100 text-gray-500 border-gray-200' :
-                                                line.current_phase === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                                                line.current_phase === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                                                line.current_phase === 'Delayed' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                                                'bg-gray-100 text-gray-600 border-gray-200'
-                                                }`}>
-                                                {line.current_phase}
+                                        ) : (
+                                            <span className="info-value text-late">
+                                                {days} {days === 1 ? 'day' : 'days'} late
                                             </span>
-                                        </div>
+                                        )}
+                                    </div>
 
-                                        <h3 className="text-gray-900 font-bold text-xl mb-6 leading-tight">{line.phase_description}</h3>
-
-                                        <div className="flex items-center gap-14 border-t border-gray-100 pt-5">
-                                            <div className="flex flex-col">
-                                                <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Start Date</span>
-                                                <span className="font-mono text-sm text-gray-700 font-semibold">{line.start_date}</span>
-                                            </div>
-                                            <div className="w-px h-8 bg-gray-200 mx-4"></div>
-                                            <div className="flex flex-col">
-                                                <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">End Date</span>
-                                                <span className="font-mono text-sm text-gray-700 font-semibold">{line.end_date}</span>
-                                            </div>
+                                    <div className="info-item">
+                                        <div className="info-label">Early Completion</div>
+                                        
+                                        <div className={`info-value px-4 py-3 text-gray-700 ${
+                                            project.early_completion ? 
+                                            ' bg-green-50! text-green-700! border border-green-200! w-fit! mx-auto! text-center! p-2 px-3! py-1! text-xs! shadow'
+                                            : ' bg-red-50! text-red-700! border border-red-500! w-fit! mx-auto! text-center! p-2 px-3! py-1! text-xs shadow'}`}
+                                        >
+                                        {project.early_completion ? "Yes": "No"}
                                         </div>
                                     </div>
                                 </div>
-                            ))}
+                            </div>
+
+
+                            {/*<!-- Location -->*/}
+                            <div className="card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                                <div className="section-title">Location Details</div>
+                                <div className="info-grid">
+                                    <div className="info-item col-span-full">
+                                        <div className="info-label">Address</div>
+                                        <div className="info-value">{project.address || 'N/A'}</div>
+                                    </div>
+
+                                    <div className="info-item">
+                                        <div className="info-label">City</div>
+                                        <div className="info-value">{project.city || 'N/A'}</div>
+                                    </div>
+
+                                    <div className="info-item">
+                                        <div className="info-label">State</div>
+                                        <div className="info-value">{project.state || 'N/A'}</div>
+                                    </div>
+
+                                    <div className="info-item">
+                                        <div className="info-label">Zip Code</div>
+                                        <div className="info-value">{project.zip_code || 'N/A'}</div>
+                                    </div>
+
+                                    <div className="info-item">
+                                        <div className="info-label">Country</div>
+                                        <div className="info-value">{project.country || 'N/A'}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/*<!-- Description -->*/}
+                            <div className="card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                                <div className="section-title">Project Description</div>
+                                <p className="description-text">
+                                    {project.project_description || 'N/A'}
+                                </p>
+                            </div>
                         </div>
-                    )}
-                </div>
-            </div>
 
 
-            {/*<!-- Footer -->*/}
-            <div className="footer">
-                <div className="grid lg:grid-cols-5">
+                        {/*<!-- Right Column -->*/}
+                        <div className="space-y">
 
-                    <div>
-                        <a className={details.extraSmallUppercase}>Date Created</a><br /> 
-                        <strong> {formatDate(project.date_created)}</strong>
+                            {/*<!-- Team -->*/}
+                            <div className="card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                                <div className="section-title">Project Team</div>
+                                <div className="team-member">
+                                    <div className="member-info">
+                                        <div className="member-name">{project.project_manager || 'N/A'}</div>
+                                        <div className="member-role">Project Manager</div>
+                                    </div>
+                                </div>
+                                <div className="team-member">
+                                    <div className="member-info">
+                                        <div className="member-name">{project.superintendent || 'N/A'}</div>
+                                        <div className="member-role">Superintendent</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            {/*<!-- Timeline -->*/}
+                            <div className="card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                                <div className="section-title">Project Timeline</div>
+                                <div className="timeline-item">
+                                    <div className="timeline-marker active"></div>
+                                    <div className="timeline-content">
+                                        <div className="timeline-title">Project Start</div>
+                                        <div className="timeline-date">{project.start_date || 'N/A'}</div>
+                                        <div className="timeline-desc">Kickoff & site preparation</div>
+                                    </div>
+                                </div>
+                                <div className="timeline-item">
+                                    <div className="timeline-marker pending"></div>
+                                    <div className="timeline-content">
+                                        <div className="timeline-title">Est. Completion</div>
+                                        <div className="timeline-date">{project.estimated_end_date || 'N/A'}</div>
+                                        <div className="timeline-desc">Project completion</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/*!-- Phases -->*/}
+                            {project.phases && project.phases.length > 0 && (
+                                <div>
+                                    {project.phases.map((line, index) => (
+                                        <div key={index} className="card ">
+                                            <div key={index} className="section-title ">Project Phases Log</div>
+
+                                            <div className="group relative bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:border-indigo-300 hover:cursor-pointer! hover:shadow-2xl! hover:shadow-gray-400! transition-all duration-300">
+
+                                                <div className="flex items-center justify-between mb-4">
+                                                    <span className="flex items-center text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em]">
+                                                        <span className="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>
+                                                        Phase {index + 1}
+                                                    </span>
+                                                    
+                                                    <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border ${
+                                                        line.current_phase === 'Not Started' ? 'bg-gray-100 text-gray-500 border-gray-200' :
+                                                        line.current_phase === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                                                        line.current_phase === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                                                        line.current_phase === 'Delayed' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                                                        'bg-gray-100 text-gray-600 border-gray-200'
+                                                        }`}>
+                                                        {line.current_phase}
+                                                    </span>
+                                                </div>
+
+                                                <h3 className="text-gray-900 font-bold text-xl mb-6 leading-tight">{line.phase_description}</h3>
+
+                                                <div className="flex items-center gap-14 border-t border-gray-100 pt-5">
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Start Date</span>
+                                                        <span className="font-mono text-sm text-gray-700 font-semibold">{line.start_date}</span>
+                                                    </div>
+                                                    <div className="w-px h-8 bg-gray-200 mx-4"></div>
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">End Date</span>
+                                                        <span className="font-mono text-sm text-gray-700 font-semibold">{line.end_date}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
 
-                    <div>
-                        <a className={details.extraSmallUppercase}>Created by</a><br /> 
-                        <strong>{project.created_by}</strong>
-                    </div>
 
-                    <div>
-                        <a className={details.extraSmallUppercase}>Date Updated</a><br /> 
-                        <strong> {formatUpdateDate(project.date_updated)}</strong>
-                    </div>
+                    {/*<!-- Footer -->*/}
+                    <div className="footer mb-4 m-4">
+                        <div className="grid lg:grid-cols-5">
 
-                    <div>
-                        <a className={details.extraSmallUppercase}>Updated By</a><br /> 
-                        <strong> {project.updated_by}</strong>
+                            <div>
+                                <a className={details.extraSmallUppercase}>Date Created</a><br /> 
+                                <strong> {formatDate(project.date_created)}</strong>
+                            </div>
+
+                            <div>
+                                <a className={details.extraSmallUppercase}>Created by</a><br /> 
+                                <strong>{project.created_by}</strong>
+                            </div>
+
+                            <div>
+                                <a className={details.extraSmallUppercase}>Date Updated</a><br /> 
+                                <strong> {formatUpdateDate(project.date_updated)}</strong>
+                            </div>
+
+                            <div>
+                                <a className={details.extraSmallUppercase}>Updated By</a><br /> 
+                                <strong> {project.updated_by}</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

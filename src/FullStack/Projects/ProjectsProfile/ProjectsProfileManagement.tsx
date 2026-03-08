@@ -199,6 +199,10 @@ function ProjectsProfileManagement() {
 
         const cleanedData = {
             ...projectData,
+            actual_end_date:
+                projectData.actual_end_date
+                ? projectData.actual_end_date
+                : null,
             phases:
                 projectData.phases && projectData.phases?.length > 0
                     ? projectData.phases.map(phase => ({
@@ -222,6 +226,10 @@ function ProjectsProfileManagement() {
 
         const cleanedData = {
             ...projectData,
+            actual_end_date:
+                projectData.actual_end_date
+                ? projectData.actual_end_date
+                : null,
             phases:
                 projectData.phases && projectData.phases?.length > 0
                     ? projectData.phases.map(phase => ({
@@ -245,14 +253,7 @@ function ProjectsProfileManagement() {
     const handleDeleteProject = async (projectId: number) => {
         if (!window.confirm('Are you sure you want to delete this Project?')) return;
 
-        const toastId = toast.loading('Deleting Project...');
-        try {
-            await deleteProjectMutation.mutateAsync(projectId);
-            toast.success('Project successfully deleted', {id: toastId});
-        } catch (error) {
-            toast.error('Failed to delete project', { id: toastId });
-            console.error(error);
-        }
+        await deleteProjectMutation.mutateAsync(projectId);
     };
     // ------------------------------------------------------------------------------------
 
