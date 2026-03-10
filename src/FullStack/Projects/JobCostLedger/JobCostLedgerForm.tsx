@@ -6,9 +6,10 @@ import { BillOfQuantitiesResponse,
     JobCostLedgerInputs, 
     ProjectProfileResponse,
 JobCostCodesInterface, 
-JobCostLedgerFormProps} from "../constants/Types";
+JobCostLedgerFormProps,
+BillOfQuantitiesLineResponse} from "../constants/Types";
 
-import { jobCostBoqHandler, 
+import { boqLineHandler, jobCostBoqHandler, 
     jobcostcodesHandler, 
     jobCostProjectsHandler } from "../../handlers";
 
@@ -50,7 +51,10 @@ const JobCostLedgerForm: React.FC<JobCostLedgerFormProps> = ({
     jobCostCodes,
     billOfQuantities,
     agents,
-    projects }) => {
+    projects,
+    boqLines,
+    setSelectedBoqId
+}) => {
 
         const costCode = useMemo(() => 
             jobCostCodes.map((code: JobCostCodesInterface) => (
@@ -79,6 +83,14 @@ const JobCostLedgerForm: React.FC<JobCostLedgerFormProps> = ({
                     {option}
                 </option>
         )), [JOB_COST_LINES_STATUS_OPTIONS])
+        
+        
+        const boqLinesOptions = useMemo(() =>
+            boqLines.map((line: BillOfQuantitiesLineResponse) => (
+                <option key={line.id} value={line.id}>
+                    SKU-{line.product_item} - {line.additional_item}
+                </option>
+            )), [boqLines])
 
 
 
@@ -109,7 +121,7 @@ const JobCostLedgerForm: React.FC<JobCostLedgerFormProps> = ({
 
 
 const onProjectChange = jobCostProjectsHandler(projects, setValue);
-const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
+const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoqId);
 
 
 
@@ -142,7 +154,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                 Related Project <span className="text-red-500">*</span>
                             </label>
                             <select
-                                className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                 {...register("project")}
                                 onChange={onProjectChange}
                             >
@@ -154,23 +166,41 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                 )), [projects])}
                             </select>
                         </div>
-
-                        <div className="md:col-span-2">
+                        
+                        <div>
                             <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                BOQ Estimation Reference
+                                BOQ Reference <span className="text-red-500">*</span>
                             </label>
                             <select
-                                {...register("boq_estimation")}
+                                {...register("boq")}
                                 onChange={onBoqChange}
-                                className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                             >
                                 <option value="">Select BOQ...</option>
                                 {useMemo(() => billOfQuantities.map((billOfQuantity: BillOfQuantitiesResponse) => (
                                     <option key={billOfQuantity.boq_number} value={billOfQuantity.boq_number}>
-                                        {formatBoqNumber()}{billOfQuantity.boq_number} - {billOfQuantity.project_name} ({billOfQuantity.net_estimation})
+                                        {formatBoqNumber()}{billOfQuantity.boq_number} - {billOfQuantity.project_name} ({billOfQuantity.gross_estimation} + {billOfQuantity.contingency_rate}% contingency)
                                     </option>
                                 )), [billOfQuantities])}
                             </select>
+                        </div>
+    
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                BOQ Estimated Amount excl. contingency
+                            </label>
+                            <input 
+                                className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900 placeholder-blue-900"
+                                {...register("boq_estimated_amount")}
+                                readOnly
+                                type="number"
+                                placeholder="0.00"
+                                step="0.01" min="0.00" onBlur={(e) => {
+                                    if (e.target.value) {
+                                        e.target.value = decimalPlaces(Number(e.target.value));
+                                    }
+                                }}
+                            />
                         </div>
 
                         <div>
@@ -178,7 +208,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                 Date <span className="text-red-500">*</span>
                             </label>
                             <input 
-                                className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                 type="date"
                                 {...register("date", {required: "Date is required"})}
                             />
@@ -190,7 +220,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                 Status
                             </label>
                             <select
-                                className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                 {...register("status")}
                             >
                                 <option value="">Select status...</option>
@@ -207,7 +237,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                 Description
                             </label>
                             <textarea 
-                                className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-vertical"
+                                className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                 {...register("description")}
                                 placeholder="Enter job cost ledger description..."
                             />
@@ -226,6 +256,8 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                             className="inline-flex items-center px-4 py-2 bg-violet-900 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm"
                             type="button"
                             onClick={() => append({
+                                boq_line: 0,
+                                boq_additional: '',
                                 cost_code: {
                                     job_cost_code: 0,
                                     job_cost_description: ''
@@ -235,7 +267,8 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                 cost_type: 'Direct Cost' as any,
                                 status: 'Committed' as any,
                                 cost: 0.00,
-                                tax: 0.00
+                                tax: 0.00,
+                                estimated: 0.00,
                             })}
                         >
                         ++ Add Cost Line
@@ -244,6 +277,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                     {fields.length > 0 ? fields.map((field, index) => {
 
                         const onJobCostCodeChange = jobcostcodesHandler(jobCostCodes, setValue, index);
+                        const onBoqLineChange = boqLineHandler(boqLines, setValue, index);
                         
                         return(
                             <div key={field.id}>
@@ -268,6 +302,51 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                 
                                                 {/* FULL LINES */}
                                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                                                {/* BOQ SELECTION */}
+                                                <div>
+                                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                        Related BOQ Line
+                                                    </label>
+                                                    <select
+                                                        className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
+                                                        {...register(`job_cost_ledger.${index}.boq_line`)}
+                                                        onChange={onBoqLineChange}
+                                                    >
+                                                        <option value="">Select BOQ Line...</option>
+                                                        {boqLinesOptions}
+                                                    </select>
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                        Product extra description(BOQ LINE)
+                                                    </label>
+                                                    <input
+                                                        className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
+                                                        {...register(`job_cost_ledger.${index}.boq_additional`)}
+                                                        readOnly
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                        Estimated amount(BOQ LINE)
+                                                    </label>
+                                                    <input 
+                                                        className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900 placeholder-blue-900"
+                                                        {...register(`job_cost_ledger.${index}.estimated`)}
+                                                        readOnly
+                                                        type="number"
+                                                        placeholder="0.00"
+                                                        step="0.01" min="0.00" onBlur={(e) => {
+                                                            if (e.target.value) {
+                                                                e.target.value = decimalPlaces(Number(e.target.value));
+                                                            }
+                                                        }}
+                                                    />
+                                                </div>
+
                                                 
                                                 {/*COST CODE*/}
                                                 <div>
@@ -275,7 +354,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                         Cost Code
                                                     </label>
                                                     <select
-                                                        className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                        className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                         {...register(`job_cost_ledger.${index}.cost_code.job_cost_code`)}
                                                         onChange={onJobCostCodeChange}
                                                     >
@@ -292,7 +371,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                     </label>
                                                     <select
                                                         {...register(`job_cost_ledger.${index}.supplier`)}
-                                                        className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                        className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                     >
                                                         <option value="">Select supplier...</option>
                                                         {supplierSelect}
@@ -305,7 +384,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                     </label>
                                                     <select
                                                         {...register(`job_cost_ledger.${index}.cost_type`)}
-                                                        className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                        className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                     >
                                                         <option value="">Select cost type...</option>
                                                         {costTypeSelect}
@@ -318,7 +397,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                     </label>
                                                     <select
                                                         {...register(`job_cost_ledger.${index}.status`)}
-                                                        className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                        className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                     >
                                                         <option value="">Select status...</option>
                                                         {statusLineSelect}
@@ -330,7 +409,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                         Description
                                                     </label>
                                                     <input 
-                                                        className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-vertical"
+                                                        className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                         {...register(`job_cost_ledger.${index}.description`)}
                                                     />
                                                 </div>
@@ -340,7 +419,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                         Cost
                                                     </label>
                                                     <input 
-                                                        className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                        className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900 placeholder-blue-900"
                                                         {...register(`job_cost_ledger.${index}.cost`)}
                                                         type="number"
                                                         placeholder="0.00"
@@ -354,10 +433,10 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
 
                                                 <div>
                                                     <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                                        Tax (%)
+                                                        Tax%
                                                     </label>
                                                     <input 
-                                                        className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                        className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900 placeholder-blue-900"
                                                         {...register(`job_cost_ledger.${index}.tax`)}
                                                         type="number"
                                                         placeholder="0.00"
@@ -373,7 +452,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
                                                     <label className="block text-sm font-semibold text-slate-700 mb-2">
                                                         Total Cost
                                                     </label>
-                                                    <div className="px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg">
+                                                    <div className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900 placeholder-blue-900">
                                                         <span className="text-sm font-bold text-blue-900">
                                                             {decimalPlaces(
                                                                 (Number(watch(`job_cost_ledger.${index}.cost`) || 0.00)) * 

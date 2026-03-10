@@ -1,13 +1,13 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { JobCostLedgerInputs, JobCostLedgerProps } from "../constants/Types";
+import { BillOfQuantitiesLineResponse, JobCostLedgerInputs, JobCostLedgerProps } from "../constants/Types";
 
 
 import { BillOfQuantitiesResponse, 
     ProjectProfileResponse,
 JobCostCodesInterface } from "../constants/Types";
 
-import { jobCostBoqHandler, 
+import { boqLineHandler, jobCostBoqHandler, 
     jobcostcodesHandler, 
     jobCostProjectsHandler } from "../../handlers";
 
@@ -49,7 +49,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
     onSubmit,
     isSubmitting,
     onCancel,
-    suppliers, jobCostCodes, billOfQuantities, agents, projects
+    suppliers, jobCostCodes, billOfQuantities, agents, projects, boqLines, setSelectedBoqId
 }) => {
     const jobCostLedgerId = jobCostLedger?.job_cost_number;
 
@@ -82,6 +82,14 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
     )), [JOB_COST_LINES_STATUS_OPTIONS])
 
 
+    const boqLinesOptions = useMemo(() =>
+        boqLines.map((line: BillOfQuantitiesLineResponse) => (
+            <option key={line.id} value={line.id}>
+                Line{line.id} ( SKU-{line.product_item} - {line.additional_item} )
+            </option>
+        )), [boqLines])
+
+
 
 
 
@@ -112,7 +120,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
 
     
     const onProjectChange = jobCostProjectsHandler(projects, setValue);
-    const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue);
+    const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoqId);
     
     
     
@@ -139,13 +147,13 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
+                
                     <div className="md:col-span-2">
                         <label className="block text-sm font-semibold text-slate-700 mb-2">
                             Related Project <span className="text-red-500">*</span>
                         </label>
                         <select
-                            className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                             {...register("project")}
                             onChange={onProjectChange}
                         >
@@ -157,23 +165,41 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                             )), [projects])}
                         </select>
                     </div>
-
-                    <div className="md:col-span-2">
+                    
+                    <div>
                         <label className="block text-sm font-semibold text-slate-700 mb-2">
-                            BOQ Estimation Reference
+                            BOQ Reference <span className="text-red-500">*</span>
                         </label>
                         <select
-                            {...register("boq_estimation")}
+                            {...register("boq")}
                             onChange={onBoqChange}
-                            className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                         >
                             <option value="">Select BOQ...</option>
                             {useMemo(() => billOfQuantities.map((billOfQuantity: BillOfQuantitiesResponse) => (
                                 <option key={billOfQuantity.boq_number} value={billOfQuantity.boq_number}>
-                                    {formatBoqNumber()}{billOfQuantity.boq_number} - {billOfQuantity.project_name} ({billOfQuantity.net_estimation})
+                                    {formatBoqNumber()}{billOfQuantity.boq_number} - {billOfQuantity.project_name} ({billOfQuantity.gross_estimation} + {billOfQuantity.contingency_rate}% contingency)
                                 </option>
                             )), [billOfQuantities])}
                         </select>
+                    </div>
+    
+                    <div>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">
+                            BOQ Estimated Amount excl. contingency
+                        </label>
+                        <input 
+                            className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900 placeholder-blue-900"
+                            {...register("boq_estimated_amount")}
+                            readOnly
+                            type="number"
+                            placeholder="0.00"
+                            step="0.01" min="0.00" onBlur={(e) => {
+                                if (e.target.value) {
+                                    e.target.value = decimalPlaces(Number(e.target.value));
+                                }
+                            }}
+                        />
                     </div>
 
                     <div>
@@ -181,19 +207,19 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                             Date <span className="text-red-500">*</span>
                         </label>
                         <input 
-                            className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                             type="date"
                             {...register("date", {required: "Date is required"})}
                         />
                         {errors.date && <p className="text-amber-600 text-sm">{errors.date?.message}</p>}
                     </div>
-
+                    
                     <div>
                         <label className="block text-sm font-semibold text-slate-700 mb-2">
                             Status
                         </label>
                         <select
-                            className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                             {...register("status")}
                         >
                             <option value="">Select status...</option>
@@ -210,7 +236,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                             Description
                         </label>
                         <textarea 
-                            className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-vertical"
+                            className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                             {...register("description")}
                             placeholder="Enter job cost ledger description..."
                         />
@@ -229,6 +255,8 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                         className="inline-flex items-center px-4 py-2 bg-violet-900 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm"
                         type="button"
                         onClick={() => append({
+                            boq_line: 0,
+                            boq_additional: '',
                             cost_code: {
                                 job_cost_code: 0,
                                 job_cost_description: ''
@@ -238,7 +266,8 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                             cost_type: 'Direct Cost' as any,
                             status: 'Committed' as any,
                             cost: 0.00,
-                            tax: 0.00
+                            tax: 0.00,
+                            estimated: 0.00,
                         })}
                     >
                     ++ Add Cost Line
@@ -247,6 +276,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                 {fields.length > 0 ? fields.map((field, index) => {
 
                     const onJobCostCodeChange = jobcostcodesHandler(jobCostCodes, setValue, index);
+                    const onBoqLineChange = boqLineHandler(boqLines, setValue, index);
                     
                     return(
                         <div key={field.id}>
@@ -271,6 +301,51 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                             
                                             {/* FULL LINES */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                                            {/* BOQ SELECTION */}
+                                            <div>
+                                                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                    Related BOQ Line
+                                                </label>
+                                                <select
+                                                    className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
+                                                    {...register(`job_cost_ledger.${index}.boq_line`)}
+                                                    onChange={onBoqLineChange}
+                                                >
+                                                    <option value="">Select BOQ Line...</option>
+                                                    {boqLinesOptions}
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                    Product extra description(BOQ LINE)
+                                                </label>
+                                                <input
+                                                    className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
+                                                    {...register(`job_cost_ledger.${index}.boq_additional`)}
+                                                    readOnly
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                    Estimated amount(BOQ LINE)
+                                                </label>
+                                                <input 
+                                                    className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900"
+                                                    {...register(`job_cost_ledger.${index}.estimated`)}
+                                                    type="number"
+                                                    readOnly
+                                                    placeholder="0.00"
+                                                    step="0.01" min="0.00" onBlur={(e) => {
+                                                        if (e.target.value) {
+                                                            e.target.value = decimalPlaces(Number(e.target.value));
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+
                                             
                                             {/*COST CODE*/}
                                             <div>
@@ -278,7 +353,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                     Cost Code
                                                 </label>
                                                 <select
-                                                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                    className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                     {...register(`job_cost_ledger.${index}.cost_code.job_cost_code`)}
                                                     onChange={onJobCostCodeChange}
                                                 >
@@ -295,7 +370,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <select
                                                     {...register(`job_cost_ledger.${index}.supplier`)}
-                                                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                    className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                 >
                                                     <option value="">Select supplier...</option>
                                                     {supplierSelect}
@@ -308,7 +383,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <select
                                                     {...register(`job_cost_ledger.${index}.cost_type`)}
-                                                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                    className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                 >
                                                     <option value="">Select cost type...</option>
                                                     {costTypeSelect}
@@ -321,7 +396,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <select
                                                     {...register(`job_cost_ledger.${index}.status`)}
-                                                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                    className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                 >
                                                     <option value="">Select status...</option>
                                                     {statusLineSelect}
@@ -333,7 +408,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                     Description
                                                 </label>
                                                 <input 
-                                                    className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-vertical"
+                                                    className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                     {...register(`job_cost_ledger.${index}.description`)}
                                                 />
                                             </div>
@@ -343,7 +418,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                     Cost
                                                 </label>
                                                 <input 
-                                                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                    className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900"
                                                     {...register(`job_cost_ledger.${index}.cost`)}
                                                     type="number"
                                                     placeholder="0.00"
@@ -357,10 +432,10 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
 
                                             <div>
                                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                                    Tax (%)
+                                                    Tax%
                                                 </label>
                                                 <input 
-                                                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                                    className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900"
                                                     {...register(`job_cost_ledger.${index}.tax`)}
                                                     type="number"
                                                     placeholder="0.00"
@@ -376,7 +451,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
                                                     Total Cost
                                                 </label>
-                                                <div className="px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg">
+                                                <div className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900">
                                                     <span className="text-sm font-bold text-blue-900">
                                                         {decimalPlaces(
                                                             (Number(watch(`job_cost_ledger.${index}.cost`) || 0.00)) * 

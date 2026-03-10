@@ -5,9 +5,11 @@ import { CustomerPaymentResponse,
   InvoiceInterface, InvoicePaymentInterface } from "./Sales/Constants/Types"
 import { SupplierInvoiceResponse } from "./Suppliers/constants/Types"
 import { CompanyPurchaseInvoiceResponse } from "./Purchases/constants/Types"
-import { BillOfQuantitiesResponse, ProjectProfileResponse } from "./Projects/constants/Types"
+import { BillOfQuantitiesResponse, ProjectProfileResponse,
+  BillOfQuantitiesLineResponse
+ } from "./Projects/constants/Types"
 import { JobCostCodesInterface } from "./Projects/constants/Types"
-import { CreditNoteCreateResponse } from "./Customers/constants/Types"
+import { CreditNoteCreateResponse } from "./Customers/constants/Types";
 
 
 
@@ -262,7 +264,11 @@ export const jobcostcodesHandler = (jobCostCodes: JobCostCodesInterface[], setVa
 
 
 
-export const jobCostBoqHandler = (billOfQuantities: BillOfQuantitiesResponse[], setValue: any) => {
+export const jobCostBoqHandler = (
+  billOfQuantities: BillOfQuantitiesResponse[],
+  setValue: any,
+  setSelectedBoqId: (boq: number) => void
+) => {
   return (e: React.ChangeEvent<HTMLSelectElement>) => {
     const boqNumber = Number(e.target.value)
     const selectedNumber = billOfQuantities.find(a => a.boq_number === boqNumber)
@@ -271,6 +277,7 @@ export const jobCostBoqHandler = (billOfQuantities: BillOfQuantitiesResponse[], 
     if (selectedNumber) {
       setValue("boq_estimated_amount", selectedNumber.net_estimation)
     }
+    setSelectedBoqId(boqNumber)
   }
 }
 
@@ -403,4 +410,19 @@ export const refundRelatedcreditNoteHandler = (creditNotes: CreditNoteCreateResp
 };
 
 
+
+
+
+export const boqLineHandler = (boqLines: BillOfQuantitiesLineResponse[], setValue: any, index: number) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedBoqLine = Number(e.target.value)
+    const selectedLine = boqLines.find(a => a.id === selectedBoqLine)
+    console.log("✅ Found related BOQ Line:", selectedLine);
+
+    if (selectedLine) {
+      setValue(`job_cost_ledger.${index}.estimated`, selectedLine?.estimated_amount);
+      setValue(`job_cost_ledger.${index}.boq_additional`, selectedLine?.additional_item);
+    }
+  }
+}
 

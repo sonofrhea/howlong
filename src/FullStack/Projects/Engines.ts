@@ -228,3 +228,13 @@ export const deleteJobCostLedger = async (job_cost_number: number) => {
     console.error(error);
   }
 };
+
+
+export const fetchBoqLines = async (boq: number) => {
+  try {
+    const response = await apiClient.get(`/projects/jobcostledger/boq_lines/?boq=${boq}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}

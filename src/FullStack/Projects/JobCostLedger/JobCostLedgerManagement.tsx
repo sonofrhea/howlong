@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { fetchJobCostLedgers, fetchJobCostLedgerById, createJobCostLedger, 
     updateJobCostLedger, deleteJobCostLedger, fetchJobCostCodes, fetchBillOfQuantities,
-    fetchProjects
+    fetchProjects, fetchBoqLines
 } from "../Engines";
 
 
@@ -57,6 +57,7 @@ function JobCostLedgerManagement() {
     const [view, setView] = useState('list');
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedJobCostLedgerId, setSelectedJobCostLedgerId] = useState<number | null>(null);
+    const [selectedBoqId, setSelectedBoqId] = useState<number | null>(null);
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -80,13 +81,19 @@ function JobCostLedgerManagement() {
     });
 
     const { data: billOfQuantities = [] } = useQuery({
-    queryKey: ['billOfQuantities'],
-    queryFn: fetchBillOfQuantities
+        queryKey: ['billOfQuantities'],
+        queryFn: fetchBillOfQuantities
     });
 
     const { data: projects = [] } = useQuery({
         queryKey: ['projects'],
         queryFn: fetchProjects
+    });
+
+    const { data: boqLines = [] } = useQuery({
+        queryKey: ['boqLines', selectedBoqId],
+        queryFn: () => fetchBoqLines(selectedBoqId!),
+        enabled: !!selectedBoqId,
     });
 
 
@@ -557,6 +564,8 @@ function JobCostLedgerManagement() {
                         billOfQuantities={billOfQuantities}
                         agents={agents}
                         projects={projects}
+                        boqLines={boqLines}
+                        setSelectedBoqId={setSelectedBoqId}
                     />
                     {createJobCostLedgerMutation.isError && (
                         <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">
@@ -587,6 +596,8 @@ function JobCostLedgerManagement() {
                     billOfQuantities={billOfQuantities}
                     agents={agents}
                     projects={projects}
+                    boqLines={boqLines}
+                    setSelectedBoqId={setSelectedBoqId}
                 />
                 )}
             </div>

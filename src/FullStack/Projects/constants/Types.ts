@@ -272,6 +272,7 @@ export type BillOfquantitiesList = {
   project_name: string;
   status: string;
   boq_description: string;
+  gross_estimation: number;
   contingency_rate: number;
   net_estimation: number;
 };
@@ -330,8 +331,22 @@ export type BillOfQuantitiesInputs = {
 export type BillOfQuantitiesResponse = {
   boq_number: number;
   project_name: string;
+  gross_estimation: number;
+  contingency_rate: number;
   net_estimation: number;
-}
+};
+
+
+export type BillOfQuantitiesLineResponse = {
+  id: number;
+  product_item: number;
+  product_item_name: string;
+  additional_item: string;
+  unit_of_measurement: string;
+  quantity: number;
+  rate_per_unit: number;
+  estimated_amount: number;
+};
 
 
 export type AllBillOfQuantitiesInputs = {
@@ -404,7 +419,8 @@ export type BillOfQuantitiesFormProps = {
 export type JobCostLedgerList = {
   job_cost_number: number;
   date: string;
-  project: string;
+  project: number;
+  project_name: string;
   description: string;
   boq_estimated_amount: number;
   total_actual_cost: number;
@@ -418,26 +434,30 @@ export type JobCostLedgerDetails = {
   project: number;
   project_name: string;
   project_budget: string;
-
   date: string;
   description: string;
   status: string;
 
   job_cost_ledger: Array<{
+    boq_line: number;
     cost_code: {
       job_cost_code: number;
       job_cost_description: string;
     };
     supplier: string;
+    boq_line_item: string;
     description: string;
     cost_type: string;
     status: string;
     cost: string;
     tax: string;
     total_cost: string;
+    total_paid: string;
+    estimated: string;
+    variance: string;
   }>;
 
-  boq_estimation: number;
+  boq: number;
   boq_estimated_amount: string;
   total_actual_cost: string;
 
@@ -460,9 +480,11 @@ export type JobCostLedgerInputs = {
   date: string;
   description: string;
   status: typeof JOB_COST_LEDGER_STATUS_OPTIONS[number] | null;
-  boq_estimation: string | null;
+  boq: number | null;
   boq_estimated_amount: number | null;
   job_cost_ledger?: Array<{
+    boq_line: number;
+    boq_additional: string;
     cost_code?: {
       job_cost_code?: number | null;
       job_cost_description?: string | null;
@@ -473,7 +495,10 @@ export type JobCostLedgerInputs = {
     status: typeof JOB_COST_LINES_STATUS_OPTIONS[number] | null;
     cost: number | null;
     tax: number | null;
+    estimated: number | null;
   }> | null;
+  total_actual_cost: string;
+  net_variance: string;
   date_created: string | null;
   project_budget: string | null;
 };
@@ -505,6 +530,8 @@ export type JobCostLedgerProps = {
   billOfQuantities: BillOfQuantitiesResponse[];
   agents: AgentInterface[];
   projects: ProjectProfileInputs[];
+  boqLines: BillOfQuantitiesLineResponse[];
+  setSelectedBoqId: (boq: number) => void;
 };
 
 
@@ -526,6 +553,8 @@ export type JobCostLedgerFormProps = {
   billOfQuantities: BillOfQuantitiesResponse[];
   agents: AgentInterface[];
   projects: ProjectProfileInputs[];
+  boqLines: BillOfQuantitiesLineResponse[];
+  setSelectedBoqId: (boq: number) => void;
 };
 
 

@@ -28,8 +28,6 @@ const formatProjectNumber = () => {
 
 
 
-
-
 const BillOfQuantitiesTable: React.FC<BillOfQuantitiesTableProps> = ({
     billOfQuantities,
     onBillOfQuantityClick,
@@ -118,16 +116,19 @@ const BillOfQuantitiesTable: React.FC<BillOfQuantitiesTableProps> = ({
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
                     {[
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-1/9 text-center",
-                        "w-[5%] text-center",
-                    ]}
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-1/10 text-center",
+                        "w-[6%] text-center",
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>
@@ -137,6 +138,7 @@ const BillOfQuantitiesTable: React.FC<BillOfQuantitiesTableProps> = ({
                             <SortableHeader label="Project Name" sortKey="project_name" />
                             <SortableHeader label="Status" sortKey="status" />
                             <SortableHeader label="BOQ Description" sortKey="boq_description" />
+                            <SortableHeader label="Gross estimation" sortKey="gross_estimation" />
                             <SortableHeader label="Contingency Rate%" sortKey="contingency_rate" />
                             <SortableHeader label="Net Estimation" sortKey="net_estimation" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
@@ -197,6 +199,13 @@ const BillOfQuantitiesTable: React.FC<BillOfQuantitiesTableProps> = ({
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-black truncate">
                                             {billOfQuantity.boq_description}
+                                        </div>
+                                    </td>
+
+                                    {/* Gross Estimation */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className="text-sm text-black truncate">
+                                            {billOfQuantity.gross_estimation}
                                         </div>
                                     </td>
 

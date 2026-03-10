@@ -12,7 +12,10 @@ const formatNumber = () => {
 };
 
 
-
+const formatProjectNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `PZN-${currentYear}-0`;
+};
 
 
 
@@ -158,7 +161,7 @@ const JobCostLedgerTable: React.FC<JobCostLedgerListProps> = ({
                                     {/* Project */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {jobCostLedger.project}
+                                            {formatProjectNumber()}{jobCostLedger.project} | {jobCostLedger.project_name}
                                         </div>
                                     </td>
 

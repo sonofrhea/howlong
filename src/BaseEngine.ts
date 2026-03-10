@@ -30,7 +30,7 @@ apiClient.interceptors.response.use(response => {
   return response
 }, (error) => {
   
-  const isInvalidToken = error.response?.data?.detail === 'Invalid token';
+  const isInvalidToken = error.response?.data?.detail === 'Invalid token.';
   const is401 = error.response && error.response?.status === 401;
 
   if (is401 || isInvalidToken) {

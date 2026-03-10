@@ -64,6 +64,7 @@ const Login = () => {
 
             else if (error.response?.data?.detail === "Invalid token.") {
                 errorMessage = "Invalid Token."
+                localStorage.removeItem('Token');
             }
 
             else if (error.response?.data?.detail?.[0]) {
