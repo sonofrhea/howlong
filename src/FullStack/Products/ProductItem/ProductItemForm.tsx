@@ -32,11 +32,6 @@ const ProductItemForm: React.FC<ProductItemFormProps> = ({
             }
         });
 
-        const { fields, append, remove } = useFieldArray({
-            name: "additional_photos",
-            control
-        });
-
 
 
         return(
@@ -222,55 +217,72 @@ const ProductItemForm: React.FC<ProductItemFormProps> = ({
                     </h2>
 
                     <div className="rounded-2xl border border-violet-100 bg-violet-50/40 p-6 space-y-6">
+                  
+                      {/* Additional Photos */}
+                      <div className="space-y-2">
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Additional Photo 1</label>
+                        <input
+                          type="file"
+                          onChange={e => {
+                            const file = e.target.files?.[0] || undefined;
+                            setValue('additional_photo1', file);
+                          }}
+                          className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
+                        />
+                      </div>
 
-                      {fields.map((field, index) => (
-                        <div key={field.id} className="bg-white rounded-xl border border-violet-100 p-5 space-y-4 shadow-sm">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-semibold text-violet-400 tracking-widest uppercase">
-                              Photo {index + 1}
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() => remove(index)}
-                              className="text-xs text-red-400 hover:text-red-600 font-medium transition px-2 py-1 rounded-lg hover:bg-red-50"
-                            >
-                              ✕ Remove
-                            </button>
-                          </div>
 
-                          <div className="space-y-1">
-                            <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Photo</label>
-                            <input
-                              type="file"
-                              onChange={e => {
-                                const file = e.target.files?.[0] || undefined;
-                                setValue(`additional_photos.${index}.additional_photo`, file);
-                              }}
-                              className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-violet-100 file:text-violet-700 hover:file:bg-violet-200 cursor-pointer rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 transition"
-                            />
-                          </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Additional Photo 2</label>
+                        <input
+                          type="file"
+                          onChange={e => {
+                            const file = e.target.files?.[0] || undefined;
+                            setValue('additional_photo2', file);
+                          }}
+                          className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
+                        />
+                      </div>
 
-                          <div className="space-y-1">
-                            <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Photo Description</label>
-                            <input
-                              {...register(`additional_photos.${index}.description`)}
-                              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:bg-white transition"
-                            />
-                          </div>
-                        </div>
-                      ))}
+                      
+                      <div className="space-y-2">
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Additional Photo 3</label>
+                        <input
+                          type="file"
+                          onChange={e => {
+                            const file = e.target.files?.[0] || undefined;
+                            setValue('additional_photo3', file);
+                          }}
+                          className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
+                        />
+                      </div>
 
-                      <button
-                        type="button"
-                        onClick={() => append({
-                          id: 0,
-                          additional_photo: undefined,
-                          description: ""
-                        })}
-                        className="w-full py-3 rounded-xl border-2 border-dashed border-violet-200 text-sm font-medium text-violet-400 hover:border-violet-400 hover:text-violet-600 hover:bg-violet-50 transition"
-                      >
-                        + Add Photo
-                      </button>
+                      
+                      <div className="space-y-2">
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Additional Photo 4</label>
+                        <input
+                          type="file"
+                          onChange={e => {
+                            const file = e.target.files?.[0] || undefined;
+                            setValue('additional_photo4', file);
+                          }}
+                          className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
+                        />
+                      </div>
+
+                      
+                      <div className="space-y-2">
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Item Photo</label>
+                        <input
+                          type="file"
+                          onChange={e => {
+                            const file = e.target.files?.[0] || undefined;
+                            setValue('product_photo', file);
+                          }}
+                          className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
+                        />
+                      </div>
+
                     </div>
                   </section>
 

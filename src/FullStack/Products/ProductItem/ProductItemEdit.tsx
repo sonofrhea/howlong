@@ -46,8 +46,7 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
             ...productItem,
             date_created: productItem.date_created
                 ? new Date(productItem.date_created).toISOString().split("T")[0]
-                : "",
-            additional_photos: productItem.additional_photos ?? []
+                : ""
             };
 
         reset(updated);
@@ -55,11 +54,6 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
 
 
     
-
-    const { fields, append, remove } = useFieldArray({
-        name: "additional_photos",
-        control
-    });
 
 
     
@@ -273,71 +267,106 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
 
                     <div className="rounded-2xl border border-violet-100 bg-violet-50/40 p-6 space-y-6">
 
-                    {fields.map((field, index) => {
-                        
-                        const existing = typeof field.additional_photo === "string" && (
-                        <div className="rounded-xl border border-gray-200 bg-white p-2 shadow-sm inline-block">
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Additional Photo 1</label>
+                        <div className="flex items-start gap-5 flex-wrap">
+                        {typeof productItem.additional_photo1 === "string" && (
+                            <div className="rounded-xl border border-gray-200 bg-white p-2 shadow-sm">
                             <img
-                            src={field.additional_photo}
-                            className="w-24 h-24 object-contain rounded-lg"
-                            alt="Existing"
+                                src={productItem.additional_photo1}
+                                className="w-28 h-28 object-contain rounded-lg"
+                                alt="Existing"
                             />
-                        </div>
-                        );
-
-                        return (
-                        <div key={field.id} className="bg-white rounded-xl border border-violet-100 p-5 space-y-4 shadow-sm">
-                            <div className="flex items-center justify-between">
-                            <span className="text-xs font-semibold text-violet-400 tracking-widest uppercase">
-                                Photo {index + 1}
-                            </span>
-                            <button
-                                type="button"
-                                onClick={() => remove(index)}
-                                className="text-xs text-red-400 hover:text-red-600 font-medium transition px-2 py-1 rounded-lg hover:bg-red-50"
-                            >
-                                ✕ Remove
-                            </button>
                             </div>
-
-                            <div className="flex items-start gap-5 flex-wrap">
-                            {existing}
-                            <div className="flex-1 space-y-1">
-                                <p className="text-xs text-gray-600 flex-4">Replace photo</p>
-                                <input
-                                type="file"
-                                placeholder="upload product photo"
-                                onChange={e => {
-                                    const file = e.target.files?.[0] || undefined;
-                                    setValue(`additional_photos.${index}.additional_photo`, file);
-                                }}
-                                className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-violet-100 file:text-violet-700 hover:file:bg-violet-200 cursor-pointer rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 transition"
-                                />
-                            </div>
-                            </div>
-
-                            <div className="space-y-1">
-                            <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Photo Description</label>
+                        )}
+                        <div className="flex-1 space-y-1">
+                            <p className="text-xs text-gray-600">Replace existing photo</p>
                             <input
-                                {...register(`additional_photos.${index}.description`)}
-                                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:bg-white transition"
+                            type="file"
+                            placeholder="upload product photo"
+                            onChange={e => {
+                                const file = e.target.files?.[0] || undefined;
+                                setValue('additional_photo1', file);
+                            }}
+                            className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
+                            />
+                        </div>
+                        </div>
+
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Additional Photo 2</label>
+                        <div className="flex items-start gap-5 flex-wrap">
+                        {typeof productItem.additional_photo2 === "string" && (
+                            <div className="rounded-xl border border-gray-200 bg-white p-2 shadow-sm">
+                            <img
+                                src={productItem.additional_photo2}
+                                className="w-28 h-28 object-contain rounded-lg"
+                                alt="Existing"
                             />
                             </div>
+                        )}
+                        <div className="flex-1 space-y-1">
+                            <p className="text-xs text-gray-600">Replace existing photo</p>
+                            <input
+                            type="file"
+                            placeholder="upload product photo"
+                            onChange={e => {
+                                const file = e.target.files?.[0] || undefined;
+                                setValue('additional_photo2', file);
+                            }}
+                            className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
+                            />
                         </div>
-                        );
-                    })}
+                        </div>
 
-                    <button
-                        type="button"
-                        onClick={() => append({
-                            id: 0,
-                            additional_photo: undefined,
-                            description: ""
-                        })}
-                        className="w-full py-3 rounded-xl border-2 border-dashed border-violet-200 text-sm font-medium text-violet-400 hover:border-violet-400 hover:text-violet-600 hover:bg-violet-50 transition"
-                    >
-                        + Add Photo
-                    </button>
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Additional Photo 3</label>
+                        <div className="flex items-start gap-5 flex-wrap">
+                        {typeof productItem.additional_photo3 === "string" && (
+                            <div className="rounded-xl border border-gray-200 bg-white p-2 shadow-sm">
+                            <img
+                                src={productItem.additional_photo3}
+                                className="w-28 h-28 object-contain rounded-lg"
+                                alt="Existing"
+                            />
+                            </div>
+                        )}
+                        <div className="flex-1 space-y-1">
+                            <p className="text-xs text-gray-600">Replace existing photo</p>
+                            <input
+                            type="file"
+                            placeholder="upload product photo"
+                            onChange={e => {
+                                const file = e.target.files?.[0] || undefined;
+                                setValue('additional_photo3', file);
+                            }}
+                            className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
+                            />
+                        </div>
+                        </div>
+
+                        <label className="text-xs font-medium text-gray-600 tracking-wide uppercase">Additional Photo 4</label>
+                        <div className="flex items-start gap-5 flex-wrap">
+                        {typeof productItem.additional_photo4 === "string" && (
+                            <div className="rounded-xl border border-gray-200 bg-white p-2 shadow-sm">
+                            <img
+                                src={productItem.additional_photo4}
+                                className="w-28 h-28 object-contain rounded-lg"
+                                alt="Existing"
+                            />
+                            </div>
+                        )}
+                        <div className="flex-1 space-y-1">
+                            <p className="text-xs text-gray-600">Replace existing photo</p>
+                            <input
+                            type="file"
+                            placeholder="upload product photo"
+                            onChange={e => {
+                                const file = e.target.files?.[0] || undefined;
+                                setValue('additional_photo4', file);
+                            }}
+                            className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 transition"
+                            />
+                        </div>
+                        </div>
+
                     </div>
                 </section>
 

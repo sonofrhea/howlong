@@ -163,39 +163,56 @@ const ProductItemDetails: React.FC<ProductDetailsProps> = ({
                 </div>
 
                 {/* ── ROW 3: Additional Photos ── */}
-                {productItem.additional_photos && productItem.additional_photos.length > 0 && (
                 <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
                     <div className="px-7 py-4 border-b border-gray-100 flex items-center gap-3">
                     <div className="w-1 h-5 rounded-full bg-violet-500" />
                     <h2 className="text-sm font-bold text-gray-700 tracking-wide">Additional Photos</h2>
                     <span className="ml-auto text-xs font-bold text-gray-400 bg-gray-100 rounded-full px-2.5 py-0.5">
-                        {productItem.additional_photos.length}
                     </span>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 divide-x divide-y divide-gray-100">
-                    {productItem.additional_photos.map((line: any, index: any) => (
-                        <div key={`photo-${index}`} className="p-5  transition-colors flex flex-col gap-3">
-                        <div className="w-full aspect-square rounded-xl bg-gray-50 border border-gray-100 hover:border-blue-400 hover:border-3 cursor-pointer overflow-hidden flex items-center justify-center">
+                    <div className="divide-x divide-y divide-gray-100">
+                        <div className="p-5 transition-colors grid grid-cols-2 flex-col gap-3">
+                        <div className="w-full aspect-square rounded-xl bg-gray-50 border border-gray-100 hover:border-blue-400 hover:border-3      cursor-pointer overflow-hidden flex items-center justify-center">
                             <img
-                            src={line.additional_photo}
+                            src={productItem.additional_photo1}
                             alt="additional_photo"
                             className="w-full h-full object-contain p-3"
-                            />
+                        />
                         </div>
+
+
+                        <div className="w-full aspect-square rounded-xl bg-gray-50 border border-gray-100 hover:border-blue-400 hover:border-3      cursor-pointer overflow-hidden flex items-center justify-center">
+                            <img
+                            src={productItem.additional_photo2}
+                            alt="additional_photo"
+                            className="w-full h-full object-contain p-3"
+                        />
+                        </div>
+
+
+                        <div className="w-full aspect-square rounded-xl bg-gray-50 border border-gray-100 hover:border-blue-400 hover:border-3      cursor-pointer overflow-hidden flex items-center justify-center">
+                            <img
+                            src={productItem.additional_photo3}
+                            alt="additional_photo"
+                            className="w-full h-full object-contain p-3"
+                        />
+                        </div>
+
+
+                        <div className="w-full aspect-square rounded-xl bg-gray-50 border border-gray-100 hover:border-blue-400 hover:border-3      cursor-pointer overflow-hidden flex items-center justify-center">
+                            <img
+                            src={productItem.additional_photo4}
+                            alt="additional_photo"
+                            className="w-full h-full object-contain p-3"
+                        />
+                        </div>
+
                         <div className="flex items-start gap-2.5">
-                            <span className="shrink-0 w-5 h-5 rounded-full bg-violet-100 text-violet-600 text-[10px] font-black flex items-center justify-center mt-0.5">
-                            {index + 1}
-                            </span>
-                            <a key={`description-${index}`} className="text-xs text-gray-500 leading-relaxed">
-                            {line.description || <span className="italic text-gray-300">No description</span>}
-                            </a>
                         </div>
                         </div>
-                    ))}
                     </div>
                 </div>
-                )}
 
             </div>
         </div>

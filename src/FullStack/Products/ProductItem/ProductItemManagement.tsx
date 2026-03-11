@@ -195,20 +195,10 @@ function ProductItemManagement() {
 
 
   const handleAddProductItem = async (productItemData: ProductItemInputs) => {
-
-    const cleanedData = {
-      ...productItemData,
-      additional_photos:
-        productItemData.additional_photos &&
-        productItemData.additional_photos?.length > 0
-          ? productItemData.additional_photos
-          : undefined
-    };
     
 
     //console.log("🎯 RAW FORM DATA:", cleanedData);
-    
-    await createProductItemMutation.mutateAsync(cleanedData);
+    await createProductItemMutation.mutateAsync(productItemData);
   };
 
 
@@ -248,11 +238,13 @@ function ProductItemManagement() {
   const handleUpdateProductItem = async (productItemData: ProductItemInputs) => {
     const formData = new FormData();
 
-    // Basic fields
     Object.entries(productItemData).forEach(([key, value]) => {
       if (
         key === 'product_photo' ||
-        key === 'additional_photos' ||
+        key === 'additional_photo1' ||
+        key === 'additional_photo2' ||
+        key === 'additional_photo3' ||
+        key === 'additional_photo4' ||
         value === undefined ||
         value === null
       ) return;
@@ -260,39 +252,22 @@ function ProductItemManagement() {
       formData.append(key, String(value));
     });
 
-    // Main photo
     if (productItemData.product_photo instanceof File) {
       formData.append('product_photo', productItemData.product_photo);
     }
-
-    // Send ALL photo metadata (IDs and descriptions)
-    formData.append('additional_photos', JSON.stringify(
-      productItemData.additional_photos?.map(p => ({
-        id: p.id,
-        description: p.description
-      }))
-    ));
-
-    // Handle files: REPLACEMENTS vs NEW
-    productItemData.additional_photos?.forEach((photo) => {
-      if (photo.additional_photo instanceof File) {
-        if (photo.id) {
-          // EXISTING photo with new file = REPLACEMENT
-          formData.append(`photo_file_${photo.id}`, photo.additional_photo);
-          formData.append('replacement_photo_ids', String(photo.id));
-          // DO NOT append to 'additional_photo'!
-        } else {
-          // NEW photo (no id) = CREATE
-          formData.append('additional_photo', photo.additional_photo);
-          formData.append('description', photo.description ?? '');
-        }
-      }
-    });
-
-    console.log('WHAT FRONTEND CLAIMS TO SEND:', [...formData.keys()]);
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value instanceof File ? ` (${value.name})` : value);
+    if (productItemData.additional_photo1 instanceof File) {
+      formData.append('additional_photo1', productItemData.additional_photo1);
     }
+    if (productItemData.additional_photo2 instanceof File) {
+      formData.append('additional_photo2', productItemData.additional_photo2);
+    }
+    if (productItemData.additional_photo3 instanceof File) {
+      formData.append('additional_photo3', productItemData.additional_photo3);
+    }
+    if (productItemData.additional_photo4 instanceof File) {
+      formData.append('additional_photo4', productItemData.additional_photo4);
+    }
+
 
     await updateProductItemMutation.mutateAsync({
       item_code: selectedProductItemId!,

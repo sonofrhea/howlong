@@ -176,6 +176,10 @@ export type ProductDetails = {
   product_group_name: string;
   product_serial_number: string;
   product_photo: string | undefined;
+  additional_photo1: string | undefined;
+  additional_photo2: string | undefined;
+  additional_photo3: string | undefined;
+  additional_photo4: string | undefined;
   base_unit_of_measure: string;
 
   reference_cost: string;
@@ -186,11 +190,6 @@ export type ProductDetails = {
   currency: number;
 
   active: boolean;
-
-  additional_photos: Array<{
-    additional_photo: string | undefined;
-    description: string | null;
-  }>;
 
   created_by: number;
   date_created: string;
@@ -207,6 +206,10 @@ export type ProductItemInputs = {
   product_group: string;
   product_serial_number: string;
   product_photo?: File;
+  additional_photo1?: File;
+  additional_photo2?: File;
+  additional_photo3?: File;
+  additional_photo4?: File;
   base_unit_of_measure: string;
   reference_cost: string;
   reference_price: string;
@@ -214,11 +217,6 @@ export type ProductItemInputs = {
   currency: string;
   supplier_name: string;
   active: boolean;
-  additional_photos?: Array<{
-    id: number;
-    additional_photo?: File;
-    description?: string;
-  }>;
   date_created: string;
 };
 

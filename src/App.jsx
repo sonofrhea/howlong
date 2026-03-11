@@ -19,9 +19,10 @@ const MarketplaceLogin = lazy(() => import('./Authentication/MarketplaceLoginFor
 
 
 const MarketplaceLanding = lazy(() => import('./Landing/MarketplaceLanding'))
-const Landing = lazy(() => import('./Landing/Landing'))
+const Landing = lazy(() => import('./Landing/MainLanding/Landing'))
 import Layout from './components/Layout';
-const PricingPage = lazy(() => import('./Landing/PricingPage'))
+const PricingPage = lazy(() => import('./Landing/MainLanding/PricingPage'))
+const ProjectFeature = lazy(() => import('./Landing/MainLanding/ProjectFeature'))
 
 
 
@@ -242,10 +243,16 @@ function App() {
 
 
 
-
             <Route path='/pricing' element={
               <Suspense fallback={<div></div>}>
                 <PricingPage />
+              </Suspense>
+            } />
+
+
+            <Route path='/project-feature' element={
+              <Suspense fallback={<div></div>}>
+                <ProjectFeature />
               </Suspense>
             } />
 
