@@ -609,12 +609,12 @@ export default function ConstructionERPLanding() {
                         <div className="nav-item dropdown" onMouseEnter={() => setFeaturesOpen(true)} onMouseLeave={() => setFeaturesOpen(false)}>
                             <a className={`dropdown-toggle ${featuresOpen ? 'open' : ''}`}>Features</a>
                             <div className={`dropdown-menu ${featuresOpen ? 'open' : ''}`}>
-                                <div className="dropdown-menu-item"><a href="#estimation">Customer Management</a></div>
+                                <div className="dropdown-menu-item"><a href="/client-feature">Customer Management</a></div>
                                 <div className="dropdown-menu-item"><a href="/project-feature">Project Management</a></div>
-                                <div className="dropdown-menu-item"><a href="#estimation">Accounting & Finance</a></div>
+                                <div className="dropdown-menu-item"><a href="/accounting-feature">Accounting & Finance</a></div>
                                 <div className="dropdown-menu-item"><a href="#estimation">Sales Management</a></div>
                                 <div className="dropdown-menu-item"><a href="#estimation">Analytics & Reporting</a></div>
-                                <div className="dropdown-menu-item"><a href="#estimation">Suppliers Management</a></div>
+                                <div className="dropdown-menu-item"><a href="/supplier-feature">Suppliers Management</a></div>
                             </div>
                         </div>
                         <a href="#section-tag">Solutions</a>
@@ -779,7 +779,7 @@ export default function ConstructionERPLanding() {
                                         <span key={pi} className="mod-pill" style={{ background: m.light, border: `1px solid ${m.border}`, color: m.color }}>{p}</span>
                                     ))}
                                 </div>
-                                <a href="#demo" style={{ display: 'inline-block', marginTop: '28px', padding: '12px 28px', background: m.color, color: 'white', borderRadius: '8px', fontWeight: 700, fontSize: '14px', textDecoration: 'none', fontFamily: 'Montserrat,sans-serif', letterSpacing: '.04em', transition: 'all .25s' }}>
+                                <a href="/pricing" style={{ display: 'inline-block', marginTop: '28px', padding: '12px 28px', background: m.color, color: 'white', borderRadius: '8px', fontWeight: 700, fontSize: '14px', textDecoration: 'none', fontFamily: 'Montserrat,sans-serif', letterSpacing: '.04em', transition: 'all .25s' }}>
                                     Explore {m.label} →
                                 </a>
                             </div>

@@ -81,7 +81,7 @@ function ProjectFeature() {
                     body {
                     background: var(--white);
                     color: var(--text);
-                    font-family: 'Montserrat', sans-serif;
+                    font-family: 'Montserrat', system-ui;
                     overflow-x: hidden;
                     }
 
@@ -329,6 +329,9 @@ function ProjectFeature() {
                     .ben-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--dark); margin-bottom: 0.35rem; }
                     .ben-card p { font-family: 'Montserrat', sans-serif; font-size: 0.88rem; line-height: 1.65; font-weight: 400; }
 
+
+                    footer .logo-text-lower { font-family: 'Montserrat', sans-serif; font-size: 20px; color: #ffff; }
+
                     /* FINAL */
                     section.final-section {
                     padding: 8rem 0 9rem; text-align: center;
@@ -373,13 +376,21 @@ function ProjectFeature() {
 
 
             <nav className='flex-3'>
+                <div className="logo-photo">
+                    <a href='/'>
+                        <div className="flex items-center space-x-3">
+                            <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            <div><h1 className="logo-text-lower text-xl font-bold text-gray-900">Urusentra</h1></div>
+                        </div>
+                    </a>
+                </div>
+
                 <div className="nav-logo">
-                    <span className="nav-dot">
-                    </span>
-                    Construction Intelligence
                 </div>
                 <span className="nav-tag">
-                    <a href="/home">Home</a>
+                    <a href="/pricing">Try it out</a>
                 </span>
             </nav>
 
@@ -389,7 +400,7 @@ function ProjectFeature() {
 
                 <div>
                 <p className="hero-eyebrow">Financial Intelligence System</p>
-                <h1>Project<br/><em>Management</em></h1>
+                <h1 className='text-left'>Project<br/><em>Management</em></h1>
                 <p className="hero-body">
                     The <strong>Project Manager</strong> is the financial intelligence system of a construction project. It includes the very valuable <strong>Bill of Quantities</strong> and <strong>Job Cost Ledger</strong>. The Job Cost Ledger continuously monitors the <strong>real money being spent</strong> while comparing it to the <strong>original budget</strong> defined in the Bill of Quantities.
                 </p>

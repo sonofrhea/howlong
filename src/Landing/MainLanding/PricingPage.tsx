@@ -3,6 +3,8 @@ import { Mail, X } from "lucide-react";
 import { BillingCycle } from '../Types';
 import { BILLING_OPTIONS } from '../Options';
 
+
+
 // ─── animated counter ───────────────────────────────────────────────────────
 function useCountUp(target: number, start: boolean): number {
     const [n, setN] = useState(0);
@@ -100,7 +102,17 @@ const BarChart = ({ active }: { active: boolean }) => {
     );
 };
 
-// ─── MAIN ────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
 function PricingPage() {
     const [cycle, setCycle] = useState<BillingCycle>("6 months");
     const [contactOpen, setContactOpen] = useState(false);
@@ -165,8 +177,8 @@ function PricingPage() {
         // hero
         hero:          { position: 'relative', background: 'linear-gradient(160deg, #e8f4f8 0%, #ffffff 60%)', borderBottom: '1px solid #dde1ea', padding: '100px 40px 80px', textAlign: 'center', overflow: 'hidden' },
         heroEyebrow:   { display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 700, letterSpacing: '.22em', textTransform: 'uppercase' as const, color: '#0066cc', marginBottom: 20 },
-        heroTitle:     { fontSize: 'clamp(2.8rem,6vw,5.2rem)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-3px', color: '#1a1a1a', marginBottom: 20 },
-        heroSub:       { fontSize: 18, fontWeight: 400, color: '#555', lineHeight: 1.75, maxWidth: 560, margin: '0 auto 40px', fontFamily: 'Helvetica,sans-serif' },
+        heroTitle:     { fontFamily: 'Montserrat,sans-serif', fontSize: 'clamp(2.8rem,6vw,5.2rem)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-3px', color: '#1a1a1a', marginBottom: 20 },
+        heroSub:       { fontFamily: 'Montserrat,sans-serif', fontSize: 18, fontWeight: 400, color: '#555', lineHeight: 1.75, maxWidth: 560, margin: '0 auto 40px' },
 
         // toggle
         toggleWrap:    { display: 'inline-flex', background: 'white', border: '1.5px solid #dde1ea', borderRadius: 999, padding: 4, gap: 4, boxShadow: '0 2px 8px rgba(0,0,0,.06)' },
@@ -214,11 +226,11 @@ function PricingPage() {
         faqSection:    { padding: '100px 40px', background: '#f7f8fa' },
         faqInner:      { maxWidth: 760, margin: '0 auto' },
         faqItem:       { border: '1.5px solid #e5e7eb', borderRadius: 12, overflow: 'hidden', marginBottom: 6, background: 'white', transition: 'border-color .25s' },
-        faqQ:          { padding: '18px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', fontSize: 15, fontWeight: 700, color: '#1a1a1a', fontFamily: 'Montserrat,sans-serif' },
+        faqQ:          { padding: '18px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', fontSize: 15, fontWeight: 700, color: '#1a1a1a', fontFamily: 'Montserrat, sans-serif' },
         faqA:          { padding: '0 24px 18px', fontSize: 14, lineHeight: 1.75, color: '#555', fontFamily: 'Helvetica,sans-serif' },
 
         // footer note
-        footerNote:    { padding: '40px', textAlign: 'center' as const, fontSize: 12, color: '#bbb', lineHeight: 1.7, fontFamily: 'Helvetica,sans-serif', maxWidth: 760, margin: '0 auto' },
+        footerNote:    { padding: '40px', textAlign: 'center' as const, fontSize: 12, color: '#bbb', lineHeight: 1.7, fontFamily: 'Montserrat,sans-serif', maxWidth: 760, margin: '0 auto' },
     };
 
     const [faqOpen, setFaqOpen] = useState<number | null>(null);
@@ -444,7 +456,7 @@ function PricingPage() {
                             <div style={{ width: 24, height: 2, background: '#0066cc', borderRadius: 2 }} />
                             Why it pays for itself
                         </div>
-                        <h2 style={{ fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', fontWeight: 900, color: '#1a1a1a', lineHeight: 1.1, letterSpacing: '-2px', marginBottom: 40 }}>
+                        <h2 style={{ fontFamily: 'Montserrat,sans-serif', fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', fontWeight: 900, color: '#1a1a1a', lineHeight: 1.1, letterSpacing: '-2px', marginBottom: 40, textAlign: 'left' }}>
                             Real numbers from<br />real building companies.
                         </h2>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24 }}>
@@ -528,7 +540,7 @@ function PricingPage() {
                 <div style={sty.faqInner}>
                     <div style={{ textAlign: 'center' as const, marginBottom: 56 }}>
                         <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.2em', textTransform: 'uppercase' as const, color: '#0066cc', marginBottom: 14 }}>Got questions?</div>
-                        <h2 style={{ fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', fontWeight: 900, color: '#1a1a1a', letterSpacing: '-2px', lineHeight: 1.1 }}>Frequently Asked</h2>
+                        <h2 style={{ fontFamily: 'Montserrat,sans-serif', fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', fontWeight: 900, color: '#1a1a1a', letterSpacing: '-2px', lineHeight: 1.1 }}>Frequently Asked</h2>
                     </div>
                     {faqs.map((faq, i) => (
                         <div key={i} style={{ ...sty.faqItem, borderColor: faqOpen === i ? '#0066cc' : '#e5e7eb' }} className="faq-item-hover">
