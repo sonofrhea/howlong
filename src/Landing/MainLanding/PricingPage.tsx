@@ -320,8 +320,8 @@ function PricingPage() {
                     {/* top accent */}
                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, borderRadius: '20px 20px 0 0', background: '#e5e7eb' }} />
 
-                    <div style={sty.planEyebrow}>Exploration</div>
-                    <div style={sty.planName}>Exploration</div>
+                    <div style={sty.planEyebrow}>Demo</div>
+                    <div style={sty.planName}>Explorer</div>
                     <div style={sty.planDesc}>For exploring core functionality</div>
 
                     <div style={{ marginBottom: 28 }}>
@@ -523,7 +523,7 @@ function PricingPage() {
                     <div style={{ display: 'flex', animation: 'slideDown 0s', whiteSpace: 'nowrap' as const }}>
                         {Array.from({ length: 4 }).map((_, i) => (
                             <React.Fragment key={i}>
-                                {['14-Day Free Trial', 'No Credit Card Required', 'Cancel Anytime', 'Malaysian Tax Compliant', '2,935+ Suppliers', 'Priority Support'].map(t => (
+                                {['14-Day Free Demo', 'No Credit Card Required', 'Cancel Anytime', 'Malaysian Tax Compliant', '2,935+ Suppliers', 'Priority Support'].map(t => (
                                     <span key={t} style={{ padding: '0 48px', fontSize: 11, fontWeight: 800, letterSpacing: '.18em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,.5)', fontFamily: 'Montserrat,sans-serif', display: 'inline-flex', alignItems: 'center', gap: 20 }}>
                                         {t}
                                         <span style={{ color: '#0066cc', fontSize: 7 }}>●</span>

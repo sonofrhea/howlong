@@ -97,9 +97,9 @@ export type CustomerDetails = {
     currency_name: string;
     currency_symbol: string;
     country: string;
-    buy: string;
-    sell: string
-  };
+    buy: number;
+    sell: number;
+  } | undefined;
 
   customer_bank_name: string;
   customer_bank_account_number: string;
@@ -146,19 +146,19 @@ export type CustomerInputs = {
   email: string;
   id_type: typeof ID_TYPE_CHOICES[number] | null;
   id_number: string;
-  preferred_currency?: {
-    currency_code?: string | null;
-    currency_name?: string | null;
-    currency_symbol?: string | null;
-    country?: string | null;
-    buy?: number | null;
-    sell?: number | null;
-  } | null;
+  preferred_currency: {
+    currency_code?: string | undefined;
+    currency_name: string;
+    currency_symbol: string;
+    country: string;
+    buy: number;
+    sell: number;
+  } | undefined;
   gst_number: string | null;
   tax_id_type: typeof TAX_ID_CHOICES[number] | null;
   tax_number: string | null;
   tourism_number: string | null;
-  expiration_date: string | null;
+  expiration_date: string;
   service_tax_number: string | null;
   taxpayers_qr_code?: File | null;
   customer_bank_name: string | null;

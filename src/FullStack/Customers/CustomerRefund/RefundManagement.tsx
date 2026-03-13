@@ -26,6 +26,7 @@ import { EditCustomerRefundInputs, CustomerRefundInputs,
     AllCustomerRefundInputs
  } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
+import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
 
 
 
@@ -316,12 +317,21 @@ function RefundManagement() {
             // JOURNAL ENTRY
 
 
+    const formatJournalNumber = () => {
+      const currentYear = new Date().getFullYear();
+      return `JV-${currentYear}-`
+    };
+
+
     const createJournalEntryMutation = useMutation({
         mutationFn: createJournalEntry,
-        onSuccess: (data) => {
+          onMutate: () => {
+              toast.loading('Creating Journal Entry...', { id: "Create Journal Entry" });
+          },
+        onSuccess: (data: JournalHeaderInputs) => {
             queryClient.invalidateQueries({ queryKey: ['journalEntries']});
 
-            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            toast.success(`Journal Entry ${formatJournalNumber()}${data.journal_number} created successfully!`, { id: "Create Journal Entry" });
             setIsJournalEntryOpen(false);
         },
         onError: (error: any) => {
@@ -329,6 +339,13 @@ function RefundManagement() {
           console.error('Error creating journal entry:', error.response?.data || error.message || error);
         }
     });
+
+
+    const handleAddJournalEntry = async (journalEntryData: JournalHeaderInputs) => {
+        //console.log("RAW FORM DATA:", journalEntryData)
+
+        await createJournalEntryMutation.mutateAsync(journalEntryData);
+    };
 
   // ------------------------------------------------------------------------------------
 
@@ -590,7 +607,7 @@ function RefundManagement() {
                     onBack={handleBackToRefundsList}
                     onEdit={handleEditRefundButton}
                     accounts={accounts}
-                    onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                    onCreateJournalEntry={handleAddJournalEntry}
                     isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
                 )}
@@ -607,7 +624,7 @@ function RefundManagement() {
                     accounts={accounts}
                     agents={agents}
                     creditNotes={creditNotes}
-                    onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+                    onCreateJournalEntry={handleAddJournalEntry}
                     isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />
                 )}

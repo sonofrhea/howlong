@@ -38,7 +38,7 @@ export const forms = {
     small: "w-[80%] cursor-pointer border drop-shadow-md shadow-inner rounded border-violet-300 px-3 py-2 focus:ring-2 focus:ring-green-300",
     
   },
-  label: "px-2 py-1 text-center tracking-[0.1em] text-black text-xs font-semibold uppercase",
+  label: "px-2 py-1 text-black text-center tracking-[0.1em] text-xs font-semibold uppercase",
   nextLevelLabel: "px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-4",
   secondLevelLabel: "px-2 py-1 text-center tracking-[0.1em] text-xs font-semibold uppercase mt-5",
   description: "w-[50%] border border-gray-300 drop-shadow-md shadow-inner text-black rounded p-1 focus:outline-none focus:ring-1 focus:ring-green-500",

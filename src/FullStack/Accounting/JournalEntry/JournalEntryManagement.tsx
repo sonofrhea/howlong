@@ -87,7 +87,7 @@ function JournalEntryManagement() {
         onMutate: () => {
             toast.loading('Creating Journal Entry...', { id: "Create Journal Entry" });
         },
-        onSuccess: (data) => {
+        onSuccess: (data: JournalHeaderInputs) => {
             queryClient.invalidateQueries({ queryKey: ['journalEntries'] });
             setSelectedJournalEntryId(data.journal_number);
             toast.success('Journal Entry Created', { id: "Create Journal Entry" });

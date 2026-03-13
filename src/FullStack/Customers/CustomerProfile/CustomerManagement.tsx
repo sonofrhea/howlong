@@ -106,9 +106,8 @@ function CustomerManagement() {
           toast.loading('Creating Customer...', { id: "Create Customer" });
       },
       onSuccess: (data: CustomerCreateResponse) => {
-          const newCustomerId = data.customer_number;
           queryClient.invalidateQueries({ queryKey: ['customers'] });
-          setSelectedCustomerId(newCustomerId);
+          setSelectedCustomerId(data.customer_number);
           toast.success('Customer Created', { id: "Create Customer" });
           setView('details');
       },
@@ -194,16 +193,14 @@ function CustomerManagement() {
 
   const handleAddCustomer = async (customerData: CustomerInputs) => {
 
-    const cleanedData = {
-      ...customerData,
-      preferred_currency:
-        customerData.preferred_currency ?? undefined
-    };
+    if (!customerData.preferred_currency?.currency_code) {
+      delete customerData.preferred_currency;
+    }
 
 
 
     //console.log("🎯 RAW FORM DATA:", cleanedData);
-    await createCustomersMutation.mutateAsync(cleanedData);
+    await createCustomersMutation.mutateAsync(customerData);
   };
 
 
@@ -215,17 +212,15 @@ function CustomerManagement() {
 
   const handleUpdateCustomer = async (customerData: CustomerInputs) => {
 
-    const cleanedData = {
-      ...customerData,
-      preferred_currency:
-        customerData.preferred_currency ?? undefined
-    };
+    if (!customerData.preferred_currency?.currency_code) {
+      delete customerData.preferred_currency;
+    }
 
   //console.log("✅ Sending payload:", cleanedData);
 
   await updateCustomersMutation.mutateAsync({
     customer_number: selectedCustomerId!,
-    customerData: cleanedData
+    customerData: customerData
   });
     //console.log("🎯 SECOND RAW FORM DATA:", updateCustomersMutation);
   };

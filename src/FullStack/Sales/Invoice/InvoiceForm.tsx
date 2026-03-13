@@ -91,7 +91,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                                         
                     <div className={layout.formSectionCol3}>
                         <div>
-                            <p className={forms.label}>Due Date</p>
+                            <a className={forms.label}>Due Date</a><br />
                             <input 
                                 type="date"
                                 {...register("invoice_due_date", {required: "Due date is required"})}

@@ -779,7 +779,7 @@ function ClientFeature() {
                     </div>
                     <div className="lc-num">01</div>
                     <h3>Profile Creation</h3>
-                    <p style={{ fontFamily: 'Montserrat, system' }}>
+                    <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                         Client registered with full identity, contact, banking, and tax information. 
                         Assigned a unique 
                         <code style={{ 

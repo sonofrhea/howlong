@@ -1,50 +1,61 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
 import { JournalEntryModalProps } from "./Types";
-
-
+import { X } from "lucide-react";
 
 const ForJournalEntry: React.FC<JournalEntryModalProps> = ({
     isOpen,
     onClose,
     title,
     children,
-    width = "max-w-4xl",
+    width = "max-w-6xl",
 }) => {
-    if (!isOpen) return null;
-
 
     return ReactDOM.createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div
+            className={`fixed inset-0 z-50 overflow-hidden transition-opacity duration-300 ${
+                isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            }`}
+        >
 
             {/* Backdrop */}
             <div
-                className="absolute inset-0 bg-black/29"
+                className="absolute inset-0 bg-black/30"
                 onClick={onClose}
             />
 
-            {/* Modal box */}
-            <div className={`relative bg-white rounded-2xl shadow-xl w-full ${width} mx-4`}>
+            {/* Slide container */}
+            <div className="absolute inset-y-0 right-0 flex max-w-6xl">
 
-                {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b">
-                    <h2 className="text-lg font-medium text-gray-800">
-                        {title}
-                    </h2>
-                    <button
-                        onClick={onClose}
-                        className="text-gray-400 hover:text-black text-xl"
-                    >
-                        x
-                    </button>
-                </div>
+                {/* Panel */}
+                <div
+                    className={`w-screen ${width} bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${
+                        isOpen ? "translate-x-0" : "translate-x-full"
+                    }`}
+                >
 
-                {/* Content */}
-                <div className="p-6 max-h-[80vh] overflow-y-auto">
-                    {children}
+                    {/* Header */}
+                    <div className="flex items-center justify-between px-6 py-4 border-b">
+                        <h2 className="text-lg font-medium text-gray-800">
+                            {title}
+                        </h2>
+
+                        <button
+                            onClick={onClose}
+                            className="text-gray-400 hover:text-black text-xl"
+                        >
+                            <X style={{ width: 16, height: 16 }} />
+                        </button>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-12 h-[90%] overflow-y-auto">
+                        {children}
+                    </div>
+
                 </div>
             </div>
+
         </div>,
         document.body
     );

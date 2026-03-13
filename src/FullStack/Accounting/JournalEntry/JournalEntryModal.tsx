@@ -19,7 +19,7 @@ const JournalEntryModal: React.FC<JournalEntryModalTypes> = ({
             isOpen={isOpen}
             onClose={onClose}
             title="Create Journal Entry"
-            width="max-w-7xl"
+            width="max-w-6xl"
         >
             <JournalEntryForm 
                 onSubmit={(data) => {

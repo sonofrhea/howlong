@@ -8,7 +8,7 @@ import { fetchQuotations, fetchQuotationById, createQuotation,
  } from "../Engines";
 
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
-import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
+import { fetchCurrencies, fetchAgents, fetchBanks } from "../../Core/Engines"
 import { fetchCustomers } from "../../Customers/Engines";
 
 
@@ -23,10 +23,13 @@ import { QuotationInputs, QuotationCreateResponse,
     EditQuotationInputs, 
     QuotationList} from "../Constants/Types";
 
+import { createCustomer } from "../../Customers/Engines";
+
 
 import { fetchProductItems } from "../../Products/Engines";
 import { spinningStyles } from "../Constants/Styles";
 import { toast } from "react-hot-toast";
+import { CustomerCreateResponse, CustomerInputs } from "../../Customers/constants/Types";
 
 
 interface SortConfig {
@@ -71,6 +74,8 @@ function QuotationManagement() {
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
+
+    const [isCustomerOpen, setIsCustomerOpen] = useState(false);
     // ------------------------------------------------------------------------------------
                 // DEPENDENCIES
     const { data: customers = [] } = useQuery({
@@ -92,6 +97,11 @@ function QuotationManagement() {
     const { data: productItems = [] } = useQuery({
         queryKey: ['productItems'],
         queryFn: fetchProductItems
+    });
+    
+    const { data: banks = [] } = useQuery({
+        queryKey: ['banks'],
+        queryFn: fetchBanks
     });
 
     // ------------------------------------------------------------------------------------
@@ -334,6 +344,48 @@ function QuotationManagement() {
         return customerName.includes(search) || agentName.includes(search) || quotationNumber.includes(search);
     });
 
+
+  // ------------------------------------------------------------------------------------
+
+            // CUSTOMER
+    const formatNumber = () => {
+        const currentYear = new Date().getFullYear();
+        return `CV-${currentYear}-`;
+    };
+
+
+    const createCustomerProfileMutation = useMutation({
+        mutationFn: createCustomer,
+        onMutate: () => {
+            toast.loading('Creating Customer...', { id: "Create Customer" });
+        },
+        onSuccess: (data: CustomerCreateResponse) => {
+            queryClient.invalidateQueries({ queryKey: ['customers'] });
+
+            toast.success(`Customer ${formatNumber()}${data?.customer_number} created successfully!`, { id: "Create Customer" });
+            setIsCustomerOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Customer profile.', { id: "Create Customer" });
+          console.error('Error creating Customer profile:', error.response?.data || error.message || error);
+        }
+    });
+
+
+    const handleAddCustomer = async (customerData: CustomerInputs) => {
+
+        if (!customerData.preferred_currency?.currency_code) {
+            delete customerData.preferred_currency;
+        }
+
+
+
+    //console.log("🎯 RAW FORM DATA:", cleanedData);
+    await createCustomerProfileMutation.mutateAsync(customerData);
+    };
+    
+
+
     // ------------------------------------------------------------------------------------
                                 // SORTING
 
@@ -575,7 +627,10 @@ function QuotationManagement() {
                     customers={customers}
                     currencies={currencies}
                     agents={agents}
+                    banks={banks}
                     productItems={productItems}
+                    onCreateCustomer={handleAddCustomer}
+                    isCreatingCustomer={createCustomerProfileMutation.isPending}
                     />
                     {createQuotationMutation.isError && (
                     <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">

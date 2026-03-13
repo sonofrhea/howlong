@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { SALES_ICONS } from "./ModuleIcons";
 
 import { PAYMENT_TYPE_OPTIONS } from "./Options";
-import { CustomerCreateResponse } from "../../Customers/constants/Types";
-import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
+import { CustomerCreateResponse, CustomerInputs } from "../../Customers/constants/Types";
+import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
@@ -165,6 +165,9 @@ export type QuotationFormProps = {
   currencies: CurrencyInterface[];
   agents: AgentInterface[];
   productItems: ProductItemCreateResponse[];
+  banks: BankInterface[];
+  onCreateCustomer: (data: CustomerInputs) => void;
+  isCreatingCustomer: boolean;
 };
 
 export type PrintQuotationProps = {

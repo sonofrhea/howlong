@@ -940,9 +940,9 @@ export default function ConstructionERPLanding() {
                 </div>
                 <div className="pricing-grid">
                     {[
-                        { tag: 'Starter', name: 'Starter', price: 'Free', period: '14-day trial · No card required', color: '', features: ['Project management', 'Client Management', 'Basic Financial Reports', '1 Company', 'Email Support'], btn: 'outline', btnText: 'Start Free Trial' },
-                        { tag: 'Most Popular', name: 'Professional', price: 'RM 149', period: 'per month · billed monthly', color: '', featured: true, features: ['Everything in Starter', 'Full Accounting Suite', 'Project & BOQ Tracking', 'Supplier Marketplace Access', '3 Companies', 'Priority Support'], btn: 'filled', btnText: 'Get Started' },
-                        { tag: 'Enterprise', name: 'Enterprise', price: 'Custom', period: 'tailored to your team', color: '', features: ['Everything in Professional', 'Unlimited Companies', 'Custom Integrations', 'Dedicated Account Manager', 'On-site Training', 'SLA Guarantee'], btn: 'outline', btnText: 'Contact Sales' },
+                        { tag: 'Starter', name: 'Explorer', price: 'Free', period: '14-day trial · No card required', color: '', features: ['Project management', 'Client Management', 'Basic Financial Reports', '1 Company', 'Email Support'], btn: 'outline', btnText: 'Start Free Trial' },
+                        { tag: 'Most Popular', name: 'Starter', price: 'xxx', period: 'per month', color: '', featured: true, features: ['Everything in Starter', 'Full Accounting Suite', 'Project & BOQ Tracking', 'Supplier Marketplace Access', '3 Companies', 'Priority Support'], btn: 'filled', btnText: 'Get Started' },
+                        { tag: 'Enterprise', name: 'Enterprise', price: 'xxx', period: 'tailored to your team', color: '', features: ['Everything in Professional', 'Unlimited Companies', 'Custom Integrations', 'Dedicated Account Manager', 'On-site Training', 'SLA Guarantee'], btn: 'outline', btnText: 'Contact Sales' },
                     ].map((plan, i) => (
                         <div key={i} className={`price-card${plan.featured ? ' featured' : ''}`}>
                             {plan.featured && <span className="popular-badge">MOST POPULAR</span>}

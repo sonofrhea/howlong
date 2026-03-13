@@ -98,7 +98,7 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
 
                 <div className={layout.formSectionCol2}>
                     <div>
-                        <label className="text-sm font-medium">Date:</label>
+                        <a className={forms.label}>Date</a><br />
                         <input 
                             type="date"
                             {...register("date", {required: "Due date required"})}
@@ -106,23 +106,21 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                         />
                         {errors.date && <p className="text-amber-600 text-sm">{errors.date?.message}</p>}
                     </div>
-
-                    <div>
-                        <label className="inline-flex items-center">
-                            <input 
-                                type="checkbox"
-                                className="mr-2"
-                                {...register("cancelled")}
-                            />
-                            <span className="text-sm font-medium">
-                                Cancelled
-                            </span>
-                        </label>
+                    
+                    <div className="ml-6">
+                        <a className={forms.label}>Cancelled</a><br />
+                        <input 
+                            type="checkbox"
+                            className="mr-2"
+                            {...register("cancelled")}
+                        />
                     </div>
                 </div>
 
+                <hr className="my-6 border-gray-200" />
+
                 <div className="m-10">
-                    <p className={forms.label}>Description: </p>
+                    <a className={forms.label}>Description: </a><br />
                     <textarea 
                         {...register("description")}
                         className={forms.description}

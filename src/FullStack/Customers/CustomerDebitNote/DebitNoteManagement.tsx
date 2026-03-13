@@ -25,6 +25,7 @@ import { DebitNoteInputs, DebitNoteCreateResponse,
 import { spinningStyles } from "../constants/Styles";
 import toast from "react-hot-toast";
 import { createJournalEntry } from "../../Accounting/Engines";
+import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
 
 
 
@@ -314,12 +315,21 @@ function DebitNoteManagement() {
             // JOURNAL ENTRY
 
 
+    const formatJournalNumber = () => {
+      const currentYear = new Date().getFullYear();
+      return `JV-${currentYear}-`
+    };
+
+
     const createJournalEntryMutation = useMutation({
         mutationFn: createJournalEntry,
-        onSuccess: (data) => {
+          onMutate: () => {
+              toast.loading('Creating Journal Entry...', { id: "Create Journal Entry" });
+          },
+        onSuccess: (data: JournalHeaderInputs) => {
             queryClient.invalidateQueries({ queryKey: ['journalEntries']});
 
-            toast.success(`Journal Entry #${data.journal_number} created successfully!`);
+            toast.success(`Journal Entry ${formatJournalNumber()}${data.journal_number} created successfully!`, { id: "Create Journal Entry" });
             setIsJournalEntryOpen(false);
         },
         onError: (error: any) => {
@@ -327,6 +337,13 @@ function DebitNoteManagement() {
           console.error('Error creating journal entry:', error.response?.data || error.message || error);
         }
     });
+
+
+    const handleAddJournalEntry = async (journalEntryData: JournalHeaderInputs) => {
+        //console.log("RAW FORM DATA:", journalEntryData)
+
+        await createJournalEntryMutation.mutateAsync(journalEntryData);
+    };
 
   // ------------------------------------------------------------------------------------
 
@@ -589,7 +606,7 @@ const handleItemsPerPageChange = (value: any) => {
               onEdit={handleEditDebitNoteButton}
               onCancel={handleBackToDebitNotesList}
               accounts={accounts}
-              onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+              onCreateJournalEntry={handleAddJournalEntry}
               isCreatingJournalEntry={createJournalEntryMutation.isPending}
             />
           )}
@@ -606,7 +623,7 @@ const handleItemsPerPageChange = (value: any) => {
               accounts={accounts}
               agents={agents}
               customerPayments={customerPayments}
-              onCreateJournalEntry={(data) => createJournalEntryMutation.mutate(data)}
+              onCreateJournalEntry={handleAddJournalEntry}
               isCreatingJournalEntry={createJournalEntryMutation.isPending}
             />
           )}

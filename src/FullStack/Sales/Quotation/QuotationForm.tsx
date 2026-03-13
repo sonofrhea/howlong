@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 import { QuotationFormProps, QuotationInputs } from "../Constants/Types";
@@ -7,8 +7,10 @@ import { AgentInterface,CurrencyInterface } from "../../Core/constants/Types"
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types"
 import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
-import { Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 
+import CustomerProfileModal from "../../Customers/CustomerProfile/CustomerProfileModal";
+import { fetchBanks } from "../../Core/Engines";
 
 
  const formatCustomerNumber = () => {
@@ -35,8 +37,11 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
     customers,
     currencies,
     agents,
-    productItems
+    productItems,
+    banks,
+    onCreateCustomer, isCreatingCustomer
 }) => {
+    const [isCustomerOpen, setIsCustomerOpen] = useState(false);
 
         const productOptions = useMemo(() => 
             productItems.map((product: ProductItemCreateResponse) => (
@@ -129,54 +134,78 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
 
                     <hr className="my-6 border-gray-200" />
 
-                    <div className={layout.formSectionCol3}>
-                        <div>
-                        <p className={forms.label}>Bill To</p>
-                        <select
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 m-10 items-end">
+                        {/* Bill To Column */}
+                        <div className="flex flex-col w-full">
+                        <label className="block text-xs font-bold text-gray-500 uppercase mb-1 ml-1">
+                            Bill To
+                        </label>
+                        
+                        <div className="flex items-center group">
+                            {/* The Plus Button - Positioned exactly in front */}
+                            <button
+                            type="button"
+                            onClick={() => setIsCustomerOpen(true)}
+                            className="flex items-center justify-center h-10 px-3 bg-purple-600 hover:bg-purple-700 text-white rounded-l-md border-y border-l border-purple-600 transition-colors shadow-sm"
+                            title="Add New Customer"
+                            >
+                            <Plus size={18} strokeWidth={2.5} />
+                            </button>
+
+                            {/* The Select - Rounded only on the right to merge with the button */}
+                            <select
                             {...register("customer")}
-                            className={forms.select.partial}
-                        >
-                            <option value="">select...</option>
+                            className="flex-1 h-10 block w-full px-3 bg-white border border-gray-300 rounded-r-md border-l-0 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 outline-none text-sm transition-all"
+                            >
+                            <option value="">Select customer...</option>
                             {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
-                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
                                 </option>
                             )), [customers])}
-                        </select>
-                        </div>
-
-                        <div>
-                            <p className={forms.label}>Project Description</p>
-                            <input 
-                                type="text"
-                                {...register("project_description")}
-                                className={forms.description}
-                            />
-                        </div>
-
-                        <div>
-                            <p className={forms.label}>Prepared By</p>
-                            <select
-                                {...register("agent")}
-                                className={forms.select.partial}
-                            >
-                                <option value="">select...</option>
-                                {useMemo(() => agents.map((agent: AgentInterface) => (
-                                    <option key={agent.email} value={agent.email}>
-                                        {agent.name} | {agent.email}
-                                    </option>
-                                )), [agents])}
                             </select>
                         </div>
-                    </div>
-                        <div>
-                            <p className={forms.label}>Customer additional Details...</p>
-                            <textarea 
-                                rows={4}
-                                {...register("customer_details")}
-                                className={forms.description}
-                            />
                         </div>
+
+                        {/* Project Description Column - Kept for alignment check */}
+                        <div className="flex flex-col w-full">
+                        <label className="block text-xs font-bold text-gray-500 uppercase mb-1 ml-1">
+                            Project Description
+                        </label>
+                        <input 
+                            type="text"
+                            {...register("project_description")}
+                            className="h-10 w-full px-3 bg-white border border-gray-300 rounded-md focus:ring-1 focus:ring-purple-500 focus:border-purple-500 outline-none text-sm"
+                        />
+                        </div>
+
+                        {/* Prepared By Column - Kept for alignment check */}
+                        <div className="flex flex-col w-full">
+                        <label className="block text-xs font-bold text-gray-500 uppercase mb-1 ml-1">
+                            Prepared By
+                        </label>
+                        <select
+                            {...register("agent")}
+                            className="h-10 w-full px-3 bg-white border border-gray-300 rounded-md focus:ring-1 focus:ring-purple-500 focus:border-purple-500 outline-none text-sm"
+                        >
+                            <option value="">Select agent...</option>
+                            {useMemo(() => agents.map((agent: AgentInterface) => (
+                            <option key={agent.email} value={agent.email}>
+                                {agent.name}
+                            </option>
+                            )), [agents])}
+                        </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p className={forms.label}>Customer additional Details...</p>
+                        <textarea 
+                            rows={4}
+                            {...register("customer_details")}
+                            className={forms.description}
+                        />
+                    </div>
 
                     {/* LINES */}
                     <div className="p-6">
@@ -450,6 +479,13 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
                         </div>
                     </div>
                 </div>
+                <CustomerProfileModal 
+                    isOpen={isCustomerOpen}
+                    onClose={() => setIsCustomerOpen(false)}
+                    onCreate={onCreateCustomer}
+                    banks={banks}
+                    currencies={currencies}
+                />
             </form>
         );
     };
