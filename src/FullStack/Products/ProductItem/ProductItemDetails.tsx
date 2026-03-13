@@ -176,7 +176,7 @@ const ProductItemDetails: React.FC<ProductDetailsProps> = ({
                         <div className="w-full aspect-square rounded-xl bg-gray-50 border border-gray-100 hover:border-blue-400 hover:border-3      cursor-pointer overflow-hidden flex items-center justify-center">
                             <img
                             src={productItem.additional_photo1}
-                            alt="additional_photo"
+                            alt="additional_photo1"
                             className="w-full h-full object-contain p-3"
                         />
                         </div>
@@ -185,7 +185,7 @@ const ProductItemDetails: React.FC<ProductDetailsProps> = ({
                         <div className="w-full aspect-square rounded-xl bg-gray-50 border border-gray-100 hover:border-blue-400 hover:border-3      cursor-pointer overflow-hidden flex items-center justify-center">
                             <img
                             src={productItem.additional_photo2}
-                            alt="additional_photo"
+                            alt="additional_photo2"
                             className="w-full h-full object-contain p-3"
                         />
                         </div>
@@ -194,7 +194,7 @@ const ProductItemDetails: React.FC<ProductDetailsProps> = ({
                         <div className="w-full aspect-square rounded-xl bg-gray-50 border border-gray-100 hover:border-blue-400 hover:border-3      cursor-pointer overflow-hidden flex items-center justify-center">
                             <img
                             src={productItem.additional_photo3}
-                            alt="additional_photo"
+                            alt="additional_photo3"
                             className="w-full h-full object-contain p-3"
                         />
                         </div>
@@ -203,7 +203,7 @@ const ProductItemDetails: React.FC<ProductDetailsProps> = ({
                         <div className="w-full aspect-square rounded-xl bg-gray-50 border border-gray-100 hover:border-blue-400 hover:border-3      cursor-pointer overflow-hidden flex items-center justify-center">
                             <img
                             src={productItem.additional_photo4}
-                            alt="additional_photo"
+                            alt="additional_photo4"
                             className="w-full h-full object-contain p-3"
                         />
                         </div>

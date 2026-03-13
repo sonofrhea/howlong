@@ -79,6 +79,7 @@ export type QuotationDetails = {
   related_quotation?: Array<{
     item?: string | null;
     item_name?: string | null;
+    item_photo?: string | undefined;
     description?: string | null;
     quantity?: number | null;
     unit_of_measure?: string | null;

@@ -166,6 +166,8 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                             {quotation.agent}
                         </p>
                     </div>
+
+                    
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -192,7 +194,15 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                             <tbody className={tables.body}>
                                 {quotation.related_quotation.map((line, index) => (
                                     <tr key={index}>
-                                        <td className={tables.cell}>{productItem()}{line.item} | {line.item_name}</td>
+                                        <td className={tables.cell}>
+                                            {productItem()}{line.item} | {line.item_name}<br />
+                                            <div className="mt-2 w-24 h-24">
+                                                <img
+                                                src={line.item_photo}
+                                                className="w-full h-full object-contain rounded"
+                                                />
+                                            </div>
+                                        </td>
                                         <td className={tables.cell}>{line.description}</td>
                                         <td className={tables.cell}>{line.quantity}</td>
                                         <td className={tables.cell}>{line.unit_of_measure}</td>
