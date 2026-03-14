@@ -613,7 +613,7 @@ export default function ConstructionERPLanding() {
                                 <div className="dropdown-menu-item"><a href="/project-feature">Project Management</a></div>
                                 <div className="dropdown-menu-item"><a href="/accounting-feature">Accounting & Finance</a></div>
                                 <div className="dropdown-menu-item"><a href="#estimation">Sales Management</a></div>
-                                <div className="dropdown-menu-item"><a href="#estimation">Analytics & Reporting</a></div>
+                                <div className="dropdown-menu-item"><a href="/reports-feature">Analytics & Reporting</a></div>
                                 <div className="dropdown-menu-item"><a href="/supplier-feature">Suppliers Management</a></div>
                             </div>
                         </div>
@@ -1006,7 +1006,7 @@ export default function ConstructionERPLanding() {
                     </div>
                     <div className="footer-column">
                         <h4>Product</h4>
-                        <ul><li><a href="#estimation">Features</a></li><li><a href="/pricing">Pricing</a></li><li><a href="#">Mobile App</a></li></ul>
+                        <ul><li><a href="/pricing">Pricing</a></li><li><a href="#">Mobile App</a></li></ul>
                     </div>
                     <div className="footer-column">
                         <h4>Resources</h4>
@@ -1014,7 +1014,7 @@ export default function ConstructionERPLanding() {
                     </div>
                     <div className="footer-column">
                         <h4>Company</h4>
-                        <ul><li><a href="#">About Us</a></li><li><a href="#">Contact</a></li><li><a href="#">Privacy</a></li></ul>
+                        <ul><li><a href="#">About Us</a></li><li><a href="/contact-us">Contact</a></li><li><a href="#">Privacy</a></li></ul>
                     </div>
                 </div>
                 <div className="footer-bottom">URUSENTRA. Designed for growth.</div>

@@ -26,6 +26,8 @@ const ProjectFeature = lazy(() => import('./Landing/MainLanding/ProjectFeature')
 const ClientFeature = lazy(() => import('./Landing/MainLanding/ClientFeature'))
 const AccountingFeature = lazy(() => import('./Landing/MainLanding/AccountingFeature'))
 const SupplierFeature = lazy(() => import('./Landing/MainLanding/SupplierFeature'))
+const ReportsFeature = lazy(() => import('./Landing/MainLanding/ReportsFeature'))
+const ContactUs = lazy(() => import('./Landing/MainLanding/ContactUs'))
 
 
 
@@ -279,6 +281,23 @@ function App() {
                 <SupplierFeature />
               </Suspense>
             } />
+
+
+            <Route path='/reports-feature' element={
+              <Suspense fallback={<div></div>}>
+                <ReportsFeature />
+              </Suspense>
+            } />
+
+
+            <Route path='/contact-us' element={
+              <Suspense fallback={<div></div>}>
+                <ContactUs />
+              </Suspense>
+            } />
+
+
+
 
 
 
