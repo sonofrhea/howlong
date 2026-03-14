@@ -227,3 +227,38 @@
             display: none;
         }
     }
+
+
+    .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    }
+
+    h1 {
+        line-height: 1.2;
+        margin: 0;
+    }
+
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+    }
+
+
+    
+
+
+
+
+
+

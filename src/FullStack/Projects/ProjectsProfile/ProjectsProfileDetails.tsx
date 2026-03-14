@@ -1,6 +1,6 @@
 import React from "react";
 import '../constants/ProjectDetails.css';
-import { Building, Calendar1, Clock, NotepadText, SquarePen } from "lucide-react";
+import { Building, Calendar1, Clock, MoveRight, NotepadText, SquarePen } from "lucide-react";
 import { buttons } from "../constants/Styles";
 import { ProjectProfileDetailsProps } from "../constants/Types";
 import { details } from "../../Customers/constants/Styles";
@@ -77,46 +77,78 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
 
 
     return (
-        <div className="min-h-screen bg-slate-50 p-4 md:p-8">
-            <div className="mx-auto max-w-7xl bg-white rounded-xl shadow-sm border border-slate-200 min-w-full">
+        <div className="min-h-screen bg-slate-50 p-2 md:p-8">
+            
+            <style>
+                {`
+                    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
+                `}
+            </style>
+
+
+            <div className="mx-auto max-w-7xl bg-white rounded-xl shadow-sm border border-slate-200 min-w-full" style={{ fontFamily: 'Montserrat, system-ui' }}>
                 <div className="bg-gray-50! rounded-lg m-4 shadow-sm border border-slate-200">
-                    <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                        <div className="flex items-center gap-4 flex-1">
-                            <div>
-                                
-                                <div className="flex items-center gap-2 mb-10 my-[8px_0px] hover:cursor-pointer">
-                                    <span className="badge badge-success">
-                                        ● {project.status || 'N/A'}
-                                    </span>
-                                    <span className="badge badge-info">
-                                        {project.project_type || 'N/A'}
-                                    </span>
-                                    <h1>{project.project_name}</h1>
+                    <div className="px-8 py-6 border-b border-slate-200 bg-slate-50/50">
+                        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                            
+                            <div className="flex-1 space-y-4">
+                                {/* Top Row: Badges and Title */}
+                                <div className="space-y-2">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
+                                            {project.status || 'N/A'}
+                                        </span>
+                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 uppercase tracking-wider" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                            {project.project_type || 'N/A'}
+                                        </span>
+                                    </div>
+                                    <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                        {project.project_name}
+                                    </h1>
                                 </div>
-                                <div className="meta hover:cursor-pointer">
-                                    <span className="meta-item">
-                                        <NotepadText />{formatNumber()}{project.project_code}
-                                    </span>
-                                    <span className="meta-item">
-                                        <Building />{project.project_client_name || 'N/A'}
-                                    </span>
-                                    <span className="meta-item">
-                                        <Calendar1 />{project.start_date || 'N/A'} → {project.actual_end_date || 'Ongoing...'}
-                                    </span>
-                                    <span className="meta-item">
-                                        <Clock />Duration: {project.duration || 'N/A'} day(s)
-                                    </span>
+
+                                {/* Bottom Row: Meta Info Grid */}
+                                <div className="flex flex-wrap items-center gap-y-3 gap-x-6 text-sm text-slate-600">
+                                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-slate-200 shadow-sm">
+                                        <NotepadText size={16} className="text-indigo-500" />
+                                        <span className="font-mono font-bold text-slate-800">
+                                            {formatNumber()}{project.project_code}
+                                        </span>
+                                    </div>
+                                    
+                                    <div className="flex items-center gap-2" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                        <Building size={18} className="text-slate-400" />
+                                        <span className="font-medium">{project.project_client_name || 'N/A'}</span>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 border-l border-slate-300 pl-6 lg:flex" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                        start <Calendar1 size={18} className="text-slate-400" />
+                                        <span>{project.start_date}</span>
+                                        <span className="text-slate-300"><MoveRight /></span>
+                                        end <Calendar1 size={18} className="text-slate-400" />
+                                        <span className={project.actual_end_date ? "text-slate-800" : "text-blue-500 font-medium italic"}>
+                                            {project.actual_end_date || 'Ongoing'}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 border-l border-slate-300 pl-6 lg:flex" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                        <Clock size={18} className="text-slate-400" />
+                                        <span><span className="font-bold text-slate-800">{project.duration || '0'}</span> days</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="flex gap-3">
-                            <button 
-                                onClick={() => onEdit(customerId)}
-                                className={buttons.editButtonGreen}
+
+                            {/* Action Button */}
+                            <div className="flex items-center shrink-0">
+                                <button 
+                                    onClick={() => onEdit(customerId)}
+                                    className="flex items-center gap-2 bg-emerald-600 hover:bg-black text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md shadow-emerald-200 active:scale-95 hover:border-black hover:shadow-md hover:shadow-black"
                                 >
-                                    <SquarePen size={20} strokeWidth={1.5} />
-                                    Edit
-                            </button>
+                                    <SquarePen size={18} />
+                                    Edit Project
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -321,11 +353,13 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                                                     </span>
                                                 </div>
 
-                                                <h3 className="text-gray-900 font-bold text-xl mb-6 leading-tight">{line.phase_description}</h3>
+                                                <h3 className="text-gray-900 font-bold text-xl mb-6 leading-tight" style={{ fontFamily: 'Montserrat, system-ui' }}>{line.phase_description}</h3>
 
-                                                <div className="flex items-center gap-14 border-t border-gray-100 pt-5">
+                                                <div className="flex items-center gap-7 border-t border-gray-100 pt-5">
                                                     <div className="flex flex-col">
-                                                        <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Start Date</span>
+                                                        <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">
+                                                            Start Date
+                                                        </span>
                                                         <span className="font-mono text-sm text-gray-700 font-semibold">{line.start_date}</span>
                                                     </div>
                                                     <div className="w-px h-8 bg-gray-200 mx-4"></div>

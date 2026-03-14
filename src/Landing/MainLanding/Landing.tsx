@@ -199,15 +199,15 @@ export default function ConstructionERPLanding() {
                     display: inline-flex; align-items: center; justify-content: center;
                     background-color: #ea580c; color: #ffffff; font-weight: 600; font-size: 16px;
                     padding: 14px 36px; border: none; border-radius: 8px; cursor: pointer;
-                    transition: all 0.2s ease-in-out; line-height: 1.4; text-align: center; letter-spacing: 1px;
+                    transition: all 0.1s ease-in-out; line-height: 1.4; text-align: center; letter-spacing: 1px;
                 }
                 .cta-marketplace:hover { background-color: #ea580c; box-shadow: 0 8px 25px rgba(135, 48, 1); }
 
                 .arrow-icon { width: 20px; height: 20px; transition: transform 0.3s ease-in-out; }
 
                 @keyframes arrowMove {
-                    0%, 50%, 100% { transform: translateX(0); }
-                    95% { transform: translateX(40px); }
+                    0%, 20%, 100% { transform: translateX(0); }
+                    75% { transform: translateX(10px); }
                 }
                 .arrow-icon { animation: arrowMove 1s infinite; }
 

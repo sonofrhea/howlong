@@ -84,8 +84,16 @@ const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
 
     return (
         <div className="overflow-hidden">
+            
+            <style>
+                {`
+                    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
+                `}
+            </style>
+
+
             {/* Table Header with Items Per Page */}
-            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200" style={{ fontFamily: 'Montserrat, system-ui' }}>
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Projects List</h3>
                     <div className="flex items-center gap-4">
@@ -104,7 +112,7 @@ const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
             </div>
 
             {/* Table */}
-            <div className="w-full">
+            <div className="w-full" style={{ fontFamily: 'Montserrat, system-ui' }}>
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
                     {[

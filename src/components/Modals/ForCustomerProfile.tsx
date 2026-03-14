@@ -16,6 +16,7 @@ const ForCustomerProfile: React.FC<CustomerProfileModalProps> = ({
 
     return ReactDOM.createPortal(
         <div>
+            <style>
             {`
                 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
 
@@ -27,6 +28,7 @@ const ForCustomerProfile: React.FC<CustomerProfileModalProps> = ({
                     color: var(--dark); margin-bottom: 1.2rem;
                 }
             `}
+            </style>
 
             <div
                 className={`fixed inset-0 z-50 overflow-hidden transition-opacity duration-300 ${

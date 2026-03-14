@@ -29,7 +29,7 @@
       background-image: 
         repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(197, 152, 106, 0.03) 2px, rgba(197, 152, 106, 0.03) 4px);
       pointer-events: none;
-      z-index: 1;
+      z-index: 1 important!;
     }
 
     .container {
