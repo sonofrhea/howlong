@@ -43,6 +43,13 @@ function Layout({ children }: LayoutPropsInterface) {
 
     return(
         <div className={sideBarStyles.background}>
+
+            <style>
+                {`
+                    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
+                `}
+            </style>
+
             <div 
             className={`${sideBarStyles.expansion} ${sidebarOpen ? sideBarStyles.open : sideBarStyles.closed}`}
             onClick={() => setSidebarOpen(true)}
@@ -50,17 +57,21 @@ function Layout({ children }: LayoutPropsInterface) {
             >
                 <div className={sideBarStyles.menu}>
                     <div className={sideBarStyles.menu2}>
-                        <span className="text-white font-bold text-sm">BS</span>
+                        <span className="text-white font-bold text-sm">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </span>
                     </div>
                     {sidebarOpen && (
                         <div className="ml-3">
-                            <div className={textStyles.semiBoldGray}>Business</div>
-                            <div className="text-xs text-gray-500">Suite</div>
+                            <div className={textStyles.semiBoldGray} style={{ fontFamily: 'Montserrat, system-ui' }}>Urusentra</div>
+                            <div className="text-xs text-gray-500">ERP</div>
                         </div>
                     )}
                 </div>
 
-                <div className="py-4 overflow-y-auto h-[calc(100vh-5rem)]">
+                <div className="py-4 overflow-y-auto h-[calc(100vh-5rem)]" style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <Link
                         to="/dashboard"
                         className={`${sideBarStyles.dashboardLink}
@@ -140,7 +151,7 @@ function Layout({ children }: LayoutPropsInterface) {
                     })}
                 </div>
 
-                <div className="absolute bottom-4 left-0 right-0 px-6">
+                <div className="absolute bottom-4 left-0 right-0 px-6" style={{ fontFamily: 'Montserrat, system-ui' }}>
                     
 
                         {/* hide the ugly little grid shit */}
@@ -173,9 +184,9 @@ function Layout({ children }: LayoutPropsInterface) {
                 </div>
             </div>
 
-            <div className={`transition-all duration-300 ml-${sidebarOpen ? '64' : '16'}`}>
+            <div className={`transition-all duration-300 ml-${sidebarOpen ? '64' : '16'}`} style={{ fontFamily: 'Montserrat, system-ui' }}>
                 {currentApp && (
-                    <div className={sideBarStyles.backdrop}>
+                    <div className={sideBarStyles.backdrop} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <div className="flex items-center gap-4">
                             <div className={sideBarStyles.sidebarBackground}>
                                 <AppIcon appId={currentApp.id} />
@@ -204,17 +215,17 @@ function Layout({ children }: LayoutPropsInterface) {
             </div>
 
             {showAppsMenu && (
-                <div className="fixed inset-0 z-50 bg-black/30 flex items-start justify-center pt-20">
+                <div className="fixed inset-0 z-50 bg-black/30 flex items-start justify-center pt-20" style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <div className="w-full max-w-2xl bg-white rounded-xl shadow-xl overflow-hidden">
 
                     {/* HEADER */}
                     <div className="px-6 py-4 border-b border-gray-200">
                         <div className="flex items-center justify-between">
                         <div>
-                            <h2 className="text-base font-semibold text-gray-900">
+                            <h2 className="text-base text-left font-semibold text-gray-900" style={{ fontFamily: 'Montserrat, system-ui' }}>
                             All Applications
                             </h2>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>
                             Navigate between business tools
                             </p>
                         </div>
@@ -230,7 +241,7 @@ function Layout({ children }: LayoutPropsInterface) {
                     </div>
 
                     {/* GRID */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4" style={{ fontFamily: 'Montserrat, system-ui' }}>
                         {BUSINESS_APPS.map(app => (
                         <Link
                             key={app.id}
@@ -268,10 +279,10 @@ function Layout({ children }: LayoutPropsInterface) {
 
                             {/* TEXT */}
                             <div className="ml-3">
-                            <div className="text-sm font-medium text-gray-900 leading-tight">
+                            <div className="text-sm font-medium text-gray-900 leading-tight" style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 {app.name}
                             </div>
-                            <div className="text-xs text-gray-400 hover:text-green-500">
+                            <div className="text-xs text-gray-400 hover:text-green-500" style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 {app.available ? "Available" : "Update..."}
                             </div>
                             </div>

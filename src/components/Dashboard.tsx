@@ -21,18 +21,25 @@ function Dashboard() {
 
     return(
         <div className={dashboardStyles.main}>
+
+            <style>
+                {`
+                    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
+                `}
+            </style>
+
             <div className="max-w-6xl mx-auto">
                 {/* header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                    <h1 className="text-3xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, system-ui' }}>
                         Business Management
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600" style={{ fontFamily: 'Montserrat, system-ui' }}>
                         Choose a module to get started...
                     </p>
                 </div>
 
-                <div className="flex">
+                <div className="flex" style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <div className="fixed top-4 left-4 z-50">
                         <LogoutButton />
                     </div>
@@ -68,10 +75,10 @@ function Dashboard() {
                                         <AppIcon appId={app.id} />
                                 </div>
 
-                                <h3 className="app-Name mb-2">
+                                <h3 className="app-Name mb-2" style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     {app.name}
                                 </h3>
-                                <p className="text-gray-600 text-s mb-4">
+                                <p className="text-gray-600 text-s mb-4" style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     {app.description}
                                 </p>
 

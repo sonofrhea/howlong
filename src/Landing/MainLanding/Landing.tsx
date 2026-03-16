@@ -843,8 +843,9 @@ export default function ConstructionERPLanding() {
                         { n: '2', title: 'Add Your Clients & Suppliers', desc: 'Import or manually add your customer profiles and supplier connections. Link bank details, ID documents, and assign status — all encrypted at field level.' },
                         { n: '3', title: 'Create Your First Project', desc: 'Set up a project, attach a Bill of Quantities, and link your Job Cost Ledger. Urusentra starts tracking budget vs actual from the first material entry.' },
                         { n: '4', title: 'Issue Quotations & Invoices', desc: 'Generate professional quotations with itemised pricing, optional discount and tax cascades. Convert accepted quotes to invoices in one click.' },
-                        { n: '5', title: 'Collect Payments & Close', desc: 'Record payment tranches across Cash, Card, and Online. The system calculates outstanding balances live and marks invoices complete automatically when fully paid.' },
-                        { n: '6', title: 'Run Your Reports', desc: 'Pull a Trial Balance, Income Statement, Project Profitability Report, or Cash Flow statement at any time. All reports are generated from live transaction data.' },
+                        { n: '5', title: 'Create Project, BOQ & Job Cost Ledger', desc: 'Create Project and Record phases and track costing against estimates and budget through every step of the project. The system calculates variances per product and accumulated variance between budget and cost.' },
+                        { n: '6', title: 'Collect Payments & Close', desc: 'Record payment tranches across Cash, Card, and Online. The system calculates outstanding balances live and marks invoices complete automatically when fully paid.' },
+                        { n: '7', title: 'Run Your Reports', desc: 'Pull a Trial Balance, Income Statement, Project Profitability Report, or Cash Flow statement at any time. All reports are generated from live transaction data.' },
                     ].map((s, i) => (
                         <div key={i} className="hiw-step">
                             <div className="hiw-numcol">

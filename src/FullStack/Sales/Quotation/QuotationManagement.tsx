@@ -277,7 +277,7 @@ function QuotationManagement() {
 // ------------------------------------------------------------------------------------
 
     const handleDeleteQuotation = async (quotationId: number) => {
-        if (!window.confirm('Are you sure you want to delete this customer?')) return;
+        if (!window.confirm('Are you sure you want to delete this quotation?')) return;
         
         await deleteQuotationMutation.mutateAsync(quotationId);
     };

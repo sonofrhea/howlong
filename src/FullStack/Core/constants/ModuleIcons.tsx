@@ -1,4 +1,4 @@
-import { Bitcoin, Landmark, UserRoundCog } from "lucide-react";
+import { Bitcoin, Building2, Landmark, UserRoundCog } from "lucide-react";
 import { iconStyles } from "./Styles";
 
 
@@ -9,7 +9,8 @@ import { iconStyles } from "./Styles";
 
 
 export const CORE_ICONS = {
-    usersList: <UserRoundCog strokeWidth={1.75} className={iconStyles.small} />,
+    companyProfile: <Building2 strokeWidth={1.75} className={iconStyles.small} />,
+    userProfile: <UserRoundCog strokeWidth={1.75} className={iconStyles.small} />,
     banks: <Landmark strokeWidth={1.75} className={iconStyles.small} />,
     currencies: <Bitcoin strokeWidth={1.75} className={iconStyles.small} />,
 }

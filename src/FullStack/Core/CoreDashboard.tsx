@@ -18,10 +18,17 @@ function CoreDashboard() {
 
     const coreModules: coreModuleInterface[] = [
         {
-            id: 'usersList',
+            id: 'companyProfile',
+            name: 'Company Profile',
+            description: 'Manage company workers and employees',
+            path: '/core/company/profile',
+            available: true
+        },
+        {
+            id: 'userProfile',
             name: 'Users',
             description: 'Manage company workers and employees',
-            path: '/core/users',
+            path: '/core/user/profile',
             available: true
         },
         {

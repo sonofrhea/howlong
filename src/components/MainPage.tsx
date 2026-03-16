@@ -9,14 +9,15 @@ import { ComingSoon } from "../App";
 function MainPage() {
 
     return(
-        <div className="bg-gray-100">
-            <div className="flex bg-white">
+        <div className="bg-gray-100" style={{ fontFamily: 'Montserrat, system-ui' }}>
+            <div className="flex bg-white" style={{ fontFamily: 'Montserrat, system-ui' }}>
                 <div className="fixed top-4 left-4 z-50">
                     <LogoutButton />
                 </div>
                 <Link 
                     to="/dashboard"
                     className="fixed top-4 right-4 z-50 group flex items-center gap-3 px-3 py-1 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-600 shadow-sm transition-all duration-300 hover:text-blue-600 hover:shadow-md hover:-translate-y-0.5"
+                    style={{ fontFamily: 'Montserrat, system-ui' }}
                 >
                     
                     <span>Main Dashboard</span>

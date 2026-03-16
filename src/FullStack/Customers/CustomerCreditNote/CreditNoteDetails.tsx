@@ -193,7 +193,7 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                                     </thead>
                                     
                                     <tbody className={tables.body}>
-                                        {creditNote.credit_note_lines.map((line: any, index: any) => (
+                                        {creditNote.credit_note_lines.map((line, index) => (
                                             <tr key={index} className={tables.row}>
                                                 <td className={tables.cell}>{line.date}</td>
                                                 <td className={tables.cell}>{line.description}</td>

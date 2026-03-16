@@ -1,4 +1,5 @@
 import apiClient from '../../BaseEngine';
+import { CompanyProfileInputs } from './constants/Types';
 
 
 
@@ -57,6 +58,63 @@ export const fetchBanks = async () => {
 //  ROLES
 
 export const fetchRoles = async (name: string) => {
-  const response = await apiClient.get('/core/roles/');
-  return response.data;
+  try {
+    const response = await apiClient.get('/core/roles/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
+
+
+
+
+// --------------------------------------------------------------------------------------------------------
+                  // COMPANY
+
+
+export const fetchCompanyProfile = async () => {
+  try {
+    const response = await apiClient.get('/core/company/profile/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+
+export const patchCompanyProfile = async (companyData : CompanyProfileInputs ) => {
+  try {
+    const response = await apiClient.patch('/core/company/profile/', companyData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+
+
+// --------------------------------------------------------------------------------------------------------
+                  // USER
+
+
+export const fetchUserProfile = async () => {
+  try {
+    const response = await apiClient.get('/core/users/userprofile/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+export const updateCompanyProfile = async () => {
+  try {
+    const response = await apiClient.patch('/core/users/userprofile/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}

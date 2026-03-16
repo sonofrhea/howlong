@@ -120,7 +120,8 @@ const BillOfQuantitiesManagement = lazy(() => import('./FullStack/Projects/BillO
 // -------------------begin---------CORE--------------------------------------------
 
 const CoreDashboard = lazy(() => import('./FullStack/Core/CoreDashboard'))
-const UsersManagement = lazy(() => import('./FullStack/Core/Users/UsersManagement'))
+const CompanyManagement = lazy(() => import('./FullStack/Core/CompanyProfile/CompanyManagement'))
+//const UsersManagement = lazy(() => import('./FullStack/Core/Users/UsersManagement'))
 
 // -------------------end---------CORE--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -381,6 +382,9 @@ function App() {
               } />
 
 
+
+
+
               {/* CORE */}
               <Route path='/core' element={
                 <Suspense fallback={<div>fetching...</div>}>
@@ -390,10 +394,10 @@ function App() {
                 </Suspense>
               } />
 
-              <Route path="/core/users" element={
+              <Route path="/core/company/profile" element={
                 <Suspense fallback={<div>fetching...</div>}>
                   <Layout>
-                  <UsersManagement />
+                  <CompanyManagement />
                 </Layout>
                 </Suspense>
                 

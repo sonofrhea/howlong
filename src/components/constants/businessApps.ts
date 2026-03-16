@@ -97,6 +97,6 @@ export const DASHBOARD_APPS: DashboardInterface[] = [
       name: 'HR & Workforce', 
       description: 'Access company workforce', 
       path: '/core',
-      available: false
+      available: true
     },
   ]
