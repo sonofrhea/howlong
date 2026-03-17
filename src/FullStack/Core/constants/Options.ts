@@ -9,3 +9,14 @@ export const ROLES_OPTIONS  = [
     {'value': "Worker", 'label': "Worker"},
     {'value': "Auditor", 'label': "Auditor"},
 ] as const;
+
+
+
+
+export const BANK_TYPE_CHOICES = [
+    'Bank',
+    'JoinPAY',
+    'DualPay',
+    'Other Bank',
+    'DuitNow'
+] as const;

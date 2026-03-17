@@ -30,6 +30,7 @@ export const BANK_TYPE_CHOICES = [
     'Other Bank',
 ] as const;
 
+
 export const PAYMENT_TYPE_OPTIONS = [
     'Cash',
     'Card',

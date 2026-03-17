@@ -5,15 +5,19 @@ import { Link } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 
 
-import { fetchCompanyProfile, patchCompanyProfile } from "../Engines";
+import { fetchBanks, fetchCompanyProfile, fetchCurrencies, patchCompanyProfile } from "../Engines";
 
 
 import CompanyProfileDetails from "./CompanyProfileDetails";
-//import CompanyProfileEdit from "./CompanyProfileEdit";
+import CompanyProfileEdit from "./CompanyProfileEdit";
 
 
 import { CompanyProfileInputs } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
+
+
+
+
 
 
 
@@ -22,6 +26,14 @@ function CompanyManagement() {
     const [view, setView] = useState('details');
 
 
+    const { data: currencies = [] } = useQuery({
+        queryKey: ['currencies'],
+        queryFn: fetchCurrencies
+    });
+    const { data: banks = [] } = useQuery({
+        queryKey: ['banks'],
+        queryFn: fetchBanks
+    });
 
 
     const { data: selectedCompany, isLoading: isLoadingCompany, error: companyError } = useQuery({
@@ -39,11 +51,11 @@ function CompanyManagement() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['company'] });
-            toast.success('Company profile Updated', { id: "Update Bill Of Quantity" });
+            toast.success('Company profile Updated', { id: "Update Company profile" });
             setView('details');
         },
         onError: (error: any) => {
-            toast.error('Failed to update Company profile', { id: "Update Bill Of Quantity" });
+            toast.error('Failed to update Company profile', { id: "Update Company profile" });
             console.error(
                 'Error updating Company profile:',
                 error.response?.data || error.message
@@ -56,8 +68,23 @@ function CompanyManagement() {
 
 
     const handleUpdateCompanyProfile = async (companyData: CompanyProfileInputs) => {
+        const formData = new FormData();
 
-        await updateCompanyMutation.mutateAsync(companyData);
+        Object.entries(companyData).forEach(([key, value]) => {
+            if (
+                key === 'company_logo' ||
+                value === undefined ||
+                value === null
+            ) return;
+
+            formData.append(key, String(value));
+        })
+
+        if (companyData.company_logo instanceof File) {
+            formData.append('company_logo', companyData.company_logo);
+        };
+
+        await updateCompanyMutation.mutateAsync(formData);
     };
 
     // ------------------------------------------------------------------------------------
@@ -111,14 +138,24 @@ function CompanyManagement() {
     return(
         <div className="min-h-screen bg-[#f0f2f7]">
 
-            <div className="border-b border-gray-100">
+            <style>
+                {`
+                    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
+                `}
+            </style>
+
+            <div className="border-b border-gray-100" style={{ fontFamily: 'Montserrat, system-ui' }}>
                 <div className="max-w-7xl mx-auto px-4 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
                             <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                             <div>
-                                <h1 className="text-lg font-semibold text-gray-900">Core Suite</h1>
-                                <p className="text-sm text-gray-500">Company Profile</p>
+                                <h1 className="text-lg font-semibold text-gray-900" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                    Core Suite
+                                </h1>
+                                <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                    Company Profile
+                                </p>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -136,36 +173,6 @@ function CompanyManagement() {
                 </div>
             </div>
 
-
-
-            <div className="p-8">
-                <div className="max-w-7xl mx-auto">
-
-                    {view === 'edit' && (
-                    <div className="w-full bg-green-50 rounded-2xl shadow-sm border border-gray-200">
-                        <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
-                        <div className="flex items-center gap-4 mb-8 justify-between">
-                            <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center border border-green-100">
-                            <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
-                            </svg>
-                            </div>
-                            <button 
-                                onClick={() => setView('details')}
-                                className="bg-white text-black px-2 py-1 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1"
-                            >
-                                <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}  />
-                                </svg>
-                                x Cancel
-                            </button>
-                        </div>
-                        </div>
-                    </div>
-                    )}
-                </div>
-            </div>
-
             
 
             {view === 'details' && (
@@ -173,6 +180,17 @@ function CompanyManagement() {
                     company={selectedCompany}
                     isLoading={isLoadingCompany}
                     onEdit={handleEditCompanyButton}
+                />
+            )}
+
+            {view === 'edit' && selectedCompany && (
+                <CompanyProfileEdit
+                    company={selectedCompany}
+                    onSubmit={handleUpdateCompanyProfile}
+                    isSubmitting={updateCompanyMutation.isPending}
+                    onCancel={handleBackToCompanyDetails}
+                    currencies={currencies}
+                    banks={banks}
                 />
             )}
         </div>
@@ -183,14 +201,7 @@ function CompanyManagement() {
 export default CompanyManagement;
 
 
-//{view === 'edit' && (
-//                <CompanyProfileEdit
-//                    company={selectedCompany}
-//                    onSubmit={handleUpdateCompanyProfile}
-//                    isSubmitting={updateCompanyMutation.isPending}
-//                    onCancel={handleBackToCompanyDetails}
-//                />
-//            )}
+
 
 
 

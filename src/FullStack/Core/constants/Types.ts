@@ -1,5 +1,6 @@
+import { COUNTRY_OPTIONS, TAX_ID_CHOICES } from "../../Customers/constants/Options";
 import { CORE_ICONS } from "./ModuleIcons";
-import { ROLES_OPTIONS } from "./Options";
+import { BANK_TYPE_CHOICES, ROLES_OPTIONS } from "./Options";
 
 
 
@@ -100,23 +101,42 @@ export type CompanyProfileDetails = {
 
 
 export type CompanyProfileInputs = {
+  id: number;
+  name: string;
   registration_number: string;
   industry_code: string | null;
   address: string;
-  country: string;
+  country: typeof COUNTRY_OPTIONS[number];
   post_code: string;
   city: string;
   state: string;
   email: string;
   mobile_number: string;
   tin_number: string;
-  tax_id_type: string;
+  tax_id_type: typeof TAX_ID_CHOICES[number];
   preferred_currency: string;
   company_bank_name: string | null;
   company_bank_account_number: string | null;
-  bank_account_type: string;
+  bank_account_type: typeof BANK_TYPE_CHOICES[number];
   remark: string;
   company_logo: File | undefined;
+  is_active: boolean;
+  created_at: string;
+  trial_started_at: string;
+  trial_ends_at: string;
+  is_paid: boolean;
+  subscription_started_at: string;
+  subscription_ends_at: string;
+
+  user_set: Array<{
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+    is_active: boolean;
+    date_joined: string;
+    last_login: string;
+  }>;
 };
 
 
@@ -132,6 +152,8 @@ export type CompanyProfileEditProps = {
   onSubmit: (data: CompanyProfileInputs) => void;
   isSubmitting: boolean;
   onCancel: () => void;
+  currencies: CurrencyInterface[];
+  banks: BankInterface[];
 };
 
 

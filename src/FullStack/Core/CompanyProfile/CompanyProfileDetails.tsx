@@ -2,7 +2,8 @@ import { CompanyProfileDetailsProps } from "../constants/Types";
 import { useNavigate } from 'react-router-dom';
 
 
-const formatDate = (dateString: string) => {
+const formatDate = (dateString?: string | null) => {
+    if (!dateString) return '--';
     return new Date(dateString).toISOString().split("T")[0];
 };
 
@@ -395,7 +396,7 @@ const CompanyProfileDetails: React.FC<CompanyProfileDetailsProps> = ({
                 <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-[#fafbfd] hover:cursor-pointer">
                   <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">Created At</div>
                   <div className="text-[0.88rem] font-semibold text-gray-800">
-                    {formatDate(company.created_at) || '--'}
+                    {formatDate(company.created_at)}
                   </div>
                 </div>
 
@@ -403,7 +404,7 @@ const CompanyProfileDetails: React.FC<CompanyProfileDetailsProps> = ({
                 <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-[#fafbfd] hover:cursor-pointer">
                   <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">Subscription Started</div>
                   <div className="text-[0.88rem] font-semibold text-gray-800">
-                    {formatDate(company.subscription_started_at) || '--'}
+                    {formatDate(company.subscription_started_at)}
                   </div>
                 </div>
 
@@ -411,7 +412,7 @@ const CompanyProfileDetails: React.FC<CompanyProfileDetailsProps> = ({
                 <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-[#fafbfd] hover:cursor-pointer">
                   <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">Subscription Ends</div>
                   <div className="text-[0.88rem] text-gray-300 italic font-normal">
-                    {formatDate(company.subscription_ends_at) || '--'}
+                    {formatDate(company.subscription_ends_at)}
                   </div>
                 </div>
 
@@ -419,7 +420,7 @@ const CompanyProfileDetails: React.FC<CompanyProfileDetailsProps> = ({
                 <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-[#fafbfd] hover:cursor-pointer">
                   <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">Trial Started</div>
                   <div className="text-[0.88rem] text-gray-300 italic font-normal">
-                    {formatDate(company.trial_started_at) || '--'}
+                    {formatDate(company.trial_started_at)}
                   </div>
                 </div>
 
@@ -427,7 +428,7 @@ const CompanyProfileDetails: React.FC<CompanyProfileDetailsProps> = ({
                 <div className="px-6 py-5 border-b border-[#e2e6f0] bg-[#fafbfd] hover:cursor-pointer">
                   <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">Trial Ends</div>
                   <div className="text-[0.88rem] text-gray-300 italic font-normal">
-                    {formatDate(company.trial_ends_at) || '--'}
+                    {formatDate(company.trial_ends_at)}
                   </div>
                 </div>
 

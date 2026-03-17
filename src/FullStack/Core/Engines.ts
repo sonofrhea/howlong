@@ -84,9 +84,13 @@ export const fetchCompanyProfile = async () => {
 
 
 
-export const patchCompanyProfile = async (companyData : CompanyProfileInputs ) => {
+export const patchCompanyProfile = async (companyData : FormData ) => {
   try {
-    const response = await apiClient.patch('/core/company/profile/', companyData);
+    const response = await apiClient.patch('/core/company/profile/', companyData, {
+      headers: {
+        "Content-Type": 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);
