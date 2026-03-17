@@ -3,6 +3,7 @@ import { BankInterface, CompanyProfileEditProps, CompanyProfileInputs, CurrencyI
 import { useForm } from "react-hook-form";
 import { COUNTRY_OPTIONS, TAX_ID_CHOICES } from "../../Customers/constants/Options";
 import { BANK_TYPE_CHOICES } from "../constants/Options";
+import { companyCurrencyHandler } from "../../handlers";
 
 
 
@@ -13,7 +14,8 @@ const formatDate = (dateString?: string | null) => {
 };
 
 const formatUpdatedDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString();
+  if (!dateString) return '--';
+  return new Date(dateString).toLocaleString();
 };
 
 
@@ -35,34 +37,37 @@ const CompanyProfileEdit: React.FC<CompanyProfileEditProps> = ({
 }) => {
 
 
-    const { register, handleSubmit, watch, setValue, reset,
-        control, formState: { errors }
-     } = useForm<CompanyProfileInputs>({
-        defaultValues: company
-     });
+  const { register, handleSubmit, watch, setValue, reset,
+      control, formState: { errors }
+    } = useForm<CompanyProfileInputs>({
+      defaultValues: company
+    });
 
 
-     React.useEffect(() => {
-        reset(company);
-     }, [company, reset]);
+    React.useEffect(() => {
+      reset(company);
+    }, [company, reset]);
 
 
 
-     function updateCC(id: string, ccId: string, max: number): void {
+    function updateCC(id: string, ccId: string, max: number): void {
 
-        const inputEl = document.getElementById(id) as HTMLInputElement | null;
-        const displayEl = document.getElementById(ccId) as HTMLElement | null;
+      const inputEl = document.getElementById(id) as HTMLInputElement | null;
+      const displayEl = document.getElementById(ccId) as HTMLElement | null;
 
-        if (inputEl && displayEl) {
-            const len = inputEl.value.length;
-            
-            displayEl.textContent = `${max - len} / ${max}`;
-            
-            displayEl.style.color = len > max * 0.9 ? '#dc2626' : '#d1d5db';
-        }
-        }
+      if (inputEl && displayEl) {
+          const len = inputEl.value.length;
+          
+          displayEl.textContent = `${max - len} / ${max}`;
+          
+          displayEl.style.color = len > max * 0.9 ? '#dc2626' : '#d1d5db';
+      }
+      }
 
-        updateCC('remark', 'cc_remark', 300);
+      updateCC('remark', 'cc_remark', 300);
+
+
+    const onCurrencyChange = companyCurrencyHandler(currencies, setValue);
 
 
 
@@ -397,7 +402,8 @@ const CompanyProfileEdit: React.FC<CompanyProfileEditProps> = ({
                           <div className="sel-wrap">
                             <select 
                              className="inp"
-                             {...register("preferred_currency")}
+                             {...register("preferred_currency.currency_code")}
+                             onChange={onCurrencyChange}
                              >
                               <option value="">select...</option>
                               {useMemo(() => currencies.map((code: CurrencyInterface) => (
@@ -406,6 +412,11 @@ const CompanyProfileEdit: React.FC<CompanyProfileEditProps> = ({
                                 </option>
                               )), [currencies])}
                             </select>
+                              <input type="hidden" {...register("preferred_currency.currency_name")} />
+                              <input type="hidden" {...register("preferred_currency.currency_symbol")} />
+                              <input type="hidden" {...register("preferred_currency.country")} />
+                              <input type="hidden" {...register("preferred_currency.buy")} />
+                              <input type="hidden" {...register("preferred_currency.sell")} />
                           </div>
                         </div>
 

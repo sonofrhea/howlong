@@ -13,6 +13,7 @@ import { spinningStyles } from "../constants/Styles";
 
 
 import UserProfileDetails from "./UserProfileDetails";
+import UserProfileEdit from "./UserProfileEdit";
 
 
 
@@ -42,7 +43,7 @@ function UserProfileManagement() {
             toast.loading('Updating Company profile...', { id: "Update User profile" });
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['company'] });
+            queryClient.invalidateQueries({ queryKey: ['userProfile'] });
             toast.success('Company profile Updated', { id: "Update User profile" });
             setView('details')
         },
@@ -53,7 +54,7 @@ function UserProfileManagement() {
                 error.response?.data || error.message
             )
         }
-    })
+    });
 
     // ------------------------------------------------------------------------------------
 

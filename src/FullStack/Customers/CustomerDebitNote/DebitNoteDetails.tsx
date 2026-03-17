@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { formatCurrency } from "../../../components/store";
+
+
 
 
 import { buttons, details, forms, 
@@ -216,12 +219,12 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
-                                            <div className="font-medium text-black">({debitNote.tax_amount})%</div>
+                                            <div className="font-medium text-black">({formatCurrency(debitNote.tax_amount)})%</div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total</div>
-                                            <div className="font-medium text-black">{debitNote.net_total}</div>
+                                            <div className="font-medium text-black">{formatCurrency(debitNote.net_total)}</div>
                                         </div>
 
                                         <hr className="my-2 border-blue-200" />
@@ -229,7 +232,7 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Total customer payment:</div>
                                             <div className="font-medium text-black">
-                                                {debitNote.aggregate_total}
+                                                {formatCurrency(debitNote.aggregate_total)}
                                             </div>
                                         </div>
 

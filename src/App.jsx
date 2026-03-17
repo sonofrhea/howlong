@@ -123,6 +123,8 @@ const CoreDashboard = lazy(() => import('./FullStack/Core/CoreDashboard'))
 const CompanyManagement = lazy(() => import('./FullStack/Core/CompanyProfile/CompanyManagement'))
 //const UsersManagement = lazy(() => import('./FullStack/Core/Users/UsersManagement'))
 const UserProfileManagement = lazy(() => import('./FullStack/Core/UserProfile/UserProfileManagement'))
+const BanksManagement = lazy(() => import('./FullStack/Core/Banks/BanksManagement'))
+const CurrenciesManagement = lazy(() => import('./FullStack/Core/Currencies/CurrenciesManagement'))
 
 // -------------------end---------CORE--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -184,8 +186,8 @@ const CashFlowManagement = lazy(() => import('./FullStack/Reports/Reports/CashFl
 
 
 
-
-
+import { initCurrency } from './initCurrency';
+initCurrency();
 
 
 
@@ -412,6 +414,27 @@ function App() {
                 </Suspense>
                 
               }/>
+
+              <Route path="/core/banks" element={
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                  <BanksManagement />
+                </Layout>
+                </Suspense>
+                
+              }/>
+
+              <Route path="/core/currencies" element={
+                <Suspense fallback={<div>fetching...</div>}>
+                  <Layout>
+                  <CurrenciesManagement />
+                </Layout>
+                </Suspense>
+                
+              }/>
+
+
+
 
 
 

@@ -36,7 +36,7 @@ const CustomerEdit: React.FC<CustomerProps> = ({
     }, [customer, reset]);
 
 
-const currencyChange = currencyHandler(currencies, setValue);
+    const currencyChange = currencyHandler(currencies, setValue);
 
 
 

@@ -424,5 +424,26 @@ export const boqLineHandler = (boqLines: BillOfQuantitiesLineResponse[], setValu
       setValue(`job_cost_ledger.${index}.boq_additional`, selectedLine?.additional_item);
     }
   }
-}
+};
+
+
+
+
+
+
+export const companyCurrencyHandler = (currencies: CurrencyInterface[], setValue: any) => {
+    return (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const selectedCurrencyCode = e.target.value;
+        const selectedCurrency = currencies.find(a => a.currency_code === selectedCurrencyCode)
+        console.log("✅ Found Currency:", selectedCurrency);
+
+        if (selectedCurrency) {
+            setValue("preferred_currency.currency_name", selectedCurrency.currency_name);
+            setValue("preferred_currency.currency_symbol", selectedCurrency.currency_symbol);
+            setValue("preferred_currency.country", selectedCurrency.country);
+            setValue("preferred_currency.buy", selectedCurrency.buy);
+            setValue("preferred_currency.sell", selectedCurrency.sell);
+        }
+    }
+};
 

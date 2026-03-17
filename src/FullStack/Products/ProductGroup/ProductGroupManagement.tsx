@@ -186,7 +186,6 @@ function ProductGroupManagement() {
     //console.log("🎯 RAW FORM DATA:", productGroupData);
 
 
-    const toastId = toast.loading('Creating Product Group...');
     await createProductGroupsMutation.mutateAsync(productGroupData);
   };
 

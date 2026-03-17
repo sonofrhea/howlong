@@ -68,12 +68,18 @@ function CompanyManagement() {
 
 
     const handleUpdateCompanyProfile = async (companyData: CompanyProfileInputs) => {
+
+        if (!companyData.preferred_currency?.currency_code) {
+            delete companyData.preferred_currency;
+        }
+
         const formData = new FormData();
 
         Object.entries(companyData).forEach(([key, value]) => {
             if (
                 key === 'company_logo' ||
                 value === undefined ||
+                key === 'preferred_currency' ||
                 value === null
             ) return;
 
@@ -83,6 +89,15 @@ function CompanyManagement() {
         if (companyData.company_logo instanceof File) {
             formData.append('company_logo', companyData.company_logo);
         };
+
+        if (companyData.preferred_currency?.currency_code) {
+            formData.append('preferred_currency.currency_code', companyData.preferred_currency.currency_code);
+            formData.append('preferred_currency.currency_name', companyData.preferred_currency.currency_name);
+            formData.append('preferred_currency.currency_symbol', companyData.preferred_currency.currency_symbol);
+            formData.append('preferred_currency.country', companyData.preferred_currency.country);
+            formData.append('preferred_currency.buy', (companyData.preferred_currency.buy));
+            formData.append('preferred_currency.sell', companyData.preferred_currency.sell);
+        }
 
         await updateCompanyMutation.mutateAsync(formData);
     };

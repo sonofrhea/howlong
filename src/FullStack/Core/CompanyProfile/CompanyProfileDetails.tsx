@@ -8,7 +8,8 @@ const formatDate = (dateString?: string | null) => {
 };
 
 const formatUpdatedDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString();
+  if (!dateString) return '--';
+  return new Date(dateString).toLocaleString();
 };
 
 
@@ -310,7 +311,7 @@ const CompanyProfileDetails: React.FC<CompanyProfileDetailsProps> = ({
                 <div className="px-6 py-5 border-b border-[#e2e6f0] hover:bg-[#f8f9fc] transition-colors">
                   <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">Preferred Currency</div>
                   <div id="disp_currency" className="disp text-[0.88rem] font-semibold text-gray-800">
-                    {company.preferred_currency || '--'}
+                    {company.preferred_currency?.currency_code || '--'}
                   </div>
                 </div>
 

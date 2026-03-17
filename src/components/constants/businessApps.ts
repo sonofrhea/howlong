@@ -29,7 +29,7 @@ export const BUSINESS_APPS: BusinessAppInterface[] = [
       id: 'reports', name: 'Reports', path: '/reports', available: true
     },
     {
-      id: 'core', name: 'HR & Workers', path: '/core', available: false
+      id: 'core', name: 'HR & Workers', path: '/core', available: true
     },
 ];
 

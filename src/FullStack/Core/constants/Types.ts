@@ -74,7 +74,16 @@ export type CompanyProfileDetails = {
   mobile_number: string;
   tin_number: string;
   tax_id_type: string;
-  preferred_currency: string;
+
+  preferred_currency: {
+    currency_code: string;
+    currency_name: string;
+    currency_symbol: string;
+    country: string;
+    buy: string;
+    sell: string;
+  } | undefined;
+
   company_bank_name: string | null;
   company_bank_account_number: string | null;
   bank_account_type: string;
@@ -114,7 +123,16 @@ export type CompanyProfileInputs = {
   mobile_number: string;
   tin_number: string;
   tax_id_type: typeof TAX_ID_CHOICES[number];
-  preferred_currency: string;
+
+  preferred_currency: {
+    currency_code?: string | undefined;
+    currency_name: string;
+    currency_symbol: string;
+    country: string;
+    buy: string;
+    sell: string;
+  } | undefined;
+
   company_bank_name: string | null;
   company_bank_account_number: string | null;
   bank_account_type: typeof BANK_TYPE_CHOICES[number];
@@ -183,7 +201,7 @@ export type UserProfileInputs = {
 
   is_active: boolean;
   date_joined: string;
-  last_login: string | null;
+  last_login: string;
 };
 
 
@@ -214,5 +232,44 @@ export type UserProfileDetailsProps = {
   userProfile: UserProfileDetails;
   isLoading: boolean;
   onEdit: () => void;
+};
+
+
+export type UserProfileEditProps = {
+  userProfile: UserProfileInputs;
+  onSubmit: (data: UserProfileInputs) => void;
+  isSubmitting: boolean;
+  onCancel: () => void;
+};
+
+
+
+// ------------------------------------------------------------------------------------
+          // BANKS
+
+export type BanksTableProps = {
+  banks: BankInterface[];
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: number) => void;
+};
+
+
+
+// ------------------------------------------------------------------------------------
+          // CURRENCIES
+
+
+export type CurrencyTableProps = {
+  currencies: CurrencyInterface[];
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: number) => void;
 };
 

@@ -16,23 +16,23 @@ import { CompanyProfileInputs, UserProfileInputs } from './constants/Types';
 
 
 export const fetchAgents = async () => {
-  const response = await apiClient.get('/core/users/');
+  const response = await apiClient.get('/core/users/profile/');
   return response.data;
 };
 
 export const fetchAgentById = async (id: number) => {
-  const response = await apiClient.get(`/core/users/${id}/`);
+  const response = await apiClient.get(`/core/users/profile/${id}/`);
   return response.data;
 };
 
 
 export const fetchAgentByName = async (name: string) => {
-  const response = await apiClient.get(`/core/users/${name}/`);
+  const response = await apiClient.get(`/core/users/profile/${name}/`);
   return response.data;
 };
 
 export const fetchAgentByEmail = async (email: string) => {
-  const response = await apiClient.get(`/core/users/${email}/`);
+  const response = await apiClient.get(`/core/users/profile/${email}/`);
   return response.data;
 };
 
@@ -43,16 +43,24 @@ export const fetchAgentByEmail = async (email: string) => {
 // CURRENCIES -  AXIOS
 
 export const fetchCurrencies = async () => {
-  const response = await apiClient.get('/core/currencies/');
-  return response.data;
+  try {
+    const response = await apiClient.get('/core/currencies/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 
 // BANKS -  AXIOS
 
 export const fetchBanks = async () => {
-  const response = await apiClient.get('/core/banks/');
-  return response.data;
+  try {
+    const response = await apiClient.get('/core/banks/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 //  ROLES
