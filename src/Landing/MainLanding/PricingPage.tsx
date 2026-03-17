@@ -244,6 +244,11 @@ function PricingPage() {
 
     return (
         <div style={sty.page}>
+            <title>Pricing | Urusentra · ERP for Small & Medium Enterprises</title>
+            <meta name="description" content="Secure login to Urusentra – modern ERP for SMEs" />
+
+
+
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap');
                 @keyframes popIn { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }

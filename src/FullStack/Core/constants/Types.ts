@@ -157,3 +157,62 @@ export type CompanyProfileEditProps = {
 };
 
 
+
+
+
+
+
+// ------------------------------------------------------------------------------------
+          // USER
+
+export type UserProfileInputs = {
+  id: number;
+  name: string | null;
+  email: string;
+
+  company: {
+    name: string;
+    registration_number: string;
+    industry_code: string;
+    country: string;
+  };
+
+  role: {
+    name: string;
+  };
+
+  is_active: boolean;
+  date_joined: string;
+  last_login: string | null;
+};
+
+
+
+export type UserProfileDetails = {
+  id: number;
+  name: string;
+  email: string;
+
+  company: {
+    name: string;
+    registration_number: string;
+    industry_code: string;
+    country: string;
+  };
+
+  role: {
+    name: string;
+  };
+
+  is_active: boolean;
+  date_joined: string;
+  last_login: string;
+};
+
+
+export type UserProfileDetailsProps = {
+  userProfile: UserProfileDetails;
+  isLoading: boolean;
+  onEdit: () => void;
+};
+

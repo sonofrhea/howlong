@@ -28,7 +28,7 @@ function CoreDashboard() {
             id: 'userProfile',
             name: 'Users',
             description: 'Manage company workers and employees',
-            path: '/core/user/profile',
+            path: '/core/users/profile',
             available: true
         },
         {

@@ -1,5 +1,5 @@
 import apiClient from '../../BaseEngine';
-import { CompanyProfileInputs } from './constants/Types';
+import { CompanyProfileInputs, UserProfileInputs } from './constants/Types';
 
 
 
@@ -106,7 +106,7 @@ export const patchCompanyProfile = async (companyData : FormData ) => {
 
 export const fetchUserProfile = async () => {
   try {
-    const response = await apiClient.get('/core/users/userprofile/');
+    const response = await apiClient.get('/core/users/profile/');
     return response.data;
   } catch (error) {
     console.error(error);
@@ -114,9 +114,9 @@ export const fetchUserProfile = async () => {
 }
 
 
-export const updateCompanyProfile = async () => {
+export const patchUserProfile = async (userProfileData: UserProfileInputs) => {
   try {
-    const response = await apiClient.patch('/core/users/userprofile/');
+    const response = await apiClient.patch('/core/users/profile/', userProfileData);
     return response.data;
   } catch (error) {
     console.error(error);
