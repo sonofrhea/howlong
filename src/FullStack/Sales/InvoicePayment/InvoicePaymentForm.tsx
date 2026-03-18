@@ -112,7 +112,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
 
                     <div className={layout.formSectionCol3}>
                         <div>
-                            <p className={forms.label}>Date</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</p>
                             <input 
                                 type="date"
                                 {...register("date_created", {required: "Date is required"})}
@@ -122,7 +122,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Paid By...</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Paid By...</p>
                             <select
                                 {...register("paid_by")}
                                 className={forms.select.partial}
@@ -137,7 +137,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                         </div>
                         
                         <div>
-                            <p className={forms.label}>Account Received In</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Account Received In</p>
                             <select
                                 {...register("account_received_in.account_code")}
                                 className={forms.select.partial}
@@ -156,7 +156,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Related Invoice</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice</p>
                             <select
                                 {...register("related_invoice")}
                                 className={forms.select.partial}
@@ -172,7 +172,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Related Invoice Total</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice Total</p>
                             <input 
                                 {...register("related_invoice_total")}
                                 type="number"
@@ -186,9 +186,25 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                                 }}
                             />
                         </div>
+
+                        <div>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Outstanding amount</p>
+                            <input 
+                                {...register("outstanding_amount")}
+                                type="number"
+                                readOnly
+                                className={forms.input.midNumber}
+                                placeholder="0.00"
+                                step="0.01" min="0.00" onBlur={(e) => {
+                                    if (e.target.value) {
+                                        e.target.value = decimalPlaces(Number(e.target.value));
+                                    }
+                                }}
+                            />
+                        </div>
                         
                         <div>
-                            <p className={forms.label}>Currency</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency</p>
                             <select 
                                 {...register("currency")}
                                 className={forms.select.partial}
@@ -203,7 +219,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Cancelled</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Cancelled</p>
                             <input 
                                 {...register("cancelled")}
                                 type="checkbox"
@@ -211,7 +227,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                         </div>
                         
                         <div>
-                            <p className={forms.label}>Agent</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Agent</p>
                             <select className={forms.select.partial}
                                 {...register("agent")}>
                                     <option value="">select...</option>

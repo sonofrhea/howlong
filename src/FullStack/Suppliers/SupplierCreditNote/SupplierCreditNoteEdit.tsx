@@ -129,7 +129,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteEditProps> = ({
 
                 <div className={layout.formSectionCol3}>
                     <div>
-                        <p className={forms.label}>Date</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</p>
                         <input 
                             type="date"
                             {...register("date", {required: "Date is required"})}
@@ -139,7 +139,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteEditProps> = ({
                     </div>
                                                 
                     <div>
-                        <p className={forms.label}>Account</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Account</p>
                         <select
                             {...register("account.account_code", {required: false})}
                             className={forms.select.partial}
@@ -158,7 +158,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteEditProps> = ({
                     </div>
                                                 
                     <div>
-                        <p className={forms.label}>Related Supplier</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Supplier</p>
                         <select
                             {...register("supplier")}
                             className={forms.select.partial}
@@ -173,7 +173,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteEditProps> = ({
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Related Invoice</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice</p>
                         <select
                             {...register("related_invoice")}
                             className={forms.select.partial}
@@ -189,7 +189,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteEditProps> = ({
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Related Invoice Total</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice Total</p>
                         <input 
                             type="number"
                             {...register("related_invoice_total")}
@@ -204,7 +204,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteEditProps> = ({
                     </div>
                                                 
                     <div>
-                        <p className={forms.label}>Currency</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency</p>
                         <select
                             {...register("currency")}
                             className={forms.select.partial}
@@ -219,7 +219,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteEditProps> = ({
                     </div>
                                                 
                     <div>
-                        <p className={forms.label}>Agent</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Agent</p>
                         <select
                             {...register("agent")}
                             className={forms.select.partial}
@@ -237,7 +237,7 @@ const SupplierCreditNoteEdit: React.FC<SupplierCreditNoteEditProps> = ({
                 <hr className="my-6 border-gray-200" />
                 
                 <div>
-                    <p className={forms.label}>Description</p>
+                    <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Description</p>
                     <textarea 
                         {...register("description")}
                         className={forms.description}

@@ -136,7 +136,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
 
                 <div className={layout.formSectionCol3}>
                     <div>
-                        <p className={forms.label}>Date</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</p>
                         <input 
                             type="date"
                             {...register("date", {required: "Date is required"})}
@@ -147,7 +147,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                 
 
                     <div>
-                        <p className={forms.label}>Related Project</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Project</p>
                         <select
                             {...register("project")}
                             className={forms.select.partial}
@@ -162,7 +162,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
                                             
                     <div>
-                        <p className={forms.label}>Account Received In</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Account Received In</p>
                         <select
                             {...register("account_received_in.account_code")}
                             onChange={controlAccountChange}
@@ -181,7 +181,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
                                         
                     <div>
-                        <p className={forms.label}>Customer</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Customer</p>
                         <select
                             {...register("customer")}
                             className={forms.select.partial}
@@ -196,7 +196,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Invoice Payment</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice Payment</p>
                         <select
                             {...register("related_payment")}
                             onChange={invoicePaymentChange}
@@ -212,7 +212,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Invoice Payment Total</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice Payment Total</p>
                         <input 
                             {...register("related_payment_paid_amount")}
                             type="number"
@@ -228,7 +228,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Invoice Payment Outstanding</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice Payment Outstanding</p>
                         <input 
                             {...register("related_payment_outstanding")}
                             type="number"
@@ -244,7 +244,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Cancelled</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Cancelled</p>
                         <input 
                             {...register("cancelled")}
                             type="checkbox"
@@ -253,7 +253,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Completed</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Completed</p>
                         <input 
                             {...register("completed")}
                             type="checkbox"
@@ -261,7 +261,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
                                             
                     <div>
-                        <p className={forms.label}>Currency</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency</p>
                         <select 
                             {...register("currency")}
                             className={forms.select.partial}
@@ -276,7 +276,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                     </div>
                                             
                     <div>
-                        <p className={forms.label}>Agent</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Agent</p>
                         <select className={forms.select.partial}
                             {...register("agent")}>
                                 <option value="">select...</option>

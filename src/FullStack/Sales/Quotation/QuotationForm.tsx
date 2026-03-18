@@ -101,7 +101,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
                                     </div>
                                 </div>
                                 <div className="mt-10 border-t border-b border-gray-100 grid-cols-2 gap-6">
-                                    <div className={forms.label}>
+                                    <div className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
                                         <div>
                                             <strong >Valid until:  </strong>
                                             <span>
@@ -115,7 +115,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
                                         </div>
                                     </div>
 
-                                    <div className={forms.label}>
+                                    <div className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
                                         <div>
                                             <strong >Cancelled:  </strong>
                                             <span>
@@ -199,7 +199,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Customer additional Details...</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Customer additional Details...</p>
                         <textarea 
                             rows={4}
                             {...register("customer_details")}

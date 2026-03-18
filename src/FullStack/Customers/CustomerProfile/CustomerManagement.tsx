@@ -339,7 +339,6 @@ const handleSort = (key: any) => {
     <div className="min-h-screen bg-white flex items-center justify-center">
     <div className="w-64">
       <div>fetching customers...</div>
-      <span className={spinningStyles.terminalBar.spinner}></span>
       </div>
     </div>
   );

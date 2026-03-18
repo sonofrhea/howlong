@@ -90,6 +90,13 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
 
     return (
         <div className="w-full mx-auto page bg-white shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden">
+
+            <style>
+                {`
+                    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
+                `}
+            </style>
+
             <div className={forms.body}>
                 <div className={layout.header}>
                     <div className={layout.tag}>

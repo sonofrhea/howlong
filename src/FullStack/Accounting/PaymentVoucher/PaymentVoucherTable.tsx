@@ -54,7 +54,7 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
             <div className="text-center py-12">
                 <div className="flex items-center justify-between p-4 bg-gray-50 border-b">
                     <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">Show</span>
+                    <span className="text-sm font-medium text-gray-600">Show</span>
                     <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)}
                         className="border border-gray-300 rounded px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500">
                         <option value="10">10</option>
@@ -62,7 +62,7 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <span className="text-sm text-gray-600">entries</span>
+                    <span className="text-sm font-medium text-gray-600">entries</span>
                     </div>
                 </div>
                 <div className="text-gray-400 text-6xl mb-4">
@@ -84,14 +84,14 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
                     <h3 className="text-lg font-semibold text-gray-800">Payment Vouchers List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">Show</span>
+                            <span className="text-sm font-medium text-gray-600">Show</span>
                             <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 text-black py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                             </select>
-                            <span className="text-sm text-gray-600">entries</span>
+                            <span className="text-sm font-medium text-gray-600">entries</span>
                         </div>
                     </div>
                 </div>
@@ -153,21 +153,21 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
 
                                     {/* Received from */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {paymentVoucher.payment_to}
                                         </div>
                                     </td>
 
                                     {/* Description */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {paymentVoucher.description}
                                         </div>
                                     </td>
 
                                     {/* Currency */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {paymentVoucher.currency}
                                         </div>
                                     </td>
@@ -185,14 +185,14 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
 
                                     {/* Net Total */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {paymentVoucher.aggregate_total}
                                         </div>
                                     </td>
                                     
                                     {/* Agent */}
                                     <td className="px-2 py-2 truncate" title={paymentVoucher.agent}>
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {paymentVoucher.agent}
                                         </div>
                                     </td>
@@ -237,7 +237,7 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
 
             {/* Table Footer with Working Pagination */}
             <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
-                <div className="flex items-center justify-between text-sm text-gray-600">
+                <div className="flex items-center justify-between text-sm font-medium text-gray-600">
                     <div>
                         Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} payment vouchers
                     </div>

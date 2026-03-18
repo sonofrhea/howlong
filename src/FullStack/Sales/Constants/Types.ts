@@ -72,6 +72,7 @@ export type QuotationDetails = {
   quotation_number: number;
   quotation_date: string;
   valid_until: string;
+  customer: number;
   customer_name: string;
   customer_details: string;
   agent: string;
@@ -191,6 +192,7 @@ export type InvoiceList = {
   invoice_number: number;
   invoice_date: string;
   invoice_due_date: string;
+  related_quotation: number;
   customer: string;
   description: string,
   net_total: number;
@@ -204,6 +206,7 @@ export type InvoiceDetails = {
   invoice_number: number;
   invoice_date: string;
   invoice_due_date: string;
+  related_quotation: number;
 
   customer: number;
   customer_name: string;
@@ -248,6 +251,7 @@ export type InvoiceInputs = {
   invoice_number: number;
   invoice_date: string;
   invoice_due_date: string;
+  related_quotation: number;
   customer: string;
   customer_name: string;
   customer_details: string;
@@ -332,6 +336,7 @@ export type InvoiceFormProps = {
   agents: AgentInterface[];
   projects: ProjectProfileResponse[];
   productItems: ProductItemCreateResponse[];
+  quotations: QuotationDetails[];
 };
 
 
@@ -539,7 +544,7 @@ export type InvoicePaymentInputs = {
   }> | null;
   gross_paid: number;
   net_aggregate_paid: number;
-  outstanding_amount: number;
+  outstanding_amount: number | null;
   paid_by: string;
   paid_by_name: string;
   agent: string;

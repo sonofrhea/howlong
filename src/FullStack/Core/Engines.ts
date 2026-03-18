@@ -16,23 +16,23 @@ import { CompanyProfileInputs, UserProfileInputs } from './constants/Types';
 
 
 export const fetchAgents = async () => {
-  const response = await apiClient.get('/core/users/profile/');
+  const response = await apiClient.get('/core/userlist/');
   return response.data;
 };
 
 export const fetchAgentById = async (id: number) => {
-  const response = await apiClient.get(`/core/users/profile/${id}/`);
+  const response = await apiClient.get(`/core/userlist/${id}/`);
   return response.data;
 };
 
 
 export const fetchAgentByName = async (name: string) => {
-  const response = await apiClient.get(`/core/users/profile/${name}/`);
+  const response = await apiClient.get(`/core/userlist/${name}/`);
   return response.data;
 };
 
 export const fetchAgentByEmail = async (email: string) => {
-  const response = await apiClient.get(`/core/users/profile/${email}/`);
+  const response = await apiClient.get(`/core/userlist/${email}/`);
   return response.data;
 };
 

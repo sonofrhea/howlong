@@ -90,7 +90,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                 </div>
                             </div>
                             <div className="mt-10 border-t border-b border-gray-100 grid-cols-2 gap-6">
-                                <div className={forms.label}>
+                                <div className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
                                     <div>
                                         <strong >Valid until:  </strong>
                                         <span>
@@ -104,7 +104,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                     </div>
                                 </div>
 
-                                <div className={forms.label}>
+                                <div className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
                                     <div>
                                         <strong >Cancelled:  </strong>
                                         <input 
@@ -123,7 +123,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
 
                 <div className={layout.formSectionCol3}>
                     <div>
-                    <p className={forms.label}>Bill To</p>
+                    <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Bill To</p>
                     <select
                         {...register("customer")}
                         className={forms.select.partial}
@@ -138,7 +138,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Project Description</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Project Description</p>
                         <input 
                             type="text"
                             {...register("project_description")}
@@ -147,7 +147,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Prepared By</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Prepared By</p>
                         <select
                             {...register("agent")}
                             className={forms.select.partial}
@@ -162,7 +162,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                     </div>
                 </div>
                     <div>
-                        <p className={forms.label}>Customer additional Details...</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Customer additional Details...</p>
                         <textarea 
                             rows={4}
                             {...register("customer_details")}

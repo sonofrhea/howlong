@@ -168,35 +168,35 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
 
                                     {/* Due Date */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm text-gray-900 font-medium truncate">
                                             {invoice.invoice_due_date}
                                         </div>
                                     </td>
 
                                     {/* Customer */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm text-black font-medium truncate">
                                             {invoice.customer}
                                         </div>
                                     </td>
 
                                     {/* Description */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm text-black font-medium truncate">
                                             {invoice.description}
                                         </div>
                                     </td>
 
                                     {/* Net Total */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm text-black font-medium truncate">
                                             {invoice.net_total}
                                         </div>
                                     </td>
 
                                     {/* Currency */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm text-black font-medium truncate">
                                             {invoice.currency}
                                         </div>
                                     </td>
@@ -213,7 +213,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
 
                                     {/* Agent */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm text-black font-medium truncate">
                                             {invoice.agent}
                                         </div>
                                     </td>

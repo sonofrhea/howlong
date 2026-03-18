@@ -109,7 +109,9 @@ console.log("PRODUCT", productItems)
 
                 <div className={layout.formSectionCol3}>
                     <div>
-                        <p className={forms.secondLevelLabel}>Invoice Date</p>
+                        <p className={forms.secondLevelLabel} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            Invoice Date
+                        </p>
                         <input 
                             type="date"
                             {...register("invoice_date", {required: "Date is required"})}
@@ -119,7 +121,9 @@ console.log("PRODUCT", productItems)
                     </div>
 
                     <div>
-                        <p className={forms.secondLevelLabel}>Invoice Due Date</p>
+                        <p className={forms.secondLevelLabel} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            Invoice Due Date
+                        </p>
                         <input 
                             type="date"
                             {...register("invoice_due_date", {required: "Due date required"})}
@@ -129,7 +133,9 @@ console.log("PRODUCT", productItems)
                     </div>
 
                     <div>
-                        <p className={forms.secondLevelLabel}>Purchase Account</p>
+                        <p className={forms.secondLevelLabel} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            Purchase Account
+                        </p>
                         <select
                             {...register("purchase_account.account_code")}
                             onChange={controlAccountChange}
@@ -148,7 +154,9 @@ console.log("PRODUCT", productItems)
                     </div>
 
                     <div>
-                        <p className={forms.secondLevelLabel}>Currency</p>
+                        <p className={forms.secondLevelLabel} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            Currency
+                        </p>
                         <select
                             {...register("currency")}
                             className={forms.select.partial}
@@ -163,7 +171,9 @@ console.log("PRODUCT", productItems)
                     </div>
 
                     <div>
-                        <p className={forms.secondLevelLabel}>Related Supplier</p>
+                        <p className={forms.secondLevelLabel} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            Related Supplier
+                        </p>
                         <select
                             {...register("supplier")}
                             className={forms.select.partial}
@@ -178,16 +188,21 @@ console.log("PRODUCT", productItems)
                     </div>
 
                     <div>
-                        <p className={forms.secondLevelLabel}>Supplier Extra Details</p>
+                        <p className={forms.secondLevelLabel} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            Supplier Extra Details
+                        </p>
                         <textarea 
                             rows={3}
                             {...register("supplier_details")}
-                            className="w-full border border-gray-300"
+                            className="w-full border border-gray-300 rounded-lg p-1.5"
+                            style={{ fontFamily: 'Montserrat, system-ui' }}
                         />
                     </div>
                     
                     <div>
-                        <p className={forms.secondLevelLabel}>Agent</p>
+                        <p className={forms.secondLevelLabel} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            Agent
+                        </p>
                         <select
                             {...register("agent")}
                             className={forms.select.partial}
@@ -202,10 +217,13 @@ console.log("PRODUCT", productItems)
                     </div>
                     
                     <div>
-                        <p className={forms.secondLevelLabel}>Product</p>
+                        <p className={forms.secondLevelLabel} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            Product
+                        </p>
                         <textarea 
                             {...register("product")}
-                            className="w-[70%] border border-gray-300"
+                            className="w-[70%] p-1.5 border border-gray-300 rounded-lg"
+                            style={{ fontFamily: 'Montserrat, system-ui' }}
                             
                         />
                     </div>

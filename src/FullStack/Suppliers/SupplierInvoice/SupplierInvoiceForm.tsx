@@ -278,7 +278,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                             <tr key={field.id} className={tables.row}>
                                                 <td>
                                                     <select
-                                                        {...register(`related_invoice.${index}.item_name`)}
+                                                        {...register(`related_invoice.${index}.item`)}
                                                         className={forms.select.full}
                                                     >
                                                         <option value="">select...</option>
@@ -377,7 +377,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                 <button
                                                     type="button"
                                                     onClick={() => append({ 
-                                                        item_name: "", 
+                                                        item: 0, 
                                                         description: "",
                                                         quantity: 0,
                                                         unit_of_measure: "",

@@ -197,7 +197,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Related Invoice</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice</p>
                             <select
                                 {...register("related_invoice")}
                                 onChange={invoicePaymentChange}
@@ -213,7 +213,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Related Invoice Total</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice Total</p>
                             <input 
                                 {...register("invoice_amount")}
                                 type="number"

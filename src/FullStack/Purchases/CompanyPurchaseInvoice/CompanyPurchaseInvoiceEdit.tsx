@@ -108,7 +108,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
 
                 <div className={layout.formSectionCol2}>
                     <div>
-                        <p className={forms.label}>Date</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</p>
                         <input 
                             type="date"
                             {...register("date", {required: "Date is required"})}
@@ -118,7 +118,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Supplier</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Supplier</p>
                         <select
                             {...register("supplier")}
                             className={forms.select.partial}
@@ -133,7 +133,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Agent</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Agent</p>
                         <select className={forms.select.partial}
                             {...register("agent")}>
                                 <option value="">select...</option>
@@ -146,7 +146,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Status</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Status</p>
                         <select
                             {...register("status")}
                             className={forms.select.partial}
@@ -164,7 +164,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                 <hr className="my-6 border-gray-200" />
 
                 <div>
-                    <p className={forms.label}>Description</p>
+                    <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Description</p>
                     <textarea 
                         {...register("description")}
                         className={forms.description}
@@ -175,7 +175,7 @@ const CompanyPurchaseInvoiceEdit: React.FC<CompanyPurchaseInvoiceProps> = ({
                 <hr className="my-6 border-gray-200" />
 
                 <div>
-                    <p className={forms.label}>Address</p>
+                    <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Address</p>
                     <textarea 
                         {...register("address")}
                         className={forms.description}

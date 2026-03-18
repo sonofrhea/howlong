@@ -90,12 +90,12 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
 
                         <div className="text-center space-y-6 px-6 py-3 gap-4">
                             <div className={layout.badge}>
-                                <p className={text.badgeLarge}>
+                                <p className={text.badgeLarge} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     SUPPLIER PAYMENT
                                 </p>
-                                <p className={labelStyles}>
+                                <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     {formatNumber()}{supplierPayment.payment_code}
-                                </p>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -121,37 +121,37 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
 
                 <div>
                     <div className="grid grid-cols-3 gap-6">
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Payment No</a><br />
                             {formatNumber()}{supplierPayment.payment_code || 'N/A'}
                         </p>
 
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Posted Date</a><br />
                             {formatDate(supplierPayment.date_created) || 'N/A'}
                         </p>
 
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Account paid by</a><br />
                             {supplierPayment.account_code?.account_code || 'N/A'} - ({supplierPayment.account_code?.account_name || 'N/A'})
                         </p>
 
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Payment To</a><br />
                             {formatSupplierNumber()}{supplierPayment.supplier} | {supplierPayment.supplier_name || 'N/A'}
                         </p>
 
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Invoice</a><br />
                             {formatInvoiceNumber()}{supplierPayment.related_invoice || 'N/A'} | Total: {supplierPayment.invoice_amount || 'N/A'}
                         </p>
 
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Invoice Amount</a><br />
                             {supplierPayment.invoice_amount || 'N/A'}
                         </p>
 
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Currency</a><br />
                             {supplierPayment.currency || 'N/A'}
                         </p>
@@ -170,7 +170,7 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                                         <th className={tables.headerCell}>Payment Type</th>
                                         <th className={tables.headerCell}>Payment Amount</th>
                                         <th className={tables.headerCell}>Additional Payment</th>
-                                        <th className={tables.headerCell}>Sub_total</th>
+                                        <th className={tables.headerCell}>Sub total</th>
                                         <th className={tables.headerCell}>Cancelled</th>
                                     </tr>
                                 </thead>
@@ -236,17 +236,17 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
             <hr className="my-6 border-gray-200" />
                                                     
             <div className="grid lg:grid-cols-5">
-                <p className={labelStyles}>
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <a className={details.extraSmallUppercase}>Created by</a><br />
                     {supplierPayment.created_by || 'N/A'}
                 </p>
 
-                <p className={labelStyles}>
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <a className={details.extraSmallUppercase}>Updated By</a><br />
                     {supplierPayment.updated_by || 'N/A'}
                 </p>
 
-                <p className={labelStyles}>
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <a className={details.extraSmallUppercase}>Date Updated</a><br />
                     {formatUpdatedDate(supplierPayment.date_updated) || 'N/A'}
                 </p>

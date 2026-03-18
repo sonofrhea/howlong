@@ -112,7 +112,7 @@ const onAccountChange = receiptVoucherAccountHandler(accounts, setValue);
 
                     <div className={layout.formSectionCol3}>
                         <div>
-                            <p className={forms.label}>Date</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</p>
                             <input 
                                 type="date"
                                 {...register("date", {required: 'Date is required'})}
@@ -122,7 +122,7 @@ const onAccountChange = receiptVoucherAccountHandler(accounts, setValue);
                         </div>
                     
                         <div>
-                            <p className={forms.label}>Received From</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Received From</p>
                             <select
                                 {...register("received_from")}
                                 className={forms.select.partial}
@@ -137,7 +137,7 @@ const onAccountChange = receiptVoucherAccountHandler(accounts, setValue);
                         </div>
                         
                         <div>
-                            <p className={forms.label}>Account Received In</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Account Received In</p>
                             <select
                                 {...register("account_received_in.account_code")}
                                 className={forms.select.partial}
@@ -156,7 +156,7 @@ const onAccountChange = receiptVoucherAccountHandler(accounts, setValue);
                         </div>
                         
                         <div>
-                            <p className={forms.label}>Related Project</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Project</p>
                             <select
                                 {...register("project")}
                                 className={forms.select.partial}
@@ -171,7 +171,7 @@ const onAccountChange = receiptVoucherAccountHandler(accounts, setValue);
                         </div>
                                                                         
                         <div>
-                            <p className={forms.label}>Currency</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency</p>
                             <select
                                 {...register("currency")}
                                 className={forms.select.partial}
@@ -186,7 +186,7 @@ const onAccountChange = receiptVoucherAccountHandler(accounts, setValue);
                         </div>
                                                                         
                         <div>
-                            <p className={forms.label}>Agent</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Agent</p>
                             <select
                                 {...register("agent")}
                                 className={forms.select.partial}
@@ -201,7 +201,7 @@ const onAccountChange = receiptVoucherAccountHandler(accounts, setValue);
                         </div>
                         
                         <div>
-                            <p className={forms.label}>Cancelled</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Cancelled</p>
                             <input 
                                 type="checkbox"
                                 {...register("cancelled")}
@@ -209,7 +209,7 @@ const onAccountChange = receiptVoucherAccountHandler(accounts, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Description</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Description</p>
                             <textarea
                                 rows={2}
                                 {...register("description")}

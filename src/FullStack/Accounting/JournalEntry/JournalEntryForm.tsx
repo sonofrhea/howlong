@@ -98,7 +98,7 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
 
                 <div className={layout.formSectionCol2}>
                     <div>
-                        <a className={forms.label}>Date</a><br />
+                        <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</a><br />
                         <input 
                             type="date"
                             {...register("date", {required: "Due date required"})}
@@ -108,7 +108,7 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                     </div>
                     
                     <div className="ml-6">
-                        <a className={forms.label}>Cancelled</a><br />
+                        <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Cancelled</a><br />
                         <input 
                             type="checkbox"
                             className="mr-2"
@@ -120,7 +120,7 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 <hr className="my-6 border-gray-200" />
 
                 <div className="m-10">
-                    <a className={forms.label}>Description: </a><br />
+                    <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Description: </a><br />
                     <textarea 
                         {...register("description")}
                         className={forms.description}

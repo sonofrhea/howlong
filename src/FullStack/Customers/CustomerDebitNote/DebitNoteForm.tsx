@@ -119,7 +119,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                 
                 <div className={layout.formSectionCol3}>
                     <div>
-                        <p className={forms.label}>Date</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</p>
                         <input 
                             type="date"
                             {...register("date", {required: "Date is required"})}
@@ -131,7 +131,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                     </div>
 
                     <div>
-                        <p className={forms.label}>Bill To...</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Bill To...</p>
                         <select
                             {...register("customer")}
                             className={forms.select.partial}
@@ -146,7 +146,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                     </div>
 
                     <div>
-                        <p className={forms.label}>Account</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Account</p>
                         <select
                             {...register("account.account_code")}
                             className={forms.select.partial}
@@ -165,7 +165,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                     </div>
 
                     <div>
-                        <p className={forms.label}>Agent</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Agent</p>
                         <select className={forms.select.partial}
                             {...register("agent")}>
                                 <option value="">select...</option>
@@ -178,7 +178,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Payment</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Payment</p>
                         <select
                             {...register("related_payment")}
                             className={forms.select.partial}
@@ -194,7 +194,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                     </div>
 
                     <div>
-                        <p className={forms.label}>Previously Paid Amount</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Previously Paid Amount</p>
                         <input 
                             {...register("initial_paid_amount")}
                             type="number"
@@ -210,7 +210,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                     </div>
 
                     <div>
-                        <p className={forms.label}>Extra Amount Owed</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Extra Amount Owed</p>
                         <input 
                             {...register("amount_owed")}
                             type="number"
@@ -225,7 +225,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                     </div>
 
                     <div>
-                        <p className={forms.label}>Currency</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency</p>
                         <select 
                             {...register("currency")}
                             className={forms.select.partial}

@@ -92,6 +92,14 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
 
 
     return(
+        <div>
+
+            <style>
+                {`
+                    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
+                `}
+            </style>
+
         <div className="w-full mx-auto page bg-white shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden">
             <div className="min-w-full mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
@@ -99,12 +107,12 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
 
                         <div className="text-center space-y-6 px-6 py-3 gap-4">
                             <div className={layout.badge}>
-                                <p className={text.badgeLarge}>
+                                <p className={text.badgeLarge} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     RECEIPT VOUCHER DETAILS
                                 </p>
-                                <p className={labelStyles}>
+                                <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     {formatNumber()}{receiptVoucher.reference_number}
-                                </p>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -130,17 +138,17 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
 
                 <div>
                     <div className="grid grid-cols-3 gap-6">
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Reference Number</a><br />
                             {formatNumber()}{receiptVoucher.reference_number}
                         </p>
                         
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Date</a><br />
                             {formatDate(receiptVoucher.date)}
                         </p>
 
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Cancelled</a><br />
                             <span className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
                                 receiptVoucher.cancelled
@@ -151,32 +159,32 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                             </span>
                         </p>
                         
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Received From</a><br />
                             {formatCustomerNumber()}{receiptVoucher.received_from || 'N/A'} - {receiptVoucher.received_from_name || 'N/A'}
                         </p>
                         
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Account Received In</a><br />
                             {receiptVoucher.account_received_in?.account_code || 'N/A'} - {receiptVoucher.account_received_in?.account_name || 'N/A'}
                         </p>
                         
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Project</a><br />
                             {formatProjectNumber()}{receiptVoucher.project || 'N/A'} | {receiptVoucher.project_name || 'N/A'}
                         </p>
                         
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Currency</a><br />
                             {receiptVoucher.currency || 'N/A'}
                         </p>
 
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Description</a><br />
                             {receiptVoucher.description || 'N/A'}
                         </p>
 
-                        <p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Agent</a><br />
                             {receiptVoucher.agent || 'N/A'}
                         </p>
@@ -190,18 +198,18 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                                 <table className={forms.body}>
                                     <thead className={tables.header}>
                                         <tr>
-                                            <th className={tables.headerCell}>Description</th>
-                                            <th className={tables.headerCell}>GST Number</th>
-                                            <th className={tables.headerCell}>Amount</th>
-                                            <th className={tables.headerCell}>Special treatment</th>
-                                            <th className={tables.headerCell}>Discount %</th>
-                                            <th className={tables.headerCell}>Discount Amount</th>
-                                            <th className={tables.headerCell}>Total <br/>(After Discount)</th>
-                                            <th className={tables.headerCell}>GST Inclusive</th>
-                                            <th className={tables.headerCell}>GST %</th>
-                                            <th className={tables.headerCell}>GST Rate</th>
-                                            <th className={tables.headerCell}>Cancelled</th>
-                                            <th className={tables.headerCell}>Total</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Description</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>GST Number</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Amount</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Special treatment</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Discount %</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Discount Amount</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Total <br/>(After Discount)</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>GST Inclusive</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>GST %</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>GST Rate</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Cancelled</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Total</th>
                                         </tr>
                                     </thead>
 
@@ -285,23 +293,24 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
             <hr className="my-6 border-gray-200" />
                             
             <div className="grid lg:grid-cols-5">
-                <p className={labelStyles}>
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <a className={details.extraSmallUppercase}>Created by</a><br />
                     {receiptVoucher.created_by || 'N/A'}
                 </p>
 
-                <p className={labelStyles}>
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <a className={details.extraSmallUppercase}>Updated By</a><br />
                     {receiptVoucher.updated_by || 'N/A'}
                 </p>
 
-                <p className={labelStyles}>
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <a className={details.extraSmallUppercase}>Date Updated</a><br />
                     {formatUpdatedDate(receiptVoucher.date_updated) || 'N/A'}
                 </p>
             </div>
             
             <hr className="my-6 border-gray-200" />
+        </div>
         </div>
     );
 };

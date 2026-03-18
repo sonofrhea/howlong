@@ -115,7 +115,7 @@ export type SupplierProfileList = {
   supplier_name: string;
   company_name: string;
   industry_code: string;
-  category_name: string;
+  category: string;
   city: string;
   registration_number: number;
   status: string;

@@ -69,7 +69,7 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
             <div className="text-center py-12">
                 <div className="flex items-center justify-between p-4 bg-gray-50 border-b">
                     <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">Show</span>
+                    <span className="text-sm font-medium text-gray-600">Show</span>
                     <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)}
                         className="border border-gray-300 rounded px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500">
                         <option value="10">10</option>
@@ -77,7 +77,7 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <span className="text-sm text-gray-600">entries</span>
+                    <span className="text-sm font-medium text-gray-600">entries</span>
                     </div>
                 </div>
                 <div className="text-gray-400 text-6xl mb-4">
@@ -99,14 +99,14 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
                     <h3 className="text-lg font-semibold text-gray-800">Customer Payments List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">Show</span>
+                            <span className="text-sm font-medium text-gray-600">Show</span>
                             <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                             </select>
-                            <span className="text-sm text-gray-600">entries</span>
+                            <span className="text-sm font-medium text-gray-600">entries</span>
                         </div>
                     </div>
                 </div>
@@ -168,28 +168,28 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
 
                                     {/* Customer */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {customerPayment.customer}
                                         </div>
                                     </td>
 
                                     {/* Project */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatProjectNumber()}{customerPayment.project}
                                         </div>
                                     </td>
 
                                     {/* Paid Amount */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {customerPayment.paid_amount}
                                         </div>
                                     </td>
 
                                     {/* Outstanding */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {customerPayment.outstanding}
                                         </div>
                                     </td>
@@ -206,7 +206,7 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
 
                                     {/* Agent */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {customerPayment.agent}
                                         </div>
                                     </td>

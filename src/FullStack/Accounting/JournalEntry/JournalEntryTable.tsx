@@ -60,7 +60,7 @@ const JournalEntryTable: React.FC<JournalEntryListProps> = ({
                 <div className="text-center py-12">
                     <div className="flex items-center justify-between p-4 bg-gray-50 border-b">
                         <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-600">Show</span>
+                        <span className="text-sm font-medium text-gray-600">Show</span>
                         <select 
                             value={itemsPerPage}
                             onChange={(e) => onItemsPerPageChange(e.target.value)}
@@ -71,7 +71,7 @@ const JournalEntryTable: React.FC<JournalEntryListProps> = ({
                             <option value="50">50</option>
                             <option value="100">100</option>
                         </select>
-                        <span className="text-sm text-gray-600">entries</span>
+                        <span className="text-sm font-medium text-gray-600">entries</span>
                         </div>
                     </div>
                     <div className="text-gray-400 text-6xl mb-4"></div>
@@ -92,7 +92,7 @@ const JournalEntryTable: React.FC<JournalEntryListProps> = ({
                         <h3 className="text-lg font-semibold text-black">Journal Entries List</h3>
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
-                                <span className="text-sm text-gray-600">Show</span>
+                                <span className="text-sm font-medium text-gray-600">Show</span>
                                 <select 
                                     value={itemsPerPage}
                                     onChange={(e) => onItemsPerPageChange(e.target.value)}
@@ -103,7 +103,7 @@ const JournalEntryTable: React.FC<JournalEntryListProps> = ({
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                 </select>
-                                <span className="text-sm text-gray-600">entries</span>
+                                <span className="text-sm font-medium text-gray-600">entries</span>
                             </div>
                         </div>
                     </div>
@@ -238,7 +238,7 @@ const JournalEntryTable: React.FC<JournalEntryListProps> = ({
 
                 {/* Table Footer with Working Pagination */}
                 <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
-                    <div className="flex items-center justify-between text-sm text-gray-600">
+                    <div className="flex items-center justify-between text-sm font-medium text-gray-600">
                         <div>
                             Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} journal entries
                         </div>

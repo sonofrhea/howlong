@@ -97,7 +97,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                                     
                 <div className={layout.formSectionCol3}>
                     <div>
-                        <a className={forms.label}>Due Date</a><br />
+                        <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Due Date</a><br />
                         <input 
                             type="date"
                             {...register("invoice_due_date", {required: "Due date is required"})}
@@ -107,7 +107,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     </div>
                 
                     <div>
-                        <a className={forms.label}>Customer</a><br />
+                        <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Customer</a><br />
                         <select
                             {...register("customer")}
                             className={forms.select.partial}
@@ -122,7 +122,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     </div>
 
                     <div>
-                        <a className={forms.label}>Customer Extra Details</a><br />
+                        <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Customer Extra Details</a><br />
                             <input 
                                 type="text"
                                 {...register("customer_details")}
@@ -131,7 +131,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     </div>
 
                     <div>
-                        <a className={forms.label}>Description</a><br />
+                        <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Description</a><br />
                             <input 
                                 type="text"
                                 {...register("description")}
@@ -140,7 +140,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     </div>
 
                     <div>
-                        <a className={forms.label}>Prepared By</a><br />
+                        <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Prepared By</a><br />
                         <select
                             {...register("agent")}
                             className={forms.select.partial}
@@ -159,7 +159,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
 
                 <div className={layout.formSectionCol3}>
                     <div >
-                        <a className={forms.label}>Related Project</a><br />
+                        <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Project</a><br />
                         <select
                             {...register("project")}
                             className={forms.select.partial}
@@ -175,7 +175,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     
                     
                     <div>
-                        <a className={forms.label}>Currency...</a><br />
+                        <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency...</a><br />
                         <select
                             {...register("currency")}
                             className={forms.select.partial}
@@ -190,7 +190,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                     </div>
 
                     <div>
-                        <a className={forms.label}>Cancelled</a><br />
+                        <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Cancelled</a><br />
                         <input 
                             className="mt-4 hover:cursor-pointer"
                             type="checkbox"

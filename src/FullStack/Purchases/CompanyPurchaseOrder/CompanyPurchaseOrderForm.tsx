@@ -117,7 +117,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                         
                         <div className={layout.formSectionCol3}>
                             <div>
-                                <a className={forms.label}>Date</a><br />
+                                <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</a><br />
                                 <input 
                                     type="date"
                                     {...register("date", {required: "Date is required"})}
@@ -127,7 +127,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                             </div>
                             
                             <div>
-                                <a className={forms.label}>Related Supplier</a><br />
+                                <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Supplier</a><br />
                                 <select
                                     {...register("supplier")}
                                     className={forms.select.partial}
@@ -142,7 +142,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                             </div>
         
                             <div>
-                                <a className={forms.label}>Purchase Account</a><br />
+                                <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Purchase Account</a><br />
                                 <select
                                     {...register("account.account_code")}
                                     className={forms.select.partial}
@@ -161,7 +161,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                             </div>
         
                             <div>
-                                <a className={forms.label}>Related Invoice</a><br />
+                                <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice</a><br />
                                 <select
                                     {...register("related_invoice")}
                                     className={forms.select.partial}
@@ -177,7 +177,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                             </div>
         
                             <div>
-                                <a className={forms.label}>Related Invoice Total</a><br />
+                                <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Invoice Total</a><br />
                                 <input 
                                     {...register("invoice_total")}
                                     className={forms.input.midNumber}
@@ -191,7 +191,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                             </div>
         
                             <div>
-                                <a className={forms.label}>Status</a><br />
+                                <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Status</a><br />
                                 <select
                                     {...register("status")}
                                     className={forms.select.partial}
@@ -206,7 +206,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                             </div>
         
                             <div>
-                                <a className={forms.label}>Agent</a><br />
+                                <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Agent</a><br />
                                 <select
                                     {...register("agent")}
                                     className={forms.select.partial}
@@ -221,7 +221,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                             </div>
         
                             <div>
-                                <a className={forms.label}>Cancelled</a><br />
+                                <a className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Cancelled</a><br />
                                 <input 
                                 {...register("cancelled")}
                                 type="checkbox"
@@ -231,7 +231,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Address</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Address</p>
                             <textarea 
                                 {...register("address")}
                                 className={forms.description}
@@ -240,7 +240,7 @@ const invoiceChange = companyPurchaseInvoiceTotal(purchaseInvoices, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Description</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Description</p>
                             <textarea 
                                 {...register("description")}
                                 className={forms.description}

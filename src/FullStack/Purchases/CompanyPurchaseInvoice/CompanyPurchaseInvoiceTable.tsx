@@ -57,7 +57,7 @@ const CompanyPurchaseInvoiceTable: React.FC<CompanyPurchaseInvoiceTableProps> = 
             <div className="text-center py-12">
                 <div className="flex items-center justify-between p-4 bg-gray-50 border-b">
                     <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">Show</span>
+                    <span className="text-sm font-medium text-gray-600">Show</span>
                     <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)}
                         className="border border-gray-300 rounded px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500">
                         <option value="10">10</option>
@@ -65,7 +65,7 @@ const CompanyPurchaseInvoiceTable: React.FC<CompanyPurchaseInvoiceTableProps> = 
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <span className="text-sm text-gray-600">entries</span>
+                    <span className="text-sm font-medium text-gray-600">entries</span>
                     </div>
                 </div>
                 <div className="text-gray-400 text-6xl mb-4">
@@ -87,14 +87,14 @@ const CompanyPurchaseInvoiceTable: React.FC<CompanyPurchaseInvoiceTableProps> = 
                     <h3 className="text-lg font-semibold text-gray-800">Company Purchase Invoices List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">Show</span>
+                            <span className="text-sm font-medium text-gray-600">Show</span>
                             <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 py-1 text-black text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                             </select>
-                            <span className="text-sm text-gray-600">entries</span>
+                            <span className="text-sm font-medium text-gray-600">entries</span>
                         </div>
                     </div>
                 </div>
@@ -157,21 +157,21 @@ const CompanyPurchaseInvoiceTable: React.FC<CompanyPurchaseInvoiceTableProps> = 
 
                                     {/* Supplier */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-gray-900 truncate">
                                             {companyPurchaseInvoice.supplier_name}
                                         </div>
                                     </td>
 
                                     {/* Address */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-gray-900 truncate">
                                             {companyPurchaseInvoice.address}
                                         </div>
                                     </td>
 
                                     {/* Description */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-gray-900 truncate">
                                             {companyPurchaseInvoice.description}
                                         </div>
                                     </td>
@@ -191,7 +191,7 @@ const CompanyPurchaseInvoiceTable: React.FC<CompanyPurchaseInvoiceTableProps> = 
 
                                     {/* Created By */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-gray-900 truncate">
                                             {companyPurchaseInvoice.net_total}
                                         </div>
                                     </td>
@@ -248,7 +248,7 @@ const CompanyPurchaseInvoiceTable: React.FC<CompanyPurchaseInvoiceTableProps> = 
 
             {/* Table Footer with Working Pagination */}
             <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
-                <div className="flex items-center justify-between text-sm text-gray-600">
+                <div className="flex items-center justify-between text-sm font-medium text-gray-600">
                     <div>
                         Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} Company purchase invoices
                     </div>

@@ -68,7 +68,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
 
 
     return(
-        <div className="w-full bg-white shadow-green-100 rounded-xl shadow-2xl border border-gray-200">
+        <div className="w-full bg-white shadow-green-100 rounded-xl shadow-2xl border border-gray-200" style={{ fontFamily: 'Montserrat, system-ui' }}>
             {/* Header */}
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-4 flex-1">
@@ -80,13 +80,13 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
                     </button>
-                    <div>
+                    <div style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <h2 className="text-xl font-semibold text-black">{supplierProfile?.supplier_name || "Name N/A"}</h2>
                         <p className="text-gray-600">{supplierProfile?.company_name || "N/A"}</p>
                     </div>
 
                     <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <h2 className="text-sm text-gray-500">Supplier details</h2>
+                        <h2 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Supplier details</h2>
                     </div>
                 </div>
                 <div className="flex gap-3">
@@ -157,25 +157,25 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                     <h3 className="text-lg font-semibold text-black mb-4">Contact Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <h4 className="text-sm text-gray-500">Email</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Email</h4>
                             <div className="text-black">
                                 {supplierProfile?.email || 'N/A'}
                             </div>
                         </div>
                         <div >
-                            <h4 className="text-sm text-gray-500">Mobile</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Mobile</h4>
                             <div className="text-black">
                                 {supplierProfile?.mobile_number || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <h4 className="text-sm text-gray-500">Home Phone</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Home Phone</h4>
                             <div className="text-black">
                                 {supplierProfile?.home_number || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <h4 className="text-sm text-gray-500">Fax</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Fax</h4>
                             <div className="text-black">
                                 {supplierProfile?.fax || 'N/A'}
                             </div>
@@ -190,31 +190,31 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="md:col-span-2">
                             
-                            <h4 className="text-sm text-gray-500">Address</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Address</h4>
                             <div className="text-black">
                                 {supplierProfile?.address || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <h4 className="text-sm text-gray-500">City</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>City</h4>
                             <div className="text-black">
                                 {supplierProfile?.city || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <h4 className="text-sm text-gray-500">State</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>State</h4>
                             <div className="text-black">
                                 {supplierProfile?.state || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <h4 className="text-sm text-gray-500">Country</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Country</h4>
                             <div className="text-black">
                                 {supplierProfile?.country || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <h4 className="text-sm text-gray-500">Post Code</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Post Code</h4>
                             <div className="text-black">
                                 {supplierProfile?.post_code || 'N/A'}
                             </div>
@@ -229,25 +229,25 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Currency code</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Currency code</h4>
                             <div className="text-black">
                                 {supplierProfile.preferred_currency?.currency_code || 'N/A'} 
                             </div>
                         </div>
                         <div>
-                            <h4 className="text-sm text-gray-500">Currency name</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Currency name</h4>
                             <div className="text-black">
                                 {supplierProfile.preferred_currency?.currency_name || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <h4 className="text-sm text-gray-500">Currency symbol</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Currency symbol</h4>
                             <div className="text-black">
                                 {supplierProfile.preferred_currency?.currency_symbol || 'N/A'}
                             </div>
                         </div>
                         <div>
-                            <h4 className="text-sm text-gray-500">Exchange rate</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Exchange rate</h4>
                             <div>
                                 buying: {supplierProfile.preferred_currency?.buy || 'N/A'} | selling: {supplierProfile.preferred_currency?.sell || 'N/A'}
                             </div>
@@ -260,28 +260,28 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                     <h3 className="text-lg font-semibold text-black mb-4">Bank Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <h4 className="text-sm text-gray-500">Bank Name</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Bank Name</h4>
                             <div className="text-black">
                                 {supplierProfile?.supplier_bank_name || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Bank account number</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Bank account number</h4>
                             <div className="text-black">
                                 {supplierProfile?.supplier_bank_account_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Account type</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Account type</h4>
                             <div className="text-black">
                                 {supplierProfile?.bank_account_type || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Status</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Status</h4>
                             <div className="text-black">
                                 {supplierProfile?.status || 'N/A'}
                             </div>
@@ -294,42 +294,42 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                     <h3 className="text-lg font-semibold text-black mb-4">Tax Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <h4 className="text-sm text-gray-500">GST Number</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>GST Number</h4>
                             <div className="text-black">
                                 {supplierProfile?.gst_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Tax ID Type</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Tax ID Type</h4>
                             <div className="text-black">
                                 {supplierProfile?.tax_id_type || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Tax Number/TIN Number</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Tax Number/TIN Number</h4>
                             <div className="text-black">
                                 {supplierProfile?.tax_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Tourism number</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Tourism number</h4>
                             <div className="text-black">
                                 {supplierProfile?.tourism_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Expiration date</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Expiration date</h4>
                             <div className="text-black">
                                 {formatDate(supplierProfile?.expiration_date) || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Service tax number</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Service tax number</h4>
                             <div className="text-black">
                                 {supplierProfile?.service_tax_number || 'N/A'}
                             </div>
@@ -341,21 +341,21 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                     <h3 className="text-lg font-semibold text-black mb-4">Additional Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <h4 className="text-sm text-gray-500">Account open date</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Account open date</h4>
                             <div className="text-black">
                                 {formatDate(supplierProfile?.account_open_date) || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Registration Number</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Registration Number</h4>
                             <div className="text-black">
                                 {supplierProfile?.registration_number || 'N/A'}
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-sm text-gray-500">Remarks</h4>
+                            <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Remarks</h4>
                             <div className="text-black">
                                 {supplierProfile?.remark || 'N/A'}
                             </div>
@@ -366,12 +366,12 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                 <hr className="my-6 border-gray-200" />
                 
                 <div className="grid lg:grid-cols-5">
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Date Updated</a><br />
                         {formatUpdateDate(supplierProfile?.date_updated) || "N/A"}
                     </p>
                             
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Updated By</a><br />
                         {supplierProfile?.updated_by || "N/A"}
                     </p>

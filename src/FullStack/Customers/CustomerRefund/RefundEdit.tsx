@@ -119,7 +119,7 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
 
                 <div className={layout.formSectionCol3}>
                     <div>
-                        <p className={forms.label}>Date</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</p>
                         <input 
                             type="date"
                             {...register("date", {required: "Date is required"})}
@@ -129,7 +129,7 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Pay To...</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Pay To...</p>
                         <select
                             {...register("pay_to")}
                             className={forms.select.partial}
@@ -144,7 +144,7 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Account</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Account</p>
                         <select
                             {...register("payment_account.account_code")}
                             className={forms.select.partial}
@@ -163,7 +163,7 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                     </div>
 
                     <div>
-                        <p className={forms.label}>Related Credit Note</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Credit Note</p>
                         <select
                             {...register("related_credit_note")}
                             className={forms.select.partial}
@@ -179,7 +179,7 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                     </div>
 
                     <div>
-                        <p className={forms.label}>Expected Refund Amount</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Expected Refund Amount</p>
                         <input 
                             {...register("expected_refund")}
                             type="number"
@@ -196,7 +196,7 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Currency</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency</p>
                         <select 
                             {...register("currency")}
                             className={forms.select.partial}
@@ -211,7 +211,7 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Agent</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Agent</p>
                         <select className={forms.select.partial}
                             {...register("agent")}>
                                 <option value="">select...</option>
@@ -295,7 +295,7 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                                             />
                                         </td>
 
-                                        <td className={forms.label}>
+                                        <td className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
                                             <select
                                                 {...register(`related_customer_refund.${index}.payment_type`)}
                                                 className={forms.select.full}

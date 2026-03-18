@@ -295,7 +295,6 @@ function SupplierCategoryManagement() {
     if (isLoadingSupplierCategories) return (
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading Supplier Categories...</p>
         </div>
         </div>
@@ -483,26 +482,6 @@ function SupplierCategoryManagement() {
                 </div>
                 </div>
             )}
-
-            {view === 'details' && (
-                <SuppliersCategoryDetails 
-                supplierCategory={selectedSupplierCategory}
-                isLoading={isLoadingSupplierCategory}
-                onBack={handleBackToSupplierCategoriesList}
-                onEdit={handleEditSupplierCategoryButton}
-                />
-            )}
-
-            {view === 'edit' && selectedSupplierCategory && (
-                <SuppliersCategoryEdit 
-                supplierCategory={selectedSupplierCategory}
-                onSubmit={handleUpdateSupplierCategory}
-                isSubmitting={updateSupplierCategoryMutation.isPending}
-                onBack={handleBackToSupplierCategoriesList}
-                onCancel={handleBackToSupplierCategoryDetails}
-                agents={agents}
-                />
-            )}
             </div>
         </div>
         </div>
@@ -510,3 +489,29 @@ function SupplierCategoryManagement() {
 
 };
 export default SupplierCategoryManagement;
+
+
+
+
+
+
+
+            //{view === 'details' && (
+            //    <SuppliersCategoryDetails 
+            //    supplierCategory={selectedSupplierCategory}
+            //    isLoading={isLoadingSupplierCategory}
+            //    onBack={handleBackToSupplierCategoriesList}
+            //    onEdit={handleEditSupplierCategoryButton}
+            //    />
+            //)}
+//
+            //{view === 'edit' && selectedSupplierCategory && (
+            //    <SuppliersCategoryEdit 
+            //    supplierCategory={selectedSupplierCategory}
+            //    onSubmit={handleUpdateSupplierCategory}
+            //    isSubmitting={updateSupplierCategoryMutation.isPending}
+            //    onBack={handleBackToSupplierCategoriesList}
+            //    onCancel={handleBackToSupplierCategoryDetails}
+            //    agents={agents}
+            //    />
+            //)}

@@ -70,19 +70,19 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
 
 
     return(
-        <div className="w-full mx-auto page bg-white shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden">
+        <div className="w-full mx-auto page bg-white shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden" style={{ fontFamily: 'Montserrat, system-ui' }}>
             <div className="w-full mx-auto page bg-white shadow-lg rounded-2xl overflow-hidden">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between p-8 gap-6">
                     <div className={layout.tag}>
 
                         <div className="text-center space-y-6 px-6 py-3 gap-4">
                             <div className={layout.badge}>
-                                <p className={text.badgeLarge}>
+                                <p className={text.badgeLarge} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     SUPPLIER INVOICE DETAILS
                                 </p>
-                                <p className={labelStyles}>
+                                <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     {formatNumber()}{supplierInvoice.invoice_number}
-                                </p>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -102,37 +102,55 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
                 <div className="grid grid-cols-3 gap-6">
                     <div>
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Invoice No</a><br />
-                        <p className="text-sm mb-4 font-medium text-black">{formatNumber()}{supplierInvoice.invoice_number}</p>
+                        <p className="text-sm mb-4 font-medium text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            {formatNumber()}{supplierInvoice.invoice_number}
+                        </p>
 
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-5">Date Issued</a><br />
-                        <p className="text-sm mb-4 font-medium text-black">{formatDate(supplierInvoice.invoice_date)}</p>
+                        <p className="text-sm mb-4 font-medium text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            {formatDate(supplierInvoice.invoice_date)}
+                        </p>
 
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Payment Account</a><br />
-                        <p className="text-sm font-medium text-black">{supplierInvoice.purchase_account?.account_code || 'N/A'} - ({supplierInvoice.purchase_account?.account_name || 'N/A'})</p>
+                        <p className="text-sm font-medium text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            {supplierInvoice.purchase_account?.account_code || 'N/A'} - ({supplierInvoice.purchase_account?.account_name || 'N/A'})
+                        </p>
                     </div>
 
                     <div>
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">
                             Supplier
                         </a><br />
-                        <p className="text-sm font-medium mb-4 text-black">{supplierInvoice.supplier_name || 'N/A'}</p>
+                        <p className="text-sm font-medium mb-4 text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            {supplierInvoice.supplier_name || 'N/A'}
+                        </p>
                         
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Supplier Extra Details</a><br />
-                        <p className="text-sm font-medium mb-4 text-black">{supplierInvoice.supplier_details || 'N/A'}</p>
+                        <p className="text-sm font-medium mb-4 text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            {supplierInvoice.supplier_details || 'N/A'}
+                        </p>
 
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Product</a><br />
-                        <p className="text-sm font-medium text-black">{supplierInvoice.product || 'N/A'}</p>
+                        <p className="text-sm font-medium text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            {supplierInvoice.product || 'N/A'}
+                        </p>
                     </div>
 
                     <div>
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Currency</a><br />
-                        <p className="text-sm font-medium mb-4 text-black">{supplierInvoice.currency || 'N/A'}</p>
+                        <p className="text-sm font-medium mb-4 text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            {supplierInvoice.currency || 'N/A'}
+                        </p>
 
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Invoice Due Date</a><br />
-                        <p className="text-sm font-medium mb-4 text-black">{supplierInvoice.invoice_due_date}</p>
+                        <p className="text-sm font-medium mb-4 text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            {supplierInvoice.invoice_due_date}
+                        </p>
 
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Agent</a><br />
-                        <p className="text-sm font-medium text-black">{supplierInvoice.agent || 'N/A'}</p>
+                        <p className="text-sm font-medium text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            {supplierInvoice.agent || 'N/A'}
+                        </p>
                     </div>
                 </div>
 
@@ -211,17 +229,17 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
             <hr className="my-6 border-gray-200" />
                                                     
             <div className="grid lg:grid-cols-5">
-                <p className={labelStyles}>
-                    <a className={details.extraSmallUppercase}>Created by</a><br />
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                    <a className={details.extraSmallUppercase} >Created by</a><br />
                     {supplierInvoice.created_by || 'N/A'}
                 </p>
 
-                <p className={labelStyles}>
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <a className={details.extraSmallUppercase}>Updated By</a><br />
                     {supplierInvoice.updated_by || 'N/A'}
                 </p>
 
-                <p className={labelStyles}>
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <a className={details.extraSmallUppercase}>Date Updated</a><br />
                     {formatUpdatedDate(supplierInvoice.date_updated) || 'N/A'}
                 </p>

@@ -74,7 +74,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
             <div className="text-center py-12">
                 <div className="flex items-center justify-between p-4 bg-gray-50 border-b">
                     <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">Show</span>
+                    <span className="text-sm font-medium text-gray-600">Show</span>
                     <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)}
                         className="border border-gray-300 text-black rounded px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500">
                         <option value="10">10</option>
@@ -82,7 +82,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <span className="text-sm text-gray-600">entries</span>
+                    <span className="text-sm font-medium text-gray-600">entries</span>
                     </div>
                 </div>
                 <div className="text-gray-400 text-6xl mb-4">
@@ -109,14 +109,14 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                     <h3 className="text-lg font-semibold text-gray-800">Invoice Payments List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">Show</span>
+                            <span className="text-sm font-medium text-gray-600">Show</span>
                             <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(e.target.value)} className="border border-gray-300 rounded px-2 text-black py-1 text-xs focus:ring-1 focus:ring-blue-500" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                             </select>
-                            <span className="text-sm text-gray-600">entries</span>
+                            <span className="text-sm font-medium text-gray-600">entries</span>
                         </div>
                     </div>
                 </div>
@@ -181,35 +181,35 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
 
                                     {/* Related Invoice */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatInvoiceNumber()}{invoicePayment.related_invoice}
                                         </div>
                                     </td>
 
                                     {/* Related Invoice Total */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {invoicePayment.related_invoice_total}
                                         </div>
                                     </td>
 
                                     {/* Net Amount */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {invoicePayment.net_aggregate_paid}
                                         </div>
                                     </td>
 
                                     {/* Outstanding */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {invoicePayment.outstanding_amount}
                                         </div>
                                     </td>
 
                                     {/* Paid By */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {invoicePayment.paid_by}
                                         </div>
                                     </td>
@@ -226,7 +226,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
 
                                     {/* Agent */}
                                     <td className="px-2 py-2 truncate" >
-                                        <div className="text-sm text-black truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {invoicePayment.agent}
                                         </div>
                                     </td>

@@ -116,7 +116,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
 
                 <div className={layout.formSectionCol3}>
                     <div>
-                        <p className={forms.label}>Date</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</p>
                         <input 
                             type="date"
                             {...register("date", {required: 'Date is required'})}
@@ -126,7 +126,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                     </div>
                 
                     <div>
-                        <p className={forms.label}>Received From</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Received From</p>
                         <select
                             {...register("received_from")}
                             className={forms.select.partial}
@@ -141,7 +141,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Account Received In</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Account Received In</p>
                         <select
                             {...register("account_received_in.account_code")}
                             className={forms.select.partial}
@@ -160,7 +160,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Related Project</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Project</p>
                         <select
                             {...register("project")}
                             className={forms.select.partial}
@@ -175,7 +175,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                     </div>
                                                                     
                     <div>
-                        <p className={forms.label}>Currency</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency</p>
                         <select
                             {...register("currency")}
                             className={forms.select.partial}
@@ -190,7 +190,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                     </div>
                                                                     
                     <div>
-                        <p className={forms.label}>Agent</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Agent</p>
                         <select
                             {...register("agent")}
                             className={forms.select.partial}
@@ -205,7 +205,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                     </div>
                     
                     <div>
-                        <p className={forms.label}>Cancelled</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Cancelled</p>
                         <input 
                             type="checkbox"
                             {...register("cancelled")}
@@ -213,7 +213,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                     </div>
 
                     <div>
-                        <p className={forms.label}>Description</p>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Description</p>
                         <textarea
                             rows={2}
                             {...register("description")}
@@ -246,17 +246,17 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                             </colgroup>
                             <thead className={tables.header}>
                                 <tr>
-                                    <th className={tables.headerCell}>Description</th>
-                                    <th className={tables.headerCell}>GST number</th>
-                                    <th className={tables.headerCell}>Amount</th>
-                                    <th className={tables.headerCell}>Special treatment</th>
-                                    <th className={tables.headerCell}>Discount %</th>
-                                    <th className={tables.headerCell}>Total <br/>(After Discount)</th>
-                                    <th className={tables.headerCell}>GST Inclusive</th>
-                                    <th className={tables.headerCell}>GST %</th>
-                                    <th className={tables.headerCell}>Total <br/>(After Tax)</th>
-                                    <th className={tables.headerCell}>Cancelled</th>
-                                    <th className={tables.headerCell}></th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Description</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>GST number</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Amount</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Special treatment</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Discount %</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Total <br/>(After Discount)</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>GST Inclusive</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>GST %</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Total <br/>(After Tax)</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Cancelled</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}></th>
                                 </tr>
                             </thead>
 
@@ -372,7 +372,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                                     );
                                 })}
                                 <tr>
-                                    <td className={tables.headerCell} colSpan={2}>
+                                    <td className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }} colSpan={2}>
                                         <button
                                             type="button"
                                             onClick={() => append({
@@ -417,7 +417,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
                                         />

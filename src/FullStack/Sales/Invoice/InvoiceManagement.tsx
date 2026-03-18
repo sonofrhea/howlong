@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 
 
 import { fetchInvoices, fetchInvoiceById, createInvoice,
-    updateInvoice, deleteInvoice } from "../Engines";
+    updateInvoice, deleteInvoice, 
+    fetchQuotations} from "../Engines";
 
 import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
@@ -100,6 +101,11 @@ function InvoiceManagement() {
         queryKey: ['productItems'],
         queryFn: fetchProductItems
     });
+
+    const { data: quotations = [] } = useQuery({
+        queryKey: ['quotations'],
+        queryFn: fetchQuotations
+    })
 
 
     // ------------------------------------------------------------------------------------
@@ -225,7 +231,7 @@ function InvoiceManagement() {
         };
         
 
-        //console.log("🎯 RAW FORM DATA:", invoiceData);
+        console.log("🎯 RAW FORM DATA:", invoiceData);
         await createInvoiceMutation.mutateAsync(cleanedData);
     };
 
@@ -254,7 +260,7 @@ function InvoiceManagement() {
 
 
     const handleDeleteInvoice = async (invoiceId: number) => {
-        if (!window.confirm('Are you sure you want to delete this customer?')) return;
+        if (!window.confirm('Are you sure you want to delete this invoice?')) return;
         
         await deleteInvoiceMutation.mutateAsync(invoiceId);
     };
@@ -358,7 +364,6 @@ function InvoiceManagement() {
     if (isLoadingInvoices) return (
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading invoices...</p>
         </div>
         </div>
@@ -545,14 +550,15 @@ function InvoiceManagement() {
                     </button>
                     </div>
                     <InvoiceForm 
-                    onSubmit={handleAddInvoice} 
-                    isSubmitting={createInvoiceMutation.isPending} 
-                    onCancel={handleBackToInvoicesList}
-                    customers={customers}
-                    currencies={currencies}
-                    agents={agents}
-                    projects={projects}
-                    productItems={productItems}
+                        onSubmit={handleAddInvoice} 
+                        isSubmitting={createInvoiceMutation.isPending} 
+                        onCancel={handleBackToInvoicesList}
+                        customers={customers}
+                        currencies={currencies}
+                        agents={agents}
+                        projects={projects}
+                        productItems={productItems}
+                        quotations={quotations}
                     />
                     {createInvoiceMutation.isError && (
                     <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">

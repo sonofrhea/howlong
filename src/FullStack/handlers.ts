@@ -2,7 +2,8 @@ import React from "react"
 import { ControlAccountInterface } from "./ChartOfAccounts/Interfaces"
 import { CurrencyInterface } from "./Core/constants/Types"
 import { CustomerPaymentResponse,
-  InvoiceInterface, InvoicePaymentInterface } from "./Sales/Constants/Types"
+  InvoiceInterface, InvoicePaymentInterface, 
+  QuotationDetails} from "./Sales/Constants/Types"
 import { SupplierInvoiceResponse } from "./Suppliers/constants/Types"
 import { CompanyPurchaseInvoiceResponse } from "./Purchases/constants/Types"
 import { BillOfQuantitiesResponse, ProjectProfileResponse,
@@ -445,5 +446,40 @@ export const companyCurrencyHandler = (currencies: CurrencyInterface[], setValue
             setValue("preferred_currency.sell", selectedCurrency.sell);
         }
     }
+};
+
+
+
+
+
+export const quotationInvoiceHandler = (quotations: QuotationDetails[], setValue: any, replace: any) => {
+  return (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedQuotation = Number(e.target.value);
+    const selectedQuote = quotations.find(a => a.quotation_number === selectedQuotation)
+    console.log("✅ Found related Quotation:", selectedQuote);
+
+    if (selectedQuote) {
+      setValue("customer", selectedQuote.customer);
+      setValue("customer_details", selectedQuote.customer_details);
+      setValue("description", selectedQuote.project_description);
+      setValue("agent", selectedQuote.agent);
+      setValue("discount", selectedQuote.discount);
+      setValue("discount_amount", selectedQuote.discount_amount);
+      setValue("description", selectedQuote.project_description);
+      setValue("tax_inclusive", selectedQuote.tax_inclusive);
+      setValue("tax_amount", selectedQuote.tax_amount);
+
+      replace(
+        selectedQuote.related_quotation?.map(quote => ({
+          item: quote.item,
+          description: quote.description,
+          quantity: quote.quantity,
+          unit_of_measure: quote.unit_of_measure,
+          price_per_unit: quote.price_per_unit,
+          cancelled: quote.cancelled,
+        })) || []
+      );
+    };
+  };
 };
 

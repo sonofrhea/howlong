@@ -178,6 +178,9 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                                             <th className={tables.headerCell}>UOM</th>
                                             <th className={tables.headerCell}>Price/Per Unit</th>
                                             <th className={tables.headerCell}>Amount</th>
+                                            <th className={tables.headerCell}>SST Inclusive?</th>
+                                            <th className={tables.headerCell}>SST%</th>
+                                            <th className={tables.headerCell}>Total</th>
                                             <th className={tables.headerCell}>Cancelled</th>
                                         </tr>
                                     </thead>
@@ -190,6 +193,9 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                                                 <td className={tables.cell}>{line.quantity || '--'}</td>
                                                 <td className={tables.cell}>{line.unit_of_measure || '--'}</td>
                                                 <td className={tables.cell}>{line.price_per_unit || '--'}</td>
+                                                <td className={tables.cell}>{line.total || '--'}</td>
+                                                <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
+                                                <td className={tables.cell}>{line.tax_amount || '--'}</td>
                                                 <td className={tables.cell}>{line.sub_total || '--'}</td>
                                                 <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                             </tr>

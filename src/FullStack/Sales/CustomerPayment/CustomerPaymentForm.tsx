@@ -109,7 +109,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
 
                     <div className={layout.formSectionCol3}>
                         <div>
-                            <p className={forms.label}>Date</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Date</p>
                             <input 
                                 type="date"
                                 {...register("date", {required: "Date is required"})}
@@ -120,7 +120,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                     
 
                         <div>
-                            <p className={forms.label}>Related Project</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Project</p>
                             <select
                                 {...register("project")}
                                 className={forms.select.partial}
@@ -135,7 +135,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                         </div>
                                                 
                         <div>
-                            <p className={forms.label}>Account Received In</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Account Received In</p>
                             <select
                                 {...register("account_received_in.account_code")}
                                 onChange={controlAccountChange}
@@ -154,7 +154,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                         </div>
                                             
                         <div>
-                            <p className={forms.label}>Customer</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Customer</p>
                             <select
                                 {...register("customer")}
                                 className={forms.select.partial}
@@ -169,7 +169,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Related Payment</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Payment</p>
                             <select
                                 {...register("related_payment")}
                                 onChange={invoicePaymentChange}
@@ -185,7 +185,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Related Payment Total</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Payment Total</p>
                             <input 
                                 {...register("related_payment_paid_amount")}
                                 type="number"
@@ -201,7 +201,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                         </div>
 
                         <div>
-                            <p className={forms.label}>Related Payment Outstanding</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Related Payment Outstanding</p>
                             <input 
                                 {...register("related_payment_outstanding")}
                                 type="number"
@@ -217,7 +217,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                         </div>
                         
                         <div>
-                            <p className={forms.label}>Cancelled</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Cancelled</p>
                             <input 
                                 {...register("cancelled")}
                                 type="checkbox"
@@ -225,7 +225,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                         </div>
                         
                         <div>
-                            <p className={forms.label}>Completed</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Completed</p>
                             <input 
                                 {...register("completed")}
                                 type="checkbox"
@@ -233,7 +233,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                         </div>
                                                 
                         <div>
-                            <p className={forms.label}>Currency</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency</p>
                             <select 
                                 {...register("currency")}
                                 className={forms.select.partial}
@@ -248,7 +248,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                         </div>
                                                 
                         <div>
-                            <p className={forms.label}>Agent</p>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Agent</p>
                             <select className={forms.select.partial}
                                 {...register("agent")}>
                                     <option value="">select...</option>
