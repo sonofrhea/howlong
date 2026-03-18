@@ -94,10 +94,10 @@ console.log("PRODUCT", productItems)
                     
                         <div className="text-center space-y-6 px-6 py-3 gap-4">
                             <div className={layout.badge}>
-                                <p className={text.badgeLarge}>
+                                <p style={{ fontFamily: 'Montserrat, system-ui' }}  className={text.badgeLarge}>
                                     INVOICE DETAILS
                                 </p>
-                                <p className={labelStyles}>
+                                <p style={{ fontFamily: 'Montserrat, system-ui' }}  className={labelStyles}>
                                     {formatNumber()}{supplierInvoice.invoice_number}
                                 </p>
                             </div>

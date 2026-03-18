@@ -38,8 +38,11 @@ const SupplierProfileTable: React.FC<SupplierProfileTableProps> = ({
         const isAsc = sortConfig.direction === 'asc';
 
         return (
-            <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"  title={label} onClick={() => onSort(sortKey)}>
-                <div className="flex items-center justify-center gap-1">
+            <th
+                className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors font-[Montserrat]!" 
+                style={{ fontFamily: 'Montserrat, system-ui' }}
+                title={label} onClick={() => onSort(sortKey)}>
+                <div className="flex items-center justify-center gap-1 font-[Montserrat]!">
                     {label}
                     {isSorted && (
                         <span className="text-gray-400">
@@ -55,6 +58,14 @@ const SupplierProfileTable: React.FC<SupplierProfileTableProps> = ({
     if (supplierProfiles.length === 0) {
         return (
             <div className="text-center py-12">
+
+                <style>
+                    {`
+                        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap');
+                    
+                    `}
+                </style>
+
                 <div className="flex items-center justify-between p-4 bg-gray-50 border-b">
                     <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-gray-600">Show</span>
@@ -73,18 +84,28 @@ const SupplierProfileTable: React.FC<SupplierProfileTableProps> = ({
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
                     </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-600 mb-2">No supplier profile found</h3>
-                <p className="text-gray-500">Get started by creating your first supplier profile.</p>
+                <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-gray-600 mb-2">No supplier profile found</h3>
+                <p style={{ fontFamily: 'Montserrat, system-ui' }} className="text-gray-500">Get started by creating your first supplier profile.</p>
             </div>
         );
     }
 
     return (
         <div className="overflow-hidden">
+            <title>List | Suppliers · Urusentra ERP for Small & Medium Enterprises</title>
+            <meta name="list" content="Urusentra suppliers list – modern ERP for SMEs" />
+
+            <style>
+                {`
+                    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap');
+                   
+                `}
+            </style>
+
             {/* Table Header with Items Per Page */}
             <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-gray-800">Supplier Profile List</h3>
+                    <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-gray-800">Supplier Profile List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-medium text-gray-600">Show</span>
@@ -101,9 +122,9 @@ const SupplierProfileTable: React.FC<SupplierProfileTableProps> = ({
             </div>
 
             {/* Table */}
-            <div className="w-full">
-                <table className="w-full table-fixed divide-y divide-gray-200">
-                    <colgroup>
+            <div className="w-full" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                <table className="w-full table-fixed divide-y divide-gray-200" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                    <colgroup style={{ fontFamily: 'Montserrat, system-ui' }}>
                     {[
                         "w-1/9 text-centre",
                         "w-1/9 text-centre",
@@ -116,11 +137,11 @@ const SupplierProfileTable: React.FC<SupplierProfileTableProps> = ({
                         "w-1/9 text-centre",
                         "w-[7%] text-centre",
                     ].map((line, index) => (
-                        <col key={index} className={line} />
+                        <col key={index} className={line} style={{ fontFamily: 'Montserrat, system-ui' }} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
-                        <tr>
+                    <thead className="bg-gray-50" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                        <tr style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <SortableHeader label="Supplier #" sortKey="supplier_code" />
                             <SortableHeader label="Supplier Name" sortKey="supplier_name" />
                             <SortableHeader label="Company Name" sortKey="company_name" />

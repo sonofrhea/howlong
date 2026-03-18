@@ -45,7 +45,7 @@ const SupplierPaymentTable: React.FC<SupplierPaymentTableProps> = ({
 
         return (
             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"  title={label} onClick={() => onSort(sortKey)}>
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-1 font-[Montserrat]!">
                     {label}
                     {isSorted && (
                         <span className="text-gray-400">
@@ -79,18 +79,28 @@ const SupplierPaymentTable: React.FC<SupplierPaymentTableProps> = ({
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
                     </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-600 mb-2">No supplier payments found</h3>
-                <p className="text-gray-500">Get started by creating your first supplier payment.</p>
+                <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-gray-600 mb-2">No supplier payments found</h3>
+                <p style={{ fontFamily: 'Montserrat, system-ui' }}  className="text-gray-500">Get started by creating your first supplier payment.</p>
             </div>
         );
     }
 
     return (
         <div className="overflow-hidden">
+            <title>List | Supplier payments · Urusentra ERP for Small & Medium Enterprises</title>
+            <meta name="list" content="Urusentra suppliers payment list – modern ERP for SMEs" />
+
+            <style>
+                {`
+                    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap');
+                   
+                `}
+            </style>
+
             {/* Table Header with Items Per Page */}
             <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-gray-800">Supplier Payments List</h3>
+                    <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-gray-800">Supplier Payments List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-medium text-gray-600">Show</span>
@@ -130,7 +140,7 @@ const SupplierPaymentTable: React.FC<SupplierPaymentTableProps> = ({
                             <SortableHeader label="Date" sortKey="date_created" />
                             <SortableHeader label="Supplier" sortKey="supplier" />
                             <SortableHeader label="Net Total" sortKey="aggregate_total" />
-                            <SortableHeader label="Outstanding Amount" sortKey="outstanding_amount" />
+                            <SortableHeader label="Outstanding" sortKey="outstanding_amount" />
                             <SortableHeader label="Currency" sortKey="currency" />
                             <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Created By" sortKey="created_by" />

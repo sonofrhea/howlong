@@ -322,7 +322,7 @@ function SupplierProfileManagement() {
     if (isLoadingSupplierProfiles) return (
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-            <p className="mt-4 text-gray-600">fetching suppliers...</p>
+            <p style={{ fontFamily: 'Montserrat, system-ui' }} className="mt-4 text-gray-600">fetching suppliers...</p>
         </div>
         </div>
     );
@@ -333,8 +333,8 @@ function SupplierProfileManagement() {
             <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500 mb-4">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" fill="currentColor"/>
             </svg>
-            <h2 className="text-xl font-bold text-gray-800 mb-2">Error Loading Data</h2>
-            <p className="text-gray-600">Failed to load supplier profiles. Please try again.</p>
+            <h2 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-xl font-bold text-gray-800 mb-2">Error Loading Data</h2>
+            <p style={{ fontFamily: 'Montserrat, system-ui' }} className="text-gray-600">Failed to load supplier profiles. Please try again.</p>
         </div>
         </div>
     );
@@ -351,14 +351,22 @@ function SupplierProfileManagement() {
 
     return (
         <div className="min-h-screen bg-white">
+
+            <style>
+                {`
+                    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap');
+                   
+                `}
+            </style>
+
         {/* Minimal Header */}
-        <div className="border-b border-gray-100">
+        <div className="border-b border-gray-100" style={{ fontFamily: 'Montserrat, system-ui' }}>
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                         <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                         <div>
-                            <h1 className="text-lg font-semibold text-gray-900">Suppliers Suite</h1>
+                            <h1 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-gray-900">Suppliers Suite</h1>
                             <p className="text-sm text-gray-500">Supplier Profile Management</p>
                         </div>
                     </div>
@@ -391,8 +399,8 @@ function SupplierProfileManagement() {
                         </svg>
                     </div>
                     <div>
-                        <h1 className="text-4xl font-light text-gray-900 tracking-tight">Supplier Profile</h1>
-                        <p className="text-gray-500 mt-2">Manage and track supplier profiles</p>
+                        <h1 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-4xl font-light text-gray-900 tracking-tight">Supplier Profile</h1>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }} className="text-gray-500 font-medium! mt-2">Manage and track supplier profiles</p>
                     </div>
                     </div>
                 </div>
@@ -402,7 +410,7 @@ function SupplierProfileManagement() {
                     {(view === 'form' || view === 'details' || view === 'edit') && (
                     <button
                         onClick={handleBackToSupplierProfilesList}
-                        className="bg-white border border-gray-200 hover:border-gray-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
+                        className="bg-white border border-gray-200 hover:border-yellow-500 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -487,8 +495,8 @@ function SupplierProfileManagement() {
                         </svg>
                     </div>
                     <div>
-                        <h2 className="text-2xl font-light text-gray-900">Create Supplier Profile</h2>
-                        <p className="text-gray-500">Add a new supplier profile to your records</p>
+                        <h2 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-2xl font-light text-gray-900">Create Supplier Profile</h2>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }} className="text-gray-500 font-medium!">Add a new supplier profile to your records</p>
                     </div>
                         <button 
                             onClick={() => setView('list')}

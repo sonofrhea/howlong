@@ -55,6 +55,16 @@ const currencyChange = currencyHandler(currencies, setValue);
 
 
     return(
+        <div>
+            <title>Edit | Suppliers · Urusentra ERP for Small & Medium Enterprises</title>
+            <meta name="edit" content="Urusentra suppliers edit – modern ERP for SMEs" />
+
+            <style>
+                {`
+                    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap');
+                `}
+            </style>
+
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="w-full bg-green rounded-xl border shadow-2xl border-gray-200">
                 {/* Header */}
@@ -70,7 +80,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                     <option value="">select...</option>
                                     {useMemo(() => agents.map((agent: AgentInterface) => (
                                         <option key={agent.email} value={agent.email}>
-                                            {agent.name}1 {agent.email} 
+                                            {agent.name} | {agent.email} 
                                         </option>
                                     )), [agents])}
                                 </select>
@@ -145,7 +155,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                     </div>
                     
                     <div className="bg-orange-50 rounded-lg p-6 border border-orange-200">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Additional Information</h3>
+                        <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-gray-800 mb-4">Additional Information</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         
                             <div>
@@ -191,7 +201,7 @@ const currencyChange = currencyHandler(currencies, setValue);
 
                         {/* Contact Information */}
                     <div className="bg-green-50 rounded-lg p-6 border border-green-200">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Contact Information</h3>
+                        <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-gray-800 mb-4">Contact Information</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <div className="text-sm text-black mb-1">Email</div>
@@ -227,7 +237,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                             {/* Address Information */}
                     <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
 
-                        <h3 className="text-lg font-semibold text-black mb-4">Address Information</h3>
+                        <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-black mb-4">Address Information</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="md:col-span-5">
                                 
@@ -281,7 +291,7 @@ const currencyChange = currencyHandler(currencies, setValue);
 
 
                     <div className="bg-violet-50 rounded-lg p-6">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Bank Information</h3>
+                        <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-gray-800 mb-4">Bank Information</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
                                 <div className="text-sm text-black mb-1">Bank Name</div>
@@ -334,7 +344,7 @@ const currencyChange = currencyHandler(currencies, setValue);
 
                             {/* Tax Information */}
                     <div className="bg-orange-50 rounded-lg p-6 border border-orange-200">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Tax Information</h3>
+                        <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-gray-800 mb-4">Tax Information</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
                                 <div className="text-sm text-black mb-1">GST Number</div>
@@ -427,6 +437,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                 </div>
             </div>
         </form>
+        </div>
     );  
 };
 export default SupplierProfileEdit;

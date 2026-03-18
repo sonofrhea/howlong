@@ -23,7 +23,8 @@ import { fetchSupplierInvoices, fetchSupplierProfiles } from "../Engines";
 
 import { management, spinningStyles } from "../constants/Styles";
 import { TriangleAlert, HandCoins,
-    Plus
+    Plus,
+    Truck
  } from "lucide-react";
 
 
@@ -391,7 +392,7 @@ function SupplierPaymentManagement() {
     if (isLoadingSupplierPayments) return (
             <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
             <div className="text-center">
-                <p className="mt-4 text-gray-600">fetching payments...</p>
+                <p style={{ fontFamily: 'Montserrat, system-ui' }}  className="mt-4 text-gray-600">fetching payments...</p>
             </div>
             </div>
     );
@@ -400,8 +401,8 @@ function SupplierPaymentManagement() {
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
             <TriangleAlert />
-            <h2 className="text-xl font-bold text-gray-800 mb-2">Error Loading Data</h2>
-            <p className="text-gray-600">Failed to load supplier payments. Please try again.</p>
+            <h2 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-xl font-bold text-gray-800 mb-2">Error Loading Data</h2>
+            <p style={{ fontFamily: 'Montserrat, system-ui' }}  className="text-gray-600">Failed to load supplier payments. Please try again.</p>
         </div>
         </div>
     );
@@ -423,9 +424,11 @@ function SupplierPaymentManagement() {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <span className={spinningStyles.terminalBar.spinner}>⠋</span>
+                        <span className={spinningStyles.terminalBar.spinner}>
+                            <Truck />
+                        </span>
                         <div>
-                            <h2 className="text-m font-semibold text-gray-900">Suppliers Suite</h2>
+                            <h2 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-m font-semibold text-gray-900">Suppliers Suite</h2>
                             <p className="text-xs text-gray-500">Supplier Payment Management</p>
                         </div>
                     </div>
@@ -453,11 +456,11 @@ function SupplierPaymentManagement() {
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-linear-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center border border-blue-100">
-                        𑿠
+                        <Truck />
                     </div>
                     <div>
-                        <h2 className="text-3xl font-light text-gray-900 tracking-tight">Supplier Payments</h2>
-                        <p className="text-gray-500 mt-2">Manage and track your supplier payments</p>
+                        <h2 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-3xl font-light text-gray-900 tracking-tight">Supplier Payments</h2>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }} className="text-gray-500 font-medium! mt-2">Manage and track your supplier payments</p>
                     </div>
                     </div>
                 </div>
@@ -466,7 +469,7 @@ function SupplierPaymentManagement() {
                     {(view === 'form' || view === 'details' || view === 'edit') && (
                     <button
                         onClick={handleBackToSupplierPaymentsList}
-                        className="bg-white border border-gray-200 hover:border-yellow-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
+                        className="bg-white border border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -549,8 +552,8 @@ function SupplierPaymentManagement() {
                         </svg>
                     </div>
                     <div>
-                        <h2 className="text-2xl font-light text-gray-900">Create Supplier Payment</h2>
-                        <p className="text-gray-500">Add a new supplier payment to your records</p>
+                        <h2 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-2xl font-light text-gray-900">Create Supplier Payment</h2>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }}  className="text-gray-500">Add a new supplier payment to your records</p>
                     </div>
                     <button 
                         onClick={() => setView('list')}

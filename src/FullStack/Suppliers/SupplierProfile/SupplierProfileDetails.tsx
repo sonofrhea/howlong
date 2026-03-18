@@ -54,7 +54,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                 <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
-                <h2 className="text-xl font-semibold text-black mb-2">Supplier Not Found</h2>
+                <h2 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-xl font-semibold text-black mb-2">Supplier Not Found</h2>
                 <p className="text-gray-600 mb-4">Unable to load supplier details.</p>
                 <button 
                     onClick={onBack}
@@ -68,21 +68,32 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
 
 
     return(
+        <div>
+            <title>Details | Suppliers · Urusentra ERP for Small & Medium Enterprises</title>
+            <meta name="details" content="Urusentra suppliers details – modern ERP for SMEs" />
+
+            <style>
+                {`
+                    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap');
+                   
+                `}
+            </style>
+
         <div className="w-full bg-white shadow-green-100 rounded-xl shadow-2xl border border-gray-200" style={{ fontFamily: 'Montserrat, system-ui' }}>
             {/* Header */}
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-4 flex-1">
                     <button 
                         onClick={onBack}
-                        className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-lg"
+                        className="text-gray-500 hover:text-gray-700 hover:border-yellow-200 transition-colors p-2 hover:bg-gray-100 rounded-lg"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
                     </button>
                     <div style={{ fontFamily: 'Montserrat, system-ui' }}>
-                        <h2 className="text-xl font-semibold text-black">{supplierProfile?.supplier_name || "Name N/A"}</h2>
-                        <p className="text-gray-600">{supplierProfile?.company_name || "N/A"}</p>
+                        <h2 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-xl font-semibold text-black">{supplierProfile?.supplier_name || "Name N/A"}</h2>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }} className="text-gray-600">{supplierProfile?.company_name || "N/A"}</p>
                     </div>
 
                     <div className="absolute left-1/2 transform -translate-x-1/2">
@@ -122,7 +133,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                     <div className="bg-orange-50 text-center border border-orange-600 hover:border-orange-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
                         <h4 className="text-sm text-orange-900 font-medium">Company name</h4>
 
-                        <div className="text-lg font-bold text-black">
+                        <div className="text-lg font-semibold text-black">
                             {supplierProfile?.company_name || 'N/A'}
                         </div>
                     </div>
@@ -130,7 +141,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                     <div className="bg-purple-50 text-center border border-purple-600 hover:border-purple-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
                         <h4 className="text-sm text-purple-900 font-medium">Category</h4>
 
-                        <div className="text-lg font-bold text-black">
+                        <div className="text-lg font-semibold text-black">
                             {supplierProfile?.category_name || 'N/A'}
                         </div>
                     </div>
@@ -154,7 +165,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
 
                 {/* Contact Information */}
                 <div className="bg-green-50 rounded-lg p-6 border border-green-300 hover:border-green-600 hover:cursor-pointer hover:shadow-2xl">
-                    <h3 className="text-lg font-semibold text-black mb-4">Contact Information</h3>
+                    <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-black mb-4">Contact Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Email</h4>
@@ -186,7 +197,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                 {/* Address Information */}
                 <div className="bg-blue-50 rounded-lg p-6 border border-blue-300 hover:border-blue-600 hover:cursor-pointer hover:shadow-2xl">
 
-                    <h3 className="text-lg font-semibold text-black mb-4">Address Information</h3>
+                    <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-black mb-4">Address Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="md:col-span-2">
                             
@@ -225,7 +236,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                     {/* CURRENCY INFO */}
                 <div className="bg-red-50 rounded-lg p-6 border border-red-300 hover:border-red-600 hover:cursor-pointer hover:shadow-2xl">
 
-                    <h3 className="text-lg font-semibold text-black mb-4">Preferred Currency</h3>
+                    <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-black mb-4">Preferred Currency</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <div>
@@ -257,7 +268,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                 </div>
 
                 <div className="bg-violet-50 rounded-lg p-6 border border-violet-300 hover:border-violet-600 hover:cursor-pointer hover:shadow-2xl">
-                    <h3 className="text-lg font-semibold text-black mb-4">Bank Information</h3>
+                    <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-black mb-4">Bank Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Bank Name</h4>
@@ -291,7 +302,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
 
                 {/* Tax Information */}
                 <div className="bg-orange-50 rounded-lg p-6 border border-orange-300 hover:border-orange-800 hover:cursor-pointer hover:shadow-2xl">
-                    <h3 className="text-lg font-semibold text-black mb-4">Tax Information</h3>
+                    <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-black mb-4">Tax Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>GST Number</h4>
@@ -338,7 +349,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                 </div>
 
                 <div className="bg-violet-50 rounded-lg p-6 border border-violet-300 hover:border-violet-600 hover:cursor-pointer hover:shadow-2xl">
-                    <h3 className="text-lg font-semibold text-black mb-4">Additional Information</h3>
+                    <h3 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-black mb-4">Additional Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <h4 className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>Account open date</h4>
@@ -378,6 +389,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                 </div>
                 <hr className="my-6 border-gray-200" />
             </div>
+        </div>
         </div>
     );
 };

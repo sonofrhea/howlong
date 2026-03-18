@@ -9,7 +9,17 @@ import { ComingSoon } from "../App";
 function MainPage() {
 
     return(
-        <div className="bg-gray-100" style={{ fontFamily: 'Montserrat, system-ui' }}>
+        <div className="bg-gray-100">
+            <title>Main | Urusentra · ERP for Small & Medium Enterprises</title>
+            <meta name="main" content="Urusentra main page – modern ERP for SMEs" />
+
+            <style>
+                {`
+                    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap');
+                   
+                `}
+            </style>
+
             <div className="flex bg-white" style={{ fontFamily: 'Montserrat, system-ui' }}>
                 <div className="fixed top-4 left-4 z-50">
                     <LogoutButton />
@@ -36,7 +46,7 @@ function MainPage() {
 
                     <div className="cursor-not-allowed opacity-50 ">
                         
-                        <span>⟵ Connect with suppliers</span>
+                        <span style={{ fontFamily: 'Montserrat, system-ui' }}>⟵ Connect with suppliers</span>
                     </div>
                 </Link>
             </div>

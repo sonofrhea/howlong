@@ -104,7 +104,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                 <div className="text-right">
                                     <div className={layout.badge}>
                                         <div className={text.badgeSmall}>NEW</div>
-                                        <div className={text.badgeLarge}>
+                                        <div className={text.badgeLarge} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                             SUPPLIER INVOICE
                                         </div>
                                     </div>
@@ -116,27 +116,27 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
 
                         <div className={layout.formSectionCol3}>
                             <div>
-                                <p className={forms.secondLevelLabel}>Invoice Date</p>
+                                <p style={{ fontFamily: 'Montserrat, system-ui' }} className={forms.secondLevelLabel}>Invoice Date</p>
                                 <input 
                                     type="date"
                                     {...register("invoice_date", {required: "Date is required"})}
                                     className={forms.input.date}
                                 />
-                                {errors.invoice_due_date && <p className="text-amber-600 text-sm">{errors.invoice_due_date?.message}</p>}
+                                {errors.invoice_due_date && <p style={{ fontFamily: 'Montserrat, system-ui' }} className="text-amber-600 text-sm">{errors.invoice_due_date?.message}</p>}
                             </div>
 
                             <div>
-                                <p className={forms.secondLevelLabel}>Invoice Due Date</p>
+                                <p style={{ fontFamily: 'Montserrat, system-ui' }} className={forms.secondLevelLabel}>Invoice Due Date</p>
                                 <input 
                                     type="date"
                                     {...register("invoice_due_date", {required: "Due date required"})}
                                     className={forms.input.date}
                                 />
-                                {errors.invoice_due_date && <p className="text-amber-600 text-sm">{errors.invoice_due_date?.message}</p>}
+                                {errors.invoice_due_date && <p style={{ fontFamily: 'Montserrat, system-ui' }} className="text-amber-600 text-sm">{errors.invoice_due_date?.message}</p>}
                             </div>
 
                             <div>
-                                <p className={forms.secondLevelLabel}>Purchase Account</p>
+                                <p style={{ fontFamily: 'Montserrat, system-ui' }} className={forms.secondLevelLabel}>Purchase Account</p>
                                 <select
                                     {...register("purchase_account.account_code")}
                                     onChange={controlAccountChange}
@@ -155,7 +155,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                             </div>
 
                             <div>
-                                <p className={forms.secondLevelLabel}>Currency</p>
+                                <p style={{ fontFamily: 'Montserrat, system-ui' }} className={forms.secondLevelLabel}>Currency</p>
                                 <select
                                     {...register("currency")}
                                     className={forms.select.partial}
@@ -170,7 +170,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                             </div>
 
                             <div>
-                                <p className={forms.secondLevelLabel}>Related Supplier</p>
+                                <p style={{ fontFamily: 'Montserrat, system-ui' }} className={forms.secondLevelLabel}>Related Supplier</p>
                                 <select
                                     {...register("supplier")}
                                     className={forms.select.partial}
@@ -185,16 +185,16 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                             </div>
 
                             <div>
-                                <p className={forms.secondLevelLabel}>Supplier Extra Details</p>
+                                <p style={{ fontFamily: 'Montserrat, system-ui' }} className={forms.secondLevelLabel}>Supplier Extra Details</p>
                                 <textarea 
                                     rows={3}
                                     {...register("supplier_details")}
-                                    className="w-full border border-gray-300"
+                                    className="w-full border border-gray-300 p-1.5"
                                 />
                             </div>
                             
                             <div>
-                                <p className={forms.secondLevelLabel}>Agent</p>
+                                <p style={{ fontFamily: 'Montserrat, system-ui' }} className={forms.secondLevelLabel}>Agent</p>
                                 <select
                                     {...register("agent")}
                                     className={forms.select.partial}
@@ -209,10 +209,10 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                             </div>
                             
                             <div>
-                                <p className={forms.secondLevelLabel}>Product</p>
+                                <p style={{ fontFamily: 'Montserrat, system-ui' }} className={forms.secondLevelLabel}>Product</p>
                                 <textarea 
                                     {...register("product")}
-                                    className="w-[70%] border border-gray-300"
+                                    className="w-[70%] border border-gray-300 p-1.5"
                                     
                                 />
                             </div>
@@ -240,9 +240,9 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                             <col key={index} className={line} />
                                         ))}
                                     </colgroup>
-                                    <thead className={tables.header}>
-                                        <tr>
-                                            <th className={tables.headerCell}>Item name</th>
+                                    <thead className={tables.header} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                        <tr style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                            <th style={{ fontFamily: 'Montserrat, system-ui' }} className={tables.headerCell}>Item name</th>
                                             <th className={tables.headerCell}>description</th>
                                             <th className={tables.headerCell}>Quantity</th>
                                             <th className={tables.headerCell}>Unit of measure</th>

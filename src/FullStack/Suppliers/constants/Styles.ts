@@ -4,7 +4,7 @@ export const spinningStyles = {
     terminalBar: {
         container: "font-mono p-8",
         row: "flex items-center",
-        spinner: "text-green-500 mr-2 animate-spin text-4xl",
+        spinner: "text-green-500 mr-2 animate-bounce text-4xl",
         barContainer: "w-64 h-4 bg-gray-800 border border-gray-700 overflow-hidden",
         barFill: "h-full bg-black animate-progress",
         text: "text-gray-600 text-sm mt-2 ml-8"
@@ -16,7 +16,7 @@ export const spinningStyles = {
 const inputStyles = "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white";
 const selectStyles = "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white cursor-pointer";
 const errorStyles = "border-red-500 focus:ring-red-500";
-export const labelStyles = "block text-sm font-medium text-black mb-2";
+export const labelStyles = "block text-sm font-medium! text-black mb-2";
 
 const smallSelectStyles ="w-[10vw] px-2 py-1 text-sm border rounded-md focus:ring-2 focus:ring-blue-500"
     
@@ -84,7 +84,7 @@ export const layout = {
 export const tables = {
   base: "w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner",
   header: "bg-blue-100 drop-shadow-md shadow-lg",
-  headerCell: "text-black text-center text-xs font-semibold uppercase border border-y-gray-100 border-x-gray-100",
+  headerCell: "font-[Montserrat]! text-black text-center text-xs font-semibold uppercase border border-y-gray-100 border-x-gray-100",
   body: "bg-white divide-y divide-gray-100",
   row: "bg-white divide-y divide-x divide-gray-200 border-x-gray-100 border-r border-r-gray-100  border-y-gray-100 border-l border-l-gray-100",
   cell: "px-4 py-4 text-sm text-center text-gray-600 shadow-inner",
