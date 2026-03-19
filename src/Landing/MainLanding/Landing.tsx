@@ -54,10 +54,10 @@ function StatCard({ value, suffix, label, color, inView }: StatCardProps) {
     const num = useCountUp(value, 2200, inView);
     return (
         <div style={{ textAlign: 'center', padding: '0 20px' }}>
-            <div style={{ fontSize: 'clamp(2.8rem,5vw,4.5rem)', fontWeight: 900, lineHeight: 1, letterSpacing: '-3px', color: color || '#0066cc', fontFamily: 'Montserrat,sans-serif' }}>
+            <div style={{ fontSize: 'clamp(2.8rem,5vw,4.5rem)', fontWeight: 900, lineHeight: 1, letterSpacing: '-3px', color: color || '#0066cc', fontFamily: 'Montserrat, system-ui' }}>
                 {num.toLocaleString()}{suffix}
             </div>
-            <div style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#666', marginTop: '8px', fontFamily: 'Montserrat,sans-serif' }}>
+            <div style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#666', marginTop: '8px', fontFamily: 'Montserrat, system-ui' }}>
                 {label}
             </div>
         </div>
@@ -188,7 +188,7 @@ export default function ConstructionERPLanding() {
 
                 .cta-group {
                     display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
-                    font-family: Helvetica; justify-content: center;
+                    font-family: Montserrat, system-ui; justify-content: center;
                 }
                 .cta-section .cta-group { justify-content: center; }
 
@@ -222,33 +222,60 @@ export default function ConstructionERPLanding() {
                 }
                 .cta-secondary:hover { border-color: blue; color: blue; background: rgba(0,102,204,0.05); }
 
-                .logo-photo { left: 10%; padding: 1px 70px 1px; font-family: 'Montserrat', sans-serif; }
-                .header-logo .logo-text { font-family: 'Montserrat', sans-serif; font-size: 25px; }
-                footer .logo-text-lower { font-family: 'Montserrat', sans-serif; font-size: 20px; color: #ffff; }
+                .logo-photo { left: 0; padding: 10px 90px 40px; font-family: 'Montserrat, system-ui'; }
+                .header-logo .logo-text { font-family: 'Montserrat, system-ui'; font-size: 25px; }
+                footer .logo-text-lower { font-family: 'Montserrat, system-ui'; font-size: 20px; color: #ffff; }
                 footer .logo-photo-lower { margin-bottom: 10px; }
 
                 .headline {
-                    position: relative; top: 25vh; left: 4%; text-align: left;
-                    font-weight: 900; font-size: 4vw; line-height: 1; padding: 10px 30px 1px;
-                    letter-spacing: -2px; color: var(--text-black); z-index: 5; margin-bottom: 10px;
+                    position: relative;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    padding: 100px 30px 40px;
+                    text-align: left;
+                    font-weight: 900;
+                    font-size: 32px;
+                    line-height: 1.2;
+                    letter-spacing: -1px;
+                    color: var(--text-black);
+                    z-index: 5;
+                    margin: 0;
                     font-family: 'Montserrat', sans-serif;
                 }
-                .headline span { display: block; }
-                .headline p { font-size: 20px; font-weight: 500; font-family: 'Montserrat'; letter-spacing: 10%; max-width: 600px; line-height: 1.6; margin-bottom: 50px; margin-top: 20px; }
-                .subheadline { font-size: clamp(1px, 2vw, 24px); font-weight: 500; max-width: 600px; line-height: 1.6; margin-bottom: 50px; font-family: 'Montserrat'; }
+                .headline span { 
+                    display: block; 
+                    font-size: 28px !important; 
+                }
+                .headline p { 
+                    font-size: 16px; 
+                    font-weight: 500; 
+                    font-family: 'Montserrat'; 
+                    max-width: 100%; 
+                    line-height: 1.5; 
+                    margin: 15px 0 25px; 
+                    padding-right: 20px;
+                }
+                .subheadline { 
+                    font-size: 16px !important; 
+                    font-weight: 500; 
+                    max-width: 100%; 
+                    line-height: 1.5; 
+                    margin-bottom: 25px; 
+                    font-family: 'Montserrat'; 
+                    padding-right: 20px;
+                }
 
                 .right-column {
-                    position: absolute; top: 28vh; right: 10%; text-align: left;
-                    font-size: 14px; font-weight: 700; line-height: 1.2; color: #000; z-index: 5;
+                    display: none;
                 }
-                .right-column::after { content: ""; display: block; width: 40px; height: 4px; background: #000; margin-top: 8px; }
-                .middle-text { position: absolute; top: 50vh; left: 50%; transform: translateX(-50%); font-size: 16px; font-weight: 600; letter-spacing: 0.5px; color: #000; z-index: 5; text-align: center; }
+
+                .middle-text {
+                    display: none;
+                }
 
                 .arrow {
-                    position: absolute; top: 55vh; left: 10%; width: 90px; height: 90px;
-                    background: var(--accent);
-                    clip-path: polygon(0 60%, 60% 60%, 60% 100%, 100% 100%, 100% 0, 40% 0, 40% 40%, 0 40%);
-                    z-index: 4;
+                    display: none;
                 }
 
                 .section-tag { font-size: 18px; font-weight: 700; color: var(--blue-primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block; }
@@ -261,7 +288,7 @@ export default function ConstructionERPLanding() {
                 .section-title-1 p { font-family: 'Montserrat', sans-serif; font-size: clamp(32px, 5vw, 52px); font-weight: 900; line-height: 0.9; margin-bottom: 20px; color: #000; text-align: center; }
                 .section-title { font-family: 'Montserrat', sans-serif; font-size: clamp(32px, 5vw, 52px); font-weight: 900; line-height: 0.9; margin-bottom: 20px; color: #000; text-align: center; }
                 .feature-title { font-family: Montserrat; font-weight: 700; font-size: 18px; margin-bottom: 12px; color: #000; text-align: left; }
-                .feature-description { font-size: 16px; line-height: 1.6; color: var(--text-gray); margin-bottom: 0px; text-align: left; font-family: Helvetica; }
+                .feature-description { font-size: 16px; line-height: 1.6; color: var(--text-gray); margin-bottom: 0px; text-align: left; font-family: Montserrat, system-ui; }
 
                 .nav-item.dropdown { position: relative; }
                 .dropdown-menu { position: absolute; left: 0; transform: translateX(-50%); background: white; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); padding: 12px 0; min-width: 220px; opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 100; top: 100%; margin-top: 10px; }
@@ -279,23 +306,24 @@ export default function ConstructionERPLanding() {
                 .cta-button:hover { background: #fff; transform: translateY(-3px); }
                 .cta-button-secondary { background: transparent; color: #fff; border: 3px solid #fff; }
                 .cta-button-secondary:hover { background: #fff; color: #000; }
+                
 
                 /* FOOTER */
-                footer { background: #1a1a1a; color: #999; padding: 60px 60px 30px; font-family: Helvetica !important; }
-                .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 40px; font-family: Helvetica !important; }
+                footer { background: #1a1a1a; color: #999; padding: 60px 60px 30px; font-family: Montserrat !important; }
+                .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 40px; font-family: Montserrat !important; }
                 .footer-brand { color: var(--text-white); }
-                .footer-logo { background: var(--blue-primary); color: white; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 20px; margin-bottom: 20px; font-family: Helvetica !important; }
-                .footer-brand p { line-height: 1.7; margin-bottom: 15px; font-family: Helvetica !important; font-weight: normal; font-size: 16px; text-align: left; }
-                .footer-column h4 { color: var(--text-white); font-size: 16px; font-weight: 700; margin-bottom: 20px; font-family: Helvetica !important; font-weight: normal; }
-                .footer-column ul { list-style: none; font-family: Helvetica !important; font-weight: normal; }
-                .footer-column ul li { margin-bottom: 12px; font-family: Helvetica !important; font-weight: normal; }
-                .footer-column a { color: #999; text-decoration: none; transition: color 0.3s; font-family: Helvetica !important; font-weight: normal; }
-                .footer-column a:hover { color: var(--text-white); font-family: Helvetica !important; font-size: 15px; font-weight: normal; }
-                .footer-bottom { border-top: 1px solid #333; padding-top: 30px; text-align: center; font-size: 15px; font-family: Helvetica !important; font-weight: normal; }
+                .footer-logo { background: var(--blue-primary); color: white; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 20px; margin-bottom: 20px; font-family: Montserrat, system-ui !important; }
+                .footer-brand p { line-height: 1.7; margin-bottom: 15px; font-family: Montserrat !important; font-weight: normal; font-size: 16px; text-align: left; }
+                .footer-column h4 { color: var(--text-white); font-size: 16px; font-weight: 700; margin-bottom: 20px; font-family: Montserrat !important; font-weight: normal; }
+                .footer-column ul { list-style: none; font-family: Montserrat !important; font-weight: normal; }
+                .footer-column ul li { margin-bottom: 12px; font-family: Montserrat !important; font-weight: normal; }
+                .footer-column a { color: #999; text-decoration: none; transition: color 0.3s; font-family: Montserrat, system-ui !important; font-weight: normal; }
+                .footer-column a:hover { color: var(--text-white); font-family: Montserrat !important; font-size: 15px; font-weight: normal; }
+                .footer-bottom { border-top: 1px solid #333; padding-top: 30px; text-align: center; font-size: 15px; font-family: Montserrat, system-ui !important; font-weight: normal; }
 
-                .nav-links { display: flex; gap: 40px; align-items: center; font-family: Helvetica; padding: 1px 50px 1px; }
-                .nav-links a { color: var(--text-black); text-decoration: none; font-weight: 600; font-size: 14px; letter-spacing: 0.5px; transition: color 0.3s; cursor: pointer; font-family: Helvetica; }
-                .nav-links a:hover { color: var(--blue-primary); font-family: Helvetica; }
+                .nav-links { display: flex; gap: 40px; align-items: center; font-family: Montserrat; padding: 1px 50px 1px; }
+                .nav-links a { color: var(--text-black); text-decoration: none; font-weight: 600; font-size: 14px; letter-spacing: 0.5px; transition: color 0.3s; cursor: pointer; font-family: Montserrat; }
+                .nav-links a:hover { color: var(--blue-primary); font-family: Montserrat; }
                 .dropdown-toggle { display: flex; align-items: center; gap: 5px; }
                 .dropdown-toggle::after { content: "▼"; font-size: 10px; transition: transform 0.3s; }
                 .dropdown-toggle.open::after { transform: rotate(180deg); }
@@ -303,11 +331,11 @@ export default function ConstructionERPLanding() {
                 .blue-box {
                     left: 10%; right: 10%; font-size: 1.06vw; max-width: 4000px; font-weight: 500; font-family: 'Montserrat';
                     position: absolute; top: 85vh; background-color: var(--blue-box); padding: 10px 10px; line-height: 1.1;
-                    z-index: 5; font-family: 'Montserrat', sans-serif; box-shadow: 0 8px 25px rgba(0,102,204,0.35);
+                    z-index: 5; font-family: 'Montserrat', system-ui; box-shadow: 0 8px 25px rgba(0,102,204,0.35);
                 }
                 .right-column { display: none; }
                 .cta-nav { background: #0052a3; color: #f8fbff !important; padding: 12px 28px; border-radius: 6px; font-weight: 700; }
-                .section-description { font-size: 18px; color: var(--text-gray); line-height: 1.7; margin-top: 2px !important; font-family: Helvetica; font-weight: normal; }
+                .section-description { font-size: 18px; color: var(--text-gray); line-height: 1.7; margin-top: 2px !important; font-family: Montserrat, system-ui; font-weight: normal; }
                 .cta-section .section-description { color: rgba(255,255,255,0.9); margin-bottom: 40px; }
                 .cta-section .cta-primary { background: black; box-shadow: 0 4px 15px rgba(255,107,53,0.3); }
                 .cta-section .cta-primary:hover { transform: translateY(-10px) scale(1.02) !important; border-width: 2px; border-color: white; }
@@ -316,13 +344,13 @@ export default function ConstructionERPLanding() {
 
                 .feature-cards { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important; gap: 40px !important; max-width: 1400px; margin: 0 auto; }
                 .feature-cards, .features-section, .testimonials-section, .cta-section, footer { padding-left: 40px; padding-right: 40px; }
-                .feature-card { background: #e4e9ed !important; border-radius: 12px !important; padding: 40px !important; box-shadow: 0 20px 50px rgba(0,0,0,0.08) !important; border: 2px solid rgba(0,0,0,0.08) !important; transition: all 0.3s ease !important; font-family: Helvetica; color: #e4e9ed; font-weight: normal; }
+                .feature-card { background: #e4e9ed !important; border-radius: 12px !important; padding: 40px !important; box-shadow: 0 20px 50px rgba(0,0,0,0.08) !important; border: 2px solid rgba(0,0,0,0.08) !important; transition: all 0.3s ease !important; font-family: Montserrat, system-ui; color: #e4e9ed; font-weight: normal; }
                 .feature-card:hover { transform: translateY(-10px) scale(1.02) !important; box-shadow: 0 30px 70px rgba(0,0,0,0.15) !important; border-color: #0864bf !important; cursor: pointer; }
                 .features-section { padding: 100px 60px; background: #ffffff; position: relative; }
                 .features-grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important; gap: 40px !important; max-width: 1400px; margin: 0 auto; }
                 .feature-item:hover { transform: translateY(-10px) scale(1.02) !important; box-shadow: 0 30px 70px rgba(0,0,0,0.15) !important; border-color: #0864bf !important; cursor: pointer; }
                 .feature-icon { width: 64px !important; height: 64px !important; background: var(--blue-primary); border-radius: 14px !important; display: flex !important; align-items: center !important; justify-content: center !important; margin-bottom: 24px !important; color: var(--text-white); font-size: 30px !important; }
-                .cta-group-header { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; font-family: Helvetica; letter-spacing: 1px; }
+                .cta-group-header { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; font-family: Montserrat, system-ui; letter-spacing: 1px; }
                 .cta-group-header .cta-primary { background: var(--blue-primary); color: var(--text-white); padding: 18px 40px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,102,204,0.25); display: inline-block; letter-spacing: 1px; }
                 .cta-group-header .cta-primary:hover { background: #0052a3; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,102,204,0.35); }
                 .cta-group-header .cta-secondary { background: transparent; color: var(--text-black); padding: 16px 40px; border-radius: 8px; font-weight: 600; font-size: 16px; text-decoration: none; border: 2px solid var(--border-gray); transition: all 0.3s; display: inline-block; letter-spacing: 1px; }
@@ -372,7 +400,7 @@ export default function ConstructionERPLanding() {
                     padding: 10px 22px; border-radius: 999px; font-size: 13px; font-weight: 700;
                     letter-spacing: .05em; text-transform: uppercase; cursor: pointer;
                     border: 2px solid #e5e7eb; background: white; color: #666;
-                    transition: all .25s; font-family: Montserrat,sans-serif;
+                    transition: all .25s; font-family: Montserrat, system-ui;
                 }
                 .mod-tab.active { border-color: var(--tab-color); background: var(--tab-color); color: white; box-shadow: 0 6px 20px rgba(0,0,0,.15); }
                 .mod-tab:hover:not(.active) { border-color: var(--tab-color); color: var(--tab-color); }
@@ -380,10 +408,10 @@ export default function ConstructionERPLanding() {
                     max-width: 1100px; margin: 0 auto;
                     display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
                 }
-                .mod-text h3 { font-size: clamp(28px,4vw,42px); font-weight: 900; color: #1a1a1a; margin-bottom: 20px; font-family: Montserrat,sans-serif; line-height: 1.1; }
-                .mod-text p  { font-size: 17px; line-height: 1.8; color: #444; margin-bottom: 24px; font-family: Helvetica; }
+                .mod-text h3 { font-size: clamp(28px,4vw,42px); font-weight: 900; color: #1a1a1a; margin-bottom: 20px; font-family: Montserrat, system-ui; line-height: 1.1; }
+                .mod-text p  { font-size: 17px; line-height: 1.8; color: #444; margin-bottom: 24px; font-family: Montserrat, system-ui; }
                 .mod-pills  { display: flex; flex-wrap: wrap; gap: 8px; }
-                .mod-pill   { padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .06em; font-family: Montserrat,sans-serif; }
+                .mod-pill   { padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .06em; font-family: Montserrat, system-ui; }
                 .mod-visual {
                     background: #ffffff; border: 1.5px solid #e5e7eb; border-radius: 20px;
                     padding: 40px; min-height: 280px;
@@ -395,7 +423,7 @@ export default function ConstructionERPLanding() {
                     content: attr(data-label);
                     position: absolute; top: 16px; right: 20px;
                     font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
-                    color: #ccc; font-family: Montserrat,sans-serif;
+                    color: #ccc; font-family: Montserrat, system-ui;
                 }
 
                 /* PIPELINE */
@@ -406,22 +434,22 @@ export default function ConstructionERPLanding() {
                 .pipe-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 20px; position: relative; z-index: 1; }
                 .pipe-circle { width: 70px; height: 70px; border-radius: 50%; border: 2px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; transition: all .3s; }
                 .pipe-step:hover .pipe-circle { border-color: var(--pc); background: rgba(255,255,255,.12); box-shadow: 0 0 0 8px rgba(255,255,255,.04); }
-                .pipe-num { font-size: 22px; font-weight: 900; color: var(--pc); font-family: Montserrat,sans-serif; }
-                .pipe-title { font-size: 16px; font-weight: 800; color: white; margin-bottom: 6px; font-family: Montserrat,sans-serif; }
-                .pipe-sub { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 12px; font-family: Helvetica; }
-                .pipe-code { font-size: 11px; font-weight: 700; letter-spacing: .1em; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.65); font-family: Montserrat,sans-serif; }
+                .pipe-num { font-size: 22px; font-weight: 900; color: var(--pc); font-family: Montserrat, system-ui; }
+                .pipe-title { font-size: 16px; font-weight: 800; color: white; margin-bottom: 6px; font-family: Montserrat, system-ui; }
+                .pipe-sub { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 12px; font-family: Montserrat, system-ui; }
+                .pipe-code { font-size: 11px; font-weight: 700; letter-spacing: .1em; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.65); font-family: Montserrat, system-ui; }
 
                 /* COMPARISON */
                 .compare-section { padding: 120px 60px; background: white; }
                 .compare-table-wrap { max-width: 900px; margin: 0 auto; border: 1.5px solid #e5e7eb; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.06); }
                 .compare-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; background: #1a1a1a; padding: 20px 32px; }
-                .compare-header span { font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; text-align: center; font-family: Montserrat,sans-serif; color: white; }
+                .compare-header span { font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; text-align: center; font-family: Montserrat, system-ui; color: white; }
                 .compare-header span:first-child { text-align: left; color: rgba(255,255,255,.55); }
                 .compare-header .uru-head { color: #60a5fa !important; }
-                .compare-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 16px 32px; border-bottom: 1px solid #f3f4f6; align-items: center; transition: background .2s; }
+                .compare-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 16px 32px; border-bottom: 1px solid #f3f4f6; align-items: center; transition: background .2s; cursor: pointer }
                 .compare-row:last-child { border-bottom: none; }
                 .compare-row:hover { background: #f8fbff; }
-                .compare-row span:first-child { font-size: 14px; font-weight: 600; color: #1a1a1a; font-family: Helvetica; }
+                .compare-row span:first-child { font-size: 14px; font-weight: 600; color: #1a1a1a; font-family: Montserrat, system-ui; }
                 .compare-cell { display: flex; justify-content: center; }
                 .check { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
                 .check.yes { background: #ecfdf5; }
@@ -434,27 +462,27 @@ export default function ConstructionERPLanding() {
                 .hiw-step:last-child { padding-bottom: 0; }
                 .hiw-step:last-child .hiw-line { display: none; }
                 .hiw-numcol { display: flex; flex-direction: column; align-items: center; }
-                .hiw-bubble { width: 60px; height: 60px; border-radius: 50%; background: #0066cc; color: white; font-size: 20px; font-weight: 900; display: flex; align-items: center; justify-content: center; font-family: Montserrat,sans-serif; flex-shrink: 0; box-shadow: 0 6px 20px rgba(0,102,204,.3); }
+                .hiw-bubble { width: 60px; height: 60px; border-radius: 50%; background: #0066cc; color: white; font-size: 20px; font-weight: 900; display: flex; align-items: center; justify-content: center; font-family: Montserrat, system-ui; flex-shrink: 0; box-shadow: 0 6px 20px rgba(0,102,204,.3); }
                 .hiw-line { flex: 1; width: 2px; background: #dde1ea; margin-top: 8px; }
                 .hiw-content { padding-top: 12px; padding-bottom: 0; }
-                .hiw-content h3 { font-size: 22px; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; font-family: Montserrat,sans-serif; }
-                .hiw-content p  { font-size: 16px; line-height: 1.7; color: #555; font-family: Helvetica; }
+                .hiw-content h3 { font-size: 22px; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; font-family: Montserrat, system-ui; }
+                .hiw-content p  { font-size: 16px; line-height: 1.7; color: #555; font-family: Montserrat, system-ui; }
 
                 /* BUILT FOR STRIP */
                 .built-for { padding: 100px 60px; background: #0066cc; color: white; overflow: hidden; position: relative; }
                 .built-for::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, rgba(255,255,255,.03) 0px, rgba(255,255,255,.03) 1px, transparent 1px, transparent 40px); pointer-events: none; }
-                .built-for-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+                .built-for-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; cursor: pointer}
                 .bf-card { background: rgba(255,255,255,.07); padding: 48px 40px; transition: background .3s; position: relative; }
                 .bf-card:hover { background: rgba(255,255,255,.12); }
                 .bf-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: rgba(255,255,255,.3); }
                 .bf-icon { font-size: 40px; margin-bottom: 20px; }
-                .bf-card h3 { font-size: 22px; font-weight: 800; color: white; margin-bottom: 12px; font-family: Montserrat,sans-serif; }
-                .bf-card p  { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,.65); font-family: Helvetica; }
+                .bf-card h3 { font-size: 22px; font-weight: 800; color: white; margin-bottom: 12px; font-family: Montserrat, system-ui; }
+                .bf-card p  { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,.65); font-family: Montserrat, system-ui; }
 
                 /* INTEGRATION LOGOS */
                 .integrations-section { padding: 80px 60px; background: white; border-bottom: 1px solid #e5e7eb; }
                 .int-logos { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; align-items: center; max-width: 1000px; margin: 0 auto; }
-                .int-logo { display: flex; align-items: center; gap: 10px; padding: 14px 28px; border: 1.5px solid #e5e7eb; border-radius: 12px; font-size: 14px; font-weight: 700; color: #555; font-family: Montserrat,sans-serif; transition: all .25s; cursor: default; }
+                .int-logo { display: flex; align-items: center; gap: 10px; padding: 14px 28px; border: 1.5px solid #e5e7eb; border-radius: 12px; font-size: 14px; font-weight: 700; color: #555; font-family: Montserrat, system-ui; transition: all .25s; cursor: default; }
                 .int-logo:hover { border-color: #0066cc; color: #0066cc; transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,102,204,.1); }
 
                 /* PRICING TEASER */
@@ -464,39 +492,39 @@ export default function ConstructionERPLanding() {
                 .price-card.featured { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.35); transform: scale(1.03); }
                 .price-card:hover { background: rgba(255,255,255,.13); transform: translateY(-8px); }
                 .price-card.featured:hover { transform: scale(1.03) translateY(-8px); }
-                .price-tag { font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 16px; display: block; font-family: Montserrat,sans-serif; }
-                .price-name { font-size: 24px; font-weight: 900; color: white; margin-bottom: 8px; font-family: Montserrat,sans-serif; }
-                .price-amount { font-size: 52px; font-weight: 900; color: white; letter-spacing: -3px; line-height: 1; margin: 16px 0 8px; font-family: Montserrat,sans-serif; }
+                .price-tag { font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 16px; display: block; font-family: Montserrat, system-ui; }
+                .price-name { font-size: 24px; font-weight: 900; color: white; margin-bottom: 8px; font-family: Montserrat, system-ui; }
+                .price-amount { font-size: 52px; font-weight: 900; color: white; letter-spacing: -3px; line-height: 1; margin: 16px 0 8px; font-family: Montserrat, system-ui; }
                 .price-amount span { font-size: 18px; font-weight: 600; letter-spacing: 0; color: rgba(255,255,255,.6); vertical-align: super; margin-right: 4px; }
-                .price-period { font-size: 13px; color: rgba(255,255,255,.4); margin-bottom: 32px; font-family: Helvetica; }
+                .price-period { font-size: 13px; color: rgba(255,255,255,.4); margin-bottom: 32px; font-family: Montserrat, system-ui; }
                 .price-features { list-style: none; margin-bottom: 36px; display: flex; flex-direction: column; gap: 12px; }
-                .price-features li { font-size: 14px; color: rgba(255,255,255,.75); display: flex; align-items: center; gap: 10px; font-family: Helvetica; }
+                .price-features li { font-size: 14px; color: rgba(255,255,255,.75); display: flex; align-items: center; gap: 10px; font-family: Montserrat, system-ui; }
                 .price-features li::before { content: '✓'; font-size: 12px; font-weight: 900; color: #4ade80; flex-shrink: 0; }
-                .price-btn { display: block; text-align: center; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; transition: all .25s; font-family: Montserrat,sans-serif; letter-spacing: .04em; cursor: pointer; border: none; }
+                .price-btn { display: block; text-align: center; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; transition: all .25s; font-family: Montserrat, system-ui; letter-spacing: .04em; cursor: pointer; border: none; }
                 .price-btn.outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,.3); }
                 .price-btn.outline:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); }
                 .price-btn.filled { background: white; color: #001a5e; }
                 .price-btn.filled:hover { background: #e6f2ff; transform: translateY(-2px); }
-                .popular-badge { position: absolute; top: 16px; right: 16px; background: #ffd166; color: #1a1a1a; font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; font-family: Montserrat,sans-serif; }
+                .popular-badge { position: absolute; top: 16px; right: 16px; background: #ffd166; color: #1a1a1a; font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; font-family: Montserrat, system-ui; }
 
                 /* FAQ */
                 .faq-section { padding: 120px 60px; background: white; }
                 .faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 4px; }
                 .faq-item { border: 1.5px solid #e5e7eb; border-radius: 12px; overflow: hidden; transition: border-color .25s; }
                 .faq-item.open { border-color: #0066cc; }
-                .faq-q { padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 16px; font-weight: 700; color: #1a1a1a; font-family: Montserrat,sans-serif; transition: background .2s; }
+                .faq-q { padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 16px; font-weight: 700; color: #1a1a1a; font-family: Montserrat, system-ui; transition: background .2s; }
                 .faq-q:hover { background: #f8fbff; }
                 .faq-arrow { font-size: 18px; transition: transform .3s; color: #0066cc; }
                 .faq-arrow.open { transform: rotate(45deg); }
-                .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s; padding: 0 28px; font-size: 15px; line-height: 1.75; color: #555; font-family: Helvetica; }
+                .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s; padding: 0 28px; font-size: 15px; line-height: 1.75; color: #555; font-family: Montserrat, system-ui; }
                 .faq-a.open { max-height: 200px; padding: 0 28px 22px; }
 
                 /* FINAL BANNER */
                 .final-banner { background: #1a1a1a; padding: 120px 60px; text-align: center; position: relative; overflow: hidden; }
-                .final-banner::before { content: 'URUSENTRA'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 18vw; font-weight: 900; letter-spacing: -4px; color: rgba(255,255,255,.025); pointer-events: none; white-space: nowrap; font-family: Montserrat,sans-serif; }
-                .final-banner h2 { font-size: clamp(2.5rem,5vw,5rem); font-weight: 900; color: white; line-height: 1.05; letter-spacing: -3px; margin-bottom: 24px; font-family: Montserrat,sans-serif; }
+                .final-banner::before { content: 'URUSENTRA'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 18vw; font-weight: 900; letter-spacing: -4px; color: rgba(255,255,255,.025); pointer-events: none; white-space: nowrap; font-family: Montserrat, system-ui; }
+                .final-banner h2 { font-size: clamp(2.5rem,5vw,5rem); font-weight: 900; color: white; line-height: 1.05; letter-spacing: -3px; margin-bottom: 24px; font-family: Montserrat, system-ui; }
                 .final-banner h2 em { font-style: normal; color: #60a5fa; }
-                .final-banner p { font-size: 18px; color: rgba(255,255,255,.6); max-width: 600px; margin: 0 auto 48px; line-height: 1.7; font-family: Helvetica; }
+                .final-banner p { font-size: 18px; color: rgba(255,255,255,.6); max-width: 600px; margin: 0 auto 48px; line-height: 1.7; font-family: Montserrat, system-ui; }
 
                 /* ANIMATED FLOATING ORBS */
                 @keyframes orb1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-20px) scale(1.05)} 66%{transform:translate(-15px,15px) scale(.97)} }
@@ -518,7 +546,7 @@ export default function ConstructionERPLanding() {
                 /* SCROLLING METRIC BAND */
                 .metric-band { background: #ffd166; border-top: 3px solid #1a1a1a; border-bottom: 3px solid #1a1a1a; padding: 18px 0; overflow: hidden; }
                 .metric-band-inner { display: flex; gap: 0; white-space: nowrap; animation: marquee 20s linear infinite; }
-                .mbitem { padding: 0 48px; font-size: 15px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: #1a1a1a; font-family: Montserrat,sans-serif; display: inline-flex; align-items: center; gap: 16px; }
+                .mbitem { padding: 0 48px; font-size: 15px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: #1a1a1a; font-family: Montserrat, system-ui; display: inline-flex; align-items: center; gap: 16px; }
                 .mbitem::after { content: '●'; color: #0066cc; font-size: 8px; }
 
                 @keyframes spin { to { transform: rotate(360deg); } }
@@ -533,6 +561,60 @@ export default function ConstructionERPLanding() {
                     .built-for-grid { grid-template-columns: 1fr; }
                     .hiw-step { grid-template-columns: 60px 4px 1fr; }
                 }
+                    /* Tablet */
+                @media (min-width: 768px) {
+                    .headline {
+                        padding: 120px 50px 60px;
+                        font-size: 48px;
+                    }
+                    .headline span {
+                        font-size: 42px !important;
+                    }
+                    .headline p {
+                        font-size: 18px;
+                        max-width: 600px;
+                        padding-right: 0;
+                    }
+                    .subheadline {
+                        font-size: 18px !important;
+                        padding-right: 0;
+                    }
+                    .right-column {
+                        display: block;
+                        position: absolute;
+                        top: 28vh;
+                        right: 8%;
+                    }
+                    .middle-text {
+                        display: block;
+                        position: absolute;
+                        top: 50vh;
+                        left: 50%;
+                        transform: translateX(-50%);
+                    }
+                    .arrow {
+                        display: block;
+                    }
+                }
+
+                /* Desktop */
+                @media (min-width: 1024px) {
+                    .headline {
+                        padding: 180px 80px 80px;
+                        font-size: 4vw;
+                    }
+                    .headline p {
+                        font-size: 20px;
+                    }
+                }
+
+                /* Large Desktop */
+                @media (min-width: 1440px) {
+                    .headline {
+                        padding: 180px 120px 80px;
+                    }
+                }
+
             `}</style>
 
             {/* ===== HERO (original — untouched) ===== */}
@@ -604,7 +686,7 @@ export default function ConstructionERPLanding() {
                                     <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                     </svg>
-                                    <div><h1 className="logo-text-lower text-xl font-bold text-gray-900">Urusentra</h1></div>
+                                    <div><h1 className="logo-text-lower text-xl font-bold text-gray-900" style={{ fontFamily: 'Montserrat, system-ui' }}>Urusentra</h1></div>
                                 </div>
                             </a>
                         </div>
@@ -636,13 +718,13 @@ export default function ConstructionERPLanding() {
                     </p>
                     <div className="cta-group-header">
                         <a href="/pricing" className="cta-primary">Try Out ERP</a>
-                        <a href="#features" className="cta-secondary">Learn More</a>
-                    </div>
-                    <div>
+    
                         <button className="cta-marketplace" onClick={() => navigate("/marketplace")}>
                             Try Out Marketplace
                             <ArrowRight className="ml-2 arrow-icon" />
                         </button>
+                    </div>
+                    <div>
                     </div>
                 </div>
             </section>
@@ -747,15 +829,15 @@ export default function ConstructionERPLanding() {
             <section className="modules-section">
                 <div style={{ textAlign: 'center', marginBottom: '16px' }}>
                 </div>
-                <h2 className="section-title" style={{ marginBottom: '16px' }}>
+                <div className="section-title" style={{ marginBottom: '16px' }}>
                     
                     <span id="section-tag" className="section-tag">Complete Solution</span>
                     <h2 className="section-title-1">
                         <p>Everything You Need To</p>
                         <p>Deliver Faster</p>
                     </h2>
-                </h2>
-                <p style={{ textAlign: 'center', fontSize: '18px', color: '#666', maxWidth: '600px', margin: '0 auto 48px', fontFamily: 'Helvetica', lineHeight: 1.7 }}>
+                </div>
+                <p style={{ textAlign: 'center', fontSize: '18px', color: '#666', maxWidth: '600px', margin: '0 auto 48px', fontFamily: 'Montserrat, system-ui', lineHeight: 1.7 }}>
                     Six integrated modules. Each one built from real accounting logic and real construction workflows.
                 </p>
                 <div className="modules-tabs">
@@ -773,7 +855,7 @@ export default function ConstructionERPLanding() {
                     return (
                         <div className="mod-panel">
                             <div className="mod-text">
-                                <div style={{ display: 'inline-block', padding: '4px 14px', borderRadius: '999px', background: m.light, border: `1px solid ${m.border}`, fontSize: '11px', fontWeight: 800, letterSpacing: '.12em', textTransform: 'uppercase', color: m.color, marginBottom: '16px', fontFamily: 'Montserrat,sans-serif' }}>
+                                <div style={{ display: 'inline-block', padding: '4px 14px', borderRadius: '999px', background: m.light, border: `1px solid ${m.border}`, fontSize: '11px', fontWeight: 800, letterSpacing: '.12em', textTransform: 'uppercase', color: m.color, marginBottom: '16px', fontFamily: 'Montserrat, system-ui' }}>
                                     {m.label}
                                 </div>
                                 <h3 style={{ color: m.color }}>{m.title}</h3>
@@ -783,7 +865,7 @@ export default function ConstructionERPLanding() {
                                         <span key={pi} className="mod-pill" style={{ background: m.light, border: `1px solid ${m.border}`, color: m.color }}>{p}</span>
                                     ))}
                                 </div>
-                                <a href="/pricing" style={{ display: 'inline-block', marginTop: '28px', padding: '12px 28px', background: m.color, color: 'white', borderRadius: '8px', fontWeight: 700, fontSize: '14px', textDecoration: 'none', fontFamily: 'Montserrat,sans-serif', letterSpacing: '.04em', transition: 'all .25s' }}>
+                                <a href="/pricing" style={{ display: 'inline-block', marginTop: '28px', padding: '12px 28px', background: m.color, color: 'white', borderRadius: '8px', fontWeight: 700, fontSize: '14px', textDecoration: 'none', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>
                                     Explore {m.label} →
                                 </a>
                             </div>
@@ -799,8 +881,8 @@ export default function ConstructionERPLanding() {
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                                     {[['Total Records', '1,284'], ['Last Updated', 'Just now'], ['Status', 'Active'], ['Version', 'v2.1.0']].map(([label, val]) => (
                                         <div key={label} style={{ background: '#f7f8fa', borderRadius: '8px', padding: '10px 12px', border: '1px solid #e5e7eb' }}>
-                                            <div style={{ fontSize: '10px', fontWeight: 700, color: '#999', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '4px', fontFamily: 'Montserrat,sans-serif' }}>{label}</div>
-                                            <div style={{ fontSize: '14px', fontWeight: 800, color: m.color, fontFamily: 'Montserrat,sans-serif' }}>{val}</div>
+                                            <div style={{ fontSize: '10px', fontWeight: 700, color: '#999', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '4px', fontFamily: 'Montserrat, system-ui' }}>{label}</div>
+                                            <div style={{ fontSize: '14px', fontWeight: 800, color: m.color, fontFamily: 'Montserrat, system-ui' }}>{val}</div>
                                         </div>
                                     ))}
                                 </div>
@@ -816,9 +898,9 @@ export default function ConstructionERPLanding() {
                 <div className="orb orb2"></div>
                 <div className="orb orb3"></div>
                 <div style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
-                    <span style={{ display: 'block', fontSize: '12px', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,.45)', marginBottom: '16px', fontFamily: 'Montserrat,sans-serif' }}>Revenue Pipeline</span>
-                    <h2 style={{ fontSize: 'clamp(2rem,4vw,3.8rem)', fontWeight: 900, color: 'white', letterSpacing: '-2px', fontFamily: 'Montserrat,sans-serif', lineHeight: 1.05, marginBottom: '16px' }}>Quote it. Invoice it.<br/><span style={{ color: '#60a5fa' }}>Collect it. Close it.</span></h2>
-                    <p style={{ fontSize: '18px', color: 'rgba(255,255,255,.55)', maxWidth: '540px', margin: '0 auto', lineHeight: 1.7, fontFamily: 'Helvetica' }}>The full sales lifecycle in four connected stages. Every total calculated automatically. Every stage version-controlled.</p>
+                    <span style={{ display: 'block', fontSize: '12px', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,.45)', marginBottom: '16px', fontFamily: 'Montserrat, system-ui' }}>Revenue Pipeline</span>
+                    <h2 style={{ fontSize: 'clamp(2rem,4vw,3.8rem)', fontWeight: 900, color: 'white', letterSpacing: '-2px', fontFamily: 'Montserrat, system-ui', lineHeight: 1.05, marginBottom: '16px' }}>Quote it. Invoice it.<br/><span style={{ color: '#60a5fa' }}>Collect it. Close it.</span></h2>
+                    <p style={{ fontSize: '18px', color: 'rgba(255,255,255,.55)', maxWidth: '540px', margin: '0 auto', lineHeight: 1.7, fontFamily: 'Montserrat, system-ui' }}>The full sales lifecycle in four connected stages. Every total calculated automatically. Every stage version-controlled.</p>
                 </div>
                 <div className="pipeline-steps-wrap">
                     {pipelineSteps.map((s, i) => (
@@ -831,7 +913,7 @@ export default function ConstructionERPLanding() {
                     ))}
                 </div>
                 <div style={{ textAlign: 'center', marginTop: '64px', position: 'relative', zIndex: 1 }}>
-                    <a href="/pricing" style={{ display: 'inline-block', padding: '16px 40px', background: 'white', color: '#001a5e', borderRadius: '10px', fontWeight: 800, fontSize: '15px', textDecoration: 'none', fontFamily: 'Montserrat,sans-serif', letterSpacing: '.04em', transition: 'all .25s' }}>
+                    <a href="/pricing" style={{ display: 'inline-block', padding: '16px 40px', background: 'white', color: '#001a5e', borderRadius: '10px', fontWeight: 800, fontSize: '15px', textDecoration: 'none', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>
                         See Sales Management in Full →
                     </a>
                 </div>
@@ -869,8 +951,8 @@ export default function ConstructionERPLanding() {
             {/* ===== NEW: BUILT FOR ===== */}
             <section className="built-for">
                 <div style={{ textAlign: 'center', marginBottom: '64px', position: 'relative', zIndex: 1 }}>
-                    <span style={{ display: 'block', fontSize: '12px', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)', marginBottom: '16px', fontFamily: 'Montserrat,sans-serif' }}>Who It's For</span>
-                    <h2 style={{ fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 900, color: 'white', fontFamily: 'Montserrat,sans-serif', letterSpacing: '-2px' }}>Built for the People<br/>Who Build the World</h2>
+                    <span style={{ display: 'block', fontSize: '20px', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)', marginBottom: '16px', fontFamily: 'Montserrat, system-ui' }}>Who It's For</span>
+                    <h2 style={{ fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 900, color: 'white', fontFamily: 'Montserrat, system-ui', letterSpacing: '-2px' }}>Built for the People<br/>Who Build the World</h2>
                 </div>
                 <div className="built-for-grid">
                     {[
@@ -884,7 +966,7 @@ export default function ConstructionERPLanding() {
                         <div key={i} className="bf-card">
                             <div className="bf-icon">{item.icon}</div>
                             <h3>{item.title}</h3>
-                            <p>{item.desc}</p>
+                            <p className='text-gray-200!'>{item.desc}</p>
                         </div>
                     ))}
                 </div>
@@ -939,9 +1021,9 @@ export default function ConstructionERPLanding() {
             {/* ===== NEW: PRICING TEASER ===== */}
             <section className="pricing-section">
                 <div style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
-                    <span style={{ display: 'block', fontSize: '12px', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,.45)', marginBottom: '16px', fontFamily: 'Montserrat,sans-serif' }}>Simple Pricing</span>
-                    <h2 style={{ fontSize: 'clamp(2rem,4vw,3.8rem)', fontWeight: 900, color: 'white', fontFamily: 'Montserrat,sans-serif', letterSpacing: '-2px' }}>One Platform.<br/>Three Plans.</h2>
-                    <p style={{ fontSize: '17px', color: 'rgba(255,255,255,.55)', maxWidth: '500px', margin: '16px auto 0', lineHeight: 1.7, fontFamily: 'Helvetica' }}>Start free. Scale as your business grows. No hidden fees, no credit card to get started.</p>
+                    <span style={{ display: 'block', fontSize: '12px', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,.45)', marginBottom: '16px', fontFamily: 'Montserrat, system-ui' }}>Simple Pricing</span>
+                    <h2 style={{ fontSize: 'clamp(2rem,4vw,3.8rem)', fontWeight: 900, color: 'white', fontFamily: 'Montserrat, system-ui', letterSpacing: '-2px' }}>One Platform.<br/>Three Plans.</h2>
+                    <p style={{ fontSize: '17px', color: 'rgba(255,255,255,.55)', maxWidth: '500px', margin: '16px auto 0', lineHeight: 1.7, fontFamily: 'Montserrat, system-ui' }}>Start free. Scale as your business grows. No hidden fees, no credit card to get started.</p>
                 </div>
                 <div className="pricing-grid">
                     {[
@@ -988,8 +1070,8 @@ export default function ConstructionERPLanding() {
                     <h2>The ERP Built<br/>for <em>Builders.</em></h2>
                     <p>Urusentra is the only platform that combines a full construction ERP with a live global supplier marketplace — built from the ground up for SME building companies.</p>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-                        <a href="/pricing" style={{ display: 'inline-block', padding: '18px 44px', background: '#0066cc', color: 'white', borderRadius: '10px', fontWeight: 800, fontSize: '16px', textDecoration: 'none', fontFamily: 'Montserrat,sans-serif', letterSpacing: '.04em', transition: 'all .25s' }}>Start Free Trial</a>
-                        <a href="/marketplace" style={{ display: 'inline-block', padding: '18px 44px', background: 'transparent', color: 'white', borderRadius: '10px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', border: '2px solid rgba(255,255,255,.3)', fontFamily: 'Montserrat,sans-serif', letterSpacing: '.04em', transition: 'all .25s' }}>Browse Marketplace</a>
+                        <a href="/pricing" style={{ display: 'inline-block', padding: '18px 44px', background: '#0066cc', color: 'white', borderRadius: '10px', fontWeight: 800, fontSize: '16px', textDecoration: 'none', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>Start Free Trial</a>
+                        <a href="/marketplace" style={{ display: 'inline-block', padding: '18px 44px', background: 'transparent', color: 'white', borderRadius: '10px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', border: '2px solid rgba(255,255,255,.3)', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>Browse Marketplace</a>
                     </div>
                 </div>
             </div>
@@ -1003,15 +1085,15 @@ export default function ConstructionERPLanding() {
                                 <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                 </svg>
-                                <div><h1 className="logo-text-lower text-xl font-bold text-gray-900">Urusentra</h1></div>
+                                <div><h1 className="logo-text-lower text-xl font-bold text-gray-900" style={{ fontFamily: 'Montserrat, system-ui' }}>Urusentra</h1></div>
                             </div>
                         </div>
-                        <p>The management ERP platform built by builders and accountants, for builders and accountants. Streamline your operations and manage your business better.</p>
-                        <p>&copy; {formatCurrentYear()} Syafeez Enterprise. All rights reserved.</p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }} className='font-[Montserrat]!'>The management ERP platform built by builders and accountants, for builders and accountants. Streamline your operations and manage your business better.</p>
+                        <p style={{ fontFamily: 'Montserrat, system-ui' }} className='font-[Montserrat]!'>&copy; {formatCurrentYear()} Syafeez Enterprise. All rights reserved.</p>
                     </div>
-                    <div className="footer-column">
-                        <h4>Product</h4>
-                        <ul><li><a href="/pricing">Pricing</a></li><li><a href="#">Mobile App</a></li></ul>
+                    <div className="footer-column" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                        <h4 style={{ fontFamily: 'Montserrat, system-ui' }}>Product</h4>
+                        <ul style={{ fontFamily: 'Montserrat, system-ui' }}><li style={{ fontFamily: 'Montserrat, system-ui' }}><a href="/pricing" >Pricing</a></li><li><a href="#">Mobile App</a></li></ul>
                     </div>
                     <div className="footer-column">
                         <h4>Resources</h4>

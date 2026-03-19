@@ -13,6 +13,9 @@ import { useForm } from "react-hook-form";
 import {HandleLogin} from "./HandleLogin";
 import { spinningStyles } from "./Styles";
 
+import { initCurrency } from '../initCurrency';
+
+
 
 
 
@@ -53,6 +56,7 @@ const Login = () => {
         const toastId = toast.loading('Logging in...', {duration: 8000,});
         try {
             await HandleLogin(data.email, data.password);
+            await initCurrency();
             toast.success('Login successful!', {id: toastId});
             navigate(`/mainpage`);
         } catch (error: any) {

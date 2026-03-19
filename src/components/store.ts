@@ -10,10 +10,10 @@ export const setCurrency = (currency: CurrencyInterface) => {
 export const getCurrency = () => CURRENT_CURRENCY;
 
 export const formatCurrency = (amount: number | string) => {
-    if (!CURRENT_CURRENCY) return amount;
+    if (!CURRENT_CURRENCY) return amount.toLocaleString();
 
     const value = Number(amount || 0);
 
-    return `${CURRENT_CURRENCY.currency_symbol} ${value.toString()}`;
+    return `${CURRENT_CURRENCY.currency_symbol} ${value.toLocaleString()}`;
 };
 

@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { formatCurrency } from "../../components/store";
 
 import {
   Chart as ChartJS,
@@ -125,7 +126,7 @@ function CashFlowChart() {
         cornerRadius: 10,
         callbacks: {
           label: (ctx: any) =>
-            `${ctx.dataset.label}: ${ctx.raw.toLocaleString()}`,
+            `${ctx.dataset.label}: ${formatCurrency(ctx.raw)}`,
         },
         
       },
@@ -139,7 +140,7 @@ function CashFlowChart() {
           color: 'rgba(0,0,0,0.06)',
         },
         ticks: {
-          callback: (value: any) => `RM ${Number(value).toLocaleString()}`,
+          callback: (value: any) => formatCurrency(value),
           font: { family: 'Montserrat, system-ui', size: 13 },
         },
       },
@@ -226,7 +227,7 @@ function CashFlowChart() {
           {/* Footer / Legend Disclaimer */}
           <div className="bg-gray-50/50 border-t border-gray-100 px-8 py-4">
             <p className="text-xs text-gray-400 italic" style={{ fontFamily: 'Montserrat, system-ui' }}>
-              * Data is updated automatically based on current billing cycles.
+              * Data is updated automatically based on current billing cycles. Currency code is based on company's preferred currency.
             </p>
           </div>
         </div>
