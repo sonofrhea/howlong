@@ -2,12 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from "lucide-react";
 
+
+
+
 const formatCurrentYear = () => {
     const currentYear = new Date().getFullYear();
     return `${currentYear}`
 }
 
-// ---- COUNTER HOOK ----
+
+
 function useCountUp(target: number, duration: number = 2000, start: boolean = false): number {
     const [count, setCount] = useState(0);
     useEffect(() => {
@@ -608,7 +612,7 @@ export default function ConstructionERPLanding() {
                     <div className="nav-links">
                         <div className="nav-item dropdown" onMouseEnter={() => setFeaturesOpen(true)} onMouseLeave={() => setFeaturesOpen(false)}>
                             <a className={`dropdown-toggle ${featuresOpen ? 'open' : ''}`}>Features</a>
-                            <div className={`dropdown-menu ${featuresOpen ? 'open' : ''}`}>
+                            <div id='features' className={`dropdown-menu ${featuresOpen ? 'open' : ''}`}>
                                 <div className="dropdown-menu-item"><a href="/client-feature">Customer Management</a></div>
                                 <div className="dropdown-menu-item"><a href="/project-feature">Project Management</a></div>
                                 <div className="dropdown-menu-item"><a href="/accounting-feature">Accounting & Finance</a></div>
@@ -631,8 +635,8 @@ export default function ConstructionERPLanding() {
                         URUSENTRA is an all-in-one company manager with inbuilt marketplace engineered specifically with building professionals in mind.
                     </p>
                     <div className="cta-group-header">
-                        <a href="#demo" className="cta-primary">Try Out ERP</a>
-                        <a href="#estimation" className="cta-secondary">Learn More</a>
+                        <a href="/pricing" className="cta-primary">Try Out ERP</a>
+                        <a href="#features" className="cta-secondary">Learn More</a>
                     </div>
                     <div>
                         <button className="cta-marketplace" onClick={() => navigate("/marketplace")}>

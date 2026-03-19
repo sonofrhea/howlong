@@ -187,7 +187,7 @@ const CashFlowManagement = lazy(() => import('./FullStack/Reports/Reports/CashFl
 
 
 import { initCurrency } from './initCurrency';
-initCurrency();
+
 
 
 
@@ -233,10 +233,10 @@ function App() {
 
           <Routes>
             {/* Default route */}
-            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/" element={<Navigate to="/" replace />} />
 
 
-            <Route path='/home' element={
+            <Route path='/' element={
               <Suspense fallback={<div></div>}>
                 <Landing />
               </Suspense>
@@ -366,6 +366,8 @@ function App() {
                 <ProtectedRoute />
               </Suspense>
               } >
+
+              {initCurrency()}
 
 
 

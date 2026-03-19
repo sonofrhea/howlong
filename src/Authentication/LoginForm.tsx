@@ -97,13 +97,20 @@ const Login = () => {
             <title>Login | Urusentra · ERP for Small & Medium Enterprises</title>
             <meta name="description" content="Secure login to Urusentra – modern ERP for SMEs" />
 
+            <style>
+                {`
+                    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap');
+                   
+                `}
+            </style>
+
             
             <div className="fixed top-4 left-4 z-50">
                 <Link 
                     to="/marketplace-login"
                     className="fixed top-4 left-4 z-50 group flex items-center gap-3 px-3 py-1 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-600 shadow-sm transition-all duration-300 hover:text-blue-600 hover:shadow-md hover:-translate-y-0.5"
                 >
-                    <span>Marketplace Login for suppliers</span>
+                    <span style={{ fontFamily: 'Montserrat, system-ui' }}>Marketplace Login for suppliers</span>
                 </Link>
             </div>
 
@@ -122,32 +129,38 @@ const Login = () => {
 
                     <Box className="whiteBox" sx={{ width: 420, maxWidth: '100%' }}>
                         <Box className={"itemBox"}>
-                            <Box className={'title'}>Login for Auth App</Box>
+                            <Box 
+                            className={'title'} 
+                            style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                Login for Auth App
+                            </Box>
                         </Box>
 
-                        <Box className="itemBox" sx={{ width: '100%' }}>
+                        <Box className="itemBox" sx={{ width: '100%' }} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <MyTextField 
                                 label={"Email"}
                                 name={"email"}
                                 control={control}
+                                style={{ fontFamily: 'Montserrat, system-ui' }}
                             />
                         </Box>
 
-                        <Box className="itemBox" sx={{ width: '100%' }}>
+                        <Box className="itemBox" sx={{ width: '100%' }} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <MyPassField 
                                 label={"Password"}
                                 name={"password"}
                                 control={control}
+                                style={{ fontFamily: 'Montserrat, system-ui' }}
                             />
                         </Box>
 
                         {error && (
-                            <p className="text-amber-800 text-sm">
+                            <p className="text-amber-800 text-sm" style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 {error}
                             </p>
                         )}
 
-                        <Box className="itemBox" sx={{ width: '100%' }}>
+                        <Box className="itemBox" sx={{ width: '100%' }} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <MyButton 
                                 type={"submit"}
                                 label={loading ? <p className={spinningStyles.terminalBar.spinner}>◖</p> : "Login"}
@@ -156,9 +169,9 @@ const Login = () => {
                         </Box>
 
                         <Box>
-                            <p className="text-blue-800">No Account yet? </p>
+                            <p className="text-blue-800" style={{ fontFamily: 'Montserrat, system-ui' }}>No Account yet? </p>
                             <Link to="/register">
-                                <p className="text-blue-800 underline"> Click to Register</p>
+                                <p className="text-blue-800 underline" style={{ fontFamily: 'Montserrat, system-ui' }}> Click to Register</p>
                             </Link>
                         </Box>
                     </Box>
