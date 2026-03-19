@@ -135,7 +135,7 @@ function ReportsFeature() {
                     nav{ font-family: 'Montserrat', system-ui; position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:64px;animation:slideDown .55s ease forwards}
                     @keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
                     .nav-brand{display:flex;align-items:center;gap:.65rem}
-                    .nav-icon{width:34px;height:34px;background:var(--pu);border-radius:8px;display:flex;align-items:center;justify-content:center}
+                    .nav-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center}
                     .nav-titles h1{ text-align: left; font-family: 'Montserrat', system-ui; font-size:1.05rem;font-weight:800;letter-spacing:-.01em;color:var(--dark);line-height:1.1}
                     .nav-titles p{ font-family: 'Montserrat', system-ui; font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
                     .nav-links{ font-family: 'Montserrat', system-ui; display:flex;align-items:center;gap:1.75rem}
@@ -401,7 +401,9 @@ function ReportsFeature() {
             <nav>
               <div className="nav-brand">
                 <div className="nav-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
                 </div>
                 <div className="nav-titles"><h1>Urusentra</h1><p style={{ fontFamily: 'Montserrat, system-ui' }}>Reports, Analytics &amp; Receipts</p></div>
               </div>
@@ -461,7 +463,7 @@ function ReportsFeature() {
                     </defs>
 
 
-                    <rect x="10" y="10" width="360" height="260" rx="20" fill="white" stroke="#dde1ea" stroke-width="1.5" filter="url(#sh-card)"/>
+                    <rect x="10" y="10" width="360" height="260" rx="20" fill="white" stroke="#dde1ea" strokeWidth="1.5" filter="url(#sh-card)"/>
 
 
                     <rect x="10" y="10" width="360" height="52" rx="20" fill="#6d28d9"/>
@@ -489,7 +491,7 @@ function ReportsFeature() {
                     <rect x="302" y="112" width="28" height="116" rx="4" fill="url(#grad-pu)" className="hero-bar"/>
                     <rect x="302" y="82"  width="28" height="30" rx="4" fill="url(#grad-em)" className="hero-bar"/>
 
-                    <line x1="28" y1="228" x2="352" y2="228" stroke="#dde1ea" stroke-width="1"/>
+                    <line x1="28" y1="228" x2="352" y2="228" stroke="#dde1ea" strokeWidth="1"/>
 
                     <text x="56"  y="240" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7.5" font-weight="700">JAN</text>
                     <text x="108" y="240" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7.5" font-weight="700">FEB</text>
@@ -505,7 +507,7 @@ function ReportsFeature() {
                     <rect x="210" y="255" width="9" height="9" rx="2" fill="#d97706"/>
                     <text x="224" y="263" fill="#3d4658" font-family="Montserrat,sans-serif" font-size="7.5" font-weight="700">Profit</text>
 
-                    <polyline points="56,148 108,133 160,118 212,126 264,108 316,95" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 3"/>
+                    <polyline points="56,148 108,133 160,118 212,126 264,108 316,95" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" stroke-dasharray="4 3"/>
                     <circle cx="56"  cy="148" r="3" fill="#d97706"/>
                     <circle cx="108" cy="133" r="3" fill="#d97706"/>
                     <circle cx="160" cy="118" r="3" fill="#d97706"/>
@@ -529,7 +531,7 @@ function ReportsFeature() {
                 <div className="cat-grid">
 
                   <div className="cat-card pu reveal">
-                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg></div>
+                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg></div>
                     <h3>Financial Reports</h3>
                     <p style={{ fontFamily: 'Montserrat, system-ui' }}>Core accounting statements generated directly from your live transaction data. Always up-to-date, always balanced.</p>
                     <div className="cat-pills">
@@ -542,7 +544,7 @@ function ReportsFeature() {
                   </div>
 
                   <div className="cat-card blue reveal" style={{ transitionDelay: '.08s' }}>
-                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2355f5" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg></div>
+                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2355f5" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg></div>
                     <h3>Customer Reports</h3>
                     <p style={{ fontFamily: 'Montserrat, system-ui' }}>Understand your client base — outstanding balances, payment history, aging analysis, and revenue per client.</p>
                     <div className="cat-pills">
@@ -554,7 +556,7 @@ function ReportsFeature() {
                   </div>
 
                   <div className="cat-card em reveal" style={{ transitionDelay: '.16s' }}>
-                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg></div>
+                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg></div>
                     <h3>Supplier Reports</h3>
                     <p style={{ fontFamily: 'Montserrat, system-ui' }}>Track purchase volumes, outstanding payables, payment compliance, and supplier performance across all projects.</p>
                     <div className="cat-pills">
@@ -566,7 +568,7 @@ function ReportsFeature() {
                   </div>
 
                   <div className="cat-card amber reveal" style={{ transitionDelay: '.24s' }}>
-                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg></div>
+                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg></div>
                     <h3>Project Reports</h3>
                     <p style={{ fontFamily: 'Montserrat, system-ui' }}>Profitability, budget vs actual, timeline adherence, and cost-per-project breakdowns across your entire portfolio.</p>
                     <div className="cat-pills">
@@ -578,7 +580,7 @@ function ReportsFeature() {
                   </div>
 
                   <div className="cat-card sky reveal" style={{ transitionDelay: '.32s' }}>
-                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 2.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125m0 4.5c0 2.278 3.694 4.125 8.25 4.125s8.25-1.847 8.25-4.125"/></svg></div>
+                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 2.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125m0 4.5c0 2.278 3.694 4.125 8.25 4.125s8.25-1.847 8.25-4.125"/></svg></div>
                     <h3>Product Reports</h3>
                     <p style={{ fontFamily: 'Montserrat, system-ui' }}>Inventory usage, top-selling items, price history, and stock movement tied to purchase orders and project consumption.</p>
                     <div className="cat-pills">
@@ -590,7 +592,7 @@ function ReportsFeature() {
                   </div>
 
                   <div className="cat-card teal reveal" style={{ transitionDelay: '.4s' }}>
-                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg></div>
+                    <div className="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f766e" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg></div>
                     <h3>Purchases Reports</h3>
                     <p style={{ fontFamily: 'Montserrat, system-ui' }}>Purchase order totals, supplier invoice matching, payment voucher summaries, and procurement spend by period.</p>
                     <div className="cat-pills">
@@ -678,7 +680,7 @@ function ReportsFeature() {
                       <div className="fbc-item"><span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--red)', display: 'inline-block' }}></span>Total Debit: <strong style={{ color: 'var(--red)' }}>RM 271,800</strong></div>
                       <div className="fbc-item"><span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--em)', display: 'inline-block' }}></span>Total Credit: <strong style={{ color: 'var(--em)' }}>RM 271,800</strong></div>
                       <div className="fbc-item" style={{ color: 'var(--pu)' }}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         <strong>Balanced</strong>
                       </div>
                     </div>
@@ -694,7 +696,7 @@ function ReportsFeature() {
                           <div className="cp-card-title">Income vs Expenses</div>
                           <div className="cp-card-sub">Q1 2025 · Monthly Breakdown</div>
                         </div>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
                       </div>
                       <div className="cp-card-body">
                         <div className="ive-bars">
@@ -739,16 +741,16 @@ function ReportsFeature() {
                           <div className="cp-card-title">Revenue by Category</div>
                           <div className="cp-card-sub">March 2025 · Total: RM 148,200</div>
                         </div>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"/><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"/></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"/><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"/></svg>
                       </div>
                       <div className="cp-card-body">
                         <div className="donut-wrap">
                           <svg viewBox="0 0 80 80" width="80" height="80" style={{ flexShrink: 0 }}>
-                            <circle cx="40" cy="40" r="28" fill="none" stroke="#eef1ff" stroke-width="14"/>
-                            <circle cx="40" cy="40" r="28" fill="none" stroke="#6d28d9" stroke-width="14" stroke-dasharray="88 88" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 40 40)"/>
-                            <circle cx="40" cy="40" r="28" fill="none" stroke="#059669" stroke-width="14" stroke-dasharray="53 123" stroke-dashoffset="-88" stroke-linecap="round" transform="rotate(-90 40 40)"/>
-                            <circle cx="40" cy="40" r="28" fill="none" stroke="#d97706" stroke-width="14" stroke-dasharray="28 148" stroke-dashoffset="-141" stroke-linecap="round" transform="rotate(-90 40 40)"/>
-                            <circle cx="40" cy="40" r="28" fill="none" stroke="#0284c7" stroke-width="14" stroke-dasharray="7 169" stroke-dashoffset="-169" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                            <circle cx="40" cy="40" r="28" fill="none" stroke="#eef1ff" strokeWidth="14"/>
+                            <circle cx="40" cy="40" r="28" fill="none" stroke="#6d28d9" strokeWidth="14" stroke-dasharray="88 88" stroke-dashoffset="0" strokeLinecap="round" transform="rotate(-90 40 40)"/>
+                            <circle cx="40" cy="40" r="28" fill="none" stroke="#059669" strokeWidth="14" stroke-dasharray="53 123" stroke-dashoffset="-88" strokeLinecap="round" transform="rotate(-90 40 40)"/>
+                            <circle cx="40" cy="40" r="28" fill="none" stroke="#d97706" strokeWidth="14" stroke-dasharray="28 148" stroke-dashoffset="-141" strokeLinecap="round" transform="rotate(-90 40 40)"/>
+                            <circle cx="40" cy="40" r="28" fill="none" stroke="#0284c7" strokeWidth="14" stroke-dasharray="7 169" stroke-dashoffset="-169" strokeLinecap="round" transform="rotate(-90 40 40)"/>
                           </svg>
                           <div className="donut-legend">
                             <div className="legend-item"><span className="legend-dot" style={{ background: 'var(--pu)' }}></span>Project Billing <strong style={{ marginLeft: 'auto', color: 'var(--dark)' }}>59%</strong></div>
@@ -853,7 +855,7 @@ function ReportsFeature() {
                   <div className="receipt-doc">
                     <div className="rec-header">
                       <div className="rec-brand">
-                        <div className="rec-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+                        <div className="rec-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
                         <div><div className="rec-brand-name">Urusentra</div><div className="rec-brand-sub">Payment Receipt</div></div>
                       </div>
                       <div className="rec-ref-block">
@@ -861,7 +863,7 @@ function ReportsFeature() {
                         <div className="rec-date">11 March 2025 · 14:32</div>
                         <div style={{ marginTop: '.5rem' }}>
                           <span className="rec-paid-stamp">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             PAYMENT RECEIVED
                           </span>
                         </div>
@@ -889,28 +891,28 @@ function ReportsFeature() {
 
                   <div className="rec-types">
                     <div className="rec-type-card">
-                      <div className="rtc-icon pu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg></div>
+                      <div className="rtc-icon pu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg></div>
                       <div>
                         <h4>Invoice Payment Receipt</h4>
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>Auto-generated on every payment collected. Shows amount paid, method, balance outstanding, and the originating invoice reference.</p>
                       </div>
                     </div>
                     <div className="rec-type-card">
-                      <div className="rtc-icon em"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg></div>
+                      <div className="rtc-icon em"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg></div>
                       <div>
                         <h4>Refund Receipt</h4>
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>Issued when a customer credit note triggers a refund. Records amount returned, payment type, and outstanding balance after refund.</p>
                       </div>
                     </div>
                     <div className="rec-type-card">
-                      <div className="rtc-icon blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2355f5" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg></div>
+                      <div className="rtc-icon blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2355f5" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg></div>
                       <div>
                         <h4>Receipt Voucher Copy</h4>
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>A formatted copy of the Receipt Voucher for the customer file — including special treatment discount breakdown and tax calculation.</p>
                       </div>
                     </div>
                     <div className="rec-type-card">
-                      <div className="rtc-icon amber"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
+                      <div className="rtc-icon amber"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
                       <div>
                         <h4>Settlement Confirmation</h4>
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>Issued automatically when a Post Customer Payment hits zero outstanding — confirming full settlement of the invoice to the client.</p>
@@ -1062,28 +1064,28 @@ function ReportsFeature() {
                 <h2 className="section-title" style={{ color: 'var(--pu)' }}>Industry Benefits</h2>
                 <div className="benefits-grid">
                   <div className="ben-card reveal">
-                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg></div>
+                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg></div>
                     <div>
                       <h3>Decisions Backed by Live Data</h3>
                       <p style={{ fontFamily: 'Montserrat, system-ui' }}>Every chart and table pulls from live transaction data — not cached exports. Your reports are always current, down to the last posted payment.</p>
                     </div>
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay: '.1s' }}>
-                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
+                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
                     <div>
                       <h3>Audit-Ready Financial Statements</h3>
                       <p style={{ fontFamily: 'Montserrat, system-ui' }}>Trial Balance, General Ledger, and Balance Sheet all reconcile automatically against your journal entries — always balanced, always audit-ready.</p>
                     </div>
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay: '.2s' }}>
-                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2355f5" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg></div>
+                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2355f5" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg></div>
                     <div>
                       <h3>Project Profitability in Real Time</h3>
                       <p style={{ fontFamily: 'Montserrat, system-ui' }}>See budget vs actual, revenue vs cost, and margin percentage for every active project — so you can intervene before overruns happen.</p>
                     </div>
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay: '.3s' }}>
-                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
+                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
                     <div>
                       <h3>Instant, Printable Receipts</h3>
                       <p style={{ fontFamily: 'Montserrat, system-ui' }}>Every collected payment generates a branded, client-ready receipt in seconds — no manual formatting, no Excel templates, no delays.</p>

@@ -97,7 +97,6 @@ function SupplierFeature() {
                   }
                   .nav-icon {
                     width: 34px; height: 34px;
-                    background: var(--orange);
                     border-radius: 8px;
                     display: flex; align-items: center; justify-content: center;
                   }
@@ -669,9 +668,9 @@ function SupplierFeature() {
             <nav>
               <div className="nav-brand">
                 <div className="nav-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                  </svg>
+                <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
                 </div>
                 <div className="nav-titles">
                   <h1>Urusentra</h1>
@@ -720,42 +719,42 @@ function SupplierFeature() {
                     </marker>
                   </defs>
 
-                  <line x1="200" y1="80" x2="200" y2="148" stroke="#fed7aa" stroke-width="1.5" className="edge-pulse" marker-end="url(#arr)"/>
+                  <line x1="200" y1="80" x2="200" y2="148" stroke="#fed7aa" strokeWidth="1.5" className="edge-pulse" marker-end="url(#arr)"/>
 
-                  <line x1="174" y1="192" x2="60"  y2="258" stroke="#fed7aa" stroke-width="1.5" className="edge-pulse delay1" marker-end="url(#arr)"/>
-                  <line x1="185" y1="192" x2="138" y2="258" stroke="#fed7aa" stroke-width="1.5" className="edge-pulse delay2" marker-end="url(#arr)"/>
-                  <line x1="215" y1="192" x2="262" y2="258" stroke="#fed7aa" stroke-width="1.5" className="edge-pulse delay3" marker-end="url(#arr)"/>
-                  <line x1="226" y1="192" x2="340" y2="258" stroke="#fed7aa" stroke-width="1.5" className="edge-pulse delay4" marker-end="url(#arr)"/>
+                  <line x1="174" y1="192" x2="60"  y2="258" stroke="#fed7aa" strokeWidth="1.5" className="edge-pulse delay1" marker-end="url(#arr)"/>
+                  <line x1="185" y1="192" x2="138" y2="258" stroke="#fed7aa" strokeWidth="1.5" className="edge-pulse delay2" marker-end="url(#arr)"/>
+                  <line x1="215" y1="192" x2="262" y2="258" stroke="#fed7aa" strokeWidth="1.5" className="edge-pulse delay3" marker-end="url(#arr)"/>
+                  <line x1="226" y1="192" x2="340" y2="258" stroke="#fed7aa" strokeWidth="1.5" className="edge-pulse delay4" marker-end="url(#arr)"/>
 
                   <g className="node-contractor" filter="url(#sh-b)">
-                    <rect x="138" y="24" width="124" height="56" rx="12" fill="#eef1ff" stroke="#2355f5" stroke-width="1.5"/>
+                    <rect x="138" y="24" width="124" height="56" rx="12" fill="#eef1ff" stroke="#2355f5" strokeWidth="1.5"/>
                     <text x="200" y="47" text-anchor="middle" fill="#2355f5" font-family="Montserrat,sans-serif" font-size="9" font-weight="800" letter-spacing="1.2">CONTRACTOR</text>
                     <text x="200" y="63" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">Your Project Needs</text>
                   </g>
 
                   <g className="node-platform" filter="url(#sh-o)">
-                    <rect x="130" y="148" width="140" height="56" rx="12" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+                    <rect x="130" y="148" width="140" height="56" rx="12" fill="#fff7ed" stroke="#ea580c" strokeWidth="2"/>
                     <text x="200" y="171" text-anchor="middle" fill="#ea580c" font-family="Montserrat,sans-serif" font-size="9" font-weight="800" letter-spacing="1.2">URUSENTRA</text>
                     <text x="200" y="187" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">Supplier Marketplace</text>
                   </g>
 
                   <g className="node-s1" filter="url(#sh-g)">
-                    <rect x="18" y="258" width="84" height="50" rx="10" fill="#e6f9f2" stroke="#00b87a" stroke-width="1.5"/>
+                    <rect x="18" y="258" width="84" height="50" rx="10" fill="#e6f9f2" stroke="#00b87a" strokeWidth="1.5"/>
                     <text x="60" y="278" text-anchor="middle" fill="#00b87a" font-family="Montserrat,sans-serif" font-size="8" font-weight="800">LUMBER</text>
                     <text x="60" y="293" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">245 suppliers</text>
                   </g>
                   <g className="node-s2" filter="url(#sh-g)">
-                    <rect x="118" y="258" width="84" height="50" rx="10" fill="#e6f9f2" stroke="#00b87a" stroke-width="1.5"/>
+                    <rect x="118" y="258" width="84" height="50" rx="10" fill="#e6f9f2" stroke="#00b87a" strokeWidth="1.5"/>
                     <text x="160" y="278" text-anchor="middle" fill="#00b87a" font-family="Montserrat,sans-serif" font-size="8" font-weight="800">STEEL</text>
                     <text x="160" y="293" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">189 suppliers</text>
                   </g>
                   <g className="node-s3" filter="url(#sh-g)">
-                    <rect x="218" y="258" width="84" height="50" rx="10" fill="#e6f9f2" stroke="#00b87a" stroke-width="1.5"/>
+                    <rect x="218" y="258" width="84" height="50" rx="10" fill="#e6f9f2" stroke="#00b87a" strokeWidth="1.5"/>
                     <text x="260" y="278" text-anchor="middle" fill="#00b87a" font-family="Montserrat,sans-serif" font-size="8" font-weight="800">CONCRETE</text>
                     <text x="260" y="293" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">156 suppliers</text>
                   </g>
                   <g className="node-s4" filter="url(#sh-g)">
-                    <rect x="318" y="258" width="84" height="50" rx="10" fill="#e6f9f2" stroke="#00b87a" stroke-width="1.5"/>
+                    <rect x="318" y="258" width="84" height="50" rx="10" fill="#e6f9f2" stroke="#00b87a" strokeWidth="1.5"/>
                     <text x="360" y="278" text-anchor="middle" fill="#00b87a" font-family="Montserrat,sans-serif" font-size="8" font-weight="800">MORE</text>
                     <text x="360" y="293" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">2,300+ more</text>
                   </g>
@@ -777,8 +776,8 @@ function SupplierFeature() {
                 <div className="step">
                   <div className="step-circle">
                     <span className="step-num">1</span>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2">
-                      <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2">
+                      <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/>
                     </svg>
                   </div>
                   <h3>Search & Discover</h3>
@@ -787,8 +786,8 @@ function SupplierFeature() {
                 <div className="step">
                   <div className="step-circle">
                     <span className="step-num">2</span>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                     </svg>
                   </div>
                   <h3>Compare Listings</h3>
@@ -797,8 +796,8 @@ function SupplierFeature() {
                 <div className="step">
                   <div className="step-circle">
                     <span className="step-num">3</span>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                     </svg>
                   </div>
                   <h3>Connect Instantly</h3>
@@ -807,8 +806,8 @@ function SupplierFeature() {
                 <div className="step">
                   <div className="step-circle">
                     <span className="step-num">4</span>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                   </div>
                   <h3>Instant Restock</h3>
@@ -838,7 +837,7 @@ function SupplierFeature() {
 
                     <div className="filter-section">
                       <div className="filter-section-title">Category</div>
-                      <div className="filter-row"><div className="cb checked"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></div><label>Lumber &amp; Wood</label><span className="count">(245)</span></div>
+                      <div className="filter-row"><div className="cb checked"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" fill="none" strokeLinecap="round"/></svg></div><label>Lumber &amp; Wood</label><span className="count">(245)</span></div>
                       <div className="filter-row"><div className="cb"></div><label>Steel &amp; Metal</label><span className="count">(189)</span></div>
                       <div className="filter-row"><div className="cb"></div><label>Concrete &amp; Masonry</label><span className="count">(156)</span></div>
                       <div className="filter-row"><div className="cb"></div><label>Electrical</label><span className="count">(132)</span></div>
@@ -847,22 +846,22 @@ function SupplierFeature() {
 
                     <div className="filter-section">
                       <div className="filter-section-title">Location</div>
-                      <div className="filter-row"><div className="cb checked"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></div><label>Within 50 miles</label></div>
+                      <div className="filter-row"><div className="cb checked"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" fill="none" strokeLinecap="round"/></svg></div><label>Within 50 miles</label></div>
                       <div className="filter-row"><div className="cb"></div><label>Within 100 miles</label></div>
-                      <div className="filter-row"><div className="cb checked"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></div><label>Worldwide Shipping</label></div>
+                      <div className="filter-row"><div className="cb checked"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" fill="none" strokeLinecap="round"/></svg></div><label>Worldwide Shipping</label></div>
                     </div>
 
                     <div className="filter-section">
                       <div className="filter-section-title">Supplier Rating</div>
                       <div className="filter-row"><div className="cb"></div><label>★★★★★ 5.0</label></div>
-                      <div className="filter-row"><div className="cb checked"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></div><label>★★★★ 4.0+</label></div>
+                      <div className="filter-row"><div className="cb checked"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" fill="none" strokeLinecap="round"/></svg></div><label>★★★★ 4.0+</label></div>
                       <div className="filter-row"><div className="cb"></div><label>★★★ 3.0+</label></div>
                     </div>
 
                     <div className="filter-section">
                       <div className="filter-section-title">Certifications</div>
                       <div className="filter-row"><div className="cb"></div><label>ISO 9001</label></div>
-                      <div className="filter-row"><div className="cb checked"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></div><label>FSC Certified</label></div>
+                      <div className="filter-row"><div className="cb checked"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" fill="none" strokeLinecap="round"/></svg></div><label>FSC Certified</label></div>
                       <div className="filter-row"><div className="cb"></div><label>Licensed &amp; Insured</label></div>
                       <div className="filter-row"><div className="cb"></div><label>LEED Certified</label></div>
                     </div>
@@ -907,7 +906,7 @@ function SupplierFeature() {
                             </div>
                             <div className="card-meta">
                               <span>
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
                                 Kajang, Kuala Lumpur
                               </span>
                               <span className="sep">|</span>
@@ -930,11 +929,11 @@ function SupplierFeature() {
                         <div className="card-footer">
                           <div className="card-details">
                             <span>
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00b87a" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00b87a" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                               <strong>Response:</strong> 2 hours
                             </span>
                             <span>
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2355f5" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2355f5" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
                               <strong>Ships to:</strong> Southeast Asia
                             </span>
                             <span><strong>Min Order:</strong> RM500</span>
@@ -959,7 +958,7 @@ function SupplierFeature() {
                             </div>
                             <div className="card-meta">
                               <span>
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
                                 Shah Alam, Selangor
                               </span>
                               <span className="sep">|</span>
@@ -982,11 +981,11 @@ function SupplierFeature() {
                         <div className="card-footer">
                           <div className="card-details">
                             <span>
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00b87a" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00b87a" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                               <strong>Response:</strong> 4 hours
                             </span>
                             <span>
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2355f5" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2355f5" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
                               <strong>Ships to:</strong> Malaysia-wide
                             </span>
                             <span><strong>Min Order:</strong> RM1,200</span>
@@ -1008,7 +1007,7 @@ function SupplierFeature() {
                             </div>
                             <div className="card-meta">
                               <span>
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
                                 Johor Bahru, Johor
                               </span>
                               <span className="sep">|</span>
@@ -1030,11 +1029,11 @@ function SupplierFeature() {
                         <div className="card-footer">
                           <div className="card-details">
                             <span>
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00b87a" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00b87a" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                               <strong>Response:</strong> Same day
                             </span>
                             <span>
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2355f5" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2355f5" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
                               <strong>Ships to:</strong> Johor region
                             </span>
                             <span><strong>Min Order:</strong> RM300</span>
@@ -1061,8 +1060,8 @@ function SupplierFeature() {
               <div className="cat-grid">
                 <div className="cat-card">
                   <div className="cat-icon">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="1.8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/>
                     </svg>
                   </div>
                   <div className="cat-name">Lumber &amp; Wood</div>
@@ -1070,8 +1069,8 @@ function SupplierFeature() {
                 </div>
                 <div className="cat-card">
                   <div className="cat-icon">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="1.8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/>
                     </svg>
                   </div>
                   <div className="cat-name">Steel &amp; Metal</div>
@@ -1079,8 +1078,8 @@ function SupplierFeature() {
                 </div>
                 <div className="cat-card">
                   <div className="cat-icon">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="1.8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/>
                     </svg>
                   </div>
                   <div className="cat-name">Concrete &amp; Masonry</div>
@@ -1088,8 +1087,8 @@ function SupplierFeature() {
                 </div>
                 <div className="cat-card">
                   <div className="cat-icon">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="1.8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
                     </svg>
                   </div>
                   <div className="cat-name">Electrical</div>
@@ -1097,8 +1096,8 @@ function SupplierFeature() {
                 </div>
                 <div className="cat-card">
                   <div className="cat-icon">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zm-7.518-.267A8.25 8.25 0 1120.25 10.5M8.288 14.212A5.25 5.25 0 1117.25 10.5"/>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="1.8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zm-7.518-.267A8.25 8.25 0 1120.25 10.5M8.288 14.212A5.25 5.25 0 1117.25 10.5"/>
                     </svg>
                   </div>
                   <div className="cat-name">Plumbing</div>
@@ -1106,8 +1105,8 @@ function SupplierFeature() {
                 </div>
                 <div className="cat-card">
                   <div className="cat-icon">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="1.8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
                     </svg>
                   </div>
                   <div className="cat-name">Roofing</div>
@@ -1115,8 +1114,8 @@ function SupplierFeature() {
                 </div>
                 <div className="cat-card">
                   <div className="cat-icon">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="1.8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
                     </svg>
                   </div>
                   <div className="cat-name">Finishing &amp; Paint</div>
@@ -1124,8 +1123,8 @@ function SupplierFeature() {
                 </div>
                 <div className="cat-card">
                   <div className="cat-icon">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="1.8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                   </div>
                   <div className="cat-name">View All Categories</div>
@@ -1144,8 +1143,8 @@ function SupplierFeature() {
               <div className="benefits-grid">
                 <div className="ben-card reveal">
                   <div className="ben-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253"/>
                     </svg>
                   </div>
                   <div>
@@ -1155,8 +1154,8 @@ function SupplierFeature() {
                 </div>
                 <div className="ben-card reveal" style={{ transitionDelay: '0.1s' }}>
                   <div className="ben-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00b87a" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00b87a" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
                     </svg>
                   </div>
                   <div>
@@ -1166,8 +1165,8 @@ function SupplierFeature() {
                 </div>
                 <div className="ben-card reveal" style={{ transitionDelay: '0.2s' }}>
                   <div className="ben-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2355f5" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2355f5" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
                     </svg>
                   </div>
                   <div>
@@ -1177,8 +1176,8 @@ function SupplierFeature() {
                 </div>
                 <div className="ben-card reveal" style={{ transitionDelay: '0.3s' }}>
                   <div className="ben-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/>
                     </svg>
                   </div>
                   <div>

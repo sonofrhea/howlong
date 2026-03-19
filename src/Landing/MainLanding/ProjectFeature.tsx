@@ -303,7 +303,7 @@ function ProjectFeature() {
                     .chart-track { background: var(--white); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem; }
                     .chart-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem; }
                     svg.sparkline { width:100%; height:60px; overflow:visible; }
-                    .spark-path { fill:none; stroke:var(--blue); stroke-width:2; vector-effect:non-scaling-stroke; stroke-linejoin:round; stroke-linecap:round; }
+                    .spark-path { fill:none; stroke:var(--blue); strokeWidth:2; vector-effect:non-scaling-stroke; strokeLinejoin:round; strokeLinecap:round; }
                     .spark-path.over { stroke: var(--red); }
 
                     /* BENEFITS */
@@ -369,29 +369,46 @@ function ProjectFeature() {
                     .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease,transform 0.65s ease; }
                     .reveal.visible { opacity:1; transform:translateY(0); }
 
+
+                    .nav-brand { display: flex; align-items: center; gap: 0.65rem; }
+                    .nav-icon {
+                    width: 34px; height: 34px;
+                    border-radius: 8px;
+                    display: flex; align-items: center; justify-content: center;
+                    }
+                     .nav-links { display: flex; align-items: center; gap: 1.75rem; }
+                    .nav-links a { font-size: 0.8rem; font-weight: 600; color: #4b5563; text-decoration: none; transition: color 0.2s; }
+                    .nav-links a:hover, .nav-links a.active { color: var(--indigo); }
+
+                    .nav-titles h1 { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; color: var(--dark); line-height: 1.1; }
+                    .nav-titles p  { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+                    .nav-links { display: flex; align-items: center; gap: 1.75rem; }
+                    .nav-links a { font-size: 0.8rem; font-weight: 600; color: #4b5563; text-decoration: none; transition: color 0.2s; }
+                    .nav-links a:hover { color: var(--teal); }
+                    .nav-links a.active { color: var(--teal); }
+                    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: blink 1.8s ease-in-out infinite; }
+
                 `}
 
             </style>
 
 
-
-            <nav className='flex-3'>
-                <div className="logo-photo">
-                    <a href='/'>
-                        <div className="flex items-center space-x-3">
-                            <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                            </svg>
-                            <div><h1 className="logo-text-lower text-xl font-bold text-gray-900">Urusentra</h1></div>
-                        </div>
-                    </a>
+            <nav>
+              <div className="nav-brand">
+                <div className="nav-icon">
+                <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
                 </div>
-
-                <div className="nav-logo">
+                <div className="nav-titles">
+                    <h1 className='text-left'>Urusentra</h1>
+                    <p style={{ fontFamily: 'Montserrat, system-ui' }}>Project Management</p>
                 </div>
-                <span className="nav-tag">
-                    <a href="/pricing">Try it out</a>
-                </span>
+              </div>
+              <div className="nav-links">
+                <a href="/">Home</a>
+                <a href="/pricing">Try it out</a>
+              </div>
             </nav>
 
             <div className="wrapper">
@@ -478,8 +495,8 @@ function ProjectFeature() {
                     <div className="problem-card red reveal">
                         <span className="problem-icon">
                         <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-                            <circle cx="19" cy="19" r="16" stroke="#e8354a" stroke-width="1.8"/>
-                            <path d="M19 11v10" stroke="#e8354a" stroke-width="2.5" stroke-linecap="round"/>
+                            <circle cx="19" cy="19" r="16" stroke="#e8354a" strokeWidth="1.8"/>
+                            <path d="M19 11v10" stroke="#e8354a" strokeWidth="2.5" strokeLinecap="round"/>
                             <circle cx="19" cy="26" r="1.8" fill="#e8354a"/>
                         </svg>
                         </span>
@@ -489,9 +506,9 @@ function ProjectFeature() {
                     <div className="problem-card amber reveal" style={{ transitionDelay: '0.14s' }}>
                         <span className="problem-icon">
                         <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-                            <rect x="7" y="11" width="24" height="19" rx="3" stroke="#b45309" stroke-width="1.8"/>
-                            <path d="M13 11V8M25 11V8" stroke="#b45309" stroke-width="1.8" stroke-linecap="round"/>
-                            <path d="M12 19h14M12 24h9" stroke="#b45309" stroke-width="1.8" stroke-linecap="round"/>
+                            <rect x="7" y="11" width="24" height="19" rx="3" stroke="#b45309" strokeWidth="1.8"/>
+                            <path d="M13 11V8M25 11V8" stroke="#b45309" strokeWidth="1.8" strokeLinecap="round"/>
+                            <path d="M12 19h14M12 24h9" stroke="#b45309" strokeWidth="1.8" strokeLinecap="round"/>
                         </svg>
                         </span>
                         <h3>Uncontrolled Supplier Costs</h3>
@@ -500,8 +517,8 @@ function ProjectFeature() {
                     <div className="problem-card yellow reveal" style={{ transitionDelay: "0.28s" }}>
                         <span className="problem-icon">
                         <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-                            <polyline points="7,28 15,17 21,23 31,11" stroke="#92400e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <polyline points="26,11 31,11 31,16" stroke="#92400e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <polyline points="7,28 15,17 21,23 31,11" stroke="#92400e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <polyline points="26,11 31,11 31,16" stroke="#92400e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         </span>
                         <h3>Profit Loss</h3>
@@ -598,8 +615,8 @@ function ProjectFeature() {
                         <div className="ben-icon">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
                             <circle cx="11" cy="11" r="3" fill="#2355f5"/>
-                            <path d="M11 2v2M11 18v2M2 11h2M18 11h2" stroke="#2355f5" stroke-width="1.7" stroke-linecap="round"/>
-                            <path d="M4.5 4.5l1.5 1.5M16 16l1.5 1.5M4.5 17.5l1.5-1.5M16 6l1.5-1.5" stroke="#2355f5" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M11 2v2M11 18v2M2 11h2M18 11h2" stroke="#2355f5" strokeWidth="1.7" strokeLinecap="round"/>
+                            <path d="M4.5 4.5l1.5 1.5M16 16l1.5 1.5M4.5 17.5l1.5-1.5M16 6l1.5-1.5" stroke="#2355f5" strokeWidth="1.5" strokeLinecap="round"/>
                         </svg>
                         </div>
                         <div>
@@ -610,8 +627,8 @@ function ProjectFeature() {
                     <div className="ben-card reveal" style={{ transitionDelay: "0.1s" }}>
                         <div className="ben-icon">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                            <path d="M11 2L2 6.5l9 4.5 9-4.5L11 2z" stroke="#00b87a" stroke-width="1.7" stroke-linejoin="round"/>
-                            <path d="M2 15.5l9 4.5 9-4.5M2 11l9 4.5 9-4.5" stroke="#00b87a" stroke-width="1.7" stroke-linejoin="round"/>
+                            <path d="M11 2L2 6.5l9 4.5 9-4.5L11 2z" stroke="#00b87a" strokeWidth="1.7" strokeLinejoin="round"/>
+                            <path d="M2 15.5l9 4.5 9-4.5M2 11l9 4.5 9-4.5" stroke="#00b87a" strokeWidth="1.7" strokeLinejoin="round"/>
                         </svg>
                         </div>
                         <div>
@@ -622,7 +639,7 @@ function ProjectFeature() {
                     <div className="ben-card reveal" style={{ transitionDelay: "0.2s" }}>
                         <div className="ben-icon">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                            <path d="M12 2L3 13h8l-1 7 10-11h-8l1-7z" stroke="#d97706" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+                            <path d="M12 2L3 13h8l-1 7 10-11h-8l1-7z" stroke="#d97706" strokeWidth="1.7" strokeLinejoin="round" strokeLinecap="round"/>
                         </svg>
                         </div>
                         <div>
@@ -633,8 +650,8 @@ function ProjectFeature() {
                     <div className="ben-card reveal" style={{ transitionDelay: "0.3s" }}>
                         <div className="ben-icon">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                            <path d="M11 2L3 6v5c0 4.5 3.5 8 8 9 4.5-1 8-4.5 8-9V6l-8-4z" stroke="#7c3aed" stroke-width="1.7" stroke-linejoin="round"/>
-                            <path d="M8 11l2 2 4-4" stroke="#7c3aed" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11 2L3 6v5c0 4.5 3.5 8 8 9 4.5-1 8-4.5 8-9V6l-8-4z" stroke="#7c3aed" strokeWidth="1.7" strokeLinejoin="round"/>
+                            <path d="M8 11l2 2 4-4" stroke="#7c3aed" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         </div>
                         <div>

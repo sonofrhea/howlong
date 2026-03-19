@@ -124,7 +124,6 @@ function ClientFeature() {
                 .nav-brand { display: flex; align-items: center; gap: 0.65rem; }
                 .nav-icon {
                 width: 34px; height: 34px;
-                background: var(--teal);
                 border-radius: 8px;
                 display: flex; align-items: center; justify-content: center;
                 }
@@ -587,7 +586,7 @@ function ClientFeature() {
                 }
                 .chart-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem; }
                 svg.sparkline { width:100%; height:60px; overflow:visible; }
-                .spark-path { fill:none; stroke:var(--teal); stroke-width:2; vector-effect:non-scaling-stroke; stroke-linejoin:round; stroke-linecap:round; }
+                .spark-path { fill:none; stroke:var(--teal); strokeWidth:2; vector-effect:non-scaling-stroke; strokeLinejoin:round; strokeLinecap:round; }
 
                 /* ---- BENEFITS ---- */
                 section.benefits { padding: 6rem 0; background: var(--white); }
@@ -668,8 +667,8 @@ function ClientFeature() {
             <nav>
             <div className="nav-brand">
                 <div className="nav-icon">
-                <svg className="text-orange-800" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
                 </div>
                 <div className="nav-titles">
@@ -721,37 +720,37 @@ function ClientFeature() {
                           </marker>
                         </defs>
 
-                        <line x1="180" y1="78"  x2="180" y2="148" stroke="#99f6e4" stroke-width="1.5" className="edge-flow"    marker-end="url(#arr)"/>
-                        <line x1="157" y1="192" x2="68"  y2="258" stroke="#99f6e4" stroke-width="1.5" className="edge-flow d1" marker-end="url(#arr)"/>
-                        <line x1="180" y1="192" x2="180" y2="258" stroke="#99f6e4" stroke-width="1.5" className="edge-flow d2" marker-end="url(#arr)"/>
-                        <line x1="203" y1="192" x2="292" y2="258" stroke="#99f6e4" stroke-width="1.5" className="edge-flow d3" marker-end="url(#arr)"/>
+                        <line x1="180" y1="78"  x2="180" y2="148" stroke="#99f6e4" strokeWidth="1.5" className="edge-flow"    marker-end="url(#arr)"/>
+                        <line x1="157" y1="192" x2="68"  y2="258" stroke="#99f6e4" strokeWidth="1.5" className="edge-flow d1" marker-end="url(#arr)"/>
+                        <line x1="180" y1="192" x2="180" y2="258" stroke="#99f6e4" strokeWidth="1.5" className="edge-flow d2" marker-end="url(#arr)"/>
+                        <line x1="203" y1="192" x2="292" y2="258" stroke="#99f6e4" strokeWidth="1.5" className="edge-flow d3" marker-end="url(#arr)"/>
 
                         <g className="node-a" filter="url(#sh-t)">
-                          <rect x="118" y="24" width="124" height="54" rx="12" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.8"/>
+                          <rect x="118" y="24" width="124" height="54" rx="12" fill="#f0fdfa" stroke="#0f766e" strokeWidth="1.8"/>
                           <text x="180" y="47"  text-anchor="middle" fill="#0f766e"  font-family="Montserrat,sans-serif" font-size="9" font-weight="800" letter-spacing="1.5">CLIENT PROFILE</text>
                           <text x="180" y="62"  text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">CV-2025-XXXX</text>
                         </g>
 
                         <g className="node-b" filter="url(#sh-t)">
-                          <rect x="118" y="148" width="124" height="54" rx="12" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+                          <rect x="118" y="148" width="124" height="54" rx="12" fill="#f0fdfa" stroke="#0f766e" strokeWidth="2"/>
                           <text x="180" y="170" text-anchor="middle" fill="#0f766e"  font-family="Montserrat,sans-serif" font-size="9" font-weight="800" letter-spacing="1.5">FINANCE HUB</text>
                           <text x="180" y="185" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">Auto-Calculated Totals</text>
                         </g>
 
                         <g className="node-c" filter="url(#sh-v)">
-                          <rect x="18"  y="258" width="100" height="50" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+                          <rect x="18"  y="258" width="100" height="50" rx="10" fill="#f5f3ff" stroke="#7c3aed" strokeWidth="1.5"/>
                           <text x="68"  y="278" text-anchor="middle" fill="#7c3aed"  font-family="Montserrat,sans-serif" font-size="8" font-weight="800" letter-spacing="1">DEBIT NOTE</text>
                           <text x="68"  y="293" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">DN-2025-XXXX</text>
                         </g>
 
                         <g className="node-d" filter="url(#sh-t)">
-                          <rect x="130" y="258" width="100" height="50" rx="10" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.5"/>
+                          <rect x="130" y="258" width="100" height="50" rx="10" fill="#f0fdfa" stroke="#0f766e" strokeWidth="1.5"/>
                           <text x="180" y="278" text-anchor="middle" fill="#0f766e"  font-family="Montserrat,sans-serif" font-size="8" font-weight="800" letter-spacing="1">CREDIT NOTE</text>
                           <text x="180" y="293" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">CN-2025-XXXX</text>
                         </g>
 
                         <g className="node-e" filter="url(#sh-a)">
-                          <rect x="242" y="258" width="100" height="50" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+                          <rect x="242" y="258" width="100" height="50" rx="10" fill="#fffbeb" stroke="#d97706" strokeWidth="1.5"/>
                           <text x="292" y="278" text-anchor="middle" fill="#d97706"  font-family="Montserrat,sans-serif" font-size="8" font-weight="800" letter-spacing="1">REFUND</text>
                           <text x="292" y="293" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">REF-2025-XXXX</text>
                         </g>
@@ -773,8 +772,8 @@ function ClientFeature() {
                 <div className="lifecycle-grid">
                   <div className="lc-card teal reveal">
                     <div className="lc-icon">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f766e" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
                       </svg>
                     </div>
                     <div className="lc-num">01</div>
@@ -796,8 +795,8 @@ function ClientFeature() {
                   </div>
                   <div className="lc-card violet reveal" style={{ transitionDelay:'0.1s' }}>
                     <div className="lc-icon">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
                       </svg>
                     </div>
                     <div className="lc-num">02</div>
@@ -808,8 +807,8 @@ function ClientFeature() {
                   </div>
                   <div className="lc-card amber reveal" style={{ transitionDelay:'0.2s' }}>
                     <div className="lc-icon">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
                       </svg>
                     </div>
                     <div className="lc-num">03</div>
@@ -820,8 +819,8 @@ function ClientFeature() {
                   </div>
                   <div className="lc-card red reveal" style={{ transitionDelay:'0.3s' }}>
                     <div className="lc-icon">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e8354a" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e8354a" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
                       </svg>
                     </div>
                     <div className="lc-num">04</div>
@@ -925,8 +924,8 @@ function ClientFeature() {
                         </div>
                       </div>
                       <div className="status-item" style={{ background: 'var(--teal-light)', borderColor: 'var(--teal-border)' }}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2" style={{ flexShrink: '0' }}>
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f766e" strokeWidth="2" style={{ flexShrink: '0' }}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
                         </svg>
                         <div>
                           <div className="status-item-label" style={{ color: 'var(--teal)' }}>Encrypted Fields</div>
@@ -1136,8 +1135,8 @@ function ClientFeature() {
                 <div className="benefits-grid">
                   <div className="ben-card reveal">
                     <div className="ben-icon">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f766e" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/>
                       </svg>
                     </div>
                     <div>
@@ -1147,8 +1146,8 @@ function ClientFeature() {
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay: '0.1s' }}>
                     <div className="ben-icon">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
                       </svg>
                     </div>
                     <div>
@@ -1158,8 +1157,8 @@ function ClientFeature() {
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay: '0.2s' }}>
                     <div className="ben-icon">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
                       </svg>
                     </div>
                     <div>
@@ -1169,8 +1168,8 @@ function ClientFeature() {
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay: '0.3s' }}>
                     <div className="ben-icon">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2355f5" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2355f5" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/>
                       </svg>
                     </div>
                     <div>

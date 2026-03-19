@@ -43,6 +43,7 @@ function useInView(threshold: number = 0.15): [React.RefObject<HTMLDivElement | 
 
 // ---- STAT CARD ----
 interface StatCardProps {
+    prefix: string;
     value: number;
     suffix: string;
     label: string;
@@ -50,14 +51,14 @@ interface StatCardProps {
     inView: boolean;
 }
 
-function StatCard({ value, suffix, label, color, inView }: StatCardProps) {
+function StatCard({ prefix, value, suffix, label, color, inView }: StatCardProps) {
     const num = useCountUp(value, 2200, inView);
     return (
         <div style={{ textAlign: 'center', padding: '0 20px' }}>
-            <div style={{ fontSize: 'clamp(2.8rem,5vw,4.5rem)', fontWeight: 900, lineHeight: 1, letterSpacing: '-3px', color: color || '#0066cc', fontFamily: 'Montserrat, system-ui' }}>
-                {num.toLocaleString()}{suffix}
+            <div style={{ fontSize: '62px', fontWeight: 900, lineHeight: 1, letterSpacing: '-3px', color: color || '#0066cc', fontFamily: 'Montserrat, system-ui' }}>
+                {prefix}{num.toLocaleString()}{suffix}
             </div>
-            <div style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#666', marginTop: '8px', fontFamily: 'Montserrat, system-ui' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#666', marginTop: '8px', fontFamily: 'Montserrat, system-ui' }}>
                 {label}
             </div>
         </div>
@@ -80,12 +81,12 @@ export default function ConstructionERPLanding() {
     }, []);
 
     const modules = [
-        { label: 'Sales', icon: '📋', color: '#059669', light: '#ecfdf5', border: '#a7f3d0', title: 'Sales Management', desc: 'Quotations → Invoices → Payments → Settlement. The full revenue pipeline, automated from first line item to final ringgit collected.', pills: ['QT-YYYY-XXXX', 'INV-YYYY-XXXX', 'PAY-XXXX', 'Auto-Complete'], accentCol: '#059669' },
-        { label: 'Finance', icon: '📊', color: '#4338ca', light: '#f5f3ff', border: '#ddd6fe', title: 'Financial Accounting', desc: 'Double-entry journals, payment & receipt vouchers, income & expenses, cash book, and bank statements — always balanced.', pills: ['Journal Voucher', 'P&L Statement', 'Cash Book', 'Bank Recs'], accentCol: '#4338ca' },
-        { label: 'Clients', icon: '🤝', color: '#0f766e', light: '#f0fdfa', border: '#99f6e4', title: 'Client Management', desc: 'Full client profiles with debit notes, credit notes, and refund tracking. Encrypted data, 5 status types, version-controlled.', pills: ['DN-YYYY-XXXX', 'CN-YYYY-XXXX', 'REF-YYYY-XXXX', 'Encrypted'], accentCol: '#0f766e' },
-        { label: 'Projects', icon: '🏗️', color: '#d97706', light: '#fffbeb', border: '#fde68a', title: 'Project Tracking', desc: 'BOQ estimation, job cost ledger, real-time variance monitoring. Know your budget status before it becomes a problem.', pills: ['BOQ Lines', 'Cost Ledger', 'Variance', 'Real-Time'], accentCol: '#d97706' },
-        { label: 'Reports', icon: '📈', color: '#6d28d9', light: '#f5f3ff', border: '#ddd6fe', title: 'Reports & Receipts', desc: 'Trial balance, income statement, project profitability, client aging — every report generated from live data, not exports.', pills: ['Trial Balance', 'Cash Flow', 'Profitability', 'Receipts'], accentCol: '#6d28d9' },
-        { label: 'Suppliers', icon: '🌐', color: '#ea580c', light: '#fff7ed', border: '#fed7aa', title: 'Supplier Connection', desc: '2,xxx+ verified suppliers across lumber, steel, concrete, and more. Compare prices, request quotes, and restock faster.', pills: ['2,xxx+ Suppliers', '500+ Contractors', '48h Response', 'Global'], accentCol: '#ea580c' },
+        { label: 'Sales', icon: '📋', color: '#059669', light: '#ecfdf5', border: '#a7f3d0', title: 'Sales Management', desc: 'Quotations → Invoices → Payments → Settlement. The full revenue pipeline, automated from first line item to final ringgit collected.', pills: ['QT-YYYY-XXXX', 'INV-YYYY-XXXX', 'PAY-XXXX', 'Auto-Complete'], accentCol: '#059669', link: '/project-feature' },
+        { label: 'Finance', icon: '📊', color: '#4338ca', light: '#f5f3ff', border: '#ddd6fe', title: 'Financial Accounting', desc: 'Double-entry journals, payment & receipt vouchers, income & expenses, cash book, and bank statements — always balanced.', pills: ['Journal Voucher', 'P&L Statement', 'Cash Book', 'Bank Recs'], accentCol: '#4338ca', link: '/accounting-feature' },
+        { label: 'Clients', icon: '🤝', color: '#0f766e', light: '#f0fdfa', border: '#99f6e4', title: 'Client Management', desc: 'Full client profiles with debit notes, credit notes, and refund tracking. Encrypted data, 5 status types, version-controlled.', pills: ['DN-YYYY-XXXX', 'CN-YYYY-XXXX', 'REF-YYYY-XXXX', 'Encrypted'], accentCol: '#0f766e', link: '/client-feature' },
+        { label: 'Projects', icon: '🏗️', color: '#d97706', light: '#fffbeb', border: '#fde68a', title: 'Project Tracking', desc: 'BOQ estimation, job cost ledger, real-time variance monitoring. Know your budget status before it becomes a problem.', pills: ['BOQ Lines', 'Cost Ledger', 'Variance', 'Real-Time'], accentCol: '#d97706', link: '/project-feature'  },
+        { label: 'Reports', icon: '📈', color: '#6d28d9', light: '#f5f3ff', border: '#ddd6fe', title: 'Reports & Receipts', desc: 'Trial balance, income statement, project profitability, client aging — every report generated from live data, not exports.', pills: ['Trial Balance', 'Cash Flow', 'Profitability', 'Receipts'], accentCol: '#6d28d9', link: '/reports-feature'  },
+        { label: 'Suppliers', icon: '🌐', color: '#ea580c', light: '#fff7ed', border: '#fed7aa', title: 'Supplier Connection', desc: '2,xxx+ verified suppliers across lumber, steel, concrete, and more. Compare prices, request quotes, and restock faster.', pills: ['2,xxx+ Suppliers', '500+ Contractors', '48h Response', 'Global'], accentCol: '#ea580c', link: '/supplier-feature'  },
     ];
 
     const faqs = [
@@ -390,7 +391,7 @@ export default function ConstructionERPLanding() {
                     padding: 60px 60px;
                     overflow: hidden;
                 }
-                .stats-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem; }
+                .stats-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
                 .stat-divider { width: 1px; background: #e5e7eb; height: 80px; margin: auto; }
 
                 /* MODULE TABS */
@@ -615,6 +616,60 @@ export default function ConstructionERPLanding() {
                     }
                 }
 
+                /* MOBILE PHONES */
+                @media (max-width: 428px) {
+                    nav {
+                        padding: 15px 15px !important;
+                        flex-wrap: wrap !important;
+                        gap: 10px !important;
+                    }
+                    
+                    .nav-links {
+                        gap: 8px !important;
+                        padding: 0 !important;
+                        flex-wrap: wrap !important;
+                    }
+                    
+                    .nav-links a {
+                        font-size: 11px !important;
+                    }
+                    
+                    .headline {
+                        padding: 70px 15px 25px !important;
+                        font-size: 28px !important;
+                    }
+                    
+                    .headline p {
+                        font-size: 14px !important;
+                        max-width: 100% !important;
+                        margin-bottom: 20px !important;
+                    }
+                    
+                    .cta-group-header {
+                        flex-wrap: wrap !important;
+                        gap: 8px !important;
+                    }
+                    
+                    .cta-group-header .cta-primary,
+                    .cta-group-header .cta-secondary {
+                        padding: 8px 16px !important;
+                        font-size: 12px !important;
+                    }
+                    
+                    .cta-marketplace {
+                        padding: 8px 16px !important;
+                        font-size: 12px !important;
+                    }
+                    
+                    .right-column,
+                    .middle-text,
+                    .arrow {
+                        display: none !important;
+                    }
+                }
+
+                
+
             `}</style>
 
             {/* ===== HERO (original — untouched) ===== */}
@@ -714,7 +769,7 @@ export default function ConstructionERPLanding() {
                     Manage Your SME.<br />
                     <span className='text-[#002c9c] text-5xl tracking-wide'>Find Suppliers Worldwide.</span>
                     <p className='subheadline'>
-                        URUSENTRA is an all-in-one company manager with inbuilt marketplace engineered specifically with building professionals in mind.
+                        URUSENTRA is engineered specifically with the building industry in mind, meant to improve your company's operational efficiency and revenue tremendously. 
                     </p>
                     <div className="cta-group-header">
                         <a href="/pricing" className="cta-primary">Try Out ERP</a>
@@ -734,11 +789,11 @@ export default function ConstructionERPLanding() {
                 <div className="metric-band-inner">
                     {Array.from({length: 6}).map((_, i) => (
                         <React.Fragment key={i}>
-                            <span className="mbitem">2,xxx+ Verified Suppliers</span>
-                            <span className="mbitem">5xx+ Contractors</span>
-                            <span className="mbitem">48h Avg Response</span>
                             <span className="mbitem">Auto-Balanced Accounts</span>
-                            <span className="mbitem">Version-Controlled Records</span>
+                            <span className="mbitem">Job Costing & Estimation</span>
+                            <span className="mbitem">Bill Of Quantities</span>
+                            <span className="mbitem">Project Phase Management</span>
+                            <span className="mbitem">Find Suppliers worldwide</span>
                             <span className="mbitem">Real-Time Variance</span>
                         </React.Fragment>
                     ))}
@@ -748,10 +803,9 @@ export default function ConstructionERPLanding() {
             {/* ===== NEW: STATS STRIP ===== */}
             <div className="stats-strip" ref={statsRef}>
                 <div className="stats-inner">
-                    <StatCard value={2000} suffix="+" label="Verified Suppliers" color="#0066cc" inView={statsInView} />
-                    <StatCard value={500} suffix="+" label="Contractors on Platform" color="#ea580c" inView={statsInView} />
-                    <StatCard value={48} suffix="h" label="Avg Supplier Response" color="#059669" inView={statsInView} />
-                    <StatCard value={14} suffix=" Day" label="Free Trial, No Card" color="#6d28d9" inView={statsInView} />
+                    <StatCard prefix="$" value={100000} suffix="+" label="monthly costing saved" color="#059669" inView={statsInView} />
+                    <StatCard prefix="" value={50} suffix="%" label="annual impact on job cost variance" color="#059669" inView={statsInView} />
+                    <StatCard prefix="" value={14} suffix=" Day" label="Free Demo, No Card" color="#6d28d9" inView={statsInView} />
                 </div>
             </div>
 
@@ -865,7 +919,7 @@ export default function ConstructionERPLanding() {
                                         <span key={pi} className="mod-pill" style={{ background: m.light, border: `1px solid ${m.border}`, color: m.color }}>{p}</span>
                                     ))}
                                 </div>
-                                <a href="/pricing" style={{ display: 'inline-block', marginTop: '28px', padding: '12px 28px', background: m.color, color: 'white', borderRadius: '8px', fontWeight: 700, fontSize: '14px', textDecoration: 'none', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>
+                                <a href={m.link} style={{ display: 'inline-block', marginTop: '28px', padding: '12px 28px', background: m.color, color: 'white', borderRadius: '8px', fontWeight: 700, fontSize: '14px', textDecoration: 'none', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>
                                     Explore {m.label} →
                                 </a>
                             </div>
@@ -913,7 +967,7 @@ export default function ConstructionERPLanding() {
                     ))}
                 </div>
                 <div style={{ textAlign: 'center', marginTop: '64px', position: 'relative', zIndex: 1 }}>
-                    <a href="/pricing" style={{ display: 'inline-block', padding: '16px 40px', background: 'white', color: '#001a5e', borderRadius: '10px', fontWeight: 800, fontSize: '15px', textDecoration: 'none', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>
+                    <a href="" style={{ display: 'inline-block', padding: '16px 40px', background: 'white', color: '#001a5e', borderRadius: '10px', fontWeight: 800, fontSize: '15px', textDecoration: 'none', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>
                         See Sales Management in Full →
                     </a>
                 </div>

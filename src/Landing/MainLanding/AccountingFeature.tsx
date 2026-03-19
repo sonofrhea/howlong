@@ -130,7 +130,7 @@ function AccountingFeature() {
                 }
                 .nav-brand { display: flex; align-items: center; gap: 0.65rem; }
                 .nav-icon {
-                width: 34px; height: 34px; background: var(--indigo);
+                width: 34px; height: 34px;
                 border-radius: 8px; display: flex; align-items: center; justify-content: center;
                 }
                 .nav-titles h1 { font-family: 'Montserrat', system-ui; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; color: var(--dark); line-height: 1.1; }
@@ -516,7 +516,7 @@ function AccountingFeature() {
                 .chart-track { background: var(--off); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem; }
                 .chart-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem; }
                 svg.sparkline { width:100%; height:60px; overflow:visible; }
-                .spark-path { fill:none; stroke:var(--indigo); stroke-width:2; vector-effect:non-scaling-stroke; stroke-linejoin:round; stroke-linecap:round; }
+                .spark-path { fill:none; stroke:var(--indigo); strokeWidth:2; vector-effect:non-scaling-stroke; strokeLinejoin:round; strokeLinecap:round; }
                 .spark-path.neg { stroke: var(--red); }
 
                 /* ---- BANK STATEMENTS ---- */
@@ -650,9 +650,9 @@ function AccountingFeature() {
             <nav>
               <div className="nav-brand">
                 <div className="nav-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                  </svg>
+                <svg className="w-9 h-9 text-orange-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
                 </div>
                 <div className="nav-titles text-left"><h1>Urusentra</h1><p className='text-left'>Accounting & Finance</p></div>
               </div>
@@ -702,47 +702,47 @@ function AccountingFeature() {
                       </marker>
                     </defs>
 
-                    <line x1="200" y1="88"  x2="80"  y2="165" stroke="#c7d2fe" stroke-width="1.5" className="edge-flow d1" marker-end="url(#arr)"/>
-                    <line x1="200" y1="88"  x2="160" y2="165" stroke="#c7d2fe" stroke-width="1.5" className="edge-flow d2" marker-end="url(#arr)"/>
-                    <line x1="200" y1="88"  x2="240" y2="165" stroke="#c7d2fe" stroke-width="1.5" className="edge-flow d3" marker-end="url(#arr)"/>
-                    <line x1="200" y1="88"  x2="320" y2="165" stroke="#c7d2fe" stroke-width="1.5" className="edge-flow d4" marker-end="url(#arr)"/>
-                    <line x1="200" y1="88"  x2="200" y2="270" stroke="#c7d2fe" stroke-width="1.5" className="edge-flow d5" marker-end="url(#arr)"/>
+                    <line x1="200" y1="88"  x2="80"  y2="165" stroke="#c7d2fe" strokeWidth="1.5" className="edge-flow d1" marker-end="url(#arr)"/>
+                    <line x1="200" y1="88"  x2="160" y2="165" stroke="#c7d2fe" strokeWidth="1.5" className="edge-flow d2" marker-end="url(#arr)"/>
+                    <line x1="200" y1="88"  x2="240" y2="165" stroke="#c7d2fe" strokeWidth="1.5" className="edge-flow d3" marker-end="url(#arr)"/>
+                    <line x1="200" y1="88"  x2="320" y2="165" stroke="#c7d2fe" strokeWidth="1.5" className="edge-flow d4" marker-end="url(#arr)"/>
+                    <line x1="200" y1="88"  x2="200" y2="270" stroke="#c7d2fe" strokeWidth="1.5" className="edge-flow d5" marker-end="url(#arr)"/>
 
                     <g className="node-a" filter="url(#sh-i)">
-                      <rect x="130" y="24" width="140" height="64" rx="14" fill="#eef2ff" stroke="#4338ca" stroke-width="2"/>
+                      <rect x="130" y="24" width="140" height="64" rx="14" fill="#eef2ff" stroke="#4338ca" strokeWidth="2"/>
                       <text x="200" y="52"  text-anchor="middle" fill="#4338ca" font-family="Montserrat,sans-serif" font-size="10" font-weight="800" letter-spacing="1.2">ACCOUNTING</text>
                       <text x="200" y="68"  text-anchor="middle" fill="#4338ca" font-family="Montserrat,sans-serif" font-size="10" font-weight="800" letter-spacing="1.2">HUB</text>
                     </g>
 
                     <g className="node-b" filter="url(#sh-i)">
-                      <rect x="30"  y="165" width="100" height="48" rx="10" fill="#eef2ff" stroke="#4338ca" stroke-width="1.5"/>
+                      <rect x="30"  y="165" width="100" height="48" rx="10" fill="#eef2ff" stroke="#4338ca" strokeWidth="1.5"/>
                       <text x="80"  y="185" text-anchor="middle" fill="#4338ca" font-family="Montserrat,sans-serif" font-size="8" font-weight="800" letter-spacing="1">JOURNAL</text>
                       <text x="80"  y="200" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="6.5" font-weight="500">JV-2025-XX</text>
                     </g>
 
                     <g className="node-c" filter="url(#sh-g)">
-                      <rect x="108" y="165" width="104" height="48" rx="10" fill="#e6f9f2" stroke="#00b87a" stroke-width="1.5"/>
+                      <rect x="108" y="165" width="104" height="48" rx="10" fill="#e6f9f2" stroke="#00b87a" strokeWidth="1.5"/>
                       <text x="160" y="183" text-anchor="middle" fill="#00b87a" font-family="Montserrat,sans-serif" font-size="8" font-weight="800" letter-spacing="1">INCOME &amp;</text>
                       <text x="160" y="196" text-anchor="middle" fill="#00b87a" font-family="Montserrat,sans-serif" font-size="8" font-weight="800" letter-spacing="1">EXPENSES</text>
                       <text x="160" y="208" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="6.5" font-weight="500">IE-2025-XX</text>
                     </g>
 
                     <g className="node-d" filter="url(#sh-v)">
-                      <rect x="190" y="165" width="100" height="48" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+                      <rect x="190" y="165" width="100" height="48" rx="10" fill="#f5f3ff" stroke="#7c3aed" strokeWidth="1.5"/>
                       <text x="240" y="183" text-anchor="middle" fill="#7c3aed" font-family="Montserrat,sans-serif" font-size="8" font-weight="800" letter-spacing="1">VOUCHERS</text>
                       <text x="240" y="196" text-anchor="middle" fill="#7c3aed" font-family="Montserrat,sans-serif" font-size="7" font-weight="500">PV / RV</text>
                       <text x="240" y="208" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="6.5" font-weight="500">2025-XX</text>
                     </g>
 
                     <g className="node-e" filter="url(#sh-s)">
-                      <rect x="268" y="165" width="104" height="48" rx="10" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+                      <rect x="268" y="165" width="104" height="48" rx="10" fill="#f0f9ff" stroke="#0284c7" strokeWidth="1.5"/>
                       <text x="320" y="183" text-anchor="middle" fill="#0284c7" font-family="Montserrat,sans-serif" font-size="8" font-weight="800" letter-spacing="1">BANK</text>
                       <text x="320" y="196" text-anchor="middle" fill="#0284c7" font-family="Montserrat,sans-serif" font-size="8" font-weight="800" letter-spacing="1">STATEMENTS</text>
                       <text x="320" y="208" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="6.5" font-weight="500">BS-2025-XXXXXX</text>
                     </g>
 
                     <g className="node-f" filter="url(#sh-a)">
-                      <rect x="140" y="270" width="120" height="48" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+                      <rect x="140" y="270" width="120" height="48" rx="10" fill="#fffbeb" stroke="#d97706" strokeWidth="1.5"/>
                       <text x="200" y="289" text-anchor="middle" fill="#d97706" font-family="Montserrat,sans-serif" font-size="8" font-weight="800" letter-spacing="1">CASH BOOK</text>
                       <text x="200" y="304" text-anchor="middle" fill="#8892a4" font-family="Montserrat,sans-serif" font-size="6.5" font-weight="500">CASH-2025-XX</text>
                     </g>
@@ -763,37 +763,37 @@ function AccountingFeature() {
                 </div>
                 <div className="modules-grid">
                   <div className="mod-card indigo reveal">
-                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4338ca" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg></div>
+                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4338ca" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg></div>
                     <span className="mod-code">JV-YYYY-XX</span>
                     <h3>Journal Voucher</h3>
                     <p>Double-entry journal with aggregate debit/credit auto-sum. Full cancellation support and version history on every header and line.</p>
                   </div>
                   <div className="mod-card green reveal" style={{ transitionDelay: '.08s' }}>
-                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00b87a" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg></div>
+                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00b87a" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg></div>
                     <span className="mod-code">IE-YYYY-XX</span>
                     <h3>Income &amp; Expenses</h3>
                     <p>Categorised income and expense entries with tax-inclusive/exclusive calculation, running balance tracking, and multi-currency support.</p>
                   </div>
                   <div className="mod-card violet reveal" style={{ transitionDelay: '.16s' }}>
-                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg></div>
+                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg></div>
                     <span className="mod-code">PV-YYYY-XX</span>
                     <h3>Payment Voucher</h3>
                     <p>Issued to suppliers with project linkage and per-line tax calculation. Aggregate totals flow up automatically from every line saved.</p>
                   </div>
                   <div className="mod-card sky reveal" style={{ transitionDelay: '.24s' }}>
-                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg></div>
+                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg></div>
                     <span className="mod-code">RV-YYYY-XX</span>
                     <h3>Receipt Voucher</h3>
                     <p>Received from customers with optional special treatment (discount) per line before tax. Aggregate totals calculated on every line save.</p>
                   </div>
                   <div className="mod-card amber reveal" style={{ transitionDelay: '.32s' }}>
-                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg></div>
+                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg></div>
                     <span className="mod-code">CASH-YYYY-XX</span>
                     <h3>Cash Book</h3>
                     <p>Four transaction types — Cash Receipts, Cash Payments, Deposits, and Cheques — with debit/credit columns and a live running balance.</p>
                   </div>
                   <div className="mod-card teal reveal" style={{ transitionDelay: '.4s' }}>
-                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg></div>
+                    <div className="mod-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f766e" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg></div>
                     <span className="mod-code">BS-YYYY-XXXXXX</span>
                     <h3>Bank Statements</h3>
                     <p>Deposits and withdrawals linked to chart of accounts. Unique transaction IDs prevent duplicates and enable full reconciliation.</p>
@@ -1020,7 +1020,7 @@ function AccountingFeature() {
                       <div className="v-row"><span className="vl">Tax (6% inclusive)</span><span className="vr">RM 1,044.00</span></div>
                       <div className="v-row"><span className="vl">Aggregate Total</span><span className="vr highlight">RM 18,444.00</span></div>
                       <div className="v-feature-tag">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
                         Line totals aggregate automatically on every save
                       </div>
                     </div>
@@ -1048,7 +1048,7 @@ function AccountingFeature() {
                       <div className="v-row"><span className="vl">Tax (6% inclusive)</span><span className="vr">RM 1,778.40</span></div>
                       <div className="v-row"><span className="vl">Aggregate Total</span><span className="vr highlight">RM 31,418.40</span></div>
                       <div className="v-feature-tag" style={{ '--mc': 'var(--sky)', '--ml': 'var(--sky-light)', '--mb': 'var(--sky-border)' } as React.CSSProperties}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185z"/></svg>
                         Special treatment discount applied before tax
                       </div>
                     </div>
@@ -1164,7 +1164,7 @@ function AccountingFeature() {
                             <stop offset="100%" stop-color="#4338ca" stop-opacity="0"/>
                           </linearGradient>
                         </defs>
-                        <line x1="0" y1="30" x2="400" y2="30" stroke="#d97706" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+                        <line x1="0" y1="30" x2="400" y2="30" stroke="#d97706" strokeWidth="1" stroke-dasharray="4 4" opacity="0.4"/>
                         <path id="spark-fill" fill="url(#sg-i)"/>
                         <path className="spark-path" id="spark-path"/>
                       </svg>
@@ -1232,21 +1232,21 @@ function AccountingFeature() {
                   </div>
                   <div className="bank-features">
                     <div className="bf-item">
-                      <div className="bf-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4338ca" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33"/></svg></div>
+                      <div className="bf-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4338ca" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33"/></svg></div>
                       <div>
                         <h4>Unique Transaction IDs</h4>
                         <p>Each bank statement entry has a unique <code style={{ fontSize:' 0.72rem', background: 'var(--sky-light)', padding:' 1px 5px', borderRadius:' 3px;color:var(--sky)' }}>BS-YYYY-XXXXXX</code> reference, preventing duplicate imports and enabling precise reconciliation.</p>
                       </div>
                     </div>
                     <div className="bf-item">
-                      <div className="bf-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00b87a" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/></svg></div>
+                      <div className="bf-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00b87a" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/></svg></div>
                       <div>
                         <h4>Chart of Accounts Linkage</h4>
                         <p>Every bank statement is tied to a CoA account via <code style={{ fontSize:' 0.72rem', background: 'var(--green-light)', padding:' 1px 5px', borderRadius:' 3px;color:var(--green)' }}>related_account</code>, enabling automatic GL posting and balance sheet updates.</p>
                       </div>
                     </div>
                     <div className="bf-item">
-                      <div className="bf-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg></div>
+                      <div className="bf-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg></div>
                       <div>
                         <h4>Deposit &amp; Withdrawal Types</h4>
                         <p>Transactions are classified as Deposits or Withdrawals, keeping inflows and outflows cleanly separated for reporting and reconciliation workflows.</p>
@@ -1265,28 +1265,28 @@ function AccountingFeature() {
                 <h2 className="section-title" style={{ color: 'var(--indigo)' }}>Industry Benefits</h2>
                 <div className="benefits-grid">
                   <div className="ben-card reveal">
-                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4338ca" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4338ca" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
                     <div>
                       <h3>Always-Balanced Entries</h3>
                       <p>Double-entry journal vouchers ensure debits always equal credits. Aggregates recalculate on every save, eliminating manual reconciliation.</p>
                     </div>
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay:'.1s' }}>
-                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00b87a" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg></div>
+                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00b87a" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg></div>
                     <div>
                       <h3>Real‑Time P&amp;L Visibility</h3>
                       <p>Income and expense entries update your running profit &amp; loss position instantly — no waiting for end-of-month reports to know where you stand.</p>
                     </div>
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay:'.2s' }}>
-                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg></div>
+                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg></div>
                     <div>
                       <h3>Complete Audit Trail</h3>
                       <p>Every record — from journal headers to voucher lines — increments a version counter on each save, creating a tamper-evident history for compliance.</p>
                     </div>
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay:'.3s' }}>
-                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253"/></svg></div>
+                    <div className="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253"/></svg></div>
                     <div>
                       <h3>Multi-Currency &amp; Multi-Company</h3>
                       <p>Every voucher, cash book entry, and bank statement carries a currency foreign key and a company scope, supporting complex group accounting structures.</p>
