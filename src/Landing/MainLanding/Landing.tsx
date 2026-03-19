@@ -236,7 +236,7 @@ export default function ConstructionERPLanding() {
                     padding: 100px 30px 40px;
                     text-align: left;
                     font-weight: 900;
-                    font-size: 32px;
+                    font-size: 16px;
                     line-height: 1.2;
                     letter-spacing: -1px;
                     color: var(--text-black);
@@ -246,7 +246,6 @@ export default function ConstructionERPLanding() {
                 }
                 .headline span { 
                     display: block; 
-                    font-size: 28px !important; 
                 }
                 .headline p { 
                     font-size: 16px; 
@@ -602,7 +601,7 @@ export default function ConstructionERPLanding() {
                 @media (min-width: 1024px) {
                     .headline {
                         padding: 180px 80px 80px;
-                        font-size: 4vw;
+                        font-size: 20px;
                     }
                     .headline p {
                         font-size: 20px;
@@ -766,7 +765,7 @@ export default function ConstructionERPLanding() {
                 </nav>
 
                 <div className="headline">
-                    Manage Your SME.<br />
+                    <span>Manage Your building company.</span>
                     <span className='text-[#002c9c] text-5xl tracking-wide'>Find Suppliers Worldwide.</span>
                     <p className='subheadline'>
                         URUSENTRA is engineered specifically with the building industry in mind, meant to improve your company's operational efficiency and revenue tremendously. 
