@@ -25,7 +25,10 @@ const formatUpdatedDate = (dateString: string) => {
 };
 
 
-
+const formatProjectNumber = () => {
+    const currentYear = new Date().getFullYear();
+    return `PZN-${currentYear}-0`;
+};
 
 
 
@@ -100,7 +103,7 @@ const BillOfQuantitiesDetails: React.FC<BillOfQuantitiesDetailsProps> = ({
                         <div className="meta-item">
                             <span className="meta-label">Project</span>
                             <span className="meta-value">
-                                {billOfQuantity.project || 'N/A'} | {billOfQuantity.project_name || 'N/A'}
+                                {formatProjectNumber()}{billOfQuantity.project || 'N/A'} | {billOfQuantity.project_name || 'N/A'}
                             </span>
                         </div>
 

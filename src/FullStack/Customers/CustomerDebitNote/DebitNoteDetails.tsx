@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { formatCurrency } from "../../../components/store";
 
-
+import EInvoiceStatusBadge from "../../EInvoice/EInvoiceStatusBadge";
+import EInvoiceSubmitButton from "../../EInvoice/EInvoiceSubmitButton";
+import EInvoiceQRCode from "../../EInvoice/EInvoiceQRCode";
 
 
 import { buttons, details, forms, 
@@ -54,7 +56,12 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
     onBack,
     onEdit,
     onCancel,
-    accounts, onCreateJournalEntry, isCreatingJournalEntry
+    accounts,
+    onCreateJournalEntry,
+    isCreatingJournalEntry,
+    einvoiceEnabled,
+    onSubmitSuccess,
+    onCancelSuccess
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
@@ -129,6 +136,69 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                             + Create Journal Entry
                         </button>
                     </div>
+                </div>
+
+                {/* e-Invoice Section — DebitNoteDetails */}
+                <div className="mb-6">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                            <a className={details.extraSmallUppercase}>e-Invoice Status</a>
+                            <EInvoiceStatusBadge status={debitNote.einvoice_status || 'Not Submitted'} />
+                        </div>
+                        <EInvoiceSubmitButton
+                            documentType="Debit Note"
+                            documentId={debitNote.debit_note_number}
+                            einvoiceStatus={debitNote.einvoice_status || 'Not Submitted'}
+                            einvoiceEnabled={einvoiceEnabled}
+                            lhdnUuid={debitNote.lhdn_uuid}
+                            submittedAt={debitNote.einvoice_submitted_at}
+                            onSubmitSuccess={onSubmitSuccess}
+                            onCancelSuccess={onCancelSuccess}
+                        />
+                    </div>
+
+                    {debitNote.lhdn_uuid && (
+                        <div className="grid grid-cols-3 gap-6 mt-4">
+                            <p className={labelStyles}>
+                                <a className={details.extraSmallUppercase}>LHDN UUID</a><br />
+                                <span className="font-mono text-xs break-all">{debitNote.lhdn_uuid}</span>
+                            </p>
+                            <p className={labelStyles}>
+                                <a className={details.extraSmallUppercase}>Submission UID</a><br />
+                                <span className="font-mono text-xs break-all">{debitNote.lhdn_submission_uid || 'N/A'}</span>
+                            </p>
+                            <p className={labelStyles}>
+                                <a className={details.extraSmallUppercase}>Submitted At</a><br />
+                                {debitNote.einvoice_submitted_at
+                                    ? new Date(debitNote.einvoice_submitted_at).toLocaleString('en-MY')
+                                    : 'N/A'
+                                }
+                            </p>
+                        </div>
+                    )}
+
+                    {debitNote.einvoice_status === 'Invalid' && debitNote.einvoice_validation_errors && (
+                        <div className="mt-3 p-4 bg-red-50 border border-red-100 rounded-xl">
+                            <p className="text-xs font-bold uppercase text-red-600 mb-1">Validation Errors</p>
+                            <p className="text-sm text-red-700 whitespace-pre-wrap">
+                                {debitNote.einvoice_validation_errors}
+                            </p>
+                        </div>
+                    )}
+
+                    {debitNote.lhdn_uuid && debitNote.lhdn_long_uid && (
+                        <div className="mt-4">
+                            <EInvoiceQRCode
+                                validationUrl={`https://${
+                                    debitNote.einvoice_status === 'Valid'
+                                        ? 'myinvois.hasil.gov.my'
+                                        : 'preprod.myinvois.hasil.gov.my'
+                                }/${debitNote.lhdn_uuid}/share/${debitNote.lhdn_long_uid}`}
+                                lhdnUuid={debitNote.lhdn_uuid}
+                                documentReference={`DN-${new Date(debitNote.date).getFullYear()}-${debitNote.debit_note_number}`}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <hr className="my-6 border-gray-200" />

@@ -20,3 +20,10 @@ export const BANK_TYPE_CHOICES = [
     'Other Bank',
     'DuitNow'
 ] as const;
+
+
+
+export const E_INVOICE_ENVIRONMENT_CHOICES = [
+    'Sandbox',
+    'Production',
+] as const;

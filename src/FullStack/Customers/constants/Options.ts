@@ -239,3 +239,38 @@ export const COUNTRY_OPTIONS = [
     'Zambia',
     'Zimbabwe',
 ] as const;
+
+
+
+
+
+export const EINVOICE_SUPPLY_TYPE_CHOICES = [
+    'B2B',
+    'B2C',
+    'B2G'
+] as const;
+
+
+export const EINVOICE_PAYMENT_MODE_CHOICES = [
+    { value: '01', label: 'Cash' },
+    { value: '02', label: 'Cheque' },
+    { value: '03', label: 'Bank Transfer' },
+    { value: '04', label: 'Credit Card' },
+    { value: '05', label: 'Debit Card' },
+    { value: '06', label: 'e-Wallet' },
+    { value: '07', label: 'Digital Bank' },
+    { value: '08', label: 'Others' },
+] as const;
+
+
+
+export const LHDN_TAX_TYPE_CHOICES = [
+  { value: '01', label: 'Sales Tax' },
+  { value: '02', label: 'Service Tax' },
+  { value: '03', label: 'Tourism Tax' },
+  { value: '04', label: 'High Value Goods Tax' },
+  { value: '05', label: 'Sales Tax on Low Value Goods' },
+  { value: '06', label: 'Not Applicable' },
+  { value: 'E',  label: 'Tax Exemption' },
+] as const;
+

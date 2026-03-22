@@ -120,7 +120,9 @@ const JobCostLedgerTable: React.FC<JobCostLedgerListProps> = ({
                         "w-1/9 text-center",
                         "w-1/9 text-center",
                         "w-[7%] text-center",
-                    ]}
+                    ].map((line, index) => (
+                        <col key={index} className={line} />
+                    ))}
                     </colgroup>
                     <thead className="bg-gray-50">
                         <tr>

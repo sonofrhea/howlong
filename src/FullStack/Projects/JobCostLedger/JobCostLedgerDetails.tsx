@@ -117,7 +117,7 @@ const JobCostLedgerDetails: React.FC<JobCostLedgerDetailsProps> = ({
                     </button>
                     <div>
                         <h1 className="text-2xl font-bold text-white tracking-tight">JOB-0-{jobCostLedger.job_cost_number}</h1>
-                        <p className="text-slate-400 text-sm font-medium uppercase tracking-wider">Job Cost Ledger Details</p>
+                        <span className="text-slate-400 text-sm font-medium uppercase tracking-wider">Job Cost Ledger Details</span>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">

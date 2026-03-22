@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { SALES_ICONS } from "./ModuleIcons";
 
-import { PAYMENT_TYPE_OPTIONS } from "./Options";
+import { EINVOICE_STATUS_CHOICES, EINVOICE_TYPE_CHOICES, LHDN_TAX_TYPE_CHOICES,
+  PAYMENT_MODE_CHOICES, PAYMENT_TYPE_OPTIONS, SUPPLY_TYPE_CHOICES } from "./Options";
 import { CustomerCreateResponse, CustomerInputs } from "../../Customers/constants/Types";
 import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
@@ -226,6 +227,9 @@ export type InvoiceDetails = {
     tax_amount: number;
     sub_total: string;
     cancelled: boolean;
+    einvoice_classification_code: number;
+    einvoice_tax_type: string;
+    einvoice_tax_exemption_reason: string;
   }>;
 
   currency: string;
@@ -239,6 +243,13 @@ export type InvoiceDetails = {
   discount_amount: number;
   after_discount_totals: number;
   cancelled: boolean;
+  lhdn_uuid: string;
+  lhdn_long_uid: string;
+  lhdn_submission_uid: string;
+  einvoice_status: typeof EINVOICE_STATUS_CHOICES[number];
+  einvoice_submitted_at: string;
+  einvoice_status_last_checked: string;
+  einvoice_validation_errors: string;
 
   gross_total: string;
   net_total: string;
@@ -273,8 +284,16 @@ export type InvoiceInputs = {
     tax_inclusive?: boolean | null;
     tax_amount?: number | null;
     cancelled?: boolean | null;
+    einvoice_classification_code?: number | null;
+    einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'] | null;
+    einvoice_tax_exemption_reason?: string | null;
   }> | null;
   cancelled: boolean;
+  einvoice_validation_errors: string;
+  einvoice_type: typeof EINVOICE_TYPE_CHOICES[number]['value'] | null;
+  einvoice_supply_type: typeof SUPPLY_TYPE_CHOICES[number] | null;
+  einvoice_payment_mode: typeof PAYMENT_MODE_CHOICES[number]['value'] | null;
+  einvoice_payment_terms: string;
   created_by: string;
 };
 
@@ -345,6 +364,9 @@ export type InvoiceDetailsProps = {
   isLoading: boolean;
   onBack?: () => void;
   onEdit: (invoiceId: number) => void;
+  einvoiceEnabled: boolean;
+  onSubmitSuccess: () => void;
+  onCancelSuccess: () => void;
 };
 // -------- END ----------- INVOICE INPUT ----------------
 

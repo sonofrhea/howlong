@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
-import { BankInterface, CompanyProfileEditProps, CompanyProfileInputs, CurrencyInterface } from "../constants/Types";
+import { BankInterface, CompanyProfileEditProps, CompanyProfileInputs, CurrencyInterface, IndustryCodesInterface } from "../constants/Types";
 import { useForm } from "react-hook-form";
 import { COUNTRY_OPTIONS, TAX_ID_CHOICES } from "../../Customers/constants/Options";
-import { BANK_TYPE_CHOICES } from "../constants/Options";
+import { BANK_TYPE_CHOICES, E_INVOICE_ENVIRONMENT_CHOICES } from "../constants/Options";
 import { companyCurrencyHandler } from "../../handlers";
 
 
@@ -33,7 +33,8 @@ const CompanyProfileEdit: React.FC<CompanyProfileEditProps> = ({
     isSubmitting,
     onCancel,
     currencies,
-    banks
+    banks,
+    industryCodes
 }) => {
 
 
@@ -68,6 +69,15 @@ const CompanyProfileEdit: React.FC<CompanyProfileEditProps> = ({
 
 
     const onCurrencyChange = companyCurrencyHandler(currencies, setValue);
+
+
+
+
+    const industrycodes = useMemo(() => industryCodes.map((code: IndustryCodesInterface) => (
+                            <option key={code.industry_code} value={code.industry_code}>
+                              {code.industry_code} - {code.industry_description} - {code.msic_category_reference}
+                            </option>
+                          )), [industryCodes])
 
 
 
@@ -202,10 +212,16 @@ const CompanyProfileEdit: React.FC<CompanyProfileEditProps> = ({
                             Industry Code
                             <span className="text-[0.6rem] font-normal text-gray-400 bg-gray-100 rounded px-1.5 py-px italic"></span>
                           </label>
-                          <input 
-                            placeholder="Leave blank if none" className="inp"
-                            {...register("industry_code")}
-                            />
+                          <div className="sel-wrap">
+                            <select 
+                             className="inp"
+                             {...register("industry_code")}
+                             >
+                                <option value="">select...</option>
+                                {industrycodes}
+                            </select>
+                          </div>
+                       
                           <p className="text-[0.65rem] text-gray-400 mt-1.5 font-medium">MSIC / NACE industry code</p>
                         </div>
 
@@ -364,6 +380,25 @@ const CompanyProfileEdit: React.FC<CompanyProfileEditProps> = ({
                       <div className="grid grid-cols-1 sm:grid-cols-3">
 
 
+                        <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
+                          <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-px"></span>E-invois environment
+                          </label>
+                          <div className="sel-wrap">
+                            <select 
+                             className="inp"
+                             {...register("einvoice_environment")}
+                             >
+                                {useMemo(() => E_INVOICE_ENVIRONMENT_CHOICES.map(option => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                )), [E_INVOICE_ENVIRONMENT_CHOICES])}
+                            </select>
+                          </div>
+                        </div>
+
+
                         <div id="ff_tin" className="field-wrap px-6 py-5 border-r border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
                           <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-px"></span>TIN Number
@@ -421,6 +456,184 @@ const CompanyProfileEdit: React.FC<CompanyProfileEditProps> = ({
                         </div>
 
                       </div>
+                    </div>
+
+                    <div className="fade-up-3 bg-white border border-[#e2e6f0] rounded-2xl overflow-hidden shadow-sm">
+
+                        <div className="flex items-center gap-3 px-6 py-4 bg-[#f8f9fc] border-b border-[#e2e6f0]">
+                            <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <h2 className="flex-1 text-[0.75rem] font-extrabold tracking-widest uppercase text-gray-600" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                e-Invoice / MyInvois
+                            </h2>
+                            <span className="text-[0.68rem] text-gray-400 font-medium">LHDN MyInvois API credentials</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+
+                            {/* e-Invoice Enabled Toggle */}
+                            <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
+                                <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-3">
+                                    e-Invoice Enabled
+                                </label>
+                                <label className="inline-flex items-center gap-3 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        {...register("einvoice_enabled")}
+                                        className="w-4 h-4 rounded border-gray-300 text-[#0a0a0a] focus:ring-[#0a0a0a]"
+                                    />
+                                    <span className="text-[0.82rem] font-semibold text-gray-700" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                        Enable LHDN e-Invoice submission
+                                    </span>
+                                </label>
+                                <p className="text-[0.65rem] text-gray-400 mt-2 font-medium">
+                                    Must be enabled before any document can be submitted to LHDN.
+                                </p>
+                            </div>
+
+                            {/* Environment */}
+                            <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
+                                <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-px" />
+                                    Environment
+                                </label>
+                                <div className="sel-wrap">
+                                    <select className="inp" {...register("einvoice_environment")}>
+                                        {E_INVOICE_ENVIRONMENT_CHOICES.map(option => (
+                                            <option key={option} value={option}>{option}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <p className="text-[0.65rem] text-gray-400 mt-1.5 font-medium">
+                                    Use Sandbox for testing. Switch to Production when ready to go live.
+                                </p>
+                            </div>
+
+                            {/* SST Registration Number */}
+                            <div className="px-6 py-5 border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
+                                <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-2">
+                                    SST Registration No.
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. W10-1808-32000001 or NA"
+                                    className="inp"
+                                    {...register("sst_registration_number")}
+                                />
+                                <p className="text-[0.65rem] text-gray-400 mt-1.5 font-medium">
+                                    Enter 'NA' if not registered for SST.
+                                </p>
+                            </div>
+
+                            {/* Tourism Tax Number */}
+                            <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
+                                <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-2">
+                                    Tourism Tax No. (TTX)
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. TTX-12345 or NA"
+                                    className="inp"
+                                    {...register("tourism_tax_number")}
+                                />
+                                <p className="text-[0.65rem] text-gray-400 mt-1.5 font-medium">
+                                    Enter 'NA' if not applicable.
+                                </p>
+                            </div>
+
+                            {/* Client ID */}
+                            <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
+                                <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-px" />
+                                    MyInvois Client ID
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="Obtained from MyInvois Portal"
+                                    className="inp"
+                                    {...register("myinvois_client_id")}
+                                />
+                            </div>
+
+                            {/* Client Secret 1 */}
+                            <div className="px-6 py-5 border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
+                                <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-px" />
+                                    Client Secret 1
+                                </label>
+                                <input
+                                    type="password"
+                                    placeholder="••••••••••••"
+                                    className="inp"
+                                    {...register("myinvois_client_secret_1")}
+                                />
+                                <p className="text-[0.65rem] text-gray-400 mt-1.5 font-medium">
+                                    Leave blank to keep existing secret.
+                                </p>
+                            </div>
+
+                            {/* Client Secret 2 */}
+                            <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
+                                <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-px" />
+                                    Client Secret 2
+                                </label>
+                                <input
+                                    type="password"
+                                    placeholder="••••••••••••"
+                                    className="inp"
+                                    {...register("myinvois_client_secret_2")}
+                                />
+                                <p className="text-[0.65rem] text-gray-400 mt-1.5 font-medium">
+                                    Backup secret — both expire simultaneously.
+                                </p>
+                            </div>
+
+                            {/* Certificate Upload */}
+                            <div className="px-6 py-5 border-r border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
+                                <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-2">
+                                    Digital Certificate (.p12 / .pfx)
+                                </label>
+                                {typeof company.einvoice_certificate === 'string' && company.einvoice_certificate && (
+                                    <div className="mb-2 flex items-center gap-1.5 text-[0.72rem] text-emerald-700 font-semibold">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                        Certificate already uploaded
+                                    </div>
+                                )}
+                                <input
+                                    type="file"
+                                    accept=".p12,.pfx"
+                                    className="inp"
+                                    onChange={e => {
+                                        const file = e.target.files?.[0] || null;
+                                        setValue('einvoice_certificate', file);
+                                    }}
+                                />
+                                <p className="text-[0.65rem] text-gray-400 mt-1.5 font-medium">
+                                    X.509 certificate from a Malaysia-approved CA. Leave blank to keep existing.
+                                </p>
+                            </div>
+
+                            {/* Certificate Password */}
+                            <div className="px-6 py-5 border-b border-[#e2e6f0] bg-white focus-within:bg-[#fffef8] transition-colors">
+                                <label className="flex items-center gap-1.5 text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-2">
+                                    Certificate Password
+                                </label>
+                                <input
+                                    type="password"
+                                    placeholder="••••••••••••"
+                                    className="inp"
+                                    {...register("einvoice_certificate_password")}
+                                />
+                                <p className="text-[0.65rem] text-gray-400 mt-1.5 font-medium">
+                                    Password for the .p12/.pfx file. Leave blank to keep existing.
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
 
                     

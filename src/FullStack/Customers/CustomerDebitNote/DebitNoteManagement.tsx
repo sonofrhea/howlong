@@ -9,7 +9,7 @@ import { fetchDebitNotes, createDebitNote, fetchDebitNoteById,
 
 
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
-import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
+import { fetchCurrencies, fetchAgents, fetchCompanyProfile } from "../../Core/Engines"
 import { fetchCustomerPayments } from "../../Sales/Engines";
 
 
@@ -92,6 +92,12 @@ function DebitNoteManagement() {
     queryKey: ['customerPayments'],
     queryFn: fetchCustomerPayments
   });
+
+  const { data: selectedCompany } = useQuery({
+    queryKey: ['company'],
+    queryFn: fetchCompanyProfile,
+  })
+
 
 // ------------------------------------------------------------------------------------
 
@@ -193,25 +199,18 @@ function DebitNoteManagement() {
 // ------------------------------------------------------------------------------------
                 // MUTATION USE
   
-  //const toFormData = (obj: any, form = new FormData(), parentKey = '') => {
-  //  Object.keys(obj).forEach(key => {
-  //    const value = obj[key];
-  //    const field = parentKey ? `${parentKey}.${key}` : key;
-  //    if (value === null || value === undefined) return;
-  //    if (Array.isArray(value)) {
-  //      value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-  //    } else if (value instanceof File) {
-  //      form.append(field, value);
-  //    } else if (typeof value === 'object') {
-  //      toFormData(value, form, field);
-  //    } else {
-  //      form.append(field, value);
-  //    }
-  //  });
-  //  return form;
-  //};
+
+  const handleDebitNoteEInvoiceSubmitSuccess = () => {
+      queryClient.invalidateQueries({ queryKey: ['debitNote', selectedDebitNoteId] });
+      queryClient.invalidateQueries({ queryKey: ['debitNotes'] });
+  };
+  const handleDebitNoteEInvoiceCancelSuccess = () => {
+      queryClient.invalidateQueries({ queryKey: ['debitNote', selectedDebitNoteId] });
+      queryClient.invalidateQueries({ queryKey: ['debitNotes'] });
+  };
 
 
+// ------------------------------------------------------------------------------------
 
 
 
@@ -607,6 +606,9 @@ const handleItemsPerPageChange = (value: any) => {
               accounts={accounts}
               onCreateJournalEntry={handleAddJournalEntry}
               isCreatingJournalEntry={createJournalEntryMutation.isPending}
+              einvoiceEnabled={selectedCompany?.einvoice_enabled ?? false}
+              onSubmitSuccess={handleDebitNoteEInvoiceSubmitSuccess}
+              onCancelSuccess={handleDebitNoteEInvoiceCancelSuccess}
             />
           )}
 

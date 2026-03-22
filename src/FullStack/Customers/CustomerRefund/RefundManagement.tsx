@@ -9,7 +9,7 @@ import { fetchRefunds, createRefund, fetchRefundById,
 
 
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
-import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
+import { fetchCurrencies, fetchAgents, fetchCompanyProfile } from "../../Core/Engines"
 
 import { toast } from "react-hot-toast";
 
@@ -99,6 +99,12 @@ function RefundManagement() {
         queryKey: ['creditNotes'],
         queryFn: fetchCreditNotes
     });
+
+    const { data: selectedCompany } = useQuery({
+        queryKey: ['company'],
+        queryFn: fetchCompanyProfile,
+    });
+
 
     // ------------------------------------------------------------------------------------
 
@@ -197,27 +203,24 @@ function RefundManagement() {
     });
 
     // ------------------------------------------------------------------------------------
-                    // MUTATION USE
+                    // E-INVOICE
     
-    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
-    //    Object.keys(obj).forEach(key => {
-    //    const value = obj[key];
-    //    const field = parentKey ? `${parentKey}.${key}` : key;
-    //    if (value === null || value === undefined) return;
-    //    if (Array.isArray(value)) {
-    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-    //    } else if (value instanceof File) {
-    //        form.append(field, value);
-    //    } else if (typeof value === 'object') {
-    //        toFormData(value, form, field);
-    //    } else {
-    //        form.append(field, value);
-    //    }
-    //    });
-    //    return form;
-    //};
-//
-//
+
+
+    const handleRefundEInvoiceSubmitSuccess = () => {
+        queryClient.invalidateQueries({ queryKey: ['refund', selectedRefundId] });
+        queryClient.invalidateQueries({ queryKey: ['refunds'] });
+    };
+    const handleRefundEInvoiceCancelSuccess = () => {
+        queryClient.invalidateQueries({ queryKey: ['refund', selectedRefundId] });
+        queryClient.invalidateQueries({ queryKey: ['refunds'] });
+    };
+
+
+
+
+ // ------------------------------------------------------------------------------------
+
 
 
 
@@ -608,6 +611,9 @@ function RefundManagement() {
                     accounts={accounts}
                     onCreateJournalEntry={handleAddJournalEntry}
                     isCreatingJournalEntry={createJournalEntryMutation.isPending}
+                    einvoiceEnabled={selectedCompany?.einvoice_enabled ?? false}
+                    onSubmitSuccess={handleRefundEInvoiceSubmitSuccess}
+                    onCancelSuccess={handleRefundEInvoiceCancelSuccess}
                 />
                 )}
 

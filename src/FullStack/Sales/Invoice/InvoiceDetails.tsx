@@ -3,6 +3,10 @@ import { buttons, details, forms, labelStyles, layout, tables, text } from "../C
 import { SquarePen } from "lucide-react";
 import { InvoiceDetailsProps } from "../Constants/Types";
 
+import EInvoiceStatusBadge from "../../EInvoice/EInvoiceStatusBadge";
+import EInvoiceSubmitButton from "../../EInvoice/EInvoiceSubmitButton";
+import EInvoiceQRCode from "../../EInvoice/EInvoiceQRCode";
+
 
 const formatNumber = () => {
     const currentYear = new Date().getFullYear();
@@ -43,7 +47,10 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
     invoice,
     isLoading,
     onBack,
-    onEdit
+    onEdit,
+    einvoiceEnabled,
+    onSubmitSuccess,
+    onCancelSuccess
 }) => {
     const invoiceId = invoice?.invoice_number;
 
@@ -102,6 +109,78 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                             Edit
                         </button>
                     </div>
+                </div>
+
+                    {/* e-Invoice Section */}
+                <div className="mb-6">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                            <a className={details.extraSmallUppercase}>e-Invoice Status</a>
+                            <EInvoiceStatusBadge status={invoice.einvoice_status || 'Not Submitted'} />
+                        </div>
+                        <EInvoiceSubmitButton
+                            documentType="Invoice"
+                            documentId={invoice.invoice_number}
+                            einvoiceStatus={invoice.einvoice_status || 'Not Submitted'}
+                            einvoiceEnabled={einvoiceEnabled}
+                            lhdnUuid={invoice.lhdn_uuid}
+                            submittedAt={invoice.einvoice_submitted_at}
+                            onSubmitSuccess={onSubmitSuccess}
+                            onCancelSuccess={onCancelSuccess}
+                        />
+                    </div>
+
+                    {/* LHDN details — only show when submitted */}
+                    {invoice.lhdn_uuid && (
+                        <div className="grid grid-cols-3 gap-6 mt-4">
+                            <p className={labelStyles}>
+                                <a className={details.extraSmallUppercase}>LHDN UUID</a><br />
+                                <span className="font-mono text-xs break-all">{invoice.lhdn_uuid}</span>
+                            </p>
+
+                            <p className={labelStyles}>
+                                <a className={details.extraSmallUppercase}>Submission UID</a><br />
+                                <span className="font-mono text-xs break-all">{invoice.lhdn_submission_uid || 'N/A'}</span>
+                            </p>
+
+                            <p className={labelStyles}>
+                                <a className={details.extraSmallUppercase}>Submitted At</a><br />
+                                {invoice.einvoice_submitted_at
+                                    ? new Date(invoice.einvoice_submitted_at).toLocaleString('en-MY')
+                                    : 'N/A'
+                                }
+                            </p>
+                        </div>
+                    )}
+
+
+                    {/* Validation errors — only show when invalid */}
+                    {invoice.einvoice_status === 'Invalid' && invoice.einvoice_validation_errors && (
+                        <div className="mt-3 p-4 bg-red-50 border border-red-100 rounded-xl">
+                            <p className="text-xs font-bold uppercase text-red-600 mb-1">Validation Errors</p>
+                            <p className="text-sm text-red-700 whitespace-pre-wrap">
+                                {invoice.einvoice_validation_errors}
+                            </p>
+                        </div>
+                    )}
+
+                    {/* QR Code — only show when valid and long_uid exists */}
+                    {invoice.lhdn_uuid && invoice.lhdn_long_uid && (
+                        <div className="mt-4">
+                            <EInvoiceQRCode
+                                validationUrl={
+                                    invoice.lhdn_long_uid
+                                        ? `https://${invoice.einvoice_status === 'Valid'
+                                            ? 'myinvois.hasil.gov.my'
+                                            : 'preprod.myinvois.hasil.gov.my'
+                                          }/${invoice.lhdn_uuid}/share/${invoice.lhdn_long_uid}`
+                                        : null
+                                }
+                                lhdnUuid={invoice.lhdn_uuid}
+                                documentReference={`INV-${new Date(invoice.invoice_date).getFullYear()}-${invoice.invoice_number}`}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <hr className="my-6 border-gray-200" />

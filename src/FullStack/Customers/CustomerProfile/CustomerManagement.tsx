@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
-
+import { validateCustomerTIN } from "../../EInvoice/Engines";
+import { TINValidationResponse } from "../../EInvoice/constants/Types";
 
 
 import { 
@@ -17,6 +18,7 @@ import {
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 import { fetchCurrencies, fetchBanks } from "../../Core/Engines"
 
+import { fetchCompanyProfile } from "../../Core/Engines";
 
 
 
@@ -31,7 +33,8 @@ import CustomerEdit from "./CustomerEdit";
 
 
 
-import { CustomerInputs, CustomerCreateResponse, CustomersList } from "../constants/Types";
+import { CustomerInputs, CustomerCreateResponse,
+  CustomersList } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
 import { toast } from "react-hot-toast";
 import { CurrencyInterface } from "../../Core/constants/Types";
@@ -72,6 +75,11 @@ function CustomerManagement() {
     queryKey: ['banks'],
     queryFn: fetchBanks
   });
+
+  const { data: selectedCompany } = useQuery({
+    queryKey: ['company'],
+    queryFn: fetchCompanyProfile,
+  })
 
 
 // ------------------------------------------------------------------------------------
@@ -146,6 +154,8 @@ function CustomerManagement() {
       }
   });
 
+
+
 // ------------------------------------------------------------------------------------
               // DELETE
 
@@ -168,25 +178,42 @@ function CustomerManagement() {
   });
 
 // ------------------------------------------------------------------------------------
-                // MUTATION USE
+                     // TIN VALIDATION
 
-  //const toFormData = (obj: any, form = new FormData(), parentKey = '') => {
-  //  Object.keys(obj).forEach(key => {
-  //    const value = obj[key];
-  //    const field = parentKey ? `${parentKey}.${key}` : key;
-  //    if (value === null || value === undefined) return;
-  //    if (Array.isArray(value)) {
-  //      value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-  //    } else if (value instanceof File) {
-  //      form.append(field, value);
-  //    } else if (typeof value === 'object') {
-  //      toFormData(value, form, field);
-  //    } else {
-  //      form.append(field, value);
-  //    }
-  //  });
-  //  return form
-  //};
+  const validateTINMutation = useMutation({
+      mutationFn: validateCustomerTIN,
+      onMutate: () => {
+          toast.loading('Validating TIN with LHDN...', { id: 'validate-tin' });
+      },
+      onSuccess: (data: TINValidationResponse) => {
+          queryClient.invalidateQueries({ queryKey: ['customer', selectedCustomerId] });
+          queryClient.invalidateQueries({ queryKey: ['customers'] });
+          toast.success(data.message || 'TIN validated successfully.', {
+              id: 'validate-tin',
+              duration: 5000
+          });
+      },
+      onError: (error: any) => {
+          const msg = error?.response?.data?.error || 'TIN validation failed.';
+          toast.error(msg, { id: 'validate-tin', duration: 8000 });
+          console.log(msg);
+      }
+  });
+
+
+
+  const handleValidateTIN = (customer_number: number) => {
+      validateTINMutation.mutate(customer_number);
+  };
+
+
+
+
+
+
+
+
+
 
 
 
@@ -561,6 +588,8 @@ return (
               isLoading={isLoadingCustomer}
               onBack={handleBackToCustomersList}
               onEdit={handleEditCustomerButton}
+              onValidateTIN={handleValidateTIN}
+              isValidatingTIN={validateTINMutation.isPending}
             />
           )}
 

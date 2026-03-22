@@ -20,7 +20,9 @@ const formatUpdatedDate = (dateString: string) => {
 const CompanyProfileDetails: React.FC<CompanyProfileDetailsProps> = ({
     company,
     isLoading,
-    onEdit
+    onEdit,
+    onTestCredentials,
+    isTestingCredentials
 }) => {
     const navigate = useNavigate();
 
@@ -188,7 +190,7 @@ const CompanyProfileDetails: React.FC<CompanyProfileDetailsProps> = ({
                 <div className="px-6 py-5 border-r border-b border-[#e2e6f0] hover:bg-[#f8f9fc] transition-colors hover:cursor-pointer">
                   <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">Industry Code</div>
                   <div id="disp_industry" className="disp text-[0.88rem] font-semibold text-gray-800">
-                    {company.industry_code || '--'}
+                    {company.industry_code || '--'} - {company.industry_description || '--'} - {company.msic_category_reference || '--'}
                   </div>
                 </div>
 
@@ -292,6 +294,14 @@ const CompanyProfileDetails: React.FC<CompanyProfileDetailsProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-3">
 
 
+                <div className="px-6 py-5 border-b border-[#e2e6f0] hover:bg-[#f8f9fc] transition-colors">
+                  <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">E-invois environment</div>
+                  <div id="disp_currency" className="disp text-[0.88rem] font-semibold text-gray-800">
+                    {company.einvoice_environment || '--'}
+                  </div>
+                </div>
+
+
                 <div className="px-6 py-5 border-r border-b border-[#e2e6f0] hover:bg-[#f8f9fc] transition-colors">
                   <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">TIN Number</div>
                   <div id="disp_tin" className="disp text-[0.88rem] font-semibold text-gray-800">
@@ -316,6 +326,114 @@ const CompanyProfileDetails: React.FC<CompanyProfileDetailsProps> = ({
                 </div>
 
               </div>
+            </div>
+
+            <div className="fade-up-3 bg-white border border-[#e2e6f0] rounded-2xl text-left overflow-hidden shadow-sm" style={{ fontFamily: 'Montserrat, system-ui' }}>
+
+                {/* Section Header */}
+                <div className="flex items-center gap-3 px-6 py-4 bg-[#f8f9fc] border-b border-[#e2e6f0]">
+                    <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h2 className="flex-1 text-[0.75rem] font-extrabold tracking-widest uppercase text-gray-600" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                        e-Invoice / MyInvois
+                    </h2>
+                    {/* Status badge */}
+                    <span className={`inline-flex items-center gap-1 text-[0.68rem] font-bold tracking-wide uppercase rounded-full px-2.5 py-0.5 ${
+                        company.einvoice_enabled
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : 'bg-gray-100 text-gray-500'
+                    }`}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                        {company.einvoice_enabled ? 'Enabled' : 'Disabled'}
+                    </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+
+                    {/* Environment */}
+                    <div className="px-6 py-5 border-r border-b border-[#e2e6f0] hover:bg-[#f8f9fc] transition-colors">
+                        <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">Environment</div>
+                        <span className={`inline-flex items-center gap-1 text-[0.68rem] font-bold tracking-wide uppercase rounded-full px-2.5 py-0.5 ${
+                            company.einvoice_environment === 'Production'
+                                ? 'bg-green-100 text-green-700'
+                                : 'bg-yellow-100 text-yellow-700'
+                        }`}>
+                            {company.einvoice_environment || '--'}
+                        </span>
+                    </div>
+
+                    {/* SST Registration Number */}
+                    <div className="px-6 py-5 border-r border-b border-[#e2e6f0] hover:bg-[#f8f9fc] transition-colors">
+                        <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">SST Registration No.</div>
+                        <div className="text-[0.88rem] font-semibold text-gray-800">
+                            {company.sst_registration_number || 'NA'}
+                        </div>
+                    </div>
+
+                    {/* Tourism Tax Number */}
+                    <div className="px-6 py-5 border-b border-[#e2e6f0] hover:bg-[#f8f9fc] transition-colors">
+                        <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">Tourism Tax No. (TTX)</div>
+                        <div className="text-[0.88rem] font-semibold text-gray-800">
+                            {company.tourism_tax_number || 'NA'}
+                        </div>
+                    </div>
+
+                    {/* Client ID */}
+                    <div className="px-6 py-5 border-r border-b border-[#e2e6f0] hover:bg-[#f8f9fc] transition-colors">
+                        <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">MyInvois Client ID</div>
+                        <div className="text-[0.88rem] font-semibold text-gray-800 font-mono">
+                            {company.myinvois_client_id
+                                ? `${company.myinvois_client_id.substring(0, 8)}••••••••`
+                                : '--'
+                            }
+                        </div>
+                    </div>
+
+                    {/* Certificate */}
+                    <div className="px-6 py-5 border-r border-b border-[#e2e6f0] hover:bg-[#f8f9fc] transition-colors">
+                        <div className="text-[0.65rem] font-extrabold tracking-widest uppercase text-gray-400 mb-1.5">Digital Certificate</div>
+                        <div className="text-[0.88rem] font-semibold text-gray-800">
+                            {company.einvoice_certificate
+                                ? <span className="inline-flex items-center gap-1 text-emerald-700 text-[0.78rem]">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Certificate uploaded
+                                  </span>
+                                : <span className="text-gray-400 text-[0.78rem] italic">No certificate uploaded</span>
+                            }
+                        </div>
+                    </div>
+
+                    {/* Test Credentials Button */}
+                    <div className="px-6 py-5 border-b border-[#e2e6f0] hover:bg-[#f8f9fc] transition-colors flex items-end">
+                        <button
+                            onClick={onTestCredentials}
+                            disabled={isTestingCredentials || !company.myinvois_client_id || !company.einvoice_enabled}
+                            className="inline-flex items-center gap-2 bg-[#0a0a0a] text-white text-[0.72rem] font-bold tracking-widest uppercase px-4 py-2 rounded-lg shadow-sm hover:bg-white hover:text-black hover:border-[#0a0a0a] border border-transparent hover:border hover:-translate-y-px active:translate-y-0 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                            style={{ fontFamily: 'Montserrat, system-ui' }}
+                        >
+                            {isTestingCredentials ? (
+                                <>
+                                    <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                    </svg>
+                                    Testing...
+                                </>
+                            ) : (
+                                <>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                    Test Credentials
+                                </>
+                            )}
+                        </button>
+                    </div>
+
+                </div>
             </div>
 
             

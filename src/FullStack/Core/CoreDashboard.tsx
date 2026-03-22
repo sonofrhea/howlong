@@ -45,25 +45,38 @@ function CoreDashboard() {
             path: '/core/currencies',
             available: true
         },
+        {
+            id: 'eInvoiceSubmissions',
+            name: 'E-Invoice Submissions',
+            description: 'Manage Submitted e-invois',
+            path: '/sales/einvoice-submissions',
+            available: true
+        },
     ];
 
 
 
     return(
         <div className="min-h-screen bg-gray-50 p-4">
-            <div className="max-w-6xl mx-auto">
+            <style>
+                {`
+                    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
+                `}
+            </style>
+
+            <div className="max-w-6xl mx-auto" style={{ fontFamily: 'Montserrat, system-ui' }}>
                 {/* HEADER */}
                 <div className="text-center mb-12">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                    <h1 className="text-3xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, system-ui' }}>
                         Company Management
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600" style={{ fontFamily: 'Montserrat, system-ui' }}>
                         Choose a module to get started
                     </p>
                 </div>
 
                 {/* GRIDS */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6" style={{ fontFamily: 'Montserrat, system-ui' }}>
                     {coreModules.map(module => (
                         <Link
                             key={module.id}
@@ -80,17 +93,17 @@ function CoreDashboard() {
                             </div>
 
                             {/* Content */}
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2" style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 {module.name}
                             </h3>
-                            <p className="text-gray-600 text-sm mb-4">
+                            <p className="text-gray-600 text-sm mb-4" style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 {module.description}
                             </p>
 
                             {/* Status */}
                             <div className={`text-sm font-medium ${
                                 module.available ? 'text-green-700' : 'text-gray-500'
-                            }`}>
+                            }`} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 {module.available ? 'Open Module ⟶' : 'Coming Soon'}
                             </div>                            
                         </Link>

@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 
 
-import { fetchBanks, fetchCompanyProfile, fetchCurrencies, patchCompanyProfile } from "../Engines";
+import { fetchBanks, fetchCompanyProfile, fetchCurrencies,
+    patchCompanyProfile, fetchIndustryCodes } from "../Engines";
 
 
 import CompanyProfileDetails from "./CompanyProfileDetails";
@@ -14,7 +15,8 @@ import CompanyProfileEdit from "./CompanyProfileEdit";
 
 import { CompanyProfileInputs } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
-
+import { testEInvoiceCredentials } from "../../EInvoice/Engines";
+import { TestCredentialsResponse } from "../../EInvoice/constants/Types";
 
 
 
@@ -34,6 +36,21 @@ function CompanyManagement() {
         queryKey: ['banks'],
         queryFn: fetchBanks
     });
+    const { data: industryCodes = [] } = useQuery({
+        queryKey: ['industryCodes'],
+        queryFn: fetchIndustryCodes
+    })
+
+
+
+
+
+
+
+
+
+
+
 
 
     const { data: selectedCompany, isLoading: isLoadingCompany, error: companyError } = useQuery({
@@ -42,7 +59,8 @@ function CompanyManagement() {
     });
 
 
-
+    // ------------------------------------------------------------------------------------
+            //UPDATE
 
     const updateCompanyMutation = useMutation({
         mutationFn: patchCompanyProfile,
@@ -60,6 +78,24 @@ function CompanyManagement() {
                 'Error updating Company profile:',
                 error.response?.data || error.message
             );
+        }
+    });
+
+    // ------------------------------------------------------------------------------------
+            //TEST CREDENTIALS
+
+    const testCredentialsMutation = useMutation({
+        mutationFn: testEInvoiceCredentials,
+        onMutate: () => {
+            toast.loading('Testing MyInvois credentials...', { id: 'test-credentials' });
+        },
+        onSuccess: (data: TestCredentialsResponse) => {
+            toast.success(data.message || 'Credentials are valid!', { id: 'test-credentials', duration: 5000 });
+        },
+        onError: (error: any) => {
+            const msg = error?.response?.data?.error || 'Credentials test failed.';
+            toast.error(msg, { id: 'test-credentials', duration: 8000 });
+            console.log(msg);
         }
     });
 
@@ -88,6 +124,10 @@ function CompanyManagement() {
 
         if (companyData.company_logo instanceof File) {
             formData.append('company_logo', companyData.company_logo);
+        };
+        
+        if (companyData.einvoice_certificate instanceof File) {
+            formData.append('einvoice_certificate', companyData.einvoice_certificate);
         };
 
         if (companyData.preferred_currency?.currency_code) {
@@ -122,6 +162,13 @@ function CompanyManagement() {
     };
 
     // ------------------------------------------------------------------------------------
+
+    const handleTestCredentials = () => {
+        testCredentialsMutation.mutate();
+    }
+
+    // ------------------------------------------------------------------------------------
+
 
 
     // ERROR DISPLAYS
@@ -195,6 +242,8 @@ function CompanyManagement() {
                     company={selectedCompany}
                     isLoading={isLoadingCompany}
                     onEdit={handleEditCompanyButton}
+                    onTestCredentials={handleTestCredentials}
+                    isTestingCredentials={testCredentialsMutation.isPending}
                 />
             )}
 
@@ -206,6 +255,7 @@ function CompanyManagement() {
                     onCancel={handleBackToCompanyDetails}
                     currencies={currencies}
                     banks={banks}
+                    industryCodes={industryCodes}
                 />
             )}
         </div>

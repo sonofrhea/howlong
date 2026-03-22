@@ -34,7 +34,9 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
     customer,
     isLoading,
     onBack,
-    onEdit
+    onEdit,
+    onValidateTIN,
+    isValidatingTIN
 }) => {
     const customerId = customer?.customer_number;
 
@@ -350,7 +352,72 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
                     </div>
                 </div>
             </div>
-            
+
+
+            {/* e-Invoice / TIN Validation */}
+            <div className="bg-blue-50 rounded-lg p-6 border border-blue-300 hover:border-blue-600 hover:cursor-pointer hover:shadow-2xl">
+                <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-black">e-Invoice / LHDN</h3>
+                    <button
+                        onClick={() => onValidateTIN(customerId)}
+                        disabled={isValidatingTIN}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-blue-200 bg-white text-blue-700 text-sm font-medium hover:bg-blue-100 hover:border-blue-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                        {isValidatingTIN ? (
+                            <>
+                                <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                </svg>
+                                Validating...
+                            </>
+                        ) : (
+                            <>
+                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                                Validate TIN
+                            </>
+                        )}
+                    </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 className="text-sm text-gray-500">TIN Validated</h4>
+                        <div className="mt-1">
+                            {customer.tin_validated ? (
+                                <span className="inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase rounded-full px-2.5 py-0.5 bg-emerald-100 text-emerald-700">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                                    Validated
+                                </span>
+                            ) : (
+                                <span className="inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase rounded-full px-2.5 py-0.5 bg-red-100 text-red-600">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                                    Not Validated
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 className="text-sm text-gray-500">Last Validated</h4>
+                        <div className="text-black">
+                            {customer.tin_validated_at
+                                ? new Date(customer.tin_validated_at).toLocaleString('en-MY')
+                                : 'Never'
+                            }
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 className="text-sm text-gray-500">Buyer Type</h4>
+                        <div className="text-black">
+                            {customer.buyer_type || 'N/A'}
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        
             <hr className="my-6 border-gray-200" />
 
             <div className="grid lg:grid-cols-5">

@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
+import { fetchCompanyProfile } from "../../Core/Engines";
 
 import { fetchCreditNotes, createCreditNote, fetchCreditNoteById,
   updateCreditNote, deleteCreditNote, fetchCustomers
@@ -97,6 +98,12 @@ function CreditNoteManagement() {
     queryKey: ['customerPayments'],
     queryFn: fetchCustomerPayments
   });
+
+  const { data: selectedCompany } = useQuery({
+    queryKey: ['company'],
+    queryFn: fetchCompanyProfile,
+  })
+  
 
 // ------------------------------------------------------------------------------------
 
@@ -198,24 +205,16 @@ function CreditNoteManagement() {
 // ------------------------------------------------------------------------------------
                 // MUTATION USE
   
-  //const toFormData = (obj, form = new FormData(), parentKey = '') => {
-  //  Object.keys(obj).forEach(key => {
-  //    const value = obj[key];
-  //    const field = parentKey ? `${parentKey}.${key}` : key;
-  //    if (value === null || value === undefined) return;
-  //    if (Array.isArray(value)) {
-  //      value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-  //    } else if (value instanceof File) {
-  //      form.append(field, value);
-  //    } else if (typeof value === 'object') {
-  //      toFormData(value, form, field);
-  //    } else {
-  //      form.append(field, value);
-  //    }
-  //  });
-  //  return form;
-  //};
-//
+  const handleCreditNoteEInvoiceSubmitSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ['creditNote', selectedCreditNoteId] });
+    queryClient.invalidateQueries({ queryKey: ['creditNotes'] });
+  };
+  const handleCreditNoteEInvoiceCancelSuccess = () => {
+      queryClient.invalidateQueries({ queryKey: ['creditNote', selectedCreditNoteId] });
+      queryClient.invalidateQueries({ queryKey: ['creditNotes'] });
+  };
+
+// ------------------------------------------------------------------------------------
 
 
 
@@ -611,6 +610,9 @@ const handleItemsPerPageChange = (value: any) => {
                 accounts={accounts}
                 onCreateJournalEntry={handleAddJournalEntry}
                 isCreatingJournalEntry={createJournalEntryMutation.isPending}
+                einvoiceEnabled={selectedCompany?.einvoice_enabled ?? false}
+                onSubmitSuccess={handleCreditNoteEInvoiceSubmitSuccess}
+                onCancelSuccess={handleCreditNoteEInvoiceCancelSuccess}
             />
             )}
 

@@ -103,7 +103,7 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                                             {project.project_type || 'N/A'}
                                         </span>
                                     </div>
-                                    <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                    <h1 className="text-3xl text-left font-extrabold text-slate-900 tracking-tight" style={{ fontFamily: 'Montserrat, system-ui' }}>
                                         {project.project_name}
                                     </h1>
                                 </div>

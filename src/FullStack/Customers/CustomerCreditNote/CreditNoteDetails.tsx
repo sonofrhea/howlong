@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
-
+import EInvoiceStatusBadge from "../../EInvoice/EInvoiceStatusBadge";
+import EInvoiceSubmitButton from "../../EInvoice/EInvoiceSubmitButton";
+import EInvoiceQRCode from "../../EInvoice/EInvoiceQRCode";
 
 import { buttons, details, forms, 
     labelStyles, 
@@ -54,7 +56,12 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
     onBack,
     onEdit,
     onCancel,
-    accounts, onCreateJournalEntry, isCreatingJournalEntry
+    accounts,
+    onCreateJournalEntry,
+    isCreatingJournalEntry,
+    einvoiceEnabled,
+    onSubmitSuccess,
+    onCancelSuccess
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
@@ -127,6 +134,69 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                             + Create Journal Entry
                         </button>
                     </div>
+                </div>
+
+                {/* e-Invoice Section — CreditNoteDetails */}
+                <div className="mb-6">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                            <a className={details.extraSmallUppercase}>e-Invoice Status</a>
+                            <EInvoiceStatusBadge status={creditNote.einvoice_status || 'Not Submitted'} />
+                        </div>
+                        <EInvoiceSubmitButton
+                            documentType="Credit Note"
+                            documentId={creditNote.credit_note_number}
+                            einvoiceStatus={creditNote.einvoice_status || 'Not Submitted'}
+                            einvoiceEnabled={einvoiceEnabled}
+                            lhdnUuid={creditNote.lhdn_uuid}
+                            submittedAt={creditNote.einvoice_submitted_at}
+                            onSubmitSuccess={onSubmitSuccess}
+                            onCancelSuccess={onCancelSuccess}
+                        />
+                    </div>
+
+                    {creditNote.lhdn_uuid && (
+                        <div className="grid grid-cols-3 gap-6 mt-4">
+                            <p className={labelStyles}>
+                                <a className={details.extraSmallUppercase}>LHDN UUID</a><br />
+                                <span className="font-mono text-xs break-all">{creditNote.lhdn_uuid}</span>
+                            </p>
+                            <p className={labelStyles}>
+                                <a className={details.extraSmallUppercase}>Submission UID</a><br />
+                                <span className="font-mono text-xs break-all">{creditNote.lhdn_submission_uid || 'N/A'}</span>
+                            </p>
+                            <p className={labelStyles}>
+                                <a className={details.extraSmallUppercase}>Submitted At</a><br />
+                                {creditNote.einvoice_submitted_at
+                                    ? new Date(creditNote.einvoice_submitted_at).toLocaleString('en-MY')
+                                    : 'N/A'
+                                }
+                            </p>
+                        </div>
+                    )}
+
+                    {creditNote.einvoice_status === 'Invalid' && creditNote.einvoice_validation_errors && (
+                        <div className="mt-3 p-4 bg-red-50 border border-red-100 rounded-xl">
+                            <p className="text-xs font-bold uppercase text-red-600 mb-1">Validation Errors</p>
+                            <p className="text-sm text-red-700 whitespace-pre-wrap">
+                                {creditNote.einvoice_validation_errors}
+                            </p>
+                        </div>
+                    )}
+
+                    {creditNote.lhdn_uuid && creditNote.lhdn_long_uid && (
+                        <div className="mt-4">
+                            <EInvoiceQRCode
+                                validationUrl={`https://${
+                                    creditNote.einvoice_status === 'Valid'
+                                        ? 'myinvois.hasil.gov.my'
+                                        : 'preprod.myinvois.hasil.gov.my'
+                                }/${creditNote.lhdn_uuid}/share/${creditNote.lhdn_long_uid}`}
+                                lhdnUuid={creditNote.lhdn_uuid}
+                                documentReference={`CN-${new Date(creditNote.date).getFullYear()}-${creditNote.credit_note_number}`}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <hr className="my-6 border-gray-200" />

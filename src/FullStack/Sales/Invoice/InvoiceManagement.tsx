@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from 'react-router-dom';
 
-
+import { fetchCompanyProfile } from "../../Core/Engines";
 
 
 import { fetchInvoices, fetchInvoiceById, createInvoice,
@@ -82,11 +82,6 @@ function InvoiceManagement() {
         queryFn: fetchCurrencies
     });
 
-    const { data: accounts = [] } = useQuery({
-        queryKey: ['accounts'],
-        queryFn: fetchChartOfAccounts
-    });
-
     const { data: agents = [] } = useQuery({
         queryKey: ['agents'],
         queryFn: fetchAgents
@@ -105,6 +100,11 @@ function InvoiceManagement() {
     const { data: quotations = [] } = useQuery({
         queryKey: ['quotations'],
         queryFn: fetchQuotations
+    });
+
+    const { data: selectedCompany } = useQuery({
+        queryKey: ['company'],
+        queryFn: fetchCompanyProfile
     })
 
 
@@ -195,27 +195,27 @@ function InvoiceManagement() {
     });
 
     // ------------------------------------------------------------------------------------
-                    // MUTATION USE
-    
-    //const toFormData = (obj, form = new FormData(), parentKey = '') => {
-    //    Object.keys(obj).forEach(key => {
-    //    const value = obj[key];
-    //    const field = parentKey ? `${parentKey}.${key}` : key;
-    //    if (value === null || value === undefined) return;
-    //    if (Array.isArray(value)) {
-    //        value.forEach((v, i) => toFormData(v, form, `${field}[${i}]`));
-    //    } else if (value instanceof File) {
-    //        form.append(field, value);
-    //    } else if (typeof value === 'object') {
-    //        toFormData(value, form, field);
-    //    } else {
-    //        form.append(field, value);
-    //    }
-    //    });
-    //    return form;
-    //};
+                    // E-INVOICE HANDLING
 
 
+    const handleEInvoiceSubmitSuccess = () => {
+        queryClient.invalidateQueries({ queryKey: ['invoice', selectedInvoiceId] });
+        queryClient.invalidateQueries({ queryKey: ['invoices'] });
+    };
+
+    const handleEInvoiceCancelSuccess = () => {
+        queryClient.invalidateQueries({ queryKey: ['invoice', selectedInvoiceId] });
+        queryClient.invalidateQueries({ queryKey: ['invoices'] });
+    };
+
+
+
+
+
+
+
+
+// ------------------------------------------------------------------------------------
 
 
 
@@ -575,6 +575,9 @@ function InvoiceManagement() {
                 isLoading={isLoadingInvoice}
                 onBack={handleBackToInvoicesList}
                 onEdit={handleEditInvoiceButton}
+                einvoiceEnabled={selectedCompany?.einvoice_enabled ?? false}
+                onSubmitSuccess={handleEInvoiceSubmitSuccess}
+                onCancelSuccess={handleEInvoiceCancelSuccess}
                 />
             )}
 

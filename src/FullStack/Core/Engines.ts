@@ -130,3 +130,18 @@ export const patchUserProfile = async (userProfileData: UserProfileInputs) => {
     console.error(error);
   }
 }
+
+
+
+// --------------------------------------------------------------------------------------------------------
+                  // INDUSTRY CODES
+
+
+export const fetchIndustryCodes = async () => {
+  try {
+    const response = await apiClient.get('/core/industrycodes/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
