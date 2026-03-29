@@ -179,7 +179,7 @@ export type SupplierProfileDetails = {
 
 export type SupplierProfileInputs = {
   supplier_code: number;
-  supplier_name: string;
+  supplier_name?: string;
   company_name: string;
   category: number;
   preferred_currency: {

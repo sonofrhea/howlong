@@ -124,7 +124,7 @@ const ReceiptVoucherTable: React.FC<ReceiptVoucherTableProps> = ({
                             <SortableHeader label="Received from" sortKey="received_from" />
                             <SortableHeader label="Description" sortKey="description" />
                             <SortableHeader label="Currency" sortKey="currency" />
-                            <SortableHeader label="Tax %" sortKey="tax" />
+                            <SortableHeader label="Tax %" sortKey="tax_percent" />
                             <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Net Total" sortKey="net_total" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
@@ -177,7 +177,7 @@ const ReceiptVoucherTable: React.FC<ReceiptVoucherTableProps> = ({
                                     {/* Tax */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {receiptVoucher.tax}%
+                                            {receiptVoucher.tax_percent}%
                                         </div>
                                     </td>
 

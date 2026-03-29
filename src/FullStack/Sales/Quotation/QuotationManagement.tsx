@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchQuotations, fetchQuotationById, createQuotation,
@@ -67,15 +67,30 @@ interface SortConfig {
 
 function QuotationManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedQuotationId, setSelectedQuotationId] = useState<number | null>(null);
+    const selectedQuotationId = searchParams.get('quotation_number') ? Number(searchParams.get('quotation_number')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
 
     const [isCustomerOpen, setIsCustomerOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, quotation_number?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView)
+        if (quotation_number) {
+            params.set('quotation_number', quotation_number.toString());
+        } else if (newView === 'list') {
+            params.delete('quotation_number')
+        }
+        setSearchParams(params);
+    }
+
+
     // ------------------------------------------------------------------------------------
                 // DEPENDENCIES
     const { data: customers = [] } = useQuery({
@@ -140,9 +155,8 @@ function QuotationManagement() {
         onSuccess: (data: QuotationCreateResponse) => {
             const newQuotationId = data.quotation_number;
             queryClient.invalidateQueries({ queryKey: ['quotations']});
-            setSelectedQuotationId(newQuotationId);
+            navigateToView('details', newQuotationId);
             toast.success('Quotation successfully created', { id: "Create quotation" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create quotation', { id: "Create quotation" });
@@ -165,7 +179,7 @@ function QuotationManagement() {
             queryClient.invalidateQueries({ queryKey: ['quotations'] });
             queryClient.invalidateQueries({ queryKey: ['quotation', selectedQuotationId]});
             toast.success('Quotation successfully updated', { id: "Update quotation" });
-            setView('details');
+            navigateToView('details', selectedQuotationId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update quotation', { id: "Update quotation" });
@@ -285,35 +299,31 @@ function QuotationManagement() {
 
 
     const handleQuotationClick = (quotationId: number) => {
-        setSelectedQuotationId(quotationId);
-        setView('details')
+        navigateToView('details', quotationId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditQuotation = (quotationId: number) => {
-        setSelectedQuotationId(quotationId);
-        setView('edit');
+        navigateToView('edit', quotationId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToQuotationsList = () => {
-        setView('list');
-        setSelectedQuotationId(null);
+        navigateToView('list');
     };
     // ------------------------------------------------------------------------------------
 
     const handleEditQuotationButton = () => {
         if (!selectedQuotationId === null) return;
-        setView('edit');
+        navigateToView('edit');
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleBackToQuotationDetails = (quotationId: number) => {
-        setSelectedQuotationId(quotationId);
-        setView('details')
+        navigateToView('details', quotationId);
     };
 
 
@@ -563,7 +573,7 @@ function QuotationManagement() {
                             </div>
                         </div>
                         <button
-                            onClick={() => setView('form')}
+                            onClick={() => navigateToView('form')}
                             className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all cursor-pointer duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -610,7 +620,7 @@ function QuotationManagement() {
                         <p className="text-gray-500">Add a new quotation to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-black-600 cursor-pointer text-blue px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

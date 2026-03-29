@@ -41,7 +41,7 @@ const RefundTable: React.FC<CustomerRefundTableProps> = ({
 
         return (
             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"  title={label} onClick={() => onSort(sortKey)}>
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-1 font-[Montserrat]!">
                     {label}
                     {isSorted && (
                         <span className="text-gray-400">
@@ -86,7 +86,7 @@ const RefundTable: React.FC<CustomerRefundTableProps> = ({
             {/* Table Header with Items Per Page */}
             <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-gray-800">Refunds List</h3>
+                    <h3 className="text-lg font-semibold text-gray-800 font-[Montserrat]!">Refunds List</h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-medium text-gray-600">Show</span>
@@ -108,15 +108,15 @@ const RefundTable: React.FC<CustomerRefundTableProps> = ({
                 <table className="w-full table-fixed divide-y divide-gray-200">
                     <colgroup>
                     {[
-                        'w-1/8 text-center',
-                        'w-1/8 text-center',
-                        'w-1/8 text-center',
-                        'w-1/8 text-center',
-                        'w-1/8 text-center',
-                        'w-1/8 text-center',
-                        'w-1/8 text-center',
-                        'w-1/8 text-center',
-                        'w-[9%] text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-1/9 text-center',
+                        'w-[6%] text-center',
                     ].map((line, index) => (
                         <col key={index} className={line} />
                     ))}
@@ -127,9 +127,9 @@ const RefundTable: React.FC<CustomerRefundTableProps> = ({
                             <SortableHeader label="Date" sortKey="date" />
                             <SortableHeader label="Pay To" sortKey="pay_to" />
                             <SortableHeader label="Expected Refund" sortKey="expected_refund" />
-                            <SortableHeader label="Net Refunded" sortKey="net_refunded" />
+                            <SortableHeader label="Net Refunded" sortKey="net_total" />
                             <SortableHeader label="Outstanding" sortKey="outstanding" />
-                            <SortableHeader label="Currency" sortKey="currency" />
+                            <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Agent" sortKey="agent" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
@@ -152,49 +152,53 @@ const RefundTable: React.FC<CustomerRefundTableProps> = ({
 
                                     {/* Date */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {formatDate(refund.date)}
                                         </div>
                                     </td>
 
                                     {/* Pay To */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {refund.pay_to}
                                         </div>
                                     </td>
 
                                     {/* Expected Refund */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {refund.expected_refund}
                                         </div>
                                     </td>
 
                                     {/* Net Refunded */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm font-medium text-gray-900 truncate">
-                                            {refund.net_refunded}
+                                        <div className="text-sm font-medium text-black truncate">
+                                            {refund.net_total}
                                         </div>
                                     </td>
 
                                     {/* Outstanding */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {refund.outstanding}
                                         </div>
                                     </td>
 
-                                    {/* Currency */}
+                                    {/* Cancelled */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm font-medium text-gray-900 truncate">
-                                            {refund.currency}
+                                        <div className={`flex items-center justify-center px-6! py-1! rounded text-sm ${
+                                            refund.cancelled
+                                            ? 'bg-red-100 text-red-800 border border-red-200'
+                                            : 'bg-green-100 text-green-800 border border-green-200'
+                                        }`}>
+                                            {refund.cancelled ? 'Yes' : 'No'}
                                         </div>
                                     </td>
 
                                     {/* Agent */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className="text-sm font-medium text-gray-900 truncate">
+                                        <div className="text-sm font-medium text-black truncate">
                                             {refund.agent}
                                         </div>
                                     </td>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchDebitNotes, createDebitNote, fetchDebitNoteById,
@@ -20,12 +20,16 @@ import DebitNoteEdit from "./DebitNoteEdit";
 
 
 import { DebitNoteInputs, DebitNoteCreateResponse,
-  EditDebitNoteInputs
+  EditDebitNoteInputs,
+  DebitNoteTableInput
  } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
 import toast from "react-hot-toast";
 import { createJournalEntry } from "../../Accounting/Engines";
 import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
+import { User } from "lucide-react";
+
+import { fetchLhdnClassificationCodes } from "../../Sales/Engines";
 
 
 
@@ -54,9 +58,10 @@ interface SortConfig {
 
 function DebitNoteManagement() {
   const queryClient = useQueryClient();
-  const [view, setView] = useState('list');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const view = searchParams.get('view') || 'list';
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedDebitNoteId, setSelectedDebitNoteId] = useState<number | null>(null);
+  const selectedDebitNoteId = searchParams.get('debit_note_number') ? Number(searchParams.get('debit_note_number')) : null;
 // ------------------------------------------------------------------------------------
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'desc' });
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,6 +69,18 @@ function DebitNoteManagement() {
 // ------------------------------------------------------------------------------------
   const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 // ------------------------------------------------------------------------------------
+
+  const navigateToView = (newView: string, debit_note_number?: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('view', newView);
+    if (debit_note_number) {
+      params.set('debit_note_number', debit_note_number.toString());
+    } else if (newView === 'list') {
+      params.delete('debit_note_number');
+    }
+    setSearchParams(params);
+  }
+
 
 
           // DEPENDENCIES
@@ -97,6 +114,11 @@ function DebitNoteManagement() {
     queryKey: ['company'],
     queryFn: fetchCompanyProfile,
   })
+    
+  const { data: lhdnClassificationCodes = [] } = useQuery({
+      queryKey: ['lhdnClassificationCodes'],
+      queryFn: fetchLhdnClassificationCodes
+  });
 
 
 // ------------------------------------------------------------------------------------
@@ -134,9 +156,8 @@ function DebitNoteManagement() {
     },
     onSuccess: (data: DebitNoteCreateResponse) => {
         queryClient.invalidateQueries({ queryKey: ['debitNotes'] });
-        setSelectedDebitNoteId(data.debit_note_number);
+        navigateToView('details', data.debit_note_number);
         toast.success('Debit Note Created', { id: "Create Debit Note" });
-        setView('details');
     },
     onError: (error: any) => {
         toast.error('Failed to create debit note', { id: "Create Debit Note" });
@@ -163,8 +184,8 @@ function DebitNoteManagement() {
         queryClient.invalidateQueries({
             queryKey: ['debitNote', selectedDebitNoteId]
         });
+        navigateToView('details', selectedDebitNoteId!);
         toast.success('Debit Note Updated', { id: "Update Debit Note" });
-        setView('details');
     },
     onError: (error: any) => {
         toast.error('Failed to update debit note', { id: "Update Debit Note" });
@@ -267,8 +288,7 @@ function DebitNoteManagement() {
 
 
   const handleEditDebitNote = (debitNoteId: number) => {
-    setSelectedDebitNoteId(debitNoteId);
-    setView('edit');
+    navigateToView('edit', debitNoteId);
   };
 
 
@@ -276,37 +296,33 @@ function DebitNoteManagement() {
 
 
   const handleDebitNoteClick = (debitNoteId: number) => {
-    setSelectedDebitNoteId(debitNoteId);
-    setView('details')
+    navigateToView('details', debitNoteId);
   };
 // ------------------------------------------------------------------------------------
 
 
   const handleBackToDebitNoteDetails = (debitNoteId: number) => {
-    setSelectedDebitNoteId(debitNoteId);
-    setView('details')
+    navigateToView('details', debitNoteId);
   };
 
 // ------------------------------------------------------------------------------------
 
   const handleBackToDebitNotesList = () => {
-    setView('list');
-    setSelectedDebitNoteId(null);
+    navigateToView('list');
   };
 // ------------------------------------------------------------------------------------
 
   const handleEditDebitNoteButton = () => {
-    setView('edit');
+    navigateToView('edit');
   };
 // ------------------------------------------------------------------------------------
 
-  const filteredDebitNotes = debitNotes.filter((debitNote: any) => {
-    const debitNoteNumber = String(debitNote.debit_note_number)?.toLowerCase() || '';
-    const customerName = debitNote.customer?.customer_name?.toLowerCase() || '';
-    const agentName = debitNote.agent?.username?.toLowerCase() || '';
-    const search = searchTerm.toLowerCase();
-    
-    return debitNoteNumber.includes(search) || customerName.includes(search) || agentName.includes(search);
+  const filteredDebitNotes = debitNotes.filter((debitNote: DebitNoteTableInput) => {
+    return (
+      String(debitNote.debit_note_number)?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      debitNote.customer?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      debitNote.agent?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 });
 
   // ------------------------------------------------------------------------------------
@@ -428,15 +444,27 @@ const handleItemsPerPageChange = (value: any) => {
 
   return (
     <div className="min-h-screen bg-white">
+
+        <style>
+            {`
+                @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
+            `}
+        </style>
+
+
       {/* Minimal Header */}
       <div className="border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 py-4">
               <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                      <span className={spinningStyles.terminalBar.spinner}>⠋</span>
+                      <span className="text-green-500 mr-2 animate-bounce text-4xl"><User /></span>
                       <div>
-                          <h1 className="text-lg font-semibold text-gray-900">Customers Suite</h1>
-                          <p className="text-sm text-gray-500">Debit Note Management</p>
+                          <h1 className="text-lg font-semibold! text-gray-900" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            Customers Suite
+                          </h1>
+                          <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            Debit Note Management
+                          </p>
                       </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -468,8 +496,12 @@ const handleItemsPerPageChange = (value: any) => {
                     </svg>
                   </div>
                   <div>
-                    <h1 className="text-4xl font-light text-gray-900 tracking-tight">Debit Notes</h1>
-                    <p className="text-gray-500 mt-2">Manage and track your debit note transactions</p>
+                    <h1 className="text-4xl text-left! font-light! text-gray-900 tracking-tight" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                      Debit Notes
+                    </h1>
+                    <p className="text-gray-500 mt-2" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                      Manage and track your debit note transactions
+                    </p>
                   </div>
                 </div>
               </div>
@@ -479,7 +511,7 @@ const handleItemsPerPageChange = (value: any) => {
                 {(view === 'form' || view === 'details' || view === 'edit') && (
                   <button
                     onClick={handleBackToDebitNotesList}
-                    className="bg-white border border-gray-200 hover:border-gray-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
+                    className="bg-white border border-gray-200 hover:border-yellow-400 hover:bg-yellow-50 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -521,7 +553,7 @@ const handleItemsPerPageChange = (value: any) => {
                     </div>
                   </div>
                   <button
-                    onClick={() => setView('form')}
+                    onClick={() => navigateToView('form')}
                     className="bg-white cursor-pointer border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -568,7 +600,7 @@ const handleItemsPerPageChange = (value: any) => {
                     <p className="text-gray-500">Add a new debit note to your records</p>
                   </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-white text-black cursor-pointer px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                         >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -585,6 +617,7 @@ const handleItemsPerPageChange = (value: any) => {
                   currencies={currencies}
                   accounts={accounts}
                   agents={agents}
+                  lhdnClassificationCodes={lhdnClassificationCodes}
                   customerPayments={customerPayments}
                 />
                 {createDebitNoteMutation.isError && (
@@ -623,6 +656,7 @@ const handleItemsPerPageChange = (value: any) => {
               currencies={currencies}
               accounts={accounts}
               agents={agents}
+              lhdnClassificationCodes={lhdnClassificationCodes}
               customerPayments={customerPayments}
               onCreateJournalEntry={handleAddJournalEntry}
               isCreatingJournalEntry={createJournalEntryMutation.isPending}

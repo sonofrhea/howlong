@@ -28,3 +28,11 @@ package-lock.json
 yarn.lock
 
 EOF
+.env
+env
+env/
+.env/
+Env/
+.Env
+Env
+.Env/

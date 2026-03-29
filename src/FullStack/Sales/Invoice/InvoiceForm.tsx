@@ -3,7 +3,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { CustomerCreateResponse } from "../../Customers/constants/Types"
-import { InvoiceFormProps, InvoiceInputs, QuotationDetails } from "../Constants/Types";
+import { InvoiceFormProps, InvoiceInputs, lhdnClassificationCodesInterface, QuotationDetails } from "../Constants/Types";
 import { CurrencyInterface, AgentInterface } from "../../Core/constants/Types"
 import { ProductItemCreateResponse } from "../../Products/constants/Types"
 
@@ -11,6 +11,8 @@ import { ProductItemCreateResponse } from "../../Products/constants/Types"
 import { Trash2 } from "lucide-react";
 import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
 import { quotationInvoiceHandler } from "../../handlers";
+import { LHDN_TAX_TYPE_CHOICES } from "../Constants/Options";
+import { EINVOICE_PAYMENT_MODE_CHOICES, EINVOICE_SUPPLY_TYPE_CHOICES } from "../../Customers/constants/Options";
 
 
 const formatCustomerNumber = () => {
@@ -50,7 +52,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
     isSubmitting,
     onCancel,
     customers, 
-    currencies, agents, projects, productItems, quotations
+    currencies, agents, projects, productItems, quotations, lhdnClassificationCodes
 }) => {
 
         
@@ -58,19 +60,22 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
     const { register, handleSubmit, watch, setValue, 
         control, formState: { errors } } = useForm<InvoiceInputs>({
             defaultValues: {
-                tax_inclusive: false,
-                tax_amount: 0.00,
+                taxable: false,
+                tax_percent: 0.00,
                 related_invoice: [
                     {
+                        item: undefined, 
+                        description: undefined,
+                        quantity: 0, 
+                        unit_of_measure: undefined, 
                         price_per_unit: 0.00,
-                        quantity: 0.00,
                         cancelled: false,
-                        tax_inclusive: false,
-                        tax_amount: 0.00,
+                        taxable: false, 
+                        sst_percent: 0.00,
                     }
                 ],
                 discount: false,
-                discount_amount: 0.00,
+                discount_percent: 0.00,
                 cancelled: false
             }
     });
@@ -92,6 +97,20 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
             SKU-{product.item_code} | {product.item_description}
         </option>
     )), [productItems])
+                
+                
+                
+    const eInvoiceSupplyType = useMemo(() => EINVOICE_SUPPLY_TYPE_CHOICES.map(option => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                )), [EINVOICE_SUPPLY_TYPE_CHOICES])
+    
+    const eInvoicePaymentMode = useMemo(() => EINVOICE_PAYMENT_MODE_CHOICES.map(option => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                )), [EINVOICE_PAYMENT_MODE_CHOICES])
 
 
 
@@ -235,6 +254,47 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                             {...register("cancelled")}
                         />
                     </div>
+                        
+                    <div>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency</p>
+                        <select 
+                            {...register("currency")}
+                            className={forms.select.partial}
+                        >
+                            <option value="">select...</option>
+                            {useMemo(() => currencies.map((currency: CurrencyInterface) => (
+                                <option key={currency.currency_code} value={currency.currency_code}>
+                                    {currency.currency_code}
+                                </option>
+                            )), [currencies])}
+                        </select>
+                    </div>
+                                            
+                    <div>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            E-invois supply type
+                        </p>
+                        <select className={forms.select.partial}
+                            {...register("einvoice_supply_type", {
+                                setValueAs: (value) => value === "" ? undefined : value
+                            })}>
+                                <option value="">can leave empty...</option>
+                                {eInvoiceSupplyType}
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            E-invois payment mode
+                        </p>
+                        <select className={forms.select.partial}
+                            {...register("einvoice_payment_mode", {
+                                setValueAs: (value) => value === "" ? undefined : value
+                            })}>
+                                <option value="">can leave empty...</option>
+                                {eInvoicePaymentMode}
+                        </select>
+                    </div>
                 </div>
                 
                 {/* LINES */}
@@ -243,16 +303,20 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                         <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                             <colgroup>
                                 {[
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
-                                    'w-1/10 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-[5%] text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-[5%] text-center',
                                     'w-[5%] text-center',
                                 ].map((line, index) => (
                                     <col key={index} className={line} />
@@ -266,8 +330,12 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                 <th className={tables.headerCell}>Unit of Measure</th>
                                 <th className={tables.headerCell}>Price/Per Unit</th>
                                 <th className={tables.headerCell}>Sub-Total</th>
-                                <th className={tables.headerCell}>SST Inclusive?</th>
+                                <th className={tables.headerCell}>Taxable?</th>
                                 <th className={tables.headerCell}>SST %</th>
+                                <th className={tables.headerCell}>SST Amount</th>
+                                <th className={tables.headerCell}>e-invoice <br />classification code</th>
+                                <th className={tables.headerCell}>e-invoice <br />tax type</th>
+                                <th className={tables.headerCell}>e-invoice tax <br />exemption reason</th>
                                 <th className={tables.headerCell}>Total</th>
                                 <th className={tables.headerCell}>Cancelled</th>
                                 <th className={tables.headerCell}></th>
@@ -279,23 +347,27 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                     
                                     const quantity = Number(watch(`related_invoice.${index}.quantity`) || 0.00);
                                     const price_per_unit = Number(watch(`related_invoice.${index}.price_per_unit`) || 0.00);
-                                    let tax_amount = Number(watch(`related_invoice.${index}.tax_amount`) || 0.00);
-                                    const tax_inclusive = Number(watch(`related_invoice.${index}.tax_inclusive`) || false);
+                                    let tax_amount = Number(watch(`related_invoice.${index}.sst_percent`) || 0.00);
+                                    const tax_inclusive = Number(watch(`related_invoice.${index}.taxable`) || false);
 
                                     let total = quantity * price_per_unit;
 
                                     if (!tax_inclusive) {
                                         tax_amount = 0.00;
                                     }
+                                    const amount = quantity * price_per_unit
+                                    const tax = tax_amount / 100
+                                    const sstAmount = total * tax
+                                    const fullTotal = amount + sstAmount
 
-                                    total *= 1 + (tax_amount / 100);
+
 
                                     return(
                                         <tr key={field.id} className={tables.row}>
                                             <td>
                                                 <select
                                                     {...register(`related_invoice.${index}.item`)}
-                                                    className={forms.select.small}
+                                                    className={forms.select.full}
                                                 >
                                                     <option value="">select...</option>
                                                     {productOptions}
@@ -345,16 +417,13 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                             </td>
 
                                             <td className={tables.autoCalculate}>
-                                                {decimalPlaces(
-                                                    (watch(`related_invoice.${index}.quantity`) || 0.00) *
-                                                    (watch(`related_invoice.${index}.price_per_unit`) || 0.00)
-                                                )}
+                                                {decimalPlaces(total)}
                                                 
                                             </td>
 
                                             <td className={tables.cell}>
                                                 <input 
-                                                    {...register(`related_invoice.${index}.tax_inclusive`)}
+                                                    {...register(`related_invoice.${index}.taxable`)}
                                                     type="checkbox"
                                                     className={forms.input.base}
                                                 />
@@ -362,7 +431,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
 
                                             <td className={text.numbers}>
                                                 <input 
-                                                    {...register(`related_invoice.${index}.tax_amount`, {required: 'Enter a value'})}
+                                                    {...register(`related_invoice.${index}.sst_percent`) || 0.00}
                                                     type="number"
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
@@ -372,11 +441,53 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                                     }}
                                                     className={forms.input.number}
                                                 />
-                                                {errors.related_invoice?.[index]?.tax_amount && <p className="text-amber-600 text-sm">{errors.related_invoice?.[index]?.tax_amount?.message}</p>}
                                             </td>
 
                                             <td className={tables.autoCalculate}>
-                                                {decimalPlaces(total)}
+                                                {decimalPlaces(sstAmount)}
+                                            </td>
+                                                                                            
+                                            <td className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                                <select
+                                                    {...register(`related_invoice.${index}.einvoice_classification_code`, {
+                                                        setValueAs: (value) => value === "" ? undefined : value
+                                                    })}
+                                                    className={forms.select.full}
+                                                >
+                                                    <option value="">select...</option>
+                                                    {useMemo(() => lhdnClassificationCodes.map((
+                                                        code: lhdnClassificationCodesInterface) => (
+                                                            <option key={code.code} value={code.code}>
+                                                                code: {code.code} / desc: {code.description}
+                                                            </option>
+                                                        )), [lhdnClassificationCodes])}
+                                                </select>
+                                            </td>
+                                                                                    
+                                            <td className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                                <select
+                                                    {...register(`related_invoice.${index}.einvoice_tax_type`, {
+                                                        setValueAs: (value) => value === "" ? null : value
+                                                    })}
+                                                    className={forms.select.full}
+                                                >
+                                                    {useMemo(() => LHDN_TAX_TYPE_CHOICES.map(option => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    )), [LHDN_TAX_TYPE_CHOICES])}
+                                                </select>
+                                            </td>
+                                                                                    
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    {...register(`related_invoice.${index}.einvoice_tax_exemption_reason`)}
+                                                    className={tables.text}
+                                                />
+                                            </td>
+
+                                            <td className={tables.autoCalculate}>
+                                                {decimalPlaces(fullTotal)}
                                             </td>
 
                                             <td className={tables.cell}>
@@ -405,14 +516,14 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                         <button
                                             type="button"
                                             onClick={() => append({ 
-                                                item: "", 
-                                                description: "",
+                                                item: undefined, 
+                                                description: undefined,
                                                 quantity: 0, 
-                                                unit_of_measure: "", 
+                                                unit_of_measure: undefined, 
                                                 price_per_unit: 0.00,
                                                 cancelled: false,
-                                                tax_inclusive: false, 
-                                                tax_amount: 0.00
+                                                taxable: false, 
+                                                sst_percent: 0.00
                                                 })}
                                             className={buttons.addLine}
                                         >
@@ -442,7 +553,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                     <div>Discount %</div>
                                     <input 
                                         type="number"
-                                        {...register("discount_amount")}
+                                        {...register("discount_percent") || 0.00}
                                         className={forms.input.smallNumber}
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
@@ -454,9 +565,9 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                 </div>
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Inclusive?</div>
+                                    <div>Taxable?</div>
                                     <input 
-                                    {...register("tax_inclusive")}
+                                    {...register("taxable")}
                                     type="checkbox"
                                     className="ml-2 forced-colors:bg-green-300"
                                     />
@@ -466,7 +577,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                     <div>Tax %</div>
                                     <input 
                                         type="number"
-                                        {...register("tax_amount")}
+                                        {...register("tax_percent") || 0.00}
                                         className={forms.input.smallNumber}
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {

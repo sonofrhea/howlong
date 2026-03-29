@@ -136,7 +136,7 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
 
                 <hr className="my-6 border-gray-200" />
 
-                <div>
+                <div style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <div className="grid grid-cols-3 gap-6">
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Reference Number</a><br />
@@ -149,43 +149,57 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                         </p>
 
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>
-                            <a className={details.extraSmallUppercase}>Cancelled</a><br />
-                            <span className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                            <a className={details.extraSmallUppercase}>
+                                Cancelled
+                            </a><br />
+                            <span className={`inline-flex items-center px-5.5! py-0.5! rounded text-sm ${
                                 receiptVoucher.cancelled
                                     ? 'bg-red-100 text-red-800 border border-red-200'
                                     : 'bg-green-100 text-green-800 border border-green-200'
-                            }`}>
+                            }`} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 {receiptVoucher.cancelled ? 'Yes' : 'No'}
                             </span>
                         </p>
                         
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>
-                            <a className={details.extraSmallUppercase}>Received From</a><br />
+                            <a className={details.extraSmallUppercase} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                Received From
+                            </a><br />
                             {formatCustomerNumber()}{receiptVoucher.received_from || 'N/A'} - {receiptVoucher.received_from_name || 'N/A'}
                         </p>
                         
-                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
-                            <a className={details.extraSmallUppercase}>Account Received In</a><br />
+                        <p>
+                            <a className={details.extraSmallUppercase} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                Account Received In
+                            </a><br />
                             {receiptVoucher.account_received_in?.account_code || 'N/A'} - {receiptVoucher.account_received_in?.account_name || 'N/A'}
                         </p>
                         
-                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
-                            <a className={details.extraSmallUppercase}>Related Project</a><br />
+                        <p>
+                            <a className={details.extraSmallUppercase} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                Related Project
+                            </a><br />
                             {formatProjectNumber()}{receiptVoucher.project || 'N/A'} | {receiptVoucher.project_name || 'N/A'}
                         </p>
                         
-                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
-                            <a className={details.extraSmallUppercase}>Currency</a><br />
+                        <p>
+                            <a className={details.extraSmallUppercase} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                Currency
+                            </a><br />
                             {receiptVoucher.currency || 'N/A'}
                         </p>
 
-                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
-                            <a className={details.extraSmallUppercase}>Description</a><br />
+                        <p>
+                            <a className={details.extraSmallUppercase} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                Description
+                            </a><br />
                             {receiptVoucher.description || 'N/A'}
                         </p>
 
-                        <p style={{ fontFamily: 'Montserrat, system-ui' }}>
-                            <a className={details.extraSmallUppercase}>Agent</a><br />
+                        <p>
+                            <a className={details.extraSmallUppercase} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                Agent
+                            </a><br />
                             {receiptVoucher.agent || 'N/A'}
                         </p>
                     </div>
@@ -202,12 +216,12 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                                             <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>GST Number</th>
                                             <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Amount</th>
                                             <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Special treatment</th>
-                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Discount %</th>
-                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Discount Amount</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Treatment %</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Treatment Amount</th>
                                             <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Total <br/>(After Discount)</th>
-                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>GST Inclusive</th>
-                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>GST %</th>
-                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>GST Rate</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Taxable</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>SST %</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>SST Amount</th>
                                             <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Cancelled</th>
                                             <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>Total</th>
                                         </tr>
@@ -215,20 +229,56 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
 
                                     <tbody className="bg-white divide-y divide-gray-100">
 
-                                        {receiptVoucher.receipt_voucher_lines.map((line: any, index: any) => (
+                                        {receiptVoucher.receipt_voucher_lines.map((line, index) => (
                                             <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
-                                                <td className={tables.cell}>{line.description || '--'}</td>
-                                                <td className={tables.cell}>{line.gst_number || '--'}</td>
-                                                <td className={tables.cell}>{line.amount || '--'}</td>
-                                                <td className={tables.cell}>{line.special_treatment ? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>{line.treatment_amount || '--'}%</td>
-                                                <td className={tables.cell}>{line.treatment_rate || '--'}</td>
-                                                <td className={tables.cell}>{line.total_after_discount || '--'}</td>
-                                                <td className={tables.cell}>{line.tax_inclusive? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>{line.tax || '--'}%</td>
-                                                <td className={tables.cell}>{line.tax_rate || '--'}</td>
-                                                <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>{line.net_total || '--'}</td>
+                                                <td className={tables.cell}>
+                                                    {line.description || '--'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.gst_number || '--'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.amount || '--'}
+                                                </td>
+                                                <td className={`inline-flex items-center px-3.5! py-0.5! rounded text-xs ${
+                                                        line.special_treatment
+                                                            ? 'bg-green-100 text-green-800 border border-green-200'
+                                                            : 'bg-red-100 text-red-800 border border-red-200'
+                                                    }`}>
+                                                    {line.special_treatment ? 'Yes' : 'No'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.treatment_percent || '--'}%
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.treatment_amount || '--'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.total_after_discount || '--'}
+                                                </td>
+                                                <td className={`inline-flex items-center px-3.5! py-0.5! rounded text-xs ${
+                                                        line.taxable
+                                                            ? 'bg-red-100 text-red-800 border border-red-200'
+                                                            : 'bg-green-100 text-green-800 border border-green-200'
+                                                    }`}>
+                                                    {line.taxable? 'Yes' : 'No'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.sst_percent || '--'}%
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.sst_amount || '--'}
+                                                </td>
+                                                <td className={`inline-flex items-center px-3.5! py-0.5! rounded text-xs ${
+                                                        line.cancelled
+                                                            ? 'bg-red-100 text-red-800 border border-red-200'
+                                                            : 'bg-green-100 text-green-800 border border-green-200'
+                                                    }`}>
+                                                    {line.cancelled ? 'Yes' : 'No'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.net_total || '--'}
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -247,23 +297,23 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Tax Inclusive</div>
+                                            <div>Taxable</div>
                                             <div className="font-medium text-gray-800">
-                                                {receiptVoucher.tax_inclusive ? 'Yes' : 'No'}
+                                                {receiptVoucher.taxable ? 'Yes' : 'No'}
                                             </div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
                                             <div className="font-medium text-gray-800">
-                                                {receiptVoucher.tax || '--'}%
+                                                {receiptVoucher.tax_percent || '--'}%
                                             </div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Tax Rate</div>
+                                            <div>Tax Amount</div>
                                             <div className="font-medium text-gray-800">
-                                                {receiptVoucher.tax_rate || '--'}
+                                                {receiptVoucher.tax_amount || '--'}
                                             </div>
                                         </div>
 

@@ -46,25 +46,25 @@ function CustomerDashboard() {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 p-4">
+        <div className="min-h-screen bg-gray-100 p-4">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                    <h1 className="text-3xl font-bold text-black mb-4 font-[Montserrat]!">
                         Customer Management
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-black font-[Montserrat]!">
                         Choose a module to get started
                     </p>
                 </div>
 
                 {/* Modules Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 font-[Montserrat]!">
                     {customerModules.map(module => (
                         <Link
                             key={module.id}
                             to={module.available ? module.path : '#'}
-                            className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200 ${
+                            className={`bg-white rounded-xl border-2! border-white! p-6 hover:shadow-xl hover:shadow-gray-300 transition-shadow duration-200 ${
                                 module.available ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
                             }`}
                         >
@@ -76,17 +76,17 @@ function CustomerDashboard() {
                             </div>
 
                             {/* Content */}
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2 font-[Montserrat]!">
                                 {module.name}
                             </h3>
-                            <p className="text-gray-600 text-sm mb-4">
+                            <p className="text-gray-600 text-sm mb-4 font-[Montserrat]!">
                                 {module.description}
                             </p>
 
                             {/* Status */}
                             <div className={`text-sm font-medium ${
                                 module.available ? 'text-blue-600' : 'text-gray-500'
-                            }`}>
+                            }`} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 {module.available ? 'Open Module ⟶' : 'Coming Soon'}
                             </div>
                         </Link>

@@ -5,9 +5,10 @@ import { creditNoteAccountHandler, debitNoteRelatedPaymentHandler } from "../../
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../constants/Styles";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
-import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
+import { CustomerPaymentResponse, lhdnClassificationCodesInterface } from "../../Sales/Constants/Types";
 import { Trash2 } from "lucide-react";
 import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
+import { EINVOICE_PAYMENT_MODE_CHOICES, EINVOICE_SUPPLY_TYPE_CHOICES, LHDN_TAX_TYPE_CHOICES, REFUND_TYPE_OPTIONS } from "../constants/Options";
 
 
 
@@ -27,12 +28,25 @@ const formatCustomerNumber = () => {
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 const CreditNoteEdit: React.FC<CreditNoteEditProps> = ({
   creditNote,
   onSubmit,
   isSubmitting,
   onBack,
-  onCreateJournalEntry, isCreatingJournalEntry,
+  onCreateJournalEntry, isCreatingJournalEntry, lhdnClassificationCodes,
   onCancel, customers, currencies, accounts, agents, customerPayments,
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
@@ -57,6 +71,22 @@ const CreditNoteEdit: React.FC<CreditNoteEditProps> = ({
 
 const controlAccountChange = creditNoteAccountHandler(accounts, setValue);
 const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue);
+
+
+    
+    
+    
+    const eInvoiceSupplyType = useMemo(() => EINVOICE_SUPPLY_TYPE_CHOICES.map(option => (
+                                            <option key={option} value={option}>
+                                                {option}
+                                            </option>
+                                        )), [EINVOICE_SUPPLY_TYPE_CHOICES])
+    
+    const eInvoicePaymentMode = useMemo(() => EINVOICE_PAYMENT_MODE_CHOICES.map(option => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        )), [EINVOICE_PAYMENT_MODE_CHOICES])
 
 
 
@@ -97,7 +127,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                         <input 
                             type="date"
                             {...register("date")}
-                            className={forms.input.date}
+                            className={forms.input.dateBig}
                         />
                         {errors.date && <p className="text-red-800 text-xs mt-1">
                         {errors.date.message}</p>}
@@ -147,6 +177,32 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                                         {agent.name} | {agent.email}
                                     </option>
                                 )), [agents])}
+                        </select>
+                    </div>
+                                                                
+                    <div>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            E-invois supply type
+                        </p>
+                        <select className={forms.select.partial}
+                            {...register("einvoice_supply_type", {
+                                setValueAs: (value) => value === "" ? undefined : value
+                            })}>
+                                <option value="">can leave empty...</option>
+                                {eInvoiceSupplyType}
+                        </select>
+                    </div>
+                                        
+                    <div>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            E-invois payment mode
+                        </p>
+                        <select className={forms.select.partial}
+                            {...register("einvoice_payment_mode", {
+                                setValueAs: (value) => value === "" ? undefined : value
+                            })}>
+                                <option value="">can leave empty...</option>
+                                {eInvoicePaymentMode}
                         </select>
                     </div>
 
@@ -205,13 +261,17 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                         <table className={tables.base}>
                         <colgroup>
                             {[
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-1/6 text-center',
-                                'w-[9%] text-center',
+                                'w-1/11 text-center',
+                                'w-1/11 text-center',
+                                'w-1/11 text-center',
+                                'w-1/11 text-center',
+                                'w-1/11 text-center',
+                                'w-1/11 text-center',
+                                'w-1/11 text-center',
+                                'w-1/11 text-center',
+                                'w-1/11 text-center',
+                                'w-1/11 text-center',
+                                'w-[5%] text-center',
                             ].map((line, index) => (
                                 <col key={index} className={line} />
                             ))}
@@ -221,8 +281,12 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                                 <th className={tables.headerCell}>Date</th>
                                 <th className={tables.headerCell}>Description</th>
                                 <th className={tables.headerCell}>Amount</th>
-                                <th className={tables.headerCell}>Tax Inclusive?</th>
-                                <th className={tables.headerCell}>Tax %</th>
+                                <th className={tables.headerCell}>Taxable?</th>
+                                <th className={tables.headerCell}>SST %</th>
+                                <th className={tables.headerCell}>(SST Amount)</th>
+                                <th className={tables.headerCell}>e-invoice <br />classification code</th>
+                                <th className={tables.headerCell}>e-invoice <br />tax type</th>
+                                <th className={tables.headerCell}>e-invoice tax <br />exemption reason</th>
                                 <th className={tables.headerCell}>Current Total<br></br>(After SST)</th>
                                 <th></th>
                             </tr>
@@ -230,7 +294,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => {
                                     const amount = Number(watch(`credit_note_lines.${index}.amount`) || 0.00);
-                                    const tax_percentage =  Number(watch(`credit_note_lines.${index}.tax_amount`) || 0.00) / 100;
+                                    const tax_percentage =  Number(watch(`credit_note_lines.${index}.sst_percent`) || 0.00) / 100;
                                     const taxAmount = tax_percentage * amount;
                                     const netTotal = amount - taxAmount;
 
@@ -259,7 +323,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}                                                
                                             />
@@ -268,22 +332,77 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                                         <td className={tables.cell}>
                                             <input 
                                                 type="checkbox"
-                                                {...register(`credit_note_lines.${index}.tax_inclusive`)}
+                                                {...register(`credit_note_lines.${index}.taxable`)}
                                                 className="text-black cursor-pointer"
                                             />
                                         </td>
-
+                                        
                                         <td className={text.numbers}>
+                                            <div style={{ position: 'relative', display: 'inline-block' }}>
                                             <input 
-                                                {...register(`credit_note_lines.${index}.tax_amount`) || 0.00}
+                                                {...register(`credit_note_lines.${index}.sst_percent`) || 0.00}
                                                 type="number"
                                                 className={forms.input.number}
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
                                                     if (e.target.value) {
-                                                        e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                        e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
+                                                
+                                                style={{ paddingRight: '20%' }}
+                                            />
+                                            <span style={{ 
+                                                position: 'absolute', 
+                                                right: '5px', 
+                                                top: '50%', 
+                                                transform: 'translateY(-50%)',
+                                                pointerEvents: 'none',
+                                                color: '#666'
+                                            }}>%</span>
+                                            </div>
+                                        </td>
+                                        
+                                        <td className={tables.autoCalculate}>
+                                            ({decimalPlaces(taxAmount)})
+                                        </td>
+
+                                        <td className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                            <select
+                                                {...register(`credit_note_lines.${index}.einvoice_classification_code`, {
+                                                    setValueAs: (value) => value === "" ? undefined : value
+                                                })}
+                                                className={forms.select.full}
+                                            >
+                                                <option value="">select...</option>
+                                                {useMemo(() => lhdnClassificationCodes.map((
+                                                    code: lhdnClassificationCodesInterface) => (
+                                                        <option key={code.code} value={code.code}>
+                                                            code: {code.code} / desc: {code.description}
+                                                        </option>
+                                                    )), [lhdnClassificationCodes])}
+                                            </select>
+                                        </td>
+                                                                                
+                                        <td className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                            <select
+                                                {...register(`credit_note_lines.${index}.einvoice_tax_type`, {
+                                                    setValueAs: (value) => value === "" ? null : value
+                                                })}
+                                                className={forms.select.full}
+                                            >
+                                                {useMemo(() => LHDN_TAX_TYPE_CHOICES.map(option => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                )), [LHDN_TAX_TYPE_CHOICES])}
+                                            </select>
+                                        </td>
+                                                                                
+                                        <td className={tables.cell}>
+                                            <input 
+                                                {...register(`credit_note_lines.${index}.einvoice_tax_exemption_reason`)}
+                                                className={tables.text}
                                             />
                                         </td>
 
@@ -312,9 +431,12 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                                                 date: "",
                                                 description: "",
                                                 amount: 0.00,
-                                                tax_inclusive: false,
-                                                tax_amount: 0.00,
-                                                cancelled: false
+                                                taxable: false,
+                                                sst_percent: 0.00,
+                                                cancelled: false,
+                                                einvoice_classification_code: undefined,
+                                                einvoice_tax_type: "06",
+                                                einvoice_tax_exemption_reason: undefined,
                                             })}
                                             className={buttons.addLine}
                                         >
@@ -332,9 +454,9 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                             <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Inclusive?</div>
+                                    <div>Taxable?</div>
                                     <input 
-                                    {...register("tax_inclusive")}
+                                    {...register("tax_percent")}
                                     type="checkbox"
                                     className="ml-2 forced-colors:bg-green-300"
                                     />
@@ -344,12 +466,12 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                                     <div>Tax Amount</div>
                                     <input 
                                         type="number"
-                                        {...register("tax_amount")}
+                                        {...register("tax_percent")}
                                         className={forms.input.smallNumber}
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
                                             if (e.target.value) {
-                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                e.target.value = decimalPlaces(Number(e.target.value));
                                             }
                                         }}
                                         

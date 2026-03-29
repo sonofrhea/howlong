@@ -176,17 +176,18 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                         <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                             <colgroup>
                                 {[
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
+                                    'w-1/13 text-center',
                                     'w-[5%] text-center',
                                 ].map((line, index) => (
                                     <col key={index} className={line} />
@@ -201,8 +202,9 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                 <th className={tables.headerCell}>Price Per Unit</th>
                                 <th className={tables.headerCell}>Currency</th>
                                 <th className={tables.headerCell}>Sub-Total</th>
-                                <th className={tables.headerCell}>SST Inclusive?</th>
+                                <th className={tables.headerCell}>Taxable?</th>
                                 <th className={tables.headerCell}>SST %</th>
+                                <th className={tables.headerCell}>SST Amount</th>
                                 <th className={tables.headerCell}>Total</th>
                                 <th className={tables.headerCell}>Cancelled</th>
                                 <th></th>
@@ -214,16 +216,18 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
 
                                     const quantity = watch(`related_quotation.${index}.quantity`) || 0.00;
                                     const price_per_unit = watch(`related_quotation.${index}.price_per_unit`) || 0.00;
-                                    let tax_amount = watch(`related_quotation.${index}.tax_amount`) || 0.00;
-                                    const tax_inclusive = watch(`related_quotation.${index}.tax_inclusive`) || false;
+                                    let tax_amount = watch(`related_quotation.${index}.sst_percent`) || 0.00;
+                                    const tax_inclusive = watch(`related_quotation.${index}.taxable`) || false;
 
                                     let total = quantity * price_per_unit;
 
                                     if (!tax_inclusive) {
                                         tax_amount = 0.00;
                                     }
-
-                                    total *= 1 + (tax_amount / 100);
+                                    const amount = quantity * price_per_unit
+                                    const tax = tax_amount / 100
+                                    const sstAmount = total * tax
+                                    const fullTotal = amount + sstAmount
 
                                     
 
@@ -289,25 +293,23 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                                     ))}
                                                 </select>
                                             </td>
+
                                             <td className={tables.autoCalculate}>
-                                                {decimalPlaces(
-                                                    (watch(`related_quotation.${index}.quantity`) || 0.00) *
-                                                    (watch(`related_quotation.${index}.price_per_unit`) || 0.00)
-                                                )}
+                                                {decimalPlaces(amount)}
                                                 
                                             </td>
                                             
                                             <td className={tables.cell}>
                                                 <input 
                                                     type="checkbox"
-                                                    {...register(`related_quotation.${index}.tax_inclusive`)}
+                                                    {...register(`related_quotation.${index}.taxable`)}
                                                     className="text-black cursor-pointer"
                                                 />
                                             </td>
 
                                             <td className={tables.cell}>
                                                 <input 
-                                                    {...register(`related_quotation.${index}.tax_amount`)}
+                                                    {...register(`related_quotation.${index}.sst_percent`)}
                                                     type="number"
                                                     className={forms.input.number}
                                                     placeholder="0.00"
@@ -320,7 +322,12 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                             </td>
 
                                             <td className={tables.autoCalculate}>
-                                                {decimalPlaces(total)}
+                                                {decimalPlaces(sstAmount)}
+                                                
+                                            </td>
+
+                                            <td className={tables.autoCalculate}>
+                                                {decimalPlaces(fullTotal)}
                                             </td>
                                             
                                             <td className={tables.cell}>
@@ -347,14 +354,14 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                         <button
                                             type="button"
                                             onClick={() => append({ 
-                                                    item: "", 
-                                                    description: "",
+                                                    item: undefined, 
+                                                    description: undefined,
                                                     quantity: 0, 
-                                                    unit_of_measure: "", 
+                                                    unit_of_measure: undefined, 
                                                     price_per_unit: 0.00, 
-                                                    currency: "",
-                                                    tax_inclusive: false,
-                                                    tax_amount: 0.00,
+                                                    currency: undefined,
+                                                    taxable: false,
+                                                    sst_percent: 0.00,
                                                     cancelled: false 
                                                 })}
                                             className="min-w-full divide-y divide-gray-100"
@@ -373,9 +380,9 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                             <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Inclusive?</div>
+                                    <div>Taxable?</div>
                                     <input 
-                                    {...register("tax_inclusive")}
+                                    {...register("taxable")}
                                     type="checkbox"
                                     className="ml-2 forced-colors:bg-green-300"
                                     />
@@ -385,7 +392,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                     <div>Tax %</div>
                                     <input 
                                         type="number"
-                                        {...register("tax_amount")}
+                                        {...register("tax_percent")}
                                         className={forms.input.smallNumber}
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {

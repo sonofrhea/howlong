@@ -83,7 +83,9 @@ const BillOfQuantitiesDetails: React.FC<BillOfQuantitiesDetailsProps> = ({
             <header>
                 <div className="flex-1">
                     <div className="mb-12">
-                        <h1>Bill of Quantities</h1>
+                        <h1 style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            Bill of Quantities
+                        </h1>
                     </div>
                     <div className="meta">
                         <div className="meta-item">
@@ -177,7 +179,7 @@ const BillOfQuantitiesDetails: React.FC<BillOfQuantitiesDetailsProps> = ({
                     <div className="box">
                         <div className="small">Contingency Rate %</div>
                         <div className="font-bold">
-                            +{billOfQuantity.contingency_rate}%
+                            {billOfQuantity.contingency_percentage}%
                         </div>
                     </div>
 
@@ -193,17 +195,17 @@ const BillOfQuantitiesDetails: React.FC<BillOfQuantitiesDetailsProps> = ({
                             <hr className="my-6 border-gray-200" />
                                                                                     
                             <div className="grid lg:grid-cols-5">
-                                <p className={labelStyles}>
+                                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     <a className={details.extraSmallUppercase}>Created by</a><br />
                                     {billOfQuantity.created_by || 'N/A'}
                                 </p>
             
-                                <p className={labelStyles}>
+                                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     <a className={details.extraSmallUppercase}>Updated By</a><br />
                                     {billOfQuantity.updated_by || 'N/A'}
                                 </p>
             
-                                <p className={labelStyles}>
+                                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     <a className={details.extraSmallUppercase}>Date Updated</a><br />
                                     {formatUpdatedDate(billOfQuantity.date_updated) || 'N/A'}
                                 </p>

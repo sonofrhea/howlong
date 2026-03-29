@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { toast } from "react-hot-toast";
 
@@ -23,7 +23,15 @@ import UserProfileEdit from "./UserProfileEdit";
 
 function UserProfileManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('details');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'details';
+
+
+    const navigateToView = (newView: string) => {
+        const params = new URLSearchParams(searchParams)
+        params.set('view', newView);
+        setSearchParams(params);
+    }
 
 
 
@@ -45,7 +53,7 @@ function UserProfileManagement() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['userProfile'] });
             toast.success('Company profile Updated', { id: "Update User profile" });
-            setView('details')
+            navigateToView('details')
         },
         onError: (error: any) => {
             toast.error('Failed to update Company profile', { id: "Update User profile" });
@@ -67,13 +75,13 @@ function UserProfileManagement() {
 
 
     const handleBackToUserDetails = () => {
-        setView('details')
+        navigateToView('details')
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleEditUserButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
 
     // ------------------------------------------------------------------------------------

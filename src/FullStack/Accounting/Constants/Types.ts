@@ -72,22 +72,22 @@ export type JournalEntryDetails = {
 
 export type JournalHeaderInputs = {
     journal_number: number;
-    date: string;
-    description: string;
-    journal_entries: Array<{
-        account: {
-            account_code: number;
-            account_name: string;
-            account_type: string;
+    date?: string;
+    description?: string;
+    journal_entries?: Array<{
+        account?: {
+            account_code?: number;
+            account_name?: string;
+            account_type?: string;
         };
-        description: string;
-        net_debit: number;
-        net_credit: number;
-        cancelled: boolean;
+        description?: string;
+        net_debit?: number;
+        net_credit?: number;
+        cancelled?: boolean;
     }>;
-    aggregate_debit: number;
-    aggregate_credit: number;
-    cancelled: boolean;
+    aggregate_debit?: number;
+    aggregate_credit?: number;
+    cancelled?: boolean;
 };
 
 
@@ -169,19 +169,19 @@ export type IncomeAndExpensesList = {
 
 export type IncomeAndExpensesInputs = {
     reference_number: number;
-    date: string;
-    account: {
-        account_code: number;
-        account_name: string;
-        account_type: string;
+    date?: string;
+    account?: {
+        account_code?: number;
+        account_name?: string;
+        account_type?: string;
     };
-    category: typeof INCOME_EXPENSES_OPTIONS[number] | null;
-    description: string;
-    currency: string;
-    gross_debit: number;
-    gross_credit: number;
-    tax: number;
-    cancelled: boolean;
+    category?: typeof INCOME_EXPENSES_OPTIONS[number];
+    description?: string;
+    currency?: string;
+    gross_debit?: number;
+    gross_credit?: number;
+    tax?: number;
+    cancelled?: boolean;
 };
 
 export type IncomeAndExpensesDetails = {
@@ -291,28 +291,29 @@ export type PaymentVoucherList = {
 
 export type PaymentVoucherInputs = {
     reference_number: number;
-    date: string;
-    payment_to: string;
+    date?: string;
+    payment_to?: string;
     account_paid_by?: {
-        account_code?: number | null;
-        account_name?: string | null;
-        account_type?: string | null;
-    } | null;
-    description: string;
-    project: string;
-    payment_voucher_lines: Array <{
-        description: string;
-        gst_number: string;
-        amount: number;
-        tax_inclusive: boolean;
-        tax: number;
-        cancelled: boolean;
+        account_code?: number;
+        account_name?: string;
+        account_type?: string;
+    };
+    description?: string;
+    project?: string;
+    payment_voucher_lines?: Array <{
+        description?: string;
+        gst_number?: string;
+        amount?: number;
+        taxable?: boolean;
+        sst_percent?: number;
+        cancelled?: boolean;
     }>;
-    tax_inclusive: boolean;
-    tax: number;
-    cancelled: boolean;
-    currency: string;
-    agent: string;
+    taxable?: boolean;
+    tax_percent?: number;
+    tax_amount?: number;
+    cancelled?: boolean;
+    currency?: string;
+    agent?: string;
 };
 
 export type PaymentVoucherDetails = {
@@ -320,10 +321,10 @@ export type PaymentVoucherDetails = {
     date: string;
     payment_to: string;
     payment_to_name: string;
-    account_paid_by?: {
-        account_code?: number | null;
-        account_name?: string | null;
-        account_type?: string | null;
+    account_paid_by: {
+        account_code: number;
+        account_name: string;
+        account_type: string;
     } | null;
     description: string;
     project: string;
@@ -332,16 +333,16 @@ export type PaymentVoucherDetails = {
         description: string;
         gst_number: string;
         amount: number;
-        tax_inclusive: boolean;
-        tax: number;
-        tax_rate: number;
+        taxable: boolean;
+        sst_percent: number;
+        sst_amount: number;
         cancelled: boolean;
         net_total: number;
 }>
     gross_total: number;
-    tax_inclusive: boolean;
-    tax: number;
-    tax_rate: number;
+    taxable: boolean;
+    tax_percent: number;
+    tax_amount: number;
     cancelled: boolean;
     aggregate_total: number;
     currency: string;
@@ -434,7 +435,7 @@ export type ReceiptVoucherList = {
     date: string;
     received_from: string;
     description: string;
-    tax: number;
+    tax_percent: number;
     currency: string;
     cancelled: boolean;
     aggregate_total: number;
@@ -442,30 +443,30 @@ export type ReceiptVoucherList = {
 
 export type ReceiptVoucherInputs = {
     reference_number: number;
-    date: string;
+    date?: string;
     received_from: string;
     account_received_in?: {
         account_code?: number;
         account_name?: string;
         account_type?: string;
-    } | null;
+    };
     description: string;
     project: string;
-    receipt_voucher_lines: Array<{
-        description: string;
-        gst_number: string;
-        amount: number;
-        special_treatment: boolean;
-        treatment_amount: number;
-        tax_inclusive: boolean;
-        tax: number;
-        cancelled: boolean;
+    receipt_voucher_lines?: Array<{
+        description?: string;
+        gst_number?: string;
+        amount?: number;
+        special_treatment?: boolean;
+        treatment_percent?: number;
+        taxable?: boolean;
+        sst_percent?: number;
+        cancelled?: boolean;
     }>
-    currency: string;
-    tax_inclusive: boolean;
-    tax: number;
-    cancelled: boolean;
-    agent: string;
+    currency?: string;
+    taxable?: boolean;
+    tax_percent?: number;
+    cancelled?: boolean;
+    agent?: string;
 };
 
 export type ReceiptVoucherDetails = {
@@ -473,30 +474,30 @@ export type ReceiptVoucherDetails = {
     date: string;
     received_from: string;
     received_from_name: string;
-    account_received_in?: {
-        account_code?: number;
-        account_name?: string;
-        account_type?: string;
-    } | null;
+    account_received_in: {
+        account_code: number;
+        account_name: string;
+        account_type: string;
+    };
     description: string;
     project: string;
     project_name: string;
     gross_total: number;
-    tax_inclusive: boolean;
-    tax: number;
-    tax_rate: number;
+    taxable: boolean;
+    tax_percent: number;
+    tax_amount: number;
     cancelled: boolean;
     receipt_voucher_lines: Array<{
         description: string;
         gst_number: string;
         amount: number;
         special_treatment: boolean;
+        treatment_percent: number;
         treatment_amount: number;
-        treatment_rate: number;
         total_after_discount: number;
-        tax_inclusive: boolean;
-        tax: number;
-        tax_rate: number;
+        taxable: boolean;
+        sst_percent: number;
+        sst_amount: number;
         cancelled: boolean;
         net_total: number;
 }>
@@ -599,19 +600,19 @@ export type CashBookList = {
 
 export type CashBookInputs = {
     reference_number: number;
-    date: string;
-    payment_to_or_from: string;
-    description: string;
+    date?: string;
+    payment_to_or_from?: string;
+    description?: string;
     account?: {
         account_code?: number;
         account_name?: string;
         account_type?: string;
-    } | null;
-    transaction_type: typeof CASH_BOOK_OPTIONS[number] | null;
-    currency: string;
-    net_debit: number;
-    net_credit: number;
-    remark: string;
+    };
+    transaction_type?: typeof CASH_BOOK_OPTIONS[number];
+    currency?: string;
+    net_debit?: number;
+    net_credit?: number;
+    remark?: string;
 };
 
 export type CashBookDetails = {

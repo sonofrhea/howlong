@@ -192,8 +192,9 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>GST Number</th>
                                             <th className={tables.headerCell}>Amount</th>
-                                            <th className={tables.headerCell}>GST %</th>
-                                            <th className={tables.headerCell}>GST Rate</th>
+                                            <th className={tables.headerCell}>Taxable</th>
+                                            <th className={tables.headerCell}>SST %</th>
+                                            <th className={tables.headerCell}>SST Amount</th>
                                             <th className={tables.headerCell}>Total</th>
                                             <th className={tables.headerCell}>Cancelled</th>
                                         </tr>
@@ -201,15 +202,40 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
 
                                     <tbody className="bg-white divide-y divide-gray-100">
 
-                                        {paymentVoucher.payment_voucher_lines.map((line: any, index: any) => (
+                                        {paymentVoucher.payment_voucher_lines.map((line, index) => (
                                             <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
-                                                <td className={tables.cell}>{line.description || '--'}</td>
-                                                <td className={tables.cell}>{line.gst_number || '--'}</td>
-                                                <td className={tables.cell}>{line.amount || '--'}</td>
-                                                <td className={tables.cell}>{line.tax || '--'}%</td>
-                                                <td className={tables.cell}>{line.tax_rate || '--'}</td>
-                                                <td className={tables.cell}>{line.net_total || '--'}</td>
-                                                <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
+                                                <td className={tables.cell}>
+                                                    {line.description || '--'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.gst_number || '--'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.amount || '--'}
+                                                </td>
+                                                <td className={`inline-flex items-center px-3.5! py-0.5! rounded text-xs ${
+                                                        line.taxable
+                                                            ? 'bg-red-100 text-red-800 border border-red-200'
+                                                            : 'bg-green-100 text-green-800 border border-green-200'
+                                                    }`}>
+                                                    {line.taxable ? 'Yes' : 'No'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.sst_percent || '--'}%
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.sst_amount || '--'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.net_total || '--'}
+                                                </td>
+                                                <td className={`inline-flex items-center px-3.5! py-0.5! rounded text-xs ${
+                                                        line.cancelled
+                                                            ? 'bg-red-100 text-red-800 border border-red-200'
+                                                            : 'bg-green-100 text-green-800 border border-green-200'
+                                                    }`}>
+                                                    {line.cancelled ? 'Yes' : 'No'}
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -228,23 +254,23 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Tax Inclusive</div>
+                                            <div>Taxable</div>
                                             <div className="font-medium text-gray-800">
-                                                {paymentVoucher.tax_inclusive ? 'Yes' : 'No'}
+                                                {paymentVoucher.taxable ? 'Yes' : 'No'}
                                             </div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
                                             <div className="font-medium text-gray-800">
-                                                {paymentVoucher.tax || '--'}%
+                                                {paymentVoucher.tax_percent || '--'}%
                                             </div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Tax Rate</div>
+                                            <div>Tax Amount</div>
                                             <div className="font-medium text-gray-800">
-                                                {paymentVoucher.tax_rate || '--'}
+                                                {paymentVoucher.tax_amount || '--'}
                                             </div>
                                         </div>
 

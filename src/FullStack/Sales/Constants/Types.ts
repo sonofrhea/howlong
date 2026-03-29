@@ -20,7 +20,10 @@ export interface SalesModulesInterface {
     available: boolean;
 };
 
-
+export type lhdnClassificationCodesInterface = {
+  code: number;
+  description: string;
+};
 
 
 
@@ -45,28 +48,29 @@ export type QuotationList = {
 
 export type QuotationInputs = {
   quotation_number: number;
-  quotation_date: string; 
-  valid_until: string;
-  customer: string;
-  customer_details: string;
-  agent: string;
+  quotation_date?: string; 
+  valid_until?: string;
+  customer?: number;
+  customer_details?: string;
+  agent?: string;
   project_description: string;
   related_quotation?: Array<{
-    item?: string | null;
-    description?: string | null;
-    quantity?: number | null;
-    unit_of_measure?: string | null;
-    price_per_unit?: number | null;
-    currency?: string | null;
+    id?: number;
+    item?: string;
+    description?: string;
+    quantity?: number;
+    unit_of_measure?: string;
+    price_per_unit?: number;
+    currency?: string;
     cancelled?: boolean;
-    tax_inclusive?: boolean | null;
-    tax_amount?: number | null;
-  }> | null;
-  tax_inclusive: boolean;
-  tax_amount: number;
-  discount: boolean;
-  discount_amount: number;
-  cancelled: boolean;
+    taxable?: boolean;
+    sst_percent?: number;
+  }>;
+  taxable?: boolean;
+  tax_percent?: number;
+  discount?: boolean;
+  discount_percent?: number;
+  cancelled?: boolean;
 };
 
 export type QuotationDetails = {
@@ -79,22 +83,27 @@ export type QuotationDetails = {
   agent: string;
   project_description: string;
   related_quotation?: Array<{
-    item?: string | null;
-    item_name?: string | null;
-    item_photo?: string | undefined;
-    description?: string | null;
-    quantity?: number | null;
-    unit_of_measure?: string | null;
-    price_per_unit?: number | null;
-    currency?: string | null;
-    sub_total?: string | null;
-    cancelled?: boolean;
-    version?: number | null;
+    item: string;
+    item_name: string;
+    item_photo: string;
+    description: string;
+    quantity: number;
+    unit_of_measure: string;
+    price_per_unit: number;
+    currency: string;
+    sub_total: string;
+    cancelled: boolean;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
+
   }> | null;
   discount: boolean;
+  discount_percent: number;
   discount_amount: number;
   after_discount_totals: number;
-  tax_inclusive: boolean;
+  taxable: boolean;
+  tax_percent: number;
   tax_amount: number;
   cancelled: boolean;
   gross_total: number;
@@ -223,8 +232,9 @@ export type InvoiceDetails = {
     unit_of_measure: string;
     price_per_unit: number;
     total: number;
-    tax_inclusive: boolean;
-    tax_amount: number;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
     sub_total: string;
     cancelled: boolean;
     einvoice_classification_code: number;
@@ -233,15 +243,19 @@ export type InvoiceDetails = {
   }>;
 
   currency: string;
-  tax_inclusive: boolean;
-  tax_amount: number;
 
   agent: string;
   project_name: string;
 
   discount: boolean;
+  discount_percent: number;
   discount_amount: number;
   after_discount_totals: number;
+
+  taxable: boolean;
+  tax_percent: number;
+  tax_amount: number;
+
   cancelled: boolean;
   lhdn_uuid: string;
   lhdn_long_uid: string;
@@ -250,6 +264,9 @@ export type InvoiceDetails = {
   einvoice_submitted_at: string;
   einvoice_status_last_checked: string;
   einvoice_validation_errors: string;
+  einvoice_type?: typeof EINVOICE_TYPE_CHOICES[number]['value'];
+  einvoice_supply_type?: typeof SUPPLY_TYPE_CHOICES[number];
+  einvoice_payment_mode?: typeof PAYMENT_MODE_CHOICES[number]['value'];
 
   gross_total: string;
   net_total: string;
@@ -260,40 +277,40 @@ export type InvoiceDetails = {
 
 export type InvoiceInputs = {
   invoice_number: number;
-  invoice_date: string;
-  invoice_due_date: string;
-  related_quotation: number;
-  customer: string;
-  customer_name: string;
-  customer_details: string;
-  description: string;
-  currency: string;
-  agent: string;
-  tax_inclusive: boolean;
-  tax_amount: number;
-  project: string;
-  project_name: string;
-  discount: boolean;
-  discount_amount: number;
+  invoice_date?: string;
+  invoice_due_date?: string;
+  related_quotation?: number;
+  customer?: number;
+  customer_name?: string;
+  customer_details?: string;
+  description?: string;
+  currency?: string;
+  agent?: string;
+  project?: string;
+  project_name?: string;
   related_invoice?: Array<{
-    item?: string | null;
-    description?: string | null;
-    quantity?: number | null;
-    unit_of_measure?: string | null;
-    price_per_unit?: number | null;
-    tax_inclusive?: boolean | null;
-    tax_amount?: number | null;
-    cancelled?: boolean | null;
-    einvoice_classification_code?: number | null;
-    einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'] | null;
-    einvoice_tax_exemption_reason?: string | null;
-  }> | null;
-  cancelled: boolean;
-  einvoice_validation_errors: string;
-  einvoice_type: typeof EINVOICE_TYPE_CHOICES[number]['value'] | null;
-  einvoice_supply_type: typeof SUPPLY_TYPE_CHOICES[number] | null;
-  einvoice_payment_mode: typeof PAYMENT_MODE_CHOICES[number]['value'] | null;
-  einvoice_payment_terms: string;
+    item?: string;
+    description?: string;
+    quantity?: number;
+    unit_of_measure?: string;
+    price_per_unit?: number;
+    taxable?: boolean;
+    sst_percent?: number;
+    cancelled?: boolean;
+    einvoice_classification_code?: number;
+    einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'];
+    einvoice_tax_exemption_reason?: string;
+  }>;
+  discount?: boolean;
+  discount_percent?: number;
+  taxable?: boolean;
+  tax_percent?: number;
+  cancelled?: boolean;
+  einvoice_validation_errors?: string;
+  einvoice_type?: typeof EINVOICE_TYPE_CHOICES[number]['value'];
+  einvoice_supply_type?: typeof SUPPLY_TYPE_CHOICES[number];
+  einvoice_payment_mode?: typeof PAYMENT_MODE_CHOICES[number]['value'];
+  einvoice_payment_terms?: string;
   created_by: string;
 };
 
@@ -327,6 +344,7 @@ export type InvoiceProps = {
   agents: AgentInterface[];
   projects: ProjectProfileResponse[];
   productItems: ProductItemCreateResponse[];
+  lhdnClassificationCodes: lhdnClassificationCodesInterface[];
 };
 
 
@@ -356,6 +374,7 @@ export type InvoiceFormProps = {
   projects: ProjectProfileResponse[];
   productItems: ProductItemCreateResponse[];
   quotations: QuotationDetails[];
+  lhdnClassificationCodes: lhdnClassificationCodesInterface[];
 };
 
 
@@ -398,27 +417,27 @@ export type CustomerPaymentList = {
 
 export type CustomerPaymentInputs = {
   payment_number: number;
-  date: string;
-  customer: string;
-  customer_name: string;
-  project: string;
-  project_name: string;
-  related_payment: string;
-  related_payment_paid_amount: string;
-  related_payment_outstanding: string;
+  date?: string;
+  customer?: string;
+  customer_name?: string;
+  project?: string;
+  project_name?: string;
+  related_payment?: string;
+  related_payment_paid_amount?: string;
+  related_payment_outstanding?: string;
   account_received_in?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
-  currency: string;
-  description: string;
-  paid_amount: number;
-  additional_bank_charges: number;
-  outstanding: number;
-  completed: boolean;
-  agent: string;
-  cancelled: boolean;
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
+  currency?: string;
+  description?: string;
+  paid_amount?: number;
+  additional_bank_charges?: number;
+  outstanding?: number;
+  completed?: boolean;
+  agent?: string;
+  cancelled?: boolean;
 };
 
 export type CustomerPaymentDetails = {
@@ -428,10 +447,10 @@ export type CustomerPaymentDetails = {
   project: number;
   project_name: string;
   account_received_in?: {
-    account_code: number | null;
-    account_name: number | null;
-    account_type: number | null;
-  } | null;
+    account_code: number;
+    account_name: number;
+    account_type: number;
+  };
   currency: string;
   description: string;
   paid_amount: number;
@@ -532,7 +551,7 @@ export type InvoicePaymentList = {
   related_invoice: string;
   related_invoice_total: number;
   gross_paid: number;
-  tax_amount: number;
+  tax_percent: number;
   net_aggregate_paid: number;
   outstanding_amount: number;
   paid_by: string;
@@ -542,34 +561,33 @@ export type InvoicePaymentList = {
 
 export type InvoicePaymentInputs = {
   invoice_payment_code: number;
-  date_created: string;
-  related_invoice: number;
-  related_invoice_details: string;
+  date_created?: string;
+  related_invoice?: number;
+  related_invoice_details?: string;
   account_received_in?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
-  currency: string;
-  related_invoice_total: number;
-  tax_inclusive: boolean;
-  tax_amount: number;
-  cancelled: boolean;
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
+  currency?: string;
+  related_invoice_total?: number;
+  taxable?: boolean;
+  tax_percent?: number;
+  cancelled?: boolean;
   related_invoice_payment?: Array<{
-    payment_date?: string | null;
+    payment_date?: string;
     payment_type?: typeof PAYMENT_TYPE_OPTIONS[number];
-    //payment_amount: number;
-    tax_inclusive?: boolean | null;
-    tax_amount?: number | null;
-    total?: number | null;
-    cancelled?: boolean | null;
-  }> | null;
-  gross_paid: number;
-  net_aggregate_paid: number;
-  outstanding_amount: number | null;
-  paid_by: string;
-  paid_by_name: string;
-  agent: string;
+    total?: number;
+    taxable?: boolean;
+    sst_percent?: number;
+    cancelled?: boolean;
+  }>;
+  gross_paid?: number;
+  net_aggregate_paid?: number;
+  outstanding_amount?: number;
+  paid_by?: string;
+  paid_by_name?: string;
+  agent?: string;
 };
 
 
@@ -577,28 +595,30 @@ export type InvoicePaymentDetails = {
   invoice_payment_code: number;
   related_invoice: string;
   related_invoice_details: string;
-  account_received_in?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
-  gross_paid: number | null;
+  account_received_in: {
+    account_code: number;
+    account_name: string;
+    account_type: string;
+  };
+  gross_paid: number;
   currency: string;
-  related_invoice_total: number | null;
-  tax_inclusive: boolean;
-  tax_amount: number | null;
+  related_invoice_total: number;
+  taxable: boolean;
+  tax_percent: number;
+  tax_amount: number;
   cancelled: boolean;
-  net_aggregate_paid: number | null;
+  net_aggregate_paid: number;
   related_invoice_payment?: Array<{
     payment_date: string;
     total: number;
-    tax_inclusive: boolean;
-    tax_amount: number;
-    payment_amount: number;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
+    sub_total: number;
     cancelled: boolean;
     payment_type?: typeof PAYMENT_TYPE_OPTIONS[number];
-}> | null;
-  outstanding_amount: number | null;
+}>;
+  outstanding_amount: number;
   payment_receipt: File;
   paid_by: string;
   paid_by_name: string;

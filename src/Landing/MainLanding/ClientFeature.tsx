@@ -801,7 +801,7 @@ function ClientFeature() {
                     </div>
                     <div className="lc-num">02</div>
                     <h3>Debit Notes Issued</h3>
-                    <p style={{ fontFamily: 'Montserrat, system' }}>
+                    <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                       Charges raised against the client and linked to payments. Outstanding balances auto-calculated and updated on every save.
                     </p>
                   </div>
@@ -813,7 +813,7 @@ function ClientFeature() {
                     </div>
                     <div className="lc-num">03</div>
                     <h3>Credit Notes Applied</h3>
-                    <p style={{ fontFamily: 'Montserrat, system' }}>
+                    <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                       Overpayments or adjustments captured as credit notes, linked to the original payment, with live outstanding tracking.
                     </p>
                   </div>
@@ -825,7 +825,7 @@ function ClientFeature() {
                     </div>
                     <div className="lc-num">04</div>
                     <h3>Refunds Processed</h3>
-                    <p style={{ fontFamily: 'Montserrat, system' }}>
+                    <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                       When credit notes carry a positive outstanding, a refund is issued. Expected, paid, and outstanding amounts all reconciled automatically.
                     </p>
                   </div>
@@ -973,7 +973,7 @@ function ClientFeature() {
                     <div className="wf-num">DN</div>
                     <span className="wf-prefix">DN-2025-XXXX</span>
                     <h3>Debit Note</h3>
-                    <p style={{ fontFamily: 'Montserrat, system' }}>Raised to record additional charges against a client. Linked to a Post Customer Payment and calculates an outstanding balance automatically.</p>
+                    <p style={{ fontFamily: 'Montserrat, system-ui' }}>Raised to record additional charges against a client. Linked to a Post Customer Payment and calculates an outstanding balance automatically.</p>
                     <div className="wf-fields">
                       <div className="wf-field-row"><span>Gross Total</span><span>Sum of all lines</span></div>
                       <div className="wf-field-row"><span>Tax</span><span>Inclusive or exclusive</span></div>
@@ -987,7 +987,7 @@ function ClientFeature() {
                     <div className="wf-num">CN</div>
                     <span className="wf-prefix">CN-2025-XXXX</span>
                     <h3>Credit Note</h3>
-                    <p style={{ fontFamily: 'Montserrat, system' }}>Issued when a client has overpaid or is owed an adjustment. Pulls paid amount from the linked payment and calculates the credit outstanding.</p>
+                    <p style={{ fontFamily: 'Montserrat, system-ui' }}>Issued when a client has overpaid or is owed an adjustment. Pulls paid amount from the linked payment and calculates the credit outstanding.</p>
                     <div className="wf-fields">
                       <div className="wf-field-row"><span>Gross Total</span><span>Sum of note lines</span></div>
                       <div className="wf-field-row"><span>Tax</span><span>Inclusive or exclusive</span></div>
@@ -1001,7 +1001,7 @@ function ClientFeature() {
                     <div className="wf-num">RF</div>
                     <span className="wf-prefix">REF-2025-XXXX</span>
                     <h3>Refund</h3>
-                    <p style={{ fontFamily: 'Montserrat, system' }}>Triggered when a credit note carries a positive outstanding. Tracks expected refund, amounts returned (Cash / Cheque / Bank Transfer), and net outstanding.</p>
+                    <p style={{ fontFamily: 'Montserrat, system-ui' }}>Triggered when a credit note carries a positive outstanding. Tracks expected refund, amounts returned (Cash / Cheque / Bank Transfer), and net outstanding.</p>
                     <div className="wf-fields">
                       <div className="wf-field-row"><span>Expected Refund</span><span>Credit note outstanding</span></div>
                       <div className="wf-field-row"><span>Net Refunded</span><span>Sum of refund lines</span></div>
@@ -1141,7 +1141,7 @@ function ClientFeature() {
                     </div>
                     <div>
                       <h3>Auto-Calculated Financials</h3>
-                      <p style={{ fontFamily: 'Montserrat, system' }}>Gross totals, tax, outstanding balances, and aggregates are all computed automatically — no manual arithmetic, no errors.</p>
+                      <p style={{ fontFamily: 'Montserrat, system-ui' }}>Gross totals, tax, outstanding balances, and aggregates are all computed automatically — no manual arithmetic, no errors.</p>
                     </div>
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay: '0.1s' }}>
@@ -1152,7 +1152,7 @@ function ClientFeature() {
                     </div>
                     <div>
                       <h3>Encrypted &amp; Secure by Design</h3>
-                      <p style={{ fontFamily: 'Montserrat, system' }}>All sensitive fields — bank accounts, tax numbers, ID numbers, and contact details — are encrypted at the field level.</p>
+                      <p style={{ fontFamily: 'Montserrat, system-ui' }}>All sensitive fields — bank accounts, tax numbers, ID numbers, and contact details — are encrypted at the field level.</p>
                     </div>
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay: '0.2s' }}>
@@ -1163,7 +1163,7 @@ function ClientFeature() {
                     </div>
                     <div>
                       <h3>Real‑Time Outstanding Tracking</h3>
-                      <p style={{ fontFamily: 'Montserrat, system' }}>Every debit note, credit note, and refund line updates the client's outstanding balance the moment a record is saved.</p>
+                      <p style={{ fontFamily: 'Montserrat, system-ui' }}>Every debit note, credit note, and refund line updates the client's outstanding balance the moment a record is saved.</p>
                     </div>
                   </div>
                   <div className="ben-card reveal" style={{ transitionDelay: '0.3s' }}>
@@ -1174,7 +1174,7 @@ function ClientFeature() {
                     </div>
                     <div>
                       <h3>Full Version History</h3>
-                      <p style={{ fontFamily: 'Montserrat, system' }}>Every save increments the version counter — a complete, immutable audit trail across all documents for compliance and dispute resolution.</p>
+                      <p style={{ fontFamily: 'Montserrat, system-ui' }}>Every save increments the version counter — a complete, immutable audit trail across all documents for compliance and dispute resolution.</p>
                     </div>
                   </div>
                 </div>

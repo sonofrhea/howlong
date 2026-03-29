@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchBillOfQuantities, fetchBillOfQuantityById, createBillOfQuantity, 
@@ -28,6 +28,7 @@ import BillOfQuantitiesTable from "./BillOfQuantitiesTable";
 import { spinningStyles } from "../constants/Styles";
 import BillOfQuantitiesEdit from "./BillOfQuantitiesEdit";
 import { toast } from "react-hot-toast";
+import { Drill } from "lucide-react";
 
 
 
@@ -52,13 +53,27 @@ interface SortConfig {
 
 function BillOfQuantitiesManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedBillOfQuantityId, setSelectedBillOfQuantityId] = useState<number | null>(null);
+    const selectedBillOfQuantityId = searchParams.get('boq_number') ? Number(searchParams.get('boq_number')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
+    // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, boq_number?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView);
+        if (boq_number) {
+            params.set('boq_number', boq_number.toString());
+        } else if (newView === 'list') {
+            params.delete('boq_number');
+        }
+        setSearchParams(params);
+    }
+
     // ------------------------------------------------------------------------------------
             // DEPENDENCIES
 
@@ -113,9 +128,8 @@ function BillOfQuantitiesManagement() {
         },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['billOfQuantities'] });
-            setSelectedBillOfQuantityId(data.boq_number);
+            navigateToView('details', data.boq_number);
             toast.success('Bill Of Quantity Created', { id: "Create Bill Of Quantity" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create bill of quantity', { id: "Create Bill Of Quantity" });
@@ -143,7 +157,7 @@ function BillOfQuantitiesManagement() {
                 queryKey: ['billOfQuantity', selectedBillOfQuantityId]
             });
             toast.success('Bill Of Quantity Updated', { id: "Update Bill Of Quantity" });
-            setView('details');
+            navigateToView('details', selectedBillOfQuantityId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update bill of quantity', { id: "Update Bill Of Quantity" });
@@ -248,34 +262,30 @@ function BillOfQuantitiesManagement() {
 
 
     const handleBillOfQuantityClick = (billOfQuantityId: number) => {
-        setSelectedBillOfQuantityId(billOfQuantityId);
-        setView('details')
+        navigateToView('details', billOfQuantityId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditBillOfQuantity = (billOfQuantityId: number) => {
-        setSelectedBillOfQuantityId(billOfQuantityId);
-        setView('edit');
+        navigateToView('edit', billOfQuantityId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToBillOfQuantitiesList = () => {
-        setView('list');
-        setSelectedBillOfQuantityId(null);
+        navigateToView('list');
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleBackToBillOfQuantityDetails = (billOfQuantityId: number) => {
-        setSelectedBillOfQuantityId(billOfQuantityId);
-        setView('details')
+        navigateToView('details', billOfQuantityId);
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleEditBillOfQuantityButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -371,10 +381,10 @@ function BillOfQuantitiesManagement() {
                 <div className="max-w-7xl mx-auto px-4 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                            <span className={spinningStyles.terminalBar.spinner}>⠋</span>
+                            <span className="text-green-500 mr-2 animate-bounce text-4xl"><Drill /></span>
                             <div>
-                                <h1 className="text-lg font-semibold text-gray-900">Projects Suite</h1>
-                                <p className="text-sm text-gray-500">Bill Of Quantities Management</p>
+                                <h1 className="text-lg font-semibold text-gray-900 font-[Montserrat]!">Projects Suite</h1>
+                                <p className="text-sm text-gray-500 font-[Montserrat]!">Bill Of Quantities Management</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -406,8 +416,8 @@ function BillOfQuantitiesManagement() {
                         </svg>
                         </div>
                         <div>
-                        <h1 className="text-4xl font-light text-gray-900 tracking-tight">Bill Of Quantities</h1>
-                        <p className="text-gray-500 mt-2">Manage and track your bill of quantities</p>
+                        <h1 className="text-4xl font-light text-left! text-gray-900 tracking-tight font-[Montserrat]!">Bill Of Quantities</h1>
+                        <p className="text-gray-500 mt-2 font-[Montserrat]!">Manage and track your bill of quantities</p>
                         </div>
                     </div>
                     </div>
@@ -416,7 +426,7 @@ function BillOfQuantitiesManagement() {
                     {(view === 'form' || view === 'details' || view === 'edit') && (
                         <button
                         onClick={handleBackToBillOfQuantitiesList}
-                        className="bg-white border border-gray-200 hover:border-gray-300 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
+                        className="bg-white border border-gray-200 hover:border-purple-600 text-gray-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
                         >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -478,7 +488,7 @@ function BillOfQuantitiesManagement() {
                             </div>
                             </div>
                             <button
-                            onClick={() => setView('form')}
+                            onClick={() => navigateToView('form')}
                             className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                     >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -525,7 +535,7 @@ function BillOfQuantitiesManagement() {
                         <p className="text-gray-500">Add a new bill of quantities to your records</p>
                         </div>
                         <button 
-                            onClick={() => setView('list')}
+                            onClick={() => navigateToView('list')}
                             className="bg-white text-black px-2 py-1 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1"
                         >
                             <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -65,12 +65,12 @@ export type ProjectsProfileList = {
   project_name: string;
   project_type: string;
   client_details: string;
-    phases?: Array<{
-    phase_description?: string;
-    start_date?: string;
-    current_phase?: typeof PROJECT_PHASE_OPTIONS[number] | null;
-    end_date?: string;
-  }> | null;
+    phases: Array<{
+    phase_description: string;
+    start_date: string;
+    current_phase: typeof PROJECT_PHASE_OPTIONS[number];
+    end_date: string;
+  }>;
   city: string;
   start_date: string;
   estimated_end_date: string;
@@ -126,44 +126,45 @@ export type ProjectsProfileDetails = {
 
 export type ProjectProfileInputs = {
   project_code: number;
-  date: string;
-  project_name: string;
-  project_description: string;
-  project_type: typeof PROJECT_TYPE_OPTIONS[number]| null;
-  status: typeof PROJECT_STATUS_OPTIONS[number] | null;
+  date?: string;
+  project_name?: string;
+  project_description?: string;
+  project_type?: typeof PROJECT_TYPE_OPTIONS[number];
+  status?: typeof PROJECT_STATUS_OPTIONS[number];
 
-  address: string;
-  country: typeof COUNTRY_OPTIONS[number] | null;
-  city: string;
-  state: string;
-  zip_code: string;
+  address?: string;
+  country?: typeof COUNTRY_OPTIONS[number];
+  city?: string;
+  state?: string;
+  zip_code?: string;
 
-  start_date: string;
-  estimated_end_date: string;
-  actual_end_date: string | null;
-  duration: number;
+  start_date?: string;
+  estimated_end_date?: string;
+  actual_end_date?: string;
+  duration?: number;
   
-  project_budget: number;
-  actual_cost: number;
-  variance: number;
+  project_budget?: number;
+  actual_cost?: number;
+  variance?: number;
 
-  project_manager: string;
-  superintendent: string;
-  client_details: string;
+  project_manager?: string;
+  superintendent?: string;
+  client_details?: string;
 
   phases?: Array<{
+    id?: number;
     phase_description?: string;
     start_date?: string;
-    current_phase?: typeof PROJECT_PHASE_OPTIONS[number] | null;
-    end_date?: string | null;
-  }> | null; 
+    current_phase?: typeof PROJECT_PHASE_OPTIONS[number];
+    end_date?: string;
+  }>; 
   created_by: string;
 };
 
 export type ProjectProfileResponse = {
-  project_code: number;
-  project_name: string;
-  project_budget: number;
+  project_code?: number;
+  project_name?: string;
+  project_budget?: number;
 }
 
 export type AllProjectProfileInputs = {
@@ -273,7 +274,7 @@ export type BillOfquantitiesList = {
   status: string;
   boq_description: string;
   gross_estimation: number;
-  contingency_rate: number;
+  contingency_percentage: number;
   net_estimation: number;
 };
 
@@ -288,7 +289,7 @@ export type BillOfQuantitiesDetails = {
 
   boq: Array<{
     product_item: number;
-    product_item_name: string | null;
+    product_item_name: string;
     additional_item: string;
     unit_of_measurement: string;
     quantity: string;
@@ -297,7 +298,8 @@ export type BillOfQuantitiesDetails = {
   }>;
 
   gross_estimation: string;
-  contingency_rate: string;
+  contingency_included: boolean;
+  contingency_percentage: string;
   net_estimation: string;
 
   created_by: string;
@@ -311,20 +313,22 @@ export type BillOfQuantitiesDetails = {
 
 export type BillOfQuantitiesInputs = {
   boq_number: number;
-  date: string;
-  project: string;
-  project_name: string;
-  status: typeof BILL_OF_QUANTITIES_OPTIONS[number];
-  boq_description: string;
+  date?: string;
+  project?: string;
+  project_name?: string;
+  status?: typeof BILL_OF_QUANTITIES_OPTIONS[number];
+  boq_description?: string;
   boq?: Array <{
-    product_item: string | null;
-    additional_item: string | null;
-    unit_of_measurement: string | null;
-    quantity: number;
-    rate_per_unit: number;
-  }> | null;
-  gross_estimation: number;
-  contingency_rate: number;
+    id?: number;
+    product_item?: number;
+    additional_item?: string;
+    unit_of_measurement?: string;
+    quantity?: number;
+    rate_per_unit?: number;
+  }>;
+  gross_estimation?: number;
+  contingency_included?: boolean;
+  contingency_percentage?: number;
 };
 
 
@@ -475,32 +479,33 @@ export type JobCostLedgerDetails = {
 
 export type JobCostLedgerInputs = {
   job_cost_number: number;
-  project: string;
-  project_name: string | null;
-  date: string;
-  description: string;
-  status: typeof JOB_COST_LEDGER_STATUS_OPTIONS[number] | null;
-  boq: number | null;
-  boq_estimated_amount: number | null;
+  project?: number;
+  project_name?: string;
+  date?: string;
+  description?: string;
+  status?: typeof JOB_COST_LEDGER_STATUS_OPTIONS[number];
+  boq?: number;
+  boq_estimated_amount?: number;
   job_cost_ledger?: Array<{
-    boq_line: number;
-    boq_additional: string;
+    id?: number;
+    boq_line?: number;
+    boq_additional?: string;
     cost_code?: {
       job_cost_code?: number | null;
       job_cost_description?: string | null;
-    } | null;
-    description: string | null;
-    supplier: string | null;
-    cost_type: typeof COST_TYPE_CHOICES_OPTIONS[number] | null;
-    status: typeof JOB_COST_LINES_STATUS_OPTIONS[number] | null;
-    cost: number | null;
-    tax: number | null;
-    estimated: number | null;
-  }> | null;
-  total_actual_cost: string;
-  net_variance: string;
-  date_created: string | null;
-  project_budget: string | null;
+    };
+    description?: string;
+    supplier?: string;
+    cost_type?: typeof COST_TYPE_CHOICES_OPTIONS[number];
+    status?: typeof JOB_COST_LINES_STATUS_OPTIONS[number];
+    cost?: number;
+    taxable?: boolean;
+    sst_percent?: number;
+  }>;
+  total_actual_cost?: string;
+  net_variance?: string;
+  date_created?: string;
+  project_budget?: string;
 };
 
 

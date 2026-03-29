@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 
 import { CUSTOMERS_ICONS } from "./ModuleIcons";
 
@@ -11,14 +10,16 @@ import { ID_TYPE_CHOICES,
   REFUND_TYPE_OPTIONS,
   EINVOICE_SUPPLY_TYPE_CHOICES,
   EINVOICE_PAYMENT_MODE_CHOICES,
-  LHDN_TAX_TYPE_CHOICES
+  LHDN_TAX_TYPE_CHOICES,
+  SST_DIRECTION
  } from "./Options";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
 import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
-import { CustomerPaymentResponse } from "../../Sales/Constants/Types";
+import { CustomerPaymentResponse, lhdnClassificationCodesInterface } from "../../Sales/Constants/Types";
 import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
 import { SortConfig } from "../../Suppliers/constants/Types";
-import { EINVOICE_STATUS_CHOICES } from "../../EInvoice/constants/Options";
+import { EINVOICE_STATUS_CHOICES, EINVOICE_TYPE_CHOICES,
+  PAYMENT_MODE_CHOICES, SUPPLY_TYPE_CHOICES } from "../../EInvoice/constants/Options";
 
 
 
@@ -299,11 +300,11 @@ export type DebitNoteTableInput = {
   debit_note_number: number;
   date: string;
   customer: string;
-  aggregate_total: number;
+  net_total: number;
   debit_note_outstanding: number;
   cancelled: boolean;
   agent: string;
-}
+};
 
 
 export type DebitNoteInputs = {
@@ -324,21 +325,22 @@ export type DebitNoteInputs = {
     date?: string | null;
     description?: string | null;
     amount?: number | null;
-    tax_inclusive?: boolean | null;
-    tax_amount?: number;
+    taxable?: boolean;
+    sst_direction?: typeof SST_DIRECTION[number];
+    sst_percent?: number;
     cancelled?: boolean | null;
     einvoice_classification_code?: number | null;
     einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'] | null;
     einvoice_tax_exemption_reason?: string | null;
   }> | null;
-  tax_inclusive: boolean;
-  tax_amount: number | 0.00;
+  taxable: boolean;
+  tax_percent: number | 0.00;
   net_total: number | 0.00;
   agent: string;
   currency: string | null;
   cancelled: boolean;
-  einvoice_supply_type: typeof EINVOICE_SUPPLY_TYPE_CHOICES[number] | null;
-  einvoice_payment_mode: typeof EINVOICE_PAYMENT_MODE_CHOICES[number]['value'] | null;
+  einvoice_supply_type?: typeof EINVOICE_SUPPLY_TYPE_CHOICES[number];
+  einvoice_payment_mode?: typeof EINVOICE_PAYMENT_MODE_CHOICES[number]['value'];
 }
 
 export type DebitNoteCreateResponse = {
@@ -371,23 +373,27 @@ export type DebitNoteDetails = {
   initial_paid_amount: number;
   amount_owed: number;
   gross_total: number;
-  tax_inclusive: boolean;
+  taxable: boolean;
+  tax_percent: number;
   tax_amount: number;
   net_total: number;
-  debit_note_details?: Array<{
-    date?: string | null;
-    description?: string | null;
-    amount?: number | null;
-    tax_inclusive: boolean;
-    tax_amount?: number | null;
-    current_total?: number | null;
+  debit_note_details: Array<{
+    date: string;
+    description: string;
+    amount: number;
+    taxable: boolean;
+    sst_direction: typeof SST_DIRECTION[number];
+    sst_percent: number;
+    sst_amount: number;
+    current_total: number;
     cancelled: boolean;
     einvoice_classification_code: number;
     einvoice_tax_type: string;
     einvoice_tax_exemption_reason: string;
-  }>
+  }>;
   aggregate_total: number;
   debit_note_outstanding: number;
+  total_plus_initial: number;
   cancelled: boolean;
   lhdn_uuid: string;
   lhdn_long_uid: string;
@@ -396,6 +402,9 @@ export type DebitNoteDetails = {
   einvoice_validation_errors: string;
   einvoice_submitted_at: string;
   einvoice_status_last_checked: string;
+  einvoice_type?: typeof EINVOICE_TYPE_CHOICES[number]['value'];
+  einvoice_supply_type?: typeof SUPPLY_TYPE_CHOICES[number];
+  einvoice_payment_mode?: typeof PAYMENT_MODE_CHOICES[number]['value'];
   agent: string;
   created_by: string;
   updated_by: string;
@@ -414,6 +423,7 @@ export type DebitNoteEditProps = {
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
+  lhdnClassificationCodes: lhdnClassificationCodesInterface[];
   customerPayments: CustomerPaymentResponse[];
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
@@ -444,6 +454,7 @@ export type DebitNoteFormProps = {
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
   customerPayments: CustomerPaymentResponse[];
+  lhdnClassificationCodes: lhdnClassificationCodesInterface[];
 };
 
 
@@ -493,8 +504,9 @@ export type CreditNoteDetails = {
     date?: string | null;
     description?: string | null;
     amount?: number | null;
-    tax_inclusive: boolean;
-    tax_amount: number;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
     current_total: number;
     cancelled: boolean;
     einvoice_classification_code: number;
@@ -509,7 +521,8 @@ export type CreditNoteDetails = {
       account_type?: string | null;
   } | null;
   gross_total: number;
-  tax_inclusive: boolean;
+  taxable: boolean;
+  tax_percent: number;
   tax_amount: number;
   paid_amount: number;
   aggregate_total: number;
@@ -526,6 +539,9 @@ export type CreditNoteDetails = {
   einvoice_validation_errors: string;
   einvoice_submitted_at: string;
   einvoice_status_last_checked: string;
+  einvoice_type?: typeof EINVOICE_TYPE_CHOICES[number]['value'];
+  einvoice_supply_type?: typeof SUPPLY_TYPE_CHOICES[number];
+  einvoice_payment_mode?: typeof PAYMENT_MODE_CHOICES[number]['value'];
   currency: string;
 };
 
@@ -538,15 +554,15 @@ export type CreditNoteEditInputs = {
     date?: string | null;
     description?: string | null;
     amount?: number | null;
-    tax_inclusive?: boolean | null;
-    tax_amount?: number | null;
+    taxable?: boolean;
+    sst_percent?: number | 0.00;
     cancelled?: boolean | null;
     einvoice_classification_code?: number | null;
     einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'] | null;
     einvoice_tax_exemption_reason?: string | null;
   }> | null;
-  tax_inclusive: boolean;
-  tax_amount: number;
+  taxable: boolean;
+  tax_percent?: number | 0.00;
   related_payment: string;
   related_payment_amount: number;
   account?: {
@@ -569,15 +585,17 @@ export type CreditNoteInputs = {
     date?: string | null;
     description?: string | null;
     amount?: number | null;
-    tax_inclusive?: boolean | null;
-    tax_amount?: number | null;
+    taxable?: boolean;
+    sst_percent?: number | 0.00;
+    sst_amount?: number | 0.00;
     cancelled?: boolean | null;
     einvoice_classification_code?: number | null;
     einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'] | null;
     einvoice_tax_exemption_reason?: string | null;
   }> | null;
-  tax_inclusive: boolean;
-  tax_amount: number;
+  taxable: boolean;
+  tax_percent?: number | 0.00;
+  tax_amount?: number | 0.00;
   related_payment: string;
   related_payment_amount: number;
   account?: {
@@ -619,6 +637,7 @@ export type CreditNoteProps = {
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
   customerPayments: CustomerPaymentResponse[];
+  lhdnClassificationCodes: lhdnClassificationCodesInterface[];
 };
 
 export type CreditNoteEditProps = {
@@ -631,6 +650,7 @@ export type CreditNoteEditProps = {
   currencies: CurrencyInterface[];
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
+  lhdnClassificationCodes: lhdnClassificationCodesInterface[];
   customerPayments: CustomerPaymentResponse[];
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
@@ -683,19 +703,16 @@ export type CustomerRefundList = {
   date: string;
   pay_to: string;
   expected_refund: number;
-  net_refunded: number;
+  net_total: number;
   outstanding: number;
   cancelled: boolean;
-  currency: string;
   agent: string;
 };
 
 
 export type CustomerRefundInputs = {
-  refund_number: number;
   date: string;
-  pay_to: string | null;
-  pay_to_name: string | null;
+  pay_to: number | null;
   related_credit_note: number;
   related_credit_note_outstanding: number;
   payment_account?: {
@@ -705,17 +722,52 @@ export type CustomerRefundInputs = {
   } | null;
   expected_refund: number | null;
   related_customer_refund?: Array<{
-    date?: string | null;
-    refund_amount?: number | null;
-    additional_charges?: number | null;
-    payment_type?: typeof REFUND_TYPE_OPTIONS[number] | null;
-    cancelled?: boolean | null;
-    einvoice_classification_code: number | null;
+    id?: number;
+    date?: string;
+    refund_amount?: number;
+    taxable?: boolean;
+    sst_percent?: number;
+    payment_type?: typeof REFUND_TYPE_OPTIONS[number];
+    cancelled?: boolean;
+    einvoice_classification_code?: number;
     einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'] | null;
-    einvoice_tax_exemption_reason?: string | null;
-  }> | null;
-  tax_inclusive: boolean;
-  tax_amount: number;
+    einvoice_tax_exemption_reason?: string;
+  }>;
+  taxable?: boolean;
+  tax_percent?: number | null;
+  agent: string;
+  currency: string | null;
+  einvoice_supply_type: typeof EINVOICE_SUPPLY_TYPE_CHOICES[number] | null;
+  einvoice_payment_mode: typeof EINVOICE_PAYMENT_MODE_CHOICES[number]['value'] | null;
+};
+
+
+export type CustomerRefundEditTypes = {
+  refund_number: number;
+  date: string;
+  pay_to: number | null;
+  related_credit_note: number;
+  related_credit_note_outstanding: number;
+  payment_account?: {
+    account_code?: number | null;
+    account_name?: string | null;
+    account_type?: string | null;
+  } | null;
+  expected_refund: number | null;
+  related_customer_refund?: Array<{
+    id?: number;
+    date?: string;
+    refund_amount?: number;
+    taxable?: boolean;
+    sst_percent?: number;
+    payment_type?: typeof REFUND_TYPE_OPTIONS[number];
+    cancelled?: boolean;
+    einvoice_classification_code?: number;
+    einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'] | null;
+    einvoice_tax_exemption_reason?: string;
+  }>;
+  taxable?: boolean;
+  tax_percent?: number | null;
   agent: string;
   currency: string | null;
   einvoice_supply_type: typeof EINVOICE_SUPPLY_TYPE_CHOICES[number] | null;
@@ -726,7 +778,7 @@ export type CustomerRefundInputs = {
 export type CustomerRefundDetails = {
   refund_number: number;
   date: string;
-  pay_to: string;
+  pay_to: number;
   pay_to_name: string;
   related_credit_note: string;
   related_credit_note_outstanding: number;
@@ -737,20 +789,23 @@ export type CustomerRefundDetails = {
   } | null;
   expected_refund: number;
   gross_total: number;
-  tax_inclusive: boolean;
+  taxable: boolean;
+  tax_percent: number;
   tax_amount: number;
   related_customer_refund?: Array<{
-    date: string | null;
-    refund_amount: number | null;
-    additional_charges: number | null;
-    total_amount: number | null;
+    date: string;
+    refund_amount: number;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
+    total_amount: number;
     cancelled: boolean;
     payment_type: string;
     einvoice_classification_code: number;
     einvoice_tax_type: string;
     einvoice_tax_exemption_reason: string;
   }> | null;
-  net_refunded: number;
+  net_total: number;
   outstanding: number;
   cancelled: boolean;
   lhdn_uuid: string;
@@ -785,8 +840,8 @@ export type EditCustomerRefundInputs = {
 };
 
 export type CustomerRefundProps = {
-  refund: CustomerRefundInputs;
-  onSubmit: (data: CustomerRefundInputs) => void;
+  refund: CustomerRefundEditTypes;
+  onSubmit: (data: CustomerRefundEditTypes) => void;
   isSubmitting: boolean;
   onBack?: () => void;
   onCancel: (refundId: number) => void;
@@ -797,6 +852,7 @@ export type CustomerRefundProps = {
   creditNotes: CreditNoteCreateResponse[];
   onCreateJournalEntry: (data: JournalHeaderInputs) => void;
   isCreatingJournalEntry: boolean;
+  lhdnClassificationCodes: lhdnClassificationCodesInterface[];
 };
 
 export type CustomerRefundDetailsProps = {
@@ -823,6 +879,7 @@ export type CustomerRefundFormProps = {
   accounts: ControlAccountInterface[];
   agents: AgentInterface[];
   creditNotes: CreditNoteCreateResponse[];
+  lhdnClassificationCodes: lhdnClassificationCodesInterface[];
 };
 
 

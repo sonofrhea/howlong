@@ -105,18 +105,14 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
 
                         <div className="text-center space-y-6 px-6 py-3 gap-4">
                             <div className={layout.badge}>
-                                <p className={text.badgeLarge}>
+                                <p className={text.badgeLarge} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     CREDIT NOTE DETAILS
                                 </p>
-                                <p className={labelStyles}>
+                                <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     {formatCreditNoteNumber()}{creditNote.credit_note_number}
-                                </p>
+                                </span>
                             </div>
                         </div>
-                    </div>
-
-                    <div>
-                        <p className="text-xs text-gray-500 mt-1">Official Documentation</p>
                     </div>
                     
                     <div className="flex gap-3">
@@ -137,7 +133,7 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                 </div>
 
                 {/* e-Invoice Section — CreditNoteDetails */}
-                <div className="mb-6">
+                <div className="mb-6 px-10!">
                     <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
                             <a className={details.extraSmallUppercase}>e-Invoice Status</a>
@@ -203,44 +199,54 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
 
                 <div>
                     <div className="grid grid-cols-3 gap-6">
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Debit Note No.</a><br />
                             {formatCreditNoteNumber()}{creditNote.credit_note_number}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Date</a><br />
                             {creditNote.date}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Account</a><br />
                             {creditNote.account?.account_code || 'N/A'} ({creditNote.account?.account_name || 'N/A'})
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Bill To...</a><br />
                             {formatCustomerNumber()}{creditNote.customer || 'N/A'} | {creditNote.customer_name || 'N/A'}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Payment</a><br />
                             POST-{creditNote.related_payment} | Paid Amount: {creditNote.related_payment_amount}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Paid Amount</a><br />
                             {creditNote.paid_amount}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Currency</a><br />
                             {creditNote.currency || 'N/A'}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Agent</a><br />
                             {creditNote.agent || 'N/A'}
+                        </p>
+
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>E-invois supply type</a><br />
+                            {creditNote.einvoice_supply_type || 'N/A'}
+                        </p>
+
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>E-invois payment mode</a><br />
+                            {creditNote.einvoice_payment_mode || 'N/A'}
                         </p>
                     </div>
 
@@ -256,9 +262,19 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                                             <th className={tables.headerCell}>Date</th>
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>Amount</th>
-                                            <th className={tables.headerCell}>SST Inclusive?</th>
+                                            <th className={tables.headerCell}>Taxable</th>
                                             <th className={tables.headerCell}>SST %</th>
+                                            <th className={tables.headerCell}>SST Amount</th>
                                             <th className={tables.headerCell}>Current Total</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice classification code
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice tax type
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice tax exemption reason
+                                            </th>
                                         </tr>
                                     </thead>
                                     
@@ -268,9 +284,19 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                                                 <td className={tables.cell}>{line.date}</td>
                                                 <td className={tables.cell}>{line.description}</td>
                                                 <td className={tables.cell}>{line.amount}</td>
-                                                <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>{line.tax_amount}%</td>
+                                                <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    line.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>
+                                                    {line.taxable ? 'Yes' : 'No'}
+                                                </td>
+                                                <td className={tables.cell}>{line.sst_percent}%</td>
+                                                <td className={tables.cell}>({line.sst_amount})</td>
                                                 <td className={tables.cell}>{line.current_total}</td>
+                                                <td className={tables.cell}>{line.einvoice_classification_code || '--'}</td>
+                                                <td className={tables.cell}>{line.einvoice_tax_type || '--'}</td>
+                                                <td className={tables.cell}>{line.einvoice_tax_exemption_reason || '--'}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -288,8 +314,24 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                                         </div>
 
                                         <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                            <div>Taxable</div>
+                                            <div className={`inline-flex items-center px-4.5! py-0! rounded text-sm ${
+                                                    creditNote.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>
+                                                {creditNote.taxable ? 'Yes' : 'No'}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
-                                            <div className="font-medium text-black">+{creditNote.tax_amount}%</div>
+                                            <div className="font-medium text-black">{creditNote.tax_percent}%</div>
+                                        </div>
+
+                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                            <div>Tax Amount</div>
+                                            <div className="font-medium text-black">({creditNote.tax_amount})</div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
@@ -298,6 +340,8 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                                                 {creditNote.aggregate_total}
                                             </div>
                                         </div>
+
+                                        <hr className="my-2 border-blue-200" />
                                         
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Outstanding:</div>
@@ -316,17 +360,17 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                 <hr className="my-6 border-gray-200" />
                                                         
                 <div className="grid lg:grid-cols-5">
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Created by</a><br />
                         {creditNote.created_by || 'N/A'}
                     </p>
     
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Updated By</a><br />
                         {creditNote.updated_by || 'N/A'}
                     </p>
     
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Date Updated</a><br />
                         {formatUpdatedDate(creditNote.date_updated) || 'N/A'}
                     </p>

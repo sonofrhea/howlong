@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchRefunds, createRefund, fetchRefundById,
   updateRefund, deleteRefund, fetchCustomers, fetchCreditNotes
 } from "../Engines";
 
+import { fetchLhdnClassificationCodes } from "../../Sales/Engines";
 
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 import { fetchCurrencies, fetchAgents, fetchCompanyProfile } from "../../Core/Engines"
@@ -22,11 +23,10 @@ import RefundTable from "./RefundTable";
 import RefundEdit from "./RefundEdit";
 
 
-import { EditCustomerRefundInputs, CustomerRefundInputs,
-    AllCustomerRefundInputs
- } from "../constants/Types";
+import { CustomerRefundResponse, CustomerRefundInputs } from "../constants/Types";
 import { spinningStyles } from "../constants/Styles";
 import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
+import { DatabaseZap, User } from "lucide-react";
 
 
 
@@ -60,9 +60,10 @@ interface SortConfig {
 
 function RefundManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
+    const selectedRefundId = searchParams.get('refund_number') ? Number(searchParams.get('refund_number')) : null;
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedRefundId, setSelectedRefundId] = useState<number | null>(null);
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -70,6 +71,18 @@ function RefundManagement() {
     // ------------------------------------------------------------------------------------
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
     // ------------------------------------------------------------------------------------
+
+
+    const navigateToView = (newView: string, refund_number?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView);
+        if (refund_number) {
+            params.set('refund_number', refund_number.toString());
+        } else if (newView === 'list') {
+            params.delete('refund_number');
+        }
+        setSearchParams(params);
+    }
 
 
 
@@ -105,6 +118,12 @@ function RefundManagement() {
         queryFn: fetchCompanyProfile,
     });
 
+    const { data: lhdnClassificationCodes = [] } = useQuery({
+        queryKey: ['lhdnClassificationCodes'],
+        queryFn: fetchLhdnClassificationCodes
+    });
+
+
 
     // ------------------------------------------------------------------------------------
 
@@ -139,13 +158,13 @@ function RefundManagement() {
         onMutate: () => {
             toast.loading('Creating Refund...', { id: "Create Refund" });
         },
-        onSuccess: (data) => {
+        onSuccess: async (data: CustomerRefundResponse) => {
             queryClient.invalidateQueries({ queryKey: ['refunds'] });
-            setSelectedRefundId(data.refund_number);
+            navigateToView('details', data.refund_number);
             toast.success('Refund Created', { id: "Create Refund" });
-            setView('details');
         },
         onError: (error: any) => {
+            console.log("Error here:", error);
             toast.error('Failed to create refund', { id: "Create Refund" });
             console.error(
                 'Error creating refund:',
@@ -171,7 +190,7 @@ function RefundManagement() {
                 queryKey: ['refund', selectedRefundId]
             });
             toast.success('Refund Updated', { id: "Update Refund" });
-            setView('details');
+            navigateToView('details', selectedRefundId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update refund', { id: "Update Refund" });
@@ -236,7 +255,7 @@ function RefundManagement() {
                     : undefined
         };
         
-        //console.log("🎯 RAW FORM DATA:", cleanedData)
+        console.log("🎯 RAW FORM DATA:", cleanedData)
 
         await createRefundMutation.mutateAsync(cleanedData);
     };
@@ -277,33 +296,29 @@ function RefundManagement() {
 
 
     const handleRefundClick = (refundId: number) => {
-        setSelectedRefundId(refundId);
-        setView('details')
+        navigateToView('details', refundId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditRefund = (refundId: number) => {
-        setSelectedRefundId(refundId);
-        setView('edit');
+        navigateToView('edit', refundId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToRefundsList = () => {
-        setView('list');
-        setSelectedRefundId(null);
+        navigateToView('list');
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToRefundDetails = (refundId: number) => {
-        setSelectedRefundId(refundId);
-        setView('details')
+        navigateToView('details', refundId);
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleEditRefundButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -439,10 +454,10 @@ function RefundManagement() {
                 <div className="max-w-7xl mx-auto px-4 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                            <span className={spinningStyles.terminalBar.spinner}>⠋</span>
+                            <span className="text-green-500 mr-2 animate-bounce text-4xl"><User /></span>
                             <div>
-                                <h1 className="text-lg font-semibold text-gray-900">Customers Suite</h1>
-                                <p className="text-sm text-gray-500">Refund Management</p>
+                                <h1 className="text-lg font-semibold text-gray-900 font-[Montserrat]!">Customers Suite</h1>
+                                <p className="text-sm text-gray-500 font-[Montserrat]!">Refund Management</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -474,8 +489,8 @@ function RefundManagement() {
                         </svg>
                         </div>
                         <div>
-                        <h1 className="text-4xl font-light text-gray-900 tracking-tight">Refunds</h1>
-                        <p className="text-gray-500 mt-2">Manage and track your refund transactions</p>
+                        <h1 className="text-4xl font-light text-left! text-gray-900 tracking-tight font-[Montserrat]!">Refunds</h1>
+                        <p className="text-gray-500 mt-2 font-[Montserrat]!">Manage and track your refund transactions</p>
                         </div>
                     </div>
                     </div>
@@ -506,9 +521,9 @@ function RefundManagement() {
                         <div className="w-px h-8 bg-gray-200"></div>
                         <div className="text-center">
                             <div className="text-2xl font-light text-gray-900">
-                                {new Set(refunds.map((c: any) => c.currency).filter(Boolean)).size}
+                                {new Set(refunds.map((c: any) => c.cancelled).filter(Boolean)).size}
                             </div>
-                        <div className="text-sm text-gray-500">Currencies</div>
+                        <div className="text-sm text-gray-500">Cancelled</div>
                         </div>
                     </div>
                     <div className="flex gap-4">
@@ -527,7 +542,7 @@ function RefundManagement() {
                         </div>
                         </div>
                         <button
-                        onClick={() => setView('form')}
+                        onClick={() => navigateToView('form')}
                         className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -574,7 +589,7 @@ function RefundManagement() {
                         <p className="text-gray-500">Add a new refund to your records</p>
                         </div>
                         <button 
-                            onClick={() => setView('list')}
+                            onClick={() => navigateToView('list')}
                             className="bg-white text-black cursor-pointer px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                         >
                             <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -592,6 +607,7 @@ function RefundManagement() {
                         accounts={accounts}
                         agents={agents}
                         creditNotes={creditNotes}
+                        lhdnClassificationCodes={lhdnClassificationCodes}
                     />
                     {createRefundMutation.isError && (
                         <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">
@@ -629,6 +645,7 @@ function RefundManagement() {
                     accounts={accounts}
                     agents={agents}
                     creditNotes={creditNotes}
+                    lhdnClassificationCodes={lhdnClassificationCodes}
                     onCreateJournalEntry={handleAddJournalEntry}
                     isCreatingJournalEntry={createJournalEntryMutation.isPending}
                 />

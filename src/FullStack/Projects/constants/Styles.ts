@@ -73,9 +73,9 @@ export const layout = {
 export const tables = {
   base: "w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner",
   header: "bg-blue-100 drop-shadow-md shadow-lg",
-  headerBOQ: "bg-blue-100 drop-shadow-md shadow-lg",
-  headerCell: "text-center text-xs font-semibold uppercase",
-  headerCellBOQ: 'text-center text-xs font-semibold uppercase',
+  headerBOQ: "bg-blue-100 drop-shadow-md shadow-lg font-[Montserrat]!",
+  headerCell: "text-center text-xs font-semibold uppercase font-[Montserrat]!",
+  headerCellBOQ: 'text-center text-xs font-semibold uppercase font-[Montserrat]!',
   body: "bg-white divide-y divide-gray-100",
   row: "bg-white divide-y divide-x divide-gray-100",
   cell: "px-4 py-4 text-sm text-gray-600",

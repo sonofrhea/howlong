@@ -75,7 +75,7 @@ function Dashboard() {
                                         <AppIcon appId={app.id} />
                                 </div>
 
-                                <h3 className="app-Name mb-2" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                <h3 className="app-Name mb-2 font-[Montserrat]!" style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     {app.name}
                                 </h3>
                                 <p className="text-gray-600 text-s mb-4" style={{ fontFamily: 'Montserrat, system-ui' }}>

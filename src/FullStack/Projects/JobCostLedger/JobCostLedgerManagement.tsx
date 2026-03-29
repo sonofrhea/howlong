@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchJobCostLedgers, fetchJobCostLedgerById, createJobCostLedger, 
@@ -54,14 +54,28 @@ interface SortConfig {
 
 function JobCostLedgerManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get("view") || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedJobCostLedgerId, setSelectedJobCostLedgerId] = useState<number | null>(null);
+    const selectedJobCostLedgerId = searchParams.get('job_cost_number') ? Number(searchParams.get('job_cost_number')) : null;
     const [selectedBoqId, setSelectedBoqId] = useState<number | null>(null);
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
+    // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, job_cost_number?: number) => {
+        const params = new URLSearchParams(searchParams)
+        params.set('view', newView);
+        if (job_cost_number) {
+            params.set('job_cost_number', job_cost_number.toString());
+        } else if (newView === 'list') {
+            params.delete('job_cost_number');
+        }
+        setSearchParams(params);
+    }
+
     // ------------------------------------------------------------------------------------
             // DEPENDENCIES
 
@@ -132,9 +146,8 @@ function JobCostLedgerManagement() {
         },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['jobCostLedgers'] });
-            setSelectedJobCostLedgerId(data.job_cost_number);
+            navigateToView('details', data.job_cost_number);
             toast.success('Job Cost Ledger Created', { id: "Create Job Cost Ledger" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create job cost ledger', { id: "Create Job Cost Ledger" });
@@ -162,7 +175,7 @@ function JobCostLedgerManagement() {
                 queryKey: ['jobCostLedger', selectedJobCostLedgerId]
             });
             toast.success('Job Cost Ledger Updated', { id: "Update Job Cost Ledger" });
-            setView('details');
+            navigateToView('details', selectedJobCostLedgerId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update job cost ledger', { id: "Update Job Cost Ledger" });
@@ -265,35 +278,31 @@ function JobCostLedgerManagement() {
 
 
     const handleJobCostLedgerClick = (jobCostLedgerId: number) => {
-        setSelectedJobCostLedgerId(jobCostLedgerId);
-        setView('details')
+        navigateToView('details', jobCostLedgerId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditJobCostLedger = (jobCostLedgerId: number) => {
-        setSelectedJobCostLedgerId(jobCostLedgerId);
-        setView('edit');
+        navigateToView('edit', jobCostLedgerId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToJobCostLedgersList = () => {
-        setView('list');
-        setSelectedJobCostLedgerId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleBackToJobCostLedgerDetails = (jobCostLedgerId: number) => {
-        setSelectedJobCostLedgerId(jobCostLedgerId);
-        setView('details')
+        navigateToView('details', jobCostLedgerId);
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleEditJobCostLedgerButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -498,7 +507,7 @@ function JobCostLedgerManagement() {
                             </div>
                             </div>
                             <button
-                                onClick={() => setView('form')}
+                                onClick={() => navigateToView('form')}
                                 className="bg-white cursor-pointer border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                             >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -545,7 +554,7 @@ function JobCostLedgerManagement() {
                         <p className="text-gray-500">Add a new Job Cost Ledger to your records</p>
                         </div>
                         <button 
-                            onClick={() => setView('list')}
+                            onClick={() => navigateToView('list')}
                             className="bg-white text-black cursor-pointer px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                         >
                             <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

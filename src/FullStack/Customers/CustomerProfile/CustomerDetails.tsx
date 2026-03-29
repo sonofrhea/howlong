@@ -82,12 +82,12 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
                         </svg>
                     </button>
                     <div>
-                        <h2 className="text-xl font-semibold text-black">{customer?.customer_name || "Name N/A"}</h2>
-                        <p className="text-gray-600">{customer?.company_name || "N/A"}</p>
+                        <h2 className="text-xl font-semibold text-black font-[Montserrat]!">{customer?.customer_name || "Name N/A"}</h2>
+                        <p className="text-gray-600 font-[Montserrat]!">{customer?.company_name || "N/A"}</p>
                     </div>
 
                     <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <h2 className="text-sm text-gray-500">Customer provided details</h2>
+                        <h2 className="text-sm text-gray-500 font-[Montserrat]!">Customer provided details</h2>
                     </div>
                 </div>
                 <div className="flex gap-3">
@@ -121,23 +121,25 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
                     </div>
 
                     <div className="bg-orange-50 text-center border border-orange-300 hover:border-orange-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
-                        <h4 className="text-sm text-orange-900 font-medium">ID Type</h4>
+                        <h4 className="text-sm text-orange-900 font-medium! font-[Montserrat]!">
+                            ID Type
+                        </h4>
 
-                        <div className="text-lg font-bold text-black">
+                        <div className="text-lg font-semibold! text-black">
                             {customer?.id_type || 'N/A'}
                         </div>
                     </div>
 
                     <div className="bg-orange-50 text-center border border-orange-300 hover:border-orange-600 hover:shadow-2xl hover:cursor-pointer rounded-lg p-6">
-                        <h4 className="text-sm text-orange-900 font-medium">ID Number</h4>
+                        <h4 className="text-sm text-orange-900 font-medium font-[Montserrat]!">ID Number</h4>
 
-                        <div className="text-lg font-bold text-black">
+                        <div className="text-lg font-semibold text-black">
                             {customer?.id_number || 'N/A'}
                         </div>
                     </div>
 
                     <div className="bg-purple-50 text-center border border-purple-300 hover:border-purple-600 rounded-lg hover:cursor-pointer hover:shadow-2xl p-6">
-                        <h4 className="text-sm text-purple-800 font-medium">Date created</h4>
+                        <h4 className="text-sm text-purple-800 font-medium font-[Montserrat]!">Date created</h4>
                         
                         <div className="text-lg font-semibold text-black">
                             {formatDate(customer?.date_created) || "N/A"}
@@ -145,7 +147,7 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
                     </div>
 
                     <div className="bg-blue-50 text-center border border-blue-300 hover:border-blue-600 hover:cursor-pointer hover:shadow-2xl rounded-lg p-6">
-                        <h4 className="text-sm text-blue-600 font-medium">Created By</h4>
+                        <h4 className="text-sm text-blue-600 font-medium font-[Montserrat]!">Created By</h4>
                         
                         <div className="text-lg font-semibold text-black">
                             {customer?.created_by || "N/A"}
@@ -155,7 +157,7 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
 
                 {/* Contact Information */}
                 <div className="bg-green-50 rounded-lg p-6 border border-green-300 hover:border-green-600 hover:cursor-pointer hover:shadow-2xl">
-                    <h3 className="text-lg font-semibold text-black mb-4">Contact Information</h3>
+                    <h3 className="text-lg font-semibold text-black mb-4 font-[Montserrat]!">Contact Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <h4 className="text-sm text-gray-500">Email</h4>
@@ -187,7 +189,7 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
                 {/* Address Information */}
                 <div className="bg-blue-50 rounded-lg p-6 border border-blue-300 hover:border-blue-600 hover:cursor-pointer hover:shadow-2xl">
 
-                    <h3 className="text-lg font-semibold text-black mb-4">Address Information</h3>
+                    <h3 className="text-lg font-semibold text-black mb-4 font-[Montserrat]!">Address Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="md:col-span-2">
                             
@@ -226,7 +228,7 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
                     {/* CURRENCY INFO */}
                 <div className="bg-red-50 rounded-lg p-6 border border-red-300 hover:border-red-600 hover:cursor-pointer hover:shadow-2xl">
 
-                    <h3 className="text-lg font-semibold text-black mb-4">Preferred Currency</h3>
+                    <h3 className="text-lg font-semibold text-black mb-4 font-[Montserrat]!">Preferred Currency</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <div>
@@ -258,7 +260,9 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
                 </div>
 
                 <div className="bg-violet-50 rounded-lg p-6 border border-violet-300 hover:border-violet-600 hover:cursor-pointer hover:shadow-2xl">
-                    <h3 className="text-lg font-semibold text-black mb-4">Bank Information</h3>
+                    <h3 className="text-lg font-semibold text-black mb-4" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                        Bank Information
+                    </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <h4 className="text-sm text-gray-500">Bank Name</h4>
@@ -306,7 +310,9 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
 
                 {/* Tax Information */}
                 <div className="bg-orange-50 rounded-lg p-6 border border-orange-300 hover:border-orange-800 hover:cursor-pointer hover:shadow-2xl">
-                    <h3 className="text-lg font-semibold text-black mb-4">Tax Information</h3>
+                    <h3 className="text-lg font-semibold text-black mb-4" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                        Tax Information
+                    </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <h4 className="text-sm text-gray-500">GST Number</h4>
@@ -351,82 +357,85 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
                         </div>
                     </div>
                 </div>
-            </div>
 
 
-            {/* e-Invoice / TIN Validation */}
-            <div className="bg-blue-50 rounded-lg p-6 border border-blue-300 hover:border-blue-600 hover:cursor-pointer hover:shadow-2xl">
-                <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-black">e-Invoice / LHDN</h3>
-                    <button
-                        onClick={() => onValidateTIN(customerId)}
-                        disabled={isValidatingTIN}
-                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-blue-200 bg-white text-blue-700 text-sm font-medium hover:bg-blue-100 hover:border-blue-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                    >
-                        {isValidatingTIN ? (
-                            <>
-                                <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                                </svg>
-                                Validating...
-                            </>
-                        ) : (
-                            <>
-                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                                Validate TIN
-                            </>
-                        )}
-                    </button>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                        <h4 className="text-sm text-gray-500">TIN Validated</h4>
-                        <div className="mt-1">
-                            {customer.tin_validated ? (
-                                <span className="inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase rounded-full px-2.5 py-0.5 bg-emerald-100 text-emerald-700">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-current" />
-                                    Validated
-                                </span>
+
+
+                {/* e-Invoice / TIN Validation */}
+                <div className="bg-blue-50 rounded-lg p-6 border border-blue-300 hover:border-blue-600 hover:cursor-pointer hover:shadow-2xl">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-semibold font-[Montserrat]! text-black mb-4">e-Invoice / LHDN</h3>
+                        <button
+                            onClick={() => onValidateTIN(customerId)}
+                            disabled={isValidatingTIN}
+                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-blue-200 bg-white text-blue-700 text-sm font-medium hover:bg-blue-100 hover:border-blue-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer font-[Montserrat]!"
+                        >
+                            {isValidatingTIN ? (
+                                <>
+                                    <svg className="w-3.5 h-3.5 animate-spin font-[Montserrat]!" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                    </svg>
+                                    Validating...
+                                </>
                             ) : (
-                                <span className="inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase rounded-full px-2.5 py-0.5 bg-red-100 text-red-600">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-current" />
-                                    Not Validated
-                                </span>
+                                <>
+                                    <svg className="w-3.5 h-3.5 font-[Montserrat]!" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                    Validate TIN
+                                </>
                             )}
-                        </div>
+                        </button>
                     </div>
-
-                    <div>
-                        <h4 className="text-sm text-gray-500">Last Validated</h4>
-                        <div className="text-black">
-                            {customer.tin_validated_at
-                                ? new Date(customer.tin_validated_at).toLocaleString('en-MY')
-                                : 'Never'
-                            }
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <h4 className="text-sm text-gray-500 font-[Montserrat]!">TIN Validated</h4>
+                            <div className="mt-1">
+                                {customer.tin_validated ? (
+                                    <span className="inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase rounded-full px-2.5 py-0.5 bg-emerald-100 text-emerald-700">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-current font-[Montserrat]!" />
+                                        Validated
+                                    </span>
+                                ) : (
+                                    <span className="inline-flex items-center gap-1 text-xs font-bold tracking-wide uppercase rounded-full px-2.5 py-0.5 bg-red-100 text-red-600">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-current font-[Montserrat]!" />
+                                        Not Validated
+                                    </span>
+                                )}
+                            </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <h4 className="text-sm text-gray-500">Buyer Type</h4>
-                        <div className="text-black">
-                            {customer.buyer_type || 'N/A'}
+                        <div>
+                            <h4 className="text-sm text-gray-500 font-[Montserrat]!">Last Validated</h4>
+                            <div className="text-black font-[Montserrat]!">
+                                {customer.tin_validated_at
+                                    ? new Date(customer.tin_validated_at).toLocaleString('en-MY')
+                                    : 'Never'
+                                }
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 className="text-sm text-gray-500 font-[Montserrat]!">Buyer Type</h4>
+                            <div className="text-black">
+                                {customer.buyer_type || 'N/A'}
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
                         
             <hr className="my-6 border-gray-200" />
 
             <div className="grid lg:grid-cols-5">
-                <p className={labelStyles}>
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <a className={details.extraSmallUppercase}>Date Updated</a><br />
                     {formatUpdateDate(customer?.date_updated) || "N/A"}
                 </p>
                         
-                <p className={labelStyles}>
+                <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                     <a className={details.extraSmallUppercase}>Updated By</a><br />
                     {customer?.updated_by || "N/A"}
                 </p>

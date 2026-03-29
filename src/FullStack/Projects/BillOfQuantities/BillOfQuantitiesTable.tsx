@@ -50,7 +50,7 @@ const BillOfQuantitiesTable: React.FC<BillOfQuantitiesTableProps> = ({
 
         return (
             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"  title={label} onClick={() => onSort(sortKey)}>
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-1 font-[Montserrat]!">
                     {label}
                     {isSorted && (
                         <span className="text-gray-400">
@@ -139,7 +139,7 @@ const BillOfQuantitiesTable: React.FC<BillOfQuantitiesTableProps> = ({
                             <SortableHeader label="Status" sortKey="status" />
                             <SortableHeader label="BOQ Description" sortKey="boq_description" />
                             <SortableHeader label="Gross estimation" sortKey="gross_estimation" />
-                            <SortableHeader label="Contingency Rate%" sortKey="contingency_rate" />
+                            <SortableHeader label="Contingency%" sortKey="contingency_percentage" />
                             <SortableHeader label="Net Estimation" sortKey="net_estimation" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                                 Actions
@@ -212,7 +212,7 @@ const BillOfQuantitiesTable: React.FC<BillOfQuantitiesTableProps> = ({
                                     {/* Contingency rate */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {billOfQuantity.contingency_rate}%
+                                            {billOfQuantity.contingency_percentage}%
                                         </div>
                                     </td>
 

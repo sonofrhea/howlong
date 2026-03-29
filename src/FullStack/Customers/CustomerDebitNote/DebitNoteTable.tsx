@@ -47,8 +47,9 @@ const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-200 transition-colors"  
             title={label} 
             onClick={() => onSort(sortKey)}
+            style={{ fontFamily: 'Montserrat, system-ui' }}
             >
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-1 font-[Montserrat]!">
                     {label}
                     {isSorted && (
                         <span className="text-black">
@@ -93,7 +94,9 @@ const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
             {/* Table Header with Items Per Page */}
             <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-gray-800">Debit note List</h3>
+                    <h3 className="text-lg font-semibold! text-gray-800" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                        Debit note List
+                    </h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-medium text-gray-600">Show</span>
@@ -130,7 +133,7 @@ const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
                             <SortableHeader label="DBN #" sortKey="debit_note_number" />
                             <SortableHeader label="Date" sortKey="date" />
                             <SortableHeader label="Related Customer" sortKey="customer" />
-                            <SortableHeader label="Totals" sortKey="aggregate_total" />
+                            <SortableHeader label="Totals" sortKey="net_total" />
                             <SortableHeader label="Outstanding" sortKey="debit_note_outstanding" />
                             <SortableHeader label="Agent" sortKey="agent" />
                             <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
@@ -169,7 +172,7 @@ const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
                                     {/* Totals */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-gray-900 truncate">
-                                            {formatCurrency(debitNote.aggregate_total) || '--'}
+                                            {formatCurrency(debitNote.net_total) || '--'}
                                         </div>
                                     </td>
 

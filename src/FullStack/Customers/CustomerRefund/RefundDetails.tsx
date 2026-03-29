@@ -101,12 +101,12 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
 
                         <div className="text-center space-y-6 px-6 py-3 gap-4">
                             <div className={layout.redBadge}>
-                                <p className={text.badgeLarge}>
+                                <p className={text.badgeLarge} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     CUSTOMER REFUND DETAILS
                                 </p>
-                                <p className={labelStyles}>
+                                <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     {formatRefundNumber()}{refund.refund_number}
-                                </p>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -130,10 +130,10 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
                 </div>
 
                 {/* e-Invoice Section — RefundDetails */}
-                <div className="mb-6">
+                <div className="mb-6 px-10!">
                     <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
-                            <a className={details.extraSmallUppercase}>e-Invoice Status</a>
+                            <a className={details.extraSmallUppercase} style={{ fontFamily: 'Montserrat, system-ui' }}>e-Invoice Status</a>
                             <EInvoiceStatusBadge status={refund.einvoice_status || 'Not Submitted'} />
                         </div>
                         <EInvoiceSubmitButton
@@ -150,15 +150,15 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
 
                     {refund.lhdn_uuid && (
                         <div className="grid grid-cols-3 gap-6 mt-4">
-                            <p className={labelStyles}>
+                            <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 <a className={details.extraSmallUppercase}>LHDN UUID</a><br />
                                 <span className="font-mono text-xs break-all">{refund.lhdn_uuid}</span>
                             </p>
-                            <p className={labelStyles}>
+                            <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 <a className={details.extraSmallUppercase}>Submission UID</a><br />
                                 <span className="font-mono text-xs break-all">{refund.lhdn_submission_uid || 'N/A'}</span>
                             </p>
-                            <p className={labelStyles}>
+                            <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 <a className={details.extraSmallUppercase}>Submitted At</a><br />
                                 {refund.einvoice_submitted_at
                                     ? new Date(refund.einvoice_submitted_at).toLocaleString('en-MY')
@@ -196,45 +196,55 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
 
                 <div>
                     <div className="grid grid-cols-3 gap-6">
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Refund No.</a><br />
                             {formatRefundNumber()}{refund.refund_number}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Date</a><br />
                             {formatDate(refund.date)}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Account</a><br />
                             {refund.payment_account?.account_code || 'N/A'} ({refund.payment_account?.account_name || 'N/A'})
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Pay To...</a><br />
                             {formatCustomerNumber()}{refund.pay_to} | {refund.pay_to_name || 'N/A'}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Credit Note</a><br />
                             {formatCreditNoteNumber()}{refund.related_credit_note || 'N/A'} | Outstanding: 
                             {refund.related_credit_note_outstanding || 'N/A'}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Expected Refund</a><br />
                             {refund.expected_refund}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Currency</a><br />
                             {refund.currency || 'N/A'}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Agent</a><br />
                             {refund.agent || 'N/A'}
+                        </p>
+
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>E-invois supply type</a><br />
+                            {refund.einvoice_supply_type || 'N/A'}
+                        </p>
+
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>E-invois payment mode</a><br />
+                            {refund.einvoice_payment_mode || 'N/A'}
                         </p>
                     </div>
 
@@ -247,22 +257,70 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
                                 <table className={forms.body}>
                                     <thead className={tables.header}>
                                         <tr>
-                                            <th className={tables.headerCell}>Date</th>
-                                            <th className={tables.headerCell}>Amount Issued</th>
-                                            <th className={tables.headerCell}>Extra Charges</th>
-                                            <th className={tables.headerCell}>Payment Type</th>
-                                            <th className={tables.headerCell}>Total Amount</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                Date
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                Amount
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                Taxable
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                SST %
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                SST Amount
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                Cancelled
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                Payment Type
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice classification code
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice tax type
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice tax exemption reason
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                Total Amount
+                                            </th>
                                         </tr>
                                     </thead>
 
                                     <tbody className={tables.body}>
-                                        {refund.related_customer_refund.map((line: any, index: any) => (
-                                            <tr key={index} className={tables.row}>
+                                        {refund.related_customer_refund.map((line, index) => (
+                                            <tr key={index} className={`${tables.row} hover:cursor-pointer`}>
                                                 <td className={tables.cell}>{formatDate(line.date)}</td>
                                                 <td className={tables.cell}>{line.refund_amount}</td>
-                                                <td className={tables.cell}>{line.additional_charges}</td>
-                                                <td className={tables.cell}>{line.payment_type}</td>
-                                                <td className={tables.cell}>{line.total_amount}</td>
+                                                <td className={`flex items-center justify-center px-2! py-0.5! gap-x-px-3! rounded text-sm ${
+                                                        line.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                    }`}>
+                                                    {line.taxable ? 'Yes' : 'No'}
+                                                </td>
+                                                <td className={tables.cell}>{line.sst_percent}%</td>
+                                                <td className={tables.cell}>{line.sst_amount}</td>
+                                                <td className={`flex items-center justify-center px-3! py-0! rounded text-sm ${
+                                                    line.cancelled
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>
+                                                    {line.cancelled ? 'Yes' : 'No'}
+                                                </td>
+                                                <td className={tables.cell}>
+                                                    {line.payment_type}
+                                                </td>
+                                                <td className={tables.cell}>{line.einvoice_classification_code || '--'}</td>
+                                                <td className={tables.cell}>{line.einvoice_tax_type || '--'}</td>
+                                                <td className={tables.cell}>{line.einvoice_tax_exemption_reason || '--'}</td>
+                                                <td className={tables.cell}>{line.total_amount || '--'}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -281,15 +339,22 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
 
                                         <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
-                                            <div className="font-medium text-gray-800">{refund.tax_amount}%</div>
+                                            <div className="font-medium text-gray-800">{refund.tax_percent}%</div>
+                                        </div>
+
+                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                            <div>Tax Amount</div>
+                                            <div className="font-medium text-gray-800">{refund.tax_amount}</div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Net Total Refunded:</div>
+                                            <div>Net Total:</div>
                                             <div className="font-medium text-black">
-                                                {refund.net_refunded}
+                                                {refund.net_total}
                                             </div>
                                         </div>
+
+                                        <hr className="my-6 border-gray-200" />
                                         
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Outstanding:</div>
@@ -308,17 +373,17 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
                 <hr className="my-6 border-gray-200" />
                                 
                 <div className="grid lg:grid-cols-5">
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Created By</a><br />
                         {refund.created_by || 'N/A'}
                     </p>
 
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Updated By</a><br />
                         {refund.updated_by || 'N/A'}
                     </p>
 
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Date Updated</a><br />
                         {formatUpdatedDate(refund.date_updated) || 'N/A'}
                     </p>

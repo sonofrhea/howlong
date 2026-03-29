@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchCustomerPayments, fetchCustomerPaymentById,
@@ -66,15 +66,29 @@ interface SortConfig {
 
 function CustomerPaymentManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedCustomerPaymentId, setSelectedCustomerPaymentId] = useState<number | null>(null);
+    const selectedCustomerPaymentId = searchParams.get('payment_number') ? Number(searchParams.get('payment_number')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, payment_number?: number) => {
+        const params = new URLSearchParams(searchParams)
+        params.set('view', newView);
+        if (payment_number) {
+            params.set('payment_number', payment_number.toString());
+        } else if (newView === 'list') {
+            params.delete('payment_number');
+        }
+        setSearchParams(params);
+    }
+
     // ------------------------------------------------------------------------------------
 
 
@@ -149,9 +163,8 @@ function CustomerPaymentManagement() {
         onSuccess: (data: CustomerPaymentResponse) => {
             const newCustomerPayment = data.payment_number;
             queryClient.invalidateQueries({ queryKey: ['customerPayments']});
-            setSelectedCustomerPaymentId(newCustomerPayment);
+            navigateToView('details', newCustomerPayment);
             toast.success('Payment created successfully!', { id: "Create Payment" });
-            setView('details');
     },
     onError: (error: any) => {
         toast.error('Failed to create Payment', { id: "Create Payment" });
@@ -174,7 +187,7 @@ function CustomerPaymentManagement() {
         queryClient.invalidateQueries({ queryKey: ['customerPayments'] });
         queryClient.invalidateQueries({ queryKey: ['customerPayment', selectedCustomerPaymentId]});
         toast.success('Payment updated successfully!', { id: "Update Payment" });
-        setView('details');
+        navigateToView('details', selectedCustomerPaymentId!);
     },
     onError: (error: any) => {
         toast.error('Failed to update Payment', { id: "Update Payment" });
@@ -269,36 +282,32 @@ function CustomerPaymentManagement() {
 
 
     const handleCustomerPaymentClick = (customerPaymentId: number) => {
-        setSelectedCustomerPaymentId(customerPaymentId);
-        setView('details')
+        navigateToView('details', customerPaymentId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditCustomerPayment = (customerPaymentId: number) => {
-        setSelectedCustomerPaymentId(customerPaymentId);
-        setView('edit');
+        navigateToView('edit', customerPaymentId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToCustomerPaymentsList = () => {
-        setView('list');
-        setSelectedCustomerPaymentId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleBackToCustomerPaymentDetails = (customerPaymentId: number) => {
-        setSelectedCustomerPaymentId(customerPaymentId);
-        setView('details')
+        navigateToView('details', customerPaymentId);
     };
 
 
     // ------------------------------------------------------------------------------------
 
     const handleEditCustomerPaymentButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -529,7 +538,7 @@ function CustomerPaymentManagement() {
                         </div>
                     </div>
                     <button
-                    onClick={() => setView('form')}
+                    onClick={() => navigateToView('form')}
                     className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex cursor-pointer items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                     >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -576,7 +585,7 @@ function CustomerPaymentManagement() {
                     <p className="text-gray-500">Add a new customer payment to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-black-600 cursor-pointer text-blue px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

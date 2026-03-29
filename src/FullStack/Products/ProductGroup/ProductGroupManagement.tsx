@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { 
@@ -37,15 +37,30 @@ interface SortConfig {
 
 function ProductGroupManagement() {
   const queryClient = useQueryClient();
-  const [view, setView] = useState('list');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const view = searchParams.get('view') || 'list';
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedProductGroupId, setSelectedProductGroupId] = useState<number | null>(null);
+  const selectedProductGroupId = searchParams.get('group_code') ? Number(searchParams.get('group_code')) : null;
 // ------------------------------------------------------------------------------------
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
 // --------------------------------------------------------------------------------
+
+  const navigateToView = (newView: string, group_code?: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('view', newView);
+    if (group_code) {
+      params.set('group_code', group_code.toString());
+    } else if (newView === 'list') {
+      params.delete('group_code');
+    }
+    setSearchParams(params);
+  }
+
+// --------------------------------------------------------------------------------
+
               // DEPENDENCIES
 
   const { data: accounts = [] } = useQuery({
@@ -95,9 +110,8 @@ function ProductGroupManagement() {
       onSuccess: (data: ProductGroupCreateResponse) => {
           const newProductGroupId = data.group_code;
           queryClient.invalidateQueries({ queryKey: ['productGroups'] });
-          setSelectedProductGroupId(newProductGroupId);
+          navigateToView('details', newProductGroupId);
           toast.success('Product Group Created', { id: "Create Product Group" });
-          setView('details');
       },
       onError: (error: any) => {
           toast.error('Failed to create product group', { id: "Create Product Group" });
@@ -125,7 +139,7 @@ function ProductGroupManagement() {
               queryKey: ['productGroup', selectedProductGroupId]
           });
           toast.success('Product Group Updated', { id: "Update Product Group" });
-          setView('details');
+          navigateToView('details', selectedProductGroupId!);
       },
       onError: (error: any) => {
           toast.error('Failed to update product group', { id: "Update Product Group" });
@@ -219,31 +233,27 @@ function ProductGroupManagement() {
 
 // ------------------------------------------------------------------------------------
   const handleProductGroupClick = (productGroupId: number) => {
-    setSelectedProductGroupId(productGroupId);
-    setView('details');
+    navigateToView('details', productGroupId);
   };
 
 // ------------------------------------------------------------------------------------
   const handleEditProductGroup = (productGroupId: number) => {
-    setSelectedProductGroupId(productGroupId);
-    setView('edit');
+    navigateToView('edit', productGroupId);
   };
 
 // ------------------------------------------------------------------------------------
   const handleBackToProductGroupsList = () => {
-    setView('list');
-    setSelectedProductGroupId(null);
+    navigateToView('list');
   };
 
 // ------------------------------------------------------------------------------------
   const handleBackToProductGroupDetails = (productGroupId: number) => {
-    setSelectedProductGroupId(productGroupId);
-    setView('details');
+    navigateToView('details', productGroupId);
   };
 
 // ------------------------------------------------------------------------------------
   const handleEditProductGroupButton = () => {
-    setView('edit');
+    navigateToView('edit');
   };
 
 // ------------------------------------------------------------------------------------
@@ -432,7 +442,7 @@ return (
                     </div>
                   </div>
                   <button
-                    onClick={() => setView('form')}
+                    onClick={() => navigateToView('form')}
                     className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -479,7 +489,7 @@ return (
                     <p className="text-gray-500">Add a new product group to your records</p>
                   </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -65,6 +65,8 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
 }) => {
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 
+
+
     if (isLoading) {
         return (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
@@ -96,7 +98,7 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
 
 
     return (
-        <div className="w-full mx-auto page bg-white shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden">
+        <div className="w-full mx-auto page  shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden">
 
             <style>
                 {`
@@ -104,18 +106,18 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                 `}
             </style>
 
-            <div className={forms.body}>
+            <div className={`${forms.body} bg-[#F8F9FA]!`} style={{ fontFamily: 'Montserrat, system-ui'}}>
                 <div className={layout.header}>
                     <div className={layout.tag}>
 
-                        <div className="text-center space-y-6 px-6 py-3 gap-4">
-                            <div className={layout.badge}>
-                                <p className={text.badgeLarge}>
+                        <div className="text-center space-y-6 px-6 py-3 gap-4" >
+                            <div className={layout.badge} >
+                                <p className={text.badgeLarge} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     DEBIT NOTE DETAILS
                                 </p>
-                                <p className={labelStyles}>
+                                <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     {formatDebitNoteNumber()}{debitNote.debit_note_number}
-                                </p>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -139,7 +141,7 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                 </div>
 
                 {/* e-Invoice Section — DebitNoteDetails */}
-                <div className="mb-6">
+                <div className="mb-6 px-10!">
                     <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
                             <a className={details.extraSmallUppercase}>e-Invoice Status</a>
@@ -203,51 +205,61 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
 
                 <hr className="my-6 border-gray-200" />
 
-                <div>
+                <div >
                     <div className="grid grid-cols-3 gap-6">
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Debit Note No.</a><br />
                             {formatDebitNoteNumber()}{debitNote.debit_note_number}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Date</a><br />
                             {debitNote.date}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Account</a><br />
                             {debitNote.account?.account_code || 'N/A'} ({debitNote.account?.account_name || 'N/A'})
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Bill To...</a><br />
                             {formatCustomerNumber()}{debitNote.customer} | {debitNote.customer_name || 'N/A'}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Payment</a><br />
                             POST-{debitNote.related_payment} | {debitNote.related_payment_amount}
                         </p>
 
-                        <p className={labelStyles}>
-                            <a className={details.extraSmallUppercase}>Previously Paid Amount</a><br />
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>Initial Paid Amount</a><br />
                             {debitNote.initial_paid_amount}
                         </p>
 
-                        <p className={labelStyles}>
-                            <a className={details.extraSmallUppercase}>Extra Amount Owed</a><br />
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>Amount Owed</a><br />
                             {debitNote.amount_owed}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Currency</a><br />
                             {debitNote.currency || 'N/A'}
                         </p>
 
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Agent</a><br />
                             {debitNote.agent || 'N/A'}
+                        </p>
+
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>E-invois supply type</a><br />
+                            {debitNote.einvoice_supply_type || 'N/A'}
+                        </p>
+
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>E-invois payment mode</a><br />
+                            {debitNote.einvoice_payment_mode || 'N/A'}
                         </p>
                     </div>
 
@@ -255,29 +267,78 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
 
                     {debitNote.debit_note_details && debitNote.debit_note_details.length > 0 && (
 
-                        <div className="p-6">
+                        <div className="p-6" >
                             <div className="overflow-x-auto">
                                 <table className={`cursor-pointer ${forms.body}`}>
-                                    <thead className={tables.header}>
-                                        <tr>
-                                            <th className={tables.headerCell}>Date</th>
-                                            <th className={tables.headerCell}>Description</th>
-                                            <th className={tables.headerCell}>Amount</th>
-                                            <th className={tables.headerCell}>SST Inclusive?</th>
-                                            <th className={tables.headerCell}>SST %</th>
-                                            <th className={tables.headerCell}>Current Total<br></br>(After SST)</th>
+                                    <thead className={tables.header} >
+                                        <tr >
+                                            <th className={tables.headerCell}>
+                                                Date
+                                            </th>
+                                            <th className={tables.headerCell}>
+                                                Description
+                                            </th>
+                                            <th className={tables.headerCell}>
+                                                Amount
+                                            </th>
+                                            <th className={tables.headerCell}>
+                                                Taxable
+                                            </th>
+                                            <th className={tables.headerCell}>
+                                                SST direction
+                                            </th>
+                                            <th className={tables.headerCell}>
+                                                SST %
+                                            </th>
+                                            <th className={tables.headerCell}>
+                                                SST Amount
+                                            </th>
+                                            <th className={tables.headerCell}>
+                                                Current Total<br></br>(After SST)
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice classification code
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice tax type
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice tax exemption reason
+                                            </th>
                                         </tr>
                                     </thead>
 
                                     <tbody className={tables.body}>
-                                        {debitNote.debit_note_details.map((line: any, index: any) => (
+                                        {debitNote.debit_note_details.map((line, index) => (
                                             <tr key={index} className={tables.row}>
                                                 <td className={tables.cell}>{line.date}</td>
                                                 <td className={tables.cell}>{line.description}</td>
                                                 <td className={tables.cell}>{line.amount}</td>
-                                                <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>{line.tax_amount}%</td>
+                                                <td className={tables.cell}>
+                                                    <div className={`flex items-center justify-center px-2! py-1! rounded text-sm ${
+                                                        line.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                    }`}>
+                                                        {line.taxable ? 'Yes' : 'No'}
+                                                    </div>
+                                                    </td>
+
+                                                    <td className={tables.cell}>
+                                                    <div className={`flex items-center justify-center px-2 py-1 rounded text-sm ${
+                                                        line.sst_direction === 'Add'
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-amber-100 text-blue-800 border border-amber-200'
+                                                    }`}>
+                                                        {line.sst_direction}
+                                                    </div>
+                                                </td>
+                                                <td className={tables.cell}>{line.sst_percent}%</td>
+                                                <td className={tables.cell}>{line.sst_amount}</td>
                                                 <td className={tables.cell}>{line.current_total}</td>
+                                                <td className={tables.cell}>{line.einvoice_classification_code || '--'}</td>
+                                                <td className={tables.cell}>{line.einvoice_tax_type || '--'}</td>
+                                                <td className={tables.cell}>{line.einvoice_tax_exemption_reason || '--'}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -295,8 +356,24 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Taxable</div>
+                                            <div className={`font-medium text-black flex items-center justify-center px-5! py-0! rounded text-sm ${
+                                                        debitNote.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                    }`}>
+                                                {debitNote.taxable ? 'Yes' : 'No'}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
-                                            <div className="font-medium text-black">({formatCurrency(debitNote.tax_amount)})%</div>
+                                            <div className="font-medium text-black">{debitNote.tax_percent}%</div>
+                                        </div>
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Tax Amount</div>
+                                            <div className="font-medium text-black">{formatCurrency(debitNote.tax_amount)}</div>
                                         </div>
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
@@ -309,7 +386,7 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Total customer payment:</div>
                                             <div className="font-medium text-black">
-                                                {formatCurrency(debitNote.aggregate_total)}
+                                                {formatCurrency(debitNote.net_total)}
                                             </div>
                                         </div>
 
@@ -318,7 +395,14 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Outstanding Owed:</div>
                                             <div className="font-medium text-black">
-                                                {debitNote.debit_note_outstanding}
+                                                {formatCurrency(debitNote.debit_note_outstanding)}
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Total incl. Initial:</div>
+                                            <div className="font-medium text-black">
+                                                {debitNote.total_plus_initial}
                                             </div>
                                         </div>
                                         
@@ -332,17 +416,17 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                 <hr className="my-6 border-gray-200" />
                 
                 <div className="grid lg:grid-cols-5">
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Created By</a><br />
                         {debitNote.created_by || 'N/A'}
                     </p>
 
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Updated By</a><br />
                         {debitNote.updated_by || 'N/A'}
                     </p>
 
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Date Updated</a><br />
                         {formatUpdatedDate(debitNote.date_updated) || 'N/A'}
                     </p>

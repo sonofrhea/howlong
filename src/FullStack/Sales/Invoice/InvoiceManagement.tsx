@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { fetchCompanyProfile } from "../../Core/Engines";
 
 
 import { fetchInvoices, fetchInvoiceById, createInvoice,
     updateInvoice, deleteInvoice, 
-    fetchQuotations} from "../Engines";
+    fetchQuotations,
+    fetchLhdnClassificationCodes} from "../Engines";
 
 import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
@@ -63,13 +64,27 @@ interface SortConfig {
 
 function InvoiceManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedInvoiceId, setSelectedInvoiceId] = useState<number | null>(null);
+    const selectedInvoiceId = searchParams.get('invoice_number') ? Number(searchParams.get('invoice_number')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
+    // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, invoice_number?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView);
+        if (invoice_number) {
+            params.set('invoice_number', invoice_number.toString());
+        } else if (newView === 'list') {
+            params.delete('invoice_number');
+        }
+        setSearchParams(params);
+    }
+
     // ------------------------------------------------------------------------------------
                 // DEPENDENCIES
     const { data: customers = [] } = useQuery({
@@ -106,6 +121,11 @@ function InvoiceManagement() {
         queryKey: ['company'],
         queryFn: fetchCompanyProfile
     })
+      
+    const { data: lhdnClassificationCodes = [] } = useQuery({
+        queryKey: ['lhdnClassificationCodes'],
+        queryFn: fetchLhdnClassificationCodes
+    });
 
 
     // ------------------------------------------------------------------------------------
@@ -144,9 +164,8 @@ function InvoiceManagement() {
         onSuccess: (data: InvoiceCreateResponse) => {
             const newInvoiceId = data.invoice_number
             queryClient.invalidateQueries({ queryKey: ['invoices']});
-            setSelectedInvoiceId(newInvoiceId);
+            navigateToView('details', newInvoiceId);
             toast.success('Invoice successfully created', { id: "Create Invoice" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create invoice', { id: "Create Invoice" });
@@ -169,7 +188,7 @@ function InvoiceManagement() {
             queryClient.invalidateQueries({ queryKey: ['invoices'] });
             queryClient.invalidateQueries({ queryKey: ['invoice', selectedInvoiceId]});
             toast.success('Invoice successfully updated', { id: "Update Invoice" });
-            setView('details');
+            navigateToView('details', selectedInvoiceId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update invoice', { id: "Update Invoice" });
@@ -268,34 +287,30 @@ function InvoiceManagement() {
 
 
     const handleInvoiceClick = (invoiceId: number) => {
-        setSelectedInvoiceId(invoiceId);
-        setView('details')
+        navigateToView('details', invoiceId);
     };
     // -------------------------EDIT-----------------------------------------------------------
 
 
     const handleEditInvoice = (invoiceId: number) => {
-        setSelectedInvoiceId(invoiceId);
-        setView('edit');
+        navigateToView('edit', invoiceId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToInvoicesList = () => {
-        setView('list');
-        setSelectedInvoiceId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleBackToInvoiceDetails = (invoiceId: number) => {
-        setSelectedInvoiceId(invoiceId);
-        setView('details')
+        navigateToView('details', invoiceId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleEditInvoiceButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -493,7 +508,7 @@ function InvoiceManagement() {
                             </div>
                         </div>
                         <button
-                            onClick={() => setView('form')}
+                            onClick={() => navigateToView('form')}
                             className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -540,7 +555,7 @@ function InvoiceManagement() {
                         <p className="text-gray-500">Add a new invoice to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -559,6 +574,7 @@ function InvoiceManagement() {
                         projects={projects}
                         productItems={productItems}
                         quotations={quotations}
+                        lhdnClassificationCodes={lhdnClassificationCodes}
                     />
                     {createInvoiceMutation.isError && (
                     <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">
@@ -592,6 +608,7 @@ function InvoiceManagement() {
                 agents={agents}
                 projects={projects}
                 productItems={productItems}
+                lhdnClassificationCodes={lhdnClassificationCodes}
                 />
             )}
             </div>

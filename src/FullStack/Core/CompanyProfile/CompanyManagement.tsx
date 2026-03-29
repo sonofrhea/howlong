@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { toast } from "react-hot-toast";
 
@@ -25,7 +25,18 @@ import { TestCredentialsResponse } from "../../EInvoice/constants/Types";
 
 function CompanyManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('details');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'details';
+    const isEditing = searchParams.get('edit') === 'true';
+
+    const navigateToView = (newView: string) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView);
+        setSearchParams(params);
+    }
+
+
+
 
 
     const { data: currencies = [] } = useQuery({
@@ -70,7 +81,7 @@ function CompanyManagement() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['company'] });
             toast.success('Company profile Updated', { id: "Update Company profile" });
-            setView('details');
+            navigateToView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to update Company profile', { id: "Update Company profile" });
@@ -145,20 +156,20 @@ function CompanyManagement() {
     // ------------------------------------------------------------------------------------
 
     const handleBackToCompanyDetails = () => {
-        setView('details');
+        navigateToView('details');
     };
 
     // ------------------------------------------------------------------------------------
 
         const handleBackToDashboard = () => {
-        setView('/core');
+        navigateToView('/core');
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleEditCompanyButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
 
     // ------------------------------------------------------------------------------------

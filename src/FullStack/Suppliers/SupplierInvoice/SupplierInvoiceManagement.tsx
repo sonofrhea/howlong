@@ -382,7 +382,7 @@ function SupplierInvoiceManagement() {
                             <Truck />
                         </span>
                         <div>
-                            <h1 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold text-gray-900">Suppliers Suite</h1>
+                            <h1 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-lg font-semibold! text-gray-900">Suppliers Suite</h1>
                             <p style={{ fontFamily: 'Montserrat, system-ui' }} className="text-sm text-gray-500">Supplier Invoice Management</p>
                         </div>
                     </div>
@@ -415,7 +415,7 @@ function SupplierInvoiceManagement() {
                         </svg>
                     </div>
                     <div>
-                        <h1 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-4xl font-light text-gray-900 tracking-tight">Supplier Invoices</h1>
+                        <h1 style={{ fontFamily: 'Montserrat, system-ui' }} className="text-4xl text-left font-light! text-gray-900 tracking-tight">Supplier Invoices</h1>
                         <p style={{ fontFamily: 'Montserrat, system-ui' }} className="font-medium! text-gray-500 mt-2">Manage and track your supplier invoices</p>
                     </div>
                     </div>

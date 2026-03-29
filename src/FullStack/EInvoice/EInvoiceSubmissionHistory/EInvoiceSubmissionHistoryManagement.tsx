@@ -5,7 +5,7 @@ import { EInvoiceSubmission } from "../constants/Types";
 import EInvoiceSubmissionHistoryTable from "./EInvoiceSubmissionHistoryTable";
 import EInvoiceSubmissionHistoryDetails from "./EInvoiceSubmissionHistoryDetails";
 
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 
@@ -31,9 +31,23 @@ import { Link } from 'react-router-dom';
 
 
 function EInvoiceSubmissionHistoryManagement() {
-    const [view, setView] = useState<'list' | 'details'>('list');
-    const [selectedId, setSelectedId] = useState<number | null>(null);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = (searchParams.get('view') as 'list' | 'details') || 'list';
+    const selectedId = searchParams.get('id') ? Number(searchParams.get('id')) : null;
     const [searchTerm, setSearchTerm] = useState('');
+
+    const navigateToView = (newView: string, id?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView);
+        if (id) {
+            params.set('id', id.toString());
+        } else if (newView === 'list') {
+            params.delete('id');
+        }
+        setSearchParams(params);
+    }
+
+
 
     const { data: submissions = [], isLoading, error } = useQuery({
         queryKey: ['einvoice-submissions'],
@@ -47,13 +61,11 @@ function EInvoiceSubmissionHistoryManagement() {
     });
 
     const handleSubmissionClick = (id: number) => {
-        setSelectedId(id);
-        setView('details');
+        navigateToView('details', id);
     };
 
     const handleBackToList = () => {
-        setView('list');
-        setSelectedId(null);
+        navigateToView('list');
     };
 
     const filteredSubmissions = submissions.filter((s: EInvoiceSubmission) => {

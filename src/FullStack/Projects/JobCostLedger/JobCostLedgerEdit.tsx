@@ -255,19 +255,16 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                         className="inline-flex items-center px-4 py-2 bg-violet-900 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm"
                         type="button"
                         onClick={() => append({
-                            boq_line: 0,
-                            boq_additional: '',
-                            cost_code: {
-                                job_cost_code: 0,
-                                job_cost_description: ''
-                            },
-                            description: '',
-                            supplier: '',
-                            cost_type: 'Direct Cost' as any,
-                            status: 'Committed' as any,
+                            boq_line: undefined,
+                            boq_additional: undefined,
+                            cost_code: undefined,
+                            description: undefined,
+                            supplier: undefined,
+                            cost_type: 'Direct Cost',
+                            status: 'Committed',
                             cost: 0.00,
-                            tax: 0.00,
-                            estimated: 0.00,
+                            taxable: false,
+                            sst_percent: 0.00,
                         })}
                     >
                     ++ Add Cost Line
@@ -432,11 +429,22 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
 
                                             <div>
                                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                    Taxable?
+                                                </label>
+                                                <input 
+                                                    className="w-full! text-sm! px-5! py-4! bg-blue-50! border-2 border-blue-200! rounded-lg! font-bold! text-blue-900! placeholder-blue-900"
+                                                    {...register(`job_cost_ledger.${index}.cost`)}
+                                                    type="checkbox"
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-sm font-semibold text-slate-700 mb-2">
                                                     Tax%
                                                 </label>
                                                 <input 
                                                     className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900"
-                                                    {...register(`job_cost_ledger.${index}.tax`)}
+                                                    {...register(`job_cost_ledger.${index}.sst_percent`)}
                                                     type="number"
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
@@ -455,7 +463,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                     <span className="text-sm font-bold text-blue-900">
                                                         {decimalPlaces(
                                                             (Number(watch(`job_cost_ledger.${index}.cost`) || 0.00)) * 
-                                                            (1 + (Number(watch(`job_cost_ledger.${index}.tax`) || 0.00) / 100))
+                                                            (1 + (Number(watch(`job_cost_ledger.${index}.sst_percent`) || 0.00) / 100))
                                                         )}
                                                     </span>
                                                 </div>

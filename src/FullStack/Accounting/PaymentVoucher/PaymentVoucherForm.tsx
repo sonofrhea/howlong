@@ -60,13 +60,13 @@ const PaymentVoucherForm: React.FC<PaymentVoucherFormProps> = ({
                 payment_voucher_lines: [
                     {
                         amount: 0.00,
-                        tax_inclusive: false,
-                        tax: 0.00,
+                        taxable: false,
+                        sst_percent: 0.00,
                         cancelled: false
                     }
                 ],
-                tax_inclusive: false,
-                tax: 0.00,
+                taxable: false,
+                tax_percent: 0.00,
                 cancelled: false
             }
         });
@@ -242,9 +242,9 @@ const onAccountChange = paymentVoucherAccountHandler(accounts, setValue);
                                     <th className={tables.headerCell}>Description</th>
                                     <th className={tables.headerCell}>GST Number</th>
                                     <th className={tables.headerCell}>Amount</th>
-                                    <th className={tables.headerCell}>SST Inclusive</th>
+                                    <th className={tables.headerCell}>Taxable</th>
                                     <th className={tables.headerCell}>SST %</th>
-                                    <th className={tables.headerCell}>SST Rate</th>
+                                    <th className={tables.headerCell}>SST Amount</th>
                                     <th className={tables.headerCell}>Net Total</th>
                                     <th className={tables.headerCell}>Cancelled</th>
                                     <th className={tables.headerCell}></th>
@@ -253,7 +253,7 @@ const onAccountChange = paymentVoucherAccountHandler(accounts, setValue);
 
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => {
-                                    const tax_percentage = Number(watch(`payment_voucher_lines.${index}.tax`) || 0.00) / 100;
+                                    const tax_percentage = Number(watch(`payment_voucher_lines.${index}.sst_percent`) || 0.00) / 100;
                                     const amount = Number(watch(`payment_voucher_lines.${index}.amount`));
                                     const taxAmount = tax_percentage * amount;
                                     const netTotal = amount - taxAmount;
@@ -291,14 +291,15 @@ const onAccountChange = paymentVoucherAccountHandler(accounts, setValue);
                                         <td className={tables.cell}>
                                             <input
                                                 type="checkbox"
-                                                {...register(`payment_voucher_lines.${index}.tax_inclusive`)} 
+                                                {...register(`payment_voucher_lines.${index}.taxable`)} 
                                             />
                                         </td>
-
+                                        
                                         <td className={text.numbers}>
+                                            <div style={{ position: 'relative', display: 'inline-block' }}>
                                             <input 
                                                 type="number"
-                                                {...register(`payment_voucher_lines.${index}.tax`)}
+                                                {...register(`payment_voucher_lines.${index}.sst_percent`)}
                                                 className={forms.input.number}
                                                 placeholder="0.00" step="0.01" min="0.00"
                                                 onBlur={(e) => {
@@ -306,7 +307,18 @@ const onAccountChange = paymentVoucherAccountHandler(accounts, setValue);
                                                         e.target.value = decimalPlaces(Number(e.target.value));
                                                     }
                                                 }}
+                                        
+                                                style={{ paddingRight: '20%' }}
                                             />
+                                            <span style={{ 
+                                                position: 'absolute', 
+                                                right: '5px', 
+                                                top: '50%', 
+                                                transform: 'translateY(-50%)',
+                                                pointerEvents: 'none',
+                                                color: '#666'
+                                            }}>%</span>
+                                            </div>
                                         </td>
 
                                         <td className={tables.autoCalculate}>
@@ -346,8 +358,8 @@ const onAccountChange = paymentVoucherAccountHandler(accounts, setValue);
                                                 description: "",
                                                 gst_number: "",
                                                 amount: 0.00,
-                                                tax_inclusive: false,
-                                                tax: 0.00,
+                                                taxable: false,
+                                                sst_percent: 0.00,
                                                 cancelled: false,
                                             })}
                                         >
@@ -365,9 +377,9 @@ const onAccountChange = paymentVoucherAccountHandler(accounts, setValue);
                                 <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Tax Inclusive?</div>
+                                        <div>Taxable?</div>
                                         <input 
-                                        {...register("tax_inclusive")}
+                                        {...register("taxable")}
                                         type="checkbox"
                                         className="ml-2 forced-colors:bg-green-300"
                                         />
@@ -375,17 +387,29 @@ const onAccountChange = paymentVoucherAccountHandler(accounts, setValue);
                                         
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Tax %</div>
+                                        <div style={{ position: 'relative', display: 'inline-block' }}>
                                         <input 
                                             type="number"
-                                            {...register("tax")}
+                                            {...register("tax_percent")}
                                             className={forms.input.smallNumber}
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {
                                                 if (e.target.value) {
-                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                    e.target.value = decimalPlaces(Number(e.target.value));
                                                 }
                                             }}
+                                            
+                                            style={{ paddingRight: '20%' }}
                                         />
+                                        <span style={{ 
+                                            position: 'absolute', 
+                                            right: '5px', 
+                                            top: '50%', 
+                                            transform: 'translateY(-50%)',
+                                            pointerEvents: 'none',
+                                            color: '#666'
+                                        }}>%</span>
+                                        </div>
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">

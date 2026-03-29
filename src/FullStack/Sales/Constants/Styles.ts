@@ -80,7 +80,7 @@ export const tables = {
   numberLabel: "inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate",
   base: "w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner",
   header: "bg-blue-100 drop-shadow-md shadow-lg",
-  headerCell: "text-black text-center text-xs font-semibold uppercase border border-y-gray-100 border-x-gray-100",
+  headerCell: "text-black text-center text-xs font-semibold uppercase border border-y-gray-100 border-x-gray-100 font-['Montserrat']!",
   body: "bg-white divide-y divide-gray-100",
   row: "bg-white divide-y divide-x divide-gray-200 border-x-gray-100 border-y-gray-100 border-l border-l-gray-100",
   cell: "px-4 py-4 text-sm text-gray-600 shadow-inner",

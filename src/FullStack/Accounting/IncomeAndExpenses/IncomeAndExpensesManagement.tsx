@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchIncomeAndExpenses, fetchIncomeAndExpenseById, createIncomeAndExpense,
@@ -54,9 +54,10 @@ const decimalPlaces = (amount: number) => {
 
 function IncomeAndExpensesManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedIncomeAndExpenseId, setSelectedIncomeAndExpenseId] = useState<number | null>(null);
+    const selectedIncomeAndExpenseId = searchParams.get('reference_number') ? Number(searchParams.get('reference_number')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -64,6 +65,20 @@ function IncomeAndExpensesManagement() {
     // ------------------------------------------------------------------------------------
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
     // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, reference_number?: number) => {
+        const params = new URLSearchParams(searchParams)
+        params.set('view', newView)
+        if (reference_number) {
+            params.set('reference_number', reference_number.toString());
+        } else if (newView === 'list') {
+            params.delete('reference_number');
+        }
+        setSearchParams(params);
+    }
+
+    // ------------------------------------------------------------------------------------
+
 
                 // DEPENDENCIES
 
@@ -114,9 +129,8 @@ function IncomeAndExpensesManagement() {
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['incomeAndExpenses'] });
 
-            setSelectedIncomeAndExpenseId(data.reference_number);
+            navigateToView('details', data.reference_number);
             toast.success('Income & Expense Created', { id: "Create Income & Expense" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create Income & Expense', { id: "Create Income & Expense" });
@@ -144,7 +158,7 @@ function IncomeAndExpensesManagement() {
                 queryKey: ['incomeAndExpense', selectedIncomeAndExpenseId]
             });
             toast.success('Income & Expense Updated', { id: "Update Income & Expense" });
-            setView('details');
+            navigateToView('details', selectedIncomeAndExpenseId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update Income & Expense', { id: "Update Income & Expense" });
@@ -233,33 +247,29 @@ function IncomeAndExpensesManagement() {
 
 
     const handleIncomeAndExpenseClick = (incomeAndExpenseId: number) => {
-        setSelectedIncomeAndExpenseId(incomeAndExpenseId);
-        setView('details')
+        navigateToView('details', incomeAndExpenseId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditIncomeAndExpense = (incomeAndExpenseId: number) => {
-        setSelectedIncomeAndExpenseId(incomeAndExpenseId);
-        setView('edit');
+        navigateToView('edit', incomeAndExpenseId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToIncomeAndExpensesList = () => {
-        setView('list');
-        setSelectedIncomeAndExpenseId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleBackToIncomeAndExpenseDetails = (incomeAndExpenseId: number) => {
-        setSelectedIncomeAndExpenseId(incomeAndExpenseId);
-        setView('details')
+        navigateToView('details', incomeAndExpenseId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleEditIncomeAndExpenseButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -503,7 +513,7 @@ function IncomeAndExpensesManagement() {
                             </div>
                         </div>
                         <button
-                            onClick={() => setView('form')}
+                            onClick={() => navigateToView('form')}
                             className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center cursor-pointer gap-2 hover:shadow-sm hover:bg-purple-50"
                             >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -550,7 +560,7 @@ function IncomeAndExpensesManagement() {
                         <p className="text-gray-500">Add a new income and expenses entry to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

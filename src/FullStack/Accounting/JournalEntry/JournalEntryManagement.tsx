@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { toast } from "react-hot-toast";
 
@@ -40,14 +40,29 @@ interface SortConfig {
 
 function JournalEntryManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedJournalEntryId, setSelectedJournalEntryId] = useState<number | null>(null);
+    const selectedJournalEntryId = searchParams.get('journal_number') ? Number(searchParams.get('journal_number')) : null;
 // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
 // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, journal_number?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView)
+        if (journal_number) {
+            params.set('journal_number', journal_number.toString())
+        } else if (newView === 'list') {
+            params.delete('journal_number');
+        }
+        setSearchParams(params);
+    }
+
+// ------------------------------------------------------------------------------------
+
             // DEPENDENCIES
     
     const { data: accounts = [] } = useQuery({
@@ -89,9 +104,8 @@ function JournalEntryManagement() {
         },
         onSuccess: (data: JournalHeaderInputs) => {
             queryClient.invalidateQueries({ queryKey: ['journalEntries'] });
-            setSelectedJournalEntryId(data.journal_number);
+            navigateToView('details', data.journal_number);
             toast.success('Journal Entry Created', { id: "Create Journal Entry" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create journal entry', { id: "Create Journal Entry" });
@@ -117,7 +131,7 @@ function JournalEntryManagement() {
                 queryKey: ['journalEntry', selectedJournalEntryId]
             });
             toast.success('Journal Entry Updated', { id: "Update Journal Entry" });
-            setView('details');
+            navigateToView('details', selectedJournalEntryId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update journal entry', { id: "Update Journal Entry" });
@@ -186,38 +200,34 @@ function JournalEntryManagement() {
         // CLICK
 
     const handleJournalEntryClick = (journalEntryId: number) => {
-        setSelectedJournalEntryId(journalEntryId);
-        setView('details');
+        navigateToView('details', journalEntryId);
     };
 // ------------------------------------------------------------------------------------
 
         // EDIT
 
     const handleEditJournalEntry = (journalEntryId: number) => {
-        setSelectedJournalEntryId(journalEntryId);
-        setView('edit');
+        navigateToView('edit', journalEntryId);
     };
 
 // ------------------------------------------------------------------------------------
     
     const handleBackToJournalEntriesList = () => {
-        setView('list');
-        setSelectedJournalEntryId(null);
+        navigateToView('list');
     };
 
 
 // ------------------------------------------------------------------------------------
 
     const handleBackToJournalEntryDetails = (journalEntryId: number) => {
-        setSelectedJournalEntryId(journalEntryId);
-        setView('details');
+        navigateToView('details', journalEntryId);
     };
 
 // ------------------------------------------------------------------------------------
 
 
     const handleEditJournalEntryButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
 
 // ------------------------------------------------------------------------------------
@@ -414,7 +424,7 @@ function JournalEntryManagement() {
                     </div>
                     </div>
                     <button
-                    onClick={() => setView('form')}
+                    onClick={() => navigateToView('form')}
                     className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center cursor-pointer gap-2 hover:shadow-sm hover:bg-purple-50"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -461,7 +471,7 @@ function JournalEntryManagement() {
                     <p className="text-gray-500">Add a new journal entry to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-white text-black cursor-pointer px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

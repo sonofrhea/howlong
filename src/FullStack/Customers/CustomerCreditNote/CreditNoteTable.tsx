@@ -46,7 +46,7 @@ const CreditNoteTable: React.FC<CreditNoteTableProps> = ({
                 <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"
                 title={label}
                 onClick={() => onSort(sortKey)}>
-                    <div className="flex items-center justify-center gap-1">
+                    <div className="flex items-center justify-center gap-1 font-[Montserrat]!">
                         {label}
                         {isSorted && (
                             <span className="text-gray-400">
@@ -89,7 +89,9 @@ const CreditNoteTable: React.FC<CreditNoteTableProps> = ({
                 {/* Table Header with Items Per Page */}
                 <div className="px-4 py-2 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-black">Credit Notes List</h3>
+                        <h3 className="text-lg font-semibold text-black font-[Montserrat]!">
+                            Credit Notes List
+                        </h3>
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
                                 <span className="text-sm font-medium text-gray-600">Show</span>

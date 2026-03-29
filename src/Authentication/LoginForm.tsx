@@ -42,7 +42,7 @@ const Login = () => {
         }
 
         if (message) {
-            toast(message, { duration: 12000, style: {fontFamily: "Helvetica"} });
+            toast(message, { duration: 12000, style: {fontFamily: "Montserrat, system-ui"} });
             toastShown.current = true;
         }
     }, [reason]);

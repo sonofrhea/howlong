@@ -280,14 +280,15 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                         <table className={tables.base}>
                             <colgroup>
                                 {[
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
-                                    'w-[9%] text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-[7%] text-center',
                                 ].map((line, index) => (
                                     <col key={index} className={line} />
                                 ))}
@@ -297,8 +298,9 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                                     <th className={tables.headerCell}>Date</th>
                                     <th className={tables.headerCell}>Payment Type</th>
                                     <th className={tables.headerCell}>Amount</th>
-                                    <th className={tables.headerCell}>SST Inclusive?</th>
+                                    <th className={tables.headerCell}>Taxable?</th>
                                     <th className={tables.headerCell}>SST %</th>
+                                    <th className={tables.headerCell}>SST Amount</th>
                                     <th className={tables.headerCell}>Current Total</th>
                                     <th className={tables.headerCell}>Cancelled</th>
                                     <th className={tables.headerCell}></th>
@@ -309,7 +311,7 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                                 {fields.map((field, index) => {
                                 
                                     const total = Number(watch(`related_invoice_payment.${index}.total`) || 0.00);
-                                    const taxAmount = Number(watch(`related_invoice_payment.${index}.tax_amount`) || 0.00);
+                                    const taxAmount = Number(watch(`related_invoice_payment.${index}.sst_percent`) || 0.00);
                                     const taxPercentage = taxAmount / 100;
                                     const taxRate = total * taxPercentage;
                                     const currentTotal = total + taxRate;
@@ -326,7 +328,9 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
 
                                             <td className={tables.cell}>
                                                 <select
-                                                    {...register(`related_invoice_payment.${index}.payment_type`)}
+                                                    {...register(`related_invoice_payment.${index}.payment_type`, {
+                                                        setValueAs: (value) => value === "" ? undefined : value
+                                                    })}
                                                     className={forms.select.small}
                                                 >
                                                     <option value="">select...</option>
@@ -354,14 +358,14 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
 
                                             <td className={tables.cell}>
                                                 <input 
-                                                    {...register(`related_invoice_payment.${index}.tax_inclusive`)}
+                                                    {...register(`related_invoice_payment.${index}.taxable`)}
                                                     type="checkbox"
                                                 />
                                             </td>
                                             
                                             <td className={text.numbers}>
                                                 <input 
-                                                    {...register(`related_invoice_payment.${index}.tax_amount`)}
+                                                    {...register(`related_invoice_payment.${index}.sst_percent`)}
                                                     type="number"
                                                     className={forms.input.number}
                                                     placeholder="0.00"
@@ -371,6 +375,10 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                                                         }
                                                     }}                                                
                                                 />
+                                            </td>
+                                            
+                                            <td className={tables.autoCalculate}>
+                                                {decimalPlaces(taxRate)}
                                             </td>
                                             
                                             <td className={tables.autoCalculate}>
@@ -402,11 +410,11 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                                         <button
                                             type="button"
                                             onClick={() => append({
-                                                payment_date: "",
-                                                payment_type: "" as any,
+                                                payment_date: undefined,
+                                                payment_type: undefined,
                                                 total: 0.00,
-                                                tax_inclusive: false,
-                                                tax_amount: 0.00,
+                                                taxable: false,
+                                                sst_percent: 0.00,
                                                 cancelled: false
                                             })}
                                             className={buttons.addLine}
@@ -425,9 +433,9 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                                 <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Tax?</div>
+                                        <div>Taxable?</div>
                                         <input 
-                                        {...register("tax_inclusive")}
+                                        {...register("taxable")}
                                         type="checkbox"
                                         className="ml-2 forced-colors:bg-green-300"
                                         />
@@ -437,7 +445,7 @@ const InvoicePaymentEdit: React.FC<InvoicePaymentProps> = ({
                                         <div>Tax %</div>
                                         <input 
                                             type="number"
-                                            {...register("tax_amount")}
+                                            {...register("tax_percent")}
                                             placeholder="0.00"
                                             className={forms.input.smallNumber}
                                             step="0.01" min="0.00" onBlur={(e) => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 import { fetchCompanyProfile } from "../../Core/Engines";
@@ -17,7 +17,11 @@ import { fetchCurrencies, fetchAgents } from "../../Core/Engines"
 
 import { CreditNoteInputs, AllCreditNoteInputs,
   EditCreditNoteInputs, CreditNoteCreateResponse,
+  CreditNoteList,
  } from "../constants/Types";
+
+import { fetchLhdnClassificationCodes } from "../../Sales/Engines";
+
 
 
 import { spinningStyles } from "../constants/Styles";
@@ -29,6 +33,8 @@ import CreditNoteTable from "./CreditNoteTable";
 import CreditNoteEdit from "./CreditNoteEdit";
 import { createJournalEntry } from "../../Accounting/Engines";
 import { JournalHeaderInputs } from "../../Accounting/Constants/Types";
+import { User } from "lucide-react";
+
 
 
 
@@ -59,9 +65,10 @@ interface SortConfig {
 
 function CreditNoteManagement() {
   const queryClient = useQueryClient();
-  const [view, setView] = useState('list');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const view = searchParams.get('view') || 'list';
+  const selectedCreditNoteId = searchParams.get('credit_note_number') ? Number(searchParams.get('credit_note_number')) : null;
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCreditNoteId, setSelectedCreditNoteId] = useState<number | null>(null);
 // ------------------------------------------------------------------------------------
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -69,6 +76,18 @@ function CreditNoteManagement() {
 // ------------------------------------------------------------------------------------
   const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
 // ------------------------------------------------------------------------------------
+
+  const navigateToView = (newView: string, credit_note_number?: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('view', newView);
+    if (credit_note_number) {
+      params.set('credit_note_number', credit_note_number.toString());
+    } else if (newView === 'list') {
+      params.delete('credit_note_number');
+    }
+    setSearchParams(params);
+  }
+
 
 
 
@@ -103,6 +122,11 @@ function CreditNoteManagement() {
     queryKey: ['company'],
     queryFn: fetchCompanyProfile,
   })
+  
+  const { data: lhdnClassificationCodes = [] } = useQuery({
+      queryKey: ['lhdnClassificationCodes'],
+      queryFn: fetchLhdnClassificationCodes
+  });
   
 
 // ------------------------------------------------------------------------------------
@@ -140,9 +164,8 @@ function CreditNoteManagement() {
     },
     onSuccess: (data) => {
         queryClient.invalidateQueries({ queryKey: ['creditNotes'] });
-        setSelectedCreditNoteId(data.credit_note_number);
+        navigateToView('details', data.credit_note_number);
         toast.success('Credit Note Created', { id: "Create Credit Note" });
-        setView('details');
     },
     onError: (error: any) => {
         toast.error('Failed to create credit note', { id: "Create Credit Note" });
@@ -170,7 +193,7 @@ function CreditNoteManagement() {
             queryKey: ['creditNote', selectedCreditNoteId]
         });
         toast.success('Credit Note Updated', { id: "Update Credit Note" });
-        setView('details');
+        navigateToView('details', selectedCreditNoteId!);
     },
     onError: (error: any) => {
         toast.error('Failed to update credit note', { id: "Update Credit Note" });
@@ -274,41 +297,37 @@ function CreditNoteManagement() {
 
 
   const handleCreditNoteClick = (creditNoteId: number) => {
-    setSelectedCreditNoteId(creditNoteId);
-    setView('details')
+    navigateToView('details', creditNoteId);
   };
 // ------------------------------------------------------------------------------------
 
 
   const handleEditCreditNote = (creditNoteId: number) => {
-    setSelectedCreditNoteId(creditNoteId);
-    setView('edit');
+    navigateToView('edit', creditNoteId);
   };
 // ------------------------------------------------------------------------------------
 
   const handleBackToCreditNotesList = () => {
-    setView('list');
-    setSelectedCreditNoteId(null);
+    navigateToView('list');
   };
 // ------------------------------------------------------------------------------------
 
 
   const handleBackToCreditNoteDetails = (creditNoteId: number) => {
-    setSelectedCreditNoteId(creditNoteId);
-    setView('details')
+    navigateToView('details', creditNoteId);
   };
   
 // ------------------------------------------------------------------------------------
 
   const handleEditCreditNoteButton = () => {
-    setView('edit');
+    navigateToView('edit');
   };
 // ------------------------------------------------------------------------------------
 
-  const filteredCreditNotes = creditNotes.filter((creditNote: any) => {
+  const filteredCreditNotes = creditNotes.filter((creditNote: CreditNoteList) => {
     const creditNoteNumber = String(creditNote.credit_note_number)?.toLowerCase() || '';
-    const agentName = creditNote.agent.toLowerCase() || '';
-    const search = searchTerm.toLowerCase();
+    const agentName = creditNote.agent?.toLowerCase() || '';
+    const search = searchTerm?.toLowerCase();
     
     return creditNoteNumber.includes(search) || agentName.includes(search);
 });
@@ -437,10 +456,10 @@ const handleItemsPerPageChange = (value: any) => {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <span className={spinningStyles.terminalBar.spinner}>⠋</span>
+                        <span className="text-green-500 mr-2 animate-bounce text-4xl"><User /></span>
                         <div>
-                            <h1 className="text-lg font-semibold text-gray-900">Customers Suite</h1>
-                            <p className="text-sm text-gray-500">Credit Note Management</p>
+                            <h1 className="text-lg font-semibold! text-gray-900 font-[Montserrat]!">Customers Suite</h1>
+                            <p className="text-sm text-gray-500 font-[Montserrat]!">Credit Note Management</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -472,8 +491,8 @@ const handleItemsPerPageChange = (value: any) => {
                     </svg>
                     </div>
                     <div>
-                    <h1 className="text-4xl font-light text-gray-900 tracking-tight">Credit Notes</h1>
-                    <p className="text-gray-500 mt-2">Manage and track your credit note transactions</p>
+                    <h1 className="text-4xl font-light text-left! text-gray-900 tracking-tight font-[Montserrat]!">Credit Notes</h1>
+                    <p className="text-gray-500 mt-2 font-[Montserrat]!">Manage and track your credit note transactions</p>
                     </div>
                 </div>
                 </div>
@@ -525,7 +544,7 @@ const handleItemsPerPageChange = (value: any) => {
                     </div>
                     </div>
                     <button
-                    onClick={() => setView('form')}
+                    onClick={() => navigateToView('form')}
                     className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center cursor-pointer gap-2 hover:shadow-sm hover:bg-purple-50"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -572,7 +591,7 @@ const handleItemsPerPageChange = (value: any) => {
                     <p className="text-gray-500">Add a new credit note to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-white text-black cursor-pointer px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -590,6 +609,7 @@ const handleItemsPerPageChange = (value: any) => {
                     accounts={accounts}
                     agents={agents}
                     customerPayments={customerPayments}
+                    lhdnClassificationCodes={lhdnClassificationCodes}
                 />
                 {createCreditNoteMutation.isError && (
                     <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">
@@ -627,6 +647,7 @@ const handleItemsPerPageChange = (value: any) => {
                 currencies={currencies}
                 accounts={accounts}
                 agents={agents}
+                lhdnClassificationCodes={lhdnClassificationCodes}
                 customerPayments={customerPayments}
                 onCreateJournalEntry={handleAddJournalEntry}
                 isCreatingJournalEntry={createJournalEntryMutation.isPending}

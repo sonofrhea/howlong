@@ -60,7 +60,8 @@ const BillOfQuantitiesForm: React.FC<BillOfQuantitiesFormProps> = ({
                             rate_per_unit: 0.00,
                         },
                     ],
-                    contingency_rate: 0.00,
+                    contingency_included: false,
+                    contingency_percentage: 0.00,
                     gross_estimation: 0.00
                 }
             });
@@ -72,7 +73,9 @@ const BillOfQuantitiesForm: React.FC<BillOfQuantitiesFormProps> = ({
         
 
 
-const onProjectChange = billofQuantitiesProjectName(projects, setValue);
+    const onProjectChange = billofQuantitiesProjectName(projects, setValue);
+
+    const contingencyIncluded = watch('contingency_included');
 
 
 
@@ -263,9 +266,9 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                                     className="add-item-btn"
                                     type='button'
                                     onClick={() => append({
-                                        product_item: '',
-                                        additional_item: '',
-                                        unit_of_measurement: '',
+                                        product_item: undefined,
+                                        additional_item: undefined,
+                                        unit_of_measurement: undefined,
                                         quantity: 0.00,
                                         rate_per_unit: 0.00
                                     })}
@@ -283,22 +286,39 @@ const onProjectChange = billofQuantitiesProjectName(projects, setValue);
                     <div>
                         <h1 className="text-2xl mb-6">Contingency</h1>
                     <div className="form-grid mb-7.5">
-                        <div className="form-group">
-                            <label>Contingency Rate (%)</label>
-                            <input 
-                                {...register('contingency_rate')}
-                                className={forms.select.partialLarge}
-                                type='number'
-                                name="contingency_rate"
-                                title="enter rate..."
-                                placeholder="0.00"
-                                step="0.01" min="0.00" onBlur={(e) => {
-                                    if (e.target.value) {
-                                        e.target.value = decimalPlaces(Number(e.target.value));
-                                    }
-                                }}
-                            />
+
+
+                        <div className="checkbox-group">
+                            <label className="checkbox-label">
+                                <input 
+                                    type="checkbox"
+                                    {...register('contingency_included')}
+                                />
+                                <span>Include Contingency</span>
+                            </label>
                         </div>
+
+
+                        {contingencyIncluded && (
+
+                            <div className="form-group contingency-percentage-field">
+                                <label>Contingency Percentage (%)</label>
+                                <input 
+                                    {...register('contingency_percentage')}
+                                    className={forms.select.partialLarge}
+                                    type='number'
+                                    name="contingency_rate"
+                                    title="enter rate..."
+                                    placeholder="0.00"
+                                    step="0.01" min="0.00" onBlur={(e) => {
+                                        if (e.target.value) {
+                                            e.target.value = decimalPlaces(Number(e.target.value));
+                                        }
+                                    }}
+                                />
+                            </div>
+
+                        )}
                     </div>
                     </div>
                 </div>

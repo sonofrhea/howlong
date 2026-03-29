@@ -195,6 +195,7 @@ export const fetchRefunds = async () => {
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -204,6 +205,7 @@ export const fetchRefundById = async (refund_number: number) => {
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -213,6 +215,7 @@ export const createRefund = async (refundData: CustomerRefundInputs) => {
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 

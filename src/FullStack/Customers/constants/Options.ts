@@ -274,3 +274,9 @@ export const LHDN_TAX_TYPE_CHOICES = [
   { value: 'E',  label: 'Tax Exemption' },
 ] as const;
 
+
+
+export const SST_DIRECTION = [
+    'Add',
+    'Subtract'
+] as const;

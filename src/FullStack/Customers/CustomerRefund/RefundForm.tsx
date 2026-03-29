@@ -11,7 +11,7 @@ import { CustomerRefundInputs,
     CustomerRefundFormProps
  } from "../constants/Types";
 
-import { REFUND_TYPE_OPTIONS } from "../constants/Options";
+import { EINVOICE_PAYMENT_MODE_CHOICES, EINVOICE_SUPPLY_TYPE_CHOICES, LHDN_TAX_TYPE_CHOICES, REFUND_TYPE_OPTIONS } from "../constants/Options";
 
 import { CurrencyInterface, AgentInterface } from "../../Core/constants/Types";
 import { ControlAccountInterface } from "../../ChartOfAccounts/Interfaces";
@@ -20,6 +20,7 @@ import { forms, buttons, layout, tables, text, utils } from "../constants/Styles
 
 import { Trash2 } from "lucide-react";
 import { RefundAccountHandler, refundRelatedcreditNoteHandler } from "../../handlers";
+import { lhdnClassificationCodesInterface } from "../../Sales/Constants/Types";
 
 
 
@@ -50,22 +51,29 @@ const RefundForm: React.FC<CustomerRefundFormProps> = ({
     isSubmitting,
     onCancel,
     customers, 
-    currencies, accounts, agents, creditNotes }) => {
+    currencies, accounts, agents, creditNotes, lhdnClassificationCodes }) => {
 
         const { register, handleSubmit, watch, setValue, control, 
             formState: { errors } } = useForm<CustomerRefundInputs>({
                 defaultValues: {
                     expected_refund: 0.00,
-                    tax_inclusive: false,
-                    tax_amount: 0.00,
+                    taxable: false,
+                    tax_percent: 0.00,
                     related_customer_refund: [
                         {
-                            payment_type: 'Cash' as any,
+                            date: undefined,
                             refund_amount: 0.00,
-                            additional_charges: 0.00,
-                            cancelled: false
+                            taxable: false,
+                            sst_percent: 0.00,
+                            payment_type: "Cash",
+                            cancelled: false,
+                            einvoice_classification_code: undefined,
+                            einvoice_tax_type: "06",
+                            einvoice_tax_exemption_reason: undefined,
                         }
-                    ]
+                    ],
+                    einvoice_supply_type: undefined,
+                    einvoice_payment_mode: undefined,
                 }
             });
         
@@ -78,6 +86,28 @@ const RefundForm: React.FC<CustomerRefundFormProps> = ({
 
 const controlAccountChange = RefundAccountHandler(accounts, setValue);
 const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
+
+
+const classificationCodes = useMemo(() => lhdnClassificationCodes.map((
+    code: lhdnClassificationCodesInterface) => (
+        <option key={code.code} value={code.code}>
+            {code.code} - {code.description}
+        </option>
+    )), [lhdnClassificationCodes])
+
+
+
+const eInvoiceSupplyType = useMemo(() => EINVOICE_SUPPLY_TYPE_CHOICES.map(option => (
+                                        <option key={option} value={option}>
+                                            {option}
+                                        </option>
+                                    )), [EINVOICE_SUPPLY_TYPE_CHOICES])
+
+const eInvoicePaymentMode = useMemo(() => EINVOICE_PAYMENT_MODE_CHOICES.map(option => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    )), [EINVOICE_PAYMENT_MODE_CHOICES])
 
 
 
@@ -118,7 +148,7 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                             <input 
                                 type="date"
                                 {...register("date", {required: "Date is required"})}
-                                className={forms.input.date}
+                                className={forms.input.dateBig}
                             />
                             {errors.date && <p className="text-amber-600 text-sm">{errors.date?.message}</p>}
                         </div>
@@ -216,6 +246,32 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                                     )), [agents])}
                             </select>
                         </div>
+                        
+                        <div>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                E-invois supply type
+                            </p>
+                            <select className={forms.select.partial}
+                                {...register("einvoice_supply_type", {
+                                    setValueAs: (value) => value === "" ? undefined : value
+                                })}>
+                                    <option value="">can leave empty...</option>
+                                    {eInvoiceSupplyType}
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                E-invois payment mode
+                            </p>
+                            <select className={forms.select.partial}
+                                {...register("einvoice_payment_mode", {
+                                    setValueAs: (value) => value === "" ? undefined : value
+                                })}>
+                                    <option value="">can leave empty...</option>
+                                    {eInvoicePaymentMode}
+                            </select>
+                        </div>
                     </div>
 
                     <hr className="my-6 border-gray-200" />
@@ -225,13 +281,18 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                             <table className={tables.base}>
                                 <colgroup>
                                     {[
-                                        'w-1/6 text-center',
-                                        'w-1/6 text-center',
-                                        'w-1/6 text-center',
-                                        'w-1/6 text-center',
-                                        'w-1/6 text-center',
-                                        'w-1/6 text-center',
-                                        'w-[7%] text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-[5%] text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-[5%] text-center',
+                                        'w-[5%] text-center',
                                     ].map((line, index) => (
                                         <col key={index} className={line} />
                                     ))}
@@ -240,25 +301,45 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                                     <tr>
                                         <th className={tables.headerCell}>Date</th>
                                         <th className={tables.headerCell}>Amount</th>
-                                        <th className={tables.headerCell}>Additional Charges</th>
+                                        <th className={tables.headerCell}>Taxable</th>
+                                        <th className={tables.headerCell}>SST %</th>
+                                        <th className={tables.headerCell}>SST Amount</th>
                                         <th className={tables.headerCell}>Payment Type</th>
-                                        <th className={tables.headerCell}>Total<br></br>(After Charges)</th>
+                                        <th className={tables.headerCell}>e-invoice classification code</th>
+                                        <th className={tables.headerCell}>e-invoice tax type</th>
+                                        <th className={tables.headerCell}>e-invoice tax exemption reason</th>
+                                        <th className={tables.headerCell}>Total</th>
                                         <th className={tables.headerCell}>Cancelled</th>
                                         <th className={tables.headerCell}></th>
                                     </tr>
                                 </thead>
 
                                 <tbody className={tables.body}>
-                                    {fields.map((field, index) => (
+                                    {fields.map((field, index) => {
+                                        const Amount = Number(watch(`related_customer_refund.${index}.refund_amount`) || 0.00)
+                                        const sst = Number(watch(`related_customer_refund.${index}.sst_percent`) || 0.00)
+                                        let tax_inclusive = watch(`related_customer_refund.${index}.taxable`) || false;
+                                        let sstPercent = sst/100.00
+                                        let taxAmount = Amount * sstPercent
+    
+                                        if (!tax_inclusive) {
+                                            taxAmount = 0.00;
+                                        };
+                                        const total = Amount + taxAmount
+    
+    
+    
+                                        return(
                                         <tr key={field.id} className={tables.row}>
                                             <td>
                                                 <input 
                                                     type="date"
-                                                    {...register(`related_customer_refund.${index}.date`)}
+                                                    {...register(`related_customer_refund.${index}.date`, {required: "Date is required"})}
                                                     className={forms.select.full}
                                                 />
+                                                {errors.related_customer_refund?.[index]?.date && <p className="text-amber-600 text-sm">{errors.related_customer_refund?.[index]?.date?.message}</p>}
                                             </td>
-
+    
                                             <td className={text.numbers}>
                                                 <input 
                                                     type="number"
@@ -272,41 +353,91 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                                                     }} 
                                                 />
                                             </td>
-
+                                            
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    type="checkbox"
+                                                    {...register(`related_customer_refund.${index}.taxable`)}
+                                                    className="text-black cursor-pointer"
+                                                />
+                                            </td>
+    
                                             <td className={text.numbers}>
+                                                <div style={{ position: 'relative', display: 'inline-block' }}>
                                                 <input 
                                                     type="number"
-                                                    {...register(`related_customer_refund.${index}.additional_charges`)}
+                                                    {...register(`related_customer_refund.${index}.sst_percent`)}
                                                     className={forms.input.number}
                                                     placeholder="0.00"
-                                                    defaultValue="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
                                                         if (e.target.value) {
                                                             e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }} 
+                                                    
+                                                    style={{ paddingRight: '20%' }}
                                                 />
+                                                <span style={{ 
+                                                    position: 'absolute', 
+                                                    right: '5px', 
+                                                    top: '50%', 
+                                                    transform: 'translateY(-50%)',
+                                                    pointerEvents: 'none',
+                                                    color: '#666'
+                                                }}>%</span>
+                                                </div>
                                             </td>
-
+                                            
+                                            <td className={tables.autoCalculate}>
+                                                {decimalPlaces(taxAmount)}
+                                            </td>
+    
                                             <td className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
                                                 <select
                                                     {...register(`related_customer_refund.${index}.payment_type`)}
                                                     className={forms.select.full}
                                                 >
                                                     <option value="">select...</option>
-                                                    {REFUND_TYPE_OPTIONS.map(option => (
+                                                    {useMemo(() => REFUND_TYPE_OPTIONS.map(option => (
                                                         <option key={option} value={option}>
                                                             {option}
                                                         </option>
-                                                    ))}
+                                                    )), [REFUND_TYPE_OPTIONS])}
+                                                </select>
+                                            </td>
+    
+                                            <td className={forms.label} style={{ fontFamily: 'Montserrat, system-ui'}}>
+                                                <select
+                                                    {...register(`related_customer_refund.${index}.einvoice_classification_code`)}
+                                                    className={forms.select.full}
+                                                >
+                                                    <option value="">select...</option>
+                                                    {classificationCodes}
                                                 </select>
                                             </td>
                                             
+                                            <td className={forms.label} style={{ fontFamily: 'Montserrat, system-ui'}}>
+                                                <select
+                                                    {...register(`related_customer_refund.${index}.einvoice_tax_type`)}
+                                                    className={forms.select.full}
+                                                >
+                                                    {useMemo(() => LHDN_TAX_TYPE_CHOICES.map(option => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    )), [LHDN_TAX_TYPE_CHOICES])}
+                                                </select>
+                                            </td>
+                                            
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    {...register(`related_customer_refund.${index}.einvoice_tax_exemption_reason`)}
+                                                    className={tables.text}
+                                                />
+                                            </td>
+                                            
                                             <td className={tables.autoCalculate}>
-                                                {decimalPlaces(
-                                                    (Number(watch(`related_customer_refund.${index}.refund_amount`) || 0.00) +
-                                                    Number(watch(`related_customer_refund.${index}.additional_charges`) || 0.00))
-                                                )}
+                                                {decimalPlaces(total)}
                                             </td>
                                             
                                             <td className={tables.cell}>
@@ -328,17 +459,22 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                                                 </button>
                                             </td>
                                         </tr>
-                                    ))}
+                                    );
+                                    })}
                                     <tr>
                                         <td className={tables.headerCell}>
                                             <button
                                                 type="button"
                                                 onClick={() => append({
-                                                    date: "",
+                                                    date: undefined,
                                                     refund_amount: 0.00,
-                                                    additional_charges: 0.00,
-                                                    payment_type: "" as any,
-                                                    cancelled: false
+                                                    taxable: false,
+                                                    sst_percent: 0.00,
+                                                    payment_type: "Cash",
+                                                    cancelled: false,
+                                                    einvoice_classification_code: undefined,
+                                                    einvoice_tax_type: "06",
+                                                    einvoice_tax_exemption_reason: undefined,
                                                 })}
                                                 className={buttons.addLine}
                                             >
@@ -356,19 +492,19 @@ const creditNoteChange = refundRelatedcreditNoteHandler(creditNotes, setValue);
                                 <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
     
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Tax Inclusive?</div>
+                                        <div>Taxable?</div>
                                         <input 
-                                        {...register("tax_inclusive")}
+                                        {...register("taxable")}
                                         type="checkbox"
                                         className="ml-2 forced-colors:bg-green-300"
                                         />
                                     </div>
     
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Tax Amount</div>
+                                        <div>Tax Percent</div>
                                         <input 
                                             type="number"
-                                            {...register("tax_amount")}
+                                            {...register("tax_percent")}
                                             className={forms.input.smallNumber}
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {

@@ -108,10 +108,11 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                                 </div>
                                 <div>
                                     <strong>Cancelled: </strong> 
-                                    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
-                                            quotation.cancelled
-                                                ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
-                                        }`}>
+                                    <span className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    quotation.cancelled
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>
                                             {quotation.cancelled ? 'Yes' : 'No'}
                                     </span>
                                 </div>
@@ -186,7 +187,10 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                                 <th className={tables.headerCell}>UOM</th>
                                 <th className={tables.headerCell}>Unit Per Price</th>
                                 <th className={tables.headerCell}>Currency</th>
-                                <th className={tables.headerCell}>Amount</th>
+                                <th className={tables.headerCell}>Taxable</th>
+                                <th className={tables.headerCell}>SST %</th>
+                                <th className={tables.headerCell}>SSt Amount</th>
+                                <th className={tables.headerCell}>Total</th>
                                 <th className={tables.headerCell}>Cancelled</th>
                             </tr>
                             </thead>
@@ -208,8 +212,19 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                                         <td className={tables.cell}>{line.unit_of_measure}</td>
                                         <td className={tables.cell}>{line.price_per_unit}</td>
                                         <td className={tables.cell}>{line.currency}</td>
+                                        <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    line.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>{line.taxable ? 'Yes' : 'No'}</td>
+                                        <td className={tables.cell}>{line.sst_percent}</td>
+                                        <td className={tables.cell}>{line.sst_amount}</td>
                                         <td className={tables.cell}>{line.sub_total}</td>
-                                        <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
+                                        <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    line.cancelled
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>{line.cancelled ? 'Yes' : 'No'}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -231,7 +246,12 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Discount %</div>
-                                        <div className={labelStyles}>({quotation.discount_amount})%</div>
+                                        <div className={labelStyles}>({quotation.discount_percent})%</div>
+                                    </div>
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Discount Amount</div>
+                                        <div className={labelStyles}>({quotation.discount_amount})</div>
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
@@ -240,6 +260,17 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                                     </div>
 
                                     <hr className="my-2 border-blue-200" />
+                                    
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Taxable?</div>
+                                        <div className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                            quotation.taxable
+                                                ? 'bg-red-100 text-red-800 border border-red-200'
+                                                : 'bg-green-100 text-green-800 border border-green-200'
+                                        }`}>
+                                            {quotation.taxable ? 'Yes' : 'No'}
+                                        </div>
+                                    </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Tax %</div>

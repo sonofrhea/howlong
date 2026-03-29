@@ -202,10 +202,11 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                                             <th className={tables.headerCell}>Payment Date</th>
                                             <th className={tables.headerCell}>Payment Type</th>
                                             <th className={tables.headerCell}>Amount</th>
-                                            <th className={tables.headerCell}>Tax Inclusive?</th>
+                                            <th className={tables.headerCell}>Taxable?</th>
                                             <th className={tables.headerCell}>SST %</th>
-                                            <th className={tables.headerCell}>Current Total</th>
+                                            <th className={tables.headerCell}>SST Amount</th>
                                             <th className={tables.headerCell}>Cancelled</th>
+                                            <th className={tables.headerCell}>Current Total</th>
                                         </tr>
                                     </thead>
 
@@ -215,10 +216,19 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                                                 <td className={tables.cell}>{formatDate(line.payment_date)}</td>
                                                 <td className={tables.cell}>{line.payment_type || '--'}</td>
                                                 <td className={tables.cell}>{line.total || '--'}</td>
-                                                <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>{line.tax_amount || '--'}%</td>
-                                                <td className={tables.cell}>{line.payment_amount || '--'}</td>
-                                                <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
+                                                <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    line.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>{line.taxable ? 'Yes' : 'No'}</td>
+                                                <td className={tables.cell}>{line.sst_percent}%</td>
+                                                <td className={tables.cell}>{line.sst_amount}</td>
+                                                <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    line.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>{line.cancelled ? 'Yes' : 'No'}</td>
+                                                <td className={tables.cell}>{line.sub_total || '--'}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -236,10 +246,30 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                                             </div>
                                         </div>
 
+                                        <hr className="my-4 border-blue-200" />
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Taxable?</div>
+                                            <div className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    invoicePayment.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>
+                                                {invoicePayment.taxable ? 'Yes' : 'No'}
+                                            </div>
+                                        </div>
+
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Extra Tax %:</div>
                                             <div className="font-medium text-black">
-                                                {invoicePayment.tax_amount}%
+                                                {invoicePayment.tax_percent}%
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                            <div>Tax Amount:</div>
+                                            <div className="font-medium text-black">
+                                                {invoicePayment.tax_amount}
                                             </div>
                                         </div>
 

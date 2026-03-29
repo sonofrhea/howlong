@@ -246,29 +246,49 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                             </colgroup>
                             <thead className={tables.header}>
                                 <tr>
-                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Description</th>
-                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>GST number</th>
-                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Amount</th>
-                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Special treatment</th>
-                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Discount %</th>
-                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Total <br/>(After Discount)</th>
-                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>GST Inclusive</th>
-                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>GST %</th>
-                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Total <br/>(After Tax)</th>
-                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Cancelled</th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                        Description
+                                    </th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                        GST number
+                                    </th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                        Amount
+                                    </th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                        Special treatment
+                                    </th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                        Treatment %
+                                    </th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                        Total <br/>(After Discount)
+                                    </th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                        Taxable
+                                    </th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                        SST %
+                                    </th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                        Total <br/>(After Tax)
+                                    </th>
+                                    <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                        Cancelled
+                                    </th>
                                     <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}></th>
                                 </tr>
                             </thead>
 
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => {
-                                    const tax_percentage = Number(watch(`receipt_voucher_lines.${index}.tax`) || 0.00) / 100;
+                                    const tax_percentage = Number(watch(`receipt_voucher_lines.${index}.sst_percent`) || 0.00) / 100;
                                     const amount = Number(watch(`receipt_voucher_lines.${index}.amount`) || 0.00);
-                                    const treatmentPercentage =  Number(watch(`receipt_voucher_lines.${index}.treatment_amount`) || 0.00) / 100;
+                                    const treatmentPercentage =  Number(watch(`receipt_voucher_lines.${index}.treatment_percent`) || 0.00) / 100;
                                     const treatmentRate = amount * treatmentPercentage;
                                     const totalAfterDiscount = amount - treatmentRate;
                                     const taxRate = totalAfterDiscount * tax_percentage
-                                    const totalAfterTax = totalAfterDiscount - taxRate;
+                                    const totalAfterTax = totalAfterDiscount + taxRate;
 
                                     return(
                                         <tr key={field.id} className={tables.row}>
@@ -306,11 +326,12 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                                                     {...register(`receipt_voucher_lines.${index}.special_treatment`)} 
                                                 />
                                             </td>
-                                            
+                                                                                            
                                             <td className={text.numbers}>
+                                                <div style={{ position: 'relative', display: 'inline-block' }}>
                                                 <input 
                                                     type="number"
-                                                    {...register(`receipt_voucher_lines.${index}.treatment_amount`)}
+                                                    {...register(`receipt_voucher_lines.${index}.treatment_percent`)}
                                                     className={forms.input.number}
                                                     placeholder="0.00" step="0.01" min="0.00"
                                                     onBlur={(e) => {
@@ -318,7 +339,17 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                                                             e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
+                                                    style={{ paddingRight: '20%' }}
                                                 />
+                                                <span style={{ 
+                                                    position: 'absolute', 
+                                                    right: '5px', 
+                                                    top: '50%', 
+                                                    transform: 'translateY(-50%)',
+                                                    pointerEvents: 'none',
+                                                    color: '#666'
+                                                }}>%</span>
+                                                </div>
                                             </td>
                                             
                                             <td className={tables.autoCalculate}>
@@ -328,14 +359,15 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                                             <td className={tables.cell}>
                                                 <input
                                                     type="checkbox"
-                                                    {...register(`receipt_voucher_lines.${index}.tax_inclusive`)} 
+                                                    {...register(`receipt_voucher_lines.${index}.taxable`)} 
                                                 />
                                             </td>
-                                            
+                                                                                            
                                             <td className={text.numbers}>
+                                                <div style={{ position: 'relative', display: 'inline-block' }}>
                                                 <input 
                                                     type="number"
-                                                    {...register(`receipt_voucher_lines.${index}.tax`)}
+                                                    {...register(`receipt_voucher_lines.${index}.sst_percent`)}
                                                     className={forms.input.number}
                                                     placeholder="0.00" step="0.01" min="0.00"
                                                     onBlur={(e) => {
@@ -343,7 +375,17 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                                                             e.target.value = decimalPlaces(Number(e.target.value));
                                                         }
                                                     }}
+                                                    style={{ paddingRight: '20%' }}
                                                 />
+                                                <span style={{ 
+                                                    position: 'absolute', 
+                                                    right: '5px', 
+                                                    top: '50%', 
+                                                    transform: 'translateY(-50%)',
+                                                    pointerEvents: 'none',
+                                                    color: '#666'
+                                                }}>%</span>
+                                                </div>
                                             </td>
                                             
                                             <td className={tables.autoCalculate}>
@@ -380,9 +422,9 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                                                 gst_number: "",
                                                 amount: 0.00,
                                                 special_treatment: false,
-                                                treatment_amount: 0.00,
-                                                tax_inclusive: false,
-                                                tax: 0.00,
+                                                treatment_percent: 0.00,
+                                                taxable: false,
+                                                sst_percent: 0.00,
                                                 cancelled: false,
                                             })}
                                         >
@@ -400,9 +442,9 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                                 <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Tax Inclusive?</div>
+                                        <div>Taxable?</div>
                                         <input 
-                                        {...register("tax_inclusive")}
+                                        {...register("taxable")}
                                         type="checkbox"
                                         className="ml-2 forced-colors:bg-green-300"
                                         />
@@ -412,7 +454,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                                         <div>Tax %</div>
                                         <input 
                                             type="number"
-                                            {...register("tax")}
+                                            {...register("tax_percent")}
                                             className={forms.input.smallNumber}
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {

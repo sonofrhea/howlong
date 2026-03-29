@@ -23,7 +23,8 @@ const smallSelectStyles ="w-[10vw] px-2 py-1 text-sm border rounded-md focus:rin
 export const forms = {
   body: "w-[100%] mx-auto page bg-white shadow-lg backdrop-grayscale-50 rounded-2xl overflow-hidden",
   input: {
-    date: "px-3 py-2 border text-black cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors",
+    dateBig: "px-3 w-[60%]! py-2 border text-black cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors",
+    date: "px-3 w-[100%]! py-2 border text-black cursor-pointer selection:cursor-pointer border-violet-300 drop-shadow-md shadow-inner rounded focus:ring-2 focus:ring-green-500 focus:border-violet-500 transition-colors",
     number: "w-full text-gray-700 border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
     midNumber: "w-[50%] border text-black border-gray-300 drop-shadow-md shadow-inner rounded p-1 focus:outline-none focus:ring-2 focus:ring-blue-500",
     smallNumber: "w-[30%] text-black border-gray-300 drop-shadow-md shadow-inner rounded focus:outline-none focus:ring-2 focus:ring-blue-500",
@@ -81,7 +82,7 @@ export const tables = {
   numberLabel: "inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate",
   base: "w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner",
   header: "bg-blue-100 drop-shadow-md shadow-lg",
-  headerCell: "text-black text-center text-xs font-semibold uppercase border border-y-gray-100 border-x-gray-100",
+  headerCell: "text-black text-center text-xs font-semibold uppercase border border-y-gray-100 border-x-gray-100 font-['Montserrat']!",
   body: "bg-white divide-y divide-gray-100",
   row: "bg-white divide-y divide-x divide-gray-200 border-x-gray-100 border-y-gray-100 border-l border-l-gray-100",
   cell: "px-4 py-4 text-sm text-gray-600 shadow-inner",

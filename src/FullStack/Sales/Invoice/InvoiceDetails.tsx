@@ -84,18 +84,24 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
 
     return (
         <div className="w-full mx-auto page bg-white shadow-2xl shadow-gray-400 rounded-2xl overflow-hidden">
-            <div className={forms.body}>
+            <style>
+                {`
+                    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
+                `}
+            </style>
+
+            <div className={forms.body} style={{ fontFamily: 'Montserrat, system-ui' }}>
                 <div className={layout.header}>
                     <div className={layout.tag}>
 
                         <div className="text-center space-y-6 px-6 py-3 gap-4">
                             <div className={layout.badge}>
-                                <p className={text.badgeLarge}>
+                                <p className={text.badgeLarge} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     INVOICE DETAILS
                                 </p>
-                                <p className={labelStyles}>
+                                <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                     {formatNumber()}{invoice.invoice_number}
-                                </p>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -112,7 +118,7 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                 </div>
 
                     {/* e-Invoice Section */}
-                <div className="mb-6">
+                <div className="mb-6 space-y-6 px-6 py-3 gap-4">
                     <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
                             <a className={details.extraSmallUppercase}>e-Invoice Status</a>
@@ -187,42 +193,42 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
 
                 <div>
                     <div className="grid grid-cols-3 gap-6">
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Quotation No.</a><br />
                             {formatNumber()}{invoice.invoice_number}
                         </p>
                         
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Invoice Date</a><br />
                             {formatDate(invoice.invoice_date)}
                         </p>
                         
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Invoice Due Date</a><br />
                             {invoice.invoice_due_date}
                         </p>
                         
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Customer</a><br />
                             {formatCustomerNumber()}{invoice.customer || 'N/A'} | {invoice.customer_name || 'N/A'}
                         </p>
                         
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Customer Extra Details</a><br />
                             {invoice.customer_details || 'N/A'}
                         </p>
                         
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Description</a><br />
                             {invoice.description || 'N/A'}
                         </p>
                         
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Currency</a><br />
                             {invoice.currency || 'N/A'}
                         </p>
                         
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Cancelled</a><br />
                             <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                                     invoice.cancelled
@@ -232,14 +238,24 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                             </span>
                         </p>
                         
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Agent</a><br />
                             {invoice.agent}
                         </p>
                         
-                        <p className={labelStyles}>
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Project</a><br />
                             {invoice.project_name}
+                        </p>
+
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>E-invois supply type</a><br />
+                            {invoice.einvoice_supply_type || 'N/A'}
+                        </p>
+
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>E-invois payment mode</a><br />
+                            {invoice.einvoice_payment_mode || 'N/A'}
                         </p>
                     </div>
 
@@ -250,17 +266,27 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                             <div className="overflow-x-auto">
                                 <table className={forms.body}>
                                     <thead className={tables.header}>
-                                        <tr>
+                                        <tr >
                                             <th className={tables.headerCell}>Item</th>
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>Quantity</th>
                                             <th className={tables.headerCell}>UOM</th>
                                             <th className={tables.headerCell}>Price/Per Unit</th>
                                             <th className={tables.headerCell}>Amount</th>
-                                            <th className={tables.headerCell}>SST Inclusive?</th>
+                                            <th className={tables.headerCell}>Taxable?</th>
                                             <th className={tables.headerCell}>SST%</th>
-                                            <th className={tables.headerCell}>Total</th>
+                                            <th className={tables.headerCell}>SST Amount</th>
                                             <th className={tables.headerCell}>Cancelled</th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice classification code
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice tax type
+                                            </th>
+                                            <th className={tables.headerCell} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                                E-invoice tax exemption reason
+                                            </th>
+                                            <th className={tables.headerCell}>Total</th>
                                         </tr>
                                     </thead>
 
@@ -273,10 +299,22 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                                                 <td className={tables.cell}>{line.unit_of_measure || '--'}</td>
                                                 <td className={tables.cell}>{line.price_per_unit || '--'}</td>
                                                 <td className={tables.cell}>{line.total || '--'}</td>
-                                                <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>{line.tax_amount || '--'}</td>
+                                                <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    line.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>{line.taxable ? 'Yes' : 'No'}</td>
+                                                <td className={tables.cell}>{line.sst_percent || '--'}</td>
+                                                <td className={tables.cell}>{line.sst_amount || '--'}</td>
+                                                <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    line.cancelled
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>{line.cancelled ? 'Yes' : 'No'}</td>
+                                                <td className={tables.cell}>{line.einvoice_classification_code || '--'}</td>
+                                                <td className={tables.cell}>{line.einvoice_tax_type || '--'}</td>
+                                                <td className={tables.cell}>{line.einvoice_tax_exemption_reason || '--'}</td>
                                                 <td className={tables.cell}>{line.sub_total || '--'}</td>
-                                                <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -295,8 +333,22 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                                     <hr className="my-2 border-blue-200" />
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Discount?</div>
+                                        <div className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                invoice.discount
+                                                ? 'bg-green-100 text-green-800 border border-green-200'
+                                                : 'bg-red-100 text-red-800 border border-red-200'
+                                            }`}>({invoice.discount_amount ? 'Yes' : 'No'})</div>
+                                    </div>
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Discount %</div>
-                                        <div className="font-medium text-gray-800">({invoice.discount_amount || 'N/A'})%</div>
+                                        <div className="font-medium text-gray-800">{invoice.discount_percent}%</div>
+                                    </div>
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Discount Amount</div>
+                                        <div className="font-medium text-gray-800">{invoice.discount_amount}</div>
                                     </div>
 
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
@@ -307,8 +359,22 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                                     <hr className="my-2 border-blue-200" />
 
                                     <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                        <div>Taxable</div>
+                                        <div className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                invoice.discount
+                                                ? 'bg-red-100 text-red-800 border border-red-200'
+                                                : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>{invoice.taxable ? 'Yes' : 'No'}</div>
+                                    </div>
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
                                         <div>Tax %</div>
-                                        <div className="font-medium text-gray-800">{invoice.tax_amount || 'N/A'}%</div>
+                                        <div className="font-medium text-gray-800">{invoice.tax_percent}%</div>
+                                    </div>
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Tax Amount</div>
+                                        <div className="font-medium text-gray-800">{invoice.tax_amount}</div>
                                     </div>
 
                                     <hr className="my-2 border-blue-200" />

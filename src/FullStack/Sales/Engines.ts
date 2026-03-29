@@ -273,3 +273,20 @@ export const deleteCustomerPayment = async (payment_number: number) => {
     console.error(error);
   }
 };
+
+
+
+
+// --------------------------------------------------------------------------------------------------------
+        // LHDN CLASSIFICATION CODES
+
+
+export const fetchLhdnClassificationCodes = async () => {
+  try {
+    const response = await apiClient.get('/sales/lhdn-classification-codes/');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+

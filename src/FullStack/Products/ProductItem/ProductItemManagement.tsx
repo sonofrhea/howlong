@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchCurrencies, fetchAgents } from "../../Core/Engines";
@@ -38,14 +38,33 @@ interface SortConfig {
 
 function ProductItemManagement() {
   const queryClient = useQueryClient();
-  const [view, setView] = useState('list');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const view = searchParams.get('view') || 'list';
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedProductItemId, setSelectedProductItemId] = useState<number | null>(null);
+  const selectedProductItemId = searchParams.get('item_code') ? Number(searchParams.get('item_code')) : null;
 // ------------------------------------------------------------------------------------
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 // ------------------------------------------------------------------------------------
+
+
+  const navigateToView = (newView: string, item_code?: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('view', newView)
+    if (item_code) {
+      params.set('item_code', item_code.toString());
+    } else if (newView === 'list') {
+      params.delete('item_code');
+    }
+    setSearchParams(params);
+  }
+
+
+// ------------------------------------------------------------------------------------
+
+
+
           // DEPENDENCIES
 
 
@@ -107,9 +126,8 @@ function ProductItemManagement() {
       onSuccess: (data: ProductItemCreateResponse) => {
           const newProductItemId = data.item_code;
           queryClient.invalidateQueries({ queryKey: ['productItems'] });
-          setSelectedProductItemId(newProductItemId);
+          navigateToView('details', newProductItemId);
           toast.success('Product Item Created', { id: "Create Product Item" });
-          setView('details');
       },
       onError: (error: any) => {
           toast.error('Failed to create product item', { id: "Create Product Item" });
@@ -137,7 +155,7 @@ function ProductItemManagement() {
               queryKey: ['productItem', selectedProductItemId]
           });
           toast.success('Product Item Updated', { id: "Update Product Item" });
-          setView('details');
+          navigateToView('details', selectedProductItemId!);
       },
       onError: (error: any) => {
           toast.error('Failed to update product item', { id: "Update Product Item" });
@@ -288,35 +306,31 @@ function ProductItemManagement() {
 
 
   const handleProductItemClick = (productItemId: number) => {
-    setSelectedProductItemId(productItemId);
-    setView('details');
+    navigateToView('details', productItemId);
   };
 // ------------------------------------------------------------------------------------
 
 
   const handleEditProductItem = (productItemId: number) => {
-    setSelectedProductItemId(productItemId);
-    setView('edit');
+    navigateToView('edit', productItemId);
   };
 // ------------------------------------------------------------------------------------
 
   const handleBackToProductItemsList = () => {
-    setView('list');
-    setSelectedProductItemId(null);
+    navigateToView('list');
   };
 
 // ------------------------------------------------------------------------------------
 
 
   const handleBackToProductItemDetails = (productItemId: number) => {
-    setSelectedProductItemId(productItemId);
-    setView('details');
+    navigateToView('details', productItemId);
   };
 
 // ------------------------------------------------------------------------------------
 
   const handleEditProductItemButton = () => {
-    setView('edit');
+    navigateToView('edit');
   };
 // ------------------------------------------------------------------------------------
 
@@ -415,7 +429,7 @@ const handleSort = (key: any) => {
           <div className="max-w-7xl mx-auto px-4 py-4">
               <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                      <span className={spinningStyles.terminalBar.spinner}>⠋</span>
+                      <span className="text-green-500 mr-2 animate-bounce text-4xl">⠋</span>
                       <div>
                           <h1 className="text-lg font-semibold text-gray-900">Products Suite</h1>
                           <p className="text-sm text-gray-500">Product Item Management</p>
@@ -508,7 +522,7 @@ const handleSort = (key: any) => {
                     </div>
                   </div>
                   <button
-                    onClick={() => setView('form')}
+                    onClick={() => navigateToView('form')}
                     className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -555,7 +569,7 @@ const handleSort = (key: any) => {
                     <p className="text-gray-500">Add a new product item to your records</p>
                   </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

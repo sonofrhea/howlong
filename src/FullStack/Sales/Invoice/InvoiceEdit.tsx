@@ -3,13 +3,15 @@ import { useForm, useFieldArray } from "react-hook-form";
 
 import { ProjectProfileResponse } from "../../Projects/constants/Types";
 import { CustomerCreateResponse } from "../../Customers/constants/Types"
-import { InvoiceInputs, InvoiceProps } from "../Constants/Types";
+import { InvoiceInputs, InvoiceProps, lhdnClassificationCodesInterface } from "../Constants/Types";
 import { CurrencyInterface, AgentInterface } from "../../Core/constants/Types"
 import { ProductItemCreateResponse } from "../../Products/constants/Types"
 
 
 import { Trash2 } from "lucide-react";
 import { buttons, forms, labelStyles, layout, tables, text, utils } from "../Constants/Styles";
+import { LHDN_TAX_TYPE_CHOICES } from "../Constants/Options";
+import { EINVOICE_PAYMENT_MODE_CHOICES, EINVOICE_SUPPLY_TYPE_CHOICES } from "../../Customers/constants/Options";
 
 
 const formatCustomerNumber = () => {
@@ -42,7 +44,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
     onSubmit,
     isSubmitting,
     onCancel,
-    customers, currencies, agents, projects, productItems 
+    customers, currencies, agents, projects, productItems, lhdnClassificationCodes 
 }) => {
     const invoiceId = invoice?.invoice_number;
 
@@ -59,9 +61,23 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
     
     
     const { fields, append, remove } = useFieldArray({
-            name: "related_invoice",
-            control
-        });
+        name: "related_invoice",
+        control
+    });
+            
+            
+            
+    const eInvoiceSupplyType = useMemo(() => EINVOICE_SUPPLY_TYPE_CHOICES.map(option => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                )), [EINVOICE_SUPPLY_TYPE_CHOICES])
+    
+    const eInvoicePaymentMode = useMemo(() => EINVOICE_PAYMENT_MODE_CHOICES.map(option => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                )), [EINVOICE_PAYMENT_MODE_CHOICES])
 
 
 
@@ -197,6 +213,47 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                             {...register("cancelled")}
                         />
                     </div>
+                        
+                    <div>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>Currency</p>
+                        <select 
+                            {...register("currency")}
+                            className={forms.select.partial}
+                        >
+                            <option value="">select...</option>
+                            {useMemo(() => currencies.map((currency: CurrencyInterface) => (
+                                <option key={currency.currency_code} value={currency.currency_code}>
+                                    {currency.currency_code}
+                                </option>
+                            )), [currencies])}
+                        </select>
+                    </div>
+                                            
+                    <div>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            E-invois supply type
+                        </p>
+                        <select className={forms.select.partial}
+                            {...register("einvoice_supply_type", {
+                                setValueAs: (value) => value === "" ? undefined : value
+                            })}>
+                                <option value="">can leave empty...</option>
+                                {eInvoiceSupplyType}
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <p className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                            E-invois payment mode
+                        </p>
+                        <select className={forms.select.partial}
+                            {...register("einvoice_payment_mode", {
+                                setValueAs: (value) => value === "" ? undefined : value
+                            })}>
+                                <option value="">can leave empty...</option>
+                                {eInvoicePaymentMode}
+                        </select>
+                    </div>
                 </div>
                 
                 {/* LINES */}
@@ -205,15 +262,19 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                         <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                             <colgroup>
                                 {[
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
-                                    'w-[8%] text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
                                     'w-[5%] text-center',
-                                    'w-1/11 text-center',
-                                    'w-1/11 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
+                                    'w-1/15 text-center',
                                     'w-[5%] text-center',
                                     'w-[5%] text-center',
                                 ].map((line, index) => (
@@ -228,8 +289,12 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                 <th className={tables.headerCell}>Unit of Measure</th>
                                 <th className={tables.headerCell}>Price/Per Unit</th>
                                 <th className={tables.headerCell}>Sub-Total</th>
-                                <th className={tables.headerCell}>SST Inclusive?</th>
+                                <th className={tables.headerCell}>Taxable?</th>
                                 <th className={tables.headerCell}>SST %</th>
+                                <th className={tables.headerCell}>SST Amount</th>
+                                <th className={tables.headerCell}>e-invoice <br />classification code</th>
+                                <th className={tables.headerCell}>e-invoice <br />tax type</th>
+                                <th className={tables.headerCell}>e-invoice tax <br />exemption reason</th>
                                 <th className={tables.headerCell}>Total</th>
                                 <th className={tables.headerCell}>Cancelled</th>
                                 <th className={tables.headerCell}></th>
@@ -241,16 +306,18 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                     
                                     const quantity = Number(watch(`related_invoice.${index}.quantity`) || 0.00);
                                     const price_per_unit = Number(watch(`related_invoice.${index}.price_per_unit`) || 0.00);
-                                    let tax_amount = Number(watch(`related_invoice.${index}.tax_amount`) || 0.00);
-                                    const tax_inclusive = Number(watch(`related_invoice.${index}.tax_inclusive`) || false);
+                                    let tax_amount = Number(watch(`related_invoice.${index}.sst_percent`) || 0.00);
+                                    const tax_inclusive = Number(watch(`related_invoice.${index}.taxable`) || false);
 
                                     let total = quantity * price_per_unit;
 
                                     if (!tax_inclusive) {
                                         tax_amount = 0.00;
                                     }
-
-                                    total *= 1 + (tax_amount / 100);
+                                    const amount = quantity * price_per_unit
+                                    const tax = tax_amount / 100
+                                    const sstAmount = total * tax
+                                    const fullTotal = amount + sstAmount
 
 
                                     const productOptions = useMemo(() => 
@@ -315,16 +382,13 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                             </td>
 
                                             <td className={tables.autoCalculate}>
-                                                {decimalPlaces(
-                                                    (watch(`related_invoice.${index}.quantity`) || 0.00) *
-                                                    (watch(`related_invoice.${index}.price_per_unit`) || 0.00)
-                                                )}
+                                                {decimalPlaces(total)}
                                                 
                                             </td>
 
                                             <td className={tables.cell}>
                                                 <input 
-                                                    {...register(`related_invoice.${index}.tax_inclusive`)}
+                                                    {...register(`related_invoice.${index}.taxable`)}
                                                     type="checkbox"
                                                     className={forms.input.base}
                                                 />
@@ -332,7 +396,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
 
                                             <td className={text.numbers}>
                                                 <input 
-                                                    {...register(`related_invoice.${index}.tax_amount`)}
+                                                    {...register(`related_invoice.${index}.sst_percent`)}
                                                     type="number"
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
@@ -345,7 +409,50 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                             </td>
 
                                             <td className={tables.autoCalculate}>
-                                                {decimalPlaces(total)}
+                                                {decimalPlaces(sstAmount)}
+                                            </td>
+                                                                                            
+                                            <td className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                                <select
+                                                    {...register(`related_invoice.${index}.einvoice_classification_code`, {
+                                                        setValueAs: (value) => value === "" ? undefined : value
+                                                    })}
+                                                    className={forms.select.full}
+                                                >
+                                                    <option value="">select...</option>
+                                                    {useMemo(() => lhdnClassificationCodes.map((
+                                                        code: lhdnClassificationCodesInterface) => (
+                                                            <option key={code.code} value={code.code}>
+                                                                code: {code.code} / desc: {code.description}
+                                                            </option>
+                                                        )), [lhdnClassificationCodes])}
+                                                </select>
+                                            </td>
+                                                                                    
+                                            <td className={forms.label} style={{ fontFamily: 'Montserrat, system-ui', fontSize: '12px' }}>
+                                                <select
+                                                    {...register(`related_invoice.${index}.einvoice_tax_type`, {
+                                                        setValueAs: (value) => value === "" ? null : value
+                                                    })}
+                                                    className={forms.select.full}
+                                                >
+                                                    {useMemo(() => LHDN_TAX_TYPE_CHOICES.map(option => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    )), [LHDN_TAX_TYPE_CHOICES])}
+                                                </select>
+                                            </td>
+                                                                                    
+                                            <td className={tables.cell}>
+                                                <input 
+                                                    {...register(`related_invoice.${index}.einvoice_tax_exemption_reason`)}
+                                                    className={tables.text}
+                                                />
+                                            </td>
+
+                                            <td className={tables.autoCalculate}>
+                                                {decimalPlaces(fullTotal)}
                                             </td>
 
                                             <td className={tables.cell}>
@@ -374,14 +481,14 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                         <button
                                             type="button"
                                             onClick={() => append({ 
-                                                item: "", 
-                                                description: "",
+                                                item: undefined, 
+                                                description: undefined,
                                                 quantity: 0, 
-                                                unit_of_measure: "", 
+                                                unit_of_measure: undefined, 
                                                 price_per_unit: 0.00,
                                                 cancelled: false,
-                                                tax_inclusive: false, 
-                                                tax_amount: 0.00
+                                                taxable: false, 
+                                                sst_percent: 0.00
                                                 })}
                                             className={buttons.addLine}
                                         >
@@ -411,7 +518,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                     <div>Discount %</div>
                                     <input 
                                         type="number"
-                                        {...register("discount_amount")}
+                                        {...register("discount_percent")}
                                         className={forms.input.smallNumber}
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {
@@ -423,9 +530,9 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                 </div>
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Inclusive?</div>
+                                    <div>Taxable?</div>
                                     <input 
-                                    {...register("tax_inclusive")}
+                                    {...register("taxable")}
                                     type="checkbox"
                                     className="ml-2 forced-colors:bg-green-300"
                                     />
@@ -435,7 +542,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                     <div>Tax %</div>
                                     <input 
                                         type="number"
-                                        {...register("tax_amount")}
+                                        {...register("tax_percent")}
                                         className={forms.input.smallNumber}
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {

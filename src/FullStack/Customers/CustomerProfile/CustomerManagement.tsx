@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 import { validateCustomerTIN } from "../../EInvoice/Engines";
 import { TINValidationResponse } from "../../EInvoice/constants/Types";
@@ -15,7 +15,6 @@ import {
 
 
 
-import { fetchChartOfAccounts } from "../../ChartOfAccounts/Engines"
 import { fetchCurrencies, fetchBanks } from "../../Core/Engines"
 
 import { fetchCompanyProfile } from "../../Core/Engines";
@@ -35,10 +34,8 @@ import CustomerEdit from "./CustomerEdit";
 
 import { CustomerInputs, CustomerCreateResponse,
   CustomersList } from "../constants/Types";
-import { spinningStyles } from "../constants/Styles";
 import { toast } from "react-hot-toast";
-import { CurrencyInterface } from "../../Core/constants/Types";
-import { COUNTRY_OPTIONS } from "../constants/Options";
+import { User } from "lucide-react";
 
 
 
@@ -53,13 +50,28 @@ interface SortConfig {
 
 function CustomerManagement() {
   const queryClient = useQueryClient();
-  const [view, setView] = useState('list');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const view = searchParams.get('view') || 'list';
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(null);
+  const selectedCustomerId = searchParams.get('customer_number') ? Number(searchParams.get('customer_number')) : null;
 // ------------------------------------------------------------------------------------
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  
+// --------------------------------------------------------------------------------
+
+
+  const navigateToView = (newView: string, customer_number?: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('view', newView);
+    if (customer_number) {
+      params.set('customer_number', customer_number.toString());
+    } else if (newView === 'list') {
+      params.delete('customer_number');
+    }
+    setSearchParams(params)
+  }
 
 
   
@@ -115,9 +127,8 @@ function CustomerManagement() {
       },
       onSuccess: (data: CustomerCreateResponse) => {
           queryClient.invalidateQueries({ queryKey: ['customers'] });
-          setSelectedCustomerId(data.customer_number);
           toast.success('Customer Created', { id: "Create Customer" });
-          setView('details');
+          navigateToView('details', data.customer_number);
       },
       onError: (error: any) => {
           toast.error('Failed to create customer', { id: "Create Customer" });
@@ -143,7 +154,7 @@ function CustomerManagement() {
           queryClient.invalidateQueries({ queryKey: ['customers'] });
           queryClient.invalidateQueries({ queryKey: ['customer', selectedCustomerId]});
           toast.success('Customer successfully Updated', { id: "Update Customer" });
-          setView('details');
+          navigateToView('details', selectedCustomerId!);
       },
       onError: (error: any) => {
           toast.error('Failed to update customer', { id: "Update Customer" });
@@ -270,31 +281,27 @@ function CustomerManagement() {
 // ------------------------------------------------------------------------------------
   const handleCustomerClick = (customerId: number) => {
     //console.log('Customer ID being passed:', customerId);
-    setSelectedCustomerId(customerId);
-    setView('details');
+    navigateToView('details', customerId);
   };
 
 // ------------------------------------------------------------------------------------
   const handleEditCustomer = (customerId: number) => {
-    setSelectedCustomerId(customerId);
-    setView('edit');
+    navigateToView('edit', customerId);
   };
 
 // ------------------------------------------------------------------------------------
   const handleBackToCustomersList = () => {
-    setView('list');
-    setSelectedCustomerId(null);
+    navigateToView('list');
   };
 
 // ------------------------------------------------------------------------------------
   const handleBackToCustomerDetails = (customerId: number) => {
-    setSelectedCustomerId(customerId);
-    setView('details');
+    navigateToView('details', customerId);
   };
 
 // ------------------------------------------------------------------------------------
   const handleEditCustomerButton = () => {
-    setView('edit');
+    navigateToView('edit');
   };
 
 // ------------------------------------------------------------------------------------
@@ -398,10 +405,14 @@ return (
           <div className="max-w-7xl mx-auto px-4 py-4">
               <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                      <span className={spinningStyles.terminalBar.spinner}>⠋</span>
+                      <span className="text-green-500 mr-2 animate-bounce text-4xl"><User /></span>
                       <div>
-                          <h1 className="text-lg font-semibold text-gray-900">Customers Suite</h1>
-                          <p className="text-sm text-gray-500">Customer Management</p>
+                          <h1 className="text-lg font-semibold! text-gray-900"  style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            Customers Suite
+                          </h1>
+                          <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            Customer Management
+                          </p>
                       </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -433,8 +444,12 @@ return (
                     </svg>
                   </div>
                   <div>
-                    <h1 className="text-4xl font-medium text-gray-900 tracking-tight">Customers</h1>
-                    <p className="text-gray-500 mt-2">Manage and track your customer relationships</p>
+                    <h1 className="text-4xl font-medium! text-left text-gray-900 tracking-tight" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                      Customers
+                    </h1>
+                    <p className="text-gray-500 mt-2" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                      Manage and track your customer relationships
+                    </p>
                   </div>
                 </div>
               </div>
@@ -509,7 +524,7 @@ return (
                     </div>
                   </div>
                   <button
-                    onClick={() => setView('form')}
+                    onClick={() => navigateToView('form')}
                     className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -556,7 +571,7 @@ return (
                     <p className="text-gray-500">Add a new customer to your records</p>
                   </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-white text-black px-2 py-1 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

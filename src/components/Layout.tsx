@@ -192,7 +192,7 @@ function Layout({ children }: LayoutPropsInterface) {
                                 <AppIcon appId={currentApp.id} />
                             </div>
                             <div>
-                                <h1 className={textStyles.lightFont}>
+                                <h1 className={`${textStyles.lightFont} font-[Montserrat]!`}>
                                     {currentApp.name}
                                 </h1>
                             </div>

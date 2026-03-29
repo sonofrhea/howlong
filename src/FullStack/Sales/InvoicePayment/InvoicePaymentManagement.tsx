@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 
@@ -65,15 +65,29 @@ interface SortConfig {
 
 function InvoicePaymentManagement() {
   const queryClient = useQueryClient();
-  const [view, setView] = useState('list');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const view = searchParams.get('view') || 'list';
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedInvoicePaymentId, setSelectedInvoicePaymentId] = useState<number | null>(null);
+  const selectedInvoicePaymentId = searchParams.get('invoice_payment_code') ? Number(searchParams.get('invoice_payment_code')) : null;
 // ------------------------------------------------------------------------------------
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 // ------------------------------------------------------------------------------------
   const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+  // ------------------------------------------------------------------------------------
+
+  const navigateToView = (newView: string, invoice_payment_code?: number) => {
+    const params = new URLSearchParams(searchParams)
+    params.set('view', newView);
+    if (invoice_payment_code) {
+      params.set('invoice_payment_code', invoice_payment_code.toString());
+    } else if (newView === 'list') {
+      params.delete('invoice_payment_code');
+    }
+    setSearchParams(params);
+  }
+
   // ------------------------------------------------------------------------------------
 
 
@@ -144,9 +158,8 @@ function InvoicePaymentManagement() {
     },
     onSuccess: (data: InvoicePaymentResponse) => {
       queryClient.invalidateQueries({ queryKey: ['invoicePayment']});
-      setSelectedInvoicePaymentId(data.invoice_payment_code);
+      navigateToView('details', data.invoice_payment_code);
       toast.success('Invoice Payment Successful!', { id: "Create Invoice Payment" });
-      setView('details');
     },
     onError: (error: any) => {
       toast.error('Failed to create Invoice Payment', { id: "Create Invoice Payment" });
@@ -169,13 +182,14 @@ function InvoicePaymentManagement() {
       queryClient.invalidateQueries({ queryKey: ['invoicePayment'] });
       queryClient.invalidateQueries({ queryKey: ['invoicePayment', selectedInvoicePaymentId]});
       toast.success('Invoice Payment Successfully updated!', { id: "Update Invoice Payment" });
-      setView('details');
+      navigateToView('details', selectedInvoicePaymentId!);
     },
     onError: (error: any) => {
       toast.error('Failed to update Invoice Payment', { id: "Update Invoice Payment" });
       console.error('Error updating invoice payment:', error.response?.data || error.message);
     }
   });
+
 // ------------------------------------------------------------------------------------
               // DELETE
 
@@ -272,35 +286,31 @@ function InvoicePaymentManagement() {
 
 
   const handleInvoicePaymentClick = (invoicePaymentId: number) => {
-    setSelectedInvoicePaymentId(invoicePaymentId);
-    setView('details')
+    navigateToView('details', invoicePaymentId);
   };
 // ------------------------------------------------------------------------------------
 
 
   const handleEditInvoicePayment = (invoicePaymentId: number) => {
-    setSelectedInvoicePaymentId(invoicePaymentId);
-    setView('edit');
+    navigateToView('edit', invoicePaymentId);
   };
 // ------------------------------------------------------------------------------------
 
   const handleBackToInvoicePaymentList = () => {
-    setView('list');
-    setSelectedInvoicePaymentId(null);
+    navigateToView('list');
   };
 
 // ------------------------------------------------------------------------------------
 
 
   const handleBackToInvoicePaymentDetails = (invoicePaymentId: number) => {
-    setSelectedInvoicePaymentId(invoicePaymentId);
-    setView('details')
+    navigateToView('details', invoicePaymentId);
   };
 
 // ------------------------------------------------------------------------------------
 
   const handleEditInvoicePaymentButton = () => {
-    setView('edit');
+    navigateToView('edit');
   };
 // ------------------------------------------------------------------------------------
 
@@ -524,7 +534,7 @@ const handleItemsPerPageChange = (value: any) => {
                     </div>
                   </div>
                   <button
-                    onClick={() => setView('form')}
+                    onClick={() => navigateToView('form')}
                     className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex cursor-pointer items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -571,7 +581,7 @@ const handleItemsPerPageChange = (value: any) => {
                     <p className="text-gray-500">Add a new invoice payment to your records</p>
                   </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-white text-black cursor-pointer px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
