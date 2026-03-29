@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { Plus, Truck } from 'lucide-react';
 
@@ -39,14 +39,28 @@ interface SortConfig {
 
 function SupplierInvoiceManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedSupplierInvoiceId, setSelectedSupplierInvoiceId] = useState<number | null>(null);
+    const selectedSupplierInvoiceId = searchParams.get('invoice_number') ? Number(searchParams.get('invoice_number')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, invoice_number?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView);
+        if (invoice_number) {
+        params.set('invoice_number', invoice_number.toString());
+        } else if (newView === 'list') {
+        params.delete('invoice_number');
+        }
+        setSearchParams(params);
+    }
+// ------------------------------------------------------------------------------------
+
                 // DEPENDENCIES
 
     const { data: currencies = [] } = useQuery({
@@ -110,9 +124,8 @@ function SupplierInvoiceManagement() {
         onSuccess: (data: SupplierInvoiceResponse) => {
             const newSupplierInvoice = data.invoice_number
             queryClient.invalidateQueries({ queryKey: ['supplierInvoices']});
-            setSelectedSupplierInvoiceId(newSupplierInvoice);
+            navigateToView('details', newSupplierInvoice);
             toast.success('Supplier Invoice successfully created', { id: "Create Supplier invoice" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create supplier invoice', { id: "Create Supplier invoice" });
@@ -135,7 +148,7 @@ function SupplierInvoiceManagement() {
             queryClient.invalidateQueries({ queryKey: ['supplierInvoices'] });
             queryClient.invalidateQueries({ queryKey: ['supplierInvoice', selectedSupplierInvoiceId]});
             toast.success('Supplier Invoice successfully updated', { id: "Update Supplier invoice" })
-            setView('details');
+            navigateToView('details', selectedSupplierInvoiceId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update supplier invoice', { id: "Update Supplier invoice" });
@@ -240,36 +253,32 @@ function SupplierInvoiceManagement() {
 
 
     const handleSupplierInvoiceClick = (supplierInvoiceId: number) => {
-        setSelectedSupplierInvoiceId(supplierInvoiceId);
-        setView('details')
+        navigateToView('details', supplierInvoiceId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditSupplierInvoice = (supplierInvoiceId: number) => {
-        setSelectedSupplierInvoiceId(supplierInvoiceId);
-        setView('edit');
+        navigateToView('edit', supplierInvoiceId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToSupplierInvoicesList = () => {
-        setView('list');
-        setSelectedSupplierInvoiceId(null);
+        navigateToView('list');
     };
 
 // ------------------------------------------------------------------------------------
 
 
     const handleBackToSupplierInvoiceDetails = (supplierInvoiceId: number) => {
-        setSelectedSupplierInvoiceId(supplierInvoiceId);
-        setView('details')
+        navigateToView('details', supplierInvoiceId);
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleEditSupplierInvoiceButton = () => {
         if (!selectedSupplierInvoiceId === null) return; 
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -468,7 +477,7 @@ function SupplierInvoiceManagement() {
                             </div>
                         </div>
                         <button
-                            onClick={() => setView('form')}
+                            onClick={() => navigateToView('form')}
                             className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                             <Plus />
@@ -513,7 +522,7 @@ function SupplierInvoiceManagement() {
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}  className="text-gray-500 font-medium!">Add a new supplier invoice to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

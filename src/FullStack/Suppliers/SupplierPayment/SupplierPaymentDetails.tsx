@@ -167,10 +167,12 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                                 <thead className={tables.header}>
                                     <tr>
                                         <th className={tables.headerCell}>Payment Date</th>
-                                        <th className={tables.headerCell}>Payment Type</th>
+                                        <th className={tables.headerCell}>Payment Method</th>
                                         <th className={tables.headerCell}>Payment Amount</th>
-                                        <th className={tables.headerCell}>Additional Payment</th>
-                                        <th className={tables.headerCell}>Sub total</th>
+                                        <th className={tables.headerCell}>Taxable</th>
+                                        <th className={tables.headerCell}>SST %</th>
+                                        <th className={tables.headerCell}>SST Amount</th>
+                                        <th className={tables.headerCell}>Total</th>
                                         <th className={tables.headerCell}>Cancelled</th>
                                     </tr>
                                 </thead>
@@ -180,10 +182,21 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                                         <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
                                             <td className={tables.cell}>{formatDate(line.payment_date)}</td>
                                             <td className={tables.cell}>{line.payment_type || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.payment_method || 'N/A'}</td>
                                             <td className={tables.cell}>{line.payment_amount || 'N/A'}</td>
-                                            <td className={tables.cell}>{line.additional_payment || 'N/A'}</td>
-                                            <td className={tables.cell}>{line.current_total || 'N/A'}</td>
-                                            <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
+                                            <td className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                                                line.taxable
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>{line.taxable ? 'Yes' : 'No'}</td>
+                                            <td className={tables.cell}>{line.sst_percent}%</td>
+                                            <td className={tables.cell}>{line.sst_amount}</td>
+                                            <td className={tables.cell}>{line.current_total}</td>
+                                            <td className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                                                line.cancelled
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>{line.cancelled ? 'Yes' : 'No'}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -196,19 +209,35 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                                 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
                                     <div>Gross Paid</div>
-                                    <div className="font-medium text-gray-800">{supplierPayment.aggregate_total || 'N/A'}</div>
+                                    <div className="font-medium text-gray-800">{supplierPayment.aggregate_total}</div>
+                                </div>
+
+                                <hr className="my-4 border-blue-200" />
+                                
+                                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                    <div>Taxable?</div>
+                                    <div className={`inline-flex items-center px-5! py-0.5 rounded text-sm ${
+                                        supplierPayment.taxable
+                                            ? 'bg-red-100 text-red-800 border border-red-200'
+                                            : 'bg-green-100 text-green-800 border border-green-200'
+                                    }`}>{supplierPayment.taxable ? 'Yes' : 'No'}</div>
                                 </div>
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                     <div>Tax %</div>
-                                    <div className="font-medium text-gray-800">({supplierPayment.tax_amount || 'N/A'})%</div>
+                                    <div className="font-medium text-gray-800">({supplierPayment.tax_percent})%</div>
+                                </div>
+
+                                <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                    <div>Tax Amount</div>
+                                    <div className="font-medium text-gray-800">({supplierPayment.tax_amount})</div>
                                 </div>
 
                                 <hr className="my-4 border-blue-200" />
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                     <div>Net Paid</div>
-                                    <div className="font-medium text-gray-800">{supplierPayment.net_paid || 'N/A'}</div>
+                                    <div className="font-medium text-gray-800">{supplierPayment.aggregate_total || 'N/A'}</div>
                                 </div>
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
@@ -223,7 +252,7 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                     <div>Outstanding</div>
-                                    <div className="font-medium text-gray-800">{supplierPayment.outstanding_amount || 'N/A'}</div>
+                                    <div className="font-medium text-gray-800">{supplierPayment.outstanding_amount || '--'}</div>
                                 </div>
 
                                 </div>

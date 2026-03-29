@@ -236,8 +236,8 @@ function JobCostLedgerManagement() {
         const cleanedData = {
             ...jobCostLedgerData,
             job_cost_ledger:
-                jobCostLedgerData.job_cost_ledger && jobCostLedgerData.job_cost_ledger?.length > 0
-                    ? jobCostLedgerData.job_cost_ledger
+                jobCostLedgerData.job_cost_ledger_lines && jobCostLedgerData.job_cost_ledger_lines?.length > 0
+                    ? jobCostLedgerData.job_cost_ledger_lines
                     : undefined
         };
 
@@ -254,8 +254,8 @@ function JobCostLedgerManagement() {
         const cleanedData = {
             ...jobCostLedgerData,
             job_cost_ledger:
-                jobCostLedgerData.job_cost_ledger && jobCostLedgerData.job_cost_ledger?.length > 0
-                    ? jobCostLedgerData.job_cost_ledger
+                jobCostLedgerData.job_cost_ledger_lines && jobCostLedgerData.job_cost_ledger_lines?.length > 0
+                    ? jobCostLedgerData.job_cost_ledger_lines
                     : undefined
         };
         

@@ -442,7 +442,7 @@ export type JobCostLedgerDetails = {
   description: string;
   status: string;
 
-  job_cost_ledger: Array<{
+  job_cost_ledger_lines: Array<{
     boq_line: number;
     cost_code: {
       job_cost_code: number;
@@ -454,11 +454,14 @@ export type JobCostLedgerDetails = {
     cost_type: string;
     status: string;
     cost: string;
-    tax: string;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
     total_cost: string;
     total_paid: string;
     estimated: string;
     variance: string;
+    cancelled: boolean;
   }>;
 
   boq: number;
@@ -486,13 +489,13 @@ export type JobCostLedgerInputs = {
   status?: typeof JOB_COST_LEDGER_STATUS_OPTIONS[number];
   boq?: number;
   boq_estimated_amount?: number;
-  job_cost_ledger?: Array<{
+  job_cost_ledger_lines?: Array<{
     id?: number;
     boq_line?: number;
     boq_additional?: string;
     cost_code?: {
-      job_cost_code?: number | null;
-      job_cost_description?: string | null;
+      job_cost_code?: number;
+      job_cost_description?: string;
     };
     description?: string;
     supplier?: string;
@@ -501,6 +504,7 @@ export type JobCostLedgerInputs = {
     cost?: number;
     taxable?: boolean;
     sst_percent?: number;
+    cancelled?: boolean;
   }>;
   total_actual_cost?: string;
   net_variance?: string;

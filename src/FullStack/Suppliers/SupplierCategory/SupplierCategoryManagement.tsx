@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchSupplierCategories, fetchSupplierCategoryById, createSupplierCategory, 
@@ -37,14 +37,31 @@ import { toast } from "react-hot-toast";
 
 function SupplierCategoryManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list'
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedSupplierCategoryId, setSelectedSupplierCategoryId] = useState<number | null>(null);
+    const selectedSupplierCategoryId = searchParams.get('category_id') ? Number(searchParams.get('category_id')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, category_id?: number) => {
+        const params = new URLSearchParams()
+        params.set('view', newView);
+        if (category_id) {
+            params.set('category_id', category_id.toString());
+        } else if (newView === 'list') {
+            params.delete('category_id');
+        }
+        setSearchParams(params)
+    }
+
+
+    // ------------------------------------------------------------------------------------
+
+
                 // DEPENDENCIES
     const { data: agents = [] } = useQuery({
         queryKey: ['agents'],
@@ -87,9 +104,8 @@ function SupplierCategoryManagement() {
         },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['supplierCategories']});
-            setSelectedSupplierCategoryId(data.category_id);
+            navigateToView('list', data.category_id);
             toast.success('Supplier Category successfully created!', { id: "Create Supplier category" });
-            setView('list');
         },
         onError: (error: any) => {
             toast.error('Failed to create supplier category', { id: "Create Supplier category" });
@@ -112,7 +128,7 @@ function SupplierCategoryManagement() {
             queryClient.invalidateQueries({ queryKey: ['supplierCategories'] });
             queryClient.invalidateQueries({ queryKey: ['supplierCategory', selectedSupplierCategoryId]});
             toast.error('Supplier Category successfully updated', { id: "Update Supplier category" });
-            setView('list');
+            navigateToView('list', selectedSupplierCategoryId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update supplier category', { id: "Update Supplier category" });
@@ -130,7 +146,7 @@ function SupplierCategoryManagement() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['supplierCategories'] });
             toast.success('Supplier Category successfully deleted!', { id: "Delete Supplier category" });
-            setView('list');
+            navigateToView('list');
         },
         onError: (error: any) => {
             toast.error('Failed to delete supplier category', { id: "Delete Supplier category" });
@@ -202,34 +218,30 @@ function SupplierCategoryManagement() {
 
 
     const handleSupplierCategoryClick = (supplierCategoryId: number) => {
-        setSelectedSupplierCategoryId(supplierCategoryId);
-        setView('details')
+        navigateToView('details', supplierCategoryId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditSupplierCategory = (supplierCategoryId: number) => {
-        setSelectedSupplierCategoryId(supplierCategoryId);
-        setView('edit');
+        navigateToView('edit', supplierCategoryId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToSupplierCategoriesList = () => {
-        setView('list');
-        setSelectedSupplierCategoryId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleBackToSupplierCategoryDetails = (supplierCategoryId: number) => {
-        setSelectedSupplierCategoryId(supplierCategoryId);
-        setView('details')
+        navigateToView('details', supplierCategoryId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleEditSupplierCategoryButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -412,7 +424,7 @@ function SupplierCategoryManagement() {
                             </div>
                         </div>
                         <button
-                            onClick={() => setView('form')}
+                            onClick={() => navigateToView('form')}
                             className="bg-white cursor-pointer border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -459,7 +471,7 @@ function SupplierCategoryManagement() {
                         <p className="text-gray-500">Add a new category to your records</p>
                     </div>
                         <button 
-                            onClick={() => setView('list')}
+                            onClick={() => navigateToView('list')}
                             className="bg-white text-black cursor-pointer px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                         >
                             <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

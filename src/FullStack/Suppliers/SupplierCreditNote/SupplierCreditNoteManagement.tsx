@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { Plus } from 'lucide-react';
 
@@ -56,15 +56,30 @@ interface SortConfig {
 
 function SupplierCreditNoteManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedSupplierCreditNoteId, setSelectedSupplierCreditNoteId] = useState<number | null>(null);
+    const selectedSupplierCreditNoteId = searchParams.get('credit_note_number') ? Number(searchParams.get('credit_note_number')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, credit_note_number?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView);
+        if (credit_note_number) {
+        params.set('credit_note_number', credit_note_number.toString());
+        } else if (newView === 'list') {
+        params.delete('credit_note_number');
+        }
+        setSearchParams(params);
+    }
+
+    
     // ------------------------------------------------------------------------------------
 
 
@@ -136,9 +151,8 @@ function SupplierCreditNoteManagement() {
         onSuccess: (data: SupplierCreditNoteResponse) => {
             const newSupplierCreditNote = data.credit_note_number
             queryClient.invalidateQueries({ queryKey: ['supplierCreditNotes']});
-            setSelectedSupplierCreditNoteId(newSupplierCreditNote);
+            navigateToView('details', newSupplierCreditNote);
             toast.success('Supplier Credit Note successfully created!', { id: "Create Supplier Credit Note" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create Supplier Credit Note', { id: "Create Supplier Credit Note" });
@@ -160,8 +174,8 @@ function SupplierCreditNoteManagement() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['supplierCreditNotes'] });
             queryClient.invalidateQueries({ queryKey: ['supplierCreditNote', selectedSupplierCreditNoteId]});
+            navigateToView('details', selectedSupplierCreditNoteId!);
             toast.success('Supplier Credit Note successfully updated!', { id: "Update Supplier Credit Note" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to update Supplier Credit Note', { id: "Update Supplier Credit Note" });
@@ -266,34 +280,30 @@ function SupplierCreditNoteManagement() {
 
 
     const handleSupplierCreditNoteClick = (supplierCreditNoteId: number) => {
-        setSelectedSupplierCreditNoteId(supplierCreditNoteId);
-        setView('details')
+        navigateToView('details', supplierCreditNoteId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditSupplierCreditNote = (supplierCreditNoteId: number) => {
-        setSelectedSupplierCreditNoteId(supplierCreditNoteId);
-        setView('edit');
+        navigateToView('edit', supplierCreditNoteId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToSupplierCreditNotesList = () => {
-        setView('list');
-        setSelectedSupplierCreditNoteId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleBackToSupplierCreditNoteDetails = (supplierCreditNoteId: number) => {
-        setSelectedSupplierCreditNoteId(supplierCreditNoteId);
-        setView('details')
+        navigateToView('details', supplierCreditNoteId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleEditSupplierCreditNoteButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -518,7 +528,7 @@ function SupplierCreditNoteManagement() {
                             </div>
                         </div>
                         <button
-                            onClick={() => setView('form')}
+                            onClick={() => navigateToView('form')}
                             className="bg-white border border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                             <Plus size={16}/>
@@ -563,7 +573,7 @@ function SupplierCreditNoteManagement() {
                         <p className="text-gray-500">Add a new supplier credit note to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                     >
                         x Cancel

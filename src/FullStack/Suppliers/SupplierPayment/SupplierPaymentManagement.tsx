@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchSupplierPayments, fetchSupplierPaymentById, 
@@ -55,15 +53,30 @@ interface SortConfig {
 
 function SupplierPaymentManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedSupplierPaymentId, setSelectedSupplierPaymentId] = useState<number | null>(null);
+    const selectedSupplierPaymentId = searchParams.get('payment_code') ? Number(searchParams.get('payment_code')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, payment_code?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView);
+        if (payment_code) {
+            params.set('payment_code', payment_code.toString());
+        } else if (newView === 'list') {
+            params.delete('payment_code');
+        }
+        setSearchParams(params);
+    }
+
+
     // ------------------------------------------------------------------------------------
 
 
@@ -131,9 +144,8 @@ function SupplierPaymentManagement() {
         onSuccess: (data: SupplierPaymentResponse) => {
             const newSupplierPayment = data.payment_code
             queryClient.invalidateQueries({ queryKey: ['supplierPayments']});
-            setSelectedSupplierPaymentId(newSupplierPayment);
+            navigateToView('details', newSupplierPayment);
             toast.success('Supplier Payment successfully created!', { id: "Create Supplier payment" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create Supplier Payment', { id: "Create Supplier payment" });
@@ -156,7 +168,7 @@ function SupplierPaymentManagement() {
             queryClient.invalidateQueries({ queryKey: ['supplierPayments'] });
             queryClient.invalidateQueries({ queryKey: ['supplierPayment', selectedSupplierPaymentId]});
             toast.success('Supplier Payment successfully updated!', { id: "Update Supplier payment" });
-            setView('details');
+            navigateToView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to update Supplier Payment', { id: "Update Supplier payment" });
@@ -258,30 +270,26 @@ function SupplierPaymentManagement() {
 
 
     const handleSupplierPaymentClick = (supplierPaymentId: number) => {
-        setSelectedSupplierPaymentId(supplierPaymentId);
-        setView('details')
+        navigateToView('details', supplierPaymentId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditSupplierPayment = (supplierPaymentId: number) => {
-        setSelectedSupplierPaymentId(supplierPaymentId);
-        setView('edit');
+        navigateToView('edit', supplierPaymentId);
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleBackToSupplierPaymentsList = () => {
-        setView('list');
-        setSelectedSupplierPaymentId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleBackToSupplierPaymentDetails = (supplierPaymentId: number) => {
-        setSelectedSupplierPaymentId(supplierPaymentId);
-        setView('details')
+        navigateToView('details', supplierPaymentId);
     };
 
 
@@ -289,7 +297,7 @@ function SupplierPaymentManagement() {
 
     const handleEditSupplierPaymentButton = () => {
         if (!selectedSupplierPaymentId === null) return;
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -511,7 +519,7 @@ function SupplierPaymentManagement() {
                             </div>
                         </div>
                         <button
-                            onClick={() => setView('form')}
+                            onClick={() => navigateToView('form')}
                             className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                            <Plus size={16}/>
@@ -556,7 +564,7 @@ function SupplierPaymentManagement() {
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}  className="text-gray-500">Add a new supplier payment to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

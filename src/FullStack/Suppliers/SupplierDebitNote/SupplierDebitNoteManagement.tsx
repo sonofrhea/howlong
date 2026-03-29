@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import '../constants/Suppliers.css';
@@ -64,15 +64,30 @@ interface SortConfig {
 
 function SupplierDebitNoteManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedSupplierDebitNoteId, setSelectedSupplierDebitNoteId] = useState<number | null>(null);
+    const selectedSupplierDebitNoteId = searchParams.get('debit_note_number') ? Number(searchParams.get('debit_note_number')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
+    // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, debit_note_number?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView);
+        if (debit_note_number) {
+            params.set('debit_note_number', debit_note_number.toString())
+        } else if (newView === 'list') {
+            params.delete('debit_note_number');
+        }
+        setSearchParams(params);
+    }
+
+
     // ------------------------------------------------------------------------------------
 
 
@@ -144,9 +159,8 @@ function SupplierDebitNoteManagement() {
         onSuccess: (data: SupplierDebitNoteResponse) => {
             const newSupplierDebitNote = data.debit_note_number
             queryClient.invalidateQueries({ queryKey: ['supplierDebitNotes']});
-            setSelectedSupplierDebitNoteId(newSupplierDebitNote);
+            navigateToView('details', newSupplierDebitNote);
             toast.success('Supplier Debit Note successfully created!', { id: "Create Supplier Debit Note"});
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create Supplier Debit Note', { id: "Create Supplier Debit Note"});
@@ -169,7 +183,7 @@ function SupplierDebitNoteManagement() {
             queryClient.invalidateQueries({ queryKey: ['supplierDebitNotes'] });
             queryClient.invalidateQueries({ queryKey: ['supplierDebitNote', selectedSupplierDebitNoteId]});
             toast.success('Supplier Debit Note successfully updated!', { id: "Update Supplier Debit Note"});
-            setView('details');
+            navigateToView('details', selectedSupplierDebitNoteId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update Supplier Debit Note', { id: "Update Supplier Debit Note"});
@@ -274,32 +288,28 @@ function SupplierDebitNoteManagement() {
     // ------------------------------------------------------------------------------------
 
     const handleSupplierDebitNoteClick = (supplierDebitNoteId: number) => {
-        setSelectedSupplierDebitNoteId(supplierDebitNoteId);
-        setView('details')
+        navigateToView('details', supplierDebitNoteId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleEditSupplierDebitNote = (supplierDebitNoteId: number) => {
-        setSelectedSupplierDebitNoteId(supplierDebitNoteId);
-        setView('edit');
+        navigateToView('edit', supplierDebitNoteId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToSupplierDebitNotesList = () => {
-        setView('list');
-        setSelectedSupplierDebitNoteId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleBackToSupplierDebitNoteDetails = (supplierDebitNoteId: number) => {
-        setSelectedSupplierDebitNoteId(supplierDebitNoteId);
-        setView('details')
+        navigateToView('details', supplierDebitNoteId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleEditSupplierDebitNoteButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -518,7 +528,7 @@ function SupplierDebitNoteManagement() {
                             </div>
                         </div>
                         <button
-                            onClick={() => setView('form')}
+                            onClick={() => navigateToView('form')}
                             className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                             <Plus size={16}/>
@@ -563,7 +573,7 @@ function SupplierDebitNoteManagement() {
                         <p className="text-gray-500">Add a new supplier debit note to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-white-600 text-blue px-2 py-1 rounded-lg hover:bg-white-800 transition-colors flex items-center gap-1"
                     >
                         x Cancel

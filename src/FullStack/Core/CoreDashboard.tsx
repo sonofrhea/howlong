@@ -81,7 +81,7 @@ function CoreDashboard() {
                         <Link
                             key={module.id}
                             to={module.available ? module.path : '#'}
-                            className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200 ${
+                            className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg! transition-shadow duration-200 ${
                                 module.available ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
                             }`}
                         >

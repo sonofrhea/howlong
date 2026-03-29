@@ -32,11 +32,11 @@ function PurchasesDashboard() {
         <div className="min-h-screen bg-gray-50 p-4">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-12">
+                <div className="text-center mb-12 font-[Montserrat]!">
                     <h1 className="text-3xl font-bold text-gray-900 mb-4">
                         Company Purchases Dashboard
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 font-[Montserrat]!">
                         Choose a module to get started
                     </p>
                 </div>
@@ -47,7 +47,7 @@ function PurchasesDashboard() {
                         <Link
                             key={module.id}
                             to={module.available ? module.path : '#'}
-                            className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200 ${
+                            className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg! transition-shadow duration-200 ${
                                 module.available ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
                             }`}
                         >
@@ -59,10 +59,10 @@ function PurchasesDashboard() {
                             </div>
 
                             {/* Content */}
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2 font-[Montserrat]!">
                                 {module.name}
                             </h3>
-                            <p className="text-gray-600 text-sm mb-4">
+                            <p className="text-gray-600 text-sm mb-4 font-[Montserrat]!">
                                 {module.description}
                             </p>
 

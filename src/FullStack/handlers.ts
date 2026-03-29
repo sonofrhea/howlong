@@ -421,8 +421,8 @@ export const boqLineHandler = (boqLines: BillOfQuantitiesLineResponse[], setValu
     console.log("✅ Found related BOQ Line:", selectedLine);
 
     if (selectedLine) {
-      setValue(`job_cost_ledger.${index}.estimated`, selectedLine?.estimated_amount);
-      setValue(`job_cost_ledger.${index}.boq_additional`, selectedLine?.additional_item);
+      setValue(`job_cost_ledger_lines.${index}.estimated`, selectedLine?.estimated_amount);
+      setValue(`job_cost_ledger_lines.${index}.boq_additional`, selectedLine?.additional_item);
     }
   }
 };
@@ -466,7 +466,7 @@ export const quotationInvoiceHandler = (quotations: QuotationDetails[], setValue
       setValue("discount", selectedQuote.discount);
       setValue("discount_amount", selectedQuote.discount_amount);
       setValue("description", selectedQuote.project_description);
-      setValue("tax_inclusive", selectedQuote.tax_inclusive);
+      setValue("taxable", selectedQuote.taxable);
       setValue("tax_amount", selectedQuote.tax_amount);
 
       replace(

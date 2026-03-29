@@ -67,14 +67,16 @@ const SupplierDebitNoteForm: React.FC<SupplierDebitNoteFormProps> = ({
                 defaultValues: {
                     related_debit_note: [
                         {
+                            debit_note_item: undefined,
+                            description: undefined,
                             amount: 0.00,
-                            tax_inclusive: false,
-                            tax_amount: 0.00,
+                            taxable: false,
+                            sst_percent: 0.00,
                             cancelled: false
                         }
                     ],
-                    tax_inclusive: false,
-                    tax_amount: 0.00,
+                    taxable: false,
+                    tax_percent: 0.00,
                     cancelled: false
                 }
             });
@@ -242,13 +244,14 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                 <table className={tables.base}>
                                     <colgroup>
                                         {[
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
                                             'w-[7%] text-center',
                                         ].map((line, index) => (
                                             <col key={index} className={line} />
@@ -259,16 +262,25 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                             <th className={tables.headerCell}>Item</th>
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>Amount</th>
-                                            <th className={tables.headerCell}>SST Inclusive</th>
+                                            <th className={tables.headerCell}>Taxable</th>
                                             <th className={tables.headerCell}>SST %</th>
-                                            <th className={tables.headerCell}>SubTotal(After Tax)</th>
+                                            <th className={tables.headerCell}>SST Amount</th>
                                             <th className={tables.headerCell}>Cancelled</th>
+                                            <th className={tables.headerCell}>Total(After SST)</th>
                                             <th className={tables.headerCell}></th>
                                         </tr>
                                     </thead>
-
+        
                                     <tbody className={tables.body}>
+                                        
                                         {fields.map((field, index) => {
+                                            const amount = Number(watch((`related_debit_note.${index}.amount`)) || 0.00)
+                                            const sstPercent = Number(watch((`related_debit_note.${index}.sst_percent`)) || 0.00)
+                                            const taxRate = sstPercent / 100.00
+        
+                                            const taxAmount = amount * taxRate
+                                            const total = amount + taxAmount;
+        
         
                                             return(
                                                 <tr key={field.id} className={tables.row}>
@@ -307,14 +319,14 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                                     <td className={tables.cell}>
                                                         <input
                                                             type="checkbox"
-                                                            {...register(`related_debit_note.${index}.tax_inclusive`)} 
+                                                            {...register(`related_debit_note.${index}.taxable`)} 
                                                         />
                                                     </td>
         
                                                     <td className={text.numbers}>
                                                         <input 
                                                             type="number"
-                                                            {...register(`related_debit_note.${index}.tax_amount`)}
+                                                            {...register(`related_debit_note.${index}.sst_percent`)}
                                                             className={forms.input.number}
                                                             placeholder="0.00"
                                                             step="0.01" min="0.00" onBlur={(e) => {
@@ -326,10 +338,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                                     </td>
         
                                                     <td className={tables.autoCalculate}>
-                                                        {decimalPlaces(
-                                                            Number(watch(`related_debit_note.${index}.amount`) || 0.00) *
-                                                            (1 + (Number(watch(`related_debit_note.${index}.tax_amount`) || 0.00)/100))
-                                                        )}
+                                                        {decimalPlaces(taxAmount)}
                                                     </td>
         
                                                     <td className={tables.cell}>
@@ -337,6 +346,10 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                                             type="checkbox"
                                                             {...register(`related_debit_note.${index}.cancelled`)} 
                                                         />
+                                                    </td>
+        
+                                                    <td className={tables.autoCalculate}>
+                                                        {decimalPlaces(total)}
                                                     </td>
         
                                                     <td>
@@ -358,16 +371,16 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                                 <button  
                                                     type="button"
                                                     onClick={() => append({
-                                                        debit_note_item: "",
-                                                        description: "",
+                                                        debit_note_item: undefined,
+                                                        description: undefined,
                                                         amount: 0.00,
-                                                        tax_inclusive: false,
-                                                        tax_amount: 0.00,
+                                                        taxable: false,
+                                                        sst_percent: 0.00,
                                                         cancelled: false
                                                     })}
                                                     className={buttons.addLine}
                                                     >
-                                                        ++ New Line
+                                                    ++ New Line
                                                 </button>
                                             </td>
                                         </tr>
@@ -381,9 +394,9 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
     
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Tax Inclusive?</div>
+                                            <div>Taxable?</div>
                                             <input 
-                                            {...register("tax_inclusive")}
+                                            {...register("taxable")}
                                             type="checkbox"
                                             className="ml-2 forced-colors:bg-green-300"
                                             />
@@ -393,7 +406,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                             <div>Tax %</div>
                                             <input 
                                                 type="number"
-                                                {...register("tax_amount")}
+                                                {...register("tax_percent")}
                                                 className={forms.input.smallNumber}
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {

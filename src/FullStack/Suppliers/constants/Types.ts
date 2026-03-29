@@ -5,6 +5,7 @@ import { ProductItemCreateResponse } from "../../Products/constants/Types";
 import { SUPPLIERS_ICONS } from "./ModuleIcons";
 
 import { BANK_TYPE_CHOICES, COUNTRY_OPTIONS, 
+  PAYMENT_TYPE_OPTIONS, 
   STATUS_CHOICES, 
   TAX_ID_CHOICES } from "./options"
 
@@ -342,18 +343,20 @@ export type SupplierPaymentInputs = {
   invoice_amount?: string;
 
   related_payment?: Array<{
+    id?: number;
     payment_date?: string;
-    payment_type?: string;
+    payment_method?: typeof PAYMENT_TYPE_OPTIONS[number];
+    taxable?: boolean;
+    sst_percent?: number;
     payment_amount?: number;
-    additional_payment?: number;
     cancelled?: boolean;
-  }> | null;
+  }>;
 
-  tax_inclusive?: boolean;
-  tax_amount?: number;
+  taxable?: boolean;
+  tax_percent?: number;
   cancelled?: boolean;
 
-  payment_receipt?: File | null;
+  payment_receipt?: File;
   date_created: string;
 }
 
@@ -377,22 +380,25 @@ export type SupplierPaymentDetails = {
 
   related_payment: Array<{
     payment_date: string;
-    payment_type: string;
+    payment_method: string;
     payment_amount: string;
-    additional_payment: string;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: string;
     current_total: string;
     cancelled: boolean;
   }>;
 
   net_paid: string;
-  tax_inclusive: boolean;
-  tax_amount: string;
+  taxable: boolean;
+  tax_percent: number;
+  tax_amount: number;
   aggregate_total: string;
   cancelled: boolean;
 
   outstanding_amount: string;
 
-  payment_receipt: File | null;
+  payment_receipt: File;
 
   created_by: number;
   date_created: string;
@@ -522,14 +528,17 @@ export type SupplierInvoiceDetails = {
     unit_of_measure: string;
     price_per_unit: string;
     total: string;
-    tax_amount: string;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
     sub_total: string;
     cancelled: boolean;
   }>,
 
   gross_total: string;
-  tax_inclusive: boolean;
-  tax_amount: string
+  taxable: boolean;
+  tax_percent: number;
+  tax_amount: number;
   cancelled: boolean;
   aggregate_total: string;
 
@@ -544,33 +553,34 @@ export type SupplierInvoiceDetails = {
 
 export type SupplierInvoiceInputs = {
   invoice_number: number;
-  invoice_date: string;
-  invoice_due_date: string;
-  supplier: string;
-  supplier_name: string;
-  supplier_details: string;
-  currency: string;
+  invoice_date?: string;
+  invoice_due_date?: string;
+  supplier?: number;
+  supplier_name?: string;
+  supplier_details?: string;
+  currency?: string;
   purchase_account?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
-  agent: string;
-  product: string;
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
+  agent?: string;
+  product?: string;
   related_invoice?: Array <{
-    item?: number | null;
-    description?: string | null;
-    quantity?: number | null;
-    unit_of_measure?: string | null;
-    price_per_unit?: number | null;
-    tax_inclusive?: boolean | null;
-    tax_amount?: number | null;
-    cancelled?: boolean | null;
-  }> | null;
-  tax_inclusive: boolean;
-  tax_amount: number;
-  cancelled: boolean;
-  date_created: string;
+    id?: number;
+    item?: number;
+    description?: string;
+    quantity?: number;
+    unit_of_measure?: string;
+    price_per_unit?: number;
+    taxable?: boolean;
+    sst_percent?: number;
+    cancelled?: boolean;
+  }>;
+  taxable?: boolean;
+  tax_percent?: number;
+  cancelled?: boolean;
+  date_created?: string;
 };
 
 export type SupplierInvoiceResponse = {
@@ -659,61 +669,64 @@ export type SupplierDebitNoteList = {
 
 export type SupplierDebitNoteInputs = {
   debit_note_number: number;
-  date: string;
-  description: string;
-  supplier: string;
-  supplier_name: string;
+  date?: string;
+  description?: string;
+  supplier?: number;
+  supplier_name?: string;
   account?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
   currency: string;
-  related_invoice: string;
+  related_invoice: number;
   related_invoice_total: string;
   related_debit_note?: Array <{
-    debit_note_item?: string;
+    id?: number;
+    debit_note_item?: number;
     description?: string;
     amount?: number;
-    tax_inclusive: boolean;
-    tax_amount?: number;
+    taxable?: boolean;
+    sst_percent?: number;
     cancelled: boolean;
-  }> | null;
-  agent: string;
-  tax_inclusive: boolean;
-  tax_amount: number;
-  cancelled: boolean;
+  }>;
+  agent?: string;
+  taxable?: boolean;
+  tax_percent?: number;
+  cancelled?: boolean;
 };
 
 
 export type SupplierDebitNoteDetails = {
   debit_note_number: number;
   date: string;
-  supplier: string;
+  supplier: number;
   supplier_name: string;
   description: string;
-  account?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
+  account: {
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
   gross_total: number;
-  related_invoice: string;
+  related_invoice: number;
   related_invoice_total: number;
-  related_debit_note?: Array<{
+  related_debit_note: Array<{
     debit_note_item: string;
     debit_note_item_name: string;
     description: string;
     amount: number;
-    tax_inclusive: boolean;
-    tax_amount: number;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
     current_total: number;
     cancelled: boolean;
-}> | null;
+}>;
   agent: string;
   created_by: string;
   currency: string;
-  tax_inclusive: boolean;
+  taxable: boolean;
+  tax_percent: number;
   tax_amount: number;
   cancelled: boolean;
   net_total: number;
@@ -819,59 +832,62 @@ export type SupplierCreditNoteList = {
 
 export type SupplierCreditNoteInputs = {
   credit_note_number: number;
-  date: string;
-  supplier: string;
-  supplier_name: string;
-  description: string;
+  date?: string;
+  supplier?: number;
+  supplier_name?: string;
+  description?: string;
   account?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
-  related_invoice: string;
-  related_invoice_total: number;
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
+  related_invoice?: string;
+  related_invoice_total?: number;
   related_credit_note?: Array <{
-    credit_note_item?: string | null;
-    description?: string | null;
-    amount?: number | null;
-    tax_inclusive?: boolean;
-    tax_amount?: number | null;
+    id?: number;
+    credit_note_item?: number;
+    description?: string;
+    amount?: number;
+    taxable?: boolean;
+    sst_percent?: number;
     cancelled?: boolean;
-  }> | null;
-  currency: string;
-  tax_inclusive: boolean;
-  tax_amount: number;
-  agent: string;
-  cancelled: boolean;
+  }>;
+  currency?: string;
+  taxable?: boolean;
+  tax_percent?: number;
+  agent?: string;
+  cancelled?: boolean;
 };
 
 export type SupplierCreditNoteDetails = {
   credit_note_number: number;
   date: string;
-  supplier: string;
+  supplier: number;
   supplier_name: string;
   description: string;
   account?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
+    account_code: number;
+    account_name: string;
+    account_type: string;
+  };
   gross_total: number;
   related_invoice: string;
   related_invoice_total: number;
-  tax_inclusive: boolean;
-  tax_amount: number;
-  cancelled: boolean;
   related_credit_note: Array<{
-    credit_note_item: string;
+    credit_note_item: number;
     credit_note_item_name: string;
     description: string;
     amount: number;
-    tax_inclusive: boolean;
-    tax_amount: number;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
     current_total: number;
     cancelled: boolean;
   }>
+  taxable: boolean;
+  tax_percent: number;
+  tax_amount: number;
+  cancelled: boolean;
   net_total: number;
   outstanding: number;
   agent: string;

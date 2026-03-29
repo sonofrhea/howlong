@@ -24,7 +24,7 @@ const formatSupplierNumber = () => {
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)}`
+    return `${amount.toFixed(2)}`;
 };
 
 
@@ -63,16 +63,19 @@ const SupplierInvoiceForm: React.FC<SupplierInvoiceFormProps> = ({
         const { register, handleSubmit, watch, setValue, control, 
             formState: { errors } } = useForm<SupplierInvoiceInputs>({
                 defaultValues: {
-                    tax_inclusive: false,
-                    tax_amount: 0.00,
+                    taxable: false,
+                    tax_percent: 0.00,
                     cancelled: false,
                     related_invoice: [
                         {
+                            item: undefined, 
+                            description: undefined,
                             quantity: 0,
+                            unit_of_measure: undefined,
                             price_per_unit: 0.00,
-                            tax_inclusive: false,
-                            tax_amount: 0.00,
-                            cancelled: false
+                            taxable: false,
+                            sst_percent: 0.00,
+                            cancelled: false 
                         }
                     ]
                 }
@@ -225,31 +228,33 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                 <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                                     <colgroup>
                                         {[
-                                            'w-1/10 text-center',
-                                            'w-1/10 text-center',
-                                            'w-1/10 text-center',
-                                            'w-1/10 text-center',
-                                            'w-1/10 text-center',
-                                            'w-1/10 text-center',
-                                            'w-1/10 text-center',
-                                            'w-1/10 text-center',
-                                            'w-1/10 text-center',
-                                            'w-1/10 text-center',
-                                            'w-[7%] text-center',
+                                            'w-1/12 text-center',
+                                            'w-1/12 text-center',
+                                            'w-1/12 text-center',
+                                            'w-1/12 text-center',
+                                            'w-1/12 text-center',
+                                            'w-1/12 text-center',
+                                            'w-1/12 text-center',
+                                            'w-1/12 text-center',
+                                            'w-1/12 text-center',
+                                            'w-1/12 text-center',
+                                            'w-1/12 text-center',
+                                            'w-[6%] text-center',
                                         ].map((line, index) => (
                                             <col key={index} className={line} />
                                         ))}
                                     </colgroup>
-                                    <thead className={tables.header} style={{ fontFamily: 'Montserrat, system-ui' }}>
-                                        <tr style={{ fontFamily: 'Montserrat, system-ui' }}>
-                                            <th style={{ fontFamily: 'Montserrat, system-ui' }} className={tables.headerCell}>Item name</th>
+                                    <thead className={tables.header}>
+                                        <tr>
+                                            <th className={tables.headerCell}>Item name</th>
                                             <th className={tables.headerCell}>description</th>
                                             <th className={tables.headerCell}>Quantity</th>
                                             <th className={tables.headerCell}>Unit of measure</th>
                                             <th className={tables.headerCell}>price per unit</th>
-                                            <th className={tables.headerCell}>Sub-Total</th>
-                                            <th className={tables.headerCell}>SST inclusive</th>
+                                            <th className={tables.headerCell}>Amount</th>
+                                            <th className={tables.headerCell}>Taxable</th>
                                             <th className={tables.headerCell}>SST %</th>
+                                            <th className={tables.headerCell}>SST Amount</th>
                                             <th className={tables.headerCell}>cancelled</th>
                                             <th className={tables.headerCell}>Total</th>
                                             <th className={tables.headerCell}></th>
@@ -258,20 +263,23 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
 
                                     <tbody className={tables.body}>
                                         {fields.map((field, index) => {
-        
-        
+                                        
+                                        
                                             const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;
                                             const price_per_unit = watch(`related_invoice.${index}.price_per_unit`) || 0.00;
-                                            let tax_amount = watch(`related_invoice.${index}.tax_amount`) || 0.00;
-                                            const tax_inclusive = watch(`related_invoice.${index}.tax_inclusive`) || false;
+                                            let tax_amount = watch(`related_invoice.${index}.sst_percent`) || 0.00;
+                                            const tax_inclusive = watch(`related_invoice.${index}.taxable`) || false;
         
                                             let total = quantity * price_per_unit;
         
                                             if (!tax_inclusive) {
                                                 tax_amount = 0.00;
                                             }
+                                            const taxRate = tax_amount / 100.00
+                                            const taxAmount = total * taxRate
         
-                                            total *= 1 + (tax_amount / 100);
+        
+                                            const totalAmount = total + taxAmount
         
         
                                             return(
@@ -323,22 +331,19 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                 </td>
         
                                                 <td className={tables.autoCalculate}>
-                                                    {decimalPlaces(
-                                                        Number(watch(`related_invoice.${index}.quantity`) || 0.00) *
-                                                        Number(watch(`related_invoice.${index}.price_per_unit`) || 0.00)
-                                                    )}
+                                                    {decimalPlaces(total)}
                                                 </td>
         
                                                 <td className={tables.cell}>
                                                     <input 
                                                         type="checkbox"
-                                                        {...register(`related_invoice.${index}.tax_inclusive`)}
+                                                        {...register(`related_invoice.${index}.taxable`)}
                                                     />
                                                 </td>
         
                                                 <td className={text.numbers}>
                                                     <input 
-                                                        {...register(`related_invoice.${index}.tax_amount`)}
+                                                        {...register(`related_invoice.${index}.sst_percent`)}
                                                         className={forms.input.number}
                                                         type="number"
                                                         placeholder="0.00"
@@ -348,6 +353,10 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                             }
                                                         }}
                                                     />
+                                                </td>
+                                                
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(taxAmount)}
                                                 </td>
         
                                                 <td className={tables.cell}>
@@ -377,14 +386,14 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                 <button
                                                     type="button"
                                                     onClick={() => append({ 
-                                                        item: 0, 
-                                                        description: "",
-                                                        quantity: 0,
-                                                        unit_of_measure: "",
-                                                        price_per_unit: 0.00,
-                                                        tax_inclusive: false,
-                                                        tax_amount: 0.00,
-                                                        cancelled: false 
+                                                            item: undefined, 
+                                                            description: undefined,
+                                                            quantity: 0,
+                                                            unit_of_measure: undefined,
+                                                            price_per_unit: 0.00,
+                                                            taxable: false,
+                                                            sst_percent: 0.00,
+                                                            cancelled: false 
                                                         })}
                                                     className={buttons.addLine}
                                                 >
@@ -402,9 +411,9 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                         <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
         
                                             <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                                <div>Tax Inclusive?</div>
+                                                <div>Taxable?</div>
                                                 <input 
-                                                {...register("tax_inclusive")}
+                                                {...register("taxable")}
                                                 type="checkbox"
                                                 className="ml-2 forced-colors:bg-green-300"
                                                 />
@@ -414,7 +423,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                                 <div>Tax %</div>
                                                 <input 
                                                     type="number"
-                                                    {...register("tax_amount")}
+                                                    {...register("tax_percent")}
                                                     className={forms.input.smallNumber}
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {

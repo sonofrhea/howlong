@@ -64,7 +64,7 @@ function CustomerDashboard() {
                         <Link
                             key={module.id}
                             to={module.available ? module.path : '#'}
-                            className={`bg-white rounded-xl border-2! border-white! p-6 hover:shadow-xl hover:shadow-gray-300 transition-shadow duration-200 ${
+                            className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg! transition-shadow duration-200 ${
                                 module.available ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
                             }`}
                         >

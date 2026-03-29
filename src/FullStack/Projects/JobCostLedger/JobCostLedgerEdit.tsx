@@ -109,10 +109,27 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
         };
 
         reset(updated);
+
+        if (jobCostLedger.boq) {
+            setSelectedBoqId(jobCostLedger.boq);
+        }
     }, [jobCostLedger, reset]);
+
+    React.useEffect(() => {
+        if (boqLines.length > 0) {
+            jobCostLedger.job_cost_ledger_lines?.forEach((line, index) => {
+                setValue(`job_cost_ledger_lines.${index}.boq_line`, line.boq_line);
+                const matchedLine = boqLines.find(b => b.id === Number(line.boq_line));
+                if (matchedLine) {
+                    setValue(`job_cost_ledger_lines.${index}.boq_additional`, matchedLine.additional_item);
+                }
+            });
+        }
+    }, [boqLines]);
             
+
     const { fields, append, remove } = useFieldArray({
-        name: 'job_cost_ledger',
+        name: 'job_cost_ledger_lines',
         control
     });
 
@@ -306,7 +323,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <select
                                                     className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
-                                                    {...register(`job_cost_ledger.${index}.boq_line`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.boq_line`)}
                                                     onChange={onBoqLineChange}
                                                 >
                                                     <option value="">Select BOQ Line...</option>
@@ -320,26 +337,8 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <input
                                                     className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
-                                                    {...register(`job_cost_ledger.${index}.boq_additional`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.boq_additional`)}
                                                     readOnly
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                                    Estimated amount(BOQ LINE)
-                                                </label>
-                                                <input 
-                                                    className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900"
-                                                    {...register(`job_cost_ledger.${index}.estimated`)}
-                                                    type="number"
-                                                    readOnly
-                                                    placeholder="0.00"
-                                                    step="0.01" min="0.00" onBlur={(e) => {
-                                                        if (e.target.value) {
-                                                            e.target.value = decimalPlaces(Number(e.target.value));
-                                                        }
-                                                    }}
                                                 />
                                             </div>
 
@@ -351,13 +350,13 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <select
                                                     className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
-                                                    {...register(`job_cost_ledger.${index}.cost_code.job_cost_code`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.cost_code.job_cost_code`)}
                                                     onChange={onJobCostCodeChange}
                                                 >
                                                     <option value="">Select cost code...</option>
                                                     {costCode}
                                                 </select>
-                                                <input type="hidden" {...register(`job_cost_ledger.${index}.cost_code.job_cost_description`)} />
+                                                <input type="hidden" {...register(`job_cost_ledger_lines.${index}.cost_code.job_cost_description`)} />
                                             </div>
 
                                             {/* SUPPLIER */}
@@ -366,7 +365,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                     Supplier
                                                 </label>
                                                 <select
-                                                    {...register(`job_cost_ledger.${index}.supplier`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.supplier`)}
                                                     className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                 >
                                                     <option value="">Select supplier...</option>
@@ -379,7 +378,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                     Cost Type
                                                 </label>
                                                 <select
-                                                    {...register(`job_cost_ledger.${index}.cost_type`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.cost_type`)}
                                                     className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                 >
                                                     <option value="">Select cost type...</option>
@@ -392,7 +391,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                     Status
                                                 </label>
                                                 <select
-                                                    {...register(`job_cost_ledger.${index}.status`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.status`)}
                                                     className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                                                 >
                                                     <option value="">Select status...</option>
@@ -406,7 +405,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <input 
                                                     className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
-                                                    {...register(`job_cost_ledger.${index}.description`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.description`)}
                                                 />
                                             </div>
 
@@ -416,7 +415,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <input 
                                                     className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900"
-                                                    {...register(`job_cost_ledger.${index}.cost`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.cost`)}
                                                     type="number"
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
@@ -433,7 +432,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <input 
                                                     className="w-full! text-sm! px-5! py-4! bg-blue-50! border-2 border-blue-200! rounded-lg! font-bold! text-blue-900! placeholder-blue-900"
-                                                    {...register(`job_cost_ledger.${index}.cost`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.cost`)}
                                                     type="checkbox"
                                                 />
                                             </div>
@@ -444,7 +443,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <input 
                                                     className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900"
-                                                    {...register(`job_cost_ledger.${index}.sst_percent`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.sst_percent`)}
                                                     type="number"
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
@@ -462,8 +461,8 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 <div className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900">
                                                     <span className="text-sm font-bold text-blue-900">
                                                         {decimalPlaces(
-                                                            (Number(watch(`job_cost_ledger.${index}.cost`) || 0.00)) * 
-                                                            (1 + (Number(watch(`job_cost_ledger.${index}.sst_percent`) || 0.00) / 100))
+                                                            (Number(watch(`job_cost_ledger_lines.${index}.cost`) || 0.00)) * 
+                                                            (1 + (Number(watch(`job_cost_ledger_lines.${index}.sst_percent`) || 0.00) / 100))
                                                         )}
                                                     </span>
                                                 </div>

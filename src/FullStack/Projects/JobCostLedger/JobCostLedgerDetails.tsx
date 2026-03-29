@@ -214,43 +214,45 @@ const JobCostLedgerDetails: React.FC<JobCostLedgerDetailsProps> = ({
                         <table className="w-full table-fixed divide-y divide-gray-200">
                             <colgroup>
                             {[
-                                'w-[2%] text-center',
-                                'w-[1/13] text-center',
-                                'w-[1/13] text-center',
-                                'w-[1/13] text-center',
-                                'w-[1/13] text-center',
-                                'w-[1/13] text-center',
-                                'w-[1/13] text-center',
-                                'w-[1/13] text-center',
+                                'w-[1%] text-center',
+                                'w-1/15 text-center',
+                                'w-1/15 text-center',
+                                'w-1/15 text-center',
+                                'w-1/15 text-center ',
+                                'w-1/15 text-center',
+                                'w-1/15 text-center',
+                                'w-1/15 text-center',
                                 'w-[5%] text-center',
-                                'w-[1/13] text-center',
-                                'w-[1/13] text-center',
-                                'w-[1/13] text-center',
-                                'w-[1/13] text-center',
+                                'w-1/15 text-center',
+                                'w-1/15 text-center',
+                                'w-1/15 text-center',
+                                'w-1/15 text-center',
+                                'w-[5%] text-center',
                             ].map((line, index) => (
                                 <col key={index} className={line} />    
                             ))}
                             </colgroup>
                             <thead>
                                 <tr className="bg-slate-700 text-white hover:cursor-pointer text-[10px] uppercase tracking-[0.15em] font-black border-b border-slate-200">
-                                    <th className="px-4 py-4 text-center">#</th>
-                                    <th className="px-4 py-4 text-center">BOQ Line / Item</th>
-                                    <th className="px-4 py-4 text-center">Cost Code</th>
-                                    <th className="px-4 py-4 text-center">Description</th>
-                                    <th className="px-4 py-4 text-center">Supplier</th>
-                                    <th className="px-4 py-4 text-center">Type</th>
-                                    <th className="px-4 py-4 text-center">Status</th>
-                                    <th className="px-4 py-4 text-center">Cost</th>
-                                    <th className="px-4 py-4 text-center">Tax%</th>
-                                    <th className="px-4 py-4 text-center">Total (Inc Tax)</th>
-                                    <th className="px-4 py-4 text-center">Accum. Paid</th>
-                                    <th className="px-4 py-4 text-center">Estimated</th>
-                                    <th className="px-4 py-4 text-center">Variance</th>
+                                    <th className="text-center truncate" title="Number">#</th>
+                                    <th className="text-center truncate" title="BOQ Line / Item">BOQ Line / Item</th>
+                                    <th className="text-center truncate" title="Cost Code">Cost Code</th>
+                                    <th className="text-center truncate" title="Description">Description</th>
+                                    <th className="text-center truncate" title="Supplier">Supplier</th>
+                                    <th className="text-center truncate" title="Type">Type</th>
+                                    <th className="text-center truncate" title="Status">Status</th>
+                                    <th className="text-center truncate" title="Cost">Cost</th>
+                                    <th className="text-center truncate" title="SST%">SST%</th>
+                                    <th className="text-center truncate" title="Total (Inc Tax)">Total (Inc Tax)</th>
+                                    <th className="text-center truncate" title="Accum. Paid">Accum. Paid</th>
+                                    <th className="text-center truncate" title="Estimated">Estimated</th>
+                                    <th className="text-center truncate" title="Variance">Variance</th>
+                                    <th className="text-center truncate" title="Cancelled">Cancelled</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100 font-medium">
-                                {jobCostLedger.job_cost_ledger && jobCostLedger.job_cost_ledger.length > 0 ? (
-                                    jobCostLedger.job_cost_ledger.map((line, index) => (
+                                {jobCostLedger.job_cost_ledger_lines && jobCostLedger.job_cost_ledger_lines.length > 0 ? (
+                                    jobCostLedger.job_cost_ledger_lines.map((line, index) => (
                                         <tr key={index} className="hover:bg-slate-50 hover:cursor-pointer transition-colors">
                                             <td className="px-4 py-4 text-center text-slate-400">{index + 1}</td>
 
@@ -288,11 +290,19 @@ const JobCostLedgerDetails: React.FC<JobCostLedgerDetailsProps> = ({
                                                 </span>
                                             </td>
                                             <td className="px-4 py-4 text-center font-bold text-slate-900">{line.cost}</td>
-                                            <td className="px-4 py-4 text-center font-bold text-slate-900">{line.tax}%</td>
+                                            <td className="px-4 py-4 text-center font-bold text-slate-900">{line.sst_percent}%</td>
                                             <td className="px-4 py-4 text-center font-bold text-slate-900">{line.total_cost}</td>
                                             <td className="px-4 py-4 text-center font-bold text-blue-600">{line.total_paid}</td>
                                             <td className="px-4 py-4 text-center font-bold text-slate-600">{line.estimated}</td>
                                             <td className="px-4 py-4 text-center font-bold">{getVarianceDisplay(line.variance)}</td>
+                                            <td className="px-4 py-4 text-center">
+                                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase inline-flex items-center justify-center w-full 
+                                                    ${line.cancelled 
+                                                    ? 'bg-red-100 text-red-800 border text-center' 
+                                                    : 'bg-green-100 text-green-800 border text-center'}`}>
+                                                    {line.cancelled ? 'Yes' : 'No'}
+                                                </span>
+                                            </td>
                                         </tr>
                                     ))
                                 ) : (

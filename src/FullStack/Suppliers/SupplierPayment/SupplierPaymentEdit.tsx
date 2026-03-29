@@ -225,12 +225,15 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                         <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                             <colgroup>
                                 {[
-                                    'w-1/6 text-center',
-                                    'w-1/6 text-center',
-                                    'w-1/6 text-center',
-                                    'w-1/6 text-center',
-                                    'w-1/6 text-center',
-                                    'w-1/6 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
+                                    'w-1/9 text-center',
                                     'w-[5%] text-center',
                                 ].map((line, index) => (
                                     <col key={index} className={line} />
@@ -239,9 +242,11 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                             <thead className="bg-blue-100 drop-shadow-md shadow-lg">
                                 <tr>
                                     <th className={tables.headerCell}>Payment Date</th>
-                                    <th className={tables.headerCell}>Payment Type</th>
+                                    <th className={tables.headerCell}>Payment Method</th>
                                     <th className={tables.headerCell}>Payment Amount</th>
-                                    <th className={tables.headerCell}>Additional Payment</th>
+                                    <th className={tables.headerCell}>Taxable?</th>
+                                    <th className={tables.headerCell}>SST %</th>
+                                    <th className={tables.headerCell}>SST Amount</th>
                                     <th className={tables.headerCell}>Cancelled</th>
                                     <th className={tables.headerCell}>Sub-Total</th>
                                     <th className={tables.headerCell}></th>
@@ -250,6 +255,14 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
 
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => {
+                                    const SST = Number(watch(`related_payment.${index}.payment_date`)) || 0.00
+                                    const Amount = Number(watch(`related_payment.${index}.payment_amount`)) || 0.00
+
+                                    const sstPercent = SST / 100.00
+                                    const sstAmount = Amount * sstPercent
+                                    const total = Amount + sstAmount;
+
+
 
                                     return(
                                     <tr key={field.id} className={tables.row}>
@@ -264,7 +277,9 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
 
                                         <td className={tables.cell}>
                                             <select
-                                                {...register(`related_payment.${index}.payment_type`)}
+                                                {...register(`related_payment.${index}.payment_method`, {
+                                                    setValueAs: (value) => value === "" ? undefined : value
+                                                })}
                                                 className={forms.select.small}
                                             >
                                                 <option value="">select...</option>
@@ -292,7 +307,15 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
 
                                         <td className={tables.cell}>
                                             <input 
-                                                {...register(`related_payment.${index}.additional_payment`)}
+                                                {...register(`related_payment.${index}.taxable`)}
+                                                type="checkbox"
+                                                className={forms.input.base}
+                                            />
+                                        </td>
+
+                                        <td className={tables.cell}>
+                                            <input 
+                                                {...register(`related_payment.${index}.sst_percent`)}
                                                 type="number"
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {
@@ -304,6 +327,11 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                             />
                                         </td>
 
+                                        <td className={tables.autoCalculate}>
+                                            {decimalPlaces(sstAmount)}
+                                            
+                                        </td>
+
                                         <td className={tables.cell}>
                                             <input 
                                                 {...register(`related_payment.${index}.cancelled`)}
@@ -313,10 +341,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                         </td>
 
                                         <td className={tables.autoCalculate}>
-                                            {decimalPlaces(
-                                                Number(watch(`related_payment.${index}.payment_amount`) || 0.00) +
-                                                Number(watch(`related_payment.${index}.additional_payment`) || 0.00)
-                                            )}
+                                            {decimalPlaces(total)}
                                             
                                         </td>
                                                                                     
@@ -337,11 +362,12 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                         <button
                                             type="button"
                                             onClick={() => append({ 
-                                                payment_date: "",
-                                                payment_type: "",
+                                                payment_date: undefined,
+                                                payment_method: undefined,
                                                 payment_amount: 0.00, 
-                                                additional_payment: 0.00, 
-                                                cancelled: false
+                                                cancelled: false,
+                                                taxable: false,
+                                                sst_percent: 0.00
                                                 })}
                                             className="min-w-full divide-y divide-gray-100"
                                         >
@@ -359,9 +385,9 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                             <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Inclusive?</div>
+                                    <div>Taxable?</div>
                                     <input 
-                                    {...register("tax_inclusive")}
+                                    {...register("taxable")}
                                     type="checkbox"
                                     className="ml-2 forced-colors:bg-green-300"
                                     />
@@ -371,7 +397,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                     <div>Tax %</div>
                                     <input 
                                         type="number"
-                                        {...register("tax_amount")}
+                                        {...register("tax_percent")}
                                         className={forms.input.smallNumber}
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {

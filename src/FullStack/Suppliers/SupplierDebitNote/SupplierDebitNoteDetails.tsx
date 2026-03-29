@@ -184,10 +184,10 @@ const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
                         
                         <p>
                             <a className={details.extraSmallUppercase}>Cancelled</a><br />
-                            <p className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                            <p className={`inline-flex items-center px-5! py-0! rounded text-xs font-medium ${
                                 supplierDebitNote.cancelled
-                                ? 'bg-red-100 text-red-800'
-                                : 'bg-green-100 text-green-800'
+                                ? 'bg-red-100 text-red-800 border-red-200'
+                                : 'bg-green-100 text-green-800 border-green-200'
                             }`}>
                                 {supplierDebitNote.cancelled ? 'Yes' : 'No'}
                             </p>
@@ -207,22 +207,34 @@ const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
                                         <th className={tables.headerCell}>Item</th>
                                         <th className={tables.headerCell}>Description</th>
                                         <th className={tables.headerCell}>Amount</th>
-                                        <th className={tables.headerCell}>Tax %</th>
-                                        <th className={tables.headerCell}>Current total</th>
+                                        <th className={tables.headerCell}>Taxable</th>
+                                        <th className={tables.headerCell}>SST %</th>
+                                        <th className={tables.headerCell}>SST Amount</th>
                                         <th className={tables.headerCell}>Cancelled</th>
+                                        <th className={tables.headerCell}>Current total</th>
                                     </tr>
                                 </thead>
 
                                 <tbody className="bg-white divide-y divide-gray-100">
 
-                                    {supplierDebitNote.related_debit_note.map((line: any, index: any) => (
+                                    {supplierDebitNote.related_debit_note.map((line, index) => (
                                         <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
                                             <td className={tables.cell}>SKU-{line.debit_note_item || '--'} | {line.debit_note_item_name || '--'}</td>
                                             <td className={tables.cell}>{line.description || '--'}</td>
-                                            <td className={tables.cell}>{line.amount || '--'}</td>
-                                            <td className={tables.cell}>{line.tax_amount || '--'}%</td>
+                                            <td className={tables.cell}>{line.amount}</td>
+                                            <td className={`inline-flex items-center px-5! py-0! rounded text-sm ${
+                                                line.taxable
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>{line.taxable ? 'Yes' : 'No'}</td>
+                                            <td className={tables.cell}>{line.sst_percent || '--'}%</td>
+                                            <td className={tables.cell}>{line.sst_amount}</td>
+                                            <td className={`inline-flex items-center px-5! py-0! rounded text-sm ${
+                                                line.cancelled
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>{line.cancelled ? 'Yes' : 'No'}</td>
                                             <td className={tables.cell}>{line.current_total}</td>
-                                            <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -235,12 +247,29 @@ const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
                                 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
                                     <div>Gross Total</div>
-                                    <div className="font-medium text-gray-800">{supplierDebitNote.gross_total || '--'}</div>
+                                    <div className="font-medium text-gray-800">{supplierDebitNote.gross_total}</div>
+                                </div>
+
+                                <hr className="my-4 border-blue-200" />
+
+                                <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                    <div>Taxable?</div>
+                                    <div className={`inline-flex items-center px-3! py-0! rounded text-xs font-medium ${
+                                            supplierDebitNote.cancelled
+                                                ? 'bg-red-100 text-red-800 border-red-200'
+                                                : 'bg-green-100 text-green-800 border-red-200'
+                                                 
+                                        }`}>{supplierDebitNote.taxable ? 'Yes' : 'No'}</div>
                                 </div>
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                     <div>Tax %</div>
-                                    <div className="font-medium text-gray-800">{supplierDebitNote.tax_amount || '--'}%</div>
+                                    <div className="font-medium text-gray-800">{supplierDebitNote.tax_percent}%</div>
+                                </div>
+
+                                <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                    <div>Tax Amount</div>
+                                    <div className="font-medium text-gray-800">{supplierDebitNote.tax_amount}</div>
                                 </div>
 
                                 <hr className="my-4 border-blue-200" />
@@ -252,10 +281,10 @@ const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
 
                                 <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                     <div>Cancelled</div>
-                                    <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                    <div className={`inline-flex items-center px-3! py-0! rounded text-xs font-medium ${
                                             supplierDebitNote.cancelled
-                                                ? 'bg-red-100 text-red-800'
-                                                : 'bg-green-100 text-green-800'
+                                                ? 'bg-red-100 text-red-800 border-red-200'
+                                                : 'bg-green-100 text-green-800 border-red-200'
                                                  
                                         }`}>{supplierDebitNote.cancelled ? 'Yes' : 'No'}</div>
                                 </div>

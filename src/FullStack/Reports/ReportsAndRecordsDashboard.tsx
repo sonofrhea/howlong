@@ -59,25 +59,25 @@ function ReportsAndReceiptsDashboard() {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 p-4">
+        <div className="min-h-screen bg-gray-50 p-4 font-[Montserrat]!">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-12">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                        Projects Management
+                <div className="text-center mb-12 font-[Montserrat]!">
+                    <h1 className="text-3xl font-bold text-gray-900 mb-4 font-[Montserrat]!">
+                        Reports & Records
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 font-[Montserrat]!">
                         Choose a module to get started
                     </p>
                 </div>
 
                 {/* Modules Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 font-[Montserrat]!">
                     {ReportsAndReceiptsModule.map(module => (
                         <Link
                             key={module.id}
                             to={module.available ? module.path : '#'}
-                            className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200 ${
+                            className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg! transition-shadow duration-200 ${
                                 module.available ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
                             }`}
                         >
@@ -89,10 +89,10 @@ function ReportsAndReceiptsDashboard() {
                             </div>
 
                             {/* Content */}
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2 font-[Montserrat]!">
                                 {module.name}
                             </h3>
-                            <p className="text-gray-600 text-sm mb-4">
+                            <p className="text-gray-600 text-sm mb-4 font-[Montserrat]!">
                                 {module.description}
                             </p>
 

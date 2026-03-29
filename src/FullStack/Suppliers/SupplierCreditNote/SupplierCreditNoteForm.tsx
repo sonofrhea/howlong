@@ -66,14 +66,16 @@ const SupplierCreditNoteForm: React.FC<SupplierCreditNoteFormProps> = ({
                 defaultValues: {
                     related_credit_note: [
                         {
+                            credit_note_item: undefined,
+                            description: undefined,
                             amount: 0.00,
-                            tax_inclusive: false,
-                            tax_amount: 0.00,
-                            cancelled: false,
+                            taxable: false,
+                            sst_percent: 0.00,
+                            cancelled: false
                         }
                     ],
-                    tax_inclusive: false,
-                    tax_amount: 0.00,
+                    taxable: false,
+                    tax_percent: 0.00,
                     cancelled: false,
                 }
             });
@@ -245,13 +247,14 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                 <table className={tables.base}>
                                     <colgroup>
                                         {[
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
-                                            'w-1/7 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
+                                            'w-1/9 text-center',
                                             'w-[7%] text-center',
                                         ].map((line, index) => (
                                             <col key={index} className={line} />
@@ -262,21 +265,23 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                             <th className={tables.headerCell}>Item</th>
                                             <th className={tables.headerCell}>Description</th>
                                             <th className={tables.headerCell}>Amount</th>
-                                            <th className={tables.headerCell}>SST Inclusive</th>
+                                            <th className={tables.headerCell}>Taxable</th>
                                             <th className={tables.headerCell}>SST %</th>
-                                            <th className={tables.headerCell}>SubTotal(After Tax)</th>
+                                            <th className={tables.headerCell}>SST Amount</th>
                                             <th className={tables.headerCell}>Cancelled</th>
+                                            <th className={tables.headerCell}>Total(After SST)</th>
                                             <th className={tables.headerCell}></th>
                                         </tr>
                                     </thead>
-
+        
                                     <tbody className={tables.body}>
                                         {fields.map((field, index) => {
         
         
                                             const detailsAmount = Number(watch(`related_credit_note.${index}.amount`) || 0.00);
-                                            const tax_percentage = Number(watch(`related_credit_note.${index}.tax_amount`) || 0.00) / 100;
-                                            const taxAmount = tax_percentage * detailsAmount;
+                                            const tax_percentage = Number(watch(`related_credit_note.${index}.sst_percent`) || 0.00);
+                                            const taxPercent = tax_percentage / 100.00
+                                            const taxAmount = detailsAmount * taxPercent;
                                             const netTotal = detailsAmount + taxAmount;
         
         
@@ -317,14 +322,14 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                                 <td className={tables.cell}>
                                                     <input
                                                         type="checkbox"
-                                                        {...register(`related_credit_note.${index}.tax_inclusive`)} 
+                                                        {...register(`related_credit_note.${index}.taxable`)} 
                                                     />
                                                 </td>
                                                 
                                                 <td className={text.numbers}>
                                                     <input 
                                                         type="number"
-                                                        {...register(`related_credit_note.${index}.tax_amount`)}
+                                                        {...register(`related_credit_note.${index}.sst_percent`)}
                                                         className={forms.input.number}
                                                         placeholder="0.00"
                                                         step="0.01" min="0.00" onBlur={(e) => {
@@ -336,7 +341,7 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                                 </td>
                                                 
                                                 <td className={tables.autoCalculate}>
-                                                    {decimalPlaces(netTotal)}
+                                                    {decimalPlaces(taxAmount)}
                                                 </td>
                                                 
                                                 <td className={tables.cell}>
@@ -344,6 +349,10 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                                         type="checkbox"
                                                         {...register(`related_credit_note.${index}.cancelled`)} 
                                                     />
+                                                </td>
+                                                
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(netTotal)}
                                                 </td>
                                                 
                                                 <td>
@@ -364,11 +373,11 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                                 <button
                                                     type="button"
                                                     onClick={() => append({
-                                                        credit_note_item: "",
-                                                        description: "",
+                                                        credit_note_item: undefined,
+                                                        description: undefined,
                                                         amount: 0.00,
-                                                        tax_inclusive: false,
-                                                        tax_amount: 0.00,
+                                                        taxable: false,
+                                                        sst_percent: 0.00,
                                                         cancelled: false
                                                     })}
                                                     className={buttons.addLine}
@@ -387,9 +396,9 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                     <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
     
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Tax Inclusive?</div>
+                                            <div>Taxable?</div>
                                             <input 
-                                            {...register("tax_inclusive")}
+                                            {...register("taxable")}
                                             type="checkbox"
                                             className="ml-2 forced-colors:bg-green-300"
                                             />
@@ -399,7 +408,7 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                             <div>Tax %</div>
                                             <input 
                                                 type="number"
-                                                {...register("tax_amount")}
+                                                {...register("tax_percent")}
                                                 className={forms.input.smallNumber}
                                                 placeholder="0.00"
                                                 step="0.01" min="0.00" onBlur={(e) => {

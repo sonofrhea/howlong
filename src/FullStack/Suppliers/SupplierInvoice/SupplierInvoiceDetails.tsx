@@ -169,7 +169,9 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
                                         <th className={tables.headerCell}>UOM</th>
                                         <th className={tables.headerCell}>Price per unit</th>
                                         <th className={tables.headerCell}>Amount</th>
+                                        <th className={tables.headerCell}>Taxable</th>
                                         <th className={tables.headerCell}>SST %</th>
+                                        <th className={tables.headerCell}>SST Amount</th>
                                         <th className={tables.headerCell}>Sub-Total</th>
                                         <th className={tables.headerCell}>Cancelled</th>
                                     </tr>
@@ -184,9 +186,18 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
                                             <td className={tables.cell}>{line.unit_of_measure || 'N/A'}</td>
                                             <td className={tables.cell}>{line.price_per_unit || 'N/A'}</td>
                                             <td className={tables.cell}>{line.total}</td>
-                                            <td className={tables.cell}>{line.tax_amount || 0}</td>
+                                            <td className={`inline-flex items-center px-5! py-0! rounded text-sm ${
+                                                line.taxable
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>{line.taxable ? 'Yes' : 'No'}</td>
+                                            <td className={tables.cell}>{line.tax_amount}</td>
                                             <td className={tables.cell}>{line.sub_total}</td>
-                                            <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
+                                            <td className={`inline-flex items-center px-5! py-0! rounded text-sm ${
+                                                line.cancelled
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>{line.cancelled ? 'Yes' : 'No'}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -199,17 +210,28 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
                                     <div>Gross Total</div>
-                                    <div className="font-medium text-gray-800">{supplierInvoice.gross_total || 'N/A'}</div>
+                                    <div className="font-medium text-gray-800">{supplierInvoice.gross_total}</div>
                                 </div>
 
+                                <hr className="my-4 border-blue-200" />
+
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax inclusive</div>
-                                    <div className="font-medium text-green-400">{supplierInvoice.tax_inclusive ? 'Yes' : 'No'}</div>
+                                    <div>Taxable?</div>
+                                    <div className={`inline-flex items-center px-5! py-0! rounded text-sm ${
+                                                supplierInvoice.taxable
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>{supplierInvoice.taxable ? 'Yes' : 'No'}</div>
                                 </div>
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
                                     <div>Tax %</div>
-                                    <div className="font-medium text-gray-800">{supplierInvoice.tax_amount || 'N/A'}%</div>
+                                    <div className="font-medium text-gray-800">{supplierInvoice.tax_percent || 'N/A'}%</div>
+                                </div>
+
+                                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                    <div>Tax Amount</div>
+                                    <div className="font-medium text-gray-800">{supplierInvoice.tax_amount || 'N/A'}</div>
                                 </div>
 
                                 <hr className="my-4 border-blue-200" />
