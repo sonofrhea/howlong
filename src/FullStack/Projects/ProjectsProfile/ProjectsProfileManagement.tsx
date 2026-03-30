@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 import { fetchProjects, fetchProjectById, createProject,
@@ -51,14 +51,29 @@ interface SortConfig {
 
 function ProjectsProfileManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+    const selectedProjectId = searchParams.get('project_code') ? Number(searchParams.get('project_code')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, project_code?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView);
+        if (project_code) {
+        params.set('project_code', project_code.toString());
+        } else if (newView === 'list') {
+        params.delete('project_code');
+        }
+        setSearchParams(params);
+    }
+
+// ------------------------------------------------------------------------------------
+
             // DEPENDENCIES
 
     const { data: customers = [] } = useQuery({
@@ -108,9 +123,8 @@ function ProjectsProfileManagement() {
         onSuccess: (data: ProjectProfileResponse) => {
             const newProject = data.project_code;
             queryClient.invalidateQueries({ queryKey: ['projects'] });
-            setSelectedProjectId(newProject);
+            navigateToView('details', newProject);
             toast.success('Project Created', { id: "Create Project" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create project', { id: "Create Project" });
@@ -138,8 +152,8 @@ function ProjectsProfileManagement() {
             queryClient.invalidateQueries({
                 queryKey: ['project', selectedProjectId]
             });
+            navigateToView('details', selectedProjectId!);
             toast.success('Project Updated', { id: "Update Project" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to update project', { id: "Update Project" });
@@ -202,7 +216,7 @@ function ProjectsProfileManagement() {
             actual_end_date:
                 projectData.actual_end_date
                 ? projectData.actual_end_date
-                : null,
+                : undefined,
             phases:
                 projectData.phases && projectData.phases?.length > 0
                     ? projectData.phases.map(phase => ({
@@ -229,7 +243,7 @@ function ProjectsProfileManagement() {
             actual_end_date:
                 projectData.actual_end_date
                 ? projectData.actual_end_date
-                : null,
+                : undefined,
             phases:
                 projectData.phases && projectData.phases?.length > 0
                     ? projectData.phases.map(phase => ({
@@ -259,34 +273,30 @@ function ProjectsProfileManagement() {
 
 
     const handleProjectClick = (projectId: number) => {
-        setSelectedProjectId(projectId);
-        setView('details')
+        navigateToView('details', projectId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditProject = (projectId: number) => {
-        setSelectedProjectId(projectId);
-        setView('edit');
+        navigateToView('edit', projectId);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToProjectsList = () => {
-        setView('list');
-        setSelectedProjectId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleBackToProjectDetails = (projectId: number) => {
-        setSelectedProjectId(projectId);
-        setView('details')
+        navigateToView('details', projectId);
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleEditProjectButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -510,7 +520,7 @@ function ProjectsProfileManagement() {
                         </div>
                     </div>
                     <button
-                    onClick={() => setView('form')}
+                    onClick={() => navigateToView('form')}
                     className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                     >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -557,7 +567,7 @@ function ProjectsProfileManagement() {
                     <p className="text-gray-500">Add a new Project to your records</p>
                     </div>
                     <button 
-                        onClick={() => setView('list')}
+                        onClick={() => navigateToView('list')}
                         className="bg-white text-black px-2 py-1 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1"
                     >
                         <svg className="w-1 h-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
