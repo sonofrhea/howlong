@@ -179,7 +179,7 @@ const JobCostLedgerDetails: React.FC<JobCostLedgerDetailsProps> = ({
                 <div className="bg-slate-900 rounded-xl p-5 hover:cursor-pointer text-white flex justify-between items-center shadow-lg shadow-slate-200">
 
                     <div className="text-left">
-                        <span className="text-white text-xs font-bold uppercase tracking-wider block">Total Actual Cost</span>
+                        <span className="text-white text-xs font-bold uppercase tracking-wider block">Total ACCUMULATIVE Paid</span>
                         <span className="text-xl font-bold">{jobCostLedger.total_actual_cost}</span>
                     </div>
 

@@ -30,7 +30,11 @@ const formatBoqNumber = () => {
     return `BOQ-${currentYear}-`;
 };
 
+
 const decimalPlaces = (amount: number) => {
+    if (amount === undefined || amount === null) {
+        return '0.00';
+    }
     return `${amount.toFixed(2)}`;
 };
 
@@ -283,6 +287,15 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoq
                     </div>
                     {fields.length > 0 ? fields.map((field, index) => {
 
+                        const costing = Number(watch(`job_cost_ledger_lines.${index}.cost`) || 0.00);
+                        const sstPercent = Number(watch(`job_cost_ledger_lines.${index}.sst_percent`) || 0.00);
+
+                        const taxAmount = sstPercent / 100.00;
+
+                        const TaxAmount = costing * taxAmount;
+
+                        const total = costing + TaxAmount;
+
                         const onJobCostCodeChange = jobcostcodesHandler(jobCostCodes, setValue, index);
                         const onBoqLineChange = boqLineHandler(boqLines, setValue, index);
                         
@@ -455,10 +468,8 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoq
                                                     </label>
                                                     <div className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900 placeholder-blue-900">
                                                         <span className="text-sm font-bold text-blue-900">
-                                                            {decimalPlaces(
-                                                                (Number(watch(`job_cost_ledger_lines.${index}.cost`) || 0.00)) * 
-                                                                (1 + (Number(watch(`job_cost_ledger_lines.${index}.sst_percent`) || 0.00) / 100))
-                                                            )}
+                                                        
+                                                            {decimalPlaces(total)}
                                                         </span>
                                                     </div>
                                                 </div>

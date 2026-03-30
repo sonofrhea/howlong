@@ -29,6 +29,9 @@ const formatBoqNumber = () => {
 };
 
 const decimalPlaces = (amount: number) => {
+    if (amount === undefined || amount === null) {
+        return '0.00';
+    }
     return `${amount.toFixed(2)}`;
 };
 
@@ -295,6 +298,18 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                 </div>
                 {fields.length > 0 ? fields.map((field, index) => {
 
+                    const costing = Number(watch(`job_cost_ledger_lines.${index}.cost`) || 0.00);
+                    const sstPercent = Number(watch(`job_cost_ledger_lines.${index}.sst_percent`) || 0.00);
+
+                    const taxAmount = sstPercent / 100.00;
+
+                    const TaxAmount = costing * taxAmount;
+
+                    const total = costing + TaxAmount;
+
+                
+                                                        
+
                     const onJobCostCodeChange = jobcostcodesHandler(jobCostCodes, setValue, index);
                     const onBoqLineChange = boqLineHandler(boqLines, setValue, index);
                     
@@ -441,7 +456,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <input 
                                                     className="w-full! text-sm! px-5! py-4! bg-blue-50! border-2 border-blue-200! rounded-lg! font-bold! text-blue-900! placeholder-blue-900"
-                                                    {...register(`job_cost_ledger_lines.${index}.cost`)}
+                                                    {...register(`job_cost_ledger_lines.${index}.taxable`)}
                                                     type="checkbox"
                                                 />
                                             </div>
@@ -469,10 +484,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                                                 </label>
                                                 <div className="w-full text-sm px-3 py-2 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold text-blue-900">
                                                     <span className="text-sm font-bold text-blue-900">
-                                                        {decimalPlaces(
-                                                            (Number(watch(`job_cost_ledger_lines.${index}.cost`) || 0.00)) * 
-                                                            (1 + (Number(watch(`job_cost_ledger_lines.${index}.sst_percent`) || 0.00) / 100))
-                                                        )}
+                                                        {decimalPlaces(total)}
                                                     </span>
                                                 </div>
                                             </div>
