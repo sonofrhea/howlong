@@ -174,8 +174,8 @@ function JobCostLedgerManagement() {
             queryClient.invalidateQueries({
                 queryKey: ['jobCostLedger', selectedJobCostLedgerId]
             });
-            toast.success('Job Cost Ledger Updated', { id: "Update Job Cost Ledger" });
             navigateToView('details', selectedJobCostLedgerId!);
+            toast.success('Job Cost Ledger Updated', { id: "Update Job Cost Ledger" });
         },
         onError: (error: any) => {
             toast.error('Failed to update job cost ledger', { id: "Update Job Cost Ledger" });

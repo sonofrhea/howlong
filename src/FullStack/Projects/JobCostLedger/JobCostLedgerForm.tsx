@@ -105,6 +105,10 @@ const JobCostLedgerForm: React.FC<JobCostLedgerFormProps> = ({
                     status: 'Active',
                     job_cost_ledger_lines: [
                         {
+                            cost_code: {
+                                job_cost_code: undefined,
+                                job_cost_description: undefined,
+                            },
                             cost_type: 'Direct Cost',
                             status: 'Committed',
                             cost: 0.00,
@@ -156,7 +160,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoq
                             </label>
                             <select
                                 className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
-                                {...register("project")}
+                                {...register("project", {required: "Please pick related project"})}
                                 onChange={onProjectChange}
                             >
                                 <option value="">Select project...</option>
@@ -166,6 +170,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoq
                                     </option>
                                 )), [projects])}
                             </select>
+                            {errors.project && <p className="text-red-700 text-sm">{errors.project.message}</p>}
                         </div>
                         
                         <div>
@@ -173,7 +178,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoq
                                 BOQ Reference <span className="text-red-500">*</span>
                             </label>
                             <select
-                                {...register("boq")}
+                                {...register("boq", {required: "Please pick BOQ reference"})}
                                 onChange={onBoqChange}
                                 className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
                             >
@@ -184,6 +189,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoq
                                     </option>
                                 )), [billOfQuantities])}
                             </select>
+                            {errors.boq && <p className="text-red-700 text-sm">{errors.boq.message}</p>}
                         </div>
     
                         <div>
@@ -259,7 +265,10 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoq
                             onClick={() => append({
                                 boq_line: undefined,
                                 boq_additional: undefined,
-                                cost_code: undefined,
+                                cost_code: {
+                                    job_cost_code: undefined,
+                                    job_cost_description: undefined,
+                                },
                                 description: undefined,
                                 supplier: undefined,
                                 cost_type: 'Direct Cost',
@@ -288,7 +297,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoq
                                                 onClick={() => remove(index)}
                                             >
                                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/>
                                                 </svg>
                                             </button>
 
@@ -335,12 +344,13 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoq
                                                     </label>
                                                     <select
                                                         className="w-full text-sm px-3 py-2 bg-violet-50 border-2 border-violet-200 rounded-lg font-bold text-violet-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:text-green-900 focus:border-transparent transition-all duration-200"
-                                                        {...register(`job_cost_ledger_lines.${index}.cost_code.job_cost_code`)}
+                                                        {...register(`job_cost_ledger_lines.${index}.cost_code.job_cost_code`, {required: "Please select cost code"})}
                                                         onChange={onJobCostCodeChange}
                                                     >
                                                         <option value="">Select cost code...</option>
                                                         {costCode}
                                                     </select>
+                                                        {errors.job_cost_ledger_lines?.[index]?.cost_code?.job_cost_code && <p className="text-red-700 text-sm">{errors.job_cost_ledger_lines?.[index]?.cost_code?.job_cost_code.message}</p>}
                                                     <input type="hidden" {...register(`job_cost_ledger_lines.${index}.cost_code.job_cost_description`)} />
                                                 </div>
 
@@ -461,7 +471,7 @@ const onBoqChange = jobCostBoqHandler(billOfQuantities, setValue, setSelectedBoq
                         <div
                             className="text-center py-12 border-2 border-dashed border-slate-300 rounded-lg">
                             <svg className="w-16 h-16 mx-auto text-slate-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                             <p className="text-slate-600 font-medium">No job cost lines added yet</p>
                             <p className="text-sm text-slate-500 mt-1">Click "Add Cost Line" to start tracking costs</p>

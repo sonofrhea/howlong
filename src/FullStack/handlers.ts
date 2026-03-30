@@ -258,7 +258,10 @@ export const jobcostcodesHandler = (jobCostCodes: JobCostCodesInterface[], setVa
     console.log("✅ Found Job Cost Code:", selectedCode);
 
     if (selectedCode) {
-      setValue(`job_cost_ledger.${index}.cost_code.job_cost_description`, selectedCode.job_cost_description)
+      setValue(`job_cost_ledger_lines.${index}.cost_code.job_cost_description`, selectedCode.job_cost_description)
+    } else {
+      setValue(`job_cost_ledger_lines.${index}.cost_code`, null);
+      setValue(`job_cost_ledger_lines.${index}.cost_code.job_cost_description`, null);
     }
   }
 }
