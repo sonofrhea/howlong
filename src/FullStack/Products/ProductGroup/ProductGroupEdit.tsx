@@ -35,7 +35,7 @@ const ProductGroupEdit: React.FC<ProductGroupProps> = ({
             ...productGroup,
             date_created: productGroup.date_created
                 ? new Date(productGroup.date_created).toISOString().split("T")[0]
-                : "",
+                : undefined,
         };
         
         reset(updated)

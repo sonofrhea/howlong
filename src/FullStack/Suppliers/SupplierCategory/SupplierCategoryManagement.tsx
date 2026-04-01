@@ -127,7 +127,7 @@ function SupplierCategoryManagement() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['supplierCategories'] });
             queryClient.invalidateQueries({ queryKey: ['supplierCategory', selectedSupplierCategoryId]});
-            toast.error('Supplier Category successfully updated', { id: "Update Supplier category" });
+            toast.success('Supplier Category successfully updated', { id: "Update Supplier category" });
             navigateToView('list', selectedSupplierCategoryId!);
         },
         onError: (error: any) => {
@@ -180,14 +180,7 @@ function SupplierCategoryManagement() {
     const handleAddSupplierCategory = async (supplierCategoryData: SupplierCategoryInputs) => {
 
         //console.log("🎯 RAW FORM DATA:", supplierCategoryData);
-        const toastId = toast.loading('Creating Supplier Category...');
-        try {
-            await createSupplierCategoryMutation.mutateAsync(supplierCategoryData);
-            
-        } catch (error) {
-            
-            console.error(error);
-        }
+        await createSupplierCategoryMutation.mutateAsync(supplierCategoryData);
     };
 
 
@@ -501,7 +494,6 @@ function SupplierCategoryManagement() {
                 onSubmit={handleUpdateSupplierCategory}
                 isSubmitting={updateSupplierCategoryMutation.isPending}
                 onCancel={handleBackToSupplierCategoriesList}
-                agents={agents}
                 />
             )}
 

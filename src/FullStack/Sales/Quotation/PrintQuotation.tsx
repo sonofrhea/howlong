@@ -84,7 +84,7 @@ const PrintQuotation = forwardRef<HTMLDivElement, PrintQuotationProps>((props, r
                                 <tr className="align-top">
                                     <td className="py-3">{index + 1}</td>
                                     <td className="py-3 pr-4">
-                                        <p className="font-bold uppercase">{productItem()}{line.item} | {line.item_name}</p>
+                                        <p className="font-bold uppercase">{line.item?.formatted_number} | {line.item_name}</p>
                                         <p className="text-gray-500 italic">{line.description}</p>
                                     </td>
                                     <td className="py-3 text-center">3 MONTHS</td>

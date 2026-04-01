@@ -72,18 +72,18 @@ export type ProductGroupDetails = {
 export type ProductGroupInputs = {
   group_code: number;
   formatted_number?: string;
-  group_name: string;
-  description: string;
-  costing_method: string;
-  sales_code: number;
-  purchase_code: number;
-  cash_sales_code: number;
-  cash_purchase_code: number;
-  sales_return_code: number;
-  purchase_return_code: number;
-  balance_sheet_stock: number;
-  active: boolean;
-  date_created: string;
+  group_name?: string;
+  description?: string;
+  costing_method?: string;
+  sales_code?: number;
+  purchase_code?: number;
+  cash_sales_code?: number;
+  cash_purchase_code?: number;
+  sales_return_code?: number;
+  purchase_return_code?: number;
+  balance_sheet_stock?: number;
+  active?: boolean;
+  date_created?: string;
 };
 
 export type ProductGroupCreateResponse = {

@@ -86,7 +86,7 @@ export type QuotationDetails = {
   agent: string;
   project_description: string;
   related_quotation?: Array<{
-    item: string;
+    item: ProductItemCreateResponse;
     item_name: string;
     item_photo: string;
     description: string;

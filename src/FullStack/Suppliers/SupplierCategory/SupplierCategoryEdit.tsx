@@ -17,7 +17,6 @@ const SuppliersCategoryEdit: React.FC<SupplierCategoryEditProps> = ({
     onSubmit,
     isSubmitting,
     onCancel,
-    agents,
 }) => {
 
     const { register, handleSubmit, formState: { errors },
@@ -27,8 +26,17 @@ const SuppliersCategoryEdit: React.FC<SupplierCategoryEditProps> = ({
     
     
     React.useEffect(() => {
+        if (!supplierCategory) return;
 
-        reset(supplierCategory);
+        const updated = {
+            ...supplierCategory,
+            date_created: supplierCategory.date_created
+                ? new Date(supplierCategory.date_created).toISOString().split("T")[0]
+                : undefined,
+            created_by: supplierCategory.created_by,
+        };
+
+        reset(updated);
     }, [supplierCategory, reset]);
 
 
@@ -77,17 +85,7 @@ const SuppliersCategoryEdit: React.FC<SupplierCategoryEditProps> = ({
                                     />
 
                                     <div className="text-sm text-gray-600 font-medium mb-1">Created By:</div>
-                                    <select
-                                        {...register("created_by")} 
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                    >
-                                        <option value="">select...</option>
-                                        {useMemo(() => agents.map((agent: AgentInterface) => (
-                                            <option key={agent.name} value={agent.name}>
-                                                {agent?.name} | {agent?.email}
-                                            </option>
-                                        )), [agents])}
-                                    </select>
+                                    {supplierCategory.created_by}
                                 </div> 
                              </div>
                         </fieldset>

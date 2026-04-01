@@ -142,7 +142,7 @@ const IncomeAndExpensesTable: React.FC<IncomeAndExpensesListProps> = ({
                                 onClick={() => onIncomeAndExpenseClick(incomeAndExpenseId)}>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" >
+                                    <td className="px-3.5! py-3.5! truncate" >
                                         <div className="text-sm font-medium text-black truncate">
                                             {formatDate(incomeAndExpense.date)}
                                         </div>

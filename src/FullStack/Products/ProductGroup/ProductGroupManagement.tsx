@@ -138,8 +138,8 @@ function ProductGroupManagement() {
           queryClient.invalidateQueries({
               queryKey: ['productGroup', selectedProductGroupId]
           });
-          toast.success('Product Group Updated', { id: "Update Product Group" });
           navigateToView('details', selectedProductGroupId!);
+          toast.success('Product Group Updated', { id: "Update Product Group" });
       },
       onError: (error: any) => {
           toast.error('Failed to update product group', { id: "Update Product Group" });

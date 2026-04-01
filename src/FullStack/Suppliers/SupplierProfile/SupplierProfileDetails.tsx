@@ -153,7 +153,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                     <div className="bg-blue-50 text-center border border-blue-600 hover:border-blue-600 hover:cursor-pointer hover:shadow-2xl rounded-lg p-6">
                         <h4 className="text-sm text-blue-600 font-medium">Created By</h4>
                         
-                        <div className="text-lg font-semibold text-black">
+                        <div className="text-lg font-semibold text-black truncate">
                             {supplierProfile?.created_by || "N/A"}
                         </div>
                     </div>

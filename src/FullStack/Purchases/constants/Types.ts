@@ -92,7 +92,7 @@ export type CompanyPurchaseInvoiceDetails = {
 
 export type CompanyPurchaseInvoiceInputs = {
   purchase_invoice_number: number;
-  formatted_number: string;
+  formatted_number?: string;
   date?: string;
   supplier?: number;
   supplier_name?: string;
@@ -202,7 +202,7 @@ export type CompanyPurchaseOrderList = {
 
 export type CompanyPurchaseOrderInputs = {
   purchase_order_number: number;
-  formatted_number: string;
+  formatted_number?: string;
   date: string;
   supplier: string;
   supplier_name: string;

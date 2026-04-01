@@ -97,12 +97,6 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                             </div>
                         </div>
                     </div>
-                    <button
-                        onClick={() => setIsJournalEntryOpen(true)}
-                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
-                    >
-                        + Create Journal Entry
-                    </button>
                 </div>
 
                 <hr className="my-6 border-gray-200" />
@@ -440,13 +434,6 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                         </button>
                     </div>
                 </div>
-                <JournalEntryModal
-                    isOpen={isJournalEntryOpen}
-                    onClose={() => setIsJournalEntryOpen(false)}
-                    onCreate={onCreateJournalEntry}
-                    isSubmitting={isCreatingJournalEntry}
-                    accounts={accounts}
-                />
             </div>
         </form>
     );

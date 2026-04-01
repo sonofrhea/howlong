@@ -288,19 +288,6 @@ const CashBookEdit: React.FC<CashBookProps> = ({
                 >
                     Cancel
                 </button>
-                    <button
-                        onClick={() => setIsJournalEntryOpen(true)}
-                        className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
-                    >
-                        + Create Journal Entry
-                    </button>
-                <JournalEntryModal
-                    isOpen={isJournalEntryOpen}
-                    onClose={() => setIsJournalEntryOpen(false)}
-                    onCreate={onCreateJournalEntry}
-                    isSubmitting={isCreatingJournalEntry}
-                    accounts={accounts}
-                />
             </div>
         </form>
     );        

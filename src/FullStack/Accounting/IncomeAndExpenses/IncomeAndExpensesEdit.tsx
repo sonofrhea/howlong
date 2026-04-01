@@ -77,12 +77,6 @@ const IncomeAndExpensesEdit: React.FC<IncomeAndExpensesProps> = ({
                     />
                 </div>
             </div>
-            <button
-                onClick={() => setIsJournalEntryOpen(true)}
-                className="bg-purple-900 text-white px-4 py-2 hover:bg-amber-900 rounded-lg flex items-center gap-2"
-            >
-                + Create Journal Entry
-            </button>
 
             {/* <!-- Transaction Type --> */}
             <div>
@@ -266,13 +260,6 @@ const IncomeAndExpensesEdit: React.FC<IncomeAndExpensesProps> = ({
                 >
                     Cancel
                 </button>
-                <JournalEntryModal
-                    isOpen={isJournalEntryOpen}
-                    onClose={() => setIsJournalEntryOpen(false)}
-                    onCreate={onCreateJournalEntry}
-                    isSubmitting={isCreatingJournalEntry}
-                    accounts={accounts}
-                />
             </div>
         </form>
     );

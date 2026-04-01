@@ -107,7 +107,6 @@ export type SupplierCategoryEditProps = {
   onSubmit: (data: SupplierCategoryInputs) => void;
   isSubmitting: boolean;
   onCancel?: () => void;
-  agents: AgentInterface[];
 };
 
 

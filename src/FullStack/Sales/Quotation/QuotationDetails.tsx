@@ -194,7 +194,7 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                                 {quotation.related_quotation.map((line, index) => (
                                     <tr key={index}>
                                         <td className={tables.cell}>
-                                            {productItem()}{line.item} | {line.item_name}<br />
+                                            {line.item?.formatted_number} | {line.item_name}<br />
                                             <div className="mt-2 w-24 h-24">
                                                 <img
                                                 src={line.item_photo}
