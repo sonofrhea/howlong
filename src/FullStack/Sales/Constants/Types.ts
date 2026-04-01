@@ -346,6 +346,7 @@ export type InvoiceInterface = {
   invoice_number: number;
   net_total: number;
   formatted_number: string;
+  outstanding?: number;
 };
 
 export type InvoiceProps = {
@@ -567,7 +568,7 @@ export type InvoicePaymentList = {
   date_created: string;
   formatted_number: string;
   invoice_payment_code: number;
-  related_invoice: string;
+  related_invoice?: InvoiceCreateResponse;
   related_invoice_total: number;
   gross_paid: number;
   tax_percent: number;
@@ -614,7 +615,7 @@ export type InvoicePaymentInputs = {
 export type InvoicePaymentDetails = {
   invoice_payment_code: number;
   formatted_number: string;
-  related_invoice: InvoiceCreateResponse;
+  related_invoice?: InvoiceCreateResponse;
   related_invoice_details: string;
   account_received_in: {
     account_code: number;

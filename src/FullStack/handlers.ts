@@ -80,6 +80,7 @@ export const invoiceHandler = (invoices: InvoiceInterface[], setValue: any) => {
 
         if (selectedInvoice) {
             setValue("related_invoice_total", selectedInvoice.net_total);
+            setValue("outstanding_amount", selectedInvoice.outstanding);
         }
     }
 }

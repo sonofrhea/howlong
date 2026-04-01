@@ -279,9 +279,12 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                                                 <td>
                                                     <input 
                                                         type="date"
-                                                        {...register(`related_invoice_payment.${index}.payment_date`)}
+                                                        {...register(`related_invoice_payment.${index}.payment_date`, {
+                                                            required: 'DATE IS REQUIRED'
+                                                        })}
                                                         className={forms.select.full}
                                                     />
+                                                    {errors.related_invoice_payment?.[index]?.payment_date && <p className="text-amber-600 text-sm">{errors.related_invoice_payment?.[index]?.payment_date?.message}</p>}
                                                 </td>
 
                                                 <td className={tables.cell}>

@@ -141,7 +141,7 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                         
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Paid By</a><br />
-                            {invoicePayment.paid_by?.formatted_number || 'N/A'} | {invoicePayment.paid_by?.customer_name || 'N/A'}
+                            {invoicePayment.paid_by?.formatted_number || 'N/A'} | {invoicePayment.paid_by_name || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>

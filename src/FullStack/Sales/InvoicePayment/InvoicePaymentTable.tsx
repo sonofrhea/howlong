@@ -174,7 +174,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                                     {/* Related Invoice */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {invoicePayment.formatted_number}
+                                            {invoicePayment.related_invoice?.formatted_number}
                                         </div>
                                     </td>
 
@@ -202,7 +202,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                                     {/* Paid By */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {invoicePayment.paid_by?.formatted_number}
+                                            {invoicePayment.paid_by?.customer_name}
                                         </div>
                                     </td>
 
