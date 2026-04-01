@@ -23,10 +23,7 @@ const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
+
 
 
 const formatDate = (dateString: string) => {
@@ -35,10 +32,6 @@ const formatDate = (dateString: string) => {
 
 
 
-const formatDebitNoteNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `DN-${currentYear}-`;
-};
 
 
 
@@ -132,7 +125,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                                     DEBIT NOTE DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatDebitNoteNumber()}{debitNote.debit_note_number}
+                                    {debitNote.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -169,7 +162,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
-                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                    {customer.formatted_number} | {customer.customer_name || '--'}
                                 </option>
                             )), [customers])}
                         </select>
@@ -217,7 +210,7 @@ const DebitNoteEdit: React.FC<DebitNoteEditProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => customerPayments.map((payment: CustomerPaymentResponse) => (
                                 <option key={payment.payment_number} value={payment.payment_number}>
-                                    POST-{payment.payment_number} | Paid Amount: {payment.paid_amount}
+                                    {payment.formatted_number} | Paid Amount: {payment.paid_amount}
                                 </option>
                             )), [customerPayments])}
                         </select>

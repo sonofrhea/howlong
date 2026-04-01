@@ -20,19 +20,7 @@ const decimalPlaces = (amount: number) => {
 };
 
 
-const formatPaymentNumber = () => {
-    return `PAY-`;
-};
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
-
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-`;
-};
 
 
 
@@ -119,7 +107,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                                     PAYMENT DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    POST-{customerPayment.payment_number}
+                                    {customerPayment.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -155,7 +143,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                 <option key={project.project_code} value={project.project_code}>
-                                    {formatProjectNumber()}{project.project_code} | {project.project_name}
+                                    {project.formatted_number} | {project.project_name}
                                 </option>
                             )), [projects])}
                         </select>
@@ -189,7 +177,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
-                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
+                                    {customer.formatted_number} | {customer.customer_name}
                                 </option>
                             )), [customers])}
                         </select>
@@ -205,7 +193,7 @@ const CustomerPaymentEdit: React.FC<CustomerPaymentProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => invoicePayments.map((invoicePayment: InvoicePaymentInterface) => (
                                 <option key={invoicePayment.invoice_payment_code} value={invoicePayment.invoice_payment_code}>
-                                    {formatPaymentNumber()}{invoicePayment.invoice_payment_code} | Total: {invoicePayment.related_invoice_total}
+                                    {invoicePayment.formatted_number} | Total: {invoicePayment.related_invoice_total}
                                 </option>
                             )), [invoicePayments])}
                         </select>

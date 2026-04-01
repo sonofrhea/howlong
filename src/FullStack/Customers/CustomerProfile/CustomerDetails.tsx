@@ -12,10 +12,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
+
 
 
 const formatUpdateDate = (dateString: string) => {
@@ -116,7 +113,7 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
                         <h4 className="text-sm text-blue-600 font-medium">Customer Number</h4>
 
                         <div className="text-lg font-semibold text-black">
-                            {formatNumber()}{customer.customer_number}
+                            {customer.formatted_number}
                         </div>
                     </div>
 

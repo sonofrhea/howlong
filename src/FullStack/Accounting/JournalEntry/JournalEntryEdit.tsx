@@ -15,10 +15,7 @@ const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`
 };
 
-const formatJournalNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `JV-${currentYear}-`
-};
+
 
 
 
@@ -87,7 +84,7 @@ const JournalEntryEdit: React.FC<JournalHeaderProps> = ({
                                     JOURNAL ENTRY DETAILS
                                 </div>
                                 <p className={labelStyles}>
-                                    {formatJournalNumber()}{journalEntry.journal_number}
+                                    {journalEntry.formatted_number}
                                 </p>
                             </div>
                         </div>

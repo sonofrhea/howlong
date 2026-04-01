@@ -10,21 +10,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PI-${currentYear}-`;
-};
 
-
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
-
-const formatPurchaseInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PI-${currentYear}-`;
-};
 
 
 const formatUpdateDate = (dateString: string) => {
@@ -88,7 +74,7 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                                     COMPANY PURCHASE ORDER DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{companyPurchaseOrder.purchase_order_number}
+                                    {companyPurchaseOrder.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -118,7 +104,7 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Debit Note No.</a><br />
-                            {formatNumber()}{companyPurchaseOrder.purchase_order_number}
+                            {companyPurchaseOrder.formatted_number}
                         </p>
                         
                         <p className={labelStyles}>
@@ -133,12 +119,12 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                         
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Supplier</a><br />
-                            {formatSupplierNumber()}{companyPurchaseOrder.supplier} | {companyPurchaseOrder.supplier_name}
+                            {companyPurchaseOrder.supplier?.formatted_number} | {companyPurchaseOrder.supplier?.supplier_name}
                         </p>
                         
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Related Purchase Invoice</a><br />
-                            {formatPurchaseInvoiceNumber()}{companyPurchaseOrder.related_invoice} | Total: {companyPurchaseOrder.invoice_total}
+                            {companyPurchaseOrder.related_invoice?.formatted_number} | Total: {companyPurchaseOrder.related_invoice?.net_total}
                         </p>
                         
                         <p className={labelStyles}>
@@ -190,10 +176,11 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                                         <tr>
                                             <th className={tables.headerCell}>Payment Date</th>
                                             <th className={tables.headerCell}>Total Paid</th>
-                                            <th className={tables.headerCell}>Tax Inclusive</th>
+                                            <th className={tables.headerCell}>Taxable</th>
                                             <th className={tables.headerCell}>SST %</th>
-                                            <th className={tables.headerCell}>SubTotal<br></br>(After SST)</th>
+                                            <th className={tables.headerCell}>SST Amount</th>
                                             <th className={tables.headerCell}>Cancelled</th>
+                                            <th className={tables.headerCell}>Total<br></br>(After SST)</th>
                                         </tr>
                                     </thead>
                                     <tbody className={tables.body}>
@@ -201,10 +188,19 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                                             <tr key={index} className={tables.row}>
                                                 <td className={tables.cell}>{line.payment_date}</td>
                                                 <td className={tables.cell}>{line.total_paid}</td>
-                                                <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
-                                                <td className={tables.cell}>{line.tax_amount}</td>
+                                                <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    line.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>{line.taxable ? 'Yes' : 'No'}</td>
+                                                <td className={tables.cell}>{line.sst_percent}</td>
+                                                <td className={tables.cell}>{line.sst_amount}</td>
+                                                <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                    line.taxable
+                                                        ? 'bg-red-100 text-red-800 border border-red-200'
+                                                        : 'bg-green-100 text-green-800 border border-green-200'
+                                                }`}>{line.taxable ? 'Yes' : 'No'}</td>
                                                 <td className={tables.cell}>{line.sub_total}</td>
-                                                <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                             </tr>
                                         ))} 
                                     </tbody>
@@ -221,10 +217,30 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                                             <div className="font-medium text-black">{companyPurchaseOrder.gross_paid}</div>
                                         </div>
 
+                                        <hr className="my-2 border-blue-200" />
+
+                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                            <div>Taxable?</div>
+                                            <div className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                companyPurchaseOrder.taxable
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>
+                                                {companyPurchaseOrder.taxable ? 'Yes' : 'No'}
+                                            </div>
+                                        </div>
+
                                         <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
-                                            <div className="font-medium text-black">+{companyPurchaseOrder.tax_amount}%</div>
+                                            <div className="font-medium text-black">{companyPurchaseOrder.tax_percent}%</div>
                                         </div>
+
+                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                            <div>Tax Amount</div>
+                                            <div className="font-medium text-black">{companyPurchaseOrder.tax_amount}</div>
+                                        </div>
+
+                                        <hr className="my-2 border-blue-200" />
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total:</div>
@@ -232,8 +248,6 @@ const CompanyPurchaseOrderDetails: React.FC<CompanyPurchaseOrderDetailsProps> = 
                                                 {companyPurchaseOrder.net_total_paid}
                                             </div>
                                         </div>
-
-                                        <hr className="my-2 border-blue-200" />
                                         
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Outstanding:</div>

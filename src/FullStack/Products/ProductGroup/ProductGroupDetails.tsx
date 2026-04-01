@@ -67,7 +67,7 @@ const ProductGroupDetails: React.FC<ProductGroupDetailsProps> = ({
                         </svg>
                     </button>
                     <div>
-                        <h2 className="text-xl font-semibold text-gray-800">SKG-{productGroup.group_code}</h2>
+                        <h2 className="text-xl font-semibold text-gray-800">{productGroup.formatted_number}</h2>
                     </div>
 
                     <div className="absolute left-1/2 transform -translate-x-1/2">
@@ -101,7 +101,7 @@ const ProductGroupDetails: React.FC<ProductGroupDetailsProps> = ({
                         <div className="text-sm text-blue-900 font-medium">Group code</div>
 
                         <div className="text-lg font-semibold text-black">
-                            SKG-{productGroup.group_code}
+                            {productGroup.formatted_number}
                         </div>
                     </div>
 

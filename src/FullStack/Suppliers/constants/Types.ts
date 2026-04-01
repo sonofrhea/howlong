@@ -36,6 +36,7 @@ export interface SortConfig {
 export type SupplierCategoryList = {
   date_created: string;
   category_id: number;
+  formatted_number: string;
   category: string;
   description: string;
   created_by: string;
@@ -43,15 +44,18 @@ export type SupplierCategoryList = {
 
 export type SupplierCategoryInputs = {
   category_id: number;
-  date_created: string;
-  category: string;
-  description: string;
-  created_by: string;
+  formatted_number?: string;
+  date_created?: string;
+  category?: string;
+  description?: string;
+  created_by?: string;
 };
 
 export type SupplierCategoryResponse = {
   category_id: number;
   category: number;
+  formatted_number: string;
+  description: string;
 }
 
 export type allSupplierCategoryInputs = {
@@ -98,6 +102,15 @@ export type SupplierCategoryFormProps = {
 };
 
 
+export type SupplierCategoryEditProps = {
+  supplierCategory: SupplierCategoryInputs;
+  onSubmit: (data: SupplierCategoryInputs) => void;
+  isSubmitting: boolean;
+  onCancel?: () => void;
+  agents: AgentInterface[];
+};
+
+
 // -------- END ----------- SUPPLIER CATEGORY INPUT ----------------
 
 
@@ -113,6 +126,7 @@ export type SupplierCategoryFormProps = {
 
 export type SupplierProfileList = {
   supplier_code: number;
+  formatted_number: string;
   supplier_name: string;
   company_name: string;
   industry_code: string;
@@ -127,9 +141,10 @@ export type SupplierProfileList = {
 
 export type SupplierProfileDetails = {
   supplier_code: number;
+  formatted_number: string;
   supplier_name: string;
   company_name: string;
-  category_name: string;
+  category_name: SupplierCategoryResponse;
   industry_code: string | null;
 
   preferred_currency: {
@@ -180,19 +195,20 @@ export type SupplierProfileDetails = {
 
 export type SupplierProfileInputs = {
   supplier_code: number;
+  formatted_number?: string;
   supplier_name?: string;
   company_name: string;
   category: number;
-  preferred_currency: {
-    currency_code: string | null;
-    currency_name: string | null;
-    currency_symbol: string | null;
-    country: string | null;
-    buy: number | null;
-    sell: number | null;
+  preferred_currency?: {
+    currency_code: string;
+    currency_name: string;
+    currency_symbol: string;
+    country: string;
+    buy: number;
+    sell: number;
   };
   address: string;
-  country: typeof COUNTRY_OPTIONS[number] | null;
+  country: typeof COUNTRY_OPTIONS[number];
   post_code: string;
   city: string;
   state: string;
@@ -202,9 +218,9 @@ export type SupplierProfileInputs = {
   email: string;
   account_open_date: string;
   registration_number: number;
-  status: typeof STATUS_CHOICES[number] | null;
+  status: typeof STATUS_CHOICES[number];
   gst_number: number;
-  tax_id_type: typeof TAX_ID_CHOICES[number] | null;
+  tax_id_type: typeof TAX_ID_CHOICES[number];
   brn_number: number;
   tax_number: number;
   tourism_number: number;
@@ -213,7 +229,7 @@ export type SupplierProfileInputs = {
   supplier_bank_name: string;
   remark: string;
   supplier_bank_account_number: number;
-  bank_account_type: typeof BANK_TYPE_CHOICES[number] | null;
+  bank_account_type: typeof BANK_TYPE_CHOICES[number];
   is_active: boolean;
   created_by: string;
   date_created: string;
@@ -222,6 +238,7 @@ export type SupplierProfileInputs = {
 export type SupplierProfileResponse = {
   supplier_code: number;
   supplier_name: string;
+  formatted_number?: string;
 };
 
 export type allSupplierProfileInputs = {
@@ -320,8 +337,9 @@ export type SupplierDetailsProps = {
 
 export type SupplierPaymentList = {
   payment_code: number;
+  formatted_number: string;
   date_created: string;
-  supplier: string;
+  supplier: SupplierProfileResponse;
   aggregate_total: number;
   cancelled: boolean;
   outstanding_amount: number;
@@ -331,6 +349,7 @@ export type SupplierPaymentList = {
 
 export type SupplierPaymentInputs = {
   payment_code: number;
+  formatted_number?: string;
   supplier?: number;
   account_code?: {
     account_code?: number;
@@ -363,8 +382,9 @@ export type SupplierPaymentInputs = {
 
 export type SupplierPaymentDetails = {
   payment_code: number;
+  formatted_number: string;
 
-  supplier: number;
+  supplier: SupplierProfileResponse;
   supplier_name: string;
 
   account_code: {
@@ -374,7 +394,7 @@ export type SupplierPaymentDetails = {
   };
 
   currency: number;
-  related_invoice: number;
+  related_invoice: SupplierInvoiceResponse;
 
   invoice_amount: string;
 
@@ -411,6 +431,7 @@ export type SupplierPaymentDetails = {
 
 export type SupplierPaymentResponse = {
   payment_code: number;
+  formatted_number: string;
 };
 
 export type allSupplierPaymentInputs = {
@@ -495,6 +516,7 @@ export type SupplierPaymentFormProps = {
 
 export type SupplierInvoiceList = {
   invoice_number: number;
+  formatted_number: string;
   invoice_date: string;
   invoice_due_date: string;
   product: string;
@@ -507,6 +529,7 @@ export type SupplierInvoiceList = {
 
 export type SupplierInvoiceDetails = {
   invoice_number: number;
+  formatted_number: string;
   invoice_date: string;
   invoice_due_date: string;
   currency: string
@@ -517,12 +540,12 @@ export type SupplierInvoiceDetails = {
     account_type: string;
   },
 
-  supplier_name: string;
+  supplier_name: SupplierProfileResponse;
   supplier_details: string;
 
   related_invoice: Array<{
-    item: number;
-    item_name: string | null;
+    item: ProductItemCreateResponse;
+    item_name: string;
     description: string;
     quantity: string;
     unit_of_measure: string;
@@ -553,6 +576,7 @@ export type SupplierInvoiceDetails = {
 
 export type SupplierInvoiceInputs = {
   invoice_number: number;
+  formatted_number?: string;
   invoice_date?: string;
   invoice_due_date?: string;
   supplier?: number;
@@ -585,6 +609,7 @@ export type SupplierInvoiceInputs = {
 
 export type SupplierInvoiceResponse = {
   invoice_number: number;
+  formatted_number: string;
   supplier_name: string;
   aggregate_total: number;
 };
@@ -658,10 +683,11 @@ export type SupplierInvoiceTableProps = {
 
 export type SupplierDebitNoteList = {
   debit_note_number: number;
+  formatted_number: string;
   date: string;
-  supplier: string;
+  supplier: SupplierProfileResponse;
   supplier_name: string;
-  related_invoice: string;
+  related_invoice: SupplierInvoiceResponse;
   net_total: number;
   cancelled: boolean;
 }
@@ -669,6 +695,7 @@ export type SupplierDebitNoteList = {
 
 export type SupplierDebitNoteInputs = {
   debit_note_number: number;
+  formatted_number?: string;
   date?: string;
   description?: string;
   supplier?: number;
@@ -699,20 +726,21 @@ export type SupplierDebitNoteInputs = {
 
 export type SupplierDebitNoteDetails = {
   debit_note_number: number;
+  formatted_number: string;
   date: string;
-  supplier: number;
+  supplier: SupplierProfileResponse;
   supplier_name: string;
   description: string;
   account: {
-    account_code?: number;
-    account_name?: string;
-    account_type?: string;
+    account_code: number;
+    account_name: string;
+    account_type: string;
   };
   gross_total: number;
-  related_invoice: number;
+  related_invoice: SupplierInvoiceResponse;
   related_invoice_total: number;
   related_debit_note: Array<{
-    debit_note_item: string;
+    debit_note_item: ProductItemCreateResponse;
     debit_note_item_name: string;
     description: string;
     amount: number;
@@ -738,6 +766,7 @@ export type SupplierDebitNoteDetails = {
 
 export type SupplierDebitNoteResponse = {
   debit_note_number: number;
+  formatted_number: string;
 }
 
 export type allSupplierDebitNoteInputs = {
@@ -821,10 +850,11 @@ export type SupplierDebitNoteTableProps = {
 
 export type SupplierCreditNoteList = {
   credit_note_number: number;
+  formatted_number: string;
   date: string;
-  supplier: string;
+  supplier: SupplierProfileResponse;
   supplier_name: string;
-  related_invoice: string;
+  related_invoice: SupplierInvoiceResponse;
   net_total: number;
   cancelled: boolean;
 }
@@ -832,6 +862,7 @@ export type SupplierCreditNoteList = {
 
 export type SupplierCreditNoteInputs = {
   credit_note_number: number;
+  formatted_number: string;
   date?: string;
   supplier?: number;
   supplier_name?: string;
@@ -861,8 +892,9 @@ export type SupplierCreditNoteInputs = {
 
 export type SupplierCreditNoteDetails = {
   credit_note_number: number;
+  formatted_number: string;
   date: string;
-  supplier: number;
+  supplier: SupplierProfileResponse;
   supplier_name: string;
   description: string;
   account?: {
@@ -871,10 +903,10 @@ export type SupplierCreditNoteDetails = {
     account_type: string;
   };
   gross_total: number;
-  related_invoice: string;
+  related_invoice: SupplierInvoiceResponse;
   related_invoice_total: number;
   related_credit_note: Array<{
-    credit_note_item: number;
+    credit_note_item: ProductItemCreateResponse;
     credit_note_item_name: string;
     description: string;
     amount: number;
@@ -900,6 +932,7 @@ export type SupplierCreditNoteDetails = {
 
 export type SupplierCreditNoteResponse = {
   credit_note_number: number;
+  formatted_number: string;
 }
 
 export type allSupplierCreditNoteInputs = {

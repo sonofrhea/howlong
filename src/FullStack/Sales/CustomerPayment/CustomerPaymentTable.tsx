@@ -6,10 +6,8 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-`;
-};
+
+
 
 
 
@@ -129,7 +127,7 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
                         "w-[7%] text-center",
                     ]}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Payment #" sortKey="payment_number" />
                             <SortableHeader label="Date" sortKey="date" />
@@ -150,17 +148,17 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
                             const customerPaymentId = customerPayment.payment_number;
 
                             return (
-                                <tr key={customerPayment.payment_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={customerPayment.payment_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onCustomerPaymentClick(customerPaymentId)}>
                                     {/* Payment Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            POST-{customerPayment.payment_number}
+                                            {customerPayment.formatted_number}
                                         </span>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate" >
+                                    <td className="px-3.5 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
                                             {formatDate(customerPayment.date)}
                                         </div>
@@ -169,14 +167,14 @@ const CustomerPaymentTable: React.FC<CustomerPaymentTableProps> = ({
                                     {/* Customer */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {customerPayment.customer}
+                                            {customerPayment.customer?.formatted_number}
                                         </div>
                                     </td>
 
                                     {/* Project */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {formatProjectNumber()}{customerPayment.project}
+                                            {customerPayment.project?.formatted_number}
                                         </div>
                                     </td>
 

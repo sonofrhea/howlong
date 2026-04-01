@@ -2,18 +2,13 @@ import React, { forwardRef } from "react";
 import { PrintQuotationProps } from "../Constants/Types";
 
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `QT-${currentYear}-`;
-};
+
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const productItem = () => {
-    return `SKU-`;
-};
+
 
 
 
@@ -46,7 +41,7 @@ const PrintQuotation = forwardRef<HTMLDivElement, PrintQuotationProps>((props, r
                             <h2 className="text-3xl font-bold text-gray-300 tracking-[0.2em] mb-4">QUOTATION</h2>
                             <div className="text-xs text-left border border-gray-200 p-2 inline-block min-w-45">
                                 <div className="flex justify-between">
-                                  <strong>No.</strong><span>: {formatNumber()}{quotation.quotation_number} </span>
+                                  <strong>No.</strong><span>: {quotation.formatted_number} </span>
                                 </div>
                                 <div className="flex justify-between"><strong>Your Ref.</strong><span>: </span></div>
                                 <div className="flex justify-between"><strong>Terms</strong><span>: CASH ON DELIVERY</span></div>

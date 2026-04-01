@@ -20,17 +20,8 @@ const formatDate = (dateString: string) => {
 
 
 
-const formatCreditNoteNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CN-${currentYear}-`;
-};
 
 
-
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
 
 
 
@@ -109,7 +100,7 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                                     CREDIT NOTE DETAILS
                                 </p>
                                 <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
-                                    {formatCreditNoteNumber()}{creditNote.credit_note_number}
+                                    {creditNote.formatted_number}
                                 </span>
                             </div>
                         </div>
@@ -189,7 +180,7 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                                         : 'preprod.myinvois.hasil.gov.my'
                                 }/${creditNote.lhdn_uuid}/share/${creditNote.lhdn_long_uid}`}
                                 lhdnUuid={creditNote.lhdn_uuid}
-                                documentReference={`CN-${new Date(creditNote.date).getFullYear()}-${creditNote.credit_note_number}`}
+                                documentReference={creditNote.formatted_number}
                             />
                         </div>
                     )}
@@ -201,7 +192,7 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Debit Note No.</a><br />
-                            {formatCreditNoteNumber()}{creditNote.credit_note_number}
+                            {creditNote.formatted_number}
                         </p>
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
@@ -216,12 +207,12 @@ const CreditNoteDetails: React.FC<CreditNoteDetailsProps> = ({
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Bill To...</a><br />
-                            {formatCustomerNumber()}{creditNote.customer || 'N/A'} | {creditNote.customer_name || 'N/A'}
+                            {creditNote.customer?.formatted_number || 'N/A'} | {creditNote.customer?.customer_name || 'N/A'}
                         </p>
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Payment</a><br />
-                            POST-{creditNote.related_payment} | Paid Amount: {creditNote.related_payment_amount}
+                            {creditNote.related_payment?.formatted_number} | Paid Amount: {creditNote.related_payment?.paid_amount}
                         </p>
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>

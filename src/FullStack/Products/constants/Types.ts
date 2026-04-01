@@ -36,6 +36,7 @@ export interface ProductsModuleInterface {
 
 export type ProductGroupList = {
   group_code: number;
+  formatted_number: string;
   group_name: string;
   description: string;
   costing_method: typeof COSTING_METHOD_OPTIONS[number];
@@ -51,6 +52,7 @@ export type ProductGroupList = {
 
 export type ProductGroupDetails = {
   group_code: number;
+  formatted_number: string;
   group_name: string;
   description: string;
   costing_method: string;
@@ -69,6 +71,7 @@ export type ProductGroupDetails = {
 
 export type ProductGroupInputs = {
   group_code: number;
+  formatted_number?: string;
   group_name: string;
   description: string;
   costing_method: string;
@@ -87,6 +90,7 @@ export type ProductGroupCreateResponse = {
   group_code: number;
   group_name: string;
   description: string;
+  formatted_number: string;
 };
 
 export type AllProductGroupInputs = {
@@ -156,8 +160,9 @@ export type ProductGroupTableProps = {
 
 export type ProductItemList = {
   item_code: number;
+  formatted_number: string;
   item_description: string;
-  product_group: string;
+  product_group: ProductGroupCreateResponse;
   product_serial_number: number;
   reference_price: number;
   quantity_available: number;
@@ -171,8 +176,9 @@ export type ProductItemList = {
 
 export type ProductDetails = {
   item_code: number;
+  formatted_number: string;
   item_description: string;
-  product_group: number;
+  product_group: ProductGroupCreateResponse;
   product_group_name: string;
   product_serial_number: string;
   product_photo: string | undefined;
@@ -202,22 +208,23 @@ export type ProductDetails = {
 
 export type ProductItemInputs = {
   item_code: number;
-  item_description: string;
-  product_group: string;
-  product_serial_number: string;
+  formatted_number?: string;
+  item_description?: string;
+  product_group?: string;
+  product_serial_number?: string;
   product_photo?: File;
   additional_photo1?: File;
   additional_photo2?: File;
   additional_photo3?: File;
   additional_photo4?: File;
-  base_unit_of_measure: string;
-  reference_cost: string;
-  reference_price: string;
-  quantity_available: string;
-  currency: string;
-  supplier_name: string;
-  active: boolean;
-  date_created: string;
+  base_unit_of_measure?: string;
+  reference_cost?: string;
+  reference_price?: string;
+  quantity_available?: string;
+  currency?: string;
+  supplier_name?: string;
+  active?: boolean;
+  date_created?: string;
 };
 
 
@@ -225,6 +232,7 @@ export type ProductItemInputs = {
 export type ProductItemCreateResponse = {
   item_code: number;
   item_description: string;
+  formatted_number: string;
 }
 
 export type AllProductItemInputs = {

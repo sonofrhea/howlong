@@ -126,7 +126,7 @@ const SupplierCategoryTable: React.FC<SupplierCategoryTableProps> = ({
                                     {/* Category ID */}
                                     <td className="px-2 py-2">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
-                                            CAT-00{supplierCategory.category_id}
+                                            {supplierCategory.formatted_number}
                                         </span>
                                     </td>
 
@@ -164,7 +164,7 @@ const SupplierCategoryTable: React.FC<SupplierCategoryTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete CAT-00${supplierCategory.category_id}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${supplierCategory.formatted_number}?`)) {
                                                         onDeleteSupplierCategory(supplierCategoryId);
                                                     }
                                                 }}

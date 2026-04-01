@@ -6,16 +6,10 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `${currentYear}-0`;
-};
 
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
+
+
 
 
 
@@ -124,7 +118,7 @@ const JobCostLedgerTable: React.FC<JobCostLedgerListProps> = ({
                         <col key={index} className={line} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Job Cost #" sortKey="job_cost_number" />
                             <SortableHeader label="Date" sortKey="date" />
@@ -144,12 +138,12 @@ const JobCostLedgerTable: React.FC<JobCostLedgerListProps> = ({
                             const jobCostLedgerId = jobCostLedger.job_cost_number;
 
                             return (
-                                <tr key={jobCostLedger.job_cost_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={jobCostLedger.job_cost_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onJobCostLedgerClick(jobCostLedgerId)}>
                                     {/* Job Cost Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            JOB-0-{jobCostLedger.job_cost_number}
+                                            {jobCostLedger.formatted_number}
                                         </span>
                                     </td>
 
@@ -163,7 +157,7 @@ const JobCostLedgerTable: React.FC<JobCostLedgerListProps> = ({
                                     {/* Project */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {formatProjectNumber()}{jobCostLedger.project} | {jobCostLedger.project_name}
+                                            {jobCostLedger.project?.formatted_number} | {jobCostLedger.project?.project_name}
                                         </div>
                                     </td>
 
@@ -224,7 +218,7 @@ const JobCostLedgerTable: React.FC<JobCostLedgerListProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete JOB-0-${jobCostLedger.job_cost_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${jobCostLedger.formatted_number}?`)) {
                                                         onDeleteJobCostLedger(jobCostLedgerId);
                                                     }
                                                 }}

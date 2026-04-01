@@ -12,10 +12,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatJournalNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `JV-${currentYear}-`
-};
+
 
 
 
@@ -89,7 +86,7 @@ const JournalEntryDetails: React.FC<JournalEntryDetailsProps> = ({
                                     JOURNAL ENTRY DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatJournalNumber()}{journalEntry.journal_number}
+                                    {journalEntry.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -111,7 +108,7 @@ const JournalEntryDetails: React.FC<JournalEntryDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <div>
                             <a className={details.extraSmallUppercase}>JOURNAL No</a><br />
-                            {formatJournalNumber()}{journalEntry.journal_number}
+                            {journalEntry.formatted_number}
                         </div>
 
                         <div>

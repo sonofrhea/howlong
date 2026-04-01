@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import '../constants/ProjectProfile.css'
 
@@ -10,7 +10,9 @@ COUNTRY_OPTIONS,
 PROJECT_PHASE_OPTIONS} from "../constants/Options";
 import { AgentInterface } from "../../Core/constants/Types";
 import { buttons, forms, layout, tables, utils } from "../constants/Styles";
-import { Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
+
+import CustomerProfileModal from "../../Customers/CustomerProfile/CustomerProfileModal";
 
 
 
@@ -19,10 +21,7 @@ const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
+
 
 
 
@@ -47,7 +46,12 @@ const ProjectsProfileForm: React.FC<ProjectProfileFormProps> = ({
     isSubmitting,
     onCancel,
     customers,
-    agents }) => {
+    agents,
+    banks,
+    currencies,
+    onCreateCustomer, isCreatingCustomer
+ }) => {
+     const [isCustomerOpen, setIsCustomerOpen] = useState(false);
 
     const phasesOptions = useMemo(() => 
         PROJECT_PHASE_OPTIONS.map(option => (
@@ -127,20 +131,49 @@ const ProjectsProfileForm: React.FC<ProjectProfileFormProps> = ({
                             </div>
 
                             <div className="form-group">
-                                <label>Status <span className="required">*</span></label>
-                                <select
-                                    {...register("status")}
-                                    name="status"
-                                    className={forms.select.full}
-                                >
-                                    <option value="">Select status...</option>
-                                    {useMemo(() => PROJECT_STATUS_OPTIONS.map(option => (
-                                        <option key={option} value={option}>
-                                            {option}
-                                        </option>
-                                    )), [PROJECT_STATUS_OPTIONS])}
-                                </select>
+                                <label>Client / Customer <span className="required">*</span></label>
+
+                                <div className="flex items-center group">
+                                    
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsCustomerOpen(true)}
+                                        className="flex items-center justify-center h-10 px-3 bg-purple-600 hover:bg-purple-700 text-white rounded-l-md border-y border-l border-purple-600 transition-colors shadow-sm"
+                                        title="Add New Customer"
+                                    >
+                                        <Plus size={18} strokeWidth={2.5} />
+                                    </button>
+                                    
+                                    <select
+                                        {...register("client_details")}
+                                        className={forms.select.full}
+                                    >
+                                        <option value="">Select client...</option>
+                                        {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
+                                            <option key={customer.customer_number} value={customer.customer_number}>
+                                                {customer.formatted_number} | {customer.customer_name}
+                                            </option>
+                                        )), [agents])}
+                                    </select>
+
+                                </div>
                             </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Status <span className="required">*</span></label>
+                            <select
+                                {...register("status")}
+                                name="status"
+                                className={forms.select.full}
+                            >
+                                <option value="">Select status...</option>
+                                {useMemo(() => PROJECT_STATUS_OPTIONS.map(option => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                )), [PROJECT_STATUS_OPTIONS])}
+                            </select>
                         </div>
 
                         <div className="form-group">
@@ -172,7 +205,7 @@ const ProjectsProfileForm: React.FC<ProjectProfileFormProps> = ({
                             
 
                             <div className="form-group">
-                                <label>Estimated End Date</label>
+                                <label>Estimated End Date <span className="required">*</span></label>
                                 <input 
                                     type="date"
                                     {...register("estimated_end_date")}
@@ -353,21 +386,6 @@ const ProjectsProfileForm: React.FC<ProjectProfileFormProps> = ({
                                     )), [agents])}
                                 </select>
                             </div>
-
-                            <div className="form-group">
-                                <label>Client / Customer</label>
-                                <select
-                                    {...register("client_details")}
-                                    className={forms.select.full}
-                                >
-                                    <option value="">Select client...</option>
-                                    {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
-                                        <option key={customer.customer_number} value={customer.customer_number}>
-                                            {formatNumber()}{customer.customer_number} | {customer.customer_name}
-                                        </option>
-                                    )), [agents])}
-                                </select>
-                            </div>
                         </div>
                     </div>
 
@@ -467,6 +485,13 @@ const ProjectsProfileForm: React.FC<ProjectProfileFormProps> = ({
                     </div>
 
                 </div>
+                <CustomerProfileModal 
+                    isOpen={isCustomerOpen}
+                    onClose={() => setIsCustomerOpen(false)}
+                    onCreate={onCreateCustomer}
+                    banks={banks}
+                    currencies={currencies}
+                />
             </form>
         );
 };

@@ -5,20 +5,14 @@ import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 import { SquarePen } from "lucide-react";
 
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `QT-${currentYear}-`;
-};
+
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-`;
-};
+
 
 const formatUpdatedDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
@@ -87,7 +81,7 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
                                 PAYMENT DETAILS
                             </p>
                             <p className={labelStyles}>
-                                POST-{customerPayment.payment_number}
+                                {customerPayment.formatted_number}
                             </p>
                         </div>
                     </div>
@@ -128,10 +122,10 @@ const customerPayment: React.FC<CustomerPaymentDetailsProps> = ({
 
                     <div>
                         <a className="text-center tracking-widest text-xs font-semibold uppercase ">Customer</a><br />
-                        <p className="text-sm font-medium mb-4 text-gray-700">{customerPayment.customer_name || 'N/A'}</p>
+                        <p className="text-sm font-medium mb-4 text-gray-700">{customerPayment.customer_name?.customer_name || 'N/A'}</p>
 
                         <a className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Project</a><br />
-                        <p className="text-sm font-medium mb-4 text-gray-700">{formatProjectNumber()}{customerPayment.project} | {customerPayment.project_name || 'N/A'}</p>
+                        <p className="text-sm font-medium mb-4 text-gray-700">{customerPayment.project?.formatted_number} | {customerPayment.project_name || 'N/A'}</p>
 
                         <a className="text-center tracking-widest text-xs font-semibold uppercase mt-4">Completed</a><br />
                         <p className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${

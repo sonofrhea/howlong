@@ -19,10 +19,6 @@ const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
 
 
 
@@ -353,7 +349,7 @@ const ProjectsProfileEdit: React.FC<ProjectProfileProps> = ({
                                 <option value="">Select client...</option>
                                 {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
-                                        {formatNumber()}{customer.customer_number} | {customer.customer_name}
+                                        {customer.formatted_number} | {customer.customer_name}
                                     </option>
                                 )), [agents])}
                             </select>

@@ -7,10 +7,7 @@ const formatDate = (dateString: string) => {
 };
 
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PO-${currentYear}-`;
-};
+
 
 
 
@@ -115,7 +112,7 @@ const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
                         <col key={index} className={line} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Purchase Order #" sortKey="purchase_order_number" />
                             <SortableHeader label="Date" sortKey="date" />
@@ -135,12 +132,12 @@ const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
                             const companyPurchaseOrdersId = companyPurchaseOrder.purchase_order_number;
 
                             return (
-                                <tr key={companyPurchaseOrder.purchase_order_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={companyPurchaseOrder.purchase_order_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onCompanyPurchaseOrderClick(companyPurchaseOrdersId)}>
                                     {/* Purchase Order Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
-                                            {formatNumber()}{companyPurchaseOrder.purchase_order_number}
+                                            {companyPurchaseOrder.formatted_number}
                                         </span>
                                     </td>
 
@@ -181,7 +178,7 @@ const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
 
                                     {/* Status */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                                        <div className={`inline-flex items-center px-3! py-0! rounded text-sm ${
                                             companyPurchaseOrder.status === 'Paid' ? 'bg-green-100 text-green-800' :
                                             companyPurchaseOrder.status === 'Partial' ? 'bg-yellow-100 text-yellow-800' :
                                             companyPurchaseOrder.status === 'Unpaid' ? 'bg-red-100 text-red-800' :
@@ -193,7 +190,7 @@ const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
 
                                     {/* Cancelled */}
                                     <td className="px-2 py-2 truncate">
-                                        <div className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                                        <div className={`inline-flex items-center px-4! py-0! rounded text-xs font-medium ${
                                             companyPurchaseOrder.cancelled
                                                 ? 'bg-red-100 text-red-800'
                                                 : 'bg-green-100 text-green-800'
@@ -222,7 +219,7 @@ const CompanyPurchaseOrderTable: React.FC<CompanyPurchaseOrderTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${companyPurchaseOrder.purchase_order_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${companyPurchaseOrder.formatted_number}?`)) {
                                                         onDeleteCompanyPurchaseOrder(companyPurchaseOrdersId);
                                                     }
                                                 }}

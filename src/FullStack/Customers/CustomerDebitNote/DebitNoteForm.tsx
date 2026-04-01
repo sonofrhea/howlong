@@ -30,10 +30,7 @@ const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
-const formatCustomerNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `CV-${currentYear}-`;
-};
+
 
 
 
@@ -56,9 +53,9 @@ const DebitNoteForm: React.FC<DebitNoteFormProps> = ({
         const { register, handleSubmit, watch, setValue, control, 
         formState: { errors } } = useForm<DebitNoteInputs>({
         defaultValues: {
-            customer: "",
-            currency: "",
-            agent: "",
+            customer: undefined,
+            currency: undefined,
+            agent: undefined,
             amount_owed: 0.00,
             tax_percent: 0.00,
             cancelled: false,
@@ -168,7 +165,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                             <option value="">select...</option>
                             {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
-                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                    {customer.formatted_number} | {customer.customer_name || '--'}
                                 </option>
                             )), [customers])}
                         </select>
@@ -216,7 +213,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                             <option value="">select...</option>
                             {useMemo(() => customerPayments.map((payment: CustomerPaymentResponse) => (
                                 <option key={payment.payment_number} value={payment.payment_number}>
-                                    POST-{payment.payment_number} | Paid Amount: {payment.paid_amount}
+                                    {payment.formatted_number} | Paid Amount: {payment.paid_amount}
                                 </option>
                             )), [customerPayments])}
                         </select>

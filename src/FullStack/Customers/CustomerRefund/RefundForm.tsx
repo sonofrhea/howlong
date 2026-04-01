@@ -24,20 +24,12 @@ import { lhdnClassificationCodesInterface } from "../../Sales/Constants/Types";
 
 
 
-const formatCreditNoteNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `CN-${currentYear}-`;
-};
 
 
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
-const formatCustomerNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `CV-${currentYear}-`;
-};
 
 
 
@@ -162,7 +154,7 @@ const eInvoicePaymentMode = useMemo(() => EINVOICE_PAYMENT_MODE_CHOICES.map(opti
                                 <option value="">select...</option>
                                 {customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
-                                        {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                        {customer.formatted_number} | {customer.customer_name || '--'}
                                     </option>
                                 ))}
                             </select>
@@ -197,7 +189,7 @@ const eInvoicePaymentMode = useMemo(() => EINVOICE_PAYMENT_MODE_CHOICES.map(opti
                                 <option value="">select...</option>
                                 {useMemo(() => creditNotes.map((creditNotes: CreditNoteCreateResponse) => (
                                     <option key={creditNotes.credit_note_number} value={creditNotes.credit_note_number}>
-                                        {formatCreditNoteNumber()}{creditNotes?.credit_note_number} | Outstanding: {creditNotes?.credit_note_outstanding}
+                                        {creditNotes?.formatted_number} | Outstanding: {creditNotes?.credit_note_outstanding}
                                     </option>
                                 )), [creditNotes])}
                             </select>

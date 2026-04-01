@@ -111,7 +111,7 @@ const ProjectDocumentTable = ({ projectDocuments, onProjectDocumentClick, onEdit
                             const projectDocumentId = projectDocument.document_number;
 
                             return (
-                                <tr key={projectDocument.document_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={projectDocument.document_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onProjectDocumentClick(projectDocumentId)}>
                                     {/* Document Number */}
                                     <td className="px-2 py-2">

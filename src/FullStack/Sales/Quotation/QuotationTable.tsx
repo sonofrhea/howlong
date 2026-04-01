@@ -6,16 +6,10 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `QT-${currentYear}-`;
-};
 
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
+
+
 
 
 
@@ -135,7 +129,7 @@ const QuotationTable: React.FC<QuotationListProps> = ({
                             <col key={index} className={line} />
                         ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Quotation #" sortKey="quotation_number" />
                             <SortableHeader label="Date" sortKey="quotation_date" />
@@ -155,12 +149,12 @@ const QuotationTable: React.FC<QuotationListProps> = ({
                             const quotationId = quotation.quotation_number;
 
                             return (
-                                <tr key={quotation.quotation_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={quotation.quotation_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onQuotationClick(quotationId)}>
                                     {/* Quotation Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
-                                            {formatNumber()}{quotation.quotation_number}
+                                            {quotation.formatted_number}
                                         </span>
                                     </td>
 
@@ -179,7 +173,7 @@ const QuotationTable: React.FC<QuotationListProps> = ({
                                     {/* Customer */}
                                     <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-black truncate">
-                                            {formatCustomerNumber()}{quotation.customer}
+                                            {quotation.formatted_number}
                                         </div>
                                     </td>
 
@@ -233,7 +227,7 @@ const QuotationTable: React.FC<QuotationListProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${quotation.quotation_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${quotation.formatted_number}?`)) {
                                                         onDeleteQuotation(quotationId);
                                                     }
                                                 }}

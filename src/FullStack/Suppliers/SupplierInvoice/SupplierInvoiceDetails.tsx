@@ -6,10 +6,7 @@ import { SupplierInvoiceDetailsProps } from "../constants/Types";
 import { details } from "../../Customers/constants/Styles";
 
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SI-${currentYear}-`;
-};
+
 
 const formatDate = (dateString: any) => {
     return new Date(dateString).toISOString().split("T")[0];
@@ -81,7 +78,7 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
                                     SUPPLIER INVOICE DETAILS
                                 </p>
                                 <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
-                                    {formatNumber()}{supplierInvoice.invoice_number}
+                                    {supplierInvoice.formatted_number}
                                 </span>
                             </div>
                         </div>
@@ -103,7 +100,7 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
                     <div>
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase">Invoice No</a><br />
                         <p className="text-sm mb-4 font-medium text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
-                            {formatNumber()}{supplierInvoice.invoice_number}
+                            {supplierInvoice.formatted_number}
                         </p>
 
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-5">Date Issued</a><br />
@@ -122,7 +119,7 @@ const SupplierInvoiceDetails: React.FC<SupplierInvoiceDetailsProps> = ({
                             Supplier
                         </a><br />
                         <p className="text-sm font-medium mb-4 text-black" style={{ fontFamily: 'Montserrat, system-ui' }}>
-                            {supplierInvoice.supplier_name || 'N/A'}
+                            {supplierInvoice.supplier_name?.supplier_name || 'N/A'}
                         </p>
                         
                         <a className="px-2 py-1 text-gray-700 text-center tracking-widest text-xs font-semibold uppercase mt-4">Supplier Extra Details</a><br />

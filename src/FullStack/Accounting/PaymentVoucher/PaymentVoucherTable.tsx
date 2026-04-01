@@ -6,10 +6,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const current_year = new Date().getFullYear()
-    return `PV-${current_year}-`;
-};
+
 
 
 
@@ -115,7 +112,7 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
                             <col key={index} className={line} />
                         ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Reference #" sortKey="reference_number" />
                             <SortableHeader label="Date" sortKey="date" />
@@ -135,12 +132,12 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
                             const paymentVoucherId = paymentVoucher?.reference_number;
 
                             return (
-                                <tr key={paymentVoucher.reference_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={paymentVoucher.reference_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onPaymentVoucherClick(paymentVoucherId)}>
                                     {/* Reference Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            {formatNumber()}{paymentVoucher.reference_number}
+                                            {paymentVoucher.formatted_number}
                                         </span>
                                     </td>
 
@@ -154,7 +151,7 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
                                     {/* Received from */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {paymentVoucher.payment_to}
+                                            {paymentVoucher.payment_to?.supplier_name}
                                         </div>
                                     </td>
 
@@ -198,7 +195,7 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
                                     </td>
 
                                     {/* Actions */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
@@ -216,7 +213,7 @@ const PaymentVoucherTable: React.FC<PaymentVoucherTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${paymentVoucher.reference_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${paymentVoucher.formatted_number}?`)) {
                                                         onDeletePaymentVoucher(paymentVoucherId);
                                                     }
                                                 }}

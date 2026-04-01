@@ -15,25 +15,14 @@ import { LHDN_TAX_TYPE_CHOICES } from "../Constants/Options";
 import { EINVOICE_PAYMENT_MODE_CHOICES, EINVOICE_SUPPLY_TYPE_CHOICES } from "../../Customers/constants/Options";
 
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
+
 
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-`;
-};
 
-const formatQuotationNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `QT-${currentYear}-`;
-};
 
 
 
@@ -62,6 +51,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
             defaultValues: {
                 taxable: false,
                 tax_percent: 0.00,
+                payment_status: 'Unpaid',
                 related_invoice: [
                     {
                         item: undefined, 
@@ -158,7 +148,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => quotations.map((quotation: QuotationDetails) => (
                                 <option key={quotation.quotation_number} value={quotation.quotation_number}>
-                                    {formatQuotationNumber()}{quotation.quotation_number} | {quotation.customer_name || '--'}
+                                    {quotation.formatted_number} | {quotation.customer_name || '--'}
                                 </option>
                             )), [customers])}
                         </select>
@@ -173,7 +163,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
-                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                    {customer.formatted_number} | {customer.customer_name || '--'}
                                 </option>
                             )), [customers])}
                         </select>
@@ -225,7 +215,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                 <option key={project.project_code} value={project.project_code}>
-                                    {project.project_name} - {formatProjectNumber()}{project.project_code}
+                                    {project.project_name} - {project.formatted_number}
                                 </option>
                             )), [projects])}
                         </select>

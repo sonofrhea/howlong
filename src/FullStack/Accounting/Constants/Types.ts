@@ -36,6 +36,7 @@ export interface AccountingModuleInterface {
 
 export type JournalEntryList = {
     journal_number: number;
+    formatted_number: string;
     date: string;
     description: string;
     cancelled: string;
@@ -44,34 +45,36 @@ export type JournalEntryList = {
 };
 
 export type JournalEntryDetails = {
-  journal_number: number;
-  date: string;
-  description: string;
+    journal_number: number;
+    formatted_number: string;
+    date: string;
+    description: string;
 
-  journal_entries: Array<{
+    journal_entries: Array<{
     account: {
-      account_code: number;
-      account_name: string;
-      account_type: string
+        account_code: number;
+        account_name: string;
+        account_type: string
     };
     description: string;
     net_debit: string;
     net_credit: string;
     cancelled: boolean
-  }>;
+    }>;
 
-  aggregate_debit: string;
-  aggregate_credit: string;
-  cancelled: boolean;
-  created_by: string
-  date_created: string;
-  date_updated: string;
-  updated_by: string;
+    aggregate_debit: string;
+    aggregate_credit: string;
+    cancelled: boolean;
+    created_by: string
+    date_created: string;
+    date_updated: string;
+    updated_by: string;
 };
 
 
 export type JournalHeaderInputs = {
     journal_number: number;
+    formatted_number?: string;
     date?: string;
     description?: string;
     journal_entries?: Array<{
@@ -93,6 +96,7 @@ export type JournalHeaderInputs = {
 
 export type JournalHeaderResponse = {
     journal_number: number;
+    formatted_number: string;
 };
 
 export type AllJournalHeaderInputs = {
@@ -157,6 +161,7 @@ export type JournalEntryListProps = {
 
 export type IncomeAndExpensesList = {
     reference_number: number;
+    formatted_number: string;
     date: string;
     category: string;
     description: string;
@@ -169,6 +174,7 @@ export type IncomeAndExpensesList = {
 
 export type IncomeAndExpensesInputs = {
     reference_number: number;
+    formatted_number?: string;
     date?: string;
     account?: {
         account_code?: number;
@@ -186,6 +192,7 @@ export type IncomeAndExpensesInputs = {
 
 export type IncomeAndExpensesDetails = {
     reference_number: number;
+    formatted_number: string;
     date: string;
     account: {
         account_code: number;
@@ -211,6 +218,7 @@ export type IncomeAndExpensesDetails = {
 
 export type IncomeAndExpensesResponse = {
     reference_number: number;
+    formatted_number: string;
 };
 
 export type AllIncomeAndExpenses = {
@@ -280,8 +288,9 @@ export type IncomeAndExpensesFormProps = {
 
 export type PaymentVoucherList = {
     reference_number: number;
+    formatted_number: string;
     date: string;
-    payment_to: string;
+    payment_to: SupplierProfileResponse;
     description: string;
     currency: string;
     cancelled: boolean;
@@ -291,6 +300,7 @@ export type PaymentVoucherList = {
 
 export type PaymentVoucherInputs = {
     reference_number: number;
+    formatted_number?: string;
     date?: string;
     payment_to?: string;
     account_paid_by?: {
@@ -318,8 +328,9 @@ export type PaymentVoucherInputs = {
 
 export type PaymentVoucherDetails = {
     reference_number: number;
+    formatted_number: string;
     date: string;
-    payment_to: string;
+    payment_to: SupplierProfileResponse;
     payment_to_name: string;
     account_paid_by: {
         account_code: number;
@@ -327,7 +338,7 @@ export type PaymentVoucherDetails = {
         account_type: string;
     } | null;
     description: string;
-    project: string;
+    project: ProjectProfileResponse;
     project_name: string;
     payment_voucher_lines: Array<{
         description: string;
@@ -355,6 +366,7 @@ export type PaymentVoucherDetails = {
 
 export type PaymentVoucherResponse = {
     reference_number: number;
+    formatted_number: string;
     aggregate_total: number;
 };
 
@@ -432,8 +444,9 @@ export type PaymentVoucherFormProps = {
 
 export type ReceiptVoucherList = {
     reference_number: number;
+    formatted_number: string;
     date: string;
-    received_from: string;
+    received_from: CustomerCreateResponse;
     description: string;
     tax_percent: number;
     currency: string;
@@ -443,6 +456,7 @@ export type ReceiptVoucherList = {
 
 export type ReceiptVoucherInputs = {
     reference_number: number;
+    formatted_number?: string;
     date?: string;
     received_from: string;
     account_received_in?: {
@@ -471,8 +485,9 @@ export type ReceiptVoucherInputs = {
 
 export type ReceiptVoucherDetails = {
     reference_number: number;
+    formatted_number: string;
     date: string;
-    received_from: string;
+    received_from: CustomerCreateResponse;
     received_from_name: string;
     account_received_in: {
         account_code: number;
@@ -480,7 +495,7 @@ export type ReceiptVoucherDetails = {
         account_type: string;
     };
     description: string;
-    project: string;
+    project: ProjectProfileResponse;
     project_name: string;
     gross_total: number;
     taxable: boolean;
@@ -513,6 +528,7 @@ export type ReceiptVoucherDetails = {
 
 export type ReceiptVoucherResponse = {
     reference_number: number;
+    formatted_number: string;
     aggregate_total: number;
 };
 
@@ -588,6 +604,7 @@ export type ReceiptVoucherFormProps = {
 
 export type CashBookList = {
     reference_number: number;
+    formatted_number: string;
     date: string;
     payment_to_or_from: string;
     description: string;
@@ -600,6 +617,7 @@ export type CashBookList = {
 
 export type CashBookInputs = {
     reference_number: number;
+    formatted_number?: string;
     date?: string;
     payment_to_or_from?: string;
     description?: string;
@@ -617,6 +635,7 @@ export type CashBookInputs = {
 
 export type CashBookDetails = {
     reference_number: number;
+    formatted_number: string;
     date: string;
     payment_to_or_from: string;
     description: string;
@@ -641,6 +660,7 @@ export type CashBookDetails = {
 
 export type CashBookResponse = {
     reference_number: number;
+    formatted_number: string;
     running_balance: number;
 };
 

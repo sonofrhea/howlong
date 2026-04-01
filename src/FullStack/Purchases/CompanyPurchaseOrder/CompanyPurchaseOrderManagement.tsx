@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { Plus } from 'lucide-react';
 
@@ -66,9 +66,10 @@ interface SortConfig {
 
 function CompanyPurchaseOrderManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedCompanyPurchaseOrderId, setSelectedCompanyPurchaseOrderId] = useState<number | null>(null);
+    const selectedCompanyPurchaseOrderId = searchParams.get('purchase_order_number') ? Number(searchParams.get('purchase_order_number')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -76,6 +77,24 @@ function CompanyPurchaseOrderManagement() {
     // ------------------------------------------------------------------------------------
     const [isJournalEntryOpen, setIsJournalEntryOpen] = useState(false);
     // ------------------------------------------------------------------------------------
+
+
+    const navigateToView = (newView: string, purchase_order_number?: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('view', newView)
+        if (purchase_order_number) {
+            params.set('purchase_order_number', purchase_order_number.toString())
+        } else if (newView === 'list') {
+            params.delete('purchase_order_number')
+        }
+        setSearchParams(params);
+    }
+
+
+
+
+
+// ------------------------------------------------------------------------------------
 
     
             // DEPENDENCIES
@@ -136,9 +155,8 @@ function CompanyPurchaseOrderManagement() {
         },
         onSuccess: (data: CompanyPurchaseOrderResponse) => {
             queryClient.invalidateQueries({ queryKey: ['CompanyPurchaseOrders']});
-            setSelectedCompanyPurchaseOrderId(data.purchase_order_number);
+            navigateToView('details', data.purchase_order_number);
             toast.success('Purchase Order Created', { id: "Create Purchase Order" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create purchase order', { id: "Create Purchase Order" });
@@ -163,7 +181,7 @@ function CompanyPurchaseOrderManagement() {
             queryClient.invalidateQueries({ queryKey: ['CompanyPurchaseOrders'] });
             queryClient.invalidateQueries({ queryKey: ['companyPurchaseOrder', selectedCompanyPurchaseOrderId]});
             toast.success('Purchase Order Updated', { id: "Update Purchase Order" });
-            setView('details');
+            navigateToView('details', selectedCompanyPurchaseOrderId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update purchase order', { id: "Update Purchase Order" });
@@ -272,38 +290,34 @@ function CompanyPurchaseOrderManagement() {
 
 
     const handleCompanyPurchaseOrderClick = (CompanyPurchaseOrderId: number) => {
-        setSelectedCompanyPurchaseOrderId(CompanyPurchaseOrderId);
-        setView('details')
+        navigateToView('details', CompanyPurchaseOrderId);
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleEditCompanyPurchaseOrder = (CompanyPurchaseOrderId: number) => {
-        setSelectedCompanyPurchaseOrderId(CompanyPurchaseOrderId);
-        setView('edit');
+        navigateToView('edit', CompanyPurchaseOrderId);
     };
 
 
     // ------------------------------------------------------------------------------------
 
     const handleBackToCompanyPurchaseOrdersList = () => {
-        setView('list');
-        setSelectedCompanyPurchaseOrderId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleBackToCompanyPurchaseOrderDetails = (CompanyPurchaseOrderId: number) => {
-        setSelectedCompanyPurchaseOrderId(CompanyPurchaseOrderId);
-        setView('details')
+        navigateToView('details', CompanyPurchaseOrderId);
     };
 
     // ------------------------------------------------------------------------------------
 
     const handleEditCompanyPurchaseOrderButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -545,7 +559,7 @@ function CompanyPurchaseOrderManagement() {
                         </div>
                         </div>
                         <button
-                        onClick={() => setView('form')}
+                        onClick={() => navigateToView('form')}
                         className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                         <Plus size={16} />
@@ -590,7 +604,7 @@ function CompanyPurchaseOrderManagement() {
                         <p className="text-gray-500">Add a new purchase order to your records</p>
                         </div>
                         <button 
-                            onClick={() => setView('list')}
+                            onClick={() => navigateToView('list')}
                             className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                         >
                             x Cancel

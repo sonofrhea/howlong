@@ -9,23 +9,11 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SCN-${currentYear}-`;
-};
-
-
-const formatSupplierInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SI-${currentYear}-`;
-};
 
 
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
+
+
 
 const formatUpdatedDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
@@ -95,7 +83,7 @@ const SupplierCreditNoteDetails: React.FC<SupplierCreditNoteDetailsProps> = ({
                                     SUPPLIER CREDIT NOTE DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{supplierCreditNote.credit_note_number}
+                                    {supplierCreditNote.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -123,7 +111,7 @@ const SupplierCreditNoteDetails: React.FC<SupplierCreditNoteDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <p>
                             <a className={details.extraSmallUppercase}>Credit Note No</a><br />
-                            {formatNumber()}{supplierCreditNote.credit_note_number}
+                            {supplierCreditNote.formatted_number}
                         </p>
                                                 
                         <p>
@@ -138,12 +126,12 @@ const SupplierCreditNoteDetails: React.FC<SupplierCreditNoteDetailsProps> = ({
                                                 
                         <p>
                             <a className={details.extraSmallUppercase}>Reference Supplier</a><br />
-                            {formatSupplierNumber()}{supplierCreditNote.supplier || 'N/A'} | {supplierCreditNote.supplier_name || 'N/A'}
+                            {supplierCreditNote.supplier?.formatted_number || 'N/A'} | {supplierCreditNote.supplier?.supplier_name || 'N/A'}
                         </p>
                         
                         <p>
                             <a className={details.extraSmallUppercase}>Reference Invoice</a><br />
-                            {formatSupplierInvoiceNumber()}{supplierCreditNote.related_invoice || 'N/A'}
+                            {supplierCreditNote.related_invoice?.formatted_number || 'N/A'}
                         </p>
                                                 
                         <p>
@@ -199,7 +187,7 @@ const SupplierCreditNoteDetails: React.FC<SupplierCreditNoteDetailsProps> = ({
                                     {supplierCreditNote.related_credit_note.map((line, index) => (
 
                                         <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
-                                            <td className={tables.cell}>SKU-{line.credit_note_item || '--'} | {line.credit_note_item_name || '--'}</td>
+                                            <td className={tables.cell}>{line.credit_note_item?.formatted_number || '--'} | {line.credit_note_item_name || '--'}</td>
                                             <td className={tables.cell}>{line.description}</td>
                                             <td className={tables.cell}>{line.amount}</td>
                                             <td className={`inline-flex items-center px-5! py-0! rounded text-sm ${

@@ -17,20 +17,13 @@ import { purchaseAccountHandler } from "../../handlers";
 
 
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
 
 
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SI-${currentYear}-`;
-};
+
 
 
 
@@ -98,7 +91,7 @@ console.log("PRODUCT", productItems)
                                     INVOICE DETAILS
                                 </p>
                                 <p style={{ fontFamily: 'Montserrat, system-ui' }}  className={labelStyles}>
-                                    {formatNumber()}{supplierInvoice.invoice_number}
+                                    {supplierInvoice.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -181,7 +174,7 @@ console.log("PRODUCT", productItems)
                             <option value="">select...</option>
                             {useMemo(() => supplierProfiles.map((supplier: SupplierProfileResponse) => (
                                 <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                    {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                    {supplier.supplier_code} | {supplier.supplier_name}
                                 </option>
                             )), [supplierProfiles])}
                         </select>

@@ -1,28 +1,13 @@
 import React, { useState } from "react";
 
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `QT-${currentYear}-`;
-};
 
-const formatPaymentNumber = () => {
-    return "PAY-";
-};
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-function formatInvoiceNumber(): React.ReactNode {
-    const currentYear = new Date().getFullYear();
-    return `INV-${currentYear}-`
-};
 
-function formatCustomerNumber(): React.ReactNode {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
 
 import { buttons,  
     layout, tables, text } from "../Constants/Styles";
@@ -112,7 +97,7 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                                     INVOICE PAYMENT DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatPaymentNumber()}{invoicePayment.invoice_payment_code}
+                                    {invoicePayment.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -146,7 +131,7 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Invoice Payment No.</a><br />
-                            {formatPaymentNumber()}{invoicePayment.invoice_payment_code}
+                            {invoicePayment.formatted_number}
                         </p>
                         
                         <p className={labelStyles}>
@@ -156,12 +141,12 @@ const InvoicePaymentDetails: React.FC<InvoicePaymentDetailsProps> = ({
                         
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Paid By</a><br />
-                            {formatCustomerNumber()}{invoicePayment.paid_by || 'N/A'} | {invoicePayment.paid_by_name || 'N/A'}
+                            {invoicePayment.paid_by?.formatted_number || 'N/A'} | {invoicePayment.paid_by?.customer_name || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Related Invoice</a><br />
-                            {formatInvoiceNumber()}{invoicePayment.related_invoice || 'N/A'} | Total: {invoicePayment.related_invoice_details}
+                            {invoicePayment.related_invoice?.formatted_number || 'N/A'} | Total: {invoicePayment.related_invoice_details}
                         </p>
                         
                         <p className={labelStyles}>

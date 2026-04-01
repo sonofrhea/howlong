@@ -316,13 +316,14 @@ function InvoiceManagement() {
 
     const filteredInvoices = invoices.filter((invoice: InvoiceList) => {
         const invoiceNumber = String(invoice.invoice_number)?.toLowerCase() || '';
-        const customerName = invoice.customer?.toLowerCase() || '';
+        const customerName = invoice.customer?.customer_name?.toLowerCase() || '';
         const invoiceDate = invoice.invoice_date?.toLowerCase() || '';
         const invoiceDueDate = invoice.invoice_due_date?.toLowerCase() || '';
         const agentName = invoice.agent?.toLowerCase() || '';
+        const status = invoice.payment_status?.toLowerCase() || '';
         const search = searchTerm.toLowerCase();
         
-        return invoiceDate.includes(search) || customerName.includes(search) || invoiceDueDate.includes(search) || agentName.includes(search) || invoiceNumber.includes(search);
+        return invoiceDate.includes(search) || customerName.includes(search) || invoiceDueDate.includes(search) || agentName.includes(search) || invoiceNumber.includes(search) || status.includes(search);
     });
 
     // ------------------------------------------------------------------------------------
@@ -407,7 +408,7 @@ function InvoiceManagement() {
 
 
     return (
-            <div className="min-h-screen bg-white">
+            <div className="min-h-screen bg-gray-50">
             {/* Minimal Header */}
             <div className="border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 py-4">
@@ -477,20 +478,43 @@ function InvoiceManagement() {
                         <div className="text-2xl font-light text-gray-900">{invoices.length}</div>
                         <div className="text-sm text-gray-500">Total Invoices</div>
                     </div>
+
                     <div className="w-px h-8 bg-gray-200"></div>
+
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
                         {new Set(invoices.map((c: any) => c.currency).filter(Boolean)).size}
                         </div>
                         <div className="text-sm text-gray-500">Currencies</div>
                     </div>
+
                     <div className="w-px h-8 bg-gray-200"></div>
+
                     <div className="text-center">
                         <div className="text-2xl font-light text-gray-900">
                         {invoices.filter((c: InvoiceList) => c.cancelled).length}
                         </div>
                         <div className="text-sm text-gray-500">Cancelled</div>
                     </div>
+
+                    <div className="w-px h-8 bg-gray-200"></div>
+
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-red-600!">
+                        {invoices.filter((c: InvoiceList) => c.payment_status === 'Unpaid').length}
+                        </div>
+                        <div className="text-sm text-red-600!">Unpaid</div>
+                    </div>
+
+                    <div className="w-px h-8 bg-gray-200"></div>
+
+                    <div className="text-center">
+                        <div className="text-2xl font-light text-yellow-600!">
+                        {invoices.filter((c: InvoiceList) => c.payment_status === 'Partial').length}
+                        </div>
+                        <div className="text-sm text-yellow-600!">Partial Paid</div>
+                    </div>
+
                     </div>
                     <div className="flex gap-4">
                         <div className="relative">

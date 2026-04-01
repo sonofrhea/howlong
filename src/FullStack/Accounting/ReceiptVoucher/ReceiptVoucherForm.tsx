@@ -15,15 +15,7 @@ import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles
 import { Trash2 } from "lucide-react";
 
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
 
 
 const decimalPlaces = (amount: number) => {
@@ -131,7 +123,7 @@ const onAccountChange = receiptVoucherAccountHandler(accounts, setValue);
                                 <option value="">Select...</option>
                                 {useMemo(() =>  customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
-                                        {formatCustomerNumber()}{customer.customer_number} - {customer.customer_name}
+                                        {customer.formatted_number} - {customer.customer_name}
                                     </option>
                                 )), [customers])}
                             </select>
@@ -165,7 +157,7 @@ const onAccountChange = receiptVoucherAccountHandler(accounts, setValue);
                                 <option value="">Select project...</option>
                                 {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                     <option key={project.project_code} value={project.project_code}>
-                                        {formatProjectNumber()}{project.project_code} - {project.project_name}
+                                        {project.formatted_number} - {project.project_name}
                                     </option>
                                 )), [projects])}
                             </select>

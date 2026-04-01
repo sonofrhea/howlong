@@ -5,25 +5,12 @@ import { SupplierPaymentDetailsProps } from "../constants/Types";
 import { useState } from "react";
 import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SPI-${currentYear}-`;
-};
+
 
 const formatDate = (dateString: any) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
-
-
-const formatInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `INV-${currentYear}-`;
-};
 
 const formatUpdatedDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
@@ -94,7 +81,7 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                                     SUPPLIER PAYMENT
                                 </p>
                                 <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
-                                    {formatNumber()}{supplierPayment.payment_code}
+                                    {supplierPayment.formatted_number}
                                 </span>
                             </div>
                         </div>
@@ -123,7 +110,7 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Payment No</a><br />
-                            {formatNumber()}{supplierPayment.payment_code || 'N/A'}
+                            {supplierPayment.formatted_number || 'N/A'}
                         </p>
 
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>
@@ -138,12 +125,12 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
 
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Payment To</a><br />
-                            {formatSupplierNumber()}{supplierPayment.supplier} | {supplierPayment.supplier_name || 'N/A'}
+                            {supplierPayment.supplier?.formatted_number} | {supplierPayment.supplier?.supplier_name || 'N/A'}
                         </p>
 
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Invoice</a><br />
-                            {formatInvoiceNumber()}{supplierPayment.related_invoice || 'N/A'} | Total: {supplierPayment.invoice_amount || 'N/A'}
+                            {supplierPayment.related_invoice?.formatted_number || 'N/A'} | Total: {supplierPayment.related_invoice?.aggregate_total || 'N/A'}
                         </p>
 
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>
@@ -172,16 +159,15 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                                         <th className={tables.headerCell}>Taxable</th>
                                         <th className={tables.headerCell}>SST %</th>
                                         <th className={tables.headerCell}>SST Amount</th>
-                                        <th className={tables.headerCell}>Total</th>
                                         <th className={tables.headerCell}>Cancelled</th>
+                                        <th className={tables.headerCell}>Total</th>
                                     </tr>
                                 </thead>
 
                                 <tbody className="bg-white divide-y divide-gray-100">
-                                    {supplierPayment.related_payment.map((line: any, index: any) => (
+                                    {supplierPayment.related_payment.map((line, index) => (
                                         <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
                                             <td className={tables.cell}>{formatDate(line.payment_date)}</td>
-                                            <td className={tables.cell}>{line.payment_type || 'N/A'}</td>
                                             <td className={tables.cell}>{line.payment_method || 'N/A'}</td>
                                             <td className={tables.cell}>{line.payment_amount || 'N/A'}</td>
                                             <td className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
@@ -191,12 +177,12 @@ const SupplierPaymentDetails: React.FC<SupplierPaymentDetailsProps> = ({
                                             }`}>{line.taxable ? 'Yes' : 'No'}</td>
                                             <td className={tables.cell}>{line.sst_percent}%</td>
                                             <td className={tables.cell}>{line.sst_amount}</td>
-                                            <td className={tables.cell}>{line.current_total}</td>
                                             <td className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
                                                 line.cancelled
                                                     ? 'bg-red-100 text-red-800 border border-red-200'
                                                     : 'bg-green-100 text-green-800 border border-green-200'
                                             }`}>{line.cancelled ? 'Yes' : 'No'}</td>
+                                            <td className={tables.cell}>{line.current_total}</td>
                                         </tr>
                                     ))}
                                 </tbody>

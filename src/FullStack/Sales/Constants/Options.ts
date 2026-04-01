@@ -52,3 +52,11 @@ export const PAYMENT_MODE_CHOICES = [
   { value: '07', label: 'Digital Bank' },
   { value: '08', label: 'Others' },
 ] as const;
+
+
+
+export const PAYMENT_STATUS_CHOICES = [
+  'Unpaid',
+  'Partial',
+  'Paid'
+] as const;

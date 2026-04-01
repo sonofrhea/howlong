@@ -16,10 +16,7 @@ import { supplierRelatedInvoice } from "../../handlers";
 import { Trash2 } from "lucide-react";
 
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
+
 
 
 const decimalPlaces = (amount: number) => {
@@ -27,10 +24,7 @@ const decimalPlaces = (amount: number) => {
 };
 
 
-const formatInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SI-${currentYear}-`;
-};
+
 
 
 
@@ -192,7 +186,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                 <option value="">select...</option>
                                 {useMemo(() => supplierProfiles.map((supplier: SupplierProfileResponse) => (
                                     <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                    {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                    {supplier.formatted_number} | {supplier.supplier_name}
                                     </option>
                                 )), [supplierProfiles])}
                             </select>
@@ -208,7 +202,7 @@ const invoicePaymentChange = supplierRelatedInvoice(supplierInvoices, setValue);
                                 <option value="">select...</option>
                                 {useMemo(() => supplierInvoices.map((invoice: SupplierInvoiceResponse) => (
                                     <option key={invoice.invoice_number} value={invoice.invoice_number}>
-                                        {formatInvoiceNumber()}{invoice.invoice_number} | Total: {invoice.aggregate_total}
+                                        {invoice.formatted_number} | Total: {invoice.aggregate_total}
                                     </option>
                                 )), [supplierInvoices])}
                             </select>

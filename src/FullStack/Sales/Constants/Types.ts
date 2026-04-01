@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SALES_ICONS } from "./ModuleIcons";
 
 import { EINVOICE_STATUS_CHOICES, EINVOICE_TYPE_CHOICES, LHDN_TAX_TYPE_CHOICES,
-  PAYMENT_MODE_CHOICES, PAYMENT_TYPE_OPTIONS, SUPPLY_TYPE_CHOICES } from "./Options";
+  PAYMENT_MODE_CHOICES, PAYMENT_STATUS_CHOICES, PAYMENT_TYPE_OPTIONS, SUPPLY_TYPE_CHOICES } from "./Options";
 import { CustomerCreateResponse, CustomerInputs } from "../../Customers/constants/Types";
 import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
@@ -37,9 +37,10 @@ export type lhdnClassificationCodesInterface = {
 
 export type QuotationList = {
   quotation_number: number;
+  formatted_number: string;
   quotation_date: string;
   valid_until: string;
-  customer: string;
+  customer: CustomerCreateResponse;
   project_description: string;
   cancelled: boolean;
   net_total: number;
@@ -48,9 +49,10 @@ export type QuotationList = {
 
 export type QuotationInputs = {
   quotation_number: number;
+  formatted_number?: string;
   quotation_date?: string; 
   valid_until?: string;
-  customer?: number;
+  customer?: CustomerCreateResponse;
   customer_details?: string;
   agent?: string;
   project_description: string;
@@ -75,9 +77,10 @@ export type QuotationInputs = {
 
 export type QuotationDetails = {
   quotation_number: number;
+  formatted_number: string;
   quotation_date: string;
   valid_until: string;
-  customer: number;
+  customer: CustomerCreateResponse;
   customer_name: string;
   customer_details: string;
   agent: string;
@@ -200,12 +203,15 @@ export type PrintQuotationProps = {
 
 export type InvoiceList = {
   invoice_number: number;
+  formatted_number: string;
   invoice_date: string;
   invoice_due_date: string;
+  payment_status: typeof PAYMENT_STATUS_CHOICES[number];
   related_quotation: number;
-  customer: string;
+  customer: CustomerCreateResponse;
   description: string,
   net_total: number;
+  outstanding: number;
   currency: string;
   cancelled: boolean;
   agent: string;
@@ -214,11 +220,13 @@ export type InvoiceList = {
 
 export type InvoiceDetails = {
   invoice_number: number;
+  formatted_number: string;
   invoice_date: string;
   invoice_due_date: string;
   related_quotation: number;
+  payment_status: typeof PAYMENT_STATUS_CHOICES[number];
 
-  customer: number;
+  customer: CustomerCreateResponse;
   customer_name: string;
   customer_details: string;
 
@@ -268,8 +276,9 @@ export type InvoiceDetails = {
   einvoice_supply_type?: typeof SUPPLY_TYPE_CHOICES[number];
   einvoice_payment_mode?: typeof PAYMENT_MODE_CHOICES[number]['value'];
 
-  gross_total: string;
-  net_total: string;
+  gross_total: number;
+  net_total: number;
+  outstanding: number;
   updated_by: string;
   created_by: string;
   date_updated: string;
@@ -277,10 +286,12 @@ export type InvoiceDetails = {
 
 export type InvoiceInputs = {
   invoice_number: number;
+  formatted_number?: string;
   invoice_date?: string;
   invoice_due_date?: string;
   related_quotation?: number;
-  customer?: number;
+  payment_status?: typeof PAYMENT_STATUS_CHOICES[number];
+  customer?: CustomerCreateResponse;
   customer_name?: string;
   customer_details?: string;
   description?: string;
@@ -317,6 +328,8 @@ export type InvoiceInputs = {
 export type InvoiceCreateResponse = {
   invoice_number: number;
   net_total: number;
+  formatted_number: string;
+  payment_status: typeof PAYMENT_STATUS_CHOICES[number];
 };
 
 export type AllInvoiceInputs = {
@@ -332,6 +345,7 @@ export type EditInvoiceInputs = {
 export type InvoiceInterface = {
   invoice_number: number;
   net_total: number;
+  formatted_number: string;
 };
 
 export type InvoiceProps = {
@@ -402,11 +416,12 @@ export type InvoiceDetailsProps = {
 
 export type CustomerPaymentList = {
   payment_number: number;
+  formatted_number: string;
   date: string;
-  customer: string;
+  customer: CustomerCreateResponse;
   currency: string;
   description: string;
-  project: string;
+  project: ProjectProfileResponse;
   paid_amount: number;
   outstanding: number;
   completed: boolean;
@@ -417,10 +432,11 @@ export type CustomerPaymentList = {
 
 export type CustomerPaymentInputs = {
   payment_number: number;
+  formatted_number?: string;
   date?: string;
-  customer?: string;
+  customer?: CustomerCreateResponse;
   customer_name?: string;
-  project?: string;
+  project?: number;
   project_name?: string;
   related_payment?: string;
   related_payment_paid_amount?: string;
@@ -442,9 +458,10 @@ export type CustomerPaymentInputs = {
 
 export type CustomerPaymentDetails = {
   payment_number: number;
+  formatted_number: string;
   date: string;
-  customer_name: number;
-  project: number;
+  customer_name: CustomerCreateResponse;
+  project: ProjectProfileResponse;
   project_name: string;
   account_received_in?: {
     account_code: number;
@@ -469,6 +486,7 @@ export type CustomerPaymentDetails = {
 export type CustomerPaymentResponse = {
   payment_number: number;
   paid_amount: number;
+  formatted_number: string;
 };
 
 export type AllCustomerPaymentInputs = {
@@ -547,6 +565,7 @@ export type CustomerPaymentFormProps = {
 
 export type InvoicePaymentList = {
   date_created: string;
+  formatted_number: string;
   invoice_payment_code: number;
   related_invoice: string;
   related_invoice_total: number;
@@ -554,13 +573,14 @@ export type InvoicePaymentList = {
   tax_percent: number;
   net_aggregate_paid: number;
   outstanding_amount: number;
-  paid_by: string;
+  paid_by: CustomerCreateResponse;
   cancelled: boolean;
   agent: string;
 };
 
 export type InvoicePaymentInputs = {
   invoice_payment_code: number;
+  formatted_number?: string;
   date_created?: string;
   related_invoice?: number;
   related_invoice_details?: string;
@@ -585,7 +605,7 @@ export type InvoicePaymentInputs = {
   gross_paid?: number;
   net_aggregate_paid?: number;
   outstanding_amount?: number;
-  paid_by?: string;
+  paid_by?: CustomerCreateResponse;
   paid_by_name?: string;
   agent?: string;
 };
@@ -593,7 +613,8 @@ export type InvoicePaymentInputs = {
 
 export type InvoicePaymentDetails = {
   invoice_payment_code: number;
-  related_invoice: string;
+  formatted_number: string;
+  related_invoice: InvoiceCreateResponse;
   related_invoice_details: string;
   account_received_in: {
     account_code: number;
@@ -620,7 +641,7 @@ export type InvoicePaymentDetails = {
 }>;
   outstanding_amount: number;
   payment_receipt: File;
-  paid_by: string;
+  paid_by: CustomerCreateResponse;
   paid_by_name: string;
   agent: string;
   created_by: string;
@@ -632,6 +653,7 @@ export type InvoicePaymentDetails = {
 
 export type InvoicePaymentResponse = {
   invoice_payment_code: number;
+  formatted_number: string;
 };
 
 export type AllInvoicePaymentInputs = {
@@ -646,6 +668,7 @@ export type EditInvoicePaymentInputs = {
 
 export type InvoicePaymentInterface = {
   invoice_payment_code: number;
+  formatted_number: string;
   net_aggregate_paid: number;
   outstanding_amount: number;
   related_invoice_total: number;

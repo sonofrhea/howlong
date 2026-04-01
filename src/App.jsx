@@ -931,6 +931,17 @@ function App() {
 
             
           </Routes>
+          <a
+          href="https://wa.me/+601137091393"
+          className="whatsapp-float"
+          target="_blank"
+          rel="noopener noreferrer"
+          >
+            <img 
+              src="https://cdn-icons-png.flaticon.com/512/124/124034.png" 
+              alt="WhatsApp"
+            />
+          </a>
         </div>
       </Router>
     </>

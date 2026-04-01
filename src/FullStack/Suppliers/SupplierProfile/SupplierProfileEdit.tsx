@@ -146,7 +146,7 @@ const currencyChange = currencyHandler(currencies, setValue);
                                     <option value="">select...</option>
                                     {useMemo(() => supplierCategories.map((category: SupplierCategoryResponse) => (
                                         <option key={category.category_id} value={category.category_id}>
-                                            CAT-00{category.category_id} | {category.category}
+                                            {category.formatted_number} | {category.category}
                                         </option>
                                     )), ['supplierCategories'])}
                                 </select>

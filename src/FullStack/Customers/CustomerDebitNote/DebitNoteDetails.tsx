@@ -21,16 +21,7 @@ const formatDate = (dateString: string) => {
 };
 
 
-const formatDebitNoteNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `DN-${currentYear}-`;
-};
 
-
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
 
 
 const formatUpdatedDate = (dateString: string) => {
@@ -116,7 +107,7 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                                     DEBIT NOTE DETAILS
                                 </p>
                                 <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
-                                    {formatDebitNoteNumber()}{debitNote.debit_note_number}
+                                    {debitNote.formatted_number}
                                 </span>
                             </div>
                         </div>
@@ -197,7 +188,7 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                                         : 'preprod.myinvois.hasil.gov.my'
                                 }/${debitNote.lhdn_uuid}/share/${debitNote.lhdn_long_uid}`}
                                 lhdnUuid={debitNote.lhdn_uuid}
-                                documentReference={`DN-${new Date(debitNote.date).getFullYear()}-${debitNote.debit_note_number}`}
+                                documentReference={debitNote.formatted_number}
                             />
                         </div>
                     )}
@@ -209,7 +200,7 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Debit Note No.</a><br />
-                            {formatDebitNoteNumber()}{debitNote.debit_note_number}
+                            {debitNote.formatted_number}
                         </p>
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
@@ -224,12 +215,12 @@ const DebitNoteDetails: React.FC<DebitNoteDetailsProps> = ({
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Bill To...</a><br />
-                            {formatCustomerNumber()}{debitNote.customer} | {debitNote.customer_name || 'N/A'}
+                            {debitNote.customer?.formatted_number} | {debitNote.customer?.customer_name || 'N/A'}
                         </p>
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Payment</a><br />
-                            POST-{debitNote.related_payment} | {debitNote.related_payment_amount}
+                            {debitNote.related_payment?.formatted_number} | {debitNote.related_payment?.paid_amount}
                         </p>
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>

@@ -11,10 +11,7 @@ const formatDate = (dateString: any) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `CV-${currentYear}-`;
-    };
+
 
 
 
@@ -160,7 +157,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                         <col key={index} className={line} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Cust #" sortKey="customer_number" />
                             <SortableHeader label="Customer Name" sortKey="customer_name" />
@@ -183,13 +180,13 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                             return (
                                 <tr 
                                     key={customer.customer_number} 
-                                    className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                                    className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer"
                                     onClick={() => onCustomerClick(customerId)}
                                 >
                                     {/* Customer Number */}
-                                    <td className="px-2 py-2 text-center">
+                                    <td className="px-3.5! py-3.5! text-center">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
-                                            {formatNumber()}{customer.customer_number}
+                                            {customer.formatted_number}
                                         </span>
                                     </td>
                                     
@@ -249,7 +246,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                                     </td>
                                     
                                     {/* Actions */}
-                                    <td className="px-2 py-2 text-center">
+                                    <td className="px-3.5! py-3.5! text-center">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-150"
@@ -267,7 +264,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-150"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${customer.customer_name}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${customer.formatted_number}?`)) {
                                                         onDeleteCustomer(customerId);
                                                     }
                                                 }}

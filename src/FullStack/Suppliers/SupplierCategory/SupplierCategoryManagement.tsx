@@ -13,7 +13,7 @@ import { fetchAgents } from "../../Core/Engines";
 
 import SuppliersCategoryForm from "./SupplierCategoryForm";
 import SuppliersCategoryTable from "./SupplierCategoryTable";
-//import SuppliersCategoryEdit from "./SupplierCategoryEdit";
+import SuppliersCategoryEdit from "./SupplierCategoryEdit";
 
 
 
@@ -494,6 +494,17 @@ function SupplierCategoryManagement() {
                 </div>
                 </div>
             )}
+
+            {view === 'edit' && selectedSupplierCategory && (
+                <SuppliersCategoryEdit 
+                supplierCategory={selectedSupplierCategory}
+                onSubmit={handleUpdateSupplierCategory}
+                isSubmitting={updateSupplierCategoryMutation.isPending}
+                onCancel={handleBackToSupplierCategoriesList}
+                agents={agents}
+                />
+            )}
+
             </div>
         </div>
         </div>
@@ -517,13 +528,3 @@ export default SupplierCategoryManagement;
             //    />
             //)}
 //
-            //{view === 'edit' && selectedSupplierCategory && (
-            //    <SuppliersCategoryEdit 
-            //    supplierCategory={selectedSupplierCategory}
-            //    onSubmit={handleUpdateSupplierCategory}
-            //    isSubmitting={updateSupplierCategoryMutation.isPending}
-            //    onBack={handleBackToSupplierCategoriesList}
-            //    onCancel={handleBackToSupplierCategoryDetails}
-            //    agents={agents}
-            //    />
-            //)}

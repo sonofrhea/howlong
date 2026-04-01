@@ -10,20 +10,9 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const current_year = new Date().getFullYear();
-    return `RV-${current_year}-`;
-};
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
+
 
 const formatUpdatedDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
@@ -111,7 +100,7 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                                     RECEIPT VOUCHER DETAILS
                                 </p>
                                 <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
-                                    {formatNumber()}{receiptVoucher.reference_number}
+                                    {receiptVoucher.formatted_number}
                                 </span>
                             </div>
                         </div>
@@ -140,7 +129,7 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Reference Number</a><br />
-                            {formatNumber()}{receiptVoucher.reference_number}
+                            {receiptVoucher.formatted_number}
                         </p>
                         
                         <p style={{ fontFamily: 'Montserrat, system-ui' }}>
@@ -165,7 +154,7 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                             <a className={details.extraSmallUppercase} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 Received From
                             </a><br />
-                            {formatCustomerNumber()}{receiptVoucher.received_from || 'N/A'} - {receiptVoucher.received_from_name || 'N/A'}
+                            {receiptVoucher.received_from?.formatted_number || 'N/A'} - {receiptVoucher.received_from_name || 'N/A'}
                         </p>
                         
                         <p>
@@ -179,7 +168,7 @@ const ReceiptVoucherDetails: React.FC<ReceiptVoucherDetailsProps> = ({
                             <a className={details.extraSmallUppercase} style={{ fontFamily: 'Montserrat, system-ui' }}>
                                 Related Project
                             </a><br />
-                            {formatProjectNumber()}{receiptVoucher.project || 'N/A'} | {receiptVoucher.project_name || 'N/A'}
+                            {receiptVoucher.project?.formatted_number || 'N/A'} | {receiptVoucher.project_name || 'N/A'}
                         </p>
                         
                         <p>

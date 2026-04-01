@@ -40,6 +40,7 @@ export interface PurchaseModulesInterface {
 
 export type CompanyPurchaseInvoiceList = {
   purchase_invoice_number: number;
+  formatted_number: string;
   date: string;
   supplier_name: string;
   address: string;
@@ -52,6 +53,7 @@ export type CompanyPurchaseInvoiceList = {
 
 export type CompanyPurchaseInvoiceDetails = {
   purchase_invoice_number: number;
+  formatted_number: string;
   date: string;
   supplier: number;
   supplier_name: string;
@@ -60,22 +62,24 @@ export type CompanyPurchaseInvoiceDetails = {
   status: string;
 
   gross_total: string;
-  tax_inclusive: boolean;
-  tax: string;
+  taxable: boolean;
+  tax_percent: number;
+  tax_amount: number;
   net_total: string;
 
   agent: string;
   cancelled: boolean;
 
   related_invoice: Array<{
-    product_item_name: string | null;
+    product_item_name: string;
     description: string;
     quantity: string;
     base_unit_of_measure: string;
     price: string;
     total: string;
-    tax_inclusive: boolean;
-    tax: number;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
     sub_total: number;
     cancelled: boolean;
   }>;
@@ -88,30 +92,32 @@ export type CompanyPurchaseInvoiceDetails = {
 
 export type CompanyPurchaseInvoiceInputs = {
   purchase_invoice_number: number;
-  date: string;
-  supplier: string;
-  supplier_name: string;
-  address: string;
-  description: string;
-  status: typeof PURCHASE_INVOICE_STATUS[number] | null;
-  agent: string;
+  formatted_number: string;
+  date?: string;
+  supplier?: number;
+  supplier_name?: string;
+  address?: string;
+  description?: string;
+  status?: typeof PURCHASE_INVOICE_STATUS[number];
+  agent?: string;
   related_invoice?: Array <{
-    product_item?: string | null;
-    description?: string | null;
-    quantity?: number | null;
-    base_unit_of_measure?: string | null;
-    price?: number | null;
-    tax_inclusive?: boolean;
-    tax?: number | null;
+    product_item?: string;
+    description?: string;
+    quantity?: number;
+    base_unit_of_measure?: string;
+    price?: number;
+    taxable?: boolean;
+    sst_percent?: number;
     cancelled?: boolean;
-  }> | null;
-  tax_inclusive: boolean;
-  tax: number;
-  cancelled: boolean;
+  }>;
+  taxable?: boolean;
+  tax_percent?: number;
+  cancelled?: boolean;
 };
 
 export type CompanyPurchaseInvoiceResponse = {
   purchase_invoice_number: number;
+  formatted_number: string;
   net_total: number;
 };
 
@@ -183,6 +189,7 @@ export type CompanyPurchaseInvoiceFormProps = {
 
 export type CompanyPurchaseOrderList = {
   purchase_order_number: number;
+  formatted_number: string;
   date: string;
   supplier_name: string;
   invoice_total: number;
@@ -195,59 +202,63 @@ export type CompanyPurchaseOrderList = {
 
 export type CompanyPurchaseOrderInputs = {
   purchase_order_number: number;
+  formatted_number: string;
   date: string;
   supplier: string;
   supplier_name: string;
   account? : {
-    account_code: number | null;
-    account_name: string;
-    account_type: string;
-  } | null;
-  address: string;
-  related_invoice: string;
-  related_invoice_total: number;
-  invoice_total: number;
-  description: string;
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
+  address?: string;
+  related_invoice?: string;
+  related_invoice_total?: number;
+  invoice_total?: number;
+  description?: string;
   related_purchase?: Array <{
-    payment_date: string;
-    total_paid: number;
-    tax_inclusive: boolean;
-    tax_amount: number;
-    cancelled: boolean;
-  }> | null;
-  status: typeof PURCHASE_ORDER_STATUS[number] | null;
-  agent: string;
-  cancelled: boolean;
-  tax_inclusive: boolean;
-  tax_amount: number;
+    payment_date?: string;
+    total_paid?: number;
+    taxable?: boolean;
+    sst_percent?: number;
+    cancelled?: boolean;
+  }>;
+  status?: typeof PURCHASE_ORDER_STATUS[number];
+  agent?: string;
+  cancelled?: boolean;
+  taxable?: boolean;
+  tax_percent?: number;
 };
 
 export type CompanyPurchaseOrderDetails = {
   purchase_order_number: number;
+  formatted_number: string;
   date: string;
   supplier: string;
   supplier_name: string;
-  account? : {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
+  account : {
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
   address: string;
-  related_invoice: string;
+  related_invoice: CompanyPurchaseInvoiceResponse;
   description: string;
   invoice_total: number;
   related_invoice_total: number;
   gross_paid: number;
-  tax_inclusive: boolean;
-  tax_amount: number;
   related_purchase: Array<{
     payment_date: string;
     total_paid: number;
-    tax_inclusive: boolean;
-    tax_amount: number;
+    taxable: boolean;
+    sst_percent: number;
+    sst_amount: number;
     cancelled: boolean;
     sub_total: number;
 }>
+  taxable: boolean;
+  tax_percent: number;
+  tax_amount: number;
   net_total_paid: number;
   outstanding_amount: number;
   cancelled: boolean;
@@ -262,6 +273,7 @@ export type CompanyPurchaseOrderDetails = {
 
 export type CompanyPurchaseOrderResponse = {
   purchase_order_number: number;
+  formatted_number: string;
 };
 
 

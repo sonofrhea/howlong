@@ -13,26 +13,18 @@ import { data } from "react-router";
 
 
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
-
-
-const formatSupplierInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SI-${currentYear}-`;
-};
 
 
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SDN-${currentYear}-`;
-};
+
+
+
+
+
+
 
 
 const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
@@ -100,7 +92,7 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                                     SUPPLIER DEBIT NOTE DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{supplierDebitNote.debit_note_number}
+                                    {supplierDebitNote.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -153,7 +145,7 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                             <option value="">Select...</option>
                             {useMemo(() => SupplierProfiles.map((supplier: SupplierProfileResponse) => (
                                 <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                    {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                    {supplier.formatted_number} | {supplier.supplier_name}
                                 </option>
                             )), [SupplierProfiles])}
                         </select>
@@ -169,7 +161,7 @@ const SupplierDebitNoteEdit: React.FC<SupplierDebitNoteProps> = ({
                             <option value="">Select...</option>
                             {useMemo(() => SupplierInvoices.map((invoice: SupplierInvoiceResponse) => (
                                 <option key={invoice.invoice_number} value={invoice.invoice_number}>
-                                    {formatSupplierInvoiceNumber()}{invoice.invoice_number} | Total:  {invoice.aggregate_total}
+                                    {invoice.formatted_number} | Total:  {invoice.aggregate_total}
                                 </option>
                             )), [SupplierInvoices])}
                         </select>

@@ -117,7 +117,7 @@ const ProductGroupTable: React.FC<ProductGroupTableProps> = ({
                         <col key={index} className={line} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="CODE #" sortKey="group_code" />
                             <SortableHeader label="Group Name" sortKey="group_name" />
@@ -139,12 +139,12 @@ const ProductGroupTable: React.FC<ProductGroupTableProps> = ({
                             const productGroupId = productGroup.group_code;
 
                             return (
-                                <tr key={productGroup.group_code} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={productGroup.group_code} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onProductGroupClick(productGroupId)}>
                                     {/* Group Code */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            SKG-{productGroup.group_code || 'N/A'}
+                                            {productGroup.formatted_number}
                                         </span>
                                     </td>
 
@@ -212,7 +212,7 @@ const ProductGroupTable: React.FC<ProductGroupTableProps> = ({
                                     </td>
 
                                     {/* Actions */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
                                                 className="text-indigo-700 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-150"
@@ -230,7 +230,7 @@ const ProductGroupTable: React.FC<ProductGroupTableProps> = ({
                                                 className="text-red-700 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-150"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete SKG-${productGroup.group_code}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${productGroup.formatted_number}?`)) {
                                                         onDeleteProductGroup(productGroupId);
                                                     }
                                                 }}

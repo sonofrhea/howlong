@@ -16,22 +16,7 @@ import { Trash2 } from "lucide-react";
 import JournalEntryModal from "../JournalEntry/JournalEntryModal";
 
 
-const formatNumber = () => {
-    const current_year = new Date().getFullYear()
-    return `PV-${current_year}-`;
-};
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
-
-
-
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
 
 
 const decimalPlaces = (amount: number) => {
@@ -99,7 +84,7 @@ const PaymentVoucherEdit: React.FC<PaymentVoucherProps> = ({
                                     PAYMENT VOUCHER DETAILS
                                 </div>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{paymentVoucher.reference_number}
+                                    {paymentVoucher.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -153,7 +138,7 @@ const PaymentVoucherEdit: React.FC<PaymentVoucherProps> = ({
                             <option value="">Select supplier...</option>
                             {useMemo(() => suppliers.map((supplier: SupplierProfileResponse) => (
                                 <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                    {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                    {supplier.formatted_number} | {supplier.supplier_name}
                                 </option>
                             )), [suppliers])}
                         </select>
@@ -168,7 +153,7 @@ const PaymentVoucherEdit: React.FC<PaymentVoucherProps> = ({
                             <option value="">Select project...</option>
                             {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                 <option key={project.project_code} value={project.project_code}>
-                                    {formatProjectNumber()}{project.project_code} - {project.project_name}
+                                    {project.formatted_number} - {project.project_name}
                                 </option>
                             )), [projects])}
                         </select>

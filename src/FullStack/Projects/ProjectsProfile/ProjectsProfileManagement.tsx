@@ -13,8 +13,8 @@ import { ProjectProfileInputs, AllProjectProfileInputs,
     ProjectsProfileList
  } from "../constants/Types"
 
-import { fetchCustomers } from "../../Customers/Engines"
-import { fetchAgents } from "../../Core/Engines"
+import { createCustomer, fetchCustomers } from "../../Customers/Engines"
+import { fetchAgents, fetchBanks, fetchCurrencies } from "../../Core/Engines"
 
 
 import ProjectsProfileDetails from "./ProjectsProfileDetails";
@@ -24,6 +24,7 @@ import ProjectsProfileEdit from "./ProjectsProfileEdit";
 
 import { spinningStyles } from "../constants/Styles";
 import { toast } from "react-hot-toast";
+import { CustomerCreateResponse, CustomerInputs } from "../../Customers/constants/Types";
 
 
 
@@ -59,6 +60,8 @@ function ProjectsProfileManagement() {
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
+    
+    const [isCustomerOpen, setIsCustomerOpen] = useState(false);
     // ------------------------------------------------------------------------------------
 
     const navigateToView = (newView: string, project_code?: number) => {
@@ -84,6 +87,16 @@ function ProjectsProfileManagement() {
     const { data: agents = [] } = useQuery({
         queryKey: ['agents'],
         queryFn: fetchAgents
+    });
+        
+    const { data: banks = [] } = useQuery({
+        queryKey: ['banks'],
+        queryFn: fetchBanks
+    });
+    
+    const { data: currencies = [] } = useQuery({
+        queryKey: ['currencies'],
+        queryFn: fetchCurrencies
     });
 
 
@@ -306,6 +319,48 @@ function ProjectsProfileManagement() {
 
         return projectNumber.includes(search);
     });
+
+    // ------------------------------------------------------------------------------------
+
+
+            // CUSTOMER
+    const formatNumber = () => {
+        const currentYear = new Date().getFullYear();
+        return `CV-${currentYear}-`;
+    };
+
+
+    const createCustomerProfileMutation = useMutation({
+        mutationFn: createCustomer,
+        onMutate: () => {
+            toast.loading('Creating Customer...', { id: "Create Customer" });
+        },
+        onSuccess: (data: CustomerCreateResponse) => {
+            queryClient.invalidateQueries({ queryKey: ['customers'] });
+
+            toast.success(`Customer ${formatNumber()}${data?.customer_number} created successfully!`, { id: "Create Customer" });
+            setIsCustomerOpen(false);
+        },
+        onError: (error: any) => {
+          toast.error('Failed to create Customer profile.', { id: "Create Customer" });
+          console.error('Error creating Customer profile:', error.response?.data || error.message || error);
+        }
+    });
+
+
+    const handleAddCustomer = async (customerData: CustomerInputs) => {
+
+        if (!customerData.preferred_currency?.currency_code) {
+            delete customerData.preferred_currency;
+        }
+
+
+
+    //console.log("🎯 RAW FORM DATA:", cleanedData);
+    await createCustomerProfileMutation.mutateAsync(customerData);
+    };
+    
+
 
     // ------------------------------------------------------------------------------------
                                 // SORTING
@@ -582,6 +637,10 @@ function ProjectsProfileManagement() {
                     onCancel={handleBackToProjectsList}
                     customers={customers}
                     agents={agents}
+                    banks={banks}
+                    currencies={currencies}
+                    onCreateCustomer={handleAddCustomer}
+                    isCreatingCustomer={createCustomerProfileMutation.isPending}
                 />
                 {createProjectMutation.isError && (
                     <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">

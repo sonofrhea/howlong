@@ -17,14 +17,11 @@ import { Trash2 } from "lucide-react";
 
 
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
+
 
 
 const decimalPlaces = (amount: number) => {
-    return `${amount.toFixed(2)};`
+    return `${amount.toFixed(2)}`
 };
 
 
@@ -51,13 +48,15 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
     const { register, handleSubmit, watch, setValue, 
         control, formState: { errors } } = useForm<CompanyPurchaseInvoiceInputs>({
             defaultValues: {
-                tax: 0.00,
-                status: 'Active' as any,
+                taxable: false,
+                tax_percent: 0.00,
+                status: 'Active',
                 related_invoice: [
                     {
                         quantity: 1,
                         price: 0.00,
-                        tax: 0.00,
+                        taxable: false,
+                        sst_percent: 0.00,
                     }
                 ],
             }
@@ -117,7 +116,7 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
                                 <option value="">select...</option>
                                 {useMemo(() => suppliers.map((supplier: SupplierProfileResponse) => (
                                     <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                        {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                        {supplier.formatted_number} | {supplier.supplier_name}
                                     </option>
                                 )), [suppliers])}
                             </select>
@@ -181,17 +180,18 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
                             <table className="w-full table-fixed divide-y border divide-x divide-gray-200 drop-shadow-md shadow-inner">
                                 <colgroup>
                                     {[
-                                        'w-1/11 text-center',
-                                        'w-1/11 text-center',
-                                        'w-1/11 text-center',
-                                        'w-1/11 text-center',
-                                        'w-1/11 text-center',
-                                        'w-1/11 text-center',
-                                        'w-1/11 text-center',
-                                        'w-1/11 text-center',
-                                        'w-1/11 text-center',
-                                        'w-1/11 text-center',
-                                        'w-[9%] text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-1/12 text-center',
+                                        'w-[5%] text-center',
                                     ].map((line, index) => (
                                         <col key={index} className={line} />
                                     ))}
@@ -204,10 +204,11 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
                                         <th className={tables.headerCell}>Base UOM</th>
                                         <th className={tables.headerCell}>Price</th>
                                         <th className={tables.headerCell}>Gross Total</th>
-                                        <th className={tables.headerCell}>Tax Inclusive</th>
-                                        <th className={tables.headerCell}>Tax %</th>
-                                        <th className={tables.headerCell}>SubTotal</th>
+                                        <th className={tables.headerCell}>Taxable</th>
+                                        <th className={tables.headerCell}>SST %</th>
+                                        <th className={tables.headerCell}>SST Amount</th>
                                         <th className={tables.headerCell}>Cancelled</th>
+                                        <th className={tables.headerCell}>SubTotal</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -215,18 +216,23 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
                                 <tbody className={tables.body}>
                                     {fields.map((field, index) => {
 
-                                        const quantity = watch(`related_invoice.${index}.quantity`) || 0.00;
-                                        const price_per_unit = watch(`related_invoice.${index}.price`) || 0.00;
-                                        let tax_amount = watch(`related_invoice.${index}.tax`) || 0.00;
-                                        const tax_inclusive = watch(`related_invoice.${index}.tax_inclusive`) || false;
+                                        const quantity = Number(watch(`related_invoice.${index}.quantity`) || 0.00);
+                                        const price_per_unit = Number(watch(`related_invoice.${index}.price`) || 0.00);
+                                        let tax_amount = Number(watch(`related_invoice.${index}.sst_percent`) || 0.00);
+                                        const tax_inclusive = watch(`related_invoice.${index}.taxable`) || false;
 
-                                        let total = quantity * price_per_unit;
+                                        const totalAmount = quantity * price_per_unit;
+                                        const taxPercent = tax_amount / 100.00
 
                                         if (!tax_inclusive) {
                                             tax_amount = 0.00;
                                         }
 
-                                        total *= 1 + (tax_amount / 100);
+                                        const taxAmount = totalAmount * taxPercent
+                                        const TOTAL = totalAmount + taxAmount;
+                                        
+
+                                        
 
                                         return(
                                             <tr key={field.id} className={tables.row}>
@@ -277,22 +283,19 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
                                                 </td>
 
                                                 <td className={tables.autoCalculate}>
-                                                    {decimalPlaces(
-                                                        Number(watch(`related_invoice.${index}.quantity`) || 1) *
-                                                        Number(watch(`related_invoice.${index}.price`) || 0.00)
-                                                    )}
+                                                    {decimalPlaces(totalAmount)}
                                                 </td>
 
                                                 <td className={tables.cell}>
                                                     <input 
                                                         type="checkbox"
-                                                        {...register(`related_invoice.${index}.tax_inclusive`)}
+                                                        {...register(`related_invoice.${index}.taxable`)}
                                                     />
                                                 </td>
 
                                                 <td className={text.numbers}>
                                                     <input 
-                                                        {...register(`related_invoice.${index}.tax`)}
+                                                        {...register(`related_invoice.${index}.sst_percent`)}
                                                         type="number"
                                                         className={forms.input.number}
                                                         placeholder="0.00"
@@ -305,7 +308,7 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
                                                 </td>
 
                                                 <td className={tables.autoCalculate}>
-                                                    {decimalPlaces(total)}
+                                                    {decimalPlaces(taxAmount)}
                                                 </td>
 
                                                 <td className={tables.cell}>
@@ -315,13 +318,17 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
                                                     />
                                                 </td>
 
+                                                <td className={tables.autoCalculate}>
+                                                    {decimalPlaces(TOTAL)}
+                                                </td>
+
                                                 <td>
                                                     <button
                                                         type="button"
                                                         title="remove"
                                                         onClick={() => remove(index)}
                                                     >
-                                                        <Trash2 size={16} strokeWidth={1.5} />
+                                                        <Trash2 size={14} strokeWidth={1.5} />
                                                     </button>
                                                 </td>
                                             </tr>
@@ -332,14 +339,14 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
                                             <button
                                                     type="button"
                                                     onClick={() => append({
-                                                    product_item: "",
-                                                    description: "",
-                                                    quantity: 1,
-                                                    base_unit_of_measure: "",
-                                                    price: 0.00,
-                                                    cancelled: false,
-                                                    tax_inclusive: true,
-                                                    tax: 0.00
+                                                        product_item: undefined,
+                                                        description: undefined,
+                                                        quantity: 1,
+                                                        base_unit_of_measure: undefined,
+                                                        price: 0.00,
+                                                        cancelled: false,
+                                                        taxable: false,
+                                                        sst_percent: 0.00
                                                     })}
                                                     className={buttons.addLine}
                                             >
@@ -357,19 +364,19 @@ const CompanyPurchaseInvoiceForm: React.FC<CompanyPurchaseInvoiceFormProps> = ({
                                 <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
     
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Tax Inclusive?</div>
+                                        <div>Taxable?</div>
                                         <input 
-                                        {...register("tax_inclusive")}
+                                        {...register("taxable")}
                                         type="checkbox"
                                         className="ml-2 forced-colors:bg-green-300"
                                         />
                                     </div>
     
                                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                        <div>Tax Amount</div>
+                                        <div>Tax %</div>
                                         <input 
                                             type="number"
-                                            {...register("tax")}
+                                            {...register("tax_percent")}
                                             className={forms.input.smallNumber}
                                             placeholder="0.00"
                                             step="0.01" min="0.00" onBlur={(e) => {

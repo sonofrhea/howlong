@@ -14,25 +14,22 @@ import { LHDN_TAX_TYPE_CHOICES } from "../Constants/Options";
 import { EINVOICE_PAYMENT_MODE_CHOICES, EINVOICE_SUPPLY_TYPE_CHOICES } from "../../Customers/constants/Options";
 
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
+
+
 
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-`;
-};
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `INV-${currentYear}-`;
-};
+
+
+
+
+
+
+
 
 
 
@@ -102,7 +99,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                                     INVOICE DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{invoice.invoice_number}
+                                    {invoice.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -131,7 +128,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
-                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                    {customer.formatted_number} | {customer.customer_name || '--'}
                                 </option>
                             )), [customers])}
                         </select>
@@ -183,7 +180,7 @@ const InvoiceEdit: React.FC<InvoiceProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                 <option key={project.project_code} value={project.project_code}>
-                                    {project.project_name} - {formatProjectNumber()}{project.project_code}
+                                    {project.project_name} - {project.formatted_number}
                                 </option>
                             )), [projects])}
                         </select>

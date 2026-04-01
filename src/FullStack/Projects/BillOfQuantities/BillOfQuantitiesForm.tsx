@@ -10,10 +10,6 @@ import { BILL_OF_QUANTITIES_OPTIONS } from '../constants/Options';
 
 
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
 
 
 const decimalPlaces = (amount: number) => {
@@ -138,7 +134,7 @@ const BillOfQuantitiesForm: React.FC<BillOfQuantitiesFormProps> = ({
                                 <option value="">Select project...</option>
                                 {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                     <option key={project.project_code} value={project.project_code}>
-                                        {formatProjectNumber()}{project.project_code} | {project.project_name}
+                                        {project.formatted_number} | {project.project_name}
                                     </option>
                                 )), [projects])}
                             </select>

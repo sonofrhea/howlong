@@ -19,17 +19,6 @@ const decimalPlaces = (amount: number) => {
 };
 
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
-
-
-
-const formatCreditNoteNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CN-${currentYear}-`;
-};
 
 
 
@@ -156,7 +145,7 @@ const CreditNoteForm: React.FC<CreditNoteProps> = ({
                                 <option value="">select...</option>
                                 {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
-                                        {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                        {customer.formatted_number} | {customer.customer_name || '--'}
                                     </option>
                                 )), [customers])}
                             </select>
@@ -204,7 +193,7 @@ const CreditNoteForm: React.FC<CreditNoteProps> = ({
                                 <option value="">select...</option>
                                 {useMemo(() =>customerPayments.map((payment: CustomerPaymentResponse) => (
                                     <option key={payment.payment_number} value={payment.payment_number}>
-                                        POST-{payment.payment_number} | Paid Amount: {payment.paid_amount}
+                                        {payment.formatted_number} | Paid Amount: {payment.paid_amount}
                                     </option>
                                 )), [customerPayments])}
                             </select>

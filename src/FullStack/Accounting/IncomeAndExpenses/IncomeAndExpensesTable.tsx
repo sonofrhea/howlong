@@ -6,10 +6,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `IE-${currentYear}-00`
-}
+
 
 
 
@@ -120,7 +117,7 @@ const IncomeAndExpensesTable: React.FC<IncomeAndExpensesListProps> = ({
                         <col key={index} className={line} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Date" sortKey="date" />
                             <SortableHeader label="Reference #" sortKey="reference_number" />
@@ -141,7 +138,7 @@ const IncomeAndExpensesTable: React.FC<IncomeAndExpensesListProps> = ({
                             const incomeAndExpenseId = incomeAndExpense?.reference_number;
 
                             return (
-                                <tr key={incomeAndExpense.reference_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={incomeAndExpense.reference_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onIncomeAndExpenseClick(incomeAndExpenseId)}>
 
                                     {/* Date */}
@@ -154,7 +151,7 @@ const IncomeAndExpensesTable: React.FC<IncomeAndExpensesListProps> = ({
                                     {/* Reference Number */}
                                     <td className="px-2 py-2">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            {formatNumber()}{incomeAndExpense.reference_number}
+                                            {incomeAndExpense.formatted_number}
                                         </span>
                                     </td>
 
@@ -230,7 +227,7 @@ const IncomeAndExpensesTable: React.FC<IncomeAndExpensesListProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${incomeAndExpense.reference_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${incomeAndExpense.formatted_number}?`)) {
                                                         onDeleteIncomeAndExpense(incomeAndExpenseId);
                                                     }
                                                 }}

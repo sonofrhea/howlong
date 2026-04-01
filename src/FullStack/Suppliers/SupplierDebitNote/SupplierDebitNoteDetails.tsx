@@ -15,23 +15,12 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SDN-${currentYear}-`;
-};
-
-
-const formatSupplierInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SI-${currentYear}-`;
-};
 
 
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
+
+
+
 
 
 
@@ -111,7 +100,7 @@ const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
                                     SUPPLIER DEBIT NOTE DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{supplierDebitNote.debit_note_number}
+                                    {supplierDebitNote.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -139,7 +128,7 @@ const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <p>
                             <a className={details.extraSmallUppercase}>Debit Note No</a><br />
-                            {formatNumber()}{supplierDebitNote.debit_note_number}
+                            {supplierDebitNote.formatted_number}
                         </p>
                         
                         <p>
@@ -154,12 +143,12 @@ const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
                         
                         <p>
                             <a className={details.extraSmallUppercase}>Reference Supplier</a><br />
-                            {formatSupplierNumber()}{supplierDebitNote.supplier || 'N/A'} | {supplierDebitNote.supplier_name || 'N/A'}
+                            {supplierDebitNote.supplier?.formatted_number || 'N/A'} | {supplierDebitNote.supplier?.supplier_name || 'N/A'}
                         </p>
                         
                         <p>
                             <a className={details.extraSmallUppercase}>Reference Invoice</a><br />
-                            {formatSupplierInvoiceNumber()}{supplierDebitNote.related_invoice || 'N/A'}
+                            {supplierDebitNote.related_invoice?.formatted_number || 'N/A'}
                         </p>
                         
                         <p>
@@ -219,7 +208,7 @@ const SupplierDebitNoteDetails: React.FC<SupplierDebitNoteDetailsProps> = ({
 
                                     {supplierDebitNote.related_debit_note.map((line, index) => (
                                         <tr key={index} className="bg-white divide-y divide-x divide-gray-100">
-                                            <td className={tables.cell}>SKU-{line.debit_note_item || '--'} | {line.debit_note_item_name || '--'}</td>
+                                            <td className={tables.cell}>SKU-{line.debit_note_item?.formatted_number || '--'} | {line.debit_note_item_name || '--'}</td>
                                             <td className={tables.cell}>{line.description || '--'}</td>
                                             <td className={tables.cell}>{line.amount}</td>
                                             <td className={`inline-flex items-center px-5! py-0! rounded text-sm ${

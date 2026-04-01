@@ -13,10 +13,6 @@ import CustomerProfileModal from "../../Customers/CustomerProfile/CustomerProfil
 import { fetchBanks } from "../../Core/Engines";
 
 
- const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
 
 
 
@@ -162,7 +158,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
                             <option value="">Select customer...</option>
                             {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
-                                {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                {customer.formatted_number} | {customer.customer_name || '--'}
                                 </option>
                             )), [customers])}
                             </select>

@@ -19,19 +19,7 @@ const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`
 };
 
-function formatCustomerNumber(): React.ReactNode {
-        const currentYear = new Date().getFullYear();
-        return `CV-${currentYear}-`;
-    };
 
-function formatInvoiceNumber(): React.ReactNode {
-    const currentYear = new Date().getFullYear();
-    return `INV-${currentYear}-`
-};
-
-const formatPaymentNumber = () => {
-    return "PAY-";
-};
 
 
 
@@ -133,7 +121,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                                 <option value="">select...</option>
                                 {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
-                                        {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                        {customer.formatted_number} | {customer.customer_name || '--'}
                                     </option>
                                 )), [customers])}
                             </select>
@@ -168,7 +156,7 @@ const invoiceChange = invoiceHandler(invoices, setValue);
                                 <option value="">select...</option>
                                 {useMemo(() => invoices.map((invoice: InvoiceInterface) => (
                                     <option key={invoice.invoice_number} value={invoice.invoice_number}>
-                                        {formatInvoiceNumber()}{invoice.invoice_number} | Total: {invoice.net_total}
+                                        {invoice.formatted_number} | Total: {invoice.net_total}
                                     </option>
                                 )), [invoices])}
                             </select>

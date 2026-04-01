@@ -10,10 +10,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CASH-${currentYear}-`
-}
+
 
 const formatUpdatedDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
@@ -219,7 +216,7 @@ const CashBookDetails: React.FC<CashBookDetailsProps> = ({
                                 Reference Number
                             </h3>
                             <strong className="text-2xl font-mono font-semibold text-neutral-900">
-                                {formatNumber()}{cashBook.reference_number}
+                                {cashBook.formatted_number}
                             </strong>
                         </div>
 

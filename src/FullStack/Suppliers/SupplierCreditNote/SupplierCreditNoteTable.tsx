@@ -6,15 +6,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SCN-${currentYear}-`;
-};
 
-const formatSupplierInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SI-${currentYear}-`;
-};
 
 
 
@@ -124,7 +116,7 @@ const SupplierCreditNoteTable: React.FC<SupplierCreditNoteTableProps> = ({
                         <col key={index} className={line}/>
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Credit Note #" sortKey="credit_note_number" />
                             <SortableHeader label="Date" sortKey="date" />
@@ -142,12 +134,12 @@ const SupplierCreditNoteTable: React.FC<SupplierCreditNoteTableProps> = ({
                             const supplierCreditNoteId = supplierCreditNote.credit_note_number;
 
                             return (
-                                <tr key={supplierCreditNote.credit_note_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={supplierCreditNote.credit_note_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onSupplierCreditNoteClick(supplierCreditNoteId)}>
                                     {/* Credit Note Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
-                                            {formatNumber()}{supplierCreditNote.credit_note_number}
+                                            {supplierCreditNote.formatted_number}
                                         </span>
                                     </td>
 
@@ -161,14 +153,14 @@ const SupplierCreditNoteTable: React.FC<SupplierCreditNoteTableProps> = ({
                                     {/* Supplier */}
                                     <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-gray-900 truncate">
-                                            {supplierCreditNote.supplier}
+                                            {supplierCreditNote.supplier?.formatted_number}
                                         </div>
                                     </td>
 
                                     {/* Related Invoice */}
                                     <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-gray-900 truncate">
-                                            {formatSupplierInvoiceNumber()}{supplierCreditNote.related_invoice}
+                                            {supplierCreditNote.related_invoice?.formatted_number}
                                         </div>
                                     </td>
 
@@ -205,7 +197,7 @@ const SupplierCreditNoteTable: React.FC<SupplierCreditNoteTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${supplierCreditNote.credit_note_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${supplierCreditNote.formatted_number}?`)) {
                                                         onDeleteSupplierCreditNote(supplierCreditNoteId);
                                                     }
                                                 }}

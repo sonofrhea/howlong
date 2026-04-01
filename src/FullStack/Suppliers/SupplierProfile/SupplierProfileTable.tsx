@@ -6,10 +6,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatSupplierNumber = () => {
-        const currentYear = new Date().getFullYear();
-        return `SUP-${currentYear}-`;
-};
+
 
 
 
@@ -140,7 +137,7 @@ const SupplierProfileTable: React.FC<SupplierProfileTableProps> = ({
                         <col key={index} className={line} style={{ fontFamily: 'Montserrat, system-ui' }} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                    <thead className="bg-white" style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <tr style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <SortableHeader label="Supplier #" sortKey="supplier_code" />
                             <SortableHeader label="Supplier Name" sortKey="supplier_name" />
@@ -161,12 +158,12 @@ const SupplierProfileTable: React.FC<SupplierProfileTableProps> = ({
                             const supplierProfileId = supplierProfile.supplier_code;
 
                             return (
-                                <tr key={supplierProfile.supplier_code} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={supplierProfile.supplier_code} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onSupplierProfileClick(supplierProfileId)}>
                                     {/* Supplier # */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
-                                            {formatSupplierNumber()}{supplierProfile.supplier_code}
+                                            {supplierProfile.formatted_number}
                                         </span>
                                     </td>
 
@@ -227,7 +224,7 @@ const SupplierProfileTable: React.FC<SupplierProfileTableProps> = ({
                                     </td>
 
                                     {/* Actions */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5! text-center">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
@@ -245,7 +242,7 @@ const SupplierProfileTable: React.FC<SupplierProfileTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatSupplierNumber()}${supplierProfile.supplier_code}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${supplierProfile.formatted_number}?`)) {
                                                         onDeleteSupplierProfile(supplierProfileId);
                                                     }
                                                 }}

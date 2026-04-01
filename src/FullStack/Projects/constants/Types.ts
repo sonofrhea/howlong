@@ -5,8 +5,8 @@ import { BILL_OF_QUANTITIES_OPTIONS, COST_TYPE_CHOICES_OPTIONS, COUNTRY_OPTIONS,
   JOB_COST_LEDGER_STATUS_OPTIONS, 
   JOB_COST_LINES_STATUS_OPTIONS, PROJECT_PHASE_OPTIONS,
    PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from "./Options";
-import { CustomerCreateResponse } from "../../Customers/constants/Types";
-import { AgentInterface } from "../../Core/constants/Types";
+import { CustomerCreateResponse, CustomerInputs } from "../../Customers/constants/Types";
+import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
 import { SortConfig, SupplierProfileResponse } from "../../Suppliers/constants/Types";
 
@@ -61,6 +61,7 @@ export interface ProjectsModuleInterface {
 
 export type ProjectsProfileList = {
   project_code: number;
+  formatted_number: string;
   date: string;
   project_name: string;
   project_type: string;
@@ -80,6 +81,7 @@ export type ProjectsProfileList = {
 
 export type ProjectsProfileDetails = {
   project_code: number;
+  formatted_number: string;
   date: string;
   project_name: string;
   project_description: string;
@@ -126,6 +128,7 @@ export type ProjectsProfileDetails = {
 
 export type ProjectProfileInputs = {
   project_code: number;
+  formatted_number?: string;
   date?: string;
   project_name?: string;
   project_description?: string;
@@ -165,6 +168,7 @@ export type ProjectProfileResponse = {
   project_code?: number;
   project_name?: string;
   project_budget?: number;
+  formatted_number?: string;
 }
 
 export type AllProjectProfileInputs = {
@@ -201,6 +205,10 @@ export type ProjectProfileFormProps = {
   onCancel?: () => void;
   customers: CustomerCreateResponse[];
   agents: AgentInterface[];
+  banks: BankInterface[];
+  currencies: CurrencyInterface[];
+  onCreateCustomer: (data: CustomerInputs) => void;
+  isCreatingCustomer: boolean;
 };
 
 
@@ -234,6 +242,7 @@ export type ProjectProfileTableProps = {
 
 export interface ProjectDocumentsInputs {
   project?: number | string;
+  formatted_number?: string;
 
   project_name: string;
 
@@ -251,6 +260,7 @@ export interface ProjectDocumentsInputs {
 
 export interface ProjectDocumentsResponse {
   document_number: number;
+  formatted_number: string;
 }
 
 
@@ -268,8 +278,9 @@ export interface ProjectDocumentsResponse {
 
 export type BillOfquantitiesList = {
   boq_number: number;
+  formatted_number: string;
   date: string;
-  project: string;
+  project: ProjectProfileResponse;
   project_name: string;
   status: string;
   boq_description: string;
@@ -281,14 +292,15 @@ export type BillOfquantitiesList = {
 
 export type BillOfQuantitiesDetails = {
   boq_number: number;
+  formatted_number: string;
   date: string;
-  project: number;
+  project: ProjectProfileResponse;
   project_name: string;
   status: string;
   boq_description: string;
 
   boq: Array<{
-    product_item: number;
+    product_item: ProductItemCreateResponse;
     product_item_name: string;
     additional_item: string;
     unit_of_measurement: string;
@@ -313,6 +325,7 @@ export type BillOfQuantitiesDetails = {
 
 export type BillOfQuantitiesInputs = {
   boq_number: number;
+  formatted_number?: string;
   date?: string;
   project?: string;
   project_name?: string;
@@ -338,6 +351,7 @@ export type BillOfQuantitiesResponse = {
   gross_estimation: number;
   contingency_rate: number;
   net_estimation: number;
+  formatted_number: string;
 };
 
 
@@ -422,8 +436,9 @@ export type BillOfQuantitiesFormProps = {
 
 export type JobCostLedgerList = {
   job_cost_number: number;
+  formatted_number: string;
   date: string;
-  project: number;
+  project: ProjectProfileResponse;
   project_name: string;
   description: string;
   boq_estimated_amount: number;
@@ -435,9 +450,10 @@ export type JobCostLedgerList = {
 
 export type JobCostLedgerDetails = {
   job_cost_number: number;
-  project: number;
-  project_name: string;
-  project_budget: string;
+  formatted_number: string;
+  project: ProjectProfileResponse;
+  project_name: ProjectProfileResponse;
+  project_budget: ProjectProfileResponse;
   date: string;
   description: string;
   status: string;
@@ -448,7 +464,7 @@ export type JobCostLedgerDetails = {
       job_cost_code: number;
       job_cost_description: string;
     };
-    supplier: string;
+    supplier: SupplierProfileResponse;
     boq_line_item: string;
     description: string;
     cost_type: string;
@@ -464,7 +480,7 @@ export type JobCostLedgerDetails = {
     cancelled: boolean;
   }>;
 
-  boq: number;
+  boq: BillOfQuantitiesResponse;
   boq_estimated_amount: string;
   total_actual_cost: string;
 
@@ -482,6 +498,7 @@ export type JobCostLedgerDetails = {
 
 export type JobCostLedgerInputs = {
   job_cost_number: number;
+  formatted_number?: string;
   project?: number;
   project_name?: string;
   date?: string;
@@ -515,6 +532,7 @@ export type JobCostLedgerInputs = {
 
 export type JobCostLedgerResponse = {
   job_cost_number: number;
+  formatted_number: string;
 };
 
 export type AllJobCostLedgerInputs = {

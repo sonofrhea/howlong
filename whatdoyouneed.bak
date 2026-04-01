@@ -1,0 +1,94 @@
+import { Link } from "react-router-dom";
+
+const QUICK_ACCESS = [
+  {
+    group: 'Reports',
+    items: [
+      { title: "This month's quotation report", meta: 'Mar 2026', to: '/reports/quotations' },
+      { title: "Last month's income statement", meta: 'Feb 2026', to: '/reports/income' },
+      { title: 'Cash flow summary', meta: 'Q1 2026', to: '/reports/cashflow' },
+      { title: 'Tax summary', meta: 'FY 2025', to: '/reports/tax' },
+    ],
+  },
+  {
+    group: 'Transactions',
+    items: [
+      { title: 'List of invoices', meta: 'All time', badge: '12 new', badgeType: 'new', to: '/invoices' },
+      { title: 'Outstanding purchase orders', meta: 'Open only', badge: '3 due', badgeType: 'due', to: '/purchase-orders' },
+      { title: 'Expense claims', meta: 'Pending', to: '/expenses' },
+    ],
+  },
+  {
+    group: 'Balances',
+    items: [
+      { title: 'Balance sheet', meta: 'As of today', to: '/reports/balance' },
+      { title: 'Aged receivables', meta: 'All customers', to: '/reports/receivables' },
+    ],
+  },
+];
+
+const badgeClass: Record<string, string> = {
+  new: 'bg-blue-50 text-blue-700',
+  due: 'bg-amber-50 text-amber-700',
+};
+
+function WhatDoYouNeed() {
+  return (
+    <div
+      className="bg-white border border-gray-100 rounded-4xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] shadow-gray-300 overflow-hidden"
+      style={{ fontFamily: 'Montserrat, system-ui' }}
+    >
+      {/* Header — mirrors chart's px-8 pt-8 pb-4 */}
+      <div className="px-8 pt-8 pb-4">
+        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
+          What do you need?
+        </h2>
+        <p className="text-gray-500 text-sm font-medium">Quick access to reports & transactions</p>
+      </div>
+
+      {/* Rows */}
+      <div className="px-8 pb-6 flex flex-col gap-7">
+        {QUICK_ACCESS.map(({ group, items }) => (
+          <div key={group}>
+            <p className="text-[10px] font-bold tracking-[0.12em] uppercase text-gray-400 pb-2 border-b-2 border-gray-200 mb-0.5">
+              {group}
+            </p>
+            {items.map(({ title, meta, badge, badgeType, to }) => (
+              <Link
+                key={to}
+                to={to}
+                className="group flex items-center justify-between py-2.5 border-b border-gray-100 last:border-b-0 hover:pl-1.5 transition-all duration-150 no-underline"
+              >
+                <div className="flex items-baseline gap-3">
+                  <span className="text-[13px] font-semibold text-gray-500 group-hover:text-gray-900 transition-colors duration-150">
+                    {title}
+                  </span>
+                  <span className="text-[11px] font-medium text-gray-400">{meta}</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  {badge && (
+                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${badgeClass[badgeType ?? '']}`}>
+                      {badge}
+                    </span>
+                  )}
+                  <span className="text-xs text-gray-400 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-150">
+                    →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Footer — mirrors chart's bg-gray-50/50 border-t disclaimer strip */}
+      <div className="bg-gray-50/50 border-t border-gray-100 px-8 py-4">
+        <p className="text-xs text-gray-400 italic">
+          * Badges reflect live counts. Click any item to open the full view.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default WhatDoYouNeed;

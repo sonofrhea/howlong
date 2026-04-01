@@ -9,10 +9,7 @@ import { useReactToPrint } from "react-to-print";
 
 
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `QT-${currentYear}-`;
-};
+
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
@@ -22,9 +19,7 @@ const formatDateTime = (dateString: string) => {
     return new Date(dateString).toLocaleString();
 };
 
-const productItem = () => {
-    return `SKU-`;
-};
+
 
 
 
@@ -96,7 +91,7 @@ const QuotationDetails: React.FC<QuotationDetailsProps> = ({
                                     QUOTATION DETAILS
                                     </div>
                                 <div className={labelStyles}>
-                                    {formatNumber()}{quotation.quotation_number}
+                                    {quotation.formatted_number}
                                 </div>
                             </div>
                             <div className="mt-10 text-sm text-gray-500">

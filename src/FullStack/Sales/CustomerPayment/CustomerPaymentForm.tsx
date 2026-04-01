@@ -18,19 +18,8 @@ const decimalPlaces = (amount: number) => {
 };
 
 
-const formatPaymentNumber = () => {
-    return `PAY-`;
-};
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-`;
-};
 
 
 
@@ -128,7 +117,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                 <option value="">select...</option>
                                 {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                     <option key={project.project_code} value={project.project_code}>
-                                        {formatProjectNumber()}{project.project_code} | {project.project_name}
+                                        {project.formatted_number} | {project.project_name}
                                     </option>
                                 )), [projects])}
                             </select>
@@ -162,7 +151,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                 <option value="">select...</option>
                                 {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                     <option key={customer.customer_number} value={customer.customer_number}>
-                                        {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name}
+                                        {customer.formatted_number} | {customer.customer_name}
                                     </option>
                                 )), [customers])}
                             </select>
@@ -178,7 +167,7 @@ const invoicePaymentChange = invoicePaymentHandler(invoicePayments, setValue);
                                 <option value="">select...</option>
                                 {useMemo(() => invoicePayments.map((invoicePayment: InvoicePaymentInterface) => (
                                     <option key={invoicePayment.invoice_payment_code} value={invoicePayment.invoice_payment_code}>
-                                        {formatPaymentNumber()}{invoicePayment.invoice_payment_code} | Total: {invoicePayment.net_aggregate_paid}
+                                        {invoicePayment.formatted_number} | Total: {invoicePayment.net_aggregate_paid}
                                     </option>
                                 )), [invoicePayments])}
                             </select>

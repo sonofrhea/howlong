@@ -35,7 +35,8 @@ export interface CustomersModuleInterface {
 
 export interface creditNoteInterface {
   credit_note_number: number;
-  credit_note_outstanding: number | null;
+  formatted_number: string;
+  credit_note_outstanding?: number;
 }
 
 
@@ -69,20 +70,22 @@ export interface creditNoteInterface {
 
 export type CustomersList = {
     customer_number: number;
-    customer_name: string | null;
-    mobile_number: number | null;
-    city: string | null;
-    state: string | null;
-    preferred_currency: string | null;
+    formatted_number: string;
+    customer_name: string;
+    mobile_number: number;
+    city: string;
+    state: string;
+    preferred_currency: string;
     status: string;
     date_created: string;
-    country: string | null;
+    country: string;
 };
 
 
 
 export type CustomerDetails = {
   customer_number: number;
+  formatted_number: string;
   customer_name: string;
   company_name: string;
   address: string;
@@ -187,6 +190,7 @@ export type CustomerInputs = {
 
 export type CustomerEdit = {
   customer_number: number;
+  formatted_number: string;
   customer_name: string;
   company_name: string;
   address: string;
@@ -227,6 +231,7 @@ export type CustomerEdit = {
 export type CustomerCreateResponse = {
   customer_number: number;
   customer_name: string;
+  formatted_number: string;
 };
 
 export type AllCustomerInputs = {
@@ -298,6 +303,7 @@ export type CustomerTableProps = {
 
 export type DebitNoteTableInput = {
   debit_note_number: number;
+  formatted_number: string;
   date: string;
   customer: string;
   net_total: number;
@@ -309,16 +315,17 @@ export type DebitNoteTableInput = {
 
 export type DebitNoteInputs = {
   debit_note_number: number;
+  formatted_number?: string;
   date: string;
-  customer: string;
+  customer: CustomerCreateResponse;
   customer_name: string;
   related_payment: string;
   related_payment_amount: string;
   account?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
   initial_paid_amount: number;
   amount_owed: number;
   debit_note_details?: Array<{
@@ -345,6 +352,7 @@ export type DebitNoteInputs = {
 
 export type DebitNoteCreateResponse = {
   debit_note_number: number;
+  formatted_number: string;
 }
 
 export type AllDebitNoteInputs = {
@@ -360,15 +368,16 @@ export type EditDebitNoteInputs = {
 
 export type DebitNoteDetails = {
   debit_note_number: number;
+  formatted_number: string;
   date: string;
-  customer: string;
+  customer: CustomerCreateResponse;
   customer_name: string;
   account?: {
     account_code?: number | null;
     account_name?: string | null;
     account_type?: string | null;
   } | null;
-  related_payment: number;
+  related_payment: CustomerPaymentResponse;
   related_payment_amount: number;
   initial_paid_amount: number;
   amount_owed: number;
@@ -486,6 +495,7 @@ export type DebitNoteTableProps = {
 
 export type CreditNoteList = {
   credit_note_number: number;
+  formatted_number: string;
   date: string;
   customer: string;
   aggregate_total: number;
@@ -497,8 +507,9 @@ export type CreditNoteList = {
 
 export type CreditNoteDetails = {
   credit_note_number: number;
+  formatted_number: string;
   date: string;
-  customer: number;
+  customer: CustomerCreateResponse;
   customer_name: string;
   credit_note_lines?: Array<{
     date?: string | null;
@@ -513,7 +524,7 @@ export type CreditNoteDetails = {
     einvoice_tax_type: string;
     einvoice_tax_exemption_reason: string;
   }> | null;
-  related_payment: string;
+  related_payment: CustomerPaymentResponse;
   related_payment_amount: string;
   account?: {
       account_code?: number | null;
@@ -547,6 +558,7 @@ export type CreditNoteDetails = {
 
 export type CreditNoteEditInputs = {
   credit_note_number: number;
+  formatted_number: string;
   date: string;
   customer: string;
   customer_name: string;
@@ -558,9 +570,9 @@ export type CreditNoteEditInputs = {
     sst_percent?: number | 0.00;
     cancelled?: boolean | null;
     einvoice_classification_code?: number | null;
-    einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'] | null;
+    einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'];
     einvoice_tax_exemption_reason?: string | null;
-  }> | null;
+  }>;
   taxable: boolean;
   tax_percent?: number | 0.00;
   related_payment: string;
@@ -613,6 +625,7 @@ export type CreditNoteInputs = {
 
 export type CreditNoteCreateResponse = {
   credit_note_number: number;
+  formatted_number: string;
   credit_note_outstanding: number;
   aggregate_total: number;
 };
@@ -700,8 +713,9 @@ export type CreditNoteTableProps = {
 
 export type CustomerRefundList = {
   refund_number: number;
+  formatted_number: string;
   date: string;
-  pay_to: string;
+  pay_to: CustomerCreateResponse;
   expected_refund: number;
   net_total: number;
   outstanding: number;
@@ -711,16 +725,16 @@ export type CustomerRefundList = {
 
 
 export type CustomerRefundInputs = {
-  date: string;
-  pay_to: number | null;
-  related_credit_note: number;
-  related_credit_note_outstanding: number;
+  date?: string;
+  pay_to?: number;
+  related_credit_note?: number;
+  related_credit_note_outstanding?: number;
   payment_account?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
-  expected_refund: number | null;
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
+  expected_refund?: number;
   related_customer_refund?: Array<{
     id?: number;
     date?: string;
@@ -730,30 +744,31 @@ export type CustomerRefundInputs = {
     payment_type?: typeof REFUND_TYPE_OPTIONS[number];
     cancelled?: boolean;
     einvoice_classification_code?: number;
-    einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'] | null;
+    einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'];
     einvoice_tax_exemption_reason?: string;
   }>;
   taxable?: boolean;
-  tax_percent?: number | null;
-  agent: string;
-  currency: string | null;
-  einvoice_supply_type: typeof EINVOICE_SUPPLY_TYPE_CHOICES[number] | null;
-  einvoice_payment_mode: typeof EINVOICE_PAYMENT_MODE_CHOICES[number]['value'] | null;
+  tax_percent?: number;
+  agent?: string;
+  currency?: string;
+  einvoice_supply_type?: typeof EINVOICE_SUPPLY_TYPE_CHOICES[number];
+  einvoice_payment_mode?: typeof EINVOICE_PAYMENT_MODE_CHOICES[number]['value'];
 };
 
 
 export type CustomerRefundEditTypes = {
   refund_number: number;
-  date: string;
-  pay_to: number | null;
-  related_credit_note: number;
-  related_credit_note_outstanding: number;
+  formatted_number: string;
+  date?: string;
+  pay_to?: number;
+  related_credit_note?: number;
+  related_credit_note_outstanding?: number;
   payment_account?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
-  expected_refund: number | null;
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
+  expected_refund?: number;
   related_customer_refund?: Array<{
     id?: number;
     date?: string;
@@ -763,36 +778,37 @@ export type CustomerRefundEditTypes = {
     payment_type?: typeof REFUND_TYPE_OPTIONS[number];
     cancelled?: boolean;
     einvoice_classification_code?: number;
-    einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'] | null;
+    einvoice_tax_type?: typeof LHDN_TAX_TYPE_CHOICES[number]['value'];
     einvoice_tax_exemption_reason?: string;
   }>;
   taxable?: boolean;
-  tax_percent?: number | null;
-  agent: string;
-  currency: string | null;
-  einvoice_supply_type: typeof EINVOICE_SUPPLY_TYPE_CHOICES[number] | null;
-  einvoice_payment_mode: typeof EINVOICE_PAYMENT_MODE_CHOICES[number]['value'] | null;
+  tax_percent?: number;
+  agent?: string;
+  currency?: string;
+  einvoice_supply_type?: typeof EINVOICE_SUPPLY_TYPE_CHOICES[number];
+  einvoice_payment_mode?: typeof EINVOICE_PAYMENT_MODE_CHOICES[number]['value'];
 };
 
 
 export type CustomerRefundDetails = {
   refund_number: number;
+  formatted_number: string;
   date: string;
-  pay_to: number;
+  pay_to: CustomerCreateResponse;
   pay_to_name: string;
-  related_credit_note: string;
+  related_credit_note: CreditNoteCreateResponse;
   related_credit_note_outstanding: number;
   payment_account?: {
-    account_code?: number | null;
-    account_name?: string | null;
-    account_type?: string | null;
-  } | null;
+    account_code?: number;
+    account_name?: string;
+    account_type?: string;
+  };
   expected_refund: number;
   gross_total: number;
   taxable: boolean;
   tax_percent: number;
   tax_amount: number;
-  related_customer_refund?: Array<{
+  related_customer_refund: Array<{
     date: string;
     refund_amount: number;
     taxable: boolean;
@@ -804,7 +820,7 @@ export type CustomerRefundDetails = {
     einvoice_classification_code: number;
     einvoice_tax_type: string;
     einvoice_tax_exemption_reason: string;
-  }> | null;
+  }>;
   net_total: number;
   outstanding: number;
   cancelled: boolean;
@@ -827,6 +843,7 @@ export type CustomerRefundDetails = {
 
 export type CustomerRefundResponse = {
   refund_number: number;
+  formatted_number: string;
 }
 
 export type AllCustomerRefundInputs = {

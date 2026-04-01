@@ -8,20 +8,12 @@ const formatDate = (dateString: string) => {
 };
 
 
-const formatPaymentNumber = () => {
-    return "PAY-";
-};
 
 
-function formatCustomerNumber(): React.ReactNode {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
 
-function formatInvoiceNumber(): React.ReactNode {
-    const currentYear = new Date().getFullYear();
-    return `INV-${currentYear}-`
-};
+
+
+
 
 
 
@@ -56,7 +48,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
         const isAsc = sortConfig.direction === 'asc';
 
         return (
-            <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"  title={label} onClick={() => onSort(sortKey)}>
+            <th className="px-2 py-3 text-center  text-xs font-medium text-gray-500 uppercase tracking-wider truncate cursor-pointer hover:bg-gray-100 transition-colors"  title={label} onClick={() => onSort(sortKey)}>
                 <div className="flex items-center justify-center gap-1">
                     {label}
                     {isSorted && (
@@ -141,7 +133,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                         <col key={index} className={line} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white ">
                         <tr>
                             <SortableHeader label="Date" sortKey="date_created" />
                             <SortableHeader label="Payment #" sortKey="invoice_payment_code" />
@@ -162,27 +154,27 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                             const invoicePaymentId = invoicePayment.invoice_payment_code;
 
                             return (
-                                <tr key={invoicePayment.invoice_payment_code} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={invoicePayment.invoice_payment_code} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onInvoicePaymentClick(invoicePaymentId)}>
 
                                     {/* Date */}
-                                    <td className="px-2 py-2 truncate">
+                                    <td className="px-3.5! py-3.5! truncate">
                                         <div className="text-sm font-medium text-black truncate">
                                             {formatDate(invoicePayment.date_created)}
                                         </div>
                                     </td>
                                     
                                     {/* Payment Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5! text-center">
                                         <span className={tables.numberLabel}>
-                                            {formatPaymentNumber()}{invoicePayment.invoice_payment_code}
+                                            {invoicePayment.formatted_number}
                                         </span>
                                     </td>
 
                                     {/* Related Invoice */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {formatInvoiceNumber()}{invoicePayment.related_invoice}
+                                            {invoicePayment.formatted_number}
                                         </div>
                                     </td>
 
@@ -210,7 +202,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                                     {/* Paid By */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {invoicePayment.paid_by}
+                                            {invoicePayment.paid_by?.formatted_number}
                                         </div>
                                     </td>
 
@@ -232,7 +224,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                                     </td>
 
                                     {/* Actions */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5! text-center">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
@@ -250,7 +242,7 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete PAY-${invoicePayment.invoice_payment_code}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${invoicePayment.formatted_number}}?`)) {
                                                         onDeleteInvoicePayment(invoicePaymentId);
                                                     }
                                                 }}
@@ -267,6 +259,31 @@ const InvoicePaymentTable: React.FC<InvoicePaymentTableProps> = ({
                         })}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Table Footer with Working Pagination */}
+            <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
+                <div className="flex items-center justify-between text-sm text-gray-600">
+                    <div>
+                        Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} Invoice Payments
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <button className="px-3 py-1 border border-gray-300 rounded text-xs hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            onClick={() => onPageChange(currentPage - 1)}
+                            disabled={currentPage === 1}>
+                                Previous
+                        </button>
+                        <span className="px-2 text-xs">
+                            Page {currentPage} of {totalPages}
+                        </span>
+                        <button 
+                            className="px-3 py-1 border border-gray-300 rounded text-xs hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            onClick={() => onPageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}>
+                                Next
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     

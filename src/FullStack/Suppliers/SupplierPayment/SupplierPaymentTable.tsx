@@ -6,10 +6,7 @@ const formatDate = (dateString: any) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SPI-${currentYear}-`;
-};
+
 
 
 
@@ -134,7 +131,7 @@ const SupplierPaymentTable: React.FC<SupplierPaymentTableProps> = ({
                         <col key={index} className={line} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Payment #" sortKey="payment_code" />
                             <SortableHeader label="Date" sortKey="date_created" />
@@ -154,12 +151,12 @@ const SupplierPaymentTable: React.FC<SupplierPaymentTableProps> = ({
                             const supplierPaymentId = supplierPayment.payment_code;
 
                             return (
-                                <tr key={supplierPayment.payment_code} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={supplierPayment.payment_code} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onSupplierPaymentClick(supplierPaymentId)}>
                                     {/* Payment Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            {formatNumber()}{supplierPayment.payment_code || '--'}
+                                            {supplierPayment.formatted_number || '--'}
                                         </span>
                                     </td>
 
@@ -173,7 +170,7 @@ const SupplierPaymentTable: React.FC<SupplierPaymentTableProps> = ({
                                     {/* Supplier */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {supplierPayment.supplier || '--'}
+                                            {supplierPayment.supplier?.supplier_name || '--'}
                                         </div>
                                     </td>
 
@@ -236,7 +233,7 @@ const SupplierPaymentTable: React.FC<SupplierPaymentTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${supplierPayment.payment_code}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${supplierPayment.formatted_number}?`)) {
                                                         onDeleteSupplierPayment(supplierPaymentId);
                                                     }
                                                 }}

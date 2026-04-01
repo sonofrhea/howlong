@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { Plus } from "lucide-react";
 
@@ -58,14 +58,29 @@ interface SortConfig {
 
 function CompanyPurchaseInvoiceManagement() {
     const queryClient = useQueryClient();
-    const [view, setView] = useState('list');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'list';
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedCompanyPurchaseInvoiceId, setSelectedCompanyPurchaseInvoiceId] = useState<number | null>(null);
+    const selectedCompanyPurchaseInvoiceId = searchParams.get('purchase_invoice_number') ? Number(searchParams.get('purchase_invoice_number')) : null;
     // ------------------------------------------------------------------------------------
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     // ------------------------------------------------------------------------------------
+
+    const navigateToView = (newView: string, purchase_invoice_number?: number) => {
+        const params = new URLSearchParams(searchParams)
+        params.set('view', newView)
+        if (purchase_invoice_number) {
+            params.set('purchase_invoice_number', purchase_invoice_number.toString())
+        } else if (newView === 'list') {
+            params.delete('purchase_invoice_number')
+        }
+        setSearchParams(params);
+    }
+
+
+// ------------------------------------------------------------------------------------
             // DEPENDENCIES
 
     const { data: agents = [] } = useQuery({
@@ -119,9 +134,8 @@ function CompanyPurchaseInvoiceManagement() {
         onSuccess: (data: CompanyPurchaseInvoiceResponse) => {
             const newCompanyPurchaseInvoice = data.purchase_invoice_number;
             queryClient.invalidateQueries({ queryKey: ['companyPurchaseInvoices'] });
-            setSelectedCompanyPurchaseInvoiceId(newCompanyPurchaseInvoice);
+            navigateToView('details', newCompanyPurchaseInvoice);
             toast.success('Purchase Invoice Created', { id: "Create Purchase Invoice" });
-            setView('details');
         },
         onError: (error: any) => {
             toast.error('Failed to create purchase invoice', { id: "Create Purchase Invoice" });
@@ -149,7 +163,7 @@ function CompanyPurchaseInvoiceManagement() {
                 queryKey: ['companyPurchaseInvoice', selectedCompanyPurchaseInvoiceId]
             });
             toast.success('Purchase Invoice Updated', { id: "Update Purchase Invoice" })
-            setView('details');
+            navigateToView('details', selectedCompanyPurchaseInvoiceId!);
         },
         onError: (error: any) => {
             toast.error('Failed to update purchase invoice', { id: "Update Purchase Invoice" });
@@ -256,36 +270,32 @@ function CompanyPurchaseInvoiceManagement() {
 
 
     const handleCompanyPurchaseInvoiceClick = (companyPurchaseInvoiceId: number) => {
-        setSelectedCompanyPurchaseInvoiceId(companyPurchaseInvoiceId);
-        setView('details')
+        navigateToView('details', companyPurchaseInvoiceId);
     };
     // ------------------------------------------------------------------------------------
 
 
     const handleEditCompanyPurchaseInvoice = (companyPurchaseInvoiceId: number) => {
-        setSelectedCompanyPurchaseInvoiceId(companyPurchaseInvoiceId!);
-        setView('edit');
+        navigateToView('edit', companyPurchaseInvoiceId!);
     };
     // ------------------------------------------------------------------------------------
 
     const handleBackToCompanyPurchaseInvoicesList = () => {
-        setView('list');
-        setSelectedCompanyPurchaseInvoiceId(null);
+        navigateToView('list');
     };
 
     // ------------------------------------------------------------------------------------
 
 
     const handleBackToCompanyPurchaseInvoiceDetails = (companyPurchaseInvoiceId: number) => {
-        setSelectedCompanyPurchaseInvoiceId(companyPurchaseInvoiceId);
-        setView('details')
+        navigateToView('details', companyPurchaseInvoiceId);
     };
 
 
     // ------------------------------------------------------------------------------------
 
     const handleEditCompanyPurchaseInvoiceButton = () => {
-        setView('edit');
+        navigateToView('edit');
     };
     // ------------------------------------------------------------------------------------
 
@@ -501,7 +511,7 @@ function CompanyPurchaseInvoiceManagement() {
                             </div>
                         </div>
                         <button
-                        onClick={() => setView('form')}
+                        onClick={() => navigateToView('form')}
                         className="bg-white border cursor-pointer border-gray-200 hover:border-purple-500 text-gray-700 px-3 py-1 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 hover:shadow-sm hover:bg-purple-50"
                         >
                         <Plus size={16} />
@@ -546,7 +556,7 @@ function CompanyPurchaseInvoiceManagement() {
                         <p className="text-gray-500">Add a new Purchase Invoice to your records</p>
                         </div>
                         <button 
-                            onClick={() => setView('list')}
+                            onClick={() => navigateToView('list')}
                             className="bg-black-600 text-blue px-2 py-1 rounded-lg hover:bg-red-800 transition-colors flex items-center gap-1"
                         >
                             x Cancel

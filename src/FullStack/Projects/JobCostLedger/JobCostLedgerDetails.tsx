@@ -12,15 +12,10 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
 
-const formatBoqNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `BOQ-${currentYear}-`;
-};
+
+
+
 
 
 
@@ -135,7 +130,7 @@ const JobCostLedgerDetails: React.FC<JobCostLedgerDetailsProps> = ({
 
                 <div className="p-6 border-r border-slate-200 bg-blue-50/50 hover:cursor-pointer">
                     <span className="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Project Name</span>
-                    <span className="text-lg font-bold text-blue-900 leading-tight">{formatProjectNumber()}{jobCostLedger.project} | {jobCostLedger.project_name}</span>
+                    <span className="text-lg font-bold text-blue-900 leading-tight">{jobCostLedger.project?.formatted_number} | {jobCostLedger.project?.project_name}</span>
                 </div>
                 <div className="p-6 border-r border-slate-200 bg-blue-50/50 hover:cursor-pointer">
                     <span className="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Ledger Date</span>
@@ -143,7 +138,7 @@ const JobCostLedgerDetails: React.FC<JobCostLedgerDetailsProps> = ({
                 </div>
                 <div className="p-6 border-r border-slate-200 bg-blue-50/50 hover:cursor-pointer">
                     <span className="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Project Budget</span>
-                    <span className="text-2xl font-black text-blue-900">{jobCostLedger.project_budget}</span>
+                    <span className="text-2xl font-black text-blue-900">{jobCostLedger.project?.project_budget}</span>
                 </div>
                 <div className="p-6 bg-blue-50/50 hover:cursor-pointer">
                     <span className="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Status</span>
@@ -166,12 +161,12 @@ const JobCostLedgerDetails: React.FC<JobCostLedgerDetailsProps> = ({
 
                     <div className="text-left">
                         <span className="text-white text-xs font-bold uppercase tracking-wider block">BOQ Reference</span>
-                        <span className="text-xl font-bold">{formatBoqNumber()}{jobCostLedger.boq}</span>
+                        <span className="text-xl font-bold">{jobCostLedger.boq?.formatted_number}</span>
                     </div>
 
                     <div className="text-right">
                         <span className="text-white text-xs font-bold uppercase tracking-wider block">BOQ Est. Amount</span>
-                        <span className="text-xl text-right font-bold">{jobCostLedger.boq_estimated_amount}</span>
+                        <span className="text-xl text-right font-bold">{jobCostLedger.boq?.net_estimation}</span>
                     </div>
 
                 </div>
@@ -268,7 +263,7 @@ const JobCostLedgerDetails: React.FC<JobCostLedgerDetailsProps> = ({
 
                                             <td className="px-4 py-4 text-slate-600 text-sm italic  truncate">{line.description}</td>
 
-                                            <td className="px-4 py-4 text-slate-900 truncate">{line.supplier || 'N/A'}</td>
+                                            <td className="px-4 py-4 text-slate-900 truncate">{line.supplier?.formatted_number || 'N/A'}</td>
                                             <td className="px-4 py-4">
                                                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold border uppercase inline-flex items-center justify-center w-full ${
                                                     line.cost_type === 'Direct Cost' ? 'bg-blue-50 text-blue-700 border-blue-200' :

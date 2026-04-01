@@ -7,10 +7,9 @@ import { BillOfQuantitiesDetailsProps } from "../constants/Types";
 import { labelStyles } from "../../Accounting/Constants/Styles";
 import { details } from "../../Customers/constants/Styles";
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `BOQ-${currentYear}-`;
-};
+
+
+
 
 
 
@@ -25,10 +24,9 @@ const formatUpdatedDate = (dateString: string) => {
 };
 
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
+
+
+
 
 
 
@@ -91,7 +89,7 @@ const BillOfQuantitiesDetails: React.FC<BillOfQuantitiesDetailsProps> = ({
                         <div className="meta-item">
                             <span className="meta-label">BOQ Number</span>
                             <span className="meta-value">
-                                {formatNumber()}{billOfQuantity.boq_number}
+                                {billOfQuantity.formatted_number}
                             </span>
                         </div>
 
@@ -105,7 +103,7 @@ const BillOfQuantitiesDetails: React.FC<BillOfQuantitiesDetailsProps> = ({
                         <div className="meta-item">
                             <span className="meta-label">Project</span>
                             <span className="meta-value">
-                                {formatProjectNumber()}{billOfQuantity.project || 'N/A'} | {billOfQuantity.project_name || 'N/A'}
+                                {billOfQuantity.project?.formatted_number || 'N/A'} | {billOfQuantity.project?.project_name || 'N/A'}
                             </span>
                         </div>
 
@@ -154,7 +152,7 @@ const BillOfQuantitiesDetails: React.FC<BillOfQuantitiesDetailsProps> = ({
                             <tbody className={tables.body}>
                                 {billOfQuantity.boq.map((line, index) => (
                                     <tr key={index} className={tables.row}>
-                                        <td>SKU-{line.product_item || 'N/A'} | {line.product_item_name || 'N/A'}</td>
+                                        <td>SKU-{line.product_item?.formatted_number || 'N/A'} | {line.product_item?.item_description || 'N/A'}</td>
                                         <td>{line.additional_item || '--'}</td>
                                         <td className="unit">{line.unit_of_measurement}</td>
                                         <td className="qty right">{line.quantity}</td>

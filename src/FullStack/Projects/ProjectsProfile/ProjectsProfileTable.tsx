@@ -6,10 +6,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
+
 
 
 
@@ -130,7 +127,7 @@ const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
                         <col key={index} className={line} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Project #" sortKey="project_code" />
                             <SortableHeader label="Date" sortKey="date" />
@@ -151,12 +148,12 @@ const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
                             const projectsProfileId = projectsProfile.project_code;
 
                             return (
-                                <tr key={projectsProfile.project_code} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={projectsProfile.project_code} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onProjectClick(projectsProfileId)}>
                                     {/* Project Code */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            {formatNumber()}{projectsProfile.project_code}
+                                            {projectsProfile.formatted_number}
                                         </span>
                                     </td>
 
@@ -235,7 +232,7 @@ const ProjectsProfileTable: React.FC<ProjectProfileTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${projectsProfile.project_code}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${projectsProfile.formatted_number}?`)) {
                                                         onDeleteProjectsProfile(projectsProfileId);
                                                     }
                                                 }}

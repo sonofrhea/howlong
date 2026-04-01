@@ -8,10 +8,7 @@ import EInvoiceSubmitButton from "../../EInvoice/EInvoiceSubmitButton";
 import EInvoiceQRCode from "../../EInvoice/EInvoiceQRCode";
 
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `INV-${currentYear}-`;
-};
+
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
@@ -19,10 +16,7 @@ const formatDate = (dateString: string) => {
 
 
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
+
 
 
 const formatUpdateDate = (dateString: string) => {
@@ -43,6 +37,9 @@ const formatDateTime = (dateString: string) => {
 
 
 
+
+
+
 const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
     invoice,
     isLoading,
@@ -53,6 +50,19 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
     onCancelSuccess
 }) => {
     const invoiceId = invoice?.invoice_number;
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     if (isLoading) {
         return (
@@ -100,7 +110,7 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                                     INVOICE DETAILS
                                 </p>
                                 <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
-                                    {formatNumber()}{invoice.invoice_number}
+                                    {invoice.formatted_number}
                                 </span>
                             </div>
                         </div>
@@ -183,7 +193,7 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                                         : null
                                 }
                                 lhdnUuid={invoice.lhdn_uuid}
-                                documentReference={`INV-${new Date(invoice.invoice_date).getFullYear()}-${invoice.invoice_number}`}
+                                documentReference={invoice.formatted_number}
                             />
                         </div>
                     )}
@@ -195,7 +205,7 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Quotation No.</a><br />
-                            {formatNumber()}{invoice.invoice_number}
+                            {invoice.formatted_number}
                         </p>
                         
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
@@ -210,12 +220,26 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                         
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Customer</a><br />
-                            {formatCustomerNumber()}{invoice.customer || 'N/A'} | {invoice.customer_name || 'N/A'}
+                            {invoice.customer?.formatted_number || 'N/A'} | {invoice.customer?.customer_name || 'N/A'}
                         </p>
                         
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Customer Extra Details</a><br />
                             {invoice.customer_details || 'N/A'}
+                        </p>
+                        
+                        <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
+                            <a className={details.extraSmallUppercase}>Payment Status</a><br />
+                            <span 
+                                className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                                invoice.payment_status === 'Paid' ? 'bg-green-50 text-green-700 border border-green-200' : 
+                                invoice.payment_status === 'Partial' ? 'bg-yellow-100 text-yellow-600 border border-yellow-200' :
+                                invoice.payment_status === 'Unpaid' ? 'bg-red-50 text-red-700 border border-red-200' :
+                                'bg-gray-50 text-gray-600 border border-gray-200'
+                                }`}
+                            >
+                            </span>
+                            {}
                         </p>
                         
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
@@ -384,6 +408,13 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                                         <div className="text-xl font-bold text-gray-900">{invoice.net_total || 'N/A'}</div>
                                     </div>
 
+                                    <hr className="my-2 border-blue-200" />
+
+                                    <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                        <div>Outstanding</div>
+                                        <div className="text-xl font-bold text-gray-900">{invoice.outstanding || 'N/A'}</div>
+                                    </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -396,19 +427,19 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                 
                 <div className="grid lg:grid-cols-5">
                     
-                    <div className={labelStyles}>
+                    <div className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Created by</a><br />
                         {invoice.created_by}
                     </div>
     
     
-                    <div className={labelStyles}>
+                    <div className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Date Updated</a><br />
                         {formatDateTime(invoice.date_updated)}
                     </div>
     
     
-                    <div className={labelStyles}>
+                    <div className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Updated by</a><br />
                         {invoice.updated_by}
                     </div>

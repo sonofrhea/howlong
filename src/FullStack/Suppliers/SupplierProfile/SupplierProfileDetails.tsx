@@ -11,10 +11,6 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
 
 
 const formatUpdateDate = (dateString: any) => {
@@ -126,7 +122,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                         <h4 className="text-sm text-blue-900 font-medium">Supplier Code</h4>
 
                         <div className="text-lg font-semibold text-black">
-                            {formatSupplierNumber()}{supplierProfile.supplier_code}
+                            {supplierProfile.formatted_number}
                         </div>
                     </div>
 
@@ -142,7 +138,7 @@ const SupplierProfileDetails: React.FC<SupplierDetailsProps> = ({
                         <h4 className="text-sm text-purple-900 font-medium">Category</h4>
 
                         <div className="text-lg font-semibold text-black">
-                            {supplierProfile?.category_name || 'N/A'}
+                            {supplierProfile.category_name?.formatted_number || 'N/A'}
                         </div>
                     </div>
 

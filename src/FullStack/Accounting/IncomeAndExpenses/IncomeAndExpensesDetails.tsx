@@ -10,10 +10,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `IE-${currentYear}-00`
-}
+
 
 const formatUpdatedDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
@@ -86,7 +83,7 @@ const IncomeAndExpensesDetails: React.FC<IncomeAndExpensesDetailsProps> = ({
                                     INCOME AND EXPENSES TRANSACTION
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{incomeAndExpense.reference_number}
+                                    {incomeAndExpense.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -135,7 +132,7 @@ const IncomeAndExpensesDetails: React.FC<IncomeAndExpensesDetailsProps> = ({
                                 <h2 className="text-xs font-bold uppercase tracking-widest text-stone-600 mb-3">
                                     Cancelled
                                 </h2>
-                                <span className={`inline-flex items-center px-4 py-2 ${
+                                <span className={`inline-flex items-center px-4! py-2! ${
                                             incomeAndExpense.cancelled
                                             ? 'bg-red-100 text-red-800'
                                             : 'bg-green-100 text-green-800'

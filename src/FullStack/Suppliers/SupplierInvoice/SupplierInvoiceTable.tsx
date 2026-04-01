@@ -6,10 +6,7 @@ const formatDate = (dateString: any) => {
 };
 
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SI-${currentYear}-`;
-};
+
 
 
 
@@ -126,7 +123,7 @@ const SupplierInvoiceTable: React.FC<SupplierInvoiceTableProps> = ({
                         <col key={index} className={line} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Invoice #" sortKey="invoice_number" />
                             <SortableHeader label="Invoice Date" sortKey="invoice_date" />
@@ -146,12 +143,12 @@ const SupplierInvoiceTable: React.FC<SupplierInvoiceTableProps> = ({
                             const supplierInvoiceId = supplierInvoice.invoice_number;
 
                             return (
-                                <tr key={supplierInvoice.invoice_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={supplierInvoice.invoice_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onSupplierInvoiceClick(supplierInvoiceId)}>
                                     {/* Invoice Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            {formatNumber()}{supplierInvoice.invoice_number}
+                                            {supplierInvoice.formatted_number}
                                         </span>
                                     </td>
 
@@ -227,7 +224,7 @@ const SupplierInvoiceTable: React.FC<SupplierInvoiceTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${supplierInvoice.invoice_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${supplierInvoice.formatted_number}?`)) {
                                                         onDeleteSupplierInvoice(supplierInvoiceId);
                                                     }
                                                 }}

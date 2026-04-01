@@ -6,10 +6,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const current_year = new Date().getFullYear();
-    return `RV-${current_year}-`;
-};
+
 
 
 
@@ -117,7 +114,7 @@ const ReceiptVoucherTable: React.FC<ReceiptVoucherTableProps> = ({
                     <col key={index} className={line} />
                  ))}   
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Reference #" sortKey="reference_number" />
                             <SortableHeader label="Date" sortKey="date" />
@@ -137,12 +134,12 @@ const ReceiptVoucherTable: React.FC<ReceiptVoucherTableProps> = ({
                             const receiptVoucherId = receiptVoucher.reference_number;
 
                             return (
-                                <tr key={receiptVoucher.reference_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={receiptVoucher.reference_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onReceiptVoucherClick(receiptVoucherId)}>
                                     {/* Reference Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            {formatNumber()}{receiptVoucher.reference_number}
+                                            {receiptVoucher.formatted_number}
                                         </span>
                                     </td>
 
@@ -156,7 +153,7 @@ const ReceiptVoucherTable: React.FC<ReceiptVoucherTableProps> = ({
                                     {/* Received from */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm font-medium text-black truncate">
-                                            {receiptVoucher.received_from}
+                                            {receiptVoucher.received_from?.customer_name}
                                         </div>
                                     </td>
 
@@ -200,7 +197,7 @@ const ReceiptVoucherTable: React.FC<ReceiptVoucherTableProps> = ({
                                     </td>
 
                                     {/* Actions */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
@@ -218,7 +215,7 @@ const ReceiptVoucherTable: React.FC<ReceiptVoucherTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${receiptVoucher.reference_number} ?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${receiptVoucher.formatted_number} ?`)) {
                                                         onDeleteReceiptVoucher(receiptVoucherId);
                                                     }
                                                 }}

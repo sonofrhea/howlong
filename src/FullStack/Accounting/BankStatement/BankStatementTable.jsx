@@ -113,7 +113,7 @@ const BankStatementTable = ({ bankStatements, onBankStatementClick, onEditBankSt
                             const bankStatementId = bankStatement.statement_id;
 
                             return (
-                                <tr key={bankStatement.statement_id} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={bankStatement.statement_id} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onBankStatementClick(bankStatementId)}>
                                     {/* Statement ID */}
                                     <td className="px-2 py-2">

@@ -50,8 +50,8 @@ const MarketplaceRegister = () => {
                 company: data.company,
                 role: data.role
             });
-            toast.success('Registration successful! Login with credentials.', {id: toastId});
             navigate(`/marketplace-login`);
+            toast.success('Registration successful! Login with credentials.', {id: toastId});
         } catch (error: any) {
             let errorMessage = "";
             let errorMessage2 = "";

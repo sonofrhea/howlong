@@ -18,16 +18,7 @@ import { Trash2 } from "lucide-react";
 import JournalEntryModal from "../../Accounting/JournalEntry/JournalEntryModal";
 
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
 
-
-const formatPurchaseInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PI-${currentYear}-`;
-};
 
 
 const decimalPlaces = (amount: number) => {
@@ -35,10 +26,7 @@ const decimalPlaces = (amount: number) => {
 };
 
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PI-${currentYear}-`;
-};
+
 
 
 
@@ -110,7 +98,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                     COMPANY PURCHASE ORDER DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{companyPurchaseOrder.purchase_order_number}
+                                    {companyPurchaseOrder.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -145,7 +133,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => supplierProfiles.map((supplier: SupplierProfileResponse) => (
                                 <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                    {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                    {supplier.formatted_number} | {supplier.supplier_name}
                                 </option>
                             )), [supplierProfiles])}
                         </select>
@@ -180,7 +168,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                             <option value="">select...</option>
                             {useMemo(() => purchaseInvoices.map((invoice: CompanyPurchaseInvoiceResponse) => (
                                 <option key={invoice.purchase_invoice_number} value={invoice.purchase_invoice_number}>
-                                    {formatPurchaseInvoiceNumber()}{invoice.purchase_invoice_number} | Total: {invoice.net_total}
+                                    {invoice.formatted_number} | Total: {invoice.net_total}
                                 </option>
                             )), [purchaseInvoices])}
                         </select>
@@ -265,12 +253,13 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                         <table className={tables.base}>
                             <colgroup>
                                 {[
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
-                                    'w-1/7 text-center',
+                                    'w-1/8 text-center',
+                                    'w-1/8 text-center',
+                                    'w-1/8 text-center',
+                                    'w-1/8 text-center',
+                                    'w-1/8 text-center',
+                                    'w-1/8 text-center',
+                                    'w-1/8 text-center',
                                     'w-[7%] text-center',
                                 ].map((line, index) => (
                                     <col key={index} className={line} />
@@ -280,10 +269,11 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                 <tr>
                                     <th className={tables.headerCell}>Date</th>
                                     <th className={tables.headerCell}>Total Paid</th>
-                                    <th className={tables.headerCell}>Tax Inclusive</th>
+                                    <th className={tables.headerCell}>Taxable</th>
                                     <th className={tables.headerCell}>SST %</th>
+                                    <th className={tables.headerCell}>SST Amount</th>
                                     <th className={tables.headerCell}>Cancelled</th>
-                                    <th className={tables.headerCell}>SubTotal<br></br>(After SST)</th>
+                                    <th className={tables.headerCell}>Total<br></br>(After SST)</th>
                                     <th className={tables.headerCell}></th>
                                 </tr>
                             </thead>
@@ -291,17 +281,18 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                             <tbody className={tables.body}>
                                 {fields.map((field, index) => {
 
-                                    let total_paid = Number(watch(`related_purchase.${index}.total_paid`)) || 0.00;
-                                    let tax_amt = Number(watch(`related_purchase.${index}.tax_amount`)) || 0.00;
-                                    let tax_inclusive = watch(`related_purchase.${index}.tax_inclusive`) || false;
+                                    const totalAmount = Number(watch(`related_purchase.${index}.total_paid`) || 0.00);
+                                    let tax_amount = Number(watch(`related_purchase.${index}.sst_percent`) || 0.00);
+                                    const tax_inclusive = watch(`related_purchase.${index}.taxable`) || false;
 
-                                    let tax_rate = tax_amt / 100;
+                                    const taxPercent = tax_amount / 100.00
 
                                     if (!tax_inclusive) {
-                                        tax_amt = Number(0.00);
+                                        tax_amount = 0.00;
                                     }
 
-                                    const sub_total = total_paid + (total_paid * tax_rate);
+                                    const taxAmount = totalAmount * taxPercent
+                                    const TOTAL = totalAmount + taxAmount;
 
                                     return(
                                         <tr key={field.id} className={tables.row}>
@@ -329,7 +320,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
 
                                             <td className={tables.cell}>
                                                 <input 
-                                                    {...register(`related_purchase.${index}.tax_inclusive`)}
+                                                    {...register(`related_purchase.${index}.taxable`)}
                                                     type="checkbox"
                                                 />
                                             </td>
@@ -337,7 +328,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                             <td className={text.numbers}>
                                                 <input 
                                                     type="number"
-                                                    {...register(`related_purchase.${index}.tax_amount`)}
+                                                    {...register(`related_purchase.${index}.sst_percent`)}
                                                     className={forms.input.number}
                                                     placeholder="0.00"
                                                     step="0.01" min="0.00" onBlur={(e) => {
@@ -348,6 +339,10 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                                 />
                                             </td>
 
+                                            <td className={tables.autoCalculate}>
+                                                {decimalPlaces(taxAmount)}
+                                            </td>
+
                                             <td className={tables.cell}>
                                                 <input 
                                                     {...register(`related_purchase.${index}.cancelled`)}
@@ -356,7 +351,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                             </td>
 
                                             <td className={tables.autoCalculate}>
-                                                {decimalPlaces(sub_total)}
+                                                {decimalPlaces(TOTAL)}
                                             </td>
 
                                             <td>
@@ -365,7 +360,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                                     title="remove"
                                                     onClick={() => remove(index)}
                                                 >
-                                                    <Trash2 size={16} strokeWidth={2}/>
+                                                    <Trash2 size={14} strokeWidth={2}/>
                                                 </button>
                                             </td>
                                         </tr>
@@ -376,10 +371,10 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                         <button
                                             type="button"
                                             onClick={() => append({
-                                                payment_date: "",
+                                                payment_date: undefined,
                                                 total_paid: 0.00,
-                                                tax_inclusive: true,
-                                                tax_amount: 0.00,
+                                                taxable: true,
+                                                sst_percent: 0.00,
                                                 cancelled: false
                                             })}
                                             className={buttons.addLine}
@@ -398,9 +393,9 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                             <div className="bg-gray-100 p-4 rounded-lg drop-shadow-md shadow-gray-300 shadow-lg">
 
                                 <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                    <div>Tax Inclusive?</div>
+                                    <div>Taxable?</div>
                                     <input 
-                                    {...register("tax_inclusive")}
+                                    {...register("taxable")}
                                     type="checkbox"
                                     className="ml-2 forced-colors:bg-green-300"
                                     />
@@ -410,7 +405,7 @@ const CompanyPurchaseOrderEdit: React.FC<CompanyPurchaseOrderProps> = ({
                                     <div>Tax %</div>
                                     <input 
                                         type="number"
-                                        {...register("tax_amount")}
+                                        {...register("tax_percent")}
                                         className={forms.input.smallNumber}
                                         placeholder="0.00"
                                         step="0.01" min="0.00" onBlur={(e) => {

@@ -18,15 +18,7 @@ import { SupplierProfileResponse } from "../../Suppliers/constants/Types";
 import { buttons, forms, utils } from "../constants/Styles";
 
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
 
-const formatBoqNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `BOQ-${currentYear}-`;
-};
 
 const decimalPlaces = (amount: number) => {
     if (amount === undefined || amount === null) {
@@ -180,7 +172,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                             <option value="">Select project...</option>
                             {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                 <option key={project.project_code} value={project.project_code}>
-                                    {formatProjectNumber()}{project.project_code} | {project.project_name}
+                                    {project.formatted_number} | {project.project_name}
                                 </option>
                             )), [projects])}
                         </select>
@@ -200,7 +192,7 @@ const JobCostLedgerEdit: React.FC<JobCostLedgerProps> = ({
                             <option value="">Select BOQ...</option>
                             {useMemo(() => billOfQuantities.map((billOfQuantity: BillOfQuantitiesResponse) => (
                                 <option key={billOfQuantity.boq_number} value={billOfQuantity.boq_number}>
-                                    {formatBoqNumber()}{billOfQuantity.boq_number} - {billOfQuantity.project_name} ({billOfQuantity.gross_estimation} + {billOfQuantity.contingency_rate}% contingency)
+                                    {billOfQuantity.formatted_number} - {billOfQuantity.project_name} ({billOfQuantity.gross_estimation} + {billOfQuantity.contingency_rate}% contingency)
                                 </option>
                             )), [billOfQuantities])}
                         </select>

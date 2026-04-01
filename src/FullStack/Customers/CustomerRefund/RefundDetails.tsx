@@ -17,22 +17,7 @@ const formatDate = (dateString: string) => {
 };
 
 
-const formatCreditNoteNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CN-${currentYear}-`;
-};
 
-
-
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
-
-const formatRefundNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `REF-${currentYear}-`;
-};
 
 
 const formatUpdatedDate = (dateString: string) => {
@@ -105,7 +90,7 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
                                     CUSTOMER REFUND DETAILS
                                 </p>
                                 <span className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
-                                    {formatRefundNumber()}{refund.refund_number}
+                                   {refund.formatted_number}
                                 </span>
                             </div>
                         </div>
@@ -186,7 +171,7 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
                                         : 'preprod.myinvois.hasil.gov.my'
                                 }/${refund.lhdn_uuid}/share/${refund.lhdn_long_uid}`}
                                 lhdnUuid={refund.lhdn_uuid}
-                                documentReference={`REF-${new Date(refund.date).getFullYear()}-${refund.refund_number}`}
+                                documentReference={refund.formatted_number}
                             />
                         </div>
                     )}
@@ -198,7 +183,7 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Refund No.</a><br />
-                            {formatRefundNumber()}{refund.refund_number}
+                            {refund.formatted_number}
                         </p>
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
@@ -213,13 +198,13 @@ const RefundDetails: React.FC<CustomerRefundDetailsProps> = ({
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Pay To...</a><br />
-                            {formatCustomerNumber()}{refund.pay_to} | {refund.pay_to_name || 'N/A'}
+                            {refund.pay_to?.formatted_number} | {refund.pay_to?.customer_name || 'N/A'}
                         </p>
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                             <a className={details.extraSmallUppercase}>Related Credit Note</a><br />
-                            {formatCreditNoteNumber()}{refund.related_credit_note || 'N/A'} | Outstanding: 
-                            {refund.related_credit_note_outstanding || 'N/A'}
+                            {refund.related_credit_note?.formatted_number || 'N/A'} | Outstanding: 
+                            {refund.related_credit_note?.credit_note_outstanding || 'N/A'}
                         </p>
 
                         <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>

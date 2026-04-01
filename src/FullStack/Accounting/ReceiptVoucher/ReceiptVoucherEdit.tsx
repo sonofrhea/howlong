@@ -11,20 +11,12 @@ import { AgentInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { CustomerCreateResponse } from "../../Customers/constants/Types";
 
 import { receiptVoucherAccountHandler } from "../../handlers";
-import { buttons, forms, layout, tables, text, utils } from "../Constants/Styles";
+import { buttons, forms, labelStyles, layout, tables, text, utils } from "../Constants/Styles";
 import { Trash2 } from "lucide-react";
 import JournalEntryModal from "../JournalEntry/JournalEntryModal";
 
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
 
 
 const decimalPlaces = (amount: number) => {
@@ -97,10 +89,12 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
 
                         <div className="text-right">
                             <div className={layout.badge}>
-                                <div className={text.badgeLarge}>NEW</div>
                                 <div className={text.badgeLarge1x}>
-                                    RECEIPT VOUCHER
+                                    PAYMENT VOUCHER DETAILS
                                 </div>
+                                <p className={labelStyles}>
+                                    {receiptVoucher.formatted_number}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -134,7 +128,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                             <option value="">Select...</option>
                             {useMemo(() =>  customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
-                                    {formatCustomerNumber()}{customer.customer_number} - {customer.customer_name}
+                                    {customer.formatted_number} - {customer.customer_name}
                                 </option>
                             )), [customers])}
                         </select>
@@ -168,7 +162,7 @@ const ReceiptVoucherEdit: React.FC<ReceiptVoucherProps> = ({
                             <option value="">Select project...</option>
                             {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                 <option key={project.project_code} value={project.project_code}>
-                                    {formatProjectNumber()}{project.project_code} - {project.project_name}
+                                    {project.formatted_number} - {project.project_name}
                                 </option>
                             )), [projects])}
                         </select>

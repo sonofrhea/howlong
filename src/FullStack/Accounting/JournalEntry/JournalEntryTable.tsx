@@ -6,10 +6,6 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatJournalNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `JV-${currentYear}-`
-}
 
 
 
@@ -125,7 +121,7 @@ const JournalEntryTable: React.FC<JournalEntryListProps> = ({
                                 <col key={index} className={line} />
                             ))}
                         </colgroup>
-                        <thead className="bg-gray-50">
+                        <thead className="bg-white">
                             <tr>
                                 <SortableHeader label="JOURNAL #" sortKey="journal_number" />
                                 <SortableHeader label="date" sortKey="date" />
@@ -145,14 +141,14 @@ const JournalEntryTable: React.FC<JournalEntryListProps> = ({
                                 return (
                                     <tr 
                                         key={journalEntry.journal_number}
-                                        className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                                        className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer"
                                         onClick={() => onJournalEntryClick(journalEntryId)}
                                     >
 
                                         {/* JOURNAL ENTRY NUMBER */}
-                                        <td className="px-2 py-2">
+                                        <td className="px-3.5! py-3.5!">
                                             <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
-                                                {formatJournalNumber()}{journalEntry.journal_number}
+                                                {journalEntry.formatted_number}
                                             </span>
                                         </td>
 
@@ -196,7 +192,7 @@ const JournalEntryTable: React.FC<JournalEntryListProps> = ({
                                         </td>
 
                                         {/* ACTIONS */}
-                                        <td className="px-2 py-2">
+                                        <td className="px-3.5! py-3.5!">
                                             <div className="flex items-center justify-center gap-1">
                                                 {/* EDIT BUTTON */}
                                                 <button
@@ -217,7 +213,7 @@ const JournalEntryTable: React.FC<JournalEntryListProps> = ({
                                                     className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        if (window.confirm(`Are you sure you want to delete ${formatJournalNumber()}${journalEntry.journal_number}?`)) {
+                                                        if (window.confirm(`Are you sure you want to delete ${journalEntry.formatted_number}?`)) {
                                                             onDeleteJournalEntry(journalEntryId);
                                                         }
                                                     }}

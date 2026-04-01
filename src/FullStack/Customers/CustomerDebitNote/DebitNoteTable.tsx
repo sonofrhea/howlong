@@ -10,10 +10,8 @@ const formatDate = (dateString: string) => {
 
 
 
-const formatDebitNoteNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `DN-${currentYear}-`;
-};
+
+
 
 
 
@@ -128,7 +126,7 @@ const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
                             <col key={index} className={line} />
                         ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="DBN #" sortKey="debit_note_number" />
                             <SortableHeader label="Date" sortKey="date" />
@@ -146,12 +144,12 @@ const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
                             const debitNoteId = debitNote?.debit_note_number;
 
                             return (
-                                <tr key={debitNote.debit_note_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={debitNote.debit_note_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onDebitNoteClick(debitNoteId)}>
                                     {/* Debit Note Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
-                                            {formatDebitNoteNumber()}{debitNote.debit_note_number}
+                                            {debitNote.formatted_number}
                                         </span>
                                     </td>
 
@@ -191,7 +189,7 @@ const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
                                     </td>
 
                                     {/* Actions */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
@@ -209,7 +207,7 @@ const DebitNoteTable: React.FC<DebitNoteTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatDebitNoteNumber()}${debitNote.debit_note_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${debitNote.formatted_number}?`)) {
                                                         onDeleteDebitNote(debitNoteId);
                                                     }
                                                 }}

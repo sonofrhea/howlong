@@ -18,16 +18,9 @@ import { supplierDebitNoteAccountHandler, supplierDebitNoteInvoiceTotal } from "
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
 
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
 
 
-const formatSupplierInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SI-${currentYear}-`;
-};
+
 
 
 const decimalPlaces = (amount: number) => {
@@ -152,7 +145,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     <option value="">Select...</option>
                                     {useMemo(() => SupplierProfiles.map((supplier: SupplierProfileResponse) => (
                                         <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                            {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                            {supplier.formatted_number} | {supplier.supplier_name}
                                         </option>
                                     )), [SupplierProfiles])}
                                 </select>
@@ -168,7 +161,7 @@ const invoiceTotalChange = supplierDebitNoteInvoiceTotal(SupplierInvoices, setVa
                                     <option value="">Select...</option>
                                     {useMemo(() => SupplierInvoices.map((invoice: SupplierInvoiceResponse) => (
                                         <option key={invoice.invoice_number} value={invoice.invoice_number}>
-                                            {formatSupplierInvoiceNumber()}{invoice.invoice_number} | Total:  {invoice.aggregate_total}
+                                            {invoice.formatted_number} | Total:  {invoice.aggregate_total}
                                         </option>
                                     )), [SupplierInvoices])}
                                 </select>

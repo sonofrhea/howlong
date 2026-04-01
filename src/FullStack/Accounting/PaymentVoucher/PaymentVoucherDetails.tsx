@@ -12,21 +12,7 @@ const formatDate = (dateString: string) => {
 };
 
 
-const formatNumber = () => {
-    const current_year = new Date().getFullYear()
-    return `PV-${current_year}-`;
-};
 
-
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
-
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
 
 const formatUpdatedDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
@@ -101,7 +87,7 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
                                     PAYMENT VOUCHER DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{paymentVoucher.reference_number}
+                                    {paymentVoucher.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -130,7 +116,7 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
                     <div className="grid grid-cols-3 gap-6">
                         <p>
                             <a className={details.extraSmallUppercase}>Reference Number</a><br />
-                            {formatNumber()}{paymentVoucher.reference_number}
+                            {paymentVoucher.formatted_number}
                         </p>
 
                         <p>
@@ -140,7 +126,7 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
 
                         <p>
                             <a className={details.extraSmallUppercase}>Cancelled</a><br />
-                            <span className={`inline-flex items-center px-1 py-0.5 rounded text-sm ${
+                            <span className={`inline-flex items-center px-4! py-0! rounded text-sm ${
                                 paymentVoucher.cancelled
                                     ? 'bg-red-100 text-red-800 border border-red-200'
                                     : 'bg-green-100 text-green-800 border border-green-200'
@@ -151,7 +137,7 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
 
                         <p>
                             <a className={details.extraSmallUppercase}>Payment To</a><br />
-                            {formatSupplierNumber()}{paymentVoucher.payment_to || 'N/A'} - {paymentVoucher.payment_to_name || 'N/A'}
+                            {paymentVoucher.payment_to?.formatted_number || 'N/A'} - {paymentVoucher.payment_to_name || 'N/A'}
                         </p>
 
                         <p>
@@ -161,7 +147,7 @@ const PaymentVoucherDetails: React.FC<PaymentVoucherDetailsProps> = ({
 
                         <p>
                             <a className={details.extraSmallUppercase}>Related Project</a><br />
-                            {formatProjectNumber()}{paymentVoucher.project || 'N/A'} | {paymentVoucher.project_name || 'N/A'}
+                            {paymentVoucher.project?.formatted_number || 'N/A'} | {paymentVoucher.project_name || 'N/A'}
                         </p>
 
                         <p>

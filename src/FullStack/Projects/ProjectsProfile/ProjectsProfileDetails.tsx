@@ -7,10 +7,7 @@ import { details } from "../../Customers/constants/Styles";
 
 
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
+
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
@@ -113,7 +110,7 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                                     <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-slate-200 shadow-sm">
                                         <NotepadText size={16} className="text-indigo-500" />
                                         <span className="font-mono font-bold text-slate-800">
-                                            {formatNumber()}{project.project_code}
+                                            {project.formatted_number}
                                         </span>
                                     </div>
                                     

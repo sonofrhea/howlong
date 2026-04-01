@@ -17,10 +17,7 @@ import { purchaseAccountHandler } from "../../handlers";
 
 
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
+
 
 
 const decimalPlaces = (amount: number) => {
@@ -181,7 +178,7 @@ const controlAccountChange = purchaseAccountHandler(accounts, setValue);
                                     <option value="">select...</option>
                                     {useMemo(() => supplierProfiles.map((supplier: SupplierProfileResponse) => (
                                         <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                            {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                            {supplier.formatted_number} | {supplier.supplier_name}
                                         </option>
                                     )), [supplierProfiles])}
                                 </select>

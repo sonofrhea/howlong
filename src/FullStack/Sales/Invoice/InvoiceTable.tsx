@@ -6,10 +6,6 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `INV-${currentYear}-`;
-};
 
 
 
@@ -110,32 +106,36 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
             </div>
 
             {/* Table */}
-            <div className="w-full">
+            <div className="w-full bg-white!">
                 <table className="w-full rounded-lg shadow-sm border border-gray-200 table-fixed divide-y divide-gray-400 divide-dotted">
                     <colgroup>
                     {[
-                        "w-1/10 text-center",
-                        "w-1/10 text-center",
-                        "w-1/10 text-center",
-                        "w-1/10 text-center",
-                        "w-1/10 text-center",
-                        "w-1/10 text-center",
+                        "w-1/12 text-center",
+                        "w-1/12 text-center",
+                        "w-1/12 text-center",
+                        "w-1/12 text-center",
+                        "w-1/12 text-center",
+                        "w-1/12 text-center",
+                        "w-1/12 text-center",
+                        "w-1/12 text-center",
                         "w-[6%] text-center",
-                        "w-[6%] text-center",
-                        "w-1/10 text-center",
-                        "w-[7%] text-center",
+                        "w-[5%] text-center",
+                        "w-1/12 text-center",
+                        "w-[5%] text-center",
                     ].map((line, index) => (
                         <col key={index} className={line} />
                     ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Invoice #" sortKey="invoice_number" />
                             <SortableHeader label="Date" sortKey="invoice_date" />
                             <SortableHeader label="Due Date" sortKey="invoice_due_date" />
                             <SortableHeader label="Customer" sortKey="customer" />
+                            <SortableHeader label="Status" sortKey="payment_status" />
                             <SortableHeader label="Description" sortKey="description" />
                             <SortableHeader label="Net Total" sortKey="net_total" />
+                            <SortableHeader label="Outstanding Bal" sortKey="outstanding" />
                             <SortableHeader label="Currency" sortKey="currency" />
                             <SortableHeader label="Cancelled" sortKey="cancelled" />
                             <SortableHeader label="Agent" sortKey="agent" />
@@ -150,12 +150,12 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                             //console.log(invoices);
 
                             return (
-                                <tr key={invoice.invoice_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={invoice.invoice_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onInvoiceClick(invoiceId)}>
                                     {/* Invoice Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            {formatNumber()}{invoice.invoice_number}
+                                            {invoice.formatted_number}
                                         </span>
                                     </td>
 
@@ -176,7 +176,18 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                     {/* Customer */}
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-black font-medium truncate">
-                                            {invoice.customer}
+                                            {invoice.customer?.formatted_number}
+                                        </div>
+                                    </td>
+
+                                    <td className="px-2 py-2 truncate">
+                                        <div className={`inline-flex items-center px-3! py-0! rounded text-sm ${
+                                            invoice.payment_status === 'Paid' ? 'bg-green-100 text-green-800' :
+                                            invoice.payment_status === 'Partial' ? 'bg-yellow-100 text-yellow-800' :
+                                            invoice.payment_status === 'Unpaid' ? 'bg-red-100 text-red-800' :
+                                            'N/A'
+                                        }`}>
+                                            {invoice.payment_status}
                                         </div>
                                     </td>
 
@@ -191,6 +202,17 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                     <td className="px-2 py-2 truncate" >
                                         <div className="text-sm text-black font-medium truncate">
                                             {invoice.net_total}
+                                        </div>
+                                    </td>
+
+                                    {/* Outstanding */}
+                                    <td className="px-2 py-2 truncate">
+                                        <div className={`text-sm font-semibold truncate ${
+                                            Number(invoice.outstanding) === 0 ? 'text-green-500' :
+                                            Number(invoice.outstanding) === Number(invoice.net_total) ? 'text-pink-700' :
+                                            'text-yellow-800'
+                                        }`}>
+                                            {invoice.outstanding}
                                         </div>
                                     </td>
 
@@ -219,7 +241,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                     </td>
 
                                     {/* Actions */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5! text-center">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
@@ -237,7 +259,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${invoice.invoice_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${invoice.formatted_number}?`)) {
                                                         onDeleteInvoice(invoiceId);
                                                     }
                                                 }}

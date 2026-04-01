@@ -61,7 +61,7 @@ const ProductItemDetails: React.FC<ProductDetailsProps> = ({
                 <div className="flex items-center gap-2 text-sm text-gray-400">
                     <span>Products</span>
                     <span>/</span>
-                    <span className="text-gray-800 font-semibold">SKU-{productItem.item_code}</span>
+                    <span className="text-gray-800 font-semibold">{productItem.formatted_number}</span>
                 </div>
                 </div>
 
@@ -119,7 +119,7 @@ const ProductItemDetails: React.FC<ProductDetailsProps> = ({
                     <div className="grid grid-cols-2 gap-4">
                         <div className="bg-violet-50 rounded-xl border border-violet-200 hover:border-violet-300 hover:shadow-2xl hover:cursor-pointer px-5 py-4 shadow-sm">
                             <a className="text-xs font-bold tracking-widest text-indigo-900 uppercase mb-1">Product Group</a>
-                            <p className="text-sm font-bold text-gray-800">SKG-{productItem.product_group}</p>
+                            <p className="text-sm font-bold text-gray-800">{productItem.product_group?.formatted_number}</p>
                         </div>
                         <div className="bg-green-50 rounded-xl border text-center border-green-200 hover:border-green-300 hover:shadow-2xl hover:cursor-pointer px-5 py-4 shadow-sm">
                             <a className="text-xs font-bold tracking-widest text-amber-900 uppercase mb-1">Supplier</a>

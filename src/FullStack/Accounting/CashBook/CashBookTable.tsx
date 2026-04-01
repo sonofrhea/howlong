@@ -6,10 +6,7 @@ const formatDate = (dateString: any) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CASH-${currentYear}-`
-}
+
 
 
 
@@ -116,7 +113,7 @@ const CashBookTable: React.FC<CashBookTableProps> = ({
                             <col key={index} className={line} />
                         ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Reference #" sortKey="reference_number" />
                             <SortableHeader label="Date" sortKey="date" />
@@ -137,12 +134,12 @@ const CashBookTable: React.FC<CashBookTableProps> = ({
                             const cashBookId = cashBook.reference_number;
 
                             return (
-                                <tr key={cashBook.reference_number} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={cashBook.reference_number} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onCashBookClick(cashBookId)}>
                                     {/* Reference Number */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate" >
-                                            {formatNumber()}{cashBook.reference_number}
+                                            {cashBook.formatted_number}
                                         </span>
                                     </td>
 
@@ -203,7 +200,7 @@ const CashBookTable: React.FC<CashBookTableProps> = ({
                                     </td>
 
                                     {/* Actions */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <div className="flex items-center justify-center gap-1">
                                             <button 
                                                 className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 p-1 hover:scale-110"
@@ -221,7 +218,7 @@ const CashBookTable: React.FC<CashBookTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete ${formatNumber()}${cashBook.reference_number}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${cashBook.formatted_number}?`)) {
                                                         onDeleteCashBook(cashBookId);
                                                     }
                                                 }}

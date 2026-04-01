@@ -17,17 +17,7 @@ import { Trash2 } from "lucide-react";
 
 
 
-const formatProjectNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PZN-${currentYear}-0`;
-};
 
-
-
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
 
 
 const decimalPlaces = (amount: number) => {
@@ -148,7 +138,7 @@ const onAccountChange = paymentVoucherAccountHandler(accounts, setValue);
                             <option value="">Select supplier...</option>
                             {useMemo(() => suppliers.map((supplier: SupplierProfileResponse) => (
                                 <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                    {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                    {supplier.formatted_number} | {supplier.supplier_name}
                                 </option>
                             )), [suppliers])}
                         </select>
@@ -163,7 +153,7 @@ const onAccountChange = paymentVoucherAccountHandler(accounts, setValue);
                             <option value="">Select project...</option>
                             {useMemo(() => projects.map((project: ProjectProfileResponse) => (
                                 <option key={project.project_code} value={project.project_code}>
-                                    {formatProjectNumber()}{project.project_code} - {project.project_name}
+                                    {project.formatted_number} - {project.project_name}
                                 </option>
                             )), [projects])}
                         </select>

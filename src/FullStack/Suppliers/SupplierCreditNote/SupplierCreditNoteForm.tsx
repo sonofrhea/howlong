@@ -19,20 +19,12 @@ import { supplierCreditNoteInvoiceTotal, supplierDebitNoteAccountHandler } from 
 
 
 
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
-
-const formatProductItemCode = () => {
-    return `SKU`;
-};
 
 
-const formatSupplierInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SI-${currentYear}-`;
-};
+
+
+
+
 
 
 const decimalPlaces = (amount: number) => {
@@ -155,7 +147,7 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                     <option value="">select...</option>
                                     {useMemo(() => supplierProfiles.map((supplier: SupplierProfileResponse) => (
                                         <option key={supplier.supplier_code} value={supplier.supplier_code}>
-                                            {formatSupplierNumber()}{supplier.supplier_code} | {supplier.supplier_name}
+                                            {supplier.formatted_number} | {supplier.supplier_name}
                                         </option>
                                     )), [supplierProfiles])}
                                 </select>
@@ -171,7 +163,7 @@ const invoiceTotalChange = supplierCreditNoteInvoiceTotal(supplierInvoices, setV
                                     <option value="">select...</option>
                                     {useMemo(() => supplierInvoices.map((invoice: SupplierInvoiceResponse) => (
                                         <option key={invoice.invoice_number} value={invoice.invoice_number}>
-                                            {formatSupplierInvoiceNumber()}{invoice.invoice_number} | {invoice.aggregate_total}
+                                            {invoice.formatted_number} | {invoice.aggregate_total}
                                         </option>
                                     )), [supplierInvoices])}
                                 </select>

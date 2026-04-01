@@ -139,7 +139,7 @@ const ProductItemEdit: React.FC<ProductItemProps> = ({
                             <option value="">Select…</option>
                             {useMemo(() => productGroups.map((productGroup: ProductGroupCreateResponse) => (
                                 <option key={productGroup.group_code} value={productGroup.group_code}>
-                                SKG-{productGroup.group_code} | {productGroup.group_name}
+                                {productGroup.formatted_number} | {productGroup.group_name}
                                 </option>
                             )), [productGroups])}
                             </select>

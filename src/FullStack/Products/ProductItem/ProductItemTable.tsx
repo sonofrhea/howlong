@@ -6,9 +6,7 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 }; 
 
-const formatCurrency = () => {
-    return `RM `;
-};
+
 
 
 
@@ -115,7 +113,7 @@ const ProductItemTable: React.FC<ProductItemTableProps> = ({
                             <col key={index} className={className} />
                         ))}
                     </colgroup>
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white">
                         <tr>
                             <SortableHeader label="Item Code #" sortKey="item_code" />
                             <SortableHeader label="Item Description" sortKey="item_description" />
@@ -136,12 +134,12 @@ const ProductItemTable: React.FC<ProductItemTableProps> = ({
                             const productItemId = productItem?.item_code;
 
                             return (
-                                <tr key={productItem.item_code} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer" 
+                                <tr key={productItem.item_code} className="bg-gray-50 hover:bg-blue-100 transition-colors duration-150 cursor-pointer" 
                                 onClick={() => onProductItemClick(productItemId)}>
                                     {/* Item Code */}
-                                    <td className="px-2 py-2">
+                                    <td className="px-3.5! py-3.5!">
                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 truncate">
-                                            SKU-{productItem.item_code}
+                                            {productItem.formatted_number}
                                         </span>
                                     </td>
 
@@ -155,7 +153,7 @@ const ProductItemTable: React.FC<ProductItemTableProps> = ({
                                     {/* Base Unit of measure */}
                                     <td className="px-2 py-2 truncate">
                                         <div className="text-sm font-medium text-gray-900 truncate">
-                                            {productItem.product_group}
+                                            {productItem.product_group?.formatted_number}
                                         </div>
                                     </td>
 
@@ -224,7 +222,7 @@ const ProductItemTable: React.FC<ProductItemTableProps> = ({
                                                 className="text-red-600 hover:text-red-900 transition-colors duration-200 p-1 hover:scale-110"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm(`Are you sure you want to delete SKU-${productItem.item_code}?`)) {
+                                                    if (window.confirm(`Are you sure you want to delete ${productItem.formatted_number}?`)) {
                                                         onDeleteProductItem(productItemId);
                                                     }
                                                 }}

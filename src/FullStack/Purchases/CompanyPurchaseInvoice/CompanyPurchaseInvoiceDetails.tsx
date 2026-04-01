@@ -9,16 +9,6 @@ const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split("T")[0];
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `PI-${currentYear}-`;
-};
-
-
-const formatSupplierNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `SUP-${currentYear}-`;
-};
 
 const formatUpdateDate = (dateString: any) => {
     return new Date(dateString).toLocaleString();
@@ -85,7 +75,7 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                                     COMPANY PURCHASE INVOICE
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatNumber()}{companyPurchaseInvoice.purchase_invoice_number}
+                                    {companyPurchaseInvoice.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -109,7 +99,7 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                     <div className="grid grid-cols-3 gap-6">
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Refund No.</a><br />
-                            {formatNumber()}{companyPurchaseInvoice.purchase_invoice_number}
+                            {companyPurchaseInvoice.formatted_number}
                         </p>
                         
                         <p className={labelStyles}>
@@ -119,7 +109,7 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                         
                         <p className={labelStyles}>
                             <a className={details.extraSmallUppercase}>Supplier</a><br />
-                            {formatSupplierNumber()}{companyPurchaseInvoice.supplier || 'N/A'} | {companyPurchaseInvoice.supplier_name || 'N/A'}
+                            {companyPurchaseInvoice.supplier?.formatted_number || 'N/A'} | {companyPurchaseInvoice.supplier?.supplier_name || 'N/A'}
                         </p>
                         
                         <p className={labelStyles}>
@@ -145,6 +135,17 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                                 {companyPurchaseInvoice.status}
                             </p>
                         </div>
+                        
+                        <div className={labelStyles}>
+                            <a className={details.extraSmallUppercase}>Cancelled</a><br />
+                            <p className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                companyPurchaseInvoice.cancelled
+                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                    : 'bg-green-100 text-green-800 border border-green-200'
+                            }`}>
+                                {companyPurchaseInvoice.cancelled ? 'Yes' : 'No'}
+                            </p>
+                        </div>
                     </div>
                     
                     <hr className="my-6 border-gray-200" />
@@ -163,27 +164,37 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                                         <th className={tables.headerCell}>Base UOM</th>
                                         <th className={tables.headerCell}>Price</th>
                                         <th className={tables.headerCell}>Amount</th>
-                                        <th className={tables.headerCell}>SST Inclusive</th>
+                                        <th className={tables.headerCell}>Taxable</th>
                                         <th className={tables.headerCell}>SST %</th>
-                                        <th className={tables.headerCell}>SubTotal</th>
+                                        <th className={tables.headerCell}>SST Amount</th>
                                         <th className={tables.headerCell}>Cancelled</th>
+                                        <th className={tables.headerCell}>Total</th>
                                     </tr>
                                 </thead>
 
                                 <tbody className={tables.body}>
-                                    {companyPurchaseInvoice.related_invoice.map((line: any, index: any) => (
+                                    {companyPurchaseInvoice.related_invoice.map((line, index) => (
 
                                         <tr key={index} className={tables.row}>
-                                            <td className={tables.cell}>SKU-{line.product_item || 'N/A'} | {line.product_item_name || 'N/A'}</td>
+                                            <td className={tables.cell}>{line.product_item?.formatted_number || 'N/A'} | {line.product_item?.product_item_name || 'N/A'}</td>
                                             <td className={tables.cell}>{line.description || 'N/A'}</td>
                                             <td className={tables.cell}>{line.quantity || 'N/A'}</td>
                                             <td className={tables.cell}>{line.base_unit_of_measure || 'N/A'}</td>
                                             <td className={tables.cell}>{line.price || '--'}</td>
                                             <td className={tables.cell}>{line.total || '--'}</td>
-                                            <td className={tables.cell}>{line.tax_inclusive ? 'Yes' : 'No'}</td>
-                                            <td className={tables.cell}>{line.tax || '--'}</td>
+                                            <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                line.taxable
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>{line.taxable ? 'Yes' : 'No'}</td>
+                                            <td className={tables.cell}>{line.sst_percent || '--'}</td>
+                                            <td className={tables.cell}>{line.sst_amount || '--'}</td>
+                                            <td className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                line.cancelled
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>{line.cancelled ? 'Yes' : 'No'}</td>
                                             <td className={tables.cell}>{line.sub_total || '--'}</td>
-                                            <td className={tables.cell}>{line.cancelled ? 'Yes' : 'No'}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -199,22 +210,35 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                                             <div className="font-medium text-gray-800">{companyPurchaseInvoice.gross_total || '--'}</div>
                                         </div>
 
+                                        <hr className="my-2 border-blue-200" />
+
+                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                            <div>Taxable?</div>
+                                            <div className={`inline-flex items-center px-5.5! py-0! rounded text-sm ${
+                                                companyPurchaseInvoice.taxable
+                                                    ? 'bg-red-100 text-red-800 border border-red-200'
+                                                    : 'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>
+                                                {companyPurchaseInvoice.taxable ? 'Yes' : 'No'}
+                                            </div>
+                                        </div>
+
                                         <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
                                             <div>Tax %</div>
-                                            <div className="font-medium text-gray-800">{companyPurchaseInvoice.tax || '0'}%</div>
+                                            <div className="font-medium text-gray-800">{companyPurchaseInvoice.tax_percent || '--'}%</div>
                                         </div>
+
+                                        <div className="flex justify-between font-bold text-sm text-gray-600 mt-2">
+                                            <div>Tax Amount</div>
+                                            <div className="font-medium text-gray-800">{companyPurchaseInvoice.tax_amount || '--'}</div>
+                                        </div>
+
+                                        <hr className="my-2 border-blue-200" />
 
                                         <div className="flex justify-between text-sm text-gray-600 mt-2">
                                             <div>Net Total:</div>
                                             <div className="font-medium text-black">
                                                 {companyPurchaseInvoice.net_total || '--'}
-                                            </div>
-                                        </div>
-
-                                        <div className="flex justify-between text-sm text-gray-600 mt-2">
-                                            <div>Cancelled:</div>
-                                            <div className="font-medium text-black">
-                                                {companyPurchaseInvoice.cancelled ? 'Yes' : 'No'}
                                             </div>
                                         </div>
                                     </div>
@@ -228,17 +252,17 @@ const CompanyPurchaseInvoiceDetails: React.FC<CompanyPurchaseInvoiceDetailsProps
                 
                 <div className="grid lg:grid-cols-5">
                             
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Created By</a><br />
                         {companyPurchaseInvoice?.created_by || "N/A"}
                     </p>
 
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Date Updated</a><br />
                         {formatUpdateDate(companyPurchaseInvoice?.date_updated) || "N/A"}
                     </p>
                             
-                    <p className={labelStyles}>
+                    <p className={labelStyles} style={{ fontFamily: 'Montserrat, system-ui' }}>
                         <a className={details.extraSmallUppercase}>Updated By</a><br />
                         {companyPurchaseInvoice?.updated_by || "N/A"}
                     </p>

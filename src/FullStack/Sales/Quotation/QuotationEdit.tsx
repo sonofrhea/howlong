@@ -11,10 +11,6 @@ import { Trash2 } from "lucide-react";
 
 
 
- const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
 
 
 
@@ -22,10 +18,7 @@ const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
-const formatNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `QT-${currentYear}-`;
-};
+
 
 
 
@@ -86,7 +79,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                                     QUOTATION DETAILS
                                     </div>
                                 <div className={labelStyles}>
-                                    {formatNumber()}{quotation.quotation_number}
+                                    {quotation.formatted_number}
                                 </div>
                             </div>
                             <div className="mt-10 border-t border-b border-gray-100 grid-cols-2 gap-6">
@@ -131,7 +124,7 @@ const QuotationEdit: React.FC<QuotationEditProps> = ({
                         <option value="">select...</option>
                         {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                             <option key={customer.customer_number} value={customer.customer_number}>
-                                {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                {customer.formatted_number} | {customer.customer_name || '--'}
                             </option>
                         )), [customers])}
                     </select>

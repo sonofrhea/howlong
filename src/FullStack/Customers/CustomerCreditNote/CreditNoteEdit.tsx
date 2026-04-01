@@ -12,20 +12,14 @@ import { EINVOICE_PAYMENT_MODE_CHOICES, EINVOICE_SUPPLY_TYPE_CHOICES, LHDN_TAX_T
 
 
 
-const formatCreditNoteNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CN-${currentYear}-`;
-};
+
 
 const decimalPlaces = (amount: number) => {
     return `${amount.toFixed(2)}`;
 };
 
 
-const formatCustomerNumber = () => {
-    const currentYear = new Date().getFullYear();
-    return `CV-${currentYear}-`;
-};
+
 
 
 
@@ -106,7 +100,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                                     DEBIT NOTE DETAILS
                                 </p>
                                 <p className={labelStyles}>
-                                    {formatCreditNoteNumber()}{creditNote.credit_note_number}
+                                    {creditNote.formatted_number}
                                 </p>
                             </div>
                         </div>
@@ -142,7 +136,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                             <option value="">select...</option>
                             {useMemo(() => customers.map((customer: CustomerCreateResponse) => (
                                 <option key={customer.customer_number} value={customer.customer_number}>
-                                    {formatCustomerNumber()}{customer.customer_number} | {customer.customer_name || '--'}
+                                    {customer.formatted_number} | {customer.customer_name || '--'}
                                 </option>
                             )), [customers])}
                         </select>
@@ -216,7 +210,7 @@ const relatedPayment = debitNoteRelatedPaymentHandler(customerPayments, setValue
                             <option value="">select...</option>
                             {useMemo(() =>customerPayments.map((payment: CustomerPaymentResponse) => (
                                 <option key={payment.payment_number} value={payment.payment_number}>
-                                    POST-{payment.payment_number} | Paid Amount: {payment.paid_amount}
+                                    {payment.formatted_number} | Paid Amount: {payment.paid_amount}
                                 </option>
                             )), [customerPayments])}
                         </select>
