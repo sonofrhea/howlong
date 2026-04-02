@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { iconStyles } from "./Styles";
 
 
-import { Bitcoin, ClipboardPlus, Landmark,
+import { BanknoteX, Bitcoin, ClipboardPlus, Landmark,
      NotepadText, Printer, Shapes 
 } from "lucide-react";
 
@@ -21,4 +21,5 @@ export const REPORTS_ICONS = {
     balanceSheet: <Landmark strokeWidth={1.75} className={iconStyles.small} />,
     cashFlow: <Bitcoin strokeWidth={1.75} className={iconStyles.small} />,
     receiptRecords: <Printer strokeWidth={1.75} className={iconStyles.small} />,
+    overdueReceivablesByCustomer: <BanknoteX strokeWidth={1.75} className={iconStyles.small} />,
 };

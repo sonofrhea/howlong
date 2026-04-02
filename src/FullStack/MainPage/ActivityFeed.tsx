@@ -35,13 +35,13 @@ function ActivityRow({
   return (
     <div
         className={`
-            flex items-center justify-between border-b border-gray-50
-            hover:bg-gray-50 transition-colors duration-150
+            flex items-center justify-between border-b border-gray-100
+            hover:bg-gray-50 transition-colors duration-150 border-y-2!
             ${compact ? 'px-8 py-2.5' : 'px-8 py-3'}
             ${flip ? 'activity-flip-in' : ''}
         `}
         >
-        <div className="flex items-center gap-3 flex-1 min-w-0 hover:cursor-pointer">
+        <div className="flex items-center gap-3 flex-1 min-w-0 hover:cursor-pointer ">
             <div
             className="rounded-full flex items-center justify-center font-extrabold shrink-0"
             style={{
@@ -110,7 +110,7 @@ export default function ActivityFeed() {
         `}</style>
 
         <div
-            className="overflow-hidden w-full max-w-7xl"
+            className="overflow-hidden "
             style={{ fontFamily: 'Montserrat, system-ui' }}
         >
             {/* Header */}
@@ -186,7 +186,7 @@ export default function ActivityFeed() {
 
             {/* Footer */}
             <div className="bg-gray-50/50 border-t border-gray-100 px-8 py-4 flex items-center justify-between">
-            <p className="text-xs text-black italic font-[Montserrat]!">
+            <p className="text-xs! text-gray-500 italic font-[Montserrat]!">
                 * Rolls when new activity arrives · updates every 15s
             </p>
             {!expanded && rest.length > 0 && (
