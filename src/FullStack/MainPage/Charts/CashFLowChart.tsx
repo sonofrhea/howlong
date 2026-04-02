@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { formatCurrency } from "../../components/store";
+import { formatCurrency } from "../../../components/store";
 
 import {
   Chart as ChartJS,
@@ -16,8 +16,8 @@ import { Line } from 'react-chartjs-2';
 
 
 import { useEffect, useState } from 'react';
-import { fetchCashFlow } from "../Reports/Engines";
-import { CashFlowResponse } from '../Reports/constants/Types';
+import { fetchCashFlow } from "../../Reports/Engines";
+import { CashFlowResponse } from '../../Reports/constants/Types';
 import { CornerDownLeft, MoveRight } from "lucide-react";
 
 ChartJS.register(
@@ -182,7 +182,7 @@ function CashFlowChart() {
               `}
           </style>
 
-        <div className="bg-white mt-10 border border-gray-100 rounded-4xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] shadow-gray-300 overflow-hidden" style={{ fontFamily: 'Montserrat, system-ui' }}>
+        <div className="mt-10 border border-white rounded-4xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] shadow-gray-300 overflow-hidden" style={{ fontFamily: 'Montserrat, system-ui' }}>
           
           {/* Header Section: Context & Quick Stats */}
           <div className="px-8 pt-8 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">

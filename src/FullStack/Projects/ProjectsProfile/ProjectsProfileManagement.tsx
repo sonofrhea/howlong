@@ -520,42 +520,42 @@ function ProjectsProfileManagement() {
                     <div className="w-px h-8 bg-gray-200"></div>
 
                     <div className="text-center">
-                        <div className="text-2xl font-light text-green-500">
+                        <div className="text-2xl font-semibold text-green-500">
                             {projects.filter((row: ProjectProfileInputs) => row.status === "Completed").length}
                         </div>
-                        <div className="text-sm text-green-500">Completed projects</div>
+                        <div className="text-sm font-semibold text-green-500">Completed projects</div>
                     </div>
 
                     <div className="w-px h-8 bg-gray-200"></div>
 
                     <div className="text-center">
-                        <div className="text-2xl font-light text-gray-900">
+                        <div className="text-2xl font-semibold text-blue-900">
                             {projects.filter((row: ProjectProfileInputs) => row.status === "Active Construction").length}
                         </div>
-                        <div className="text-sm text-gray-500">Active</div>
+                        <div className="text-sm font-semibold text-blue-500">Active</div>
                     </div>
 
                     <div className="text-center">
-                        <div className="text-2xl font-light text-yellow-600">
+                        <div className="text-2xl font-semibold text-yellow-600">
                             {projects.flatMap((project: ProjectsProfileList) => project.phases).filter((phase: any) => phase.current_phase === "Delayed").length}
                         </div>
-                        <div className="text-sm text-yellow-600">Delayed</div>
+                        <div className="text-sm font-semibold text-yellow-600">Delayed</div>
                     </div>
 
                     <div className="text-center">
-                        <div className="text-2xl font-light text-blue-600">
+                        <div className="text-2xl font-semibold text-blue-600">
                             {projects.flatMap((project: ProjectsProfileList) => project.phases).filter((phase: any) => phase.current_phase === "In Progress").length}
                         </div>
-                        <div className="text-sm text-blue-600">In progress</div>
+                        <div className="text-sm font-semibold text-blue-600">In progress</div>
                     </div>
 
                     <div className="w-px h-8 bg-gray-200"></div>
 
                     <div className="text-center">
-                        <div className="text-2xl font-light text-gray-900">
+                        <div className="text-2xl font-semibold text-red-900">
                             {projects.filter((row: ProjectProfileInputs) => row.status === "On Hold").length}
                         </div>
-                        <div className="text-sm text-gray-500">On Hold</div>
+                        <div className="text-sm font-semibold text-red-500">On Hold</div>
                     </div>
 
                 </div>

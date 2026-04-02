@@ -91,22 +91,26 @@ export default function ConstructionERPLanding() {
 
     const faqs = [
         { q: 'Is Urusentra only for the construction industry?', a: 'Urusentra is built specifically for building professionals, but its accounting, sales, and client management modules work for any SME. Several of our users operate in manufacturing and property management.' },
+        { q: 'Does it have the LHDN e-invois support?', a: 'Urusentra fully supports the malaysian LHDN E-invois. Other countries in Asia can also make use of it.' },
         { q: 'How does the supplier marketplace work?', a: 'Contractors browse verified supplier listings, filter by material category and location, and request quotes directly. Suppliers respond within an average of 48 hours. All pricing is live and competitive.' },
         { q: 'Is my financial data secure?', a: 'Yes. Sensitive fields like client IDs and bank details are encrypted at the field level. Every record is version-controlled, giving you a full audit trail of every change ever made.' },
         { q: 'Can I use Urusentra for multiple companies?', a: 'Urusentra supports multi-company setups. Every financial record — invoices, journals, payments — is scoped to its company, keeping your books completely separate.' },
-        { q: 'Does the accounting module handle Malaysian tax (SST/GST)?', a: 'Yes. Tax is handled at both the line level and the header level, with inclusive and exclusive modes. You set the tax rate as a percentage — the system calculates and applies it automatically.' },
+        { q: 'Does the accounting module handle Malaysian tax (SST/GST)?', a: 'Yes. Tax is handled at both the line level and the header level, You set the tax rate as a percentage — the system calculates and applies it automatically.' },
         { q: 'What happens to my data if I cancel?', a: "Your data remains accessible for 90 days after cancellation. We'll provide a full export of all your records in standard formats before permanent deletion." },
     ];
 
     const pipelineSteps = [
         { num: '01', title: 'Quotation', sub: 'Price the job', color: '#059669', code: 'QT-2025-XXXX' },
         { num: '02', title: 'Invoice', sub: 'Bill the client', color: '#2355f5', code: 'INV-2025-XXXX' },
-        { num: '03', title: 'Payment', sub: 'Collect in tranches', color: '#7c3aed', code: 'PAY-XXXX' },
-        { num: '04', title: 'Settlement', sub: 'Close the loop', color: '#0284c7', code: 'POST-XXXX' },
+        { num: '03', title: 'Project', sub: 'Price the job', color: '#059669', code: 'JOB-2025-XXXX' },
+        { num: '04', title: 'Completion', sub: 'Finish the Job', color: '#059669', code: 'PROJ-2025-XXXX' },
+        { num: '05', title: 'Full Payment', sub: 'Collect in tranches', color: '#7c3aed', code: 'PAY-XXXX' },
+        { num: '06', title: 'Settlement', sub: 'Close the loop', color: '#0284c7', code: 'POST-XXXX' },
     ];
 
     const comparisons = [
-        { feature: 'Construction-specific workflows', us: true, generic: false, excel: false },
+        { feature: 'Cost-effective', us: true, generic: false, excel: false },
+        { feature: 'Building-specific workflows', us: true, generic: false, excel: false },
         { feature: 'Live supplier marketplace', us: true, generic: false, excel: false },
         { feature: 'Automatic job cost variance', us: true, generic: false, excel: false },
         { feature: 'Double-entry accounting', us: true, generic: true, excel: false },
@@ -264,6 +268,7 @@ export default function ConstructionERPLanding() {
                     margin-bottom: 25px; 
                     font-family: 'Montserrat'; 
                     padding-right: 20px;
+                    color: black !important;
                 }
 
                 .right-column {
@@ -429,7 +434,7 @@ export default function ConstructionERPLanding() {
                 /* PIPELINE */
                 .pipeline-section { padding: 120px 60px; background: #001a5e; color: white; position: relative; overflow: hidden; }
                 .pipeline-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 800px 500px at 50% 50%, rgba(0,102,204,.25) 0%, transparent 70%); pointer-events: none; }
-                .pipeline-steps-wrap { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; max-width: 1100px; margin: 60px auto 0; position: relative; }
+                .pipeline-steps-wrap { display: grid; grid-template-columns: repeat(6,6fr); gap: 0; max-width: 1100px; margin: 60px auto 0; position: relative; }
                 .pipeline-steps-wrap::before { content: ''; position: absolute; top: 34px; left: 12%; right: 12%; height: 2px; background: rgba(255,255,255,.15); z-index: 0; }
                 .pipe-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 20px; position: relative; z-index: 1; }
                 .pipe-circle { width: 70px; height: 70px; border-radius: 50%; border: 2px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; transition: all .3s; }
@@ -765,10 +770,10 @@ export default function ConstructionERPLanding() {
                 </nav>
 
                 <div className="headline">
-                    <span>Manage Your building company.</span>
-                    <span className='text-[#002c9c] text-5xl tracking-wide'>Find Suppliers Worldwide.</span>
+                    <span className='text-4.5xl! tracking-wide'>Manage Your building company.</span>
+                    <span className='text-[#002c9c] text-3xl! tracking-wide'>For small to medium scale builders.</span>
                     <p className='subheadline'>
-                        URUSENTRA is engineered specifically with the building industry in mind, meant to improve your company's operational efficiency and revenue tremendously. 
+                        URUSENTRA is engineered specifically for small to medium scale building companies, from Renovators, Cabinet makers, Plumbers to Interior Builders & Designers. 
                     </p>
                     <div className="cta-group-header">
                         <a href="/pricing" className="cta-primary">Try Out ERP</a>
@@ -789,6 +794,9 @@ export default function ConstructionERPLanding() {
                     {Array.from({length: 6}).map((_, i) => (
                         <React.Fragment key={i}>
                             <span className="mbitem">Auto-Balanced Accounts</span>
+                            <span className="mbitem">Purchase Request</span>
+                            <span className="mbitem">Purchase Approval</span>
+                            <span className="mbitem">Job & Company Assigned Roles</span>
                             <span className="mbitem">Job Costing & Estimation</span>
                             <span className="mbitem">Bill Of Quantities</span>
                             <span className="mbitem">Project Phase Management</span>
@@ -830,21 +838,21 @@ export default function ConstructionERPLanding() {
                     <div className="absolute inset-0 pointer-events-none flex items-start overflow-hidden">
                         <div className="w-full opacity-50 select-none">
                             <div className="animate-marquee whitespace-nowrap flex items-center">
-                                {Array.from({length: 4}).map((_, i) => (<span key={i} className="text-[5vw] font-black uppercase tracking-tighter text-white mx-12 italic">DISCOUNTED SUPPLIERS PRICES • </span>))}
+                                {Array.from({length: 4}).map((_, i) => (<span key={i} className="text-[5vw] font-black uppercase tracking-tighter text-white mx-12 italic">Streamline day to day operations • </span>))}
                             </div>
                         </div>
                     </div>
                     <div className="absolute inset-0 pointer-events-none flex items-end overflow-hidden">
                         <div className="w-full opacity-50 select-none">
                             <div className="animate-marquee whitespace-nowrap flex items-center">
-                                {Array.from({length: 4}).map((_, i) => (<span key={i} className="text-[5vw] font-black uppercase tracking-tighter mx-12 italic text-transparent" style={{ WebkitTextStroke: '2px white' }}>FIND BUILDING SUPPLIERS • WORLDWIDE • </span>))}
+                                {Array.from({length: 4}).map((_, i) => (<span key={i} className="text-[5vw] font-black uppercase tracking-tighter mx-12 italic text-transparent" style={{ WebkitTextStroke: '2px white' }}>Generate Live Project Reports • </span>))}
                             </div>
                         </div>
                     </div>
                     <div className="absolute inset-0 pointer-events-none flex items-center overflow-hidden">
                         <div className="w-full opacity-50 select-none">
                             <div className="animate-marquee whitespace-nowrap flex items-center gap-32">
-                                {Array.from({length: 4}).map((_, i) => (<span key={i} className="text-[2vw] font-black tracking-tighter italic text-white">urusentra.com/marketplace <span className="gap-32 opacity-50">•</span></span>))}
+                                {Array.from({length: 4}).map((_, i) => (<span key={i} className="text-[2vw] font-black tracking-tighter italic text-white">LHDN E-Invois support <span className="gap-32 opacity-50">•</span></span>))}
                             </div>
                         </div>
                     </div>
@@ -867,11 +875,12 @@ export default function ConstructionERPLanding() {
                     <div className="animate-marquee whitespace-nowrap flex items-center font-black text-2xl text-[#002c9c] uppercase tracking-tighter">
                         {Array.from({length: 8}).map((_, i) => (
                             <span key={i} className="mx-10 flex items-center gap-4">
-                                5000+ Verified Suppliers Connected <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
-                                CHINA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
-                                SOUTH AFRICA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
-                                INDONESIA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
-                                MALAYSIA <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
+                                accounting reports <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
+                                project reports <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
+                                Sales reports <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
+                                Purchase reports <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
+                                Customer reports <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
+                                Products reports <div className="w-3 h-3 bg-[#002c9c] rounded-full animate-ping"/>
                             </span>
                         ))}
                     </div>
@@ -973,7 +982,7 @@ export default function ConstructionERPLanding() {
             </section>
 
             {/* ===== NEW: HOW IT WORKS ===== */}
-            <section className="hiw-section">
+            {/*<section className="hiw-section">
                 <div style={{ textAlign: 'center', marginBottom: '16px' }}><span className="section-tag">Getting Started</span></div>
                 <h2 className="section-title" style={{ marginBottom: '60px' }}>Up and Running in Minutes</h2>
                 <div className="hiw-steps">
@@ -999,7 +1008,7 @@ export default function ConstructionERPLanding() {
                         </div>
                     ))}
                 </div>
-            </section>
+            </section>*/}
 
             {/* ===== NEW: BUILT FOR ===== */}
             <section className="built-for">
@@ -1013,7 +1022,7 @@ export default function ConstructionERPLanding() {
                         { icon: '📐', title: 'Quantity Surveyors & Estimators', desc: 'Build detailed bills of quantities, link material costs to live supplier pricing, and calculate accurate project estimates faster than any spreadsheet.' },
                         { icon: '💼', title: 'SME Directors & CFOs', desc: "Get a full financial picture at any moment — cash flow, P&L, client receivables, outstanding payables. Everything an accountant needs, built into the same system you run your jobs from." },
                         { icon: '🔧', title: 'Site Managers', desc: 'Track project timelines, assign resources, and monitor completion milestones. Keep stakeholders informed with real-time progress reports without leaving the platform.' },
-                        { icon: '🏢', title: 'Property Developers', desc: 'Manage client relationships across multiple developments, track invoices and payments per project, and generate professional receipts automatically for every transaction.' },
+                        { icon: '🏢', title: 'Small Scale Builders', desc: 'Manage client relationships across multiple developments, track invoices and payments per project, and generate professional receipts automatically for every transaction.' },
                         { icon: '🌍', title: 'Supply Chain Teams', desc: "Source materials from 2,935+ verified global suppliers. Compare prices, check availability, and contact suppliers directly — cutting procurement time by up to 40%." },
                     ].map((item, i) => (
                         <div key={i} className="bf-card">
@@ -1081,8 +1090,8 @@ export default function ConstructionERPLanding() {
                 <div className="pricing-grid">
                     {[
                         { tag: 'Starter', name: 'Explorer', price: 'Free', period: '14-day trial · No card required', color: '', features: ['Project management', 'Client Management', 'Basic Financial Reports', '1 Company', 'Email Support'], btn: 'outline', btnText: 'Start Free Trial' },
-                        { tag: 'Most Popular', name: 'Starter', price: 'xxx', period: 'per month', color: '', featured: true, features: ['Everything in Starter', 'Full Accounting Suite', 'Project & BOQ Tracking', 'Supplier Marketplace Access', '3 Companies', 'Priority Support'], btn: 'filled', btnText: 'Get Started' },
-                        { tag: 'Enterprise', name: 'Enterprise', price: 'xxx', period: 'tailored to your team', color: '', features: ['Everything in Professional', 'Unlimited Companies', 'Custom Integrations', 'Dedicated Account Manager', 'On-site Training', 'SLA Guarantee'], btn: 'outline', btnText: 'Contact Sales' },
+                        { tag: 'Most Popular', name: 'Starter', price: 'xxx', period: 'per month', color: '', featured: true, features: ['Everything in Starter', 'Full Accounting Suite', 'Project & BOQ Tracking', '2 Users Included', 'Priority Support', 'Additional users at a cost'], btn: 'filled', btnText: 'Get Started' },
+                        { tag: 'Enterprise', name: 'Enterprise', price: 'xxx', period: 'tailored to your team', color: '', features: ['Everything in Professional', 'Supplier Marketplace Access', '4 Users Included', 'Additional users at a cost', 'Custom Integrations', 'Dedicated Account Manager', 'On-site Training', 'SLA Guarantee'], btn: 'outline', btnText: 'Contact Sales' },
                     ].map((plan, i) => (
                         <div key={i} className={`price-card${plan.featured ? ' featured' : ''}`}>
                             {plan.featured && <span className="popular-badge">MOST POPULAR</span>}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from 'react-idle-timer';
 
@@ -16,6 +16,9 @@ export const useSessionTimeout = () =>{
     const [showPrompt, setShowPrompt] = useState(false);
     const [countdown, setCountdown] = useState(PROMPT_DURATION_MS / 1000);
     const [redirect, setRedirect] = useState(false);
+
+    const isHandling = useRef(false);
+    const toastShown = useRef(false);
 
 
     useEffect(() => {
@@ -62,21 +65,32 @@ export const useSessionTimeout = () =>{
     }, [showPrompt]);
 
     const handleStayLoggedInValidation = async () => {
+        if (isHandling.current) return;
+        isHandling.current = true;
         setShowPrompt(false);
         try {
             await handleStayLoggedIn();
             activate();
+            isHandling.current = false;
         } catch (error: any) {
+            isHandling.current = false;
             //console.error("Failed to extend session", error);
+            if (!toastShown.current) {
+                toastShown.current = true;
+
+                let errorMessage = "Session expired. Please log in again"
+                if (error.response?.status === 403) {
+                    errorMessage = "Session timeout. Please log in again.";
+                } else if (error.response?.status === 401) {
+                    errorMessage = "Your session has expired. Please log in again.";
+                } else if (error.message?.includes("Authentication credentials were not provided")) {
+                    errorMessage = "Authentication failed. Please log in again";
+                }
+                
+                toast.error(errorMessage, {id: "timeout-toast"});
+            }
             localStorage.removeItem('Token');
             navigate('/login?reason=idle_timeout');
-
-            let errorMessage = ""
-            if (error.response?.status === 403) {
-                errorMessage = "Oops! Timeout."
-            }
-
-            toast.error(errorMessage, {duration: 8000,});
         }
     };
 

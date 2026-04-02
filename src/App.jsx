@@ -40,7 +40,7 @@ import SessionTimeoutModal from './components/Modals/SessionTimeoutModal';
 
 
 const Dashboard = lazy(() => import('./components/Dashboard'))
-const MainPage = lazy(() => import('../src/components/MainPage'))
+const MainPage = lazy(() => import('../src/FullStack/MainPage/MainPage'))
 
 // -------------------begin---------CUSTOMERS--------------------------------------------
 

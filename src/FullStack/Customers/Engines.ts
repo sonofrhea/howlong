@@ -26,9 +26,18 @@ import { AllCustomerInputs, CustomerInputs,
 
 // CUSTOMER PROFILE -  AXIOS
 
-export const paginatedCustomers = async (page: number, pageSize: number) => {
-  const response = await apiClient.get(`/customers/customerprofile/?page=${page}&page_size=${pageSize}/`);
-  return response.data;
+export const paginatedCustomers = async (page = 1, pageSize = 100) => {
+  try {
+    const response = await apiClient.get('/customers/customerprofile/', {
+      params: { page, page_size: pageSize }
+    });
+    return {
+      results: response.data.results,
+      count: response.data.count
+    };
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const fetchCustomers = async () => {

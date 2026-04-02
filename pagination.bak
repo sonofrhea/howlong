@@ -1,0 +1,23 @@
+  queryKey: ['customers', currentPage, itemsPerPage, searchTerm],
+  queryFn: () => fetchCustomers(currentPage, itemsPerPage, searchTerm)
+});
+
+const customers = customersData?.results || [];
+const totalCount = customersData?.count || 0;
+const totalPages = Math.ceil(totalCount / itemsPerPage);
+
+
+
+export const fetchCustomers = async (page = 1, pageSize = 20, search = '') => {
+  const response = await apiClient.get('/customers/customerprofile/', {
+    params: { 
+      page, 
+      page_size: pageSize,
+      search: search  // Add search param
+    }
+  });
+  return {
+    results: response.data.results,
+    count: response.data.count
+  };
+};
