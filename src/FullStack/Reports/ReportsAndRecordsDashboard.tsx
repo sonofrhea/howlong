@@ -57,11 +57,11 @@ function ReportsAndReceiptsDashboard() {
             available: false
         },
         {
-            id: 'overdueReceivablesByCustomer',
-            name: 'Overdue Receivables By Customer',
+            id: 'overdueReceivables',
+            name: 'Overdue Receivables Report',
             description: 'Invoice overdue receivables filtered by Customers',
-            path: 'reports/overdue-receivables-by-customer',
-            available: false
+            path: 'overdue-receivables',
+            available: true
         },
     ];
 

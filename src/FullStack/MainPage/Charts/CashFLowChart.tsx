@@ -60,9 +60,9 @@ function CashFlowChart() {
         backgroundColor: "#6A5ACD",
         borderColor: "#6A5ACD",
         borderWidth: 2,
-        pointRadius: 0,
+        pointRadius: 2,
         pointBorderWidth: 1,
-        tension: 0.5,
+        tension: 0.1,
       },
       {
         label: 'Expenses',
@@ -70,9 +70,9 @@ function CashFlowChart() {
         backgroundColor: "#a60f26",
         borderColor: "#a60f26",
         borderWidth: 2,
-        pointRadius: 0,
+        pointRadius: 2,
         pointBorderWidth: 1,
-        tension: 0.5,
+        tension: 0.1,
       },
       {
         label: 'Profit After Taxes',
@@ -80,9 +80,9 @@ function CashFlowChart() {
         backgroundColor: "#047504",
         borderColor: "#047504",
         borderWidth: 2,
-        pointRadius: 0,
+        pointRadius: 2,
         pointBorderWidth: 1,
-        tension: 0.5,
+        tension: 0.1,
       }
     ]
   };
@@ -173,7 +173,7 @@ function CashFlowChart() {
 
 
     return (
-      <div className="w-full max-w-7xl mx-auto p-4 md:p-8">
+      <div className="w-full max-w-7xl mx-auto">
 
           <style>
               {`

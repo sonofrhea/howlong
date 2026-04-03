@@ -5,6 +5,7 @@ import { LogoutButton } from '../../Authentication/HandleLogout';
 import { CornerDownLeft, MoveRight } from "lucide-react";
 import { ComingSoon } from "../../App";
 import ActivityFeed from "./ActivityFeed";
+import OverdueSummaryWidget from "./OverdueSummaryWidget";
 
 
 function MainPage() {
@@ -39,6 +40,7 @@ function MainPage() {
 
             <div className="w-full max-w-7xl mx-auto px-4 md:px-8 pt-20 pb-32 flex flex-col gap-8">
                 <ActivityFeed />
+                <OverdueSummaryWidget />
                 <CashFlowChart />
             </div>
 

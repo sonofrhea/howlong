@@ -1,6 +1,8 @@
 import apiClient from '../../BaseEngine';
 import { BalanceSheetPeriodTypes, 
     BalanceSheetResponse, CashFlowPeriodTypes, CashFlowResponse, IncomeStatementResponse, 
+    OverdueReceivablesByCustomerResponse, 
+    OverdueReceivablesSummaryResponse, 
     PeriodTypes } from './constants/Types';
 
 
@@ -90,4 +92,33 @@ export const fetchCashFlow = async (period_type: CashFlowPeriodTypes): Promise<C
 
 // --------------------------------------------------------------------------------------------------------
 
-// OVERDUE RECEIVABLES
+// OVERDUE RECEIVABLES SUMMARY
+
+export const fetchOverdueReceivablesSummary = async (): Promise<OverdueReceivablesSummaryResponse> => {
+  try {
+    const response = await apiClient.get<OverdueReceivablesSummaryResponse>(
+      '/reports/overduereceivablessummary/overdue_receivables_summary/'
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+
+// --------------------------------------------------------------------------------------------------------
+
+// OVERDUE RECEIVABLES BY CUSTOMER
+
+export const fetchOverdueReceivablesByCustomer = async (): Promise<OverdueReceivablesByCustomerResponse[]> => {
+  try {
+    const response = await apiClient.get<OverdueReceivablesByCustomerResponse[]>(
+      '/reports/overduereceivablesbycustomer/overdue_receivables_by_customer/'
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return[];
+  }
+}

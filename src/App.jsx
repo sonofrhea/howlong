@@ -171,6 +171,7 @@ const TrialBalanceManagement = lazy(() => import('./FullStack/Reports/Reports/Tr
 const IncomeStatementManagement = lazy(() => import('./FullStack/Reports/Reports/IncomeStatement/IncomeStatementManagement'))
 const BalanceSheetManagement = lazy(() => import('./FullStack/Reports/Reports/BalanceSheet/BalanceSheetManagement'))
 const CashFlowManagement = lazy(() => import('./FullStack/Reports/Reports/CashFlow/CashFlowManagement'))
+const OverdueReceivablesManagement = lazy(() => import('./FullStack/Reports/Reports/SalesReports/OverdueReceivablesManagement'))
 
 // -------------------end---------REPORTS--------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
@@ -382,7 +383,7 @@ function App() {
 
                 {/* MAIN PAGE */}
               <Route path='/mainpage' element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <MainPage />
                 </Suspense>
               } />
@@ -400,7 +401,7 @@ function App() {
 
               {/* CORE */}
               <Route path='/core' element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <CoreDashboard />
                   </Layout>
@@ -408,7 +409,7 @@ function App() {
               } />
 
               <Route path="/core/company/profile" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                   <CompanyManagement />
                 </Layout>
@@ -417,7 +418,7 @@ function App() {
               }/>
 
               <Route path="/core/users/profile" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                   <UserProfileManagement />
                 </Layout>
@@ -426,7 +427,7 @@ function App() {
               }/>
 
               <Route path="/core/banks" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                   <BanksManagement />
                 </Layout>
@@ -435,7 +436,7 @@ function App() {
               }/>
 
               <Route path="/core/currencies" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                   <CurrenciesManagement />
                 </Layout>
@@ -460,7 +461,7 @@ function App() {
 
               {/* CUSTOMERS */}
               <Route path="/customers" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <CustomerDashboard />
                   </Layout>
@@ -468,7 +469,7 @@ function App() {
               } />
 
               <Route path="/customers/customers-profile" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <CustomerManagement />
                   </Layout>
@@ -477,7 +478,7 @@ function App() {
               } />
 
               <Route path="/customers/debit-note" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <DebitNoteManagement />
                   </Layout>
@@ -486,7 +487,7 @@ function App() {
               } />
 
               <Route path='/customers/credit-note' element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <CreditNoteManagement />
                   </Layout>
@@ -495,7 +496,7 @@ function App() {
               } />
 
               <Route path="/customers/refund" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <RefundManagement />
                   </Layout>
@@ -514,7 +515,7 @@ function App() {
 
               
               <Route path="/products" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <ProductsDashboard title="Product Management" />
                   </Layout>
@@ -522,7 +523,7 @@ function App() {
               } />
 
               <Route path="/products/product-group" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <ProductGroupManagement />
                   </Layout>
@@ -530,7 +531,7 @@ function App() {
               } />
 
               <Route path="/products/product-item" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <ProductItemManagement />
                   </Layout>
@@ -549,7 +550,7 @@ function App() {
 
               
               <Route path="/sales" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <SalesDashboard title="Sales Management" />
                   </Layout>
@@ -557,7 +558,7 @@ function App() {
               } />
 
               <Route path="/sales/quotations" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <QuotationManagement />
                   </Layout>
@@ -565,7 +566,7 @@ function App() {
               } />
 
               <Route path="/sales/invoices" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <InvoiceManagement />
                   </Layout>
@@ -573,7 +574,7 @@ function App() {
               } />
 
               <Route path="/sales/invoice-payments" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <InvoicePaymentManagement />
                   </Layout>
@@ -581,7 +582,7 @@ function App() {
               } />
 
               <Route path="/sales/customer-payments" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <CustomerPaymentManagement />
                   </Layout>
@@ -590,7 +591,7 @@ function App() {
 
               {/* E-INVOICE */}
               <Route path='/sales/einvoice-submissions' element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                     <Layout>
                         <EInvoiceSubmissionHistoryManagement />
                     </Layout>
@@ -614,7 +615,7 @@ function App() {
               {/* PURCHASES */}
 
               <Route path="/purchases" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <PurchasesDashboard title="Company Purchases Management" />
                   </Layout>
@@ -622,7 +623,7 @@ function App() {
               } />
 
               <Route path="/purchases/company-purchase-invoice" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <CompanyPurchaseInvoiceManagement />
                   </Layout>
@@ -630,7 +631,7 @@ function App() {
               } />
 
               <Route path="/purchases/company-purchase-order" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <CompanyPurchaseOrderManagement />
                   </Layout>
@@ -653,7 +654,7 @@ function App() {
                 {/* PROJECTS */}
               
               <Route path="/projects" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <ProjectsDashboard title="Project Management" />
                   </Layout>
@@ -662,7 +663,7 @@ function App() {
               } />
 
               <Route path="/projects/project" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <ProjectsProfileManagement />
                   </Layout>
@@ -670,7 +671,7 @@ function App() {
               } />
 
               <Route path="/projects/project-documents" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <ProjectDocumentsManagement />
                   </Layout>
@@ -678,7 +679,7 @@ function App() {
               } />
 
               <Route path="/projects/job-cost-ledger" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <JobCostLedgerManagement />
                   </Layout>
@@ -686,7 +687,7 @@ function App() {
               } />
 
               <Route path="/projects/bill-of-quantities" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <BillOfQuantitiesManagement />
                   </Layout>
@@ -709,7 +710,7 @@ function App() {
                 {/* SUPPLIERS */}
 
               <Route path="/suppliers" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <SuppliersDashboard title="Suppliers Management" />
                   </Layout>
@@ -717,7 +718,7 @@ function App() {
               } />
 
               <Route path="/suppliers/suppliers-categories" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <SupplierCategoryManagement />
                   </Layout>
@@ -725,7 +726,7 @@ function App() {
               } />
 
               <Route path="/suppliers/supplier-profiles" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <SupplierProfileManagement />
                   </Layout>
@@ -733,7 +734,7 @@ function App() {
               } />
 
               <Route path="/suppliers/supplier-invoices" element={
-                <Suspense fallback={<div>fetching...</div>} >
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>} >
                   <Layout>
                     <SupplierInvoiceManagement />
                   </Layout>
@@ -741,7 +742,7 @@ function App() {
               } />
 
               <Route path="/suppliers/supplier-payments" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <SupplierPaymentManagement />
                   </Layout>
@@ -749,7 +750,7 @@ function App() {
               } />
 
               <Route path="/suppliers/supplier-debit-notes" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <SupplierDebitNoteManagement />
                   </Layout>
@@ -757,7 +758,7 @@ function App() {
               } />
 
               <Route path="/suppliers/supplier-credit-notes" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <SupplierCreditNoteManagement />
                   </Layout>
@@ -781,7 +782,7 @@ function App() {
                 {/* ACCOUNTING */}
 
               <Route path="/accounting" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <AccountingDashboard title="Accounting & Finance Management" />
                   </Layout>
@@ -790,7 +791,7 @@ function App() {
 
 
               <Route path="/accounting/journal-entries" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <JournalEntryManagement />
                   </Layout>
@@ -800,7 +801,7 @@ function App() {
 
 
               <Route path="/accounting/income-and-expenses" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <IncomeAndExpensesManagement />
                   </Layout>
@@ -809,7 +810,7 @@ function App() {
               } />
 
               <Route path="/accounting/cashbook" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <CashBookManagement />
                   </Layout>
@@ -818,7 +819,7 @@ function App() {
               } />
 
               <Route path="/accounting/payment-vouchers" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <PaymentVoucherManagement />
                   </Layout>
@@ -827,7 +828,7 @@ function App() {
               } />
 
               <Route path="/accounting/receipt-vouchers" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <ReceiptVoucherManagement />
                   </Layout>
@@ -836,7 +837,7 @@ function App() {
               } />
 
               <Route path="/accounting/bank-statements" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <BankStatementManagement />
                   </Layout>
@@ -859,7 +860,7 @@ function App() {
                 {/* REPORTS AND RECEIPTS */}
 
               <Route path="/reports" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <ReportsAndReceiptsDashboard title="Reports & Receipts" />
                   </Layout>
@@ -867,7 +868,7 @@ function App() {
               } />
 
               <Route path="/reports/general-ledger" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <GeneralLedgerManagement />
                   </Layout>
@@ -875,7 +876,7 @@ function App() {
               } />
 
               <Route path="/reports/trial-balance" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                    <Layout>
                     <TrialBalanceManagement />
                   </Layout>
@@ -884,7 +885,7 @@ function App() {
               } />
 
               <Route path="/reports/income-statement" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <IncomeStatementManagement />
                   </Layout>
@@ -892,7 +893,7 @@ function App() {
               } />
 
               <Route path="/reports/balance-sheet" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                   <Layout>
                     <BalanceSheetManagement />
                   </Layout>
@@ -901,7 +902,7 @@ function App() {
               } />
 
               <Route path="/reports/cashflow" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                 <Layout>
                   <CashFlowManagement />
                 </Layout>
@@ -909,9 +910,17 @@ function App() {
               } />
 
               <Route path="/reports/receipt-records" element={
-                <Suspense fallback={<div>fetching...</div>}>
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
                 <Layout>
                   <ComingSoon />
+                </Layout>
+                </Suspense>
+              } />
+
+              <Route path="reports/overdue-receivables" element={
+                <Suspense fallback={<div className='font-[Montserrat]!'>fetching...</div>}>
+                <Layout>
+                  <OverdueReceivablesManagement />
                 </Layout>
                 </Suspense>
               } />
