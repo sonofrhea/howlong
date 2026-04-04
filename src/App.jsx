@@ -942,9 +942,10 @@ function App() {
 
             
           </Routes>
-          <WhatsAppWidget />
         </div>
       </Router>
+
+    <WhatsAppWidget />
     </>
   );
 }

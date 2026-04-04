@@ -5,6 +5,8 @@ import { BILLING_OPTIONS } from '../Options';
 
 
 
+
+
 // ─── animated counter ───────────────────────────────────────────────────────
 function useCountUp(target: number, start: boolean): number {
     const [n, setN] = useState(0);
@@ -120,6 +122,21 @@ function PricingPage() {
     const c1 = useCountUp(2935, chartInView);
     const c2 = useCountUp(40, chartInView);
     const c3 = useCountUp(500, chartInView);
+    const [inputValue, setInputValue] = useState("");
+
+
+
+
+    const handleSend = () => {
+        const phone = "601137091393";
+        if (!inputValue.trim()) {
+        window.open(`https://api.whatsapp.com/send?phone=${phone}&text=Hello! I am interested in a demo.`, '_blank');
+        } else {
+        window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(inputValue)}`, '_blank');
+        }
+        setInputValue("");
+    };
+    
 
     const billingLabel: Record<string, Record<BillingCycle, string>> = {
         Starter: {
@@ -336,7 +353,7 @@ function PricingPage() {
 
                     <button
                         style={sty.btnOutline}
-                        onClick={() => window.location.href = "/register"}
+                        onClick={handleSend}
                         aria-label="Registration page"
                         onMouseOver={e => { e.currentTarget.style.borderColor = '#0066cc'; e.currentTarget.style.color = '#0066cc'; }}
                         onMouseOut={e => { e.currentTarget.style.borderColor = '#dde1ea'; e.currentTarget.style.color = '#1a1a1a'; }}
@@ -346,8 +363,8 @@ function PricingPage() {
 
                     <div style={sty.divider} />
 
-                    <div style={sty.sectionHead}>Access</div>
-                    {['Core platform features', '14 days usage', 'Support'].map(f => (
+                    <div style={sty.sectionHead}>AFTER DEMO</div>
+                    {['Core platform features', '14 days usage', 'Q/A Support'].map(f => (
                         <div key={f} style={sty.featureItem}><Check />{f}</div>
                     ))}
 
@@ -375,7 +392,7 @@ function PricingPage() {
 
                     <button
                         style={sty.btnPrimary}
-                        onClick={() => setContactOpen(true)}
+                        onClick={handleSend}
                         onMouseOver={e => { e.currentTarget.style.background = '#0052a3'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
                         onMouseOut={e => { e.currentTarget.style.background = '#0066cc'; e.currentTarget.style.transform = 'none'; }}
                     >
@@ -420,7 +437,7 @@ function PricingPage() {
 
                     <button
                         style={sty.btnDark}
-                        onClick={() => setContactOpen(true)}
+                        onClick={handleSend}
                         onMouseOver={e => { e.currentTarget.style.background = '#e6f2ff'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
                         onMouseOut={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.transform = 'none'; }}
                     >

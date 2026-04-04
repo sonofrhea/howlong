@@ -4,7 +4,9 @@ import { PROJECTS_ICONS } from "./ModuleIcons";
 import { BILL_OF_QUANTITIES_OPTIONS, COST_TYPE_CHOICES_OPTIONS, COUNTRY_OPTIONS, 
   JOB_COST_LEDGER_STATUS_OPTIONS, 
   JOB_COST_LINES_STATUS_OPTIONS, PROJECT_PHASE_OPTIONS,
-   PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from "./Options";
+   PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS, 
+   PROJECT_WORKER_TYPE, 
+   SITE_PHASE_CHOICES} from "./Options";
 import { CustomerCreateResponse, CustomerInputs } from "../../Customers/constants/Types";
 import { AgentInterface, BankInterface, CurrencyInterface } from "../../Core/constants/Types";
 import { ProductItemCreateResponse } from "../../Products/constants/Types";
@@ -79,6 +81,8 @@ export type ProjectsProfileList = {
 };
 
 
+
+
 export type ProjectsProfileDetails = {
   project_code: number;
   formatted_number: string;
@@ -108,13 +112,62 @@ export type ProjectsProfileDetails = {
 
   project_manager: string;
   superintendent: string;
+  supervisor: string | null;
+  client_details: number;
   project_client_name: string;
 
   phases: Array<{
+    id?: number;
+    phase_name: string;
     phase_description: string;
     start_date: string;
     current_phase: string;
     end_date: string | null;
+  }>;
+
+  sites: Array<{
+    site_number: number;
+    formatted_number: string;
+    site_name: string;
+    site_description: string;
+    project: number;
+    is_active: boolean;
+    site_phases: Array<{
+      name: string;
+      phase_description: string;
+      planned_start_date: string;
+      actual_start_date: string | null;
+      current_phase: string;
+      planned_end_date: string;
+      actual_end_date: string | null;
+      duration: number | null;
+      days_elapsed: number | null;
+      early_completion: boolean;
+    }>;
+    worker_site: Array<{
+      worker_number: number;
+      formatted_number: string;
+      related_project: number;
+      worker: null;
+      worker_type: string;
+      full_name: string;
+      id_number: string;
+      phone: string;
+      task_description: string;
+      check_in: string | null;
+      check_out: string | null;
+      hours_worked: number | null;
+      is_active: boolean;
+      created_by: number;
+      date_created: string;
+      updated_by: number;
+      date_updated: string;
+    }>;
+    created_by: string;
+    date_created: string;
+    updated_by: string;
+    date_updated: string;
+    company: string;
   }>;
 
   created_by: string;
@@ -124,6 +177,8 @@ export type ProjectsProfileDetails = {
   version: number;
   company: string;
 };
+
+
 
 
 export type ProjectProfileInputs = {
@@ -226,6 +281,46 @@ export type ProjectProfileTableProps = {
   onPageChange: (page: number) => void;
   onItemsPerPageChange: (itemsPerPage: string) => void;
 };
+
+
+
+export interface PhaseModalProps {
+    phase?: {
+        id?: number;
+        phase_name?: string;
+        phase_description?: string;
+        start_date?: string;
+        end_date?: string | null;
+        current_phase?: string;
+        duration?: number;
+    };
+    onClose: () => void;
+}
+
+
+export type PhaseType = {
+    id?: number;
+    phase_name: string;
+    phase_description: string;
+    start_date: string;
+    current_phase: string;
+    end_date: string | null;
+    duration?: number;
+};
+
+
+export interface TimelineModalProps {
+  project: {
+      start_date?: string;
+      estimated_end_date?: string;
+      actual_end_date?: string | null;
+      duration?: number;
+      days_elapsed?: number;
+      early_completion?: boolean;
+      phases?: PhaseType[];
+  } | null;
+  onClose: () => void;
+}
 
 
 // -------- END ----------- PROJECT INPUT ----------------------------------------------
@@ -602,3 +697,158 @@ export type JobCostLedgerListProps = {
 
 
 // -------- END ----------- JOB COST LEDGER INPUT ------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// -------- BEGIN ----------- SITES INPUT --------------------------------------
+
+export type SitesList = {
+  date_created: string;
+  site_number: number;
+  formatted_number: string;
+  site_name: string;
+  site_description: string;
+  is_active: boolean;
+  created_by: number;
+};
+
+
+
+export type SitesDetails = {
+  site_number: number;
+  formatted_number: string;
+  site_name: string;
+  site_description: string;
+  project: number;
+  is_active: boolean;
+  site_phases: Array<{
+    name: string;
+    phase_description: string;
+    planned_start_date: string;
+    actual_start_date: string | null;
+    current_phase: string;
+    planned_end_date: string;
+    actual_end_date: string | null;
+    duration: number | null;
+    days_elapsed: number | null;
+    early_completion: boolean;
+  }>;
+  worker_site: Array<{
+    worker_number: number;
+    formatted_number: string;
+    related_project: number;
+    worker: null;
+    worker_type: string;
+    full_name: string;
+    id_number: string;
+    phone: string;
+    task_description: string;
+    check_in: string | null;
+    check_out: string | null;
+    hours_worked: number | null;
+    is_active: boolean;
+    created_by: number;
+    date_created: string;
+    updated_by: number;
+    date_updated: string;
+  }>;
+  created_by: string;
+  date_created: string;
+  updated_by: string;
+  date_updated: string;
+  company: string;
+};
+
+
+
+export type SitesInputs = {
+  site_number: number;
+  site_name: string;
+  site_description?: string | null;
+  project?: number | null;
+  is_active?: boolean;
+  site_phases?: Array<{
+    name?: string | null;
+    phase_description?: string | null;
+    planned_start_date?: string | null;
+    actual_start_date?: string | null;
+    current_phase?: typeof SITE_PHASE_CHOICES[number];
+    planned_end_date?: string | null;
+    actual_end_date?: string | null;
+  }>;
+  worker_site?: Array<{
+    related_project?: number | null;
+    worker?: number | null;
+    worker_type?: typeof PROJECT_WORKER_TYPE[number];
+    full_name?: string | null;
+    id_number?: string | null;
+    phone?: string | null;
+    task_description?: string;
+    check_in?: string | null;
+    check_out?: string | null;
+    is_active?: boolean;
+    created_by: number;
+    company: number;
+  }>;
+};
+
+
+
+export type SitesResponse = {
+  site_number: number;
+  formatted_number: string;
+};
+
+export type AllSiteInputs = {
+  site_number: number;
+  siteData: SitesInputs;
+};
+
+export type EditSite = {
+  siteId: number;
+  siteData: SitesInputs;
+};
+
+
+export type SiteEditProps = {
+  site: SitesInputs;
+  onSubmit: (data: SitesInputs) => void;
+  isSubmitting: boolean;
+  onCancel: (siteId: number) => void;
+  project: ProjectProfileResponse[];
+};
+
+export type SiteDetailsProps = {
+  site: SitesDetails;
+  isLoading: boolean;
+  onBack?: () => void;
+  onEdit: (siteId: number) => void;
+};
+
+export type SiteFormProps = {
+  onSubmit: (data: SitesInputs) => void;
+  isSubmitting: boolean;
+  onCancel: (siteId: number) => void;
+  project: ProjectProfileResponse[];
+};
+
+export type SiteListProps = {
+  sites: SitesList[];
+  onSiteClick: (siteId: number) => void;
+  onEditSite: (siteId: number, site: SitesList) => void;
+  onDeleteSite: (siteId: number) => void;
+  sortConfig: SortConfig;
+  onSort: (key: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: string) => void;
+};
+

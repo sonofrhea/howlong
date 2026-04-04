@@ -452,8 +452,8 @@ function ProjectsProfileManagement() {
                         <div className="flex items-center space-x-3">
                             <span className={spinningStyles.terminalBar.spinner}>⠋</span>
                             <div>
-                                <h1 className="text-lg font-semibold text-gray-900">Projects Suite</h1>
-                                <p className="text-sm text-gray-500">Projects Management</p>
+                                <h1 className="text-lg font-semibold text-gray-900 font-['Montserrat']!">Projects Suite</h1>
+                                <p className="text-sm text-gray-500 font-['Montserrat']! text-left!">Projects Management</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -485,8 +485,8 @@ function ProjectsProfileManagement() {
                             </svg>
                             </div>
                             <div>
-                            <h1 className="text-4xl font-light text-gray-900 tracking-tight">Projects</h1>
-                            <p className="text-gray-500 mt-2">Manage and track your projects</p>
+                            <h1 className="text-4xl font-light text-gray-900 tracking-tight font-['Montserrat']! text-left! ">Projects</h1>
+                            <p className="text-gray-500 mt-2 font-['Montserrat']! text-left">Manage and track your projects</p>
                             </div>
                         </div>
                     </div>

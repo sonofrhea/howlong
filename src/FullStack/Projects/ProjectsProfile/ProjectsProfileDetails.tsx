@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import '../constants/ProjectDetails.css';
-import { Building, Calendar1, Clock, MoveRight, NotepadText, SquarePen } from "lucide-react";
+import { Building, Calendar1, Clock,
+    MoveRight, NotepadText, SquarePen } from "lucide-react";
 import { buttons } from "../constants/Styles";
-import { ProjectProfileDetailsProps } from "../constants/Types";
+import { PhaseType, ProjectProfileDetailsProps } from "../constants/Types";
 import { details } from "../../Customers/constants/Styles";
+import { useNavigate } from "react-router-dom";
 
+import PhaseModal from "./PhaseModal";
+import TimelineModal from "./TimelineModal";
 
 
 
@@ -37,7 +41,11 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
     isLoading,
     onBack,
     onEdit }) => {
-        const customerId = project?.project_code;
+        const projectId = project?.project_code;
+        const navigate = useNavigate()
+        const [selectedPhase, setSelectedPhase] = useState<PhaseType | null>(null);
+        const [showTimelineModal, setShowTimelineModal] = useState(false);
+
 
         const isEarly = project?.early_completion;
         const days = Math.abs(project?.days_elapsed);
@@ -109,14 +117,19 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                                 <div className="flex flex-wrap items-center gap-y-3 gap-x-6 text-sm text-slate-600">
                                     <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-slate-200 shadow-sm">
                                         <NotepadText size={16} className="text-indigo-500" />
-                                        <span className="font-mono font-bold text-slate-800">
+                                        <span className="font-mono font-bold text-slate-800" >
                                             {project.formatted_number}
                                         </span>
                                     </div>
                                     
-                                    <div className="flex items-center gap-2" style={{ fontFamily: 'Montserrat, system-ui' }}>
+                                    <div 
+                                        className="flex items-center gap-2 cursor-pointer hover:text-blue-600 transition-colors" 
+                                        onClick={() => navigate(`/customers/customers-profile?view=details&customer_number=${project.client_details}`)}
+                                    >
                                         <Building size={18} className="text-slate-400" />
-                                        <span className="font-medium">{project.project_client_name || 'N/A'}</span>
+                                        <span className="font-medium hover:underline">
+                                            {project.project_client_name || 'N/A'}
+                                        </span>
                                     </div>
 
                                     <div className="flex items-center gap-2 border-l border-slate-300 pl-6 lg:flex" style={{ fontFamily: 'Montserrat, system-ui' }}>
@@ -139,7 +152,7 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                             {/* Action Button */}
                             <div className="flex items-center shrink-0">
                                 <button 
-                                    onClick={() => onEdit(customerId)}
+                                    onClick={() => onEdit(projectId)}
                                     className="flex items-center gap-2 bg-emerald-600 hover:bg-black text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md shadow-emerald-200 active:scale-95 hover:border-black hover:shadow-md hover:shadow-black"
                                 >
                                     <SquarePen size={18} />
@@ -151,19 +164,19 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
 
                     {/*<!-- Financial Stats -->*/}
                     <div className="stats-grid m-4">
-                        <div className="card stat-card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                        <div className="card stat-card hover:border-gray-400!">
                             <div className="stat-label">Budget</div>
                             <div className="stat-value">{project.project_budget || 'N/A'}</div>
                             <div className="stat-desc">Total allocated</div>
                         </div>
 
-                        <div className="card stat-card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                        <div className="card stat-card hover:border-gray-400!">
                             <div className="stat-label">Actual cost</div>
                             <div className="stat-value">{project.actual_cost || 'N/A'}</div>
                             <div className="stat-desc">Spent to date</div>
                         </div>
 
-                        <div className="card stat-card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                        <div className="card stat-card hover:border-gray-400!">
                             <div className="stat-label">Variance</div>
                             <div className="stat-value">{project.variance || 'N/A'}</div>
                             <div className="stat-desc">{project.final_budget}</div>
@@ -178,7 +191,7 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
 
 
                             {/*<!-- Project Information -->*/}
-                            <div className="card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                            <div className="card hover:border-gray-400!">
                                 <div className="section-title">Project Information</div>
                                 <div className="info-grid">
                                     <div className="info-item">
@@ -242,7 +255,7 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
 
 
                             {/*<!-- Location -->*/}
-                            <div className="card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                            <div className="card hover:border-gray-400!">
                                 <div className="section-title">Location Details</div>
                                 <div className="info-grid">
                                     <div className="info-item col-span-full">
@@ -273,13 +286,63 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                             </div>
 
                             {/*<!-- Description -->*/}
-                            <div className="card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                            <div className="card hover:border-gray-400!">
                                 <div className="section-title">Project Description</div>
                                 <p className="description-text">
                                     {project.project_description || 'N/A'}
                                 </p>
                             </div>
+
+                            {/* Sites */}
+                            <div className="card hover:border-gray-400! font-['Montserrat']!">
+                                <div className="section-title">Sites</div>
+                                {project.sites && project.sites.length > 0 ? (
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm">
+                                            <thead>
+                                                <tr className="border-b border-gray-200 text-left">
+                                                    <th className="pb-2 font-semibold text-gray-500 text-xs uppercase  font-['Montserrat']!">
+                                                        Site Name
+                                                    </th>
+                                                    <th className="pb-2 font-semibold text-gray-500 text-xs uppercase  font-['Montserrat']!">
+                                                        Site Code
+                                                    </th>
+                                                    <th className="pb-2 font-semibold text-gray-500 text-xs uppercase text-center font-['Montserrat']!">
+                                                        Status
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {project.sites.map((site) => (
+                                                    <tr 
+                                                        key={site.site_number}
+                                                        onClick={() => navigate(`/sites/${site.site_number}`)}
+                                                        className="border-b border-gray-100 cursor-pointer hover:bg-blue-50! transition-colors"
+                                                    >
+                                                        <td className="py-3 font-medium text-slate-700 text-left font-['Montserrat']!">{site.site_name}</td>
+                                                        <td className="py-3 text-slate-500 text-left text-xs font-mono!">{site.formatted_number}</td>
+                                                        <td className="py-3">
+                                                            <span className={`inline-flex px-2 py-0.5 rounded-full text-xs text-left! font-medium ${
+                                                                site.is_active ? 'bg-emerald-100 text-left! text-emerald-700' : 'bg-gray-100 text-left! text-gray-500'
+                                                            }`}>
+                                                                {site.is_active ? 'Active' : 'Inactive'}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <div className="card hover:border-gray-400!">
+                                        <div className="section-title">Sites</div>
+                                        <p className="text-slate-500 text-sm py-4 text-center">No sites added yet.</p>
+                                    </div>
+                                )}
+                            </div>
                         </div>
+
+                        
 
 
                         {/*<!-- Right Column -->*/}
@@ -304,7 +367,7 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
 
 
                             {/*<!-- Timeline -->*/}
-                            <div className="card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!">
+                            <div className="card hover:shadow-xl! hover:cursor-pointer! hover:shadow-gray-200! hover:border-gray-400! hover:border-2!" onClick={() => setShowTimelineModal(true)}>
                                 <div className="section-title">Project Timeline</div>
                                 <div className="timeline-item">
                                     <div className="timeline-marker active"></div>
@@ -323,6 +386,16 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                                     </div>
                                 </div>
                             </div>
+                            {showTimelineModal && (
+                                <TimelineModal 
+                                    project={project}
+                                    onClose={() => setShowTimelineModal(false)}
+                                />
+                            )}
+
+                            
+
+                            
 
                             {/*!-- Phases -->*/}
                             {project.phases && project.phases.length > 0 && (
@@ -331,7 +404,7 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                                         <div key={index} className="card ">
                                             <div key={index} className="section-title ">Project Phases Log</div>
 
-                                            <div className="group relative bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:border-indigo-300 hover:cursor-pointer! hover:shadow-2xl! hover:shadow-gray-400! transition-all duration-300">
+                                            <div onClick={() => setSelectedPhase(line)} className="group relative bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:border-indigo-300 hover:cursor-pointer! hover:shadow-2xl! hover:shadow-gray-400! transition-all duration-300">
 
                                                 <div className="flex items-center justify-between mb-4">
                                                     <span className="flex items-center text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em]">
@@ -350,7 +423,7 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                                                     </span>
                                                 </div>
 
-                                                <h3 className="text-gray-900 font-bold text-xl mb-6 leading-tight" style={{ fontFamily: 'Montserrat, system-ui' }}>{line.phase_description}</h3>
+                                                <h3 className="text-gray-900 font-bold text-xl mb-6 leading-tight" style={{ fontFamily: 'Montserrat, system-ui' }}>{line.phase_name}</h3>
 
                                                 <div className="flex items-center gap-7 border-t border-gray-100 pt-5">
                                                     <div className="flex flex-col">
@@ -368,6 +441,12 @@ const ProjectsProfileDetails: React.FC<ProjectProfileDetailsProps> = ({
                                             </div>
                                         </div>
                                     ))}
+                                    {selectedPhase && (
+                                        <PhaseModal 
+                                            phase={selectedPhase}
+                                            onClose={() => setSelectedPhase(null)}
+                                        />
+                                    )}
                                 </div>
                             )}
                         </div>

@@ -767,7 +767,7 @@ export default function ConstructionERPLanding() {
                         <a href="#section-tag">Solutions</a>
                         <a href="/pricing">Pricing</a>
                         <a href="/login">Login</a>
-                        <a href="/pricing" className="cta-nav">Try It Out</a>
+                        <a href="/pricing" className="cta-nav">Book A Demo</a>
                     </div>
                 </nav>
 
@@ -780,10 +780,10 @@ export default function ConstructionERPLanding() {
                     <div className="cta-group-header">
                         <a href="/pricing" className="cta-primary">Try Out ERP</a>
     
-                        <button className="cta-marketplace" onClick={() => navigate("/marketplace")}>
-                            Try Out Marketplace
+                        <a className="cta-marketplace" href="#section-tag">
+                            Learn More
                             <ArrowRight className="ml-2 arrow-icon" />
-                        </button>
+                        </a>
                     </div>
                     <div>
                     </div>
@@ -1091,7 +1091,7 @@ export default function ConstructionERPLanding() {
                 </div>
                 <div className="pricing-grid">
                     {[
-                        { tag: 'Starter', name: 'Explorer', price: 'Free', period: '14-day trial · No card required', color: '', features: ['Project management', 'Client Management', 'Basic Financial Reports', '1 Company', 'Email Support'], btn: 'outline', btnText: 'Start Free Trial' },
+                        { tag: 'Starter', name: 'Explorer', price: 'Free', period: '14-day trial · No card required', color: '', features: ['Project management', 'Client Management', 'Basic Financial Reports', '1 Company', 'Email Support'], btn: 'outline', btnText: 'Try it Out' },
                         { tag: 'Most Popular', name: 'Starter', price: 'xxx', period: 'per month', color: '', featured: true, features: ['Everything in Starter', 'Full Accounting Suite', 'Project & BOQ Tracking', '2 Users Included', 'Priority Support', 'Additional users at a cost'], btn: 'filled', btnText: 'Get Started' },
                         { tag: 'Enterprise', name: 'Enterprise', price: 'xxx', period: 'tailored to your team', color: '', features: ['Everything in Professional', 'Supplier Marketplace Access', '4 Users Included', 'Additional users at a cost', 'Custom Integrations', 'Dedicated Account Manager', 'On-site Training', 'SLA Guarantee'], btn: 'outline', btnText: 'Contact Sales' },
                     ].map((plan, i) => (
@@ -1134,7 +1134,7 @@ export default function ConstructionERPLanding() {
                     <h2>The ERP Built<br/>for <em>Builders.</em></h2>
                     <p>Urusentra is the only platform that combines a full construction ERP with a live global supplier marketplace — built from the ground up for SME building companies.</p>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-                        <a href="/pricing" style={{ display: 'inline-block', padding: '18px 44px', background: '#0066cc', color: 'white', borderRadius: '10px', fontWeight: 800, fontSize: '16px', textDecoration: 'none', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>Start Free Trial</a>
+                        <a href="/pricing" style={{ display: 'inline-block', padding: '18px 44px', background: '#0066cc', color: 'white', borderRadius: '10px', fontWeight: 800, fontSize: '16px', textDecoration: 'none', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>Book A Demo</a>
                         <a href="/marketplace" style={{ display: 'inline-block', padding: '18px 44px', background: 'transparent', color: 'white', borderRadius: '10px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', border: '2px solid rgba(255,255,255,.3)', fontFamily: 'Montserrat, system-ui', letterSpacing: '.04em', transition: 'all .25s' }}>Browse Marketplace</a>
                     </div>
                 </div>

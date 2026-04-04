@@ -122,7 +122,7 @@ export default function App() {
           <div className="blanter-msg! p-2.5! flex! border-t! border-[#ddd]! bg-white! items-center! font-['Montserrat]! shrink-0">
             <textarea 
               id="chat-input" 
-              placeholder="Type a message" 
+              placeholder="Type a message and send, we will respond." 
               maxLength={120} 
               rows={1}
               value={inputValue}

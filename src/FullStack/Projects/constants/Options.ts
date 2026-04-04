@@ -257,3 +257,20 @@ export const JOB_COST_LINES_STATUS_OPTIONS = [
     'Invoiced',
     'Paid',
 ] as const;
+
+
+
+export const SITE_PHASE_CHOICES = [
+    'Not Started',
+    'In Progress',
+    'Completed',
+    'Delayed',
+] as const;
+
+export const PROJECT_WORKER_TYPE = [
+    'employee',
+    'subcontractor',
+    'casual',
+] as const;
+
+

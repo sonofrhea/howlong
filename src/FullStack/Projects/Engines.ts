@@ -5,7 +5,9 @@ import { ProjectProfileInputs,
     BillOfQuantitiesInputs,
     AllBillOfQuantitiesInputs,
     JobCostLedgerInputs,
-    AllJobCostLedgerInputs
+    AllJobCostLedgerInputs,
+    SitesInputs,
+    AllSiteInputs
  } from './constants/Types';
 
 
@@ -238,3 +240,63 @@ export const fetchBoqLines = async (boq: number) => {
     console.error(error);
   }
 }
+
+
+
+
+
+
+// --------------------------------------------------------------------------------------------------------
+                // SITES
+
+export const fetchSites = async () => {
+  try {
+    const response = await apiClient.get('/projects/site/');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const fetchSiteById = async (site_number: number) => {
+  try {
+    const response = await apiClient.get(`/projects/site/${site_number}/`)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+
+export const createSite = async (siteData: SitesInputs) => {
+  try {
+    const response = await apiClient.post('/projects/site/', siteData)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const updateSite = async ({ site_number, siteData }: AllSiteInputs) => {
+  try {
+    const response = await apiClient.patch(`/projects/site/${site_number}/`, siteData)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const deleteSite = async (site_number: number) => {
+  try {
+    const response = await apiClient.delete(`/projects/site/${site_number}/`)
+    return response.status;
+  } catch (error) {
+    throw error;
+  }
+}
+
