@@ -23,7 +23,7 @@ export default function App() {
   }, [isOpen]);
 
   const handleSend = () => {
-    const phone = "601116097620";
+    const phone = "601137091393";
     if (!inputValue.trim()) {
       window.open(`https://api.whatsapp.com/send?phone=${phone}&text=Hello! I am interested in a demo.`, '_blank');
     } else {
