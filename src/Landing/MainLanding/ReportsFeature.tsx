@@ -78,6 +78,8 @@ function ReportsFeature() {
 
     return (
         <div className="min-w-full">
+            <title>Reports Feature | Urusentra · Modern ERP solution for the building industry</title>
+            <meta name="reports" content="Learn more about Urusentra Reports feature" />
 
 
             <style>

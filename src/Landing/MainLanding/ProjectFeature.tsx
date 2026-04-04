@@ -52,6 +52,8 @@ function ProjectFeature() {
 
     return (
         <div className="min-w-full">
+            <title>Project Feature | Urusentra · Modern ERP solution for the building industry</title>
+            <meta name="project" content="Learn more about Urusentra Project feature – modern ERP for SMEs" />
 
             <style>
                 {`

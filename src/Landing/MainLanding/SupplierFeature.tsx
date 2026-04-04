@@ -35,6 +35,8 @@ function SupplierFeature() {
 
     return (
         <div className="min-w-full">
+            <title>Suppliers Feature | Urusentra · Modern ERP solution for the building industry</title>
+            <meta name="suppliers" content="Learn more about Urusentra Suppliers feature – modern ERP for SMEs" />
 
 
             <style>

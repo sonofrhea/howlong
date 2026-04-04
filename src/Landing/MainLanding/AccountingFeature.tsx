@@ -54,6 +54,8 @@ function AccountingFeature() {
 
     return (
         <div className="min-w-full">
+                <title>Accounting Feature | Urusentra · Modern ERP solution for the building industry</title>
+                <meta name="accounting" content="Learn more about Urusentra's account feature – modern building industry ERP" />
 
             <style>
                 {`

@@ -3,6 +3,8 @@ import './App.css'
 import { spinningStyles } from "./Authentication/Styles";
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import WhatsAppWidget from './components/WhatsAppWidget';
+
 
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 
@@ -940,17 +942,7 @@ function App() {
 
             
           </Routes>
-          <a
-          href="https://wa.me/+601137091393"
-          className="whatsapp-float"
-          target="_blank"
-          rel="noopener noreferrer"
-          >
-            <img 
-              src="https://cdn-icons-png.flaticon.com/512/124/124034.png" 
-              alt="WhatsApp"
-            />
-          </a>
+          <WhatsAppWidget />
         </div>
       </Router>
     </>

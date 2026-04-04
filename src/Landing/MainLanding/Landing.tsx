@@ -124,6 +124,8 @@ export default function ConstructionERPLanding() {
 
     return (
         <div className="min-w-full">
+                <title>Home | Urusentra · Modern ERP solution for the building industry</title>
+                <meta name="landing" content="Learn more about Urusentra – modern building industry ERP" />
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
 

@@ -34,6 +34,8 @@ function ContactUs() {
     return(
 
         <div className="min-w-full">
+                <title>Contact Us | Urusentra · Contact Urusentra customer service</title>
+                <meta name="contactUs" content="Learn more about Urusentra – modern building industry ERP" />
 
             <style>
                 {`

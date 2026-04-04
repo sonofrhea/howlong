@@ -54,6 +54,8 @@ function ClientFeature() {
 
     return (
         <div className="min-w-full">
+                <title>Client Feature | Urusentra · Modern ERP solution for the building industry</title>
+                <meta name="client" content="Learn more about Client features – modern building industry ERP" />
 
             <style>
                 

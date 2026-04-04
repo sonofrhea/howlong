@@ -244,8 +244,8 @@ function PricingPage() {
 
     return (
         <div style={sty.page}>
-            <title>Pricing | Urusentra · ERP for Small & Medium Enterprises</title>
-            <meta name="description" content="Secure login to Urusentra – modern ERP for SMEs" />
+            <title>Pricing | Urusentra · Modern ERP solution for the building industry</title>
+            <meta name="pricing" content="Urusentra Pricing page – modern ERP for SMEs" />
 
 
 
