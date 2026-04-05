@@ -1,7 +1,7 @@
 import { CircleX } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 
-export default function App() {
+export default function SupportWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [showDot, setShowDot] = useState(true);
   const [inputValue, setInputValue] = useState("");
@@ -25,7 +25,7 @@ export default function App() {
   const handleSend = () => {
     const phone = "601137091393";
     if (!inputValue.trim()) {
-      window.open(`https://api.whatsapp.com/send?phone=${phone}&text=Hello! I am interested in a demo.`, '_blank');
+      window.open(`https://api.whatsapp.com/send?phone=${phone}&text=Hello! I am having issue with the software.`, '_blank');
     } else {
       window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(inputValue)}`, '_blank');
     }
@@ -39,17 +39,17 @@ export default function App() {
       {!isOpen && (
         <button 
           onClick={() => setIsOpen(true)}
-          className="group relative bg-white text-[#111] flex items-center justify-center font-bold z-98 text-[17px] tracking-tight py-1.3! px-3.5! rounded-full shadow-2xl cursor-pointer border-2 border-gray-400 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 active:translate-y-0 transition-all duration-300 ease-out font-['Montserrat]!"
+          className="group relative bg-white text-[#111] flex items-center justify-center font-normal z-98 text-[17px] tracking-tight rounded-full shadow-2xl cursor-pointer border-2 border-gray-400 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 active:translate-y-0 transition-all duration-300 ease-out font-['Montserrat]!"
           title="Show Chat"
         >
-          <div className="relative w-7.5 h-7.5 mr-4.5 shrink-0">
+          <div className="relative w-7.5 h-7.5 mr-1.5 shrink-0">
             <svg viewBox="0 0 24 24" className="w-full h-full">
               <path fill="#eceff1" d="M20.5 3.4A12.1 12.1 0 0012 0 12 12 0 001.7 17.8L0 24l6.3-1.7c2.8 1.5 5 1.4 5.8 1.5a12 12 0 008.4-20.3z" />
               <path fill="#30a83f" d="M12 21.8c-3.1 0-5.2-1.6-5.4-1.6l-3.7 1 1-3.7-.3-.4A9.9 9.9 0 012.1 12a10 10 0 0117-7 9.9 9.9 0 01-7 16.9z" />
               <path fill="#fafafa" d="M17.5 14.3c-.3 0-1.8-.8-2-.9-.7-.2-.5 0-1.7 1.3-.1.2-.3.2-.6.1s-1.3-.5-2.4-1.5a9 9 0 01-1.7-2c-.3-.6.4-.6 1-1.7l-.1-.5-1-2.2c-.2-.6-.4-.5-.6-.5-.6 0-1 0-1.4.3-1.6 1.8-1.2 3.6.2 5.6 2.7 3.5 4.2 4.2 6.8 5 .7.3 1.4.3 1.9.2.6 0 1.7-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4z" />
             </svg>
           </div>
-          <span className="whitespace-nowrap leading-none font-['Montserrat]!">Contact Sales</span>
+          <span className="whitespace-nowrap leading-none font-['Montserrat]!">Support</span>
         </button>
       )}
 
@@ -69,7 +69,7 @@ export default function App() {
           </div>
           <p className="leading-[1.7]! text-[14px]! font-['Montserrat]! p-2.5!" style={{ fontFamily: 'Montserrat, system-ui' }}>
             <span className="whatsapp-chat-name block! text-[16px] font-semibold leading-[1.2]! p-2.5! text-left! font-['Montserrat]!">
-                Sales
+                Support
                 <br />
                 <span className="opacity-80 font-['Montserrat]! font-normal! text-left! text-xs">Typically replies within an hour</span>
             </span>
@@ -105,10 +105,9 @@ export default function App() {
               {/* Message Content */}
               {!showDot && (
                 <div className="whatsapp-message p-2.5! bg-white rounded-[0_8px_8px_8px] relative shadow-[rgba(0,0,0,0.13)_0px_1px_0.5px] max-w-[calc(100%-66px)] animate-msg">
-                  <div className="text-[#00000073] text-[13px] font-semibold mb-1! text-left p-2.5!">Sales</div>
+                  <div className="text-[#00000073] text-[13px] font-semibold mb-1! text-left p-2.5!">Support</div>
                   <div className="text-[14px] leading-[1.4] text-[#111] text-left">
-                    Looking for a Free Demo?<br/>
-                    Contact us via WhatsApp to book a demo.
+                    Hello there from support,<br/> please state the issue.
                   </div>
                   <div className="text-right text-[11px] text-[#00000073] mt-1!">
                     {new Date().getHours()}:{new Date().getMinutes().toString().padStart(2, '0')}
@@ -122,7 +121,7 @@ export default function App() {
           <div className="blanter-msg! p-2.5! flex! border-t! border-[#ddd]! bg-white! items-center! font-['Montserrat]! shrink-0">
             <textarea 
               id="chat-input" 
-              placeholder="Type a message and send, we will respond." 
+              placeholder="Type a message and send..." 
               maxLength={140} 
               rows={2}
               value={inputValue}

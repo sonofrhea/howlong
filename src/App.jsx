@@ -4,7 +4,7 @@ import { spinningStyles } from "./Authentication/Styles";
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import WhatsAppWidget from './components/WhatsAppWidget';
-
+import SupportWidget from './components/SupportWidget';
 
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoutes'));
 
@@ -237,6 +237,7 @@ function SessionHandler() {
 
 
 function App() {
+  const isAuthenticated = !!localStorage.getItem('Token');
   return (
     <>
     <Toaster position="top-center" />
@@ -945,7 +946,7 @@ function App() {
         </div>
       </Router>
 
-    <WhatsAppWidget />
+    {!isAuthenticated ? <WhatsAppWidget /> : <SupportWidget />}
     </>
   );
 }
