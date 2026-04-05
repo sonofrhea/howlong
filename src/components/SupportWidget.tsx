@@ -39,7 +39,7 @@ export default function SupportWidget() {
       {!isOpen && (
         <button 
           onClick={() => setIsOpen(true)}
-          className="group relative bg-white text-[#111] flex items-center justify-center font-normal z-98 text-[17px] tracking-tight rounded-full shadow-2xl cursor-pointer border-2 border-gray-400 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 active:translate-y-0 transition-all duration-300 ease-out font-['Montserrat]!"
+          className="group relative bg-white text-[#111] px-3! flex items-center justify-center font-normal z-98 text-[17px] tracking-tight rounded-full shadow-2xl cursor-pointer border-2 border-gray-400 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 active:translate-y-0 transition-all duration-300 ease-out font-['Montserrat]!"
           title="Show Chat"
         >
           <div className="relative w-7.5 h-7.5 mr-1.5 shrink-0">
